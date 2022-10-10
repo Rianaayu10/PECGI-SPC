@@ -70,6 +70,7 @@ Public Class ProdSampleVerification
     Dim col_CellActivity = 0
     Dim RowIndexName As String = ""
     Dim CharacteristicSts As String = ""
+    Dim ChartType As String
 
     'FORM LOAD PARAMETER
     Dim menu = ""
@@ -296,19 +297,34 @@ Public Class ProdSampleVerification
                         e.Cell.BackColor = Color.White
                     Else
                         Dim val = Split(a, "|")(0)
-                        Dim color = Split(a, "|")(1)
-                        e.Cell.Text = val
-                        e.Cell.BackColor = ColorTranslator.FromHtml(color)
+                        Dim sColor = Split(a, "|")(1)
+
+                        If DescIndex = "Judgement" Then
+                            Dim slink = Split(a, "|")(2)
+                            e.Cell.Text = ""
+                            e.Cell.BackColor = ColorTranslator.FromHtml(sColor)
+
+                            Dim Link As New HyperLink()
+                            Link.Text = val
+                            Link.ForeColor = Color.Black
+                            Link.NavigateUrl = slink
+                            Link.Target = "_blank"
+                            e.Cell.Controls.Add(Link)
+                        Else
+                            e.Cell.Text = val
+                            e.Cell.BackColor = ColorTranslator.FromHtml(scolor)
+                        End If
+
                     End If
 
-                ElseIf DescIndex = "View" Then
-                    e.Cell.Text = ""
-                    e.Cell.ForeColor = Color.Blue
-                    Dim Link As New HyperLink()
-                    Link.Text = "View"
-                    Link.NavigateUrl = e.CellValue
-                    Link.Target = "_blank"
-                    e.Cell.Controls.Add(Link)
+                    'ElseIf DescIndex = "View" Then
+                    '   
+                    '    e.Cell.ForeColor = Color.Blue
+                    '    Dim Link As New HyperLink()
+                    '    Link.Text = "View"
+                    '    Link.NavigateUrl = e.CellValue
+                    '    Link.Target = "_blank"
+                    '    e.Cell.Controls.Add(Link)
                 End If
             End If
 
@@ -850,13 +866,18 @@ Public Class ProdSampleVerification
         Grid.JSProperties("cpChartSetup") = dtChartSetup.Rows.Count
 
         If dtChartSetup.Rows.Count > 0 Then
-            For i = 1 To dtChartSetup.Rows.Count
-                Grid.JSProperties("cpPeriod" & i) = dtChartSetup.Rows(i - 1)("Period")
-                Grid.JSProperties("cpUSL" & i) = AFormat(dtChartSetup.Rows(i - 1)("USL"))
-                Grid.JSProperties("cpLSL" & i) = AFormat(dtChartSetup.Rows(i - 1)("LSL"))
-                Grid.JSProperties("cpUCL" & i) = AFormat(dtChartSetup.Rows(i - 1)("UCL"))
-                Grid.JSProperties("cpLCL" & i) = AFormat(dtChartSetup.Rows(i - 1)("LCL"))
-            Next
+            Grid.JSProperties("cpUSL") = AFormat(dtChartSetup.Rows(0)("USL"))
+            Grid.JSProperties("cpLSL") = AFormat(dtChartSetup.Rows(0)("LSL"))
+            Grid.JSProperties("cpUCL") = AFormat(dtChartSetup.Rows(0)("UCL"))
+            Grid.JSProperties("cpLCL") = AFormat(dtChartSetup.Rows(0)("LCL"))
+
+            Grid.JSProperties("cpMIN") = AFormat(dtChartSetup.Rows(0)("nMIN"))
+            Grid.JSProperties("cpMAX") = AFormat(dtChartSetup.Rows(0)("nMAX"))
+            Grid.JSProperties("cpAVG") = AFormat(dtChartSetup.Rows(0)("nAVG"))
+            Grid.JSProperties("cpR") = AFormat(dtChartSetup.Rows(0)("nR"))
+
+            Grid.JSProperties("cpC") = dtChartSetup.Rows(0)("C").ToString
+            Grid.JSProperties("cpNG") = dtChartSetup.Rows(0)("NG").ToString
         End If
     End Sub
     Private Sub Up_GridLoadActivities(cls As clsProdSampleVerification)
@@ -894,14 +915,14 @@ Public Class ProdSampleVerification
             diagram.AxisY.ConstantLines.Clear()
             If Setup IsNot Nothing Then
                 Dim RCL As New ConstantLine("CL R")
-                RCL.Color = Drawing.Color.Purple
+                RCL.Color = System.Drawing.Color.Purple
                 RCL.LineStyle.Thickness = 2
                 RCL.LineStyle.DashStyle = DashStyle.DashDot
                 diagram.AxisY.ConstantLines.Add(RCL)
                 RCL.AxisValue = Setup.RCL
 
                 Dim RUCL As New ConstantLine("UCL R")
-                RUCL.Color = Drawing.Color.Purple
+                RUCL.Color = System.Drawing.Color.Purple
                 RUCL.LineStyle.Thickness = 2
                 RUCL.LineStyle.DashStyle = DashStyle.DashDot
                 diagram.AxisY.ConstantLines.Add(RUCL)
@@ -916,6 +937,7 @@ Public Class ProdSampleVerification
                     End If
                 End If
                 diagram.AxisY.WholeRange.MaxValue = MaxValue
+                diagram.AxisY.VisualRange.MaxValue = MaxValue
             End If
             .DataBind()
         End With
@@ -935,61 +957,77 @@ Public Class ProdSampleVerification
 
             diagram.AxisY.NumericScaleOptions.CustomGridAlignment = 0.005
             diagram.AxisY.GridLines.MinorVisible = False
-            Dim ChartType As String = clsXRChartDB.GetChartType(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code)
-            If ChartType = "1" Then
-                .Titles(0).Text = "Chart X"
+            ChartType = clsXRChartDB.GetChartType(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code)
+            If ChartType = "1" Or ChartType = "2" Then
+                .Titles(0).Text = "X Bar Control Chart"
             Else
                 .Titles(0).Text = "Graph Monitoring"
             End If
 
+
             Dim Setup As clsChartSetup = clsChartSetupDB.GetData(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code, cls.ProdDate)
             diagram.AxisY.ConstantLines.Clear()
             If Setup IsNot Nothing Then
-                Dim LCL As New ConstantLine("LCL")
-                LCL.Color = Drawing.Color.Purple
-                LCL.LineStyle.Thickness = 2
-                LCL.LineStyle.DashStyle = DashStyle.DashDot
-                diagram.AxisY.ConstantLines.Add(LCL)
-                LCL.AxisValue = Setup.XBarLCL
+                'Dim LCL As New ConstantLine("LCL")
+                'LCL.Color = System.Drawing.Color.Purple
+                'LCL.LineStyle.Thickness = 2
+                'LCL.LineStyle.DashStyle = DashStyle.DashDot
+                'diagram.AxisY.ConstantLines.Add(LCL)
+                'LCL.AxisValue = Setup.XBarLCL
 
-                Dim UCL As New ConstantLine("UCL")
-                UCL.Color = Drawing.Color.Purple
-                UCL.LineStyle.Thickness = 2
-                UCL.LineStyle.DashStyle = DashStyle.DashDot
-                diagram.AxisY.ConstantLines.Add(UCL)
-                UCL.AxisValue = Setup.XBarUCL
+                'Dim UCL As New ConstantLine("UCL")
+                'UCL.Color = System.Drawing.Color.Purple
+                'UCL.LineStyle.Thickness = 2
+                'UCL.LineStyle.DashStyle = DashStyle.DashDot
+                'diagram.AxisY.ConstantLines.Add(UCL)
+                'UCL.AxisValue = Setup.XBarUCL
 
-                Dim CL As New ConstantLine("CL")
-                CL.Color = Drawing.Color.Black
-                CL.LineStyle.Thickness = 2
-                CL.LineStyle.DashStyle = DashStyle.Solid
-                diagram.AxisY.ConstantLines.Add(CL)
-                CL.AxisValue = Setup.XBarCL
+                'Dim CL As New ConstantLine("CL")
+                'CL.Color = System.Drawing.Color.Black
+                'CL.LineStyle.Thickness = 2
+                'CL.LineStyle.DashStyle = DashStyle.Solid
+                'diagram.AxisY.ConstantLines.Add(CL)
+                'CL.AxisValue = Setup.XBarCL
 
-                Dim LSL As New ConstantLine("LSL")
-                LSL.Color = Drawing.Color.Red
-                LSL.LineStyle.Thickness = 2
-                LSL.LineStyle.DashStyle = DashStyle.Solid
-                diagram.AxisY.ConstantLines.Add(LSL)
-                LSL.AxisValue = Setup.SpecLSL
+                'Dim LSL As New ConstantLine("LSL")
+                'LSL.Color = System.Drawing.Color.Red
+                'LSL.LineStyle.Thickness = 2
+                'LSL.LineStyle.DashStyle = DashStyle.Solid
+                'diagram.AxisY.ConstantLines.Add(LSL)
+                'LSL.AxisValue = Setup.SpecLSL
 
-                Dim USL As New ConstantLine("USL")
-                USL.Color = Drawing.Color.Red
-                USL.LineStyle.Thickness = 2
-                USL.LineStyle.DashStyle = DashStyle.Solid
-                diagram.AxisY.ConstantLines.Add(USL)
-                USL.AxisValue = Setup.SpecUSL
+                'Dim USL As New ConstantLine("USL")
+                'USL.Color = System.Drawing.Color.Red
+                'USL.LineStyle.Thickness = 2
+                'USL.LineStyle.DashStyle = DashStyle.Solid
+                'diagram.AxisY.ConstantLines.Add(USL)
+                'USL.AxisValue = Setup.SpecUSL
 
                 Dim MinValue As Double, MaxValue As Double
+                If xr.Count > 0 Then
+                    MinValue = xr(0).MinValue
+                    MaxValue = xr(0).MaxValue
+                End If
+                If Setup.SpecLSL < MinValue Then
+                    MinValue = Setup.SpecLSL
+                End If
+                If Setup.SpecUSL > MaxValue Then
+                    MaxValue = Setup.SpecUSL
+                End If
+
                 MinValue = Setup.SpecLSL
                 MaxValue = Setup.SpecUSL
-                diagram.AxisY.WholeRange.MinValue = 0
-                diagram.AxisY.WholeRange.MaxValue = 10
+                diagram.AxisY.WholeRange.MinValue = MinValue
+                diagram.AxisY.WholeRange.MaxValue = MaxValue
                 diagram.AxisY.WholeRange.EndSideMargin = 0.015
 
                 diagram.AxisY.VisualRange.MinValue = MinValue
                 diagram.AxisY.VisualRange.MaxValue = MaxValue
                 diagram.AxisY.VisualRange.EndSideMargin = 0.015
+
+                Dim diff As Double = MaxValue - MinValue
+                Dim gridAlignment As Double = Math.Round(diff / 15, 3)
+                diagram.AxisY.NumericScaleOptions.CustomGridAlignment = gridAlignment
 
                 CType(.Diagram, XYDiagram).SecondaryAxesY.Clear()
                 Dim myAxisY As New SecondaryAxisY("my Y-Axis")
@@ -999,11 +1037,9 @@ Public Class ProdSampleVerification
                 CType(.Series("RuleYellow").View, XYDiagramSeriesViewBase).AxisY = myAxisY
             End If
             .DataBind()
-            If xr.Count < 5 Then
-                .Width = 5 * 20
-            Else
-                .Width = xr.Count * 20
-            End If
+            'If xr.Count > 5 Then
+            '    .Width = xr.Count * 20
+            'End If
         End With
     End Sub
     Private Sub LoadForm_ByAnotherform()

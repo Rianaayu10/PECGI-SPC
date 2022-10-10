@@ -127,6 +127,7 @@ Public Class ProdSampleInput
                 End If
                 SelDay = CDate(Hdr.ProdDate)
             Next
+            ChartType = clsXRChartDB.GetChartType(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode)
             Dim dt As DataTable = clsSPCResultDetailDB.GetTableXR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, Hdr.VerifiedOnly)
             gridX.DataSource = dt
             gridX.DataBind()
@@ -170,7 +171,7 @@ Public Class ProdSampleInput
                     Dim User As clsUserSetup = clsUserSetupDB.GetData(pUser)
                     If User IsNot Nothing Then
                         cboFactory.Value = User.FactoryCode
-                        cboType.DataSource = clsItemTypeDB.GetList(cboFactory.Value)
+                        cboType.DataSource = clsItemTypeDB.GetList(cboFactory.Value, pUser)
                         cboType.DataBind()
                     End If
                 End If
@@ -184,7 +185,7 @@ Public Class ProdSampleInput
         dtDate.Value = CDate(ProdDate)
         cboFactory.Value = FactoryCode
 
-        cboType.DataSource = clsItemTypeDB.GetList(cboFactory.Value)
+        cboType.DataSource = clsItemTypeDB.GetList(cboFactory.Value, pUser)
         cboType.DataBind()
         cboType.Value = ItemTypeCode
 
@@ -430,7 +431,8 @@ Public Class ProdSampleInput
 
     Private Sub cboType_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboType.Callback
         Dim FactoryCode As String = Split(e.Parameter, "|")(0)
-        cboType.DataSource = clsItemTypeDB.GetList(FactoryCode)
+        Dim UserID As String = Session("user")
+        cboType.DataSource = clsItemTypeDB.GetList(FactoryCode, UserID)
         cboType.DataBind()
     End Sub
 
@@ -531,7 +533,7 @@ Public Class ProdSampleInput
 
     Private Sub DownloadExcel()
         Dim ps As New PrintingSystem()
-        LoadChartX(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"))
+        LoadChartX(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), cboShow.Value)
         Dim linkX As New PrintableComponentLink(ps)
         linkX.Component = (CType(chartX, IChartContainer)).Chart
 
@@ -980,6 +982,10 @@ Public Class ProdSampleInput
                 End If
                 diagram.AxisY.WholeRange.MaxValue = MaxValue
                 diagram.AxisY.VisualRange.MaxValue = MaxValue
+                If MaxValue > 0 Then
+                    Dim GridAlignment As Double = Math.Round(MaxValue / 34, 4)
+                    diagram.AxisY.NumericScaleOptions.CustomGridAlignment = GridAlignment
+                End If
             End If
             .DataBind()
         End With
@@ -987,8 +993,9 @@ Public Class ProdSampleInput
 
     Dim ChartType As String
 
-    Private Sub LoadChartX(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String)
-        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartXR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate)
+    Private Sub LoadChartX(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, VerifiedOnly As String)
+        ChartType = clsXRChartDB.GetChartType(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
+        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartXR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, VerifiedOnly)
         With chartX
             .DataSource = xr
             Dim diagram As XYDiagram = CType(.Diagram, XYDiagram)
@@ -1002,7 +1009,6 @@ Public Class ProdSampleInput
 
             diagram.AxisY.NumericScaleOptions.CustomGridAlignment = 0.005
             diagram.AxisY.GridLines.MinorVisible = False
-            ChartType = clsXRChartDB.GetChartType(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
             If ChartType = "1" Or ChartType = "2" Then
                 .Titles(0).Text = "X Bar Control Chart"
             Else
@@ -1060,8 +1066,6 @@ Public Class ProdSampleInput
                     MaxValue = Setup.SpecUSL
                 End If
 
-                MinValue = Setup.SpecLSL
-                MaxValue = Setup.SpecUSL
                 diagram.AxisY.WholeRange.MinValue = MinValue
                 diagram.AxisY.WholeRange.MaxValue = MaxValue
                 diagram.AxisY.WholeRange.EndSideMargin = 0.015
@@ -1071,15 +1075,17 @@ Public Class ProdSampleInput
                 diagram.AxisY.VisualRange.EndSideMargin = 0.015
 
                 Dim diff As Double = MaxValue - MinValue
-                Dim gridAlignment As Double = Math.Round(diff / 15, 3)
-                diagram.AxisY.NumericScaleOptions.CustomGridAlignment = gridAlignment
+                If diff > 0 Then
+                    Dim gridAlignment As Double = Math.Round(diff / 15, 3)
+                    diagram.AxisY.NumericScaleOptions.CustomGridAlignment = gridAlignment
+                End If
 
-                CType(.Diagram, XYDiagram).SecondaryAxesY.Clear()
-                Dim myAxisY As New SecondaryAxisY("my Y-Axis")
-                myAxisY.Visibility = DevExpress.Utils.DefaultBoolean.False
-                CType(.Diagram, XYDiagram).SecondaryAxesY.Add(myAxisY)
-                CType(.Series("Rule").View, XYDiagramSeriesViewBase).AxisY = myAxisY
-                CType(.Series("RuleYellow").View, XYDiagramSeriesViewBase).AxisY = myAxisY
+                'CType(.Diagram, XYDiagram).SecondaryAxesY.Clear()
+                'Dim myAxisY As New SecondaryAxisY("my Y-Axis")
+                'myAxisY.Visibility = DevExpress.Utils.DefaultBoolean.False
+                'CType(.Diagram, XYDiagram).SecondaryAxesY.Add(myAxisY)
+                'CType(.Series("Rule").View, XYDiagramSeriesViewBase).AxisY = myAxisY
+                'CType(.Series("RuleYellow").View, XYDiagramSeriesViewBase).AxisY = myAxisY
             End If
             .DataBind()
             'If xr.Count > 5 Then
@@ -1099,8 +1105,9 @@ Public Class ProdSampleInput
         Dim LineCode As String = Split(Prm, "|")(2)
         Dim ItemCheckCode As String = Split(Prm, "|")(3)
         Dim ProdDate As String = Split(Prm, "|")(4)
+        Dim VerifiedOnly As String = Split(Prm, "|")(5)
 
-        LoadChartX(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate)
+        LoadChartX(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, VerifiedOnly)
     End Sub
 
     Private Sub gridX_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles gridX.HtmlDataCellPrepared
@@ -1133,10 +1140,12 @@ Public Class ProdSampleInput
                 If Value < LSL Or Value > USL Then
                     e.Cell.BackColor = Color.Red
                 ElseIf Value < LCL Or Value > UCL Then
-                    If ChartType = "2" Then
+                    If e.GetValue("Seq") = "1" Then
                         e.Cell.BackColor = Color.Pink
-                    Else
+                    ElseIf ChartType = "1" Then
                         e.Cell.BackColor = Color.Yellow
+                    Else
+                        e.Cell.BackColor = Color.Pink
                     End If
                 End If
             End If

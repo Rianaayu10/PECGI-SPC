@@ -51,7 +51,7 @@ Public Class clsXRChartDB
         End Using
     End Function
 
-    Public Shared Function GetChartXR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate2 As String) As List(Of clsXRChart)
+    Public Shared Function GetChartXR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate2 As String, Optional VerifiedOnly As Integer = 0) As List(Of clsXRChart)
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String = "sp_SPC_SampleControlChart"
@@ -62,6 +62,7 @@ Public Class clsXRChartDB
             cmd.Parameters.AddWithValue("Line", Line)
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
             cmd.Parameters.AddWithValue("ProdDate2", ProdDate2)
+            cmd.Parameters.AddWithValue("VerifiedOnly", VerifiedOnly)
             Dim da As New SqlDataAdapter(cmd)
             Dim dt As New DataTable
             da.Fill(dt)
@@ -106,6 +107,14 @@ Public Class clsXRChartDB
                     If Not IsDBNull(.Item("SpecUSL")) Then
                         value = .Item("SpecUSL")
                         xr.USL = value
+                    End If
+                    If Not IsDBNull(.Item("MaxValue")) Then
+                        value = .Item("MaxValue")
+                        xr.MaxValue = value
+                    End If
+                    If Not IsDBNull(.Item("MinValue")) Then
+                        value = .Item("MinValue")
+                        xr.MinValue = value
                     End If
                 End With
                 XRList.Add(xr)
@@ -154,6 +163,14 @@ Public Class clsXRChartDB
                     If Not IsDBNull(.Item("RuleYellow")) Then
                         value = .Item("RuleYellow")
                         xr.RuleYellow = value
+                    End If
+                    If Not IsDBNull(.Item("MaxValue")) Then
+                        value = .Item("MaxValue")
+                        xr.MaxValue = value
+                    End If
+                    If Not IsDBNull(.Item("MinValue")) Then
+                        value = .Item("MinValue")
+                        xr.MinValue = value
                     End If
                 End With
                 XRList.Add(xr)

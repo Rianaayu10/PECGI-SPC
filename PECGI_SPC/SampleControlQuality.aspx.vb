@@ -265,7 +265,7 @@ Public Class SampleControlQuality
                     Dim User As clsUserSetup = clsUserSetupDB.GetData(pUser)
                     If User IsNot Nothing Then
                         cboFactory.Value = User.FactoryCode
-                        cboType.DataSource = clsItemTypeDB.GetList(cboFactory.Value)
+                        cboType.DataSource = clsItemTypeDB.GetList(cboFactory.Value, pUser)
                         cboType.DataBind()
                     End If
                 End If
@@ -275,11 +275,12 @@ Public Class SampleControlQuality
     End Sub
 
     Private Sub InitCombo(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ShiftCode As String, Sequence As String, ProdDate2 As String)
+        pUser = Session("user") & ""
         dtDate.Value = CDate(ProdDate)
         dtTo.Value = CDate(ProdDate2)
         cboFactory.Value = FactoryCode
 
-        cboType.DataSource = clsItemTypeDB.GetList(cboFactory.Value)
+        cboType.DataSource = clsItemTypeDB.GetList(cboFactory.Value, pUser)
         cboType.DataBind()
         cboType.Value = ItemTypeCode
 
@@ -354,7 +355,7 @@ Public Class SampleControlQuality
                 Dim colTime As New GridViewDataTextColumn
                 colTime.Caption = dtDay.Rows(iDay)("RegisterDate")
                 colTime.FieldName = dtDay.Rows(iDay)("ColName")
-                colTime.Width = 60
+                colTime.Width = 90
                 colTime.CellStyle.HorizontalAlign = HorizontalAlign.Center
                 BandShift.Columns.Add(colTime)
 
@@ -541,12 +542,29 @@ Public Class SampleControlQuality
                 diagram.AxisY.ConstantLines.Add(USL)
                 USL.AxisValue = Setup.SpecUSL
 
-                diagram.AxisY.WholeRange.MinValue = Setup.SpecLSL
-                diagram.AxisY.WholeRange.MaxValue = Setup.SpecUSL
-                diagram.AxisY.WholeRange.EndSideMargin = Setup.SpecUSL + 1
+                Dim MinValue As Double, MaxValue As Double
+                If xr.Count > 0 Then
+                    MinValue = xr(0).MinValue
+                    MaxValue = xr(0).MaxValue
+                End If
+                If Setup.SpecLSL < MinValue Then
+                    MinValue = Setup.SpecLSL
+                End If
+                If Setup.SpecUSL > MaxValue Then
+                    MaxValue = Setup.SpecUSL
+                End If
 
-                diagram.AxisY.VisualRange.MinValue = Setup.SpecLSL
-                diagram.AxisY.VisualRange.MaxValue = Setup.SpecUSL
+                diagram.AxisY.WholeRange.MinValue = MinValue
+                diagram.AxisY.WholeRange.MaxValue = MaxValue
+                diagram.AxisY.WholeRange.EndSideMargin = 0.015
+
+                diagram.AxisY.VisualRange.MinValue = MinValue
+                diagram.AxisY.VisualRange.MaxValue = MaxValue
+                diagram.AxisY.VisualRange.EndSideMargin = 0.015
+
+                Dim diff As Double = MaxValue - MinValue
+                Dim gridAlignment As Double = Math.Round(diff / 15, 3)
+                diagram.AxisY.NumericScaleOptions.CustomGridAlignment = gridAlignment
 
                 CType(.Diagram, XYDiagram).SecondaryAxesY.Clear()
                 Dim myAxisY As New SecondaryAxisY("my Y-Axis")
@@ -554,7 +572,6 @@ Public Class SampleControlQuality
                 CType(.Diagram, XYDiagram).SecondaryAxesY.Add(myAxisY)
                 CType(.Series("Rule").View, XYDiagramSeriesViewBase).AxisY = myAxisY
                 CType(.Series("RuleYellow").View, XYDiagramSeriesViewBase).AxisY = myAxisY
-
             End If
             .DataBind()
             Dim ChartWidth As Integer = xr.Count * 12
@@ -600,7 +617,8 @@ Public Class SampleControlQuality
 
     Private Sub cboType_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboType.Callback
         Dim FactoryCode As String = Split(e.Parameter, "|")(0)
-        cboType.DataSource = clsItemTypeDB.GetList(FactoryCode)
+        Dim pUser As String = Session("user")
+        cboType.DataSource = clsItemTypeDB.GetList(FactoryCode, pUser)
         cboType.DataBind()
     End Sub
 

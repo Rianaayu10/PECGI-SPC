@@ -401,7 +401,7 @@
             
 
             </td>
-            <td>
+            <td style="width:100px">
 
 <dx:ASPxButton ID="btnSearch" runat="server" AutoPostBack="False" 
                     ClientInstanceName="btnSearch" Font-Names="Segoe UI" Font-Size="9pt" 
@@ -440,7 +440,7 @@
                 </dx:ASPxButton>
                 
             </td>
-            <td style="padding-left:2px">
+            <td style="width:100px; padding-left:2px">
 
                                 <dx:ASPxButton ID="btnExcel" runat="server" AutoPostBack="False" 
                                     ClientInstanceName="btnExcel" Font-Names="Segoe UI" Font-Size="9pt" 
@@ -575,7 +575,7 @@
     <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="350px" Width="1080px" ClientInstanceName="Histogram">
 
         <Titles>
-            <cc1:ChartTitle Text="Histogram" />
+            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Histogram" Alignment="Near" />
         </Titles>
         <DiagramSerializable>
 <cc1:XYDiagram Rotated="True">
@@ -586,6 +586,7 @@
 <AxisY VisibleInPanesSerializable="-1" MinorCount="1" Visibility="True">
     <Tickmarks MinorLength="1" MinorVisible="False" />
     <WholeRange Auto="False" AutoSideMargins="False" EndSideMargin="0" MaxValueSerializable="10" MinValueSerializable="0" StartSideMargin="0" />
+    <NumericScaleOptions AutoGrid="False" MinGridSpacingLength="1" />
     </AxisY>
 </cc1:XYDiagram>
 </DiagramSerializable>
@@ -595,7 +596,7 @@
         <SeriesSerializable>
             <cc1:Series ArgumentDataMember="Range" Name="Series 4" ValueDataMembersSerializable="Value" ShowInLegend="False">
                 <ViewSerializable>
-                    <cc1:SideBySideBarSeriesView BarWidth="0.5" ColorEach="True">
+                    <cc1:SideBySideBarSeriesView BarWidth="1" ColorEach="True">
                         <Border Color="0, 0, 0" Visibility="True" />
                     </cc1:SideBySideBarSeriesView>
                 </ViewSerializable>

@@ -172,8 +172,8 @@
                 lblNG.SetText('NG');
                 document.getElementById('NG').style.backgroundColor = 'Red';
             } else if (s.cpNG == '1') {
-                lblNG.SetText('');
-                document.getElementById('NG').style.backgroundColor = 'White';
+                lblNG.SetText('OK');
+                document.getElementById('NG').style.backgroundColor = 'Green';
             } else if (s.cpNG == '0') {
                 lblNG.SetText('OK');
                 document.getElementById('NG').style.backgroundColor = 'Green';
@@ -207,7 +207,7 @@
             }
             if (s.cpRefresh == '1') {
                 gridX.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShow.GetValue());
-                chartX.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText());
+                chartX.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShow.GetValue());
                 chartR.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText());                
             }            
         }
@@ -532,7 +532,7 @@
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn Caption="Value" VisibleIndex="2" FieldName="Value" Width="80px">
                 <PropertiesTextEdit SelectInputTextOnClick="True" DisplayFormatString="0.000" Width="70px">
-                    <MaskSettings UseInvariantCultureDecimalSymbolOnClient="True" Mask="&lt;0..999g&gt;.&lt;000..999&gt;" />
+                    <MaskSettings UseInvariantCultureDecimalSymbolOnClient="True" Mask="&lt;0..9999g&gt;.&lt;000..999&gt;" />
                     <ValidationSettings>
                         <RegularExpression ErrorText="Please input valid value" />
                     </ValidationSettings>
@@ -825,8 +825,8 @@
                 
 <div id="chartXdiv" style="overflow-x:auto; width:100%; border:1px solid black"">
 <dx:WebChartControl ID="chartX" runat="server" ClientInstanceName="chartX"
-        Height="490px" Width="1080px" CrosshairEnabled="True" SeriesDataMember="Description">
-        <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value">
+        Height="490px" Width="1080px" CrosshairEnabled="True" SeriesDataMember="Description" ToolTipEnabled="False">
+        <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" ToolTipPointPattern="{V:0.000}">
             <viewserializable>
                 <cc1:PointSeriesView>                    
                     <PointMarkerOptions kind="Circle" BorderColor="255, 255, 255"></PointMarkerOptions>
@@ -834,13 +834,13 @@
             </viewserializable>
         </seriestemplate>    
         <SeriesSerializable>
-            <cc1:Series ArgumentDataMember="Seq" Name="Rule" ValueDataMembersSerializable="RuleValue" LabelsVisibility="False" ShowInLegend="False">
+            <cc1:Series ArgumentDataMember="Seq" Name="Rule" ValueDataMembersSerializable="RuleValue" LabelsVisibility="False" ShowInLegend="False" ToolTipEnabled="False" ToolTipSeriesPattern="">
                 <ViewSerializable>
-                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="Red" Transparency="200">
+                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="Red" Transparency="200" AxisYName="Secondary AxisY 1">
                     </cc1:FullStackedBarSeriesView>
                 </ViewSerializable>
             </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="RuleYellow" ValueDataMembersSerializable="RuleYellow" LabelsVisibility="False" ShowInLegend="False">
+            <cc1:Series ArgumentDataMember="Seq" Name="RuleYellow" ValueDataMembersSerializable="RuleYellow" LabelsVisibility="False" ShowInLegend="False" ToolTipEnabled="False" ToolTipSeriesPattern="">
                 <ViewSerializable>
                     <cc1:FullStackedBarSeriesView BarWidth="1" Color="Yellow" Transparency="200">
                     </cc1:FullStackedBarSeriesView>
@@ -919,6 +919,11 @@
                     </GridLines>
                     <NumericScaleOptions AutoGrid="False" CustomGridAlignment="0.005" GridAlignment="Custom" />
                 </AxisY>
+                <SecondaryAxesY>
+                    <cc1:SecondaryAxisY Alignment="Near" AxisID="0" Name="Secondary AxisY 1" Visibility="False" VisibleInPanesSerializable="-1">
+                        <WholeRange AutoSideMargins="False" EndSideMargin="0" StartSideMargin="0" />
+                    </cc1:SecondaryAxisY>
+                </SecondaryAxesY>
             </cc1:XYDiagram>
         </DiagramSerializable>
         <titles>
@@ -926,6 +931,8 @@
         </titles>
         <legend alignmenthorizontal="Left" alignmentvertical="BottomOutside" 
             direction="LeftToRight"></legend> 
+        <ToolTipOptions ShowForPoints="False">
+        </ToolTipOptions>
     </dx:WebChartControl>
 </div>
     

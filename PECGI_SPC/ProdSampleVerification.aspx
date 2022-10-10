@@ -19,17 +19,52 @@
         }
 
         function InitGrid(s, e) {
-            lblPeriod_1.SetText(s.cpPeriod1);
-            lblUSL_1.SetText(s.cpUSL1);
-            lblLSL_1.SetText(s.cpLSL1);
-            lblUCL_1.SetText(s.cpUCL1);
-            lblLCL_1.SetText(s.cpLCL1);
+            lblUSL.SetText(s.cpUSL);
+            lblLSL.SetText(s.cpLSL);
+            lblUCL.SetText(s.cpUCL);
+            lblLCL.SetText(s.cpLCL);
 
-            lblPeriod_2.SetText(s.cpPeriod2);
-            lblUSL_2.SetText(s.cpUSL2);
-            lblLSL_2.SetText(s.cpLSL2);
-            lblUCL_2.SetText(s.cpUCL2);
-            lblLCL_2.SetText(s.cpLCL2);
+            lblMin.SetText(s.cpMIN);
+            lblMax.SetText(s.cpMAX);
+            lblAve.SetText(s.cpAVG);
+            lblR.SetText(s.cpR);
+            lblC.SetText(s.cpC);
+
+            if (s.cpNG == '1') {
+                lblNG.SetText('NG');
+                document.getElementById('NG').style.backgroundColor = 'Red';
+            } else if (s.cpNG == '0') {
+                lblNG.SetText('OK');
+                document.getElementById('NG').style.backgroundColor = 'Green';
+            } else {
+                lblNG.SetText('');
+                document.getElementById('NG').style.backgroundColor = 'White';
+            }
+
+            if (s.cpC == 'C') {
+                document.getElementById('C').style.backgroundColor = 'Orange';
+            } else {
+                document.getElementById('C').style.backgroundColor = 'White';
+            }
+
+            if (s.cpMIN != '') {
+                if (s.cpMIN < s.cpLSL) {
+                    document.getElementById('Min').style.backgroundColor = 'Red';
+                } else if (s.cpMIN < s.cpLCL) {
+                    document.getElementById('Min').style.backgroundColor = 'Pink';
+                } else {
+                    document.getElementById('Min').style.backgroundColor = 'White';
+                }
+            } else {
+                document.getElementById('Min').style.backgroundColor = 'White';
+            }
+            if (s.cpMAX > s.cpUSL) {
+                document.getElementById('Max').style.backgroundColor = 'Red';
+            } else if (s.cpMAX > s.cpUCL) {
+                document.getElementById('Max').style.backgroundColor = 'Pink';
+            } else {
+                document.getElementById('Max').style.backgroundColor = 'White';
+            }
 
             if (s.cp_Verify == "1") {
                 btnVerification.SetEnabled(true);
@@ -50,13 +85,6 @@
                 btnIOTTraceability.SetEnabled(false);
             }
 
-            var nChart = s.cpChartSetup;
-            var tblChart = document.getElementById("tblChartSetup_2");
-            if (nChart > 1) {
-                tblChart.style.display = "block";
-            } else {
-                tblChart.style.display = "none";
-            }
         }
 
         function ChangeFactory() {
@@ -175,17 +203,53 @@
                 }
             }
 
-            lblPeriod_1.SetText(s.cpPeriod1);
-            lblUSL_1.SetText(s.cpUSL1);
-            lblLSL_1.SetText(s.cpLSL1);
-            lblUCL_1.SetText(s.cpUCL1);
-            lblLCL_1.SetText(s.cpLCL1);
+            lblUSL.SetText(s.cpUSL);
+            lblLSL.SetText(s.cpLSL);
+            lblUCL.SetText(s.cpUCL);
+            lblLCL.SetText(s.cpLCL);
 
-            lblPeriod_2.SetText(s.cpPeriod2);
-            lblUSL_2.SetText(s.cpUSL2);
-            lblLSL_2.SetText(s.cpLSL2);
-            lblUCL_2.SetText(s.cpUCL2);
-            lblLCL_2.SetText(s.cpLCL2);
+            lblMin.SetText(s.cpMIN);
+            lblMax.SetText(s.cpMAX);
+            lblAve.SetText(s.cpAVG);
+            lblR.SetText(s.cpR);
+            lblC.SetText(s.cpC);
+
+            if (s.cpNG == '1') {
+                lblNG.SetText('NG');
+                document.getElementById('NG').style.backgroundColor = 'Red';
+            } else if (s.cpNG == '0') {
+                lblNG.SetText('OK');
+                document.getElementById('NG').style.backgroundColor = 'Green';
+            } else {
+                lblNG.SetText('');
+                document.getElementById('NG').style.backgroundColor = 'White';
+            }
+
+            if (s.cpC == 'C') {
+                document.getElementById('C').style.backgroundColor = 'Orange';
+            } else {
+                document.getElementById('C').style.backgroundColor = 'White';
+            }
+
+            if (s.cpMIN != '') {
+                if (s.cpMIN < s.cpLSL) {
+                    document.getElementById('Min').style.backgroundColor = 'Red';
+                } else if (s.cpMIN < s.cpLCL) {
+                    document.getElementById('Min').style.backgroundColor = 'Pink';
+                } else {
+                    document.getElementById('Min').style.backgroundColor = 'White';
+                }
+            } else {
+                document.getElementById('Min').style.backgroundColor = 'White';
+            }
+            if (s.cpMAX > s.cpUSL) {
+                document.getElementById('Max').style.backgroundColor = 'Red';
+            } else if (s.cpMAX > s.cpUCL) {
+                document.getElementById('Max').style.backgroundColor = 'Pink';
+            } else {
+                document.getElementById('Max').style.backgroundColor = 'White';
+            }
+
 
             if (s.cp_Verify == "1") {
                 btnVerification.SetEnabled(true);
@@ -205,13 +269,6 @@
                 btnIOTTraceability.SetEnabled(false);
             }
 
-            var nChart = s.cpChartSetup;
-            var tblChart = document.getElementById("tblChartSetup_2");
-            if (nChart > 1) {
-                tblChart.style.display = "block";
-            } else {
-                tblChart.style.display = "none";
-            }
         }
 
         function EndCallback_GridActivity(s, e) {
@@ -337,7 +394,7 @@
         //        console.log(URL);
         //        window.open('' + URL + '', '_blank');
         //    }, millisecondsToWait);
-            
+
         //}
 
         //function IOTTraceability() {
@@ -576,52 +633,54 @@
         </table>
     </div>
     <div style="padding: 5px 5px 5px 5px; padding-top: 10px; padding-bottom: 5px">
-        <table>
+        <table style="width:100%">
             <tr>
-                <td>
+                <td style="width:100px">
                     <dx:ASPxButton ID="btnVerification" runat="server" AutoPostBack="False" ClientInstanceName="btnVerification"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="Verify" Theme="Office2010Silver" Width="100px">
                         <ClientSideEvents Click="Verify" />
                     </dx:ASPxButton>
                 </td>
-                <td style="width: 10px">&nbsp;</td>
-                <td>
+                <td style="width: 5px"></td>
+                <td style="width:100px">
                     <dx:ASPxButton ID="btnSPCSample" runat="server" AutoPostBack="False" ClientInstanceName="btnSPCSample"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="SPC Sample" Theme="Office2010Silver" Width="100px">
                         <ClientSideEvents Click="SPCSample" />
                     </dx:ASPxButton>
                 </td>
-                <td style="width: 10px">&nbsp;</td>
-                <td>
+                <td style="width: 5px"></td>
+                <td style="width:100px">
                     <dx:ASPxButton ID="btnIOTProcess" runat="server" AutoPostBack="False" ClientInstanceName="btnIOTProcess"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="View IOT Process Table" Theme="Office2010Silver" Width="100px">
-                      <%--  <ClientSideEvents Click="IOTProcess" />--%>
+                        <%--  <ClientSideEvents Click="IOTProcess" />--%>
                     </dx:ASPxButton>
                 </td>
-                <td style="width: 10px">&nbsp;</td>
-                <td>
+                <td style="width: 5px"></td>
+                <td style="width:100px">
                     <dx:ASPxButton ID="btnIOTTraceability" runat="server" AutoPostBack="False" ClientInstanceName="btnIOTTraceability"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="View IOT Traceability" Theme="Office2010Silver" Width="100px">
-                       <%-- <ClientSideEvents Click="IOTTraceability" />--%>
+                        <%-- <ClientSideEvents Click="IOTTraceability" />--%>
                     </dx:ASPxButton>
                 </td>
-                <td style="width: 10px">&nbsp;</td>
-                <td>
+                <td style="width: 5px"></td>
+                <td style="width:100px">
                     <dx:ASPxButton ID="btnExcel" runat="server" AutoPostBack="False" ClientInstanceName="btnExcel"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="Excel" Theme="Office2010Silver" Width="100px">
                     </dx:ASPxButton>
-                </td>
-                <td style="width: 100%">
-                    <table style="width: 50%; margin-left: 50%">
+                </td>         
+                <td style="width: 5px"></td>
+                <td style="width: 220px"></td>
+                <td style="width: 500px">
+                    <table style="width: 100%">
                         <tr>
-                            <td rowspan="2" class="header" style="width: 180px">
-                                <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="Period" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
-                            </td>
                             <td colspan="2" class="header">
                                 <dx:ASPxLabel ID="ASPxLabel22" runat="server" Text="Specification" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                             </td>
                             <td colspan="2" class="header">
                                 <dx:ASPxLabel ID="ASPxLabel23" runat="server" Text="X Bar Control" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            </td>
+                            <td colspan="6" class="header">
+                                <dx:ASPxLabel ID="ASPxLabel24" runat="server" Text="Result" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                             </td>
                         </tr>
                         <tr>
@@ -637,39 +696,49 @@
                             <td class="header" style="width: 50px">
                                 <dx:ASPxLabel ID="ASPxLabel15" runat="server" Text="LCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                             </td>
+                            <td class="header" style="width: 50px">
+                                <dx:ASPxLabel ID="ASPxLabel16" runat="server" Text="Min" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            </td>
+                            <td class="header" style="width: 50px">
+                                <dx:ASPxLabel ID="ASPxLabel17" runat="server" Text="Max" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            </td>
+                            <td class="header" style="width: 50px">
+                                <dx:ASPxLabel ID="ASPxLabel18" runat="server" Text="Ave" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            </td>
+                            <td class="header" style="width: 50px">
+                                <dx:ASPxLabel ID="ASPxLabel19" runat="server" Text="R" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            </td>
+                            <td class="body" align="center" rowspan="2" style="width: 50px" id="C">
+                                <dx:ASPxLabel ID="lblC" runat="server" Text="" Font-Names="Segoe UI" Font-Size="Medium" Font-Bold="True" ForeColor="Black" ClientInstanceName="lblC"></dx:ASPxLabel>
+                            </td>
+                            <td class="body" align="center" rowspan="2" style="width: 50px" id="NG">
+                                <dx:ASPxLabel ID="lblNG" runat="server" Text="" Font-Names="Segoe UI" Font-Size="Medium" ClientInstanceName="lblNG" Font-Bold="True" ForeColor="Black"></dx:ASPxLabel>
+                            </td>
                         </tr>
                         <tr>
                             <td class="body" align="center">
-                                <dx:ASPxLabel ID="lblPeriod" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblPeriod_1" ForeColor="Black"></dx:ASPxLabel>
+                                <dx:ASPxLabel ID="lblUSL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblUSL" ForeColor="Black"></dx:ASPxLabel>
                                 &nbsp;</td>
-                            <td class="body" align="right">
-                                <dx:ASPxLabel ID="lblUSL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblUSL_1" ForeColor="Black"></dx:ASPxLabel>
-                                &nbsp;</td>
-                            <td class="body" align="right">
-                                <dx:ASPxLabel ID="lblLSL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLSL_1" ForeColor="Black"></dx:ASPxLabel>
-                            </td>
-                            <td class="body" align="right">
-                                <dx:ASPxLabel ID="lblUCL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblUCL_1" ForeColor="Black"></dx:ASPxLabel>
-                            </td>
-                            <td class="body" align="right">
-                                <dx:ASPxLabel ID="lblLCL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLCL_1" ForeColor="Black"></dx:ASPxLabel>
-                            </td>
-                        </tr>
-                        <tr id="tblChartSetup_2">
                             <td class="body" align="center">
-                                <dx:ASPxLabel ID="ASPxLabel2" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblPeriod_2" ForeColor="Black"></dx:ASPxLabel>
-                                &nbsp;</td>
-                            <td class="body" align="right">
-                                <dx:ASPxLabel ID="ASPxLabel3" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblUSL_2" ForeColor="Black"></dx:ASPxLabel>
-                                &nbsp;</td>
-                            <td class="body" align="right">
-                                <dx:ASPxLabel ID="ASPxLabel4" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLSL_2" ForeColor="Black"></dx:ASPxLabel>
+                                <dx:ASPxLabel ID="lblLSL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLSL" ForeColor="Black"></dx:ASPxLabel>
                             </td>
-                            <td class="body" align="right">
-                                <dx:ASPxLabel ID="ASPxLabel5" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblUCL_2" ForeColor="Black"></dx:ASPxLabel>
+                            <td class="body" align="center">
+                                <dx:ASPxLabel ID="lblUCL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblUCL" ForeColor="Black"></dx:ASPxLabel>
                             </td>
-                            <td class="body" align="right">
-                                <dx:ASPxLabel ID="ASPxLabel6" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLCL_2" ForeColor="Black"></dx:ASPxLabel>
+                            <td class="body" align="center">
+                                <dx:ASPxLabel ID="lblLCL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLCL" ForeColor="Black"></dx:ASPxLabel>
+                            </td>
+                            <td class="body" align="center" id="Min">
+                                <dx:ASPxLabel ID="lblMin" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblMin" ForeColor="Black"></dx:ASPxLabel>
+                            </td>
+                            <td class="body" align="center" id="Max">
+                                <dx:ASPxLabel ID="lblMax" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblMax" ForeColor="Black"></dx:ASPxLabel>
+                            </td>
+                            <td class="body" align="center" id="Ave">
+                                <dx:ASPxLabel ID="lblAve" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblAve" ForeColor="Black"></dx:ASPxLabel>
+                            </td>
+                            <td class="body" align="center" id="R">
+                                <dx:ASPxLabel ID="lblR" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblR" ForeColor="Black"></dx:ASPxLabel>
                             </td>
                         </tr>
                     </table>
@@ -709,118 +778,159 @@
     </div>
     <div style="padding: 5px 5px 5px 5px;">
         <div id="chartXdiv" style="overflow-x:auto; width:100%; border:1px solid black"">
-<dx:WebChartControl ID="chartX" runat="server" ClientInstanceName="chartX"
-        Height="434px" Width="800px" CrosshairEnabled="True" SeriesDataMember="Description">
-        <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value">
-            <viewserializable>
-                <cc1:PointSeriesView>                    
-                    <PointMarkerOptions kind="Circle" BorderColor="255, 255, 255"></PointMarkerOptions>
-                </cc1:PointSeriesView>
-            </viewserializable>
-        </seriestemplate>    
-        <SeriesSerializable>
-            <cc1:Series ArgumentDataMember="Seq" Name="Rule" ValueDataMembersSerializable="RuleValue" LabelsVisibility="False" ShowInLegend="False">
+            <dx:WebChartControl ID="chartX" runat="server" ClientInstanceName="chartX"
+            Height="490px" Width="1080px" CrosshairEnabled="True" SeriesDataMember="Description">
+            <SeriesTemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value">
                 <ViewSerializable>
-                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="Red" Transparency="200">
-                    </cc1:FullStackedBarSeriesView>
+                    <cc1:PointSeriesView>
+                        <PointMarkerOptions Kind="Circle" BorderColor="255, 255, 255"></PointMarkerOptions>
+                    </cc1:PointSeriesView>
                 </ViewSerializable>
-            </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="RuleYellow" ValueDataMembersSerializable="RuleYellow" LabelsVisibility="False" ShowInLegend="False">
-                <ViewSerializable>
-                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="Yellow" Transparency="200">
-                    </cc1:FullStackedBarSeriesView>
-                </ViewSerializable>
-            </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="Average" ValueDataMembersSerializable="AvgValue">
-                <ViewSerializable>
-                    <cc1:LineSeriesView Color="Blue">
-                        <LineStyle Thickness="1" />
-                        <LineMarkerOptions Color="Blue" Size="3">
-                        </LineMarkerOptions>
-                    </cc1:LineSeriesView>
-                </ViewSerializable>
-            </cc1:Series>
-        </SeriesSerializable>     
-        <DiagramSerializable>
-            <cc1:XYDiagram>
-                <AxisX VisibleInPanesSerializable="-1" MinorCount="1">
-                    <Label Alignment="Center">
-                        <ResolveOverlappingOptions AllowHide="False" />
-                    </Label>
-                    <GridLines MinorVisible="True">
-                    </GridLines>
-                    <NumericScaleOptions AutoGrid="False" />
-                </AxisX>
-                <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
-                    <Tickmarks MinorVisible="False" />
-                    <Label TextPattern="{V:0.000}" Font="Tahoma, 7pt">
-                        <ResolveOverlappingOptions AllowHide="True" />
-                    </Label>
-                    <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.015" MaxValueSerializable="2.715" MinValueSerializable="2.645" StartSideMargin="0.025" />
-                    <WholeRange AlwaysShowZeroLevel="False" Auto="False" AutoSideMargins="False" EndSideMargin="0.015" MaxValueSerializable="2.73" MinValueSerializable="2.62" StartSideMargin="0.025" />
-                    <GridLines>
-                        <LineStyle DashStyle="Dot" />
-                    </GridLines>
-                    <NumericScaleOptions AutoGrid="False" CustomGridAlignment="0.005" GridAlignment="Custom" />
-                </AxisY>
-            </cc1:XYDiagram>
-        </DiagramSerializable>
-        <titles>
-            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Graph Monitoring" />
-        </titles>
-        <legend alignmenthorizontal="Left" alignmentvertical="BottomOutside" 
-            direction="LeftToRight"></legend> 
-    </dx:WebChartControl>
-</div>
+            </SeriesTemplate>
+            <SeriesSerializable>
+                <cc1:Series ArgumentDataMember="Seq" Name="Rule" ValueDataMembersSerializable="RuleValue" LabelsVisibility="False" ShowInLegend="False">
+                    <ViewSerializable>
+                        <cc1:FullStackedBarSeriesView BarWidth="1" Color="Red" Transparency="200">
+                        </cc1:FullStackedBarSeriesView>
+                    </ViewSerializable>
+                </cc1:Series>
+                <cc1:Series ArgumentDataMember="Seq" Name="RuleYellow" ValueDataMembersSerializable="RuleYellow" LabelsVisibility="False" ShowInLegend="False">
+                    <ViewSerializable>
+                        <cc1:FullStackedBarSeriesView BarWidth="1" Color="Yellow" Transparency="200">
+                        </cc1:FullStackedBarSeriesView>
+                    </ViewSerializable>
+                </cc1:Series>
+                <cc1:Series ArgumentDataMember="Seq" Name="Average" ValueDataMembersSerializable="AvgValue">
+                    <ViewSerializable>
+                        <cc1:LineSeriesView Color="Blue">
+                            <LineStyle Thickness="1" />
+                            <LineMarkerOptions Color="Blue" Size="1"></LineMarkerOptions>
+                        </cc1:LineSeriesView>
+                    </ViewSerializable>
+                </cc1:Series>
+                <cc1:Series ArgumentDataMember="Seq" Name="LCL" ValueDataMembersSerializable="LCL" LabelsVisibility="False">
+                    <ViewSerializable>
+                        <cc1:LineSeriesView Color="0, 32, 96" MarkerVisibility="False">
+                            <LineStyle DashStyle="DashDot" Thickness="2" />
+                            <LineMarkerOptions Size="1">
+                            </LineMarkerOptions>
+                        </cc1:LineSeriesView>
+                    </ViewSerializable>
+                    <LabelSerializable>
+                        <cc1:PointSeriesLabel Position="Center">
+                        </cc1:PointSeriesLabel>
+                    </LabelSerializable>
+                </cc1:Series>
+                <cc1:Series ArgumentDataMember="Seq" Name="UCL" ValueDataMembersSerializable="UCL">
+                    <ViewSerializable>
+                        <cc1:LineSeriesView Color="0, 32, 96" MarkerVisibility="False">
+                            <LineStyle DashStyle="DashDot" Thickness="2" />
+                            <LineMarkerOptions Size="1">
+                            </LineMarkerOptions>
+                        </cc1:LineSeriesView>
+                    </ViewSerializable>
+                </cc1:Series>
+                <cc1:Series ArgumentDataMember="Seq" Name="USL" ValueDataMembersSerializable="USL">
+                    <ViewSerializable>
+                        <cc1:LineSeriesView Color="240, 0, 0" MarkerVisibility="False">
+                            <LineStyle Thickness="2" />
+                            <LineMarkerOptions Size="1">
+                            </LineMarkerOptions>
+                        </cc1:LineSeriesView>
+                    </ViewSerializable>
+                </cc1:Series>
+                <cc1:Series ArgumentDataMember="Seq" Name="LSL" ValueDataMembersSerializable="LSL">
+                    <ViewSerializable>
+                        <cc1:LineSeriesView Color="240, 0, 0" MarkerVisibility="False">
+                            <LineStyle Thickness="2" />
+                            <LineMarkerOptions Size="1">
+                            </LineMarkerOptions>
+                        </cc1:LineSeriesView>
+                    </ViewSerializable>
+                </cc1:Series>
+
+            </SeriesSerializable>
+            <DiagramSerializable>
+                <cc1:XYDiagram>
+                    <AxisX VisibleInPanesSerializable="-1" MinorCount="1">
+                        <Label Alignment="Center">
+                            <ResolveOverlappingOptions AllowHide="False" />
+                        </Label>
+                        <WholeRange AutoSideMargins="False" EndSideMargin="-0.5" StartSideMargin="-0.5" />
+                        <GridLines MinorVisible="True">
+                        </GridLines>
+                        <NumericScaleOptions AutoGrid="False" />
+                    </AxisX>
+                    <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
+                        <Tickmarks MinorVisible="False" />
+                        <Label TextPattern="{V:0.000}" Font="Tahoma, 7pt">
+                            <ResolveOverlappingOptions AllowHide="True" />
+                        </Label>
+                        <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.015" MaxValueSerializable="2.715" MinValueSerializable="2.645" StartSideMargin="0.025" />
+                        <WholeRange AlwaysShowZeroLevel="False" Auto="False" AutoSideMargins="False" EndSideMargin="0.015" MaxValueSerializable="2.73" MinValueSerializable="2.62" StartSideMargin="0.025" />
+                        <GridLines>
+                            <LineStyle DashStyle="Dot" />
+                        </GridLines>
+                        <NumericScaleOptions AutoGrid="False" CustomGridAlignment="0.005" GridAlignment="Custom" />
+                    </AxisY>
+                </cc1:XYDiagram>
+            </DiagramSerializable>
+            <Titles>
+                <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Graph Monitoring" />
+            </Titles>
+            <Legend AlignmentHorizontal="Left" AlignmentVertical="BottomOutside"
+                Direction="LeftToRight"></Legend>
+        </dx:WebChartControl>
+        </div>
     </div>
     <div style="padding: 5px 5px 5px 5px;">
         <div id="chartRdiv">
-    <dx:WebChartControl ID="chartR" runat="server" ClientInstanceName="chartR"
-        Height="450px" Width="1080px" CrosshairEnabled="True" ClientSideEvents-Init="InitRBar">
-        <SeriesSerializable>
-            <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue">
-                <ViewSerializable>
-                    <cc1:LineSeriesView>
-                    </cc1:LineSeriesView>
-                </ViewSerializable>
-            </cc1:Series>
-        </SeriesSerializable>
-        <seriestemplate ValueDataMembersSerializable="Value">            
-            <viewserializable>
-                <cc1:LineSeriesView>
-                    <LineMarkerOptions BorderColor="White" Size="8">
-                    </LineMarkerOptions>
-                </cc1:LineSeriesView>
-            </viewserializable>
-        </seriestemplate>  
-        <DiagramSerializable>
-            <cc1:XYDiagram>
-                <AxisX VisibleInPanesSerializable="-1" MinorCount="1">
-                    <GridLines MinorVisible="True">
-                    </GridLines>
-                </AxisX>
-                <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
-                    <Tickmarks MinorLength="1" MinorVisible="False" />
-                    <Label TextAlignment="Near" TextPattern="{V:0.000}">
-                        <ResolveOverlappingOptions AllowHide="True" />
-                    </Label>
-                    <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.001" MaxValueSerializable="0.027" MinValueSerializable="0" StartSideMargin="0" />
-                    <WholeRange Auto="False" MaxValueSerializable="0.027" MinValueSerializable="0" AutoSideMargins="False" EndSideMargin="1" StartSideMargin="1" />
-                    <GridLines>
-                        <LineStyle DashStyle="Dot" />
-                    </GridLines>
-                    <NumericScaleOptions AutoGrid="False" CustomGridAlignment="0.001" GridAlignment="Custom" GridOffset="1" />
-                </AxisY>
-            </cc1:XYDiagram>
-        </DiagramSerializable>
-        <titles>
-            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="R Control Chart" />
-        </titles>
-        <legend alignmenthorizontal="Left" alignmentvertical="BottomOutside" 
-            direction="LeftToRight"></legend> 
-        <ClientSideEvents EndCallback="ChartREndCallBack" />
-    </dx:WebChartControl>
-</div>
+            <dx:WebChartControl ID="chartR" runat="server" ClientInstanceName="chartR"
+                Height="450px" Width="1080px" CrosshairEnabled="True">
+                <SeriesSerializable>
+                    <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue">
+                        <ViewSerializable>
+                            <cc1:LineSeriesView>
+                            </cc1:LineSeriesView>
+                        </ViewSerializable>
+                    </cc1:Series>
+                </SeriesSerializable>
+                <SeriesTemplate ValueDataMembersSerializable="Value">
+                    <ViewSerializable>
+                        <cc1:LineSeriesView>
+                            <LineMarkerOptions BorderColor="White" Size="8">
+                            </LineMarkerOptions>
+                        </cc1:LineSeriesView>
+                    </ViewSerializable>
+                </SeriesTemplate>
+                <DiagramSerializable>
+                    <cc1:XYDiagram>
+                        <AxisX VisibleInPanesSerializable="-1" MinorCount="1">
+                            <GridLines MinorVisible="True">
+                            </GridLines>
+                        </AxisX>
+                        <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
+                            <Tickmarks MinorLength="1" MinorVisible="False" />
+                            <Label TextAlignment="Near" TextPattern="{V:0.000}">
+                                <ResolveOverlappingOptions AllowHide="True" />
+                            </Label>
+                            <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.001" MaxValueSerializable="0.027" MinValueSerializable="0" StartSideMargin="0" />
+                            <WholeRange Auto="False" MaxValueSerializable="0.027" MinValueSerializable="0" AutoSideMargins="False" EndSideMargin="1" StartSideMargin="1" />
+                            <GridLines>
+                                <LineStyle DashStyle="Dot" />
+                            </GridLines>
+                            <NumericScaleOptions AutoGrid="False" CustomGridAlignment="0.001" GridAlignment="Custom" GridOffset="1" />
+                        </AxisY>
+                    </cc1:XYDiagram>
+                </DiagramSerializable>
+                <Titles>
+                    <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="R Control Chart" />
+                </Titles>
+                <Legend AlignmentHorizontal="Left" AlignmentVertical="BottomOutside"
+                    Direction="LeftToRight"></Legend>
+                <ClientSideEvents EndCallback="ChartREndCallBack" />
+            </dx:WebChartControl>
+        </div>
     </div>
     <div style="height: 26px; padding-bottom: 5px; padding-left: 450px; padding-top: 20px">
         <dx:ASPxLabel ID="lblGridActivity" runat="server" Text="ACTIVITY MONITORING"
@@ -1161,7 +1271,7 @@
         </dx:ASPxGridView>
     </div>
 
-<%--    <dx:ASPxCallback ID="cbkIOTconn" runat="server" ClientInstanceName="cbkIOTconn">
+    <%--    <dx:ASPxCallback ID="cbkIOTconn" runat="server" ClientInstanceName="cbkIOTconn">
         <ClientSideEvents EndCallback="IOTconn" />
     </dx:ASPxCallback>--%>
 
