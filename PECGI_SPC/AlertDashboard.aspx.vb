@@ -572,6 +572,88 @@ Public Class AlertDashboard
         End Try
 
     End Sub
+    Protected Sub GridNG_CustomButtonCallback(ByVal sender As Object, ByVal e As ASPxGridViewCustomButtonCallbackEventArgs) Handles GridNG.CustomButtonCallback
+
+        Try
+
+            Dim CountSendEmail As Integer
+            Dim CheckAvailableData As DataTable
+
+            Dim FactoryCode = cboFactory.Value
+            Dim ItemTypeName = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemTypeName")
+            'Dim ItemTypeCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemTypeCode")
+            Dim LineCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "LineCode")
+            Dim ItemCheck = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemCheck")
+            Dim LinkDate = GridDelayVerif.GetRowValues(e.VisibleIndex, "LinkDate")
+            Dim ShiftCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "ShiftCode")
+            Dim SequenceNo = GridDelayVerif.GetRowValues(e.VisibleIndex, "SequenceNo")
+            ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
+
+            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
+
+            CheckAvailableData = clsSPCAlertDashboardDB.CheckDataSendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
+
+            If CheckAvailableData.Rows.Count <= 0 Then
+
+                CountSendEmail = clsSPCAlertDashboardDB.SendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
+
+                'If CountSendEmail > 1 Then
+                '    show_error(MsgTypeEnum.Success, "Send Email Success !", 1)
+                'Else
+                '    show_error(MsgTypeEnum.ErrorMsg, "Send Email Failed !", 1)
+                'End If
+
+            Else
+                show_error(MsgTypeEnum.ErrorMsg, "Data Already Sended ", 1)
+                Return
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
+    End Sub
+    Protected Sub Grid_CustomButtonCallback(ByVal sender As Object, ByVal e As ASPxGridViewCustomButtonCallbackEventArgs) Handles Grid.CustomButtonCallback
+
+        Try
+
+            Dim CountSendEmail As Integer
+            Dim CheckAvailableData As DataTable
+
+            Dim FactoryCode = cboFactory.Value
+            Dim ItemTypeName = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemTypeName")
+            'Dim ItemTypeCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemTypeCode")
+            Dim LineCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "LineCode")
+            Dim ItemCheck = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemCheck")
+            Dim LinkDate = GridDelayVerif.GetRowValues(e.VisibleIndex, "LinkDate")
+            Dim ShiftCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "ShiftCode")
+            Dim SequenceNo = GridDelayVerif.GetRowValues(e.VisibleIndex, "SequenceNo")
+            ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
+
+            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
+
+            CheckAvailableData = clsSPCAlertDashboardDB.CheckDataSendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
+
+            If CheckAvailableData.Rows.Count <= 0 Then
+
+                CountSendEmail = clsSPCAlertDashboardDB.SendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
+
+                'If CountSendEmail > 1 Then
+                '    show_error(MsgTypeEnum.Success, "Send Email Success !", 1)
+                'Else
+                '    show_error(MsgTypeEnum.ErrorMsg, "Send Email Failed !", 1)
+                'End If
+
+            Else
+                show_error(MsgTypeEnum.ErrorMsg, "Data Already Sended ", 1)
+                Return
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
+    End Sub
     Private Sub GridDelayVerif_CustomCallback(sender As Object, e As ASPxGridViewCustomCallbackEventArgs) Handles GridDelayVerif.CustomCallback
         Try
             Dim pAction As String = Split(e.Parameters, "|")(0)

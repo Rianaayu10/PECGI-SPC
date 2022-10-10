@@ -606,19 +606,33 @@
                         <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataTextColumn>
 
-                    <dx:GridViewDataTextColumn Caption="Alert" VisibleIndex="16" Width="80px" Settings-AutoFilterCondition="Contains">
-                        <HeaderStyle Paddings-PaddingLeft="3px" HorizontalAlign="Center" 
-                            VerticalAlign="Middle" >
-                            <Paddings PaddingLeft="3px"></Paddings>
-                        </HeaderStyle>
-                        <DataItemTemplate>
-                            <center>
-                                <a href="https://www.google.com" >
-                                    <label> Send Email</label>
-                                </a>
-                            </center>
-                        </DataItemTemplate>
-                    </dx:GridViewDataTextColumn>
+                    <dx:GridViewCommandColumn 
+                            VisibleIndex="16" ShowClearFilterButton="true" Width="80px">
+                            <HeaderStyle Paddings-PaddingLeft="3px" HorizontalAlign="Center" 
+                                VerticalAlign="Middle" >
+                                <Paddings PaddingLeft="3px"></Paddings>
+                            </HeaderStyle>
+                            <CustomButtons>
+                                <dx:GridViewCommandColumnCustomButton ID="SendEmailNG" Text="Send Email">
+                                    <%--<Image ToolTip="Clone Record" Url="Images/clone.png" />--%>
+                                </dx:GridViewCommandColumnCustomButton>
+                            </CustomButtons>
+                        </dx:GridViewCommandColumn>
+
+                    <dx:GridViewDataTextColumn Caption="LinkDate" FieldName="LinkDate"
+                            VisibleIndex="17" Width="0px" Settings-AutoFilterCondition="Contains">
+                            <PropertiesTextEdit MaxLength="25" Width="0px">
+                                <Style HorizontalAlign="Left"></Style>
+                            </PropertiesTextEdit>
+                            <Settings AutoFilterCondition="Contains"></Settings>
+                            <FilterCellStyle Paddings-PaddingRight="0px">
+                            <Paddings PaddingRight="0px"></Paddings>
+                            </FilterCellStyle>
+                            <HeaderStyle Paddings-PaddingLeft="0px" HorizontalAlign="Center" VerticalAlign="Middle">
+                            <Paddings PaddingLeft="0px"></Paddings>
+                            </HeaderStyle>
+                            <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"></CellStyle>
+                        </dx:GridViewDataTextColumn>
                                 
                 </Columns>
 
@@ -898,34 +912,33 @@
                         <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataTextColumn>
 
-                    <%--<dx:GridViewDataTextColumn Caption="Alert" FieldName=""
-                        VisibleIndex="9" Width="100px" Settings-AutoFilterCondition="Contains">
-                        <PropertiesTextEdit MaxLength="25" Width="100px">
-                            <Style HorizontalAlign="Left"></Style>
-                        </PropertiesTextEdit>
-                        <Settings AutoFilterCondition="Contains"></Settings>
-                        <FilterCellStyle Paddings-PaddingRight="4px">
-                        <Paddings PaddingRight="4px"></Paddings>
-                        </FilterCellStyle>
-                        <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
-                        <Paddings PaddingLeft="5px"></Paddings>
-                        </HeaderStyle>
-                        <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
-                    </dx:GridViewDataTextColumn>--%>
-                
-                    <dx:GridViewDataTextColumn Caption="Alert" VisibleIndex="9" Width="80px" Settings-AutoFilterCondition="Contains">
-                        <HeaderStyle Paddings-PaddingLeft="3px" HorizontalAlign="Center" 
-                            VerticalAlign="Middle" >
-                            <Paddings PaddingLeft="3px"></Paddings>
-                        </HeaderStyle>
-                        <DataItemTemplate>
-                            <center>
-                                <a href="https://www.google.com" >
-                                    <label> Send Email</label>
-                                </a>
-                            </center>
-                        </DataItemTemplate>
-                    </dx:GridViewDataTextColumn>
+                    <dx:GridViewCommandColumn 
+                            VisibleIndex="9" ShowClearFilterButton="true" Width="80px">
+                            <HeaderStyle Paddings-PaddingLeft="3px" HorizontalAlign="Center" 
+                                VerticalAlign="Middle" >
+                                <Paddings PaddingLeft="3px"></Paddings>
+                            </HeaderStyle>
+                            <CustomButtons>
+                                <dx:GridViewCommandColumnCustomButton ID="SendEmailDelayInput" Text="Send Email">
+                                    <%--<Image ToolTip="Clone Record" Url="Images/clone.png" />--%>
+                                </dx:GridViewCommandColumnCustomButton>
+                            </CustomButtons>
+                        </dx:GridViewCommandColumn>
+
+                    <dx:GridViewDataTextColumn Caption="LinkDate" FieldName="LinkDate"
+                            VisibleIndex="10" Width="0px" Settings-AutoFilterCondition="Contains">
+                            <PropertiesTextEdit MaxLength="25" Width="0px">
+                                <Style HorizontalAlign="Left"></Style>
+                            </PropertiesTextEdit>
+                            <Settings AutoFilterCondition="Contains"></Settings>
+                            <FilterCellStyle Paddings-PaddingRight="0px">
+                            <Paddings PaddingRight="0px"></Paddings>
+                            </FilterCellStyle>
+                            <HeaderStyle Paddings-PaddingLeft="0px" HorizontalAlign="Center" VerticalAlign="Middle">
+                            <Paddings PaddingLeft="0px"></Paddings>
+                            </HeaderStyle>
+                            <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"></CellStyle>
+                        </dx:GridViewDataTextColumn>
                                 
                 </Columns>
 
@@ -1310,32 +1323,20 @@
                             <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
                         </dx:GridViewDataTextColumn>
 
-                        <%--<dx:GridViewDataTextColumn Caption="Alert" VisibleIndex="16" Width="80px" Settings-AutoFilterCondition="Contains">
+                        <dx:GridViewCommandColumn 
+                            VisibleIndex="16" ShowClearFilterButton="true" Width="80px">
                             <HeaderStyle Paddings-PaddingLeft="3px" HorizontalAlign="Center" 
                                 VerticalAlign="Middle" >
                                 <Paddings PaddingLeft="3px"></Paddings>
                             </HeaderStyle>
-                            <DataItemTemplate>
-                                <center>
-                                    <asp:LinkButton runat="server" ID="btnSendEmail" OnClick="btnSendEmail_Click" Text="Send Email">
-                                    </asp:LinkButton>
-                                </center>
-                            </DataItemTemplate>
-                        </dx:GridViewDataTextColumn>--%>
-                    <dx:GridViewCommandColumn 
-                        VisibleIndex="16" ShowClearFilterButton="true" Width="80px">
-                        <HeaderStyle Paddings-PaddingLeft="3px" HorizontalAlign="Center" 
-                            VerticalAlign="Middle" >
-                            <Paddings PaddingLeft="3px"></Paddings>
-                        </HeaderStyle>
-                        <CustomButtons>
-                            <dx:GridViewCommandColumnCustomButton ID="SendEmail" Text="Send Email">
-                                <%--<Image ToolTip="Clone Record" Url="Images/clone.png" />--%>
-                            </dx:GridViewCommandColumnCustomButton>
-                        </CustomButtons>
-                    </dx:GridViewCommandColumn>
+                            <CustomButtons>
+                                <dx:GridViewCommandColumnCustomButton ID="SendEmail" Text="Send Email">
+                                    <%--<Image ToolTip="Clone Record" Url="Images/clone.png" />--%>
+                                </dx:GridViewCommandColumnCustomButton>
+                            </CustomButtons>
+                        </dx:GridViewCommandColumn>
 
-                    <dx:GridViewDataTextColumn Caption="LinkDate" FieldName="LinkDate"
+                        <dx:GridViewDataTextColumn Caption="LinkDate" FieldName="LinkDate"
                             VisibleIndex="17" Width="0px" Settings-AutoFilterCondition="Contains">
                             <PropertiesTextEdit MaxLength="25" Width="0px">
                                 <Style HorizontalAlign="Left"></Style>
