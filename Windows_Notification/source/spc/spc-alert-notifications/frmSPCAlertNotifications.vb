@@ -175,7 +175,7 @@ Public Class frmSPCAlertNotifications
                 currentDelayInput = dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("UpdateTime")
                 currentDelayVerification = dtDelayVerification.Rows(dtDelayVerification.Rows.Count - 1)("UpdateDate")
 
-                If CDate(currentNGLastUpdate) > CDate(NGInputLastUpdate) AndAlso CDate(currentDelayInput) > CDate(DelayInputLastUpdate) AndAlso CDate(currentDelayVerification) > CDate(DelayVerificationLastUpdate) Then
+                If CDate(currentNGLastUpdate) > CDate(NGInputLastUpdate) OrElse CDate(currentDelayInput) > CDate(DelayInputLastUpdate) OrElse CDate(currentDelayVerification) > CDate(DelayVerificationLastUpdate) Then
                     'Dim drNG As DataRow() = dtNG.Select("UpdateDate > '" & CDate(NGInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
                     Dim drRemoved As DataRow() = dtNG.Select("UpdateDate <= '" & CDate(NGInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
                     For i = 0 To drRemoved.Length - 1
@@ -207,8 +207,9 @@ Public Class frmSPCAlertNotifications
                     AddHandler NotifyIcon1.Click, AddressOf Me.NotifyShowing_Click
                     AddHandler NotifyIcon1.BalloonTipClicked, AddressOf Me.NotifyIcon1_Click
                 End If
-
-
+                NGInputLastUpdate = dtNG.Rows(dtNG.Rows.Count - 1)("UpdateDate")
+                DelayInputLastUpdate = dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("UpdateTime")
+                DelayVerificationLastUpdate = dtDelayVerification.Rows(dtDelayVerification.Rows.Count - 1)("UpdateDate")
             End If
             ProcessRunning = False
         End If
