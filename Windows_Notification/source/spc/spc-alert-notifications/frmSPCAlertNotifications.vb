@@ -39,14 +39,17 @@ Public Class frmSPCAlertNotifications
     Dim DelayVerificationRowsCount As Integer = 0
     'Dim processRunning As Booleann = False
 
-    Dim NGInputRowsDate As DateTime
-    Dim DelayInputRowsDate As DateTime
-    Dim DelayVerificationRowsDate As DateTime
+    Dim NGInputLastUpdate As String
+    Dim DelayInputLastUpdate As String
+    Dim DelayVerificationLastUpdate As String
+
+    Dim currentNGLastUpdate As String
+    Dim currentDelayInput As String
+    Dim currentDelayVerification As String
 
     Private Sub frmSPCAlertNotifications_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-        Timer1.Enabled = True
-        Timer1.Start()
+        'Timer1.Enabled = True
+        'Timer1.Start()
     End Sub
 #End Region
 
@@ -73,11 +76,7 @@ Public Class frmSPCAlertNotifications
     End Sub
 
     Private Sub frmSPCAlertNotifications_Move(sender As Object, e As EventArgs) Handles MyBase.Move
-        'If WindowState = FormWindowState.Minimized Then
         Me.Hide()
-        'NotifyIcon1.ShowBalloonTip(500, "SPC Alert Notification", "Alert notification is running...", ToolTipIcon.Info)
-        Threading.Thread.Sleep(1000)
-        'End If
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
@@ -141,43 +140,106 @@ Public Class frmSPCAlertNotifications
     End Sub
 
     Private Sub up_GetData()
-        'ProcessRunning = True
-
-
-        'Dim ds As New DataSet
-        dtNG = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "NG")
-        dtDelayInput = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "DelayInput")
-        dtDelayVerification = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "DelayVerification")
-        factory = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "Factory").Rows(0)("Factory")
-        If NGInputRowsCount = 0 Then
-            NGInputRowsCount += dtNG.Rows.Count
-        End If
-        If DelayInputRowsCount = 0 Then
-            DelayInputRowsCount += dtDelayInput.Rows.Count
-        End If
-        If DelayVerificationRowsCount = 0 Then
-            DelayVerificationRowsCount += dtDelayInput.Rows.Count
-        End If
-
         If ProcessRunning = False Then
-            Dim header, body, link As String
-            'Dim strDate As String = dtNG.Rows(i)("Date")
-            header = "ALERT Notification"
-            body = "There is notification info : " & vbCrLf &
+            dtNG = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "NG")
+            dtDelayInput = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "DelayInput")
+            dtDelayVerification = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "DelayVerification")
+            factory = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "Factory").Rows(0)("Factory")
+
+
+            If NGInputLastUpdate = "" And DelayInputLastUpdate = "" And DelayVerificationLastUpdate = "" Then
+                NGInputRowsCount = dtNG.Rows.Count
+                DelayInputRowsCount = dtDelayInput.Rows.Count
+                DelayVerificationRowsCount = dtDelayVerification.Rows.Count
+
+                NGInputLastUpdate = dtNG.Rows(dtNG.Rows.Count - 1)("UpdateDate")
+                DelayInputLastUpdate = dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("UpdateTime")
+                DelayVerificationLastUpdate = dtDelayVerification.Rows(dtDelayVerification.Rows.Count - 1)("UpdateDate")
+
+                Dim header, body, link As String
+                'Dim strDate As String = dtNG.Rows(i)("Date")
+                header = "ALERT Notification"
+                body = "There is notification info : " & vbCrLf &
                    "NG Input Notification(" & NGInputRowsCount & ") " & vbCrLf &
                    "Delay Input Notification(" & DelayInputRowsCount & ") " & vbCrLf &
                    "Delay Verification Notification(" & DelayVerificationRowsCount & ") "
-            link = pLink '+ dtNG.Rows(i)("Link")
-            'ShowNotification(header, body, "NG", link)
+                link = pLink '+ dtNG.Rows(i)("Link")
+                'ShowNotification(header, body, "NG", link)
 
-            NotifyIcon1.ShowBalloonTip(500, "Inbox notification", body, ToolTipIcon.Info)
-            AddHandler NotifyIcon1.Click, AddressOf Me.NotifyShowing_Click
-            AddHandler NotifyIcon1.BalloonTipClicked, AddressOf Me.NotifyIcon1_Click
+                NotifyIcon1.ShowBalloonTip(500, "Inbox notification", body, ToolTipIcon.Info)
+                AddHandler NotifyIcon1.Click, AddressOf Me.NotifyShowing_Click
+                AddHandler NotifyIcon1.BalloonTipClicked, AddressOf Me.NotifyIcon1_Click
 
-            'NGInputRowsCount = 1
-            ProcessRunning = True
+            Else
+                currentNGLastUpdate = dtNG.Rows(dtNG.Rows.Count - 1)("UpdateDate")
+                currentDelayInput = dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("UpdateTime")
+                currentDelayVerification = dtDelayVerification.Rows(dtDelayVerification.Rows.Count - 1)("UpdateDate")
+
+                If CDate(currentNGLastUpdate) > CDate(NGInputLastUpdate) AndAlso CDate(currentDelayInput) > CDate(DelayInputLastUpdate) AndAlso CDate(currentDelayVerification) > CDate(DelayVerificationLastUpdate) Then
+                    'Dim drNG As DataRow() = dtNG.Select("UpdateDate > '" & CDate(NGInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
+                    Dim drRemoved As DataRow() = dtNG.Select("UpdateDate <= '" & CDate(NGInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
+                    For i = 0 To drRemoved.Length - 1
+                        dtNG.Rows.Remove(drRemoved(i))
+                    Next
+                    Dim drRemoved1 As DataRow() = dtDelayInput.Select("UpdateTime <= '" & CDate(DelayInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
+                    For i = 0 To drRemoved1.Length - 1
+                        dtDelayInput.Rows.Remove(drRemoved1(i))
+                    Next
+                    Dim drRemoved2 As DataRow() = dtDelayVerification.Select("UpdateDate <= '" & CDate(DelayVerificationLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
+                    For i = 0 To drRemoved2.Length - 1
+                        dtDelayVerification.Rows.Remove(drRemoved2(i))
+                    Next
+                    NGInputRowsCount = dtNG.Rows.Count
+                    DelayInputRowsCount = dtDelayInput.Rows.Count
+                    DelayVerificationRowsCount = dtDelayVerification.Rows.Count
+
+                    Dim header, body, link As String
+                    'Dim strDate As String = dtNG.Rows(i)("Date")
+                    header = "ALERT Notification"
+                    body = "There is notification info : " & vbCrLf &
+                       "NG Input Notification(" & NGInputRowsCount & ") " & vbCrLf &
+                       "Delay Input Notification(" & DelayInputRowsCount & ") " & vbCrLf &
+                       "Delay Verification Notification(" & DelayVerificationRowsCount & ") "
+                    link = pLink '+ dtNG.Rows(i)("Link")
+                    'ShowNotification(header, body, "NG", link)
+
+                    NotifyIcon1.ShowBalloonTip(500, "Inbox notification", body, ToolTipIcon.Info)
+                    AddHandler NotifyIcon1.Click, AddressOf Me.NotifyShowing_Click
+                    AddHandler NotifyIcon1.BalloonTipClicked, AddressOf Me.NotifyIcon1_Click
+                End If
+
+
+            End If
+            ProcessRunning = False
         End If
         Exit Sub
+
+
+
+
+
+
+
+
+        'If ProcessRunning = False Then
+        '    Dim header, body, link As String
+        '    'Dim strDate As String = dtNG.Rows(i)("Date")
+        '    header = "ALERT Notification"
+        '    body = "There is notification info : " & vbCrLf &
+        '           "NG Input Notification(" & NGInputRowsCount & ") " & vbCrLf &
+        '           "Delay Input Notification(" & DelayInputRowsCount & ") " & vbCrLf &
+        '           "Delay Verification Notification(" & DelayVerificationRowsCount & ") "
+        '    link = pLink '+ dtNG.Rows(i)("Link")
+        '    'ShowNotification(header, body, "NG", link)
+
+        '    NotifyIcon1.ShowBalloonTip(500, "Inbox notification", body, ToolTipIcon.Info)
+        '    AddHandler NotifyIcon1.Click, AddressOf Me.NotifyShowing_Click
+        '    AddHandler NotifyIcon1.BalloonTipClicked, AddressOf Me.NotifyIcon1_Click
+
+        '    'NGInputRowsCount = 1
+        '    ProcessRunning = True
+        'End If
+        'Exit Sub
 
         'If dtNG.Rows.Count > 0 Then
         '    If NGInputRowsCount > dtNG.Rows.Count Then

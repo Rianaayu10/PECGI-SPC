@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="bin\Debug\net5.0-windows\config.xml" />
+    <Content Include="bin\Debug\net5.0-windows\ref\C1.Win.C1FlexGrid.4.xml" />
+    <Content Include="bin\Debug\net5.0-windows\ref\C1.Win.C1List.4.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Import Include="System.Data" />
     <Import Include="System.Drawing" />
     <Import Include="System.Windows.Forms" />
@@ -62,6 +68,12 @@
 
   <ItemGroup>
     <Folder Include="Resources\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net5.0-windows\ref\C1.Win.C1FlexGrid.4.dll" />
+    <None Include="bin\Debug\net5.0-windows\ref\C1.Win.C1List.4.dll" />
+    <None Include="bin\Debug\net5.0-windows\ref\Tulpep.NotificationWindow.dll" />
   </ItemGroup>
 
 </Project>
