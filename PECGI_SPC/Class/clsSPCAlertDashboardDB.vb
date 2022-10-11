@@ -288,7 +288,7 @@ Public Class clsSPCAlertDashboardDB
             Return Nothing
         End Try
     End Function
-    Public Shared Function SendEmail(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, LinkDate As String, ShiftCode As String, SequenceNo As String, Optional ByRef pErr As String = "") As Integer
+    Public Shared Function SendEmail(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, LinkDate As String, ShiftCode As String, SequenceNo As String, NotificationCategory As String, Optional ByRef pErr As String = "") As Integer
         Try
             Using Cn As New SqlConnection(Sconn.Stringkoneksi)
                 Cn.Open()
@@ -304,6 +304,7 @@ Public Class clsSPCAlertDashboardDB
                 cmd.Parameters.AddWithValue("ProdDate", LinkDate)
                 cmd.Parameters.AddWithValue("ShiftCode", ShiftCode)
                 cmd.Parameters.AddWithValue("SequenceNo", SequenceNo)
+                cmd.Parameters.AddWithValue("NotificationCategory", NotificationCategory)
                 cmd.Parameters.AddWithValue("LastUser", "spc")
                 Dim i As Integer = cmd.ExecuteNonQuery
                 Return i

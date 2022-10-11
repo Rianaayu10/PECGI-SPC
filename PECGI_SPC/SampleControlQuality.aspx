@@ -507,7 +507,7 @@
 
 <div style="width:100%; overflow-x: auto; border:1px solid black">
 <dx:WebChartControl ID="chartX" runat="server" ClientInstanceName="chartX"
-        Height="434px" Width="400px" CrosshairEnabled="True" SeriesDataMember="Description">
+        Height="434px" Width="400px" CrosshairEnabled="True" SeriesDataMember="Description" ToolTipEnabled="False">
         <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value">
             <viewserializable>
                 <cc1:PointSeriesView>                    
@@ -516,13 +516,13 @@
             </viewserializable>
         </seriestemplate>    
         <SeriesSerializable>
-            <cc1:Series ArgumentDataMember="Seq" Name="Rule" ValueDataMembersSerializable="RuleValue" LabelsVisibility="False" ShowInLegend="False">
+            <cc1:Series ArgumentDataMember="Seq" Name="Rule" ValueDataMembersSerializable="RuleValue" LabelsVisibility="False" ShowInLegend="False" CrosshairEnabled="False">
                 <ViewSerializable>
                     <cc1:FullStackedBarSeriesView BarWidth="1" Color="Red" Transparency="200" AxisYName="Secondary AxisY 1">
                     </cc1:FullStackedBarSeriesView>
                 </ViewSerializable>
             </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="RuleYellow" ValueDataMembersSerializable="RuleYellow" LabelsVisibility="False" ShowInLegend="False">
+            <cc1:Series ArgumentDataMember="Seq" Name="RuleYellow" ValueDataMembersSerializable="RuleYellow" LabelsVisibility="False" ShowInLegend="False" CrosshairEnabled="False">
                 <ViewSerializable>
                     <cc1:FullStackedBarSeriesView BarWidth="1" Color="Yellow" Transparency="200" AxisYName="Secondary AxisY 1">
                     </cc1:FullStackedBarSeriesView>
@@ -562,7 +562,7 @@
                     <NumericScaleOptions AutoGrid="False" CustomGridAlignment="0.005" GridAlignment="Custom" />
                 </AxisY>
                 <SecondaryAxesY>
-                    <cc1:SecondaryAxisY AxisID="0" Name="Secondary AxisY 1" Visibility="False" VisibleInPanesSerializable="-1">
+                    <cc1:SecondaryAxisY AxisID="0" Name="Secondary AxisY 1" Visibility="True" VisibleInPanesSerializable="-1">
                         <WholeRange AutoSideMargins="False" EndSideMargin="0" StartSideMargin="0" />
                     </cc1:SecondaryAxisY>
                 </SecondaryAxesY>

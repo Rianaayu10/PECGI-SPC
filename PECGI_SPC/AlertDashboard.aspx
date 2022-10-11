@@ -83,50 +83,67 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolderJavaScriptBody" runat="server">
     <script type="text/javascript">
         $(document).ready(function () {
-            var a = screen.height;
-            var b = screen.width;
+            //var a = screen.height;
+            //var b = screen.width;
 
-            if (a <= "768" && b <= "1366") {
-                gridHeight3(230);
-                gridHeight2(230);
-                gridHeight(230);
+            //if (a <= "768" && b <= "1366") {
+            //    gridHeight3(230);
+            //    gridHeight2(230);
+            //    gridHeight(230);
 
-                $("#fullscreen").click(function () {
-                    var fcval = $("#flscr").val();
-                    if (fcval == "0") { //toClickFullScreen
-                        gridHeight3(200);
-                        gridHeight2(200);
-                        gridHeight(200);
-                        $("#flscr").val("1");
-                    } else if (fcval == "1") { //toNormalFullScreen
-                        gridHeight3(340);
-                        gridHeight2(340);
-                        gridHeight(340);
-                        $("#flscr").val("0");
-                    }
-                })
-            }
-            else if (a <= "1080" && b <= "1920") {
-                gridHeight(540);
-                gridHeight2(540);
-                gridHeight3(540);
+            //    $("#fullscreen").click(function () {
+            //        var fcval = $("#flscr").val();
+            //        if (fcval == "0") { //toClickFullScreen
+            //            gridHeight3(200);
+            //            gridHeight2(200);
+            //            gridHeight(200);
+            //            $("#flscr").val("1");
+            //        } else if (fcval == "1") { //toNormalFullScreen
+            //            gridHeight3(340);
+            //            gridHeight2(340);
+            //            gridHeight(340);
+            //            $("#flscr").val("0");
+            //        }
+            //    })
+            //}
+            //else if (a <= "1080" && b <= "1920") {
+            //    gridHeight(540);
+            //    gridHeight2(540);
+            //    gridHeight3(540);
 
-                $("#fullscreen").click(function () {
-                    var fcval = $("#flscr").val();
-                    if (fcval == "0") { //toClickFullScreen
-                        gridHeight(500);
-                        gridHeight2(500);
-                        gridHeight3(500);
-                        $("#flscr").val("1");
-                    } else if (fcval == "1") { //toNormalFullScreen
-                        gridHeight(670);
-                        gridHeight2(670);
-                        gridHeight3(670);
-                        $("#flscr").val("0");
-                    }
-                })
-            }
-            
+            //    $("#fullscreen").click(function () {
+            //        var fcval = $("#flscr").val();
+            //        if (fcval == "0") { //toClickFullScreen
+            //            gridHeight(500);
+            //            gridHeight2(500);
+            //            gridHeight3(500);
+            //            $("#flscr").val("1");
+            //        } else if (fcval == "1") { //toNormalFullScreen
+            //            gridHeight(670);
+            //            gridHeight2(670);
+            //            gridHeight3(670);
+            //            $("#flscr").val("0");
+            //        }
+            //    })
+            //}
+            gridHeight(650);
+            gridHeight2(650);
+            gridHeight3(650);
+
+            $("#fullscreen").click(function () {
+                var fcval = $("#flscr").val();
+                if (fcval == "0") { //toClickFullScreen
+                    gridHeight(605);
+                    gridHeight2(605);
+                    gridHeight3(607);
+                    $("#flscr").val("1");
+                } else if (fcval == "1") { //toNormalFullScreen
+                    gridHeight(760);
+                    gridHeight2(760);
+                    gridHeight3(760);
+                    $("#flscr").val("0");
+                }
+            })
         });
 
         function gridHeight(pF) {
@@ -209,20 +226,20 @@
                     <table style="width: 100%; height: 50px">
                         <tr>
                             <td style="width: 10%;" align="left">
-                                <dx:ASPxLabel ID="ASPxLabel9" runat="server" Text="Date" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
+                                <dx:ASPxLabel ID="ASPxLabel9" runat="server" Text="" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
                             </td>
                             <td style="width: 10%;" align="left">
-                                <dx:ASPxLabel ID="ASPxLabel11" runat="server" Text=":" CssClass="text" />
+                                <dx:ASPxLabel ID="ASPxLabel11" runat="server" Text="Date :" CssClass="text" />
                                 &nbsp
                                 <dx:ASPxLabel ID="lblDateNow" ClientInstanceName="lblOK" runat="server" Text="" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
                             </td>
                         </tr>
                         <tr>
                             <td style="width: 10%;" align="left">
-                                <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="Time" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
+                                <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
                             </td>
                             <td style="width: 10%;" align="left">
-                                <dx:ASPxLabel ID="ASPxLabel2" runat="server" Text=":" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
+                                <dx:ASPxLabel ID="ASPxLabel2" runat="server" Text="Time :" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
                                 &nbsp
                                 <%--<dx:ASPxLabel ID="lblTimeNow" runat="server" Text="" CssClass="text" />--%>
                                 <label id="lblTimeNow"></label>
@@ -260,7 +277,7 @@
             
         <!-- Grid NG Input -->
 
-        <div style="padding: 20px 5px 5px 5px">
+        <div style="padding: 0px 5px 5px 5px">
         
             <div class="bg-color-grayDark" style="width: 100%;height: 25px">
                 <center>
@@ -278,9 +295,9 @@
                 <Columns>               
                     
                     <dx:GridViewDataTextColumn Caption="Action" FieldName="Edit"
-                        VisibleIndex="0" Width="100px" Settings-AutoFilterCondition="Contains" 
+                        VisibleIndex="0" Width="50px" Settings-AutoFilterCondition="Contains" 
                         FixedStyle="Left" >
-                        <PropertiesTextEdit MaxLength="15" Width="120px">
+                        <PropertiesTextEdit MaxLength="15" Width="50px">
                             <Style HorizontalAlign="Left"></Style>
                         </PropertiesTextEdit>
                         <Settings AllowAutoFilter="False" AllowFilterBySearchPanel="False" ShowInFilterControl="False" AllowHeaderFilter="False" />
@@ -413,9 +430,9 @@
                     </dx:GridViewDataTextColumn>
 
                     <dx:GridViewDataComboBoxColumn Caption="Shift" FieldName="ShiftCode" VisibleIndex="5"
-                        Width="60px" Settings-AutoFilterCondition="Contains">
+                        Width="50px" Settings-AutoFilterCondition="Contains">
                         <PropertiesComboBox DataSourceID="dsShiftCode" DropDownStyle="DropDownList" TextFormatString="{0}"
-                            IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="60px"
+                            IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="50px"
                             TextField="ShiftCode" ValueField="ShiftCode" ClientInstanceName="ShiftCode">
                             <ItemStyle Height="10px" Paddings-Padding="4px">
                                 <Paddings Padding="4px"></Paddings>
@@ -562,8 +579,8 @@
                     </dx:GridViewDataTextColumn>
 
                     <dx:GridViewDataTextColumn Caption="Operator" FieldName="Operator"
-                        VisibleIndex="13" Width="100px" Settings-AutoFilterCondition="Contains">
-                        <PropertiesTextEdit MaxLength="25" Width="100px">
+                        VisibleIndex="13" Width="70px" Settings-AutoFilterCondition="Contains">
+                        <PropertiesTextEdit MaxLength="25" Width="70px">
                             <Style HorizontalAlign="Left"></Style>
                         </PropertiesTextEdit>
                         <Settings AutoFilterCondition="Contains"></Settings>
@@ -577,8 +594,8 @@
                     </dx:GridViewDataTextColumn>
 
                     <dx:GridViewDataTextColumn Caption="MK" FieldName="MK"
-                        VisibleIndex="14" Width="100px" Settings-AutoFilterCondition="Contains">
-                        <PropertiesTextEdit MaxLength="25" Width="100px">
+                        VisibleIndex="14" Width="70px" Settings-AutoFilterCondition="Contains">
+                        <PropertiesTextEdit MaxLength="25" Width="70px">
                             <Style HorizontalAlign="Left"></Style>
                         </PropertiesTextEdit>
                         <Settings AutoFilterCondition="Contains"></Settings>
@@ -592,8 +609,8 @@
                     </dx:GridViewDataTextColumn>
 
                     <dx:GridViewDataTextColumn Caption="QC" FieldName="QC"
-                        VisibleIndex="15" Width="100px" Settings-AutoFilterCondition="Contains">
-                        <PropertiesTextEdit MaxLength="25" Width="100px">
+                        VisibleIndex="15" Width="70px" Settings-AutoFilterCondition="Contains">
+                        <PropertiesTextEdit MaxLength="25" Width="70px">
                             <Style HorizontalAlign="Left"></Style>
                         </PropertiesTextEdit>
                         <Settings AutoFilterCondition="Contains"></Settings>
@@ -620,7 +637,7 @@
                         </dx:GridViewCommandColumn>
 
                     <dx:GridViewDataTextColumn Caption="LinkDate" FieldName="LinkDate"
-                            VisibleIndex="17" Width="0px" Settings-AutoFilterCondition="Contains">
+                            VisibleIndex="17" Width="100px" Settings-AutoFilterCondition="Contains" Visible="false">
                             <PropertiesTextEdit MaxLength="25" Width="0px">
                                 <Style HorizontalAlign="Left"></Style>
                             </PropertiesTextEdit>
@@ -667,11 +684,9 @@
         
         <!-- Grid NG Input -->
         
-        <br /><br />
-
         <!-- Grid Delay Input -->
 
-        <div style="padding: 20px 5px 5px 5px">
+        <div style="padding: 10px 5px 5px 5px">
 
             <div class="bg-color-grayDark" style="width: 100%;height: 25px">
                 <center>
@@ -689,9 +704,9 @@
                 <Columns>
                     
                     <dx:GridViewDataTextColumn Caption="Action" FieldName="Edit"
-                        VisibleIndex="0" Width="100px" Settings-AutoFilterCondition="Contains" 
+                        VisibleIndex="0" Width="50px" Settings-AutoFilterCondition="Contains" 
                         FixedStyle="Left" >
-                        <PropertiesTextEdit MaxLength="15" Width="120px">
+                        <PropertiesTextEdit MaxLength="15" Width="50px">
                             <Style HorizontalAlign="Left"></Style>
                         </PropertiesTextEdit>
                         <Settings AllowAutoFilter="False" AllowFilterBySearchPanel="False" ShowInFilterControl="False" AllowHeaderFilter="False" />
@@ -868,8 +883,8 @@
                     </dx:GridViewDataComboBoxColumn>
 
                     <dx:GridViewDataTextColumn Caption="Schedule Start" FieldName="StartTime"
-                        VisibleIndex="7" Width="100px" Settings-AutoFilterCondition="Contains">
-                        <PropertiesTextEdit MaxLength="25" Width="100px">
+                        VisibleIndex="7" Width="120px" Settings-AutoFilterCondition="Contains">
+                        <PropertiesTextEdit MaxLength="25" Width="120px">
                             <Style HorizontalAlign="Left"></Style>
                         </PropertiesTextEdit>
                         <Settings AutoFilterCondition="Contains"></Settings>
@@ -926,8 +941,8 @@
                         </dx:GridViewCommandColumn>
 
                     <dx:GridViewDataTextColumn Caption="LinkDate" FieldName="LinkDate"
-                            VisibleIndex="10" Width="0px" Settings-AutoFilterCondition="Contains">
-                            <PropertiesTextEdit MaxLength="25" Width="0px">
+                            VisibleIndex="10" Width="100px" Settings-AutoFilterCondition="Contains" Visible="false">
+                            <PropertiesTextEdit MaxLength="25" Width="100px">
                                 <Style HorizontalAlign="Left"></Style>
                             </PropertiesTextEdit>
                             <Settings AutoFilterCondition="Contains"></Settings>
@@ -975,11 +990,9 @@
 
         <!-- End Grid Delay Input -->
         
-        <br /><br />
-
         <!-- Grid Delay Verification -->
 
-        <div style="padding: 20px 5px 5px 5px">
+        <div style="padding: 10px 5px 5px 5px">
 
             <div class="bg-color-grayDark" style="width: 100%;height: 25px">
                 <center>
@@ -995,9 +1008,9 @@
                 <Columns>               
                     
                         <dx:GridViewDataTextColumn Caption="Action" FieldName="Edit"
-                            VisibleIndex="0" Width="100px" Settings-AutoFilterCondition="Contains" 
+                            VisibleIndex="0" Width="50px" Settings-AutoFilterCondition="Contains" 
                             FixedStyle="Left" >
-                            <PropertiesTextEdit MaxLength="15" Width="120px">
+                            <PropertiesTextEdit MaxLength="15" Width="50px">
                                 <Style HorizontalAlign="Left"></Style>
                             </PropertiesTextEdit>
                             <Settings AllowAutoFilter="False" AllowFilterBySearchPanel="False" ShowInFilterControl="False" AllowHeaderFilter="False" />
@@ -1130,9 +1143,9 @@
                         </dx:GridViewDataTextColumn>
 
                         <dx:GridViewDataComboBoxColumn Caption="Shift" FieldName="ShiftCode" VisibleIndex="5"
-                            Width="60px" Settings-AutoFilterCondition="Contains">
+                            Width="50px" Settings-AutoFilterCondition="Contains">
                             <PropertiesComboBox DataSourceID="dsShiftCode" DropDownStyle="DropDownList" TextFormatString="{0}"
-                                IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="60px"
+                                IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="50px"
                                 TextField="ShiftCode" ValueField="ShiftCode" ClientInstanceName="ShiftCode">
                                 <ItemStyle Height="10px" Paddings-Padding="4px">
                                     <Paddings Padding="4px"></Paddings>
@@ -1174,8 +1187,8 @@
                         </dx:GridViewDataComboBoxColumn>
 
                         <dx:GridViewDataTextColumn Caption="USL" FieldName="USL"
-                            VisibleIndex="7" Width="100px" Settings-AutoFilterCondition="Contains">
-                            <PropertiesTextEdit MaxLength="25" Width="100px">
+                            VisibleIndex="7" Width="50px" Settings-AutoFilterCondition="Contains">
+                            <PropertiesTextEdit MaxLength="25" Width="50px">
                                 <Style HorizontalAlign="Left"></Style>
                             </PropertiesTextEdit>
                             <Settings AutoFilterCondition="Contains"></Settings>
@@ -1189,8 +1202,8 @@
                         </dx:GridViewDataTextColumn>
 
                         <dx:GridViewDataTextColumn Caption="LSL" FieldName="LSL"
-                            VisibleIndex="8" Width="100px" Settings-AutoFilterCondition="Contains">
-                            <PropertiesTextEdit MaxLength="25" Width="100px">
+                            VisibleIndex="8" Width="50px" Settings-AutoFilterCondition="Contains">
+                            <PropertiesTextEdit MaxLength="25" Width="50px">
                                 <Style HorizontalAlign="Left"></Style>
                             </PropertiesTextEdit>
                             <Settings AutoFilterCondition="Contains"></Settings>
@@ -1279,8 +1292,8 @@
                         </dx:GridViewDataTextColumn>
 
                         <dx:GridViewDataTextColumn Caption="Operator" FieldName="Operator"
-                            VisibleIndex="13" Width="100px" Settings-AutoFilterCondition="Contains">
-                            <PropertiesTextEdit MaxLength="25" Width="100px">
+                            VisibleIndex="13" Width="70px" Settings-AutoFilterCondition="Contains">
+                            <PropertiesTextEdit MaxLength="25" Width="70px">
                                 <Style HorizontalAlign="Left"></Style>
                             </PropertiesTextEdit>
                             <Settings AutoFilterCondition="Contains"></Settings>
@@ -1294,8 +1307,8 @@
                         </dx:GridViewDataTextColumn>
 
                         <dx:GridViewDataTextColumn Caption="MK" FieldName="MK"
-                            VisibleIndex="14" Width="100px" Settings-AutoFilterCondition="Contains">
-                            <PropertiesTextEdit MaxLength="25" Width="100px">
+                            VisibleIndex="14" Width="70px" Settings-AutoFilterCondition="Contains">
+                            <PropertiesTextEdit MaxLength="25" Width="70px">
                                 <Style HorizontalAlign="Left"></Style>
                             </PropertiesTextEdit>
                             <Settings AutoFilterCondition="Contains"></Settings>
@@ -1309,8 +1322,8 @@
                         </dx:GridViewDataTextColumn>
 
                         <dx:GridViewDataTextColumn Caption="QC" FieldName="QC"
-                            VisibleIndex="15" Width="100px" Settings-AutoFilterCondition="Contains">
-                            <PropertiesTextEdit MaxLength="25" Width="100px">
+                            VisibleIndex="15" Width="70px" Settings-AutoFilterCondition="Contains">
+                            <PropertiesTextEdit MaxLength="25" Width="70px">
                                 <Style HorizontalAlign="Left"></Style>
                             </PropertiesTextEdit>
                             <Settings AutoFilterCondition="Contains"></Settings>
@@ -1323,8 +1336,38 @@
                             <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
                         </dx:GridViewDataTextColumn>
 
+                        <dx:GridViewDataTextColumn Caption="Verif Time" FieldName="VerifTime"
+                            VisibleIndex="16" Width="100px" Settings-AutoFilterCondition="Contains">
+                            <PropertiesTextEdit MaxLength="25" Width="100px">
+                                <Style HorizontalAlign="Center"></Style>
+                            </PropertiesTextEdit>
+                            <Settings AutoFilterCondition="Contains"></Settings>
+                            <FilterCellStyle Paddings-PaddingRight="4px">
+                            <Paddings PaddingRight="4px"></Paddings>
+                            </FilterCellStyle>
+                            <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                            <Paddings PaddingLeft="5px"></Paddings>
+                            </HeaderStyle>
+                            <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"></CellStyle>
+                        </dx:GridViewDataTextColumn>
+
+                        <dx:GridViewDataTextColumn Caption="Delay Verif" FieldName="DelayVerif"
+                            VisibleIndex="17" Width="170px" Settings-AutoFilterCondition="Contains">
+                            <PropertiesTextEdit MaxLength="25" Width="170px">
+                                <Style HorizontalAlign="Right"></Style>
+                            </PropertiesTextEdit>
+                            <Settings AutoFilterCondition="Contains"></Settings>
+                            <FilterCellStyle Paddings-PaddingRight="4px">
+                            <Paddings PaddingRight="4px"></Paddings>
+                            </FilterCellStyle>
+                            <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                            <Paddings PaddingLeft="5px"></Paddings>
+                            </HeaderStyle>
+                            <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"></CellStyle>
+                        </dx:GridViewDataTextColumn>
+
                         <dx:GridViewCommandColumn 
-                            VisibleIndex="16" ShowClearFilterButton="true" Width="80px">
+                            VisibleIndex="18" ShowClearFilterButton="true" Width="80px">
                             <HeaderStyle Paddings-PaddingLeft="3px" HorizontalAlign="Center" 
                                 VerticalAlign="Middle" >
                                 <Paddings PaddingLeft="3px"></Paddings>
@@ -1337,7 +1380,7 @@
                         </dx:GridViewCommandColumn>
 
                         <dx:GridViewDataTextColumn Caption="LinkDate" FieldName="LinkDate"
-                            VisibleIndex="17" Width="0px" Settings-AutoFilterCondition="Contains">
+                            VisibleIndex="19" Width="100px" Settings-AutoFilterCondition="Contains" Visible="false">
                             <PropertiesTextEdit MaxLength="25" Width="0px">
                                 <Style HorizontalAlign="Left"></Style>
                             </PropertiesTextEdit>
@@ -1375,6 +1418,10 @@
                 </Styles>
             </dx:ASPxGridView>
 
+            <br />
+            <button disabled="disabled" style="background-color:yellow;width: 20px;height:10px"></button> <label> Delay < 60 Minutes</label>
+            <button disabled="disabled" style="background-color:red;width: 20px;height:10px"></button> <label> Delay > 60 Minutes</label>
+
         </div>
 
         <!-- End Grid Delay Verification -->
@@ -1392,6 +1439,7 @@
 
                 Grid.PerformCallback('Load');
                 GridNG.PerformCallback('Load');
+                GridDelayVerif.PerformCallback('Load');
             }, interval, (0));
 
             setTimer1 = setInterval(function () {
