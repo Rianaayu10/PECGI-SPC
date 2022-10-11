@@ -188,9 +188,9 @@
             }      
 
             if(s.cpMin != '') {
-                if (s.cpMin < s.cpLSL) {
+                if (s.cpMin < s.cpLSL | s.cpMin > s.cpUSL) {
                     document.getElementById('Min').style.backgroundColor = 'Red';
-                } else if (s.cpMin < s.cpLCL) {
+                } else if (s.cpMin < s.cpLCL | s.cpMin > s.cpUCL) {
                     document.getElementById('Min').style.backgroundColor = 'Pink';
                 } else {
                     document.getElementById('Min').style.backgroundColor = 'White';
@@ -198,9 +198,9 @@
             } else {
                 document.getElementById('Min').style.backgroundColor = 'White';
             }
-            if (s.cpMax > s.cpUSL) {
+            if (s.cpMax > s.cpUSL | s.cpMax < s.cpLSL) {
                 document.getElementById('Max').style.backgroundColor = 'Red';
-            } else if (s.cpMax > s.cpUCL) {
+            } else if (s.cpMax > s.cpUCL | s.cpMax < s.cpLCL) {
                 document.getElementById('Max').style.backgroundColor = 'Pink';
             } else {
                 document.getElementById('Max').style.backgroundColor = 'White';
@@ -837,6 +837,7 @@
             <cc1:Series ArgumentDataMember="Seq" Name="Rule" ValueDataMembersSerializable="RuleValue" LabelsVisibility="False" ShowInLegend="False" ToolTipEnabled="False" ToolTipSeriesPattern="">
                 <ViewSerializable>
                     <cc1:FullStackedBarSeriesView BarWidth="1" Color="Red" Transparency="200" AxisYName="Secondary AxisY 1">
+                        <Border Visibility="False" />
                     </cc1:FullStackedBarSeriesView>
                 </ViewSerializable>
             </cc1:Series>
@@ -849,8 +850,8 @@
             <cc1:Series ArgumentDataMember="Seq" Name="Average" ValueDataMembersSerializable="AvgValue">
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="Blue">
-                        <LineStyle Thickness="1" />
-                        <LineMarkerOptions Color="Blue" Size="1"></LineMarkerOptions>
+                        <LineStyle Thickness="2" />
+                        <LineMarkerOptions Color="Blue" Size="3"></LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>

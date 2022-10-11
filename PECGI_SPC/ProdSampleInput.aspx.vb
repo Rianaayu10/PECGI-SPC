@@ -221,7 +221,7 @@ Public Class ProdSampleInput
         Result.ProdDate = dtDate.Value
         Result.ShiftCode = cboShift.Value
         Result.SequenceNo = cboSeq.Value
-        Result.SubLotNo = 0
+        Result.SubLotNo = ""
         Result.Remark = ""
         Result.RegisterUser = Session("user") & ""
         clsSPCResultDB.Insert(Result)
@@ -1220,9 +1220,5 @@ Public Class ProdSampleInput
 
     Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
         DownloadExcel()
-    End Sub
-
-    Private Sub grid_StartRowEditing(sender As Object, e As ASPxStartRowEditingEventArgs) Handles grid.StartRowEditing
-
     End Sub
 End Class
