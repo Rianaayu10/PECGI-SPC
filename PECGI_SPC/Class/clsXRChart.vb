@@ -123,7 +123,7 @@ Public Class clsXRChartDB
         End Using
     End Function
 
-    Public Shared Function GetChartXRMonthly(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String) As List(Of clsXRChart)
+    Public Shared Function GetChartXRMonthly(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, VerifiedOnly As String) As List(Of clsXRChart)
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String = "sp_SPC_SampleControlChart"
@@ -135,6 +135,7 @@ Public Class clsXRChartDB
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
             cmd.Parameters.AddWithValue("ProdDate", ProdDate)
             cmd.Parameters.AddWithValue("ProdDate2", ProdDate2)
+            cmd.Parameters.AddWithValue("VerifiedOnly", VerifiedOnly)
             Dim da As New SqlDataAdapter(cmd)
             Dim dt As New DataTable
             da.Fill(dt)

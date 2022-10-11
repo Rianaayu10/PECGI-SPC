@@ -80,7 +80,7 @@ Public Class SampleControlQuality
 
     Private Sub DownloadExcel()
         Dim ps As New PrintingSystem()
-        LoadChartX(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), Format(dtTo.Value, "yyyy-MM-dd"))
+        LoadChartX(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), Format(dtTo.Value, "yyyy-MM-dd"), cboShow.Value)
         Dim linkX As New PrintableComponentLink(ps)
         linkX.Component = (CType(chartX, IChartContainer)).Chart
 
@@ -481,8 +481,8 @@ Public Class SampleControlQuality
         End With
     End Sub
 
-    Private Sub LoadChartX(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String)
-        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartXRMonthly(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, ProdDate2)
+    Private Sub LoadChartX(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, VerifiedOnly As String)
+        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartXRMonthly(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, ProdDate2, VerifiedOnly)
         With chartX
             .DataSource = xr
             Dim diagram As XYDiagram = CType(.Diagram, XYDiagram)
@@ -566,12 +566,12 @@ Public Class SampleControlQuality
                 Dim gridAlignment As Double = Math.Round(diff / 15, 3)
                 diagram.AxisY.NumericScaleOptions.CustomGridAlignment = gridAlignment
 
-                CType(.Diagram, XYDiagram).SecondaryAxesY.Clear()
-                Dim myAxisY As New SecondaryAxisY("my Y-Axis")
-                myAxisY.Visibility = DevExpress.Utils.DefaultBoolean.False
-                CType(.Diagram, XYDiagram).SecondaryAxesY.Add(myAxisY)
-                CType(.Series("Rule").View, XYDiagramSeriesViewBase).AxisY = myAxisY
-                CType(.Series("RuleYellow").View, XYDiagramSeriesViewBase).AxisY = myAxisY
+                'CType(.Diagram, XYDiagram).SecondaryAxesY.Clear()
+                'Dim myAxisY As New SecondaryAxisY("my Y-Axis")
+                'myAxisY.Visibility = DevExpress.Utils.DefaultBoolean.False
+                'CType(.Diagram, XYDiagram).SecondaryAxesY.Add(myAxisY)
+                'CType(.Series("Rule").View, XYDiagramSeriesViewBase).AxisY = myAxisY
+                'CType(.Series("RuleYellow").View, XYDiagramSeriesViewBase).AxisY = myAxisY
             End If
             .DataBind()
             Dim ChartWidth As Integer = xr.Count * 12
@@ -593,7 +593,8 @@ Public Class SampleControlQuality
         Dim ItemCheckCode As String = Split(Prm, "|")(3)
         Dim ProdDate As String = Split(Prm, "|")(4)
         Dim ProdDate2 As String = Split(Prm, "|")(5)
-        LoadChartX(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, ProdDate2)
+        Dim VerifiedOnly As String = Split(Prm, "|")(6)
+        LoadChartX(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, ProdDate2, VerifiedOnly)
     End Sub
 
     Private Sub chartX_BoundDataChanged(sender As Object, e As EventArgs) Handles chartX.BoundDataChanged
