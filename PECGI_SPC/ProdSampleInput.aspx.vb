@@ -1080,12 +1080,14 @@ Public Class ProdSampleInput
                     diagram.AxisY.NumericScaleOptions.CustomGridAlignment = gridAlignment
                 End If
 
-                'CType(.Diagram, XYDiagram).SecondaryAxesY.Clear()
-                'Dim myAxisY As New SecondaryAxisY("my Y-Axis")
-                'myAxisY.Visibility = DevExpress.Utils.DefaultBoolean.False
-                'CType(.Diagram, XYDiagram).SecondaryAxesY.Add(myAxisY)
-                'CType(.Series("Rule").View, XYDiagramSeriesViewBase).AxisY = myAxisY
-                'CType(.Series("RuleYellow").View, XYDiagramSeriesViewBase).AxisY = myAxisY
+                CType(.Diagram, XYDiagram).SecondaryAxesY.Clear()
+                Dim myAxisY As New SecondaryAxisY("my Y-Axis")
+                myAxisY.Visibility = DevExpress.Utils.DefaultBoolean.False
+                myAxisY.WholeRange.EndSideMargin = 0
+                myAxisY.WholeRange.StartSideMargin = 0
+                CType(.Diagram, XYDiagram).SecondaryAxesY.Add(myAxisY)
+                CType(.Series("Rule").View, XYDiagramSeriesViewBase).AxisY = myAxisY
+                CType(.Series("RuleYellow").View, XYDiagramSeriesViewBase).AxisY = myAxisY
             End If
             .DataBind()
             'If xr.Count > 5 Then

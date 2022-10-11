@@ -834,14 +834,14 @@
             </viewserializable>
         </seriestemplate>    
         <SeriesSerializable>
-            <cc1:Series ArgumentDataMember="Seq" Name="Rule" ValueDataMembersSerializable="RuleValue" LabelsVisibility="False" ShowInLegend="False" ToolTipEnabled="False" ToolTipSeriesPattern="">
+            <cc1:Series ArgumentDataMember="Seq" Name="Rule" ValueDataMembersSerializable="RuleValue" LabelsVisibility="False" ShowInLegend="False" ToolTipEnabled="False" ToolTipSeriesPattern="" CrosshairEnabled="False">
                 <ViewSerializable>
                     <cc1:FullStackedBarSeriesView BarWidth="1" Color="Red" Transparency="200" AxisYName="Secondary AxisY 1">
                         <Border Visibility="False" />
                     </cc1:FullStackedBarSeriesView>
                 </ViewSerializable>
             </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="RuleYellow" ValueDataMembersSerializable="RuleYellow" LabelsVisibility="False" ShowInLegend="False" ToolTipEnabled="False" ToolTipSeriesPattern="">
+            <cc1:Series ArgumentDataMember="Seq" Name="RuleYellow" ValueDataMembersSerializable="RuleYellow" LabelsVisibility="False" ShowInLegend="False" ToolTipEnabled="False" ToolTipSeriesPattern="" CrosshairEnabled="False">
                 <ViewSerializable>
                     <cc1:FullStackedBarSeriesView BarWidth="1" Color="Yellow" Transparency="200">
                     </cc1:FullStackedBarSeriesView>
@@ -932,7 +932,7 @@
         </titles>
         <legend alignmenthorizontal="Left" alignmentvertical="BottomOutside" 
             direction="LeftToRight"></legend> 
-        <ToolTipOptions ShowForPoints="False">
+        <ToolTipOptions ShowForPoints="False" ShowForSeries="True">
         </ToolTipOptions>
     </dx:WebChartControl>
 </div>
