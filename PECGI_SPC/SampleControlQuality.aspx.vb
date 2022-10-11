@@ -303,7 +303,6 @@ Public Class SampleControlQuality
     Dim dtUSL As DataTable
     Dim dtLCL As DataTable
     Dim dtUCL As DataTable
-    Dim dtChart As DataTable
 
     Private Sub GridXLoad(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, VerifiedOnly As Integer)
         With gridX
@@ -371,7 +370,6 @@ Public Class SampleControlQuality
                 dtUSL = ds.Tables(3)
                 dtLCL = ds.Tables(4)
                 dtUCL = ds.Tables(5)
-                dtChart = ds.Tables(6)
             End If
         End With
     End Sub
@@ -566,12 +564,14 @@ Public Class SampleControlQuality
                 Dim gridAlignment As Double = Math.Round(diff / 15, 3)
                 diagram.AxisY.NumericScaleOptions.CustomGridAlignment = gridAlignment
 
-                'CType(.Diagram, XYDiagram).SecondaryAxesY.Clear()
-                'Dim myAxisY As New SecondaryAxisY("my Y-Axis")
-                'myAxisY.Visibility = DevExpress.Utils.DefaultBoolean.False
-                'CType(.Diagram, XYDiagram).SecondaryAxesY.Add(myAxisY)
-                'CType(.Series("Rule").View, XYDiagramSeriesViewBase).AxisY = myAxisY
-                'CType(.Series("RuleYellow").View, XYDiagramSeriesViewBase).AxisY = myAxisY
+                CType(.Diagram, XYDiagram).SecondaryAxesY.Clear()
+                Dim myAxisY As New SecondaryAxisY("my Y-Axis")
+                myAxisY.Visibility = DevExpress.Utils.DefaultBoolean.False
+                myAxisY.WholeRange.EndSideMargin = 0
+                myAxisY.WholeRange.StartSideMargin = 0
+                CType(.Diagram, XYDiagram).SecondaryAxesY.Add(myAxisY)
+                CType(.Series("Rule").View, XYDiagramSeriesViewBase).AxisY = myAxisY
+                CType(.Series("RuleYellow").View, XYDiagramSeriesViewBase).AxisY = myAxisY
             End If
             .DataBind()
             Dim ChartWidth As Integer = xr.Count * 12

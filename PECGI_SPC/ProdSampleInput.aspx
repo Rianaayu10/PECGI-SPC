@@ -198,10 +198,14 @@
             } else {
                 document.getElementById('Min').style.backgroundColor = 'White';
             }
-            if (s.cpMax > s.cpUSL | s.cpMax < s.cpLSL) {
-                document.getElementById('Max').style.backgroundColor = 'Red';
-            } else if (s.cpMax > s.cpUCL | s.cpMax < s.cpLCL) {
-                document.getElementById('Max').style.backgroundColor = 'Pink';
+            if(s.cpMax != '') {
+                if (s.cpMax > s.cpUSL | s.cpMax < s.cpLSL) {
+                    document.getElementById('Max').style.backgroundColor = 'Red';
+                } else if (s.cpMax > s.cpUCL | s.cpMax < s.cpLCL) {
+                    document.getElementById('Max').style.backgroundColor = 'Pink';
+                } else {
+                    document.getElementById('Max').style.backgroundColor = 'White';
+                }
             } else {
                 document.getElementById('Max').style.backgroundColor = 'White';
             }
