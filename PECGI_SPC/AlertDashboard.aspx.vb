@@ -514,7 +514,7 @@ Public Class AlertDashboard
                 e.Cell.Controls.Add(Link)
             End If
         End If
-        If e.DataColumn.FieldName = "Delay" Then
+        If e.DataColumn.FieldName = "DelayVerif" Then
             Delay = (e.CellValue)
             Dim Test = TimeSpan.FromMinutes(e.CellValue)
 
@@ -527,7 +527,19 @@ Public Class AlertDashboard
             Dim Days = Test.Days * 24
             Dim Hours = Days + Test.Hours
 
-            e.Cell.Text = Convert.ToString(Test.Days & " Day " & Test.Hours & " Hours " & Test.Minutes & " Minutes")
+            If Days > 0 Then
+
+                e.Cell.Text = Convert.ToString(Test.Days & " Day " & Test.Hours & " Hours " & Test.Minutes & " Minutes")
+
+            Else
+
+                If Hours > 0 Then
+                    e.Cell.Text = Convert.ToString(Test.Hours & " Hours " & Test.Minutes & " Minutes")
+                Else
+                    e.Cell.Text = Convert.ToString(Test.Minutes & " Minutes")
+                End If
+
+            End If
             'e.Cell.Text = Convert.ToString(Hours & ":" & Test.Minutes & ":00")
         End If
     End Sub
@@ -548,7 +560,7 @@ Public Class AlertDashboard
             Dim SequenceNo = GridDelayVerif.GetRowValues(e.VisibleIndex, "SequenceNo")
             ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
 
-            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
+            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo, "Delay Verification")
 
             CheckAvailableData = clsSPCAlertDashboardDB.CheckDataSendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
 
@@ -580,16 +592,19 @@ Public Class AlertDashboard
             Dim CheckAvailableData As DataTable
 
             Dim FactoryCode = cboFactory.Value
-            Dim ItemTypeName = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemTypeName")
+            Dim ItemTypeName = GridNG.GetRowValues(e.VisibleIndex, "ItemTypeName")
             'Dim ItemTypeCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemTypeCode")
-            Dim LineCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "LineCode")
-            Dim ItemCheck = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemCheck")
-            Dim LinkDate = GridDelayVerif.GetRowValues(e.VisibleIndex, "LinkDate")
-            Dim ShiftCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "ShiftCode")
-            Dim SequenceNo = GridDelayVerif.GetRowValues(e.VisibleIndex, "SequenceNo")
+            Dim LineCode = GridNG.GetRowValues(e.VisibleIndex, "LineCode")
+            Dim ItemCheck = GridNG.GetRowValues(e.VisibleIndex, "ItemCheck")
+            Dim LinkDate = GridNG.GetRowValues(e.VisibleIndex, "LinkDate")
+            Dim ShiftCode = GridNG.GetRowValues(e.VisibleIndex, "ShiftCode")
+            Dim SequenceNo = GridNG.GetRowValues(e.VisibleIndex, "SequenceNo")
             ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
 
-            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
+            'Dim Test = GridDelayVerif.GetRowValues(e.VisibleIndex, GridDelayVerif.KeyFieldName, "LinkDate")
+            Dim Test = DirectCast(GridDelayVerif.GetRowValues(e.VisibleIndex, GridDelayVerif.KeyFieldName, "LinkDate"), Object())(1)
+
+            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo, "NG Result")
 
             CheckAvailableData = clsSPCAlertDashboardDB.CheckDataSendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
 
@@ -621,16 +636,16 @@ Public Class AlertDashboard
             Dim CheckAvailableData As DataTable
 
             Dim FactoryCode = cboFactory.Value
-            Dim ItemTypeName = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemTypeName")
+            Dim ItemTypeName = Grid.GetRowValues(e.VisibleIndex, "ItemTypeName")
             'Dim ItemTypeCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemTypeCode")
-            Dim LineCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "LineCode")
-            Dim ItemCheck = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemCheck")
-            Dim LinkDate = GridDelayVerif.GetRowValues(e.VisibleIndex, "LinkDate")
-            Dim ShiftCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "ShiftCode")
-            Dim SequenceNo = GridDelayVerif.GetRowValues(e.VisibleIndex, "SequenceNo")
+            Dim LineCode = Grid.GetRowValues(e.VisibleIndex, "LineCode")
+            Dim ItemCheck = Grid.GetRowValues(e.VisibleIndex, "ItemCheck")
+            Dim LinkDate = Grid.GetRowValues(e.VisibleIndex, "LinkDate")
+            Dim ShiftCode = Grid.GetRowValues(e.VisibleIndex, "ShiftCode")
+            Dim SequenceNo = Grid.GetRowValues(e.VisibleIndex, "SequenceNo")
             ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
 
-            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
+            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo, "Delay Input")
 
             CheckAvailableData = clsSPCAlertDashboardDB.CheckDataSendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
 
