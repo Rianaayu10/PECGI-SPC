@@ -191,7 +191,11 @@
                 if (s.cpMin < s.cpLSL | s.cpMin > s.cpUSL) {
                     document.getElementById('Min').style.backgroundColor = 'Red';
                 } else if (s.cpMin < s.cpLCL | s.cpMin > s.cpUCL) {
-                    document.getElementById('Min').style.backgroundColor = 'Pink';
+                    if (s.cpChartType = '1') {
+                        document.getElementById('Min').style.backgroundColor = 'Yellow';
+                    } else {
+                        document.getElementById('Min').style.backgroundColor = 'Pink';
+                    }                    
                 } else {
                     document.getElementById('Min').style.backgroundColor = 'White';
                 }
@@ -202,13 +206,34 @@
                 if (s.cpMax > s.cpUSL | s.cpMax < s.cpLSL) {
                     document.getElementById('Max').style.backgroundColor = 'Red';
                 } else if (s.cpMax > s.cpUCL | s.cpMax < s.cpLCL) {
-                    document.getElementById('Max').style.backgroundColor = 'Pink';
+                    if (s.cpChartType = '1') {
+                        document.getElementById('Max').style.backgroundColor = 'Yellow';
+                    } else {
+                        document.getElementById('Max').style.backgroundColor = 'Pink';
+                    }                      
                 } else {
                     document.getElementById('Max').style.backgroundColor = 'White';
                 }
             } else {
                 document.getElementById('Max').style.backgroundColor = 'White';
             }
+
+            if(s.cpAve != '') {
+                if (s.cpAve > s.cpUSL | s.cpAve < s.cpLSL) {
+                    document.getElementById('Ave').style.backgroundColor = 'Red';
+                } else if (s.cpAve > s.cpUCL | s.cpAve < s.cpLCL) {
+                    if (s.cpChartType = '1') {
+                        document.getElementById('Ave').style.backgroundColor = 'Yellow';
+                    } else {
+                        document.getElementById('Ave').style.backgroundColor = 'Pink';
+                    }                         
+                } else {
+                    document.getElementById('Ave').style.backgroundColor = 'White';
+                }
+            } else {
+                document.getElementById('Ave').style.backgroundColor = 'White';
+            }
+
             if (s.cpRefresh == '1') {
                 gridX.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShow.GetValue());
                 chartX.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShow.GetValue());
