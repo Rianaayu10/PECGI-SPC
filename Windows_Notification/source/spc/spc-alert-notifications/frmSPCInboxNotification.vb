@@ -155,7 +155,7 @@ Public Class frmSPCInboxNotification
             .Cols(NGResult.pQC).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
 
             .Styles.Fixed.TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
-            .GetCellRange(0, NGResult.pType, 0, NGResult.pQC).StyleNew.BackColor = Color.LightGray
+            .GetCellRange(0, NGResult.pType, 0, NGResult.Count - 1).StyleNew.BackColor = Color.LightGray
 
             .AllowEditing = False
             .Styles.Normal.WordWrap = True
@@ -199,7 +199,7 @@ Public Class frmSPCInboxNotification
 
             .Styles.Fixed.TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
 
-            .GetCellRange(0, DelayInput.pType, 0, DelayInput.pDelayMinutes).StyleNew.BackColor = Color.LightGray
+            .GetCellRange(0, DelayInput.pType, 0, DelayInput.Count - 1).StyleNew.BackColor = Color.LightGray
 
             .AllowEditing = False
             .Styles.Normal.WordWrap = True
@@ -258,7 +258,7 @@ Public Class frmSPCInboxNotification
             .Cols(DelayVerification.pDelayVerif).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
 
             .Styles.Fixed.TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
-            .GetCellRange(0, DelayVerification.pType, 0, DelayVerification.pQC).StyleNew.BackColor = Color.LightGray
+            .GetCellRange(0, DelayVerification.pType, 0, DelayVerification.Count - 1).StyleNew.BackColor = Color.LightGray
 
             .AllowEditing = False
             .Styles.Normal.WordWrap = True
