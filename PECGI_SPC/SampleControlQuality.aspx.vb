@@ -303,6 +303,7 @@ Public Class SampleControlQuality
     Dim dtUSL As DataTable
     Dim dtLCL As DataTable
     Dim dtUCL As DataTable
+    Dim dtCP As DataTable
 
     Private Sub GridXLoad(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, VerifiedOnly As Integer)
         With gridX
@@ -370,6 +371,19 @@ Public Class SampleControlQuality
                 dtUSL = ds.Tables(3)
                 dtLCL = ds.Tables(4)
                 dtUCL = ds.Tables(5)
+                dtCP = ds.Tables(6)
+
+                If dtCP.Rows.Count > 0 Then
+                    .JSProperties("cpMin") = dtCP.Rows(0)("Min") & ""
+                    .JSProperties("cpMax") = dtCP.Rows(0)("Max") & ""
+                    .JSProperties("cpAvg") = dtCP.Rows(0)("Avg") & ""
+                    .JSProperties("cpSTD") = dtCP.Rows(0)("STD") & ""
+                    .JSProperties("cpLSL") = dtCP.Rows(0)("LSL") & ""
+                    .JSProperties("cpUSL") = dtCP.Rows(0)("USL") & ""
+                    .JSProperties("cpCP") = dtCP.Rows(0)("CP") & ""
+                    .JSProperties("cpCPK1") = dtCP.Rows(0)("CPK1") & ""
+                    .JSProperties("cpCPK2") = dtCP.Rows(0)("CPK2") & ""
+                End If
             End If
         End With
     End Sub
@@ -544,14 +558,16 @@ Public Class SampleControlQuality
                 If xr.Count > 0 Then
                     MinValue = xr(0).MinValue
                     MaxValue = xr(0).MaxValue
-                End If
-                If Setup.SpecLSL < MinValue Then
+                    If Setup.SpecLSL < MinValue Then
+                        MinValue = Setup.SpecLSL
+                    End If
+                    If Setup.SpecUSL > MaxValue Then
+                        MaxValue = Setup.SpecUSL
+                    End If
+                Else
                     MinValue = Setup.SpecLSL
-                End If
-                If Setup.SpecUSL > MaxValue Then
                     MaxValue = Setup.SpecUSL
                 End If
-
                 diagram.AxisY.WholeRange.MinValue = MinValue
                 diagram.AxisY.WholeRange.MaxValue = MaxValue
                 diagram.AxisY.WholeRange.EndSideMargin = 0.015
