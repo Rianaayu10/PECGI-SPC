@@ -169,7 +169,7 @@ Partial Class frmSPCInboxNotification
         Me.Panel3.Controls.Add(Me.Label15)
         Me.Panel3.Controls.Add(Me.Label16)
         Me.Panel3.Controls.Add(Me.Label17)
-        Me.Panel3.Location = New System.Drawing.Point(3, 560)
+        Me.Panel3.Location = New System.Drawing.Point(3, 587)
         Me.Panel3.Name = "Panel3"
         Me.Panel3.Size = New System.Drawing.Size(974, 25)
         Me.Panel3.TabIndex = 49
@@ -215,7 +215,7 @@ Partial Class frmSPCInboxNotification
         Me.Label18.BackColor = System.Drawing.Color.DimGray
         Me.Label18.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
         Me.Label18.ForeColor = System.Drawing.SystemColors.Window
-        Me.Label18.Location = New System.Drawing.Point(3, 412)
+        Me.Label18.Location = New System.Drawing.Point(3, 439)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(974, 25)
         Me.Label18.TabIndex = 47
@@ -234,7 +234,7 @@ Partial Class frmSPCInboxNotification
         Me.gridDelayVerification.ColumnInfo = "3,0,0,0,0,100,Columns:1{Width:118;}" & Global.Microsoft.VisualBasic.ChrW(9) & "2{Width:120;}" & Global.Microsoft.VisualBasic.ChrW(9)
         Me.gridDelayVerification.ExtendLastCol = True
         Me.gridDelayVerification.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.None
-        Me.gridDelayVerification.Location = New System.Drawing.Point(3, 437)
+        Me.gridDelayVerification.Location = New System.Drawing.Point(3, 464)
         Me.gridDelayVerification.Name = "gridDelayVerification"
         Me.gridDelayVerification.Rows.Count = 5
         Me.gridDelayVerification.Rows.DefaultSize = 20
@@ -251,7 +251,7 @@ Partial Class frmSPCInboxNotification
         Me.Panel2.Controls.Add(Me.Label10)
         Me.Panel2.Controls.Add(Me.Label11)
         Me.Panel2.Controls.Add(Me.Label12)
-        Me.Panel2.Location = New System.Drawing.Point(3, 371)
+        Me.Panel2.Location = New System.Drawing.Point(3, 387)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(974, 25)
         Me.Panel2.TabIndex = 46
@@ -297,7 +297,7 @@ Partial Class frmSPCInboxNotification
         Me.Label13.BackColor = System.Drawing.Color.DimGray
         Me.Label13.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
         Me.Label13.ForeColor = System.Drawing.SystemColors.Window
-        Me.Label13.Location = New System.Drawing.Point(3, 223)
+        Me.Label13.Location = New System.Drawing.Point(3, 239)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(974, 25)
         Me.Label13.TabIndex = 44
@@ -316,7 +316,7 @@ Partial Class frmSPCInboxNotification
         Me.gridDelayInput.ColumnInfo = "3,0,0,0,0,100,Columns:1{Width:118;}" & Global.Microsoft.VisualBasic.ChrW(9) & "2{Width:120;}" & Global.Microsoft.VisualBasic.ChrW(9)
         Me.gridDelayInput.ExtendLastCol = True
         Me.gridDelayInput.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.None
-        Me.gridDelayInput.Location = New System.Drawing.Point(3, 248)
+        Me.gridDelayInput.Location = New System.Drawing.Point(3, 264)
         Me.gridDelayInput.Name = "gridDelayInput"
         Me.gridDelayInput.Rows.Count = 5
         Me.gridDelayInput.Rows.DefaultSize = 20
@@ -333,7 +333,7 @@ Partial Class frmSPCInboxNotification
         Me.Panel1.Controls.Add(Me.Label8)
         Me.Panel1.Controls.Add(Me.Label6)
         Me.Panel1.Controls.Add(Me.Label5)
-        Me.Panel1.Location = New System.Drawing.Point(3, 175)
+        Me.Panel1.Location = New System.Drawing.Point(3, 191)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(974, 25)
         Me.Panel1.TabIndex = 43
@@ -379,7 +379,7 @@ Partial Class frmSPCInboxNotification
         Me.Label4.BackColor = System.Drawing.Color.DimGray
         Me.Label4.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
         Me.Label4.ForeColor = System.Drawing.SystemColors.Window
-        Me.Label4.Location = New System.Drawing.Point(3, 27)
+        Me.Label4.Location = New System.Drawing.Point(3, 43)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(974, 25)
         Me.Label4.TabIndex = 6
@@ -398,7 +398,7 @@ Partial Class frmSPCInboxNotification
         Me.gridNGResult.ColumnInfo = "3,0,0,0,0,100,Columns:1{Width:118;}" & Global.Microsoft.VisualBasic.ChrW(9) & "2{Width:120;}" & Global.Microsoft.VisualBasic.ChrW(9)
         Me.gridNGResult.ExtendLastCol = True
         Me.gridNGResult.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.None
-        Me.gridNGResult.Location = New System.Drawing.Point(3, 52)
+        Me.gridNGResult.Location = New System.Drawing.Point(3, 68)
         Me.gridNGResult.Name = "gridNGResult"
         Me.gridNGResult.Rows.Count = 5
         Me.gridNGResult.Rows.DefaultSize = 20
