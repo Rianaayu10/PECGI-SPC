@@ -297,6 +297,7 @@ Public Class frmSPCInboxNotification
                 .Item(i + 1, NGResult.pQC) = dtNG.Rows(i)("QC").ToString()
                 .AutoSizeCols()
             Next
+            lblTotalNGResult.Text = "Total : " & dtNG.Rows.Count & " Record"
         End With
     End Sub
     Private Sub DelayInputLoad()
@@ -312,17 +313,35 @@ Public Class frmSPCInboxNotification
                 .Item(i + 1, DelayInput.pSeq) = dtDelayInput.Rows(i)("SequenceNo").ToString()
                 .Item(i + 1, DelayInput.pScheduleStart) = dtDelayInput.Rows(i)("StartTime").ToString()
                 .Item(i + 1, DelayInput.pScheduleEnd) = dtDelayInput.Rows(i)("EndTime").ToString()
-                .Item(i + 1, DelayInput.pDelayMinutes) = dtDelayInput.Rows(i)("Delay").ToString()
 
-                If CInt(.Item(i + 1, DelayInput.pDelayMinutes)) > 60 Then
+                Dim delay = dtDelayInput.Rows(i)("Delay").ToString()
+                Dim tmSpan = TimeSpan.FromMinutes(dtDelayInput.Rows(i)("Delay").ToString())
+                Dim Days = tmSpan.Days * 24
+                Dim Hours = Days + tmSpan.Hours
+                If Days > 0 Then
+                    .Item(i + 1, DelayInput.pDelayMinutes) = Convert.ToString(tmSpan.Days & " Day " & tmSpan.Hours & " Hours " & tmSpan.Minutes & " Minutes")
+
+                Else
+
+                    If Hours > 0 Then
+                        .Item(i + 1, DelayInput.pDelayMinutes) = Convert.ToString(tmSpan.Hours & " Hours " & tmSpan.Minutes & " Minutes")
+                    Else
+                        .Item(i + 1, DelayInput.pDelayMinutes) = Convert.ToString(tmSpan.Minutes & " Minutes")
+                    End If
+
+                End If
+                '.Item(i + 1, DelayInput.pDelayMinutes) = dtDelayInput.Rows(i)("Delay").ToString()
+
+                If CInt(dtDelayInput.Rows(i)("Delay").ToString()) > 60 Then
                     .GetCellRange(i + 1, DelayInput.pDelayMinutes, i + 1, DelayInput.pDelayMinutes).StyleNew.BackColor = Color.Red
                 End If
-                If CInt(.Item(i + 1, DelayInput.pDelayMinutes)) < 60 Then
+                If CInt(dtDelayInput.Rows(i)("Delay").ToString()) < 60 Then
                     .GetCellRange(i + 1, DelayInput.pDelayMinutes, i + 1, DelayInput.pDelayMinutes).StyleNew.BackColor = Color.Yellow
                 End If
 
                 .AutoSizeCols()
             Next
+            lblTotalDelayInput.Text = "Total : " & dtDelayInput.Rows.Count & " Record"
         End With
     End Sub
     Private Sub DelayVerificationLoad()
@@ -346,16 +365,34 @@ Public Class frmSPCInboxNotification
                 .Item(i + 1, DelayVerification.pMK) = dtDelayVerification.Rows(i)("MK").ToString()
                 .Item(i + 1, DelayVerification.pQC) = dtDelayVerification.Rows(i)("QC").ToString()
                 .Item(i + 1, DelayVerification.pVerifTime) = dtDelayVerification.Rows(i)("VerifTime").ToString()
-                .Item(i + 1, DelayVerification.pDelayVerif) = dtDelayVerification.Rows(i)("DelayVerif").ToString()
 
-                If CInt(.Item(i + 1, DelayVerification.pDelayVerif)) > 60 Then
+                Dim delay = dtDelayVerification.Rows(i)("DelayVerif").ToString()
+                Dim tmSpan = TimeSpan.FromMinutes(dtDelayVerification.Rows(i)("DelayVerif").ToString())
+                Dim Days = tmSpan.Days * 24
+                Dim Hours = Days + tmSpan.Hours
+                If Days > 0 Then
+                    .Item(i + 1, DelayVerification.pDelayVerif) = Convert.ToString(tmSpan.Days & " Day " & tmSpan.Hours & " Hours " & tmSpan.Minutes & " Minutes")
+
+                Else
+
+                    If Hours > 0 Then
+                        .Item(i + 1, DelayVerification.pDelayVerif) = Convert.ToString(tmSpan.Hours & " Hours " & tmSpan.Minutes & " Minutes")
+                    Else
+                        .Item(i + 1, DelayVerification.pDelayVerif) = Convert.ToString(tmSpan.Minutes & " Minutes")
+                    End If
+
+                End If
+                '.Item(i + 1, DelayVerification.pDelayVerif) = dtDelayVerification.Rows(i)("DelayVerif").ToString()
+
+                If CInt(dtDelayVerification.Rows(i)("DelayVerif").ToString()) > 60 Then
                     .GetCellRange(i + 1, DelayVerification.pDelayVerif, i + 1, DelayVerification.pDelayVerif).StyleNew.BackColor = Color.Red
                 End If
-                If CInt(.Item(i + 1, DelayVerification.pDelayVerif)) < 60 Then
+                If CInt(dtDelayVerification.Rows(i)("DelayVerif").ToString()) < 60 Then
                     .GetCellRange(i + 1, DelayVerification.pDelayVerif, i + 1, DelayVerification.pDelayVerif).StyleNew.BackColor = Color.Yellow
                 End If
                 .AutoSizeCols()
             Next
+            lblTotalDelayVerification.Text = "Total : " & dtDelayVerification.Rows.Count & " Record"
         End With
     End Sub
 

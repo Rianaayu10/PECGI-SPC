@@ -54,6 +54,9 @@ Partial Class frmSPCInboxNotification
         Me.Label4 = New System.Windows.Forms.Label()
         Me.gridNGResult = New C1.Win.C1FlexGrid.C1FlexGrid()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.lblTotalDelayInput = New System.Windows.Forms.Label()
+        Me.lblTotalDelayVerification = New System.Windows.Forms.Label()
+        Me.lblTotalNGResult = New System.Windows.Forms.Label()
         Me.pnlHeader.SuspendLayout()
         Me.pnlContent.SuspendLayout()
         Me.Panel3.SuspendLayout()
@@ -145,6 +148,9 @@ Partial Class frmSPCInboxNotification
         '
         'pnlContent
         '
+        Me.pnlContent.Controls.Add(Me.lblTotalNGResult)
+        Me.pnlContent.Controls.Add(Me.lblTotalDelayVerification)
+        Me.pnlContent.Controls.Add(Me.lblTotalDelayInput)
         Me.pnlContent.Controls.Add(Me.Panel3)
         Me.pnlContent.Controls.Add(Me.Label18)
         Me.pnlContent.Controls.Add(Me.gridDelayVerification)
@@ -158,7 +164,7 @@ Partial Class frmSPCInboxNotification
         Me.pnlContent.Font = New System.Drawing.Font("Calibri", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.pnlContent.Location = New System.Drawing.Point(0, 74)
         Me.pnlContent.Name = "pnlContent"
-        Me.pnlContent.Size = New System.Drawing.Size(980, 615)
+        Me.pnlContent.Size = New System.Drawing.Size(980, 655)
         Me.pnlContent.TabIndex = 2
         '
         'Panel3
@@ -169,7 +175,7 @@ Partial Class frmSPCInboxNotification
         Me.Panel3.Controls.Add(Me.Label15)
         Me.Panel3.Controls.Add(Me.Label16)
         Me.Panel3.Controls.Add(Me.Label17)
-        Me.Panel3.Location = New System.Drawing.Point(3, 587)
+        Me.Panel3.Location = New System.Drawing.Point(3, 616)
         Me.Panel3.Name = "Panel3"
         Me.Panel3.Size = New System.Drawing.Size(974, 25)
         Me.Panel3.TabIndex = 49
@@ -215,7 +221,7 @@ Partial Class frmSPCInboxNotification
         Me.Label18.BackColor = System.Drawing.Color.DimGray
         Me.Label18.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
         Me.Label18.ForeColor = System.Drawing.SystemColors.Window
-        Me.Label18.Location = New System.Drawing.Point(3, 439)
+        Me.Label18.Location = New System.Drawing.Point(3, 459)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(974, 25)
         Me.Label18.TabIndex = 47
@@ -234,7 +240,7 @@ Partial Class frmSPCInboxNotification
         Me.gridDelayVerification.ColumnInfo = "3,0,0,0,0,100,Columns:1{Width:118;}" & Global.Microsoft.VisualBasic.ChrW(9) & "2{Width:120;}" & Global.Microsoft.VisualBasic.ChrW(9)
         Me.gridDelayVerification.ExtendLastCol = True
         Me.gridDelayVerification.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.None
-        Me.gridDelayVerification.Location = New System.Drawing.Point(3, 464)
+        Me.gridDelayVerification.Location = New System.Drawing.Point(3, 484)
         Me.gridDelayVerification.Name = "gridDelayVerification"
         Me.gridDelayVerification.Rows.Count = 5
         Me.gridDelayVerification.Rows.DefaultSize = 20
@@ -251,7 +257,7 @@ Partial Class frmSPCInboxNotification
         Me.Panel2.Controls.Add(Me.Label10)
         Me.Panel2.Controls.Add(Me.Label11)
         Me.Panel2.Controls.Add(Me.Label12)
-        Me.Panel2.Location = New System.Drawing.Point(3, 387)
+        Me.Panel2.Location = New System.Drawing.Point(3, 408)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(974, 25)
         Me.Panel2.TabIndex = 46
@@ -297,7 +303,7 @@ Partial Class frmSPCInboxNotification
         Me.Label13.BackColor = System.Drawing.Color.DimGray
         Me.Label13.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
         Me.Label13.ForeColor = System.Drawing.SystemColors.Window
-        Me.Label13.Location = New System.Drawing.Point(3, 239)
+        Me.Label13.Location = New System.Drawing.Point(3, 251)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(974, 25)
         Me.Label13.TabIndex = 44
@@ -316,7 +322,7 @@ Partial Class frmSPCInboxNotification
         Me.gridDelayInput.ColumnInfo = "3,0,0,0,0,100,Columns:1{Width:118;}" & Global.Microsoft.VisualBasic.ChrW(9) & "2{Width:120;}" & Global.Microsoft.VisualBasic.ChrW(9)
         Me.gridDelayInput.ExtendLastCol = True
         Me.gridDelayInput.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.None
-        Me.gridDelayInput.Location = New System.Drawing.Point(3, 264)
+        Me.gridDelayInput.Location = New System.Drawing.Point(3, 276)
         Me.gridDelayInput.Name = "gridDelayInput"
         Me.gridDelayInput.Rows.Count = 5
         Me.gridDelayInput.Rows.DefaultSize = 20
@@ -333,7 +339,7 @@ Partial Class frmSPCInboxNotification
         Me.Panel1.Controls.Add(Me.Label8)
         Me.Panel1.Controls.Add(Me.Label6)
         Me.Panel1.Controls.Add(Me.Label5)
-        Me.Panel1.Location = New System.Drawing.Point(3, 191)
+        Me.Panel1.Location = New System.Drawing.Point(3, 201)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(974, 25)
         Me.Panel1.TabIndex = 43
@@ -412,12 +418,39 @@ Partial Class frmSPCInboxNotification
         Me.Timer1.Enabled = True
         Me.Timer1.Interval = 1000
         '
+        'lblTotalDelayInput
+        '
+        Me.lblTotalDelayInput.AutoSize = True
+        Me.lblTotalDelayInput.Location = New System.Drawing.Point(65, 392)
+        Me.lblTotalDelayInput.Name = "lblTotalDelayInput"
+        Me.lblTotalDelayInput.Size = New System.Drawing.Size(78, 13)
+        Me.lblTotalDelayInput.TabIndex = 4
+        Me.lblTotalDelayInput.Text = "Total : 0 Record"
+        '
+        'lblTotalDelayVerification
+        '
+        Me.lblTotalDelayVerification.AutoSize = True
+        Me.lblTotalDelayVerification.Location = New System.Drawing.Point(65, 600)
+        Me.lblTotalDelayVerification.Name = "lblTotalDelayVerification"
+        Me.lblTotalDelayVerification.Size = New System.Drawing.Size(78, 13)
+        Me.lblTotalDelayVerification.TabIndex = 5
+        Me.lblTotalDelayVerification.Text = "Total : 0 Record"
+        '
+        'lblTotalNGResult
+        '
+        Me.lblTotalNGResult.AutoSize = True
+        Me.lblTotalNGResult.Location = New System.Drawing.Point(65, 185)
+        Me.lblTotalNGResult.Name = "lblTotalNGResult"
+        Me.lblTotalNGResult.Size = New System.Drawing.Size(78, 13)
+        Me.lblTotalNGResult.TabIndex = 5
+        Me.lblTotalNGResult.Text = "Total : 0 Record"
+        '
         'frmSPCInboxNotification
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(980, 689)
+        Me.ClientSize = New System.Drawing.Size(980, 729)
         Me.Controls.Add(Me.pnlContent)
         Me.Controls.Add(Me.pnlHeader)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
@@ -430,6 +463,7 @@ Partial Class frmSPCInboxNotification
         Me.pnlHeader.ResumeLayout(False)
         Me.pnlHeader.PerformLayout()
         Me.pnlContent.ResumeLayout(False)
+        Me.pnlContent.PerformLayout()
         Me.Panel3.ResumeLayout(False)
         Me.Panel3.PerformLayout()
         CType(Me.gridDelayVerification, System.ComponentModel.ISupportInitialize).EndInit()
@@ -473,4 +507,7 @@ Partial Class frmSPCInboxNotification
     Friend WithEvents Label18 As Label
     Public WithEvents gridDelayVerification As C1.Win.C1FlexGrid.C1FlexGrid
     Friend WithEvents Timer1 As Timer
+    Friend WithEvents lblTotalNGResult As Label
+    Friend WithEvents lblTotalDelayVerification As Label
+    Friend WithEvents lblTotalDelayInput As Label
 End Class
