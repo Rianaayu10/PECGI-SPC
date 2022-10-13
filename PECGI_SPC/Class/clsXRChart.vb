@@ -8,6 +8,7 @@ Public Class clsXRChart
     Public Property MinValue As Double
     Public Property MaxValue As Double
     Public Property RValue As Double
+    Public Property CL As Double
     Public Property LCL As Double
     Public Property UCL As Double
     Public Property USL As Double
@@ -15,12 +16,19 @@ Public Class clsXRChart
     Public Property RuleValue As Double?
     Public Property RuleYellow As Double?
     Public Property RuleColor As String
+    Public Property CountSeq As Integer
 End Class
 
 Public Class clsHistogram
     Public Property Range As String
     Public Property Value As Double
     Public Property MaxValue As Double
+    Public Property XBarCL As Double
+    Public Property XBarLCL As Double
+    Public Property XBarUCL As Double
+    Public Property SpecLSL As Double
+    Public Property SpecUSL As Double
+
 End Class
 
 Public Class clsXRChartDB
@@ -45,6 +53,11 @@ Public Class clsXRChartDB
                 ht.Range = dt.Rows(i)("ValueRange") & ""
                 ht.Value = dt.Rows(i)("ValueCount")
                 ht.MaxValue = dt.Rows(i)("MaxValue")
+                ht.XBarCL = dt.Rows(i)("XBarCL")
+                ht.XBarLCL = dt.Rows(i)("XBarLCL")
+                ht.XBarUCL = dt.Rows(i)("XBarUCL")
+                ht.SpecLSL = dt.Rows(i)("SpecLSL")
+                ht.SpecUSL = dt.Rows(i)("SpecUSL")
                 HtList.Add(ht)
             Next
             Return HtList
@@ -100,6 +113,10 @@ Public Class clsXRChartDB
                         value = .Item("XbarLCL")
                         xr.LCL = value
                     End If
+                    If Not IsDBNull(.Item("XbarCL")) Then
+                        value = .Item("XbarCL")
+                        xr.CL = value
+                    End If
                     If Not IsDBNull(.Item("SpecLSL")) Then
                         value = .Item("SpecLSL")
                         xr.LSL = value
@@ -137,8 +154,10 @@ Public Class clsXRChartDB
             cmd.Parameters.AddWithValue("ProdDate2", ProdDate2)
             cmd.Parameters.AddWithValue("VerifiedOnly", VerifiedOnly)
             Dim da As New SqlDataAdapter(cmd)
+            Dim ds As New DataSet
             Dim dt As New DataTable
-            da.Fill(dt)
+            da.Fill(ds)
+            dt = ds.Tables(0)
             Dim XRList As New List(Of clsXRChart)
             For i = 0 To dt.Rows.Count - 1
                 Dim xr As New clsXRChart
@@ -172,6 +191,10 @@ Public Class clsXRChartDB
                     If Not IsDBNull(.Item("MinValue")) Then
                         value = .Item("MinValue")
                         xr.MinValue = value
+                    End If
+                    If Not IsDBNull(.Item("SeqCount")) Then
+                        value = .Item("SeqCount")
+                        xr.CountSeq = value
                     End If
                 End With
                 XRList.Add(xr)
