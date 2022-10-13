@@ -15,10 +15,7 @@
         .body {
             border: 1px solid silver; 
         }
-        .auto-style1 {
-            height: 12px;
-        }
-
+        
             </style>
     <script type="text/javascript" >
         var rowIndex, columnIndex;
@@ -555,7 +552,7 @@
     <table style="width:100%">
         <tr>
             <td style="width:70%">
-                <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="350px" Width="800px" ClientInstanceName="Histogram">
+<dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="350px" Width="800px" ClientInstanceName="Histogram">
 
                         <Titles>
                             <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Histogram" Alignment="Near" />
@@ -563,7 +560,13 @@
                         <DiagramSerializable>
                 <cc1:XYDiagram Rotated="True">
                 <AxisX VisibleInPanesSerializable="-1" Visibility="True">
-                    <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Width" IntervalOptions-GridLayoutMode="GridAndLabelShifted" IntervalOptions-OverflowValue="2.715" IntervalOptions-OverflowValuePattern="2,645" />
+                    <Tickmarks MinorVisible="False" />
+                    <Label TextPattern="{A:0.000}">
+                    </Label>
+                    <WholeRange AutoSideMargins="False" EndSideMargin="0.01" StartSideMargin="0.5" />
+                    <GridLines Visible="True">
+                    </GridLines>
+                    <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Count" IntervalOptions-GridLayoutMode="GridAndLabelShifted" IntervalOptions-OverflowValue="2.715" IntervalOptions-Count="6" IntervalOptions-Pattern="{A1:0.000}-{A2:0.000}" IntervalOptions-UnderflowValue="2.645" />
                     </AxisX>
 
                 <AxisY VisibleInPanesSerializable="-1" MinorCount="1" Visibility="True">
@@ -577,7 +580,7 @@
                         <Legend Visibility="False"></Legend>
 
                         <SeriesSerializable>
-                            <cc1:Series ArgumentDataMember="Range" Name="Histogram" ValueDataMembersSerializable="Value" ShowInLegend="False">
+                            <cc1:Series ArgumentDataMember="Value" Name="Histogram" ShowInLegend="False">
                                 <ViewSerializable>
                                     <cc1:SideBySideBarSeriesView BarWidth="1" ColorEach="True">
                                         <Border Color="0, 0, 0" Visibility="True" />
