@@ -202,7 +202,7 @@ Public Class ProductionSampleVerificationList
                 e.Cell.BackColor = ColorTranslator.FromHtml(nMinColor)
             ElseIf e.DataColumn.FieldName = "nMax" Then
                 e.Cell.BackColor = ColorTranslator.FromHtml(nMaxColor)
-            ElseIf e.DataColumn.FieldName = "nAVG" Then
+            ElseIf e.DataColumn.FieldName = "nAvg" Then
                 e.Cell.BackColor = ColorTranslator.FromHtml(nAvgColor)
             ElseIf (e.DataColumn.FieldName = "Cor_Sts") Then
                 e.Cell.BackColor = ColorTranslator.FromHtml(CorStsColor)
