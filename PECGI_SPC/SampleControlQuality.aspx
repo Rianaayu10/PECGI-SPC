@@ -18,37 +18,7 @@
         .auto-style1 {
             height: 12px;
         }
-            .auto-style2 {
-                width: 60px;
-                height: 41px;
-            }
-            .auto-style3 {
-                width: 130px;
-                height: 41px;
-            }
-            .auto-style4 {
-                width: 100px;
-                height: 41px;
-            }
-            .auto-style5 {
-                width: 34px;
-                height: 41px;
-            }
-            .auto-style6 {
-                width: 10px;
-                height: 41px;
-            }
-            .auto-style7 {
-                width: 110px;
-                height: 41px;
-            }
-            .auto-style8 {
-                width: 25px;
-                height: 41px;
-            }
-            .auto-style9 {
-                height: 41px;
-            }
+
             </style>
     <script type="text/javascript" >
         var rowIndex, columnIndex;
@@ -214,14 +184,14 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
     <div style="padding: 0px 5px 5px 5px">
-        <table class="auto-style3" style="width: 100%">
+        <table style="width: 100%">
         <tr >
-            <td style="padding:5px 0px 0px 0px" class="auto-style2">
+            <td style="padding:5px 0px 0px 0px" >
                 <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="Factory" Font-Names="Segoe UI" 
                     Font-Size="9pt">
                 </dx:ASPxLabel>
             </td>
-            <td style=" padding:5px 0px 0px 0px" class="auto-style3">
+            <td style=" padding:5px 0px 0px 0px" >
                 <dx:ASPxComboBox ID="cboFactory" runat="server" Theme="Office2010Black" TextField="FactoryName"
                     ClientInstanceName="cboFactory" ValueField="FactoryCode" Font-Names="Segoe UI" 
                     Font-Size="9pt" Height="25px" 
@@ -237,12 +207,12 @@
                     </ButtonStyle>
                 </dx:ASPxComboBox>
             </td>
-            <td style=" padding:5px 0px 0px 0px" class="auto-style4">
+            <td style=" padding:5px 0px 0px 0px" >
                 <dx:ASPxLabel ID="ASPxLabel4" runat="server" Text="Machine Process" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel>
             </td>
-            <td style="padding:5px 0px 0px 0px" class="auto-style3">
+            <td style="padding:5px 0px 0px 0px" >
                 <dx:ASPxComboBox ID="cboLine" runat="server" Theme="Office2010Black" TextField="LineName"
                     ClientInstanceName="cboLine" ValueField="LineCode" Font-Names="Segoe UI" 
                     Font-Size="9pt" Height="25px" 
@@ -256,15 +226,15 @@
                     </ButtonStyle>
                 </dx:ASPxComboBox>
             </td>
-            <td style=" padding: 5px 0px 0px 10px; " class="auto-style5">
+            <td style=" padding: 5px 0px 0px 10px; " >
                 <dx:ASPxLabel ID="ASPxLabel8" runat="server" Text="Date" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel>
             </td>
-            <td class="auto-style6">
+            <td>
                 &nbsp;
                 </td>
-            <td style="padding: 5px 0px 0px 0px; " class="auto-style7">                
+            <td style="padding: 5px 0px 0px 0px; ">                
                                 <dx:ASPxDateEdit ID="dtDate" runat="server" Theme="Office2010Black" 
                     Width="100px"
                         ClientInstanceName="dtDate" EditFormatString="dd MMM yyyy" DisplayFormatString="dd MMM yyyy"
@@ -292,12 +262,12 @@
            
            
            
-            <td style="padding: 5px 0px 0px 0px; " class="auto-style8">  
+            <td style="padding: 5px 0px 0px 0px; ">  
                                 <dx:ASPxLabel ID="ASPxLabel10" runat="server" Text="To" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel></td>            
            
-            <td style="padding: 5px 0px 0px 0px; " class="auto-style3">  
+            <td style="padding: 5px 0px 0px 0px; ">  
                                 <dx:ASPxDateEdit ID="dtTo" runat="server" ClientInstanceName="dtTo" DisplayFormatString="dd MMM yyyy" EditFormat="Custom" EditFormatString="dd MMM yyyy" Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="2" Theme="Office2010Black" Width="100px">
                                     <CalendarProperties ShowWeekNumbers="False">
                                         <HeaderStyle Font-Size="12pt" Paddings-Padding="5px">
@@ -321,7 +291,7 @@
                                     </ButtonStyle>
                                 </dx:ASPxDateEdit>
             </td>            
-            <td style="padding: 5px 0px 0px 0px" class="auto-style9">
+            <td style="padding: 5px 0px 0px 0px">
 
                 &nbsp;</td>
             <td></td>
@@ -465,9 +435,6 @@
     <dx:ASPxHiddenField ID="hfRevNo" runat="server" ClientInstanceName="hfRevNo">
     </dx:ASPxHiddenField>
 </div>
-<hr style="border-color:darkgray; " class="auto-style1"/>
-
-
 <div style="padding: 10px 5px 5px 5px">
 <dx:ASPxGridView ID="gridX" runat="server" AutoGenerateColumns="False" ClientInstanceName="gridX"
                                 EnableTheming="True" KeyFieldName="Des" Theme="Office2010Black"            
@@ -516,7 +483,7 @@
 <div style="width:100%; overflow-x: auto; border:1px solid black">
 <dx:WebChartControl ID="chartX" runat="server" ClientInstanceName="chartX"
         Height="434px" Width="400px" CrosshairEnabled="True" SeriesDataMember="Description" ToolTipEnabled="False">
-        <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value">
+        <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" CrosshairLabelPattern="{S}: {V:0.000}">
             <viewserializable>
                 <cc1:PointSeriesView>                    
                     <PointMarkerOptions kind="Circle" BorderColor="255, 255, 255"></PointMarkerOptions>
@@ -596,7 +563,7 @@
                         <DiagramSerializable>
                 <cc1:XYDiagram Rotated="True">
                 <AxisX VisibleInPanesSerializable="-1" Visibility="True">
-                    <NumericScaleOptions AutoGrid="False" ScaleMode="Automatic" />
+                    <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Width" IntervalOptions-GridLayoutMode="GridAndLabelShifted" IntervalOptions-OverflowValue="2.715" IntervalOptions-OverflowValuePattern="2,645" />
                     </AxisX>
 
                 <AxisY VisibleInPanesSerializable="-1" MinorCount="1" Visibility="True">
@@ -610,7 +577,7 @@
                         <Legend Visibility="False"></Legend>
 
                         <SeriesSerializable>
-                            <cc1:Series ArgumentDataMember="Range" Name="Series 4" ValueDataMembersSerializable="Value" ShowInLegend="False">
+                            <cc1:Series ArgumentDataMember="Range" Name="Histogram" ValueDataMembersSerializable="Value" ShowInLegend="False">
                                 <ViewSerializable>
                                     <cc1:SideBySideBarSeriesView BarWidth="1" ColorEach="True">
                                         <Border Color="0, 0, 0" Visibility="True" />

@@ -486,15 +486,53 @@ Public Class SampleControlQuality
             .DataBind()
             Dim diagram As XYDiagram = CType(.Diagram, XYDiagram)
             If ht.Count > 0 Then
-                diagram.AxisX.WholeRange.MaxValue = ht(0).MaxValue + 1
-                diagram.AxisX.NumericScaleOptions.GridAlignment = NumericGridAlignment.Ones
-            End If
+                Dim ht1 As clsHistogram = ht(0)
+                diagram.AxisX.WholeRange.MaxValue = ht1.MaxValue + 1
+                diagram.AxisX.NumericScaleOptions.ScaleMode = ScaleMode.Interval
 
+                diagram.AxisX.ConstantLines.Clear()
+
+                Dim LCL As New ConstantLine("LCL")
+                LCL.Color = System.Drawing.Color.Purple
+                LCL.LineStyle.Thickness = 2
+                LCL.LineStyle.DashStyle = DashStyle.DashDot
+                diagram.AxisX.ConstantLines.Add(LCL)
+                LCL.AxisValue = ht1.XBarLCL
+
+                Dim UCL As New ConstantLine("UCL")
+                UCL.Color = System.Drawing.Color.Purple
+                UCL.LineStyle.Thickness = 2
+                UCL.LineStyle.DashStyle = DashStyle.DashDot
+                diagram.AxisX.ConstantLines.Add(UCL)
+                UCL.AxisValue = ht1.XBarUCL
+
+                Dim CL As New ConstantLine("CL")
+                CL.Color = System.Drawing.Color.Black
+                CL.LineStyle.Thickness = 2
+                CL.LineStyle.DashStyle = DashStyle.Solid
+                diagram.AxisX.ConstantLines.Add(CL)
+                CL.AxisValue = ht1.XBarCL
+
+                Dim LSL As New ConstantLine("LSL")
+                LSL.Color = System.Drawing.Color.Red
+                LSL.LineStyle.Thickness = 2
+                LSL.LineStyle.DashStyle = DashStyle.Solid
+                diagram.AxisX.ConstantLines.Add(LSL)
+                LSL.AxisValue = ht1.SpecLSL
+
+                Dim USL As New ConstantLine("USL")
+                USL.Color = System.Drawing.Color.Red
+                USL.LineStyle.Thickness = 2
+                USL.LineStyle.DashStyle = DashStyle.Solid
+                diagram.AxisX.ConstantLines.Add(USL)
+                USL.AxisValue = ht1.SpecUSL
+            End If
         End With
     End Sub
 
     Private Sub LoadChartX(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, VerifiedOnly As String)
         Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartXRMonthly(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, ProdDate2, VerifiedOnly)
+        Dim MinValue As Double, MaxValue As Double, CountSeq As Integer
         With chartX
             .DataSource = xr
             Dim diagram As XYDiagram = CType(.Diagram, XYDiagram)
@@ -554,10 +592,10 @@ Public Class SampleControlQuality
                 diagram.AxisY.ConstantLines.Add(USL)
                 USL.AxisValue = Setup.SpecUSL
 
-                Dim MinValue As Double, MaxValue As Double
                 If xr.Count > 0 Then
                     MinValue = xr(0).MinValue
                     MaxValue = xr(0).MaxValue
+                    CountSeq = xr(0).CountSeq
                     If Setup.SpecLSL < MinValue Then
                         MinValue = Setup.SpecLSL
                     End If
@@ -565,6 +603,7 @@ Public Class SampleControlQuality
                         MaxValue = Setup.SpecUSL
                     End If
                 Else
+                    CountSeq = 0
                     MinValue = Setup.SpecLSL
                     MaxValue = Setup.SpecUSL
                 End If
@@ -590,11 +629,11 @@ Public Class SampleControlQuality
                 CType(.Series("RuleYellow").View, XYDiagramSeriesViewBase).AxisY = myAxisY
             End If
             .DataBind()
-            Dim ChartWidth As Integer = xr.Count * 12
+            Dim ChartWidth As Integer = CountSeq * 160
             If ChartWidth < 400 Then
                 ChartWidth = 400
             End If
-            '.Width = 
+            .Width = ChartWidth
         End With
     End Sub
 
