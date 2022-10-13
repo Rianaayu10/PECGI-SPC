@@ -19,21 +19,46 @@
         }
 
         function InitGrid(s, e) {
-            lblUSL.SetText(s.cpUSL);
-            lblLSL.SetText(s.cpLSL);
-            lblUCL.SetText(s.cpUCL);
-            lblLCL.SetText(s.cpLCL);
+            var USL = "";
+            var LSL = "";
+            var UCL = "";
+            var LCL = "";
+            var MIN = "";
+            var MAX = "";
+            var AVG = "";
+            var R = "";
+            var C = "";
+            var NG = "";
 
-            lblMin.SetText(s.cpMIN);
-            lblMax.SetText(s.cpMAX);
-            lblAve.SetText(s.cpAVG);
-            lblR.SetText(s.cpR);
-            lblC.SetText(s.cpC);
+            if (s.cpChartSetup > 0) {
 
-            if (s.cpNG == '1') {
+                USL = s.cpUSL;
+                LSL = s.cpLSL;
+                UCL = s.cpUCL;
+                LCL = s.cpLCL;
+                MIN = s.cpMIN;
+                MAX = s.cpMAX;
+                AVG = s.cpAVG;
+                R = s.cpR;
+                C = s.cpC;
+                NG = s.cpNG;
+            }
+
+            lblUSL.SetText(USL);
+            lblLSL.SetText(LSL);
+            lblUCL.SetText(UCL);
+            lblLCL.SetText(LCL);
+
+            lblMin.SetText(MIN);
+            lblMax.SetText(MAX);
+            lblAve.SetText(AVG);
+            lblR.SetText(R);
+            lblC.SetText(C);
+
+            if (NG == '1') {
                 lblNG.SetText('NG');
                 document.getElementById('NG').style.backgroundColor = 'Red';
-            } else if (s.cpNG == '0') {
+            } else if (NG == '0') {
                 lblNG.SetText('OK');
                 document.getElementById('NG').style.backgroundColor = 'Green';
             } else {
@@ -41,16 +66,16 @@
                 document.getElementById('NG').style.backgroundColor = 'White';
             }
 
-            if (s.cpC == 'C') {
+            if (C == 'C') {
                 document.getElementById('C').style.backgroundColor = 'Orange';
             } else {
                 document.getElementById('C').style.backgroundColor = 'White';
             }
 
-            if (s.cpMIN != '') {
-                if (s.cpMIN < s.cpLSL) {
+            if (MIN != '') {
+                if (MIN < LSL) {
                     document.getElementById('Min').style.backgroundColor = 'Red';
-                } else if (s.cpMIN < s.cpLCL) {
+                } else if (MIN < LCL) {
                     document.getElementById('Min').style.backgroundColor = 'Pink';
                 } else {
                     document.getElementById('Min').style.backgroundColor = 'White';
@@ -58,9 +83,9 @@
             } else {
                 document.getElementById('Min').style.backgroundColor = 'White';
             }
-            if (s.cpMAX > s.cpUSL) {
+            if (MAX > USL) {
                 document.getElementById('Max').style.backgroundColor = 'Red';
-            } else if (s.cpMAX > s.cpUCL) {
+            } else if (MAX > UCL) {
                 document.getElementById('Max').style.backgroundColor = 'Pink';
             } else {
                 document.getElementById('Max').style.backgroundColor = 'White';
@@ -203,21 +228,46 @@
                 }
             }
 
-            lblUSL.SetText(s.cpUSL);
-            lblLSL.SetText(s.cpLSL);
-            lblUCL.SetText(s.cpUCL);
-            lblLCL.SetText(s.cpLCL);
+            var USL = "";
+            var LSL = "";
+            var UCL = "";
+            var LCL = "";
+            var MIN = "";
+            var MAX = "";
+            var AVG = "";
+            var R = "";
+            var C = "";
+            var NG = "";
 
-            lblMin.SetText(s.cpMIN);
-            lblMax.SetText(s.cpMAX);
-            lblAve.SetText(s.cpAVG);
-            lblR.SetText(s.cpR);
-            lblC.SetText(s.cpC);
+            if (s.cpChartSetup > 0) {
 
-            if (s.cpNG == '1') {
+                USL = s.cpUSL;
+                LSL = s.cpLSL;
+                UCL = s.cpUCL;
+                LCL = s.cpLCL;
+                MIN = s.cpMIN;
+                MAX = s.cpMAX;
+                AVG = s.cpAVG;
+                R = s.cpR;
+                C = s.cpC;
+                NG = s.cpNG;
+            } 
+
+            lblUSL.SetText(USL);
+            lblLSL.SetText(LSL);
+            lblUCL.SetText(UCL);
+            lblLCL.SetText(LCL);
+
+            lblMin.SetText(MIN);
+            lblMax.SetText(MAX);
+            lblAve.SetText(AVG);
+            lblR.SetText(R);
+            lblC.SetText(C);
+
+            if (NG == '1') {
                 lblNG.SetText('NG');
                 document.getElementById('NG').style.backgroundColor = 'Red';
-            } else if (s.cpNG == '0') {
+            } else if (NG == '0') {
                 lblNG.SetText('OK');
                 document.getElementById('NG').style.backgroundColor = 'Green';
             } else {
@@ -225,16 +275,16 @@
                 document.getElementById('NG').style.backgroundColor = 'White';
             }
 
-            if (s.cpC == 'C') {
+            if (C == 'C') {
                 document.getElementById('C').style.backgroundColor = 'Orange';
             } else {
                 document.getElementById('C').style.backgroundColor = 'White';
             }
 
-            if (s.cpMIN != '') {
-                if (s.cpMIN < s.cpLSL) {
+            if (MIN != '') {
+                if (MIN < LSL) {
                     document.getElementById('Min').style.backgroundColor = 'Red';
-                } else if (s.cpMIN < s.cpLCL) {
+                } else if (MIN < LCL) {
                     document.getElementById('Min').style.backgroundColor = 'Pink';
                 } else {
                     document.getElementById('Min').style.backgroundColor = 'White';
@@ -242,14 +292,13 @@
             } else {
                 document.getElementById('Min').style.backgroundColor = 'White';
             }
-            if (s.cpMAX > s.cpUSL) {
+            if (MAX > USL) {
                 document.getElementById('Max').style.backgroundColor = 'Red';
-            } else if (s.cpMAX > s.cpUCL) {
+            } else if (MAX > UCL) {
                 document.getElementById('Max').style.backgroundColor = 'Pink';
             } else {
                 document.getElementById('Max').style.backgroundColor = 'White';
             }
-
 
             if (s.cp_Verify == "1") {
                 btnVerification.SetEnabled(true);
