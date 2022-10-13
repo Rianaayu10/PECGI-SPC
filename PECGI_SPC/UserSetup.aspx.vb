@@ -87,8 +87,6 @@ Public Class UserSetup
     '    End If
     'End Sub
 
-
-
     Protected Sub Grid_RowInserting(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataInsertingEventArgs) Handles Grid.RowInserting
         e.Cancel = True
         Dim pErr As String = ""
@@ -100,6 +98,7 @@ Public Class UserSetup
             .Description = e.NewValues("Description") & "",
             .FactoryCode = e.NewValues("FactoryCode"),
             .JobPosition = e.NewValues("JobPosition"),
+            .EmployeeID = e.NewValues("EmployeeID"),
             .Email = e.NewValues("Email"),
             .LockStatus = e.NewValues("LockStatus"),
             .CreateUser = pUser
@@ -133,6 +132,7 @@ Public Class UserSetup
             .Description = e.NewValues("Description") & "",
             .FactoryCode = e.NewValues("FactoryCode"),
             .JobPosition = e.NewValues("JobPosition") & "",
+            .EmployeeID = e.NewValues("EmployeeID") & "",
             .Email = e.NewValues("Email"),
             .LockStatus = e.NewValues("LockStatus"),
             .UpdateUser = pUser
@@ -168,7 +168,7 @@ Public Class UserSetup
 
     Private Sub Grid_CellEditorInitialize(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewEditorEventArgs) Handles Grid.CellEditorInitialize
         If Not Grid.IsNewRowEditing Then
-            If e.Column.FieldName = "UserID" Then
+            If e.Column.FieldName = "UserID" Or e.Column.FieldName = "EmployeeID" Then
                 e.Editor.ReadOnly = True
                 e.Editor.ForeColor = Color.Silver
             End If
@@ -203,27 +203,86 @@ Public Class UserSetup
                 End If
             End If
 
+            If dataColumn.FieldName = "FullName" Then
+                If IsNothing(e.NewValues("FullName")) OrElse e.NewValues("FullName").ToString.Trim = "" Then
+                    e.Errors(dataColumn) = "Please input FullName!"
+                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                    AdaError = True
+                End If
+            End If
+
             If dataColumn.FieldName = "Password" Then
                 If IsNothing(e.NewValues("Password")) OrElse e.NewValues("Password").ToString.Trim = "" Then
                     e.Errors(dataColumn) = "Please input Password!"
                     show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
                     AdaError = True
                 End If
+                'Password = e.NewValues("Password")
             End If
-            Password = e.NewValues("Password")
-            If dataColumn.FieldName = "ConfirmPassword" Then
-                If IsNothing(e.NewValues("ConfirmPassword")) OrElse e.NewValues("ConfirmPassword").ToString.Trim = "" Then
-                    e.Errors(dataColumn) = "Please input Confirm Password!"
+
+            If dataColumn.FieldName = "AdminStatus" Then
+                If IsNothing(e.NewValues("AdminStatus")) OrElse e.NewValues("AdminStatus").ToString.Trim = "" Then
+                    e.Errors(dataColumn) = "Please input Admin Status!"
                     show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
                     AdaError = True
                 End If
             End If
-            ConfirmPassword = e.NewValues("Password")
+
+            If dataColumn.FieldName = "FactoryCode" Then
+                If IsNothing(e.NewValues("FactoryCode")) OrElse e.NewValues("FactoryCode").ToString.Trim = "" Then
+                    e.Errors(dataColumn) = "Please input Factory!"
+                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                    AdaError = True
+                End If
+            End If
+
+            If dataColumn.FieldName = "JobPosition" Then
+                If IsNothing(e.NewValues("JobPosition")) OrElse e.NewValues("JobPosition").ToString.Trim = "" Then
+                    e.Errors(dataColumn) = "Please input Job Position!"
+                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                    AdaError = True
+                End If
+            End If
+
+            If dataColumn.FieldName = "EmployeeID" Then
+                If IsNothing(e.NewValues("EmployeeID")) OrElse e.NewValues("EmployeeID").ToString.Trim = "" Then
+                    e.Errors(dataColumn) = "Please input Employee ID!"
+                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                    AdaError = True
+                Else
+                    Dim dt As DataTable = clsUserSetupDB.GetEmployee(e.NewValues("EmployeeID"))
+                    If e.IsNewRow Then
+                        If dt.Rows.Count > 0 Then
+                            e.Errors(dataColumn) = "Employee ID already exists!"
+                            show_error(MsgTypeEnum.Warning, e.Errors(dataColumn), 1)
+                            AdaError = True
+                        End If
+                    End If
+                End If
+            End If
+
+            If dataColumn.FieldName = "Email" Then
+                If IsNothing(e.NewValues("Email")) OrElse e.NewValues("Email").ToString.Trim = "" Then
+                    e.Errors(dataColumn) = "Please input Email!"
+                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                    AdaError = True
+                End If
+            End If
+
+            'If dataColumn.FieldName = "ConfirmPassword" Then
+            '    If IsNothing(e.NewValues("ConfirmPassword")) OrElse e.NewValues("ConfirmPassword").ToString.Trim = "" Then
+            '        e.Errors(dataColumn) = "Please input Confirm Password!"
+            '        show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+            '        AdaError = True
+            '    End If
+            '    ConfirmPassword = e.NewValues("Password")
+            'End If
+
         Next column
 
-        If Not AdaError And Password <> ConfirmPassword Then
-            show_error(MsgTypeEnum.Warning, "Password does not match!", 1)
-        End If
+        'If Not AdaError And Password <> ConfirmPassword Then
+        '    show_error(MsgTypeEnum.Warning, "Password does not match!", 1)
+        'End If
     End Sub
 
     Protected Sub Grid_StartRowEditing(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxStartRowEditingEventArgs) Handles Grid.StartRowEditing
