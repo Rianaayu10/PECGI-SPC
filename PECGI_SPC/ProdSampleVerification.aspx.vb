@@ -878,6 +878,8 @@ Public Class ProdSampleVerification
 
             Grid.JSProperties("cpC") = dtChartSetup.Rows(0)("C").ToString
             Grid.JSProperties("cpNG") = dtChartSetup.Rows(0)("NG").ToString
+
+            Grid.JSProperties("cpCS") = dtChartSetup.Rows(0)("CS").ToString
         End If
     End Sub
     Private Sub Up_GridLoadActivities(cls As clsProdSampleVerification)
@@ -1079,8 +1081,8 @@ Public Class ProdSampleVerification
         If Request.QueryString("menu") = "ProductionSampleVerificationList.aspx" Then
             HideValue.Set("prm_factory", prmFactoryCode)
             HideValue.Set("prm_ItemType", prmItemType)
-            HideValue.Set("prm_Line", prmLineCode)
-            HideValue.Set("prm_ItemCheck", prmItemCheck)
+            HideValue.Set("prm_Line", Request.QueryString("cboLine"))
+            HideValue.Set("prm_ItemCheck", Request.QueryString("cboItemCheck"))
             HideValue.Set("prm_FromDate", Request.QueryString("FromDate"))
             HideValue.Set("prm_ToDate", Request.QueryString("ToDate"))
             HideValue.Set("prm_MK", Request.QueryString("MK"))

@@ -73,22 +73,53 @@
             }
 
             if (MIN != '') {
-                if (MIN < LSL) {
+                if (MIN < LSL || MIN > USL) {
                     document.getElementById('Min').style.backgroundColor = 'Red';
-                } else if (MIN < LCL) {
-                    document.getElementById('Min').style.backgroundColor = 'Pink';
+                } else if (MIN < LCL || MIN > UCL) {
+                    if (s.cpCS == '1') {
+                        document.getElementById('Min').style.backgroundColor = 'Yellow';
+                    } else {
+                        document.getElementById('Min').style.backgroundColor = 'Pink';
+                    }               
                 } else {
                     document.getElementById('Min').style.backgroundColor = 'White';
                 }
             } else {
                 document.getElementById('Min').style.backgroundColor = 'White';
             }
-            if (MAX > USL) {
-                document.getElementById('Max').style.backgroundColor = 'Red';
-            } else if (MAX > UCL) {
-                document.getElementById('Max').style.backgroundColor = 'Pink';
+
+            console.log(MAX);
+
+            if (MAX != '') {
+                if (MAX > USL || MAX < LSL) {
+                    document.getElementById('Max').style.backgroundColor = 'Red';
+                } else if (MAX > UCL || MAX < LCL) {
+                    if (s.cpCS == '1') {
+                        document.getElementById('Max').style.backgroundColor = 'Yellow';
+                    } else {
+                        document.getElementById('Max').style.backgroundColor = 'Pink';
+                    }
+                } else {
+                    document.getElementById('Max').style.backgroundColor = 'White';
+                }
             } else {
                 document.getElementById('Max').style.backgroundColor = 'White';
+            }
+
+            if (AVG != '') {
+                if (AVG > USL || AVG < LCL) {
+                    document.getElementById('Ave').style.backgroundColor = 'Red';
+                } else if (AVG > UCL || AVG < LCL) {
+                    if (s.cpCS == '1') {
+                        document.getElementById('Ave').style.backgroundColor = 'Yellow';
+                    } else {
+                        document.getElementById('Ave').style.backgroundColor = 'Pink';
+                    }
+                } else {
+                    document.getElementById('Ave').style.backgroundColor = 'White';
+                }
+            } else {
+                document.getElementById('Ave').style.backgroundColor = 'White';
             }
 
             if (s.cp_Verify == "1") {
@@ -281,23 +312,54 @@
                 document.getElementById('C').style.backgroundColor = 'White';
             }
 
+
             if (MIN != '') {
-                if (MIN < LSL) {
+                if (MIN < LSL || MIN > USL) {
                     document.getElementById('Min').style.backgroundColor = 'Red';
-                } else if (MIN < LCL) {
-                    document.getElementById('Min').style.backgroundColor = 'Pink';
+                } else if (MIN < LCL || MIN > UCL) {
+                    if (s.cpCS == '1') {
+                        document.getElementById('Min').style.backgroundColor = 'Yellow';
+                    } else {
+                        document.getElementById('Min').style.backgroundColor = 'Pink';
+                    }
                 } else {
                     document.getElementById('Min').style.backgroundColor = 'White';
                 }
             } else {
                 document.getElementById('Min').style.backgroundColor = 'White';
             }
-            if (MAX > USL) {
-                document.getElementById('Max').style.backgroundColor = 'Red';
-            } else if (MAX > UCL) {
-                document.getElementById('Max').style.backgroundColor = 'Pink';
+
+            console.log(MAX);
+            if (MAX != '') {
+                if (MAX > USL || MAX < LSL) {
+                    document.getElementById('Max').style.backgroundColor = 'Red';
+                } else if (MAX > UCL || MAX < LCL) {
+                    if (s.cpCS == '1') {
+                        document.getElementById('Max').style.backgroundColor = 'Yellow';
+                    } else {
+                        document.getElementById('Max').style.backgroundColor = 'Pink';
+                    }
+                } else {
+                    document.getElementById('Max').style.backgroundColor = 'White';
+                }
             } else {
                 document.getElementById('Max').style.backgroundColor = 'White';
+            }
+
+            if (AVG != '') {
+                if (AVG > USL || AVG < LCL) {
+                    document.getElementById('Ave').style.backgroundColor = 'Red';
+                } else if (AVG > UCL || AVG < LCL) {
+                    if (s.cpCS == '1') {
+                        document.getElementById('Ave').style.backgroundColor = 'Yellow';
+                    } else {
+                        document.getElementById('Ave').style.backgroundColor = 'Pink';
+                    }
+                } else {
+                    document.getElementById('Ave').style.backgroundColor = 'White';
+                }
+            } else {
+                document.getElementById('Ave').style.backgroundColor = 'White';
             }
 
             if (s.cp_Verify == "1") {
