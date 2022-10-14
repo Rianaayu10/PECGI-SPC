@@ -22,8 +22,8 @@
     <script type="text/javascript" >
         var rowIndex, columnIndex;
         function OnInit(s, e) {
-            var d = new Date(2022, 8, 3);
-            dtDate.SetDate(d);  
+            var x = document.getElementById("chartRdiv");
+            x.style.display = "none";
         }
 
         function isNumeric(n) {
@@ -884,7 +884,7 @@
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="LCL" ValueDataMembersSerializable="LCL" LabelsVisibility="False">
+            <cc1:Series ArgumentDataMember="Seq" Name="LCL" ValueDataMembersSerializable="LCL" LabelsVisibility="False" CrosshairLabelPattern="{S}: {V:0.000}">
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="0, 32, 96" MarkerVisibility="False">
                         <LineStyle DashStyle="DashDot" Thickness="2" />
@@ -897,7 +897,7 @@
                     </cc1:PointSeriesLabel>
                 </LabelSerializable>
             </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="UCL" ValueDataMembersSerializable="UCL">
+            <cc1:Series ArgumentDataMember="Seq" Name="UCL" ValueDataMembersSerializable="UCL" CrosshairLabelPattern="{S}: {V:0.000}">
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="0, 32, 96" MarkerVisibility="False">
                         <LineStyle DashStyle="DashDot" Thickness="2" />
@@ -906,7 +906,7 @@
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="USL" ValueDataMembersSerializable="USL">
+            <cc1:Series ArgumentDataMember="Seq" Name="USL" ValueDataMembersSerializable="USL" CrosshairLabelPattern="{S}: {V:0.000}">
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="240, 0, 0" MarkerVisibility="False">
                         <LineStyle Thickness="2" />
@@ -915,7 +915,7 @@
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="LSL" ValueDataMembersSerializable="LSL">
+            <cc1:Series ArgumentDataMember="Seq" Name="LSL" ValueDataMembersSerializable="LSL" CrosshairLabelPattern="{S}: {V:0.000}">
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="240, 0, 0" MarkerVisibility="False">
                         <LineStyle Thickness="2" />
@@ -925,7 +925,7 @@
                 </ViewSerializable>
             </cc1:Series>
 
-            <cc1:Series ArgumentDataMember="Seq" Name="CL" ValueDataMembersSerializable="CL">
+            <cc1:Series ArgumentDataMember="Seq" Name="CL" ValueDataMembersSerializable="CL" CrosshairLabelPattern="{S}: {V:0.000}">
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="0, 0, 0">
                         <LineStyle Thickness="2" />
@@ -967,7 +967,7 @@
             </cc1:XYDiagram>
         </DiagramSerializable>
         <titles>
-            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Graph Monitoring" />
+            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="" />
         </titles>
         <legend alignmenthorizontal="Left" alignmentvertical="BottomOutside" 
             direction="LeftToRight"></legend> 
@@ -1029,7 +1029,7 @@
         </titles>
         <legend alignmenthorizontal="Left" alignmentvertical="BottomOutside" 
             direction="LeftToRight"></legend> 
-        <ClientSideEvents EndCallback="ChartREndCallBack" />
+        <ClientSideEvents EndCallback="ChartREndCallBack" Init="OnInit" />
     </dx:WebChartControl>
 </div>
             </td>

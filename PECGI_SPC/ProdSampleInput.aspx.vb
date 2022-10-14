@@ -221,8 +221,8 @@ Public Class ProdSampleInput
         Result.ProdDate = dtDate.Value
         Result.ShiftCode = cboShift.Value
         Result.SequenceNo = cboSeq.Value
-        Result.SubLotNo = ""
-        Result.Remark = ""
+        Result.SubLotNo = txtSubLotNo.Text
+        Result.Remark = txtRemarks.Text
         Result.RegisterUser = Session("user") & ""
         clsSPCResultDB.Insert(Result)
 
