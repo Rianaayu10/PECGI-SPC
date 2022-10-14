@@ -20,8 +20,10 @@
     <script type="text/javascript" >
         var rowIndex, columnIndex;
         function OnInit(s, e) {
-            var d = new Date(2022, 8, 3);
-            dtDate.SetDate(d);  
+            var d = new Date(2022, 9, 4);            
+            var d2 = new Date(2022, 9, 11);
+            var x = document.getElementById("chartRdiv");
+            x.style.display = "none";
         }
 
         function isNumeric(n) {
@@ -175,6 +177,7 @@
             lblCPK2.SetText(s.cpCPK2);
 
             chartX.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + dtTo.GetText() + '|' + cboShow.GetValue());
+            chartR.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + dtTo.GetText());                
             Histogram.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + dtTo.GetText());
         }
     </script>
@@ -541,10 +544,58 @@
             </cc1:XYDiagram>
         </DiagramSerializable>
         <titles>
-            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Graph Monitoring" Alignment="Near" />
+            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Graph Monitoring" Alignment="Center" />
         </titles>
         <legend alignmenthorizontal="Left" alignmentvertical="BottomOutside" 
             direction="LeftToRight"></legend> 
+    </dx:WebChartControl>
+</div>
+
+<div id="chartRdiv">
+<dx:WebChartControl ID="chartR" runat="server" ClientInstanceName="chartR"
+        Height="450px" Width="1080px" CrosshairEnabled="True">
+        <SeriesSerializable>
+            <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue">
+                <ViewSerializable>
+                    <cc1:LineSeriesView>
+                    </cc1:LineSeriesView>
+                </ViewSerializable>
+            </cc1:Series>
+        </SeriesSerializable>
+        <seriestemplate ValueDataMembersSerializable="Value">            
+            <viewserializable>
+                <cc1:LineSeriesView>
+                    <LineMarkerOptions BorderColor="White" Size="8">
+                    </LineMarkerOptions>
+                </cc1:LineSeriesView>
+            </viewserializable>
+        </seriestemplate>  
+        <DiagramSerializable>
+            <cc1:XYDiagram>
+                <AxisX VisibleInPanesSerializable="-1" MinorCount="1">
+                    <GridLines MinorVisible="True">
+                    </GridLines>
+                </AxisX>
+                <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
+                    <Tickmarks MinorLength="1" MinorVisible="False" />
+                    <Label TextAlignment="Near" TextPattern="{V:0.000}">
+                        <ResolveOverlappingOptions AllowHide="True" />
+                    </Label>
+                    <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.001" MaxValueSerializable="0.027" MinValueSerializable="0" StartSideMargin="0" />
+                    <WholeRange Auto="False" MaxValueSerializable="0.027" MinValueSerializable="0" AutoSideMargins="False" EndSideMargin="1" StartSideMargin="1" />
+                    <GridLines>
+                        <LineStyle DashStyle="Dot" />
+                    </GridLines>
+                    <NumericScaleOptions AutoGrid="False" CustomGridAlignment="0.001" GridAlignment="Custom" GridOffset="1" />
+                </AxisY>
+            </cc1:XYDiagram>
+        </DiagramSerializable>
+        <titles>
+            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="R Control Chart" />
+        </titles>
+        <legend alignmenthorizontal="Left" alignmentvertical="BottomOutside" 
+            direction="LeftToRight"></legend> 
+        <ClientSideEvents EndCallback="ChartREndCallBack" Init="OnInit" />
     </dx:WebChartControl>
 </div>
 
@@ -555,7 +606,7 @@
 <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="350px" Width="800px" ClientInstanceName="Histogram">
 
                         <Titles>
-                            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Histogram" Alignment="Near" />
+                            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Histogram" Alignment="Center" />
                         </Titles>
                         <DiagramSerializable>
                 <cc1:XYDiagram Rotated="True">
@@ -564,8 +615,6 @@
                     <Label TextPattern="{A:0.000}">
                     </Label>
                     <WholeRange AutoSideMargins="False" EndSideMargin="0.5" StartSideMargin="0.5" />
-                    <GridLines Visible="True">
-                    </GridLines>
                     <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Count" IntervalOptions-GridLayoutMode="GridAndLabelShifted" IntervalOptions-OverflowValue="2.715" IntervalOptions-Count="5" IntervalOptions-Pattern="{A1:0.000}-{A2:0.000}" IntervalOptions-UnderflowValue="2.645" IntervalOptions-OverflowValuePattern="{OS}" />
                     </AxisX>
 

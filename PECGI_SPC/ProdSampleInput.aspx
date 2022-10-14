@@ -475,7 +475,6 @@
 		                    e.processOnServer = false;
 		                    return;
                         }
-                        grid.CancelEdit();
  	                    grid.PerformCallback('load' + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + cboShow.GetValue());
                     }" />
                     <Paddings Padding="2px" />
