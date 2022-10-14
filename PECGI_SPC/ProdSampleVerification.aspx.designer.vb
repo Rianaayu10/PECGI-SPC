@@ -68,6 +68,24 @@ Partial Public Class ProdSampleVerification
     Protected WithEvents dtProdDate As Global.DevExpress.Web.ASPxDateEdit
 
     '''<summary>
+    '''lblcboShow control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblcboShow As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''cboShow control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cboShow As Global.DevExpress.Web.ASPxComboBox
+
+    '''<summary>
     '''lblItemType control.
     '''</summary>
     '''<remarks>

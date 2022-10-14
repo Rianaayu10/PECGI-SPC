@@ -27,6 +27,7 @@ Public Class UserLine
     Private Sub up_GridLoad(ByVal pUserID As String)
         Dim dsMenu As List(Of clsUserLine)
         dsMenu = clsUserLineDB.GetList(pUserID)
+        gridMenu.SettingsPager.PageSize = dsMenu.Count
         gridMenu.DataSource = dsMenu
         gridMenu.DataBind()
     End Sub

@@ -303,6 +303,7 @@ Public Class SampleControlQuality
     Dim dtUSL As DataTable
     Dim dtLCL As DataTable
     Dim dtUCL As DataTable
+    Dim dtCP As DataTable
 
     Private Sub GridXLoad(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, VerifiedOnly As Integer)
         With gridX
@@ -370,6 +371,19 @@ Public Class SampleControlQuality
                 dtUSL = ds.Tables(3)
                 dtLCL = ds.Tables(4)
                 dtUCL = ds.Tables(5)
+                dtCP = ds.Tables(6)
+
+                If dtCP.Rows.Count > 0 Then
+                    .JSProperties("cpMin") = dtCP.Rows(0)("Min") & ""
+                    .JSProperties("cpMax") = dtCP.Rows(0)("Max") & ""
+                    .JSProperties("cpAvg") = dtCP.Rows(0)("Avg") & ""
+                    .JSProperties("cpSTD") = dtCP.Rows(0)("STD") & ""
+                    .JSProperties("cpLSL") = dtCP.Rows(0)("LSL") & ""
+                    .JSProperties("cpUSL") = dtCP.Rows(0)("USL") & ""
+                    .JSProperties("cpCP") = dtCP.Rows(0)("CP") & ""
+                    .JSProperties("cpCPK1") = dtCP.Rows(0)("CPK1") & ""
+                    .JSProperties("cpCPK2") = dtCP.Rows(0)("CPK2") & ""
+                End If
             End If
         End With
     End Sub
@@ -472,15 +486,58 @@ Public Class SampleControlQuality
             .DataBind()
             Dim diagram As XYDiagram = CType(.Diagram, XYDiagram)
             If ht.Count > 0 Then
-                diagram.AxisX.WholeRange.MaxValue = ht(0).MaxValue + 1
-                diagram.AxisX.NumericScaleOptions.GridAlignment = NumericGridAlignment.Ones
-            End If
+                Dim ht1 As clsHistogram = ht(0)
+                'diagram.AxisX.WholeRange.MaxValue = ht1.MaxValue + 1
+                diagram.AxisX.NumericScaleOptions.IntervalOptions.OverflowValue = ht1.SpecUSL + 0.01
+                diagram.AxisX.NumericScaleOptions.IntervalOptions.UnderflowValue = ht1.SpecLSL - +0.01
 
+                diagram.AxisX.ConstantLines.Clear()
+                Dim LCL As New ConstantLine("LCL")
+                LCL.Color = System.Drawing.Color.Purple
+                LCL.LineStyle.Thickness = 2
+                LCL.LineStyle.DashStyle = DashStyle.DashDot
+                diagram.AxisX.ConstantLines.Add(LCL)
+                LCL.AxisValue = ht1.XBarLCL
+                LCL.ShowInLegend = True
+
+                Dim UCL As New ConstantLine("UCL")
+                UCL.Color = System.Drawing.Color.Purple
+                UCL.LineStyle.Thickness = 2
+                UCL.LineStyle.DashStyle = DashStyle.DashDot
+                diagram.AxisX.ConstantLines.Add(UCL)
+                UCL.AxisValue = ht1.XBarUCL
+                UCL.ShowInLegend = True
+
+                Dim CL As New ConstantLine("CL")
+                CL.Color = System.Drawing.Color.Black
+                CL.LineStyle.Thickness = 2
+                CL.LineStyle.DashStyle = DashStyle.Solid
+                diagram.AxisX.ConstantLines.Add(CL)
+                CL.AxisValue = ht1.XBarCL
+                CL.ShowInLegend = True
+
+                Dim LSL As New ConstantLine("LSL")
+                LSL.Color = System.Drawing.Color.Red
+                LSL.LineStyle.Thickness = 2
+                LSL.LineStyle.DashStyle = DashStyle.Solid
+                diagram.AxisX.ConstantLines.Add(LSL)
+                LSL.AxisValue = ht1.SpecLSL
+                LSL.ShowInLegend = True
+
+                Dim USL As New ConstantLine("USL")
+                USL.Color = System.Drawing.Color.Red
+                USL.LineStyle.Thickness = 2
+                USL.LineStyle.DashStyle = DashStyle.Solid
+                diagram.AxisX.ConstantLines.Add(USL)
+                USL.AxisValue = ht1.SpecUSL
+                USL.ShowInLegend = True
+            End If
         End With
     End Sub
 
     Private Sub LoadChartX(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, VerifiedOnly As String)
         Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartXRMonthly(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, ProdDate2, VerifiedOnly)
+        Dim MinValue As Double, MaxValue As Double, CountSeq As Integer
         With chartX
             .DataSource = xr
             Dim diagram As XYDiagram = CType(.Diagram, XYDiagram)
@@ -540,18 +597,21 @@ Public Class SampleControlQuality
                 diagram.AxisY.ConstantLines.Add(USL)
                 USL.AxisValue = Setup.SpecUSL
 
-                Dim MinValue As Double, MaxValue As Double
                 If xr.Count > 0 Then
                     MinValue = xr(0).MinValue
                     MaxValue = xr(0).MaxValue
-                End If
-                If Setup.SpecLSL < MinValue Then
+                    CountSeq = xr(0).CountSeq
+                    If Setup.SpecLSL < MinValue Then
+                        MinValue = Setup.SpecLSL
+                    End If
+                    If Setup.SpecUSL > MaxValue Then
+                        MaxValue = Setup.SpecUSL
+                    End If
+                Else
+                    CountSeq = 4
                     MinValue = Setup.SpecLSL
-                End If
-                If Setup.SpecUSL > MaxValue Then
                     MaxValue = Setup.SpecUSL
                 End If
-
                 diagram.AxisY.WholeRange.MinValue = MinValue
                 diagram.AxisY.WholeRange.MaxValue = MaxValue
                 diagram.AxisY.WholeRange.EndSideMargin = 0.015
@@ -574,11 +634,86 @@ Public Class SampleControlQuality
                 CType(.Series("RuleYellow").View, XYDiagramSeriesViewBase).AxisY = myAxisY
             End If
             .DataBind()
-            Dim ChartWidth As Integer = xr.Count * 12
+            Dim ChartWidth As Integer = CountSeq * 80
             If ChartWidth < 400 Then
                 ChartWidth = 400
             End If
-            '.Width = 
+            .Width = ChartWidth
+        End With
+    End Sub
+
+    Private Sub chartR_CustomCallback(sender As Object, e As CustomCallbackEventArgs) Handles chartR.CustomCallback
+        Dim Prm As String = e.Parameter
+        If Prm = "" Then
+            Prm = "F001|TPMSBR011|015|IC021|03 Aug 2022"
+        End If
+        Dim FactoryCode As String = Split(Prm, "|")(0)
+        Dim ItemTypeCode As String = Split(Prm, "|")(1)
+        Dim LineCode As String = Split(Prm, "|")(2)
+        Dim ItemCheckCode As String = Split(Prm, "|")(3)
+        Dim ProdDate As String = Split(Prm, "|")(4)
+        Dim PrevDate As String = Split(Prm, "|")(5)
+        LoadChartR(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, PrevDate, ProdDate)
+    End Sub
+
+    Private Sub LoadChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, PrevDate As String, ProdDate As String)
+        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, PrevDate, ProdDate)
+        If xr.Count = 0 Then
+            chartR.JSProperties("cpShow") = "0"
+        Else
+            chartR.JSProperties("cpShow") = "1"
+        End If
+        With chartR
+            .DataSource = xr
+            Dim diagram As XYDiagram = CType(.Diagram, XYDiagram)
+            diagram.AxisX.WholeRange.MinValue = 0
+            diagram.AxisX.WholeRange.MaxValue = 12
+
+            diagram.AxisX.GridLines.LineStyle.DashStyle = DashStyle.Solid
+            diagram.AxisX.GridLines.MinorVisible = True
+            diagram.AxisX.MinorCount = 1
+            diagram.AxisX.GridLines.Visible = False
+
+            Dim MaxValue As Double, CountSeq As Integer
+            Dim Setup As clsChartSetup = clsChartSetupDB.GetData(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate)
+            diagram.AxisY.ConstantLines.Clear()
+            If Setup IsNot Nothing Then
+                Dim RCL As New ConstantLine("CL R")
+                RCL.Color = System.Drawing.Color.Purple
+                RCL.LineStyle.Thickness = 2
+                RCL.LineStyle.DashStyle = DashStyle.DashDot
+                diagram.AxisY.ConstantLines.Add(RCL)
+                RCL.AxisValue = Setup.RCL
+
+                Dim RUCL As New ConstantLine("UCL R")
+                RUCL.Color = System.Drawing.Color.Purple
+                RUCL.LineStyle.Thickness = 2
+                RUCL.LineStyle.DashStyle = DashStyle.DashDot
+                diagram.AxisY.ConstantLines.Add(RUCL)
+                RUCL.AxisValue = Setup.RUCL
+
+                If xr.Count > 0 Then
+                    If xr(0).MaxValue > Setup.RUCL Then
+                        MaxValue = xr(0).MaxValue
+                        CountSeq = xr(0).CountSeq
+                    Else
+                        MaxValue = Setup.RUCL
+                        CountSeq = 4
+                    End If
+                End If
+                diagram.AxisY.WholeRange.MaxValue = MaxValue
+                diagram.AxisY.VisualRange.MaxValue = MaxValue
+                If MaxValue > 0 Then
+                    Dim GridAlignment As Double = Math.Round(MaxValue / 34, 4)
+                    diagram.AxisY.NumericScaleOptions.CustomGridAlignment = GridAlignment
+                End If
+            End If
+            .DataBind()
+            Dim ChartWidth As Integer = CountSeq * 80
+            If ChartWidth < 400 Then
+                ChartWidth = 400
+            End If
+            .Width = ChartWidth
         End With
     End Sub
 

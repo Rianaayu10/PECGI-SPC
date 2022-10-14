@@ -221,8 +221,8 @@ Public Class ProdSampleInput
         Result.ProdDate = dtDate.Value
         Result.ShiftCode = cboShift.Value
         Result.SequenceNo = cboSeq.Value
-        Result.SubLotNo = ""
-        Result.Remark = ""
+        Result.SubLotNo = txtSubLotNo.Text
+        Result.Remark = txtRemarks.Text
         Result.RegisterUser = Session("user") & ""
         clsSPCResultDB.Insert(Result)
 
@@ -297,6 +297,8 @@ Public Class ProdSampleInput
 
         Dim UserID As String = Session("user")
         'Dim AllowSkill As Boolean = clsIOT.AllowSkill(UserID, FactoryCode, Line, ItemTypeCode)
+        ChartType = clsXRChartDB.GetChartType(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
+        grid.JSProperties("cpChartType") = ChartType
 
         Dim Verified As Boolean = False
         If dt.Rows.Count = 0 Then
@@ -335,6 +337,7 @@ Public Class ProdSampleInput
         End If
         Dim dtVer As DataTable = clsSPCResultDB.GetLastVerification(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Sequence)
         Dim LastVerification As Integer = dtVer.Rows(0)(0)
+        LastVerification = 1
         grid.SettingsDataSecurity.AllowInsert = LastVerification = 1 And Not Verified And AuthUpdate
         grid.SettingsDataSecurity.AllowEdit = LastVerification = 1 And Not Verified And AuthUpdate
         If LastVerification = 0 Then

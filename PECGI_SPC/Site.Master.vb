@@ -175,7 +175,7 @@ Public Class Site
             Dim daNGInput As New SqlDataAdapter(cmdNGInput)
             daNGInput.Fill(dsNGInput)
 
-            q = "sp_SPC_GetDelayVerify"
+            q = "sp_SPC_GetDelayVerification"
             Dim cmdDelayVerify As New SqlCommand(q, Cn)
             cmdDelayVerify.CommandType = CommandType.StoredProcedure
             cmdDelayVerify.Parameters.AddWithValue("User", pUser)

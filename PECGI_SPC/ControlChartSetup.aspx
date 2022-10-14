@@ -83,6 +83,13 @@
             var b = Grid.GetEditor("TypeEditGrid").GetValue().toString();
             Grid.GetEditor("MachineEditGrid").PerformCallback(a + '|' + b);
         }
+
+        function gridMachineSelected() {
+            var a = Grid.GetEditor("Factory").GetValue().toString();
+            var b = Grid.GetEditor("TypeEditGrid").GetValue().toString();
+            var c = Grid.GetEditor("MachineEditGrid").GetValue().toString();
+            Grid.GetEditor("ItemCheckEditGrid").PerformCallback(a + '|' + b + '|' + c);
+        }
     </script>
 </asp:Content>
 
@@ -623,6 +630,7 @@
                     <PropertiesComboBox DropDownStyle="DropDownList" TextFormatString="{0}"
                         IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="195px"
                         TextField="Description" ValueField="Code" ClientInstanceName="MachineEditGrid">
+                        <ClientSideEvents ValueChanged = "gridMachineSelected" />
                         <ItemStyle Height="10px" Paddings-Padding="4px">
                             <Paddings Padding="4px"></Paddings>
                         </ItemStyle>

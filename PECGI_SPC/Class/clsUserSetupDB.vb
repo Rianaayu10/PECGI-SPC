@@ -9,11 +9,11 @@ Public Class clsUserSetupDB
                 Dim sqL As String
                 sqL = "INSERT INTO dbo.spc_UserSetup (" & vbCrLf &
                         "   [AppID],[UserID],[FullName],[Password],[Description],[AdminStatus]," & vbCrLf &
-                        "   [FactoryCode],[JobPosition],[Email],[LockStatus]," & vbCrLf &
+                        "   [FactoryCode],[JobPosition], [EmployeeID],[Email],[LockStatus]," & vbCrLf &
                         "   [RegisterDate],[RegisterUser],[UpdateDate],[UpdateUser]" & vbCrLf &
                         ") VALUES ( " & vbCrLf &
                         "   @AppID, @UserID, @FullName, @Password, @Description, @AdminStatus," & vbCrLf &
-                        "   @FactoryCode, @JobPosition, @Email, @LockStatus, " & vbCrLf &
+                        "   @FactoryCode, @JobPosition, @EmployeeID, @Email, @LockStatus, " & vbCrLf &
                         "   GETDATE(), @RegisterUser, GETDATE(), @RegisterUser )"
                 Dim cmd As New SqlCommand(sqL, Cn)
                 Dim des As New clsDESEncryption("TOS")
@@ -27,6 +27,7 @@ Public Class clsUserSetupDB
                     .AddWithValue("Description", pUser.Description)
                     .AddWithValue("FactoryCode", pUser.FactoryCode)
                     .AddWithValue("JobPosition", pUser.JobPosition)
+                    .AddWithValue("EmployeeID", pUser.EmployeeID)
                     .AddWithValue("Email", pUser.Email)
                     .AddWithValue("LockStatus", Val(pUser.LockStatus & ""))
                     .AddWithValue("RegisterUser", pUser.CreateUser)
@@ -52,6 +53,7 @@ Public Class clsUserSetupDB
                     "AdminStatus = @AdminStatus, " &
                     "FactoryCode = @FactoryCode, " &
                     "JobPosition = @JobPosition, " &
+                    "EmployeeID = @EmployeeID, " &
                     "Email = @Email, " &
                     "LockStatus = @LockStatus, " & vbCrLf &
                     "FailedLogin = 0, UpdateDate = GETDATE(), UpdateUser = @UpdateUser " &
@@ -68,6 +70,7 @@ Public Class clsUserSetupDB
                     .AddWithValue("Description", pUser.Description)
                     .AddWithValue("FactoryCode", pUser.FactoryCode)
                     .AddWithValue("JobPosition", pUser.JobPosition)
+                    .AddWithValue("EmployeeID", pUser.EmployeeID)
                     .AddWithValue("Email", pUser.Email)
                     .AddWithValue("LockStatus", pUser.LockStatus)
                     .AddWithValue("UpdateUser", pUser.UpdateUser)
@@ -164,6 +167,7 @@ Public Class clsUserSetupDB
                     .LockStatus = dt.Rows(i)("LockStatus"),
                     .FactoryCode = dt.Rows(i)("FactoryCode") & "",
                     .JobPosition = dt.Rows(i)("JobPosition") & "",
+                    .EmployeeID = dt.Rows(i)("EmployeeID") & "",
                     .Email = dt.Rows(i)("Email") & "",
                     .LastUpdate = Date.Parse(dt.Rows(i)("UpdateDate").ToString()).ToString("yyyy MMM dd HH:mm:ss"),
                     .LastUser = dt.Rows(i)("UpdateUser") & ""
@@ -207,7 +211,24 @@ Public Class clsUserSetupDB
         Catch ex As Exception
             Throw ex
         End Try
+    End Function
 
+    Public Shared Function GetEmployee(EmployeeID As String) As DataTable
+        Try
+            Using cn As New SqlConnection(Sconn.Stringkoneksi)
+                Dim sql As String
+                Dim clsDESEncryption As New clsDESEncryption("TOS")
+                sql = " SELECT * FROM dbo.spc_UserSetup where EmployeeID = @EmployeeID" & vbCrLf
+                Dim cmd As New SqlCommand(sql, cn)
+                cmd.Parameters.AddWithValue("EmployeeID", EmployeeID)
+                Dim da As New SqlDataAdapter(cmd)
+                Dim dt As New DataTable
+                da.Fill(dt)
+                Return dt
+            End Using
+        Catch ex As Exception
+            Throw ex
+        End Try
     End Function
 
     Public Shared Function GetListMenu(ByVal pUserID As String, Optional ByRef pErr As String = "") As List(Of Cls_ss_UserMenu)

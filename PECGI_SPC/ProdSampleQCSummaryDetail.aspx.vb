@@ -23,7 +23,7 @@ Public Class ProdSampleQCSummaryDetail
 #Region "Events"
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         sGlobal.getMenu(pMenuID)
-        Master.SiteTitle = pMenuID & " - " & sGlobal.menuName
+        Master.SiteTitle = pMenuID & " - " & sGlobal.menuName & " NG Results"
         pUser = Session("user")
         '{menu=ProdIDSummary&FactoryCode=F001&ItemTypeCode=TPMSBR011&ItemCheckCode=IC022&ProdDate=2022-08-04&Frequency=03&Sequence=5&Line=ALL}
         Factory = Request.QueryString("FactoryCode") & ""

@@ -168,7 +168,7 @@
                     s.UnselectRowsByKey(previuosRowIndex);
                 } 
                 previuosRowIndex = s.GetRowKey(e.visibleIndex);
-                s.GetSelectedFieldValues("SPCResultID;FactoryCode;ItemTypeCode;LineCode;ItemCheckCode;ProdDate;Shift;SequenceNo", GetSelectedFieldValuesCallback);
+                s.GetSelectedFieldValues("SPCResultID;FactoryCode;ItemTypeCode;LineCode;ItemCheckCode;ProdDate;Shift;SequenceNo;ShowVerify", GetSelectedFieldValuesCallback);
             }
         }
 
@@ -183,6 +183,7 @@
             var ProdDate = myArray[5];
             var Shift = myArray[6];
             var Seq = myArray[7];
+            var ShowVerify = myArray[8];
 
             var prmLine = cboLineID.GetValue();
             var prmItemCheck = cboItemCheck.GetValue();
@@ -191,8 +192,10 @@
             var prmMK = cboMK.GetValue();
             var prmQC = cboMK.GetValue();
 
+            console.log(ShowVerify);
+
             window.open('ProdSampleVerification.aspx?menu=ProductionSampleVerificationList.aspx' + '&FactoryCode=' + Factory + '&ItemTypeCode=' + ItemType
-                + '&Line=' + Line + '&ItemCheckCode=' + ItemCheck + '&ProdDate=' + ProdDate + '&Shift=' + Shift + '&Sequence=' + Seq
+                + '&Line=' + Line + '&ItemCheckCode=' + ItemCheck + '&ProdDate=' + ProdDate + '&Shift=' + Shift + '&Sequence=' + Seq + '&ShowVerify=' + ShowVerify
                 + '&cboLine=' + prmLine + '&cboItemCheck=' + prmItemCheck + '&FromDate=' + prmFromDate + '&ToDate='+ prmToDate + '&MK=' +prmMK + '&QC=' +prmQC + '', '_self');           
         }
 
@@ -207,9 +210,10 @@
             var ProdDate = myArray[5];
             var Shift = myArray[6];
             var Seq = myArray[7];
+            var ShowVerify = myArray[8];
 
             window.open('ProdSampleInput.aspx?menu=prodSampleVerification.aspx' + '&FactoryCode=' + Factory + '&ItemTypeCode=' + ItemType
-                + '&Line=' + Line + '&ItemCheckCode=' + ItemCheck + '&ProdDate=' + ProdDate + '&Shift=' + Shift + '&Sequence=' + Seq
+                + '&Line=' + Line + '&ItemCheckCode=' + ItemCheck + '&ProdDate=' + ProdDate + '&Shift=' + Shift + '&Sequence=' + Seq + '&ShowVerify=' + ShowVerify
                 + '', '_blank');
         }
 
@@ -476,6 +480,8 @@
                 <dx:GridViewDataTextColumn FieldName="MKColor" Width="0" VisibleIndex="0">
                 </dx:GridViewDataTextColumn>
                 <dx:GridViewDataTextColumn FieldName="QCColor" Width="0" VisibleIndex="0">
+                </dx:GridViewDataTextColumn>
+                <dx:GridViewDataTextColumn FieldName="ShowVerify" Width="0" VisibleIndex="0">
                 </dx:GridViewDataTextColumn>
 
                 <dx:GridViewDataTextColumn Caption="Date" VisibleIndex="2" Width="80px"

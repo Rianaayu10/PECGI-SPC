@@ -69,9 +69,9 @@
                 SelectCommand="select FactoryCode, FactoryName from [Ms_Factory]"></asp:SqlDataSource>
 
             <dx:ASPxGridView ID="Grid" runat="server" AutoGenerateColumns="False" ClientInstanceName="Grid"
-                EnableTheming="True" KeyFieldName="UserID" Theme="Office2010Black"
+                EnableTheming="True" KeyFieldName="UserID; EmployeeID" Theme="Office2010Black"
                 OnRowValidating="Grid_RowValidating" OnStartRowEditing="Grid_StartRowEditing"
-                OnRowInserting="Grid_RowInserting" OnRowDeleting="Grid_RowDeleting"
+                OnRowInserting="Grid_RowInserting" OnRowDeleting="Grid_RowDeleting" 
                 OnAfterPerformCallback="Grid_AfterPerformCallback" Width="100%"
                 Font-Names="Segoe UI" Font-Size="9pt">
                 <ClientSideEvents EndCallback="OnEndCallback" />
@@ -86,7 +86,7 @@
                         </HeaderStyle>
                     </dx:GridViewCommandColumn>
 
-                     <%--<dx:GridViewDataTextColumn Caption="" FieldName="" 
+                    <%--<dx:GridViewDataTextColumn Caption="" FieldName="" 
                         VisibleIndex="0" Width="70px">
                         <Settings AllowAutoFilter="False" AllowSort="False" />
                         <EditFormSettings Visible="true" />
@@ -185,7 +185,7 @@
                     <dx:GridViewDataComboBoxColumn Caption="FactoryCode" FieldName="FactoryCode"
                         VisibleIndex="7" Width="130px" Settings-AutoFilterCondition="Contains">
                         <PropertiesComboBox DataSourceID="dsFactory" DropDownStyle="DropDownList" TextFormatString="{0}"
-                            IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true"  Width="120px" 
+                            IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="120px"
                             TextField="FactoryName" ValueField="FactoryCode" ClientInstanceName="FactoryCode">
                             <ItemStyle Height="10px" Paddings-Padding="4px">
                                 <Paddings Padding="4px"></Paddings>
@@ -227,6 +227,21 @@
                         </HeaderStyle>
                         <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataComboBoxColumn>
+
+                    <dx:GridViewDataTextColumn Caption="Employee ID" FieldName="EmployeeID"
+                        VisibleIndex="9" Width="100px" Settings-AutoFilterCondition="Contains">
+                        <PropertiesTextEdit MaxLength="50" Width="100px">
+                            <Style HorizontalAlign="Left"></Style>
+                        </PropertiesTextEdit>
+                        <Settings AutoFilterCondition="Contains"></Settings>
+                        <FilterCellStyle Paddings-PaddingRight="4px">
+                            <Paddings PaddingRight="4px"></Paddings>
+                        </FilterCellStyle>
+                        <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                            <Paddings PaddingLeft="5px"></Paddings>
+                        </HeaderStyle>
+                        <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
+                    </dx:GridViewDataTextColumn>
 
                     <dx:GridViewDataTextColumn Caption="Email" FieldName="Email"
                         VisibleIndex="9" Width="200px" Settings-AutoFilterCondition="Contains">
@@ -334,7 +349,7 @@
                                                 runat="server" ColumnID="FullName"></dx:ASPxGridViewTemplateReplacement>
                                         </td>
                                     </tr>
-                                    <tr style="height:30px">
+                                    <tr style="height: 30px">
                                         <td>Password</td>
                                         <td>
                                             <dx:ASPxGridViewTemplateReplacement ID="editPassword" ReplacementType="EditFormCellEditor"
@@ -375,6 +390,16 @@
                                             <dx:LayoutItemNestedControlContainer>
                                                 <dx:ASPxGridViewTemplateReplacement ID="editJobPosition" ReplacementType="EditFormCellEditor"
                                                     runat="server" ColumnID="JobPosition"></dx:ASPxGridViewTemplateReplacement>
+                                            </dx:LayoutItemNestedControlContainer>
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 30px">
+                                        <td>Employee ID
+                                        </td>
+                                        <td>
+                                            <dx:LayoutItemNestedControlContainer>
+                                                <dx:ASPxGridViewTemplateReplacement ID="editEmployeeID" ReplacementType="EditFormCellEditor"
+                                                    runat="server" ColumnID="EmployeeID"></dx:ASPxGridViewTemplateReplacement>
                                             </dx:LayoutItemNestedControlContainer>
                                         </td>
                                     </tr>

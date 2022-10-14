@@ -14,6 +14,7 @@
     Public Property PasswordHint As String
     Public Property FactoryCode As String
     Public Property JobPosition As String
+    Public Property EmployeeID As String
     Public Property Email As String
     Public Property LastUpdate As String
     Public Property LastUser As String

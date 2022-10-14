@@ -8,6 +8,7 @@ Public Class clsXRChart
     Public Property MinValue As Double
     Public Property MaxValue As Double
     Public Property RValue As Double
+    Public Property CL As Double
     Public Property LCL As Double
     Public Property UCL As Double
     Public Property USL As Double
@@ -15,15 +16,41 @@ Public Class clsXRChart
     Public Property RuleValue As Double?
     Public Property RuleYellow As Double?
     Public Property RuleColor As String
+    Public Property CountSeq As Integer
 End Class
 
 Public Class clsHistogram
     Public Property Range As String
     Public Property Value As Double
     Public Property MaxValue As Double
+    Public Property XBarCL As Double
+    Public Property XBarLCL As Double
+    Public Property XBarUCL As Double
+    Public Property SpecLSL As Double
+    Public Property SpecUSL As Double
+
 End Class
 
 Public Class clsXRChartDB
+    Public Shared Function GetHistogramTable(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String) As DataTable
+        Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+            Cn.Open()
+            Dim cmd As New SqlCommand("sp_SPC_Histogram", Cn)
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
+            cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
+            cmd.Parameters.AddWithValue("Line", Line)
+            cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
+            cmd.Parameters.AddWithValue("ProdDate", ProdDate)
+            cmd.Parameters.AddWithValue("ProdDate2", ProdDate2)
+
+            Dim da As New SqlDataAdapter(cmd)
+            Dim dt As New DataTable
+            da.Fill(dt)
+            Return dt
+        End Using
+    End Function
+
     Public Shared Function GetHistogram(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String) As List(Of clsHistogram)
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
@@ -42,9 +69,14 @@ Public Class clsXRChartDB
             Dim HtList As New List(Of clsHistogram)
             For i = 0 To dt.Rows.Count - 1
                 Dim ht As New clsHistogram
-                ht.Range = dt.Rows(i)("ValueRange") & ""
-                ht.Value = dt.Rows(i)("ValueCount")
+                ht.Range = dt.Rows(i)("ValueRange")
+                ht.Value = dt.Rows(i)("Value")
                 ht.MaxValue = dt.Rows(i)("MaxValue")
+                ht.XBarCL = dt.Rows(i)("XBarCL")
+                ht.XBarLCL = dt.Rows(i)("XBarLCL")
+                ht.XBarUCL = dt.Rows(i)("XBarUCL")
+                ht.SpecLSL = dt.Rows(i)("SpecLSL")
+                ht.SpecUSL = dt.Rows(i)("SpecUSL")
                 HtList.Add(ht)
             Next
             Return HtList
@@ -100,6 +132,10 @@ Public Class clsXRChartDB
                         value = .Item("XbarLCL")
                         xr.LCL = value
                     End If
+                    If Not IsDBNull(.Item("XbarCL")) Then
+                        value = .Item("XbarCL")
+                        xr.CL = value
+                    End If
                     If Not IsDBNull(.Item("SpecLSL")) Then
                         value = .Item("SpecLSL")
                         xr.LSL = value
@@ -137,8 +173,10 @@ Public Class clsXRChartDB
             cmd.Parameters.AddWithValue("ProdDate2", ProdDate2)
             cmd.Parameters.AddWithValue("VerifiedOnly", VerifiedOnly)
             Dim da As New SqlDataAdapter(cmd)
+            Dim ds As New DataSet
             Dim dt As New DataTable
-            da.Fill(dt)
+            da.Fill(ds)
+            dt = ds.Tables(0)
             Dim XRList As New List(Of clsXRChart)
             For i = 0 To dt.Rows.Count - 1
                 Dim xr As New clsXRChart
@@ -173,6 +211,10 @@ Public Class clsXRChartDB
                         value = .Item("MinValue")
                         xr.MinValue = value
                     End If
+                    If Not IsDBNull(.Item("SeqCount")) Then
+                        value = .Item("SeqCount")
+                        xr.CountSeq = value
+                    End If
                 End With
                 XRList.Add(xr)
             Next
@@ -196,7 +238,7 @@ Public Class clsXRChartDB
 
 
 
-    Public Shared Function GetChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String) As List(Of clsXRChart)
+    Public Shared Function GetChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Optional PrevDate As String = "") As List(Of clsXRChart)
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String = "sp_SPC_RChart"
@@ -207,6 +249,9 @@ Public Class clsXRChartDB
             cmd.Parameters.AddWithValue("Line", Line)
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
             cmd.Parameters.AddWithValue("ProdDate", ProdDate)
+            If PrevDate <> "" Then
+                cmd.Parameters.AddWithValue("PrevDate", PrevDate)
+            End If
             Dim da As New SqlDataAdapter(cmd)
             Dim dt As New DataTable
             da.Fill(dt)
@@ -222,6 +267,7 @@ Public Class clsXRChartDB
                     xr.RValue = .Item("RValue")
                     value = .Item("MaxValue")
                     xr.MaxValue = value
+                    xr.CountSeq = .Item("SeqCount")
                 End With
                 XRList.Add(xr)
             Next

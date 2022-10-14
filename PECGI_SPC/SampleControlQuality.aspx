@@ -15,46 +15,15 @@
         .body {
             border: 1px solid silver; 
         }
-        .auto-style1 {
-            height: 12px;
-        }
-            .auto-style2 {
-                width: 60px;
-                height: 41px;
-            }
-            .auto-style3 {
-                width: 130px;
-                height: 41px;
-            }
-            .auto-style4 {
-                width: 100px;
-                height: 41px;
-            }
-            .auto-style5 {
-                width: 34px;
-                height: 41px;
-            }
-            .auto-style6 {
-                width: 10px;
-                height: 41px;
-            }
-            .auto-style7 {
-                width: 110px;
-                height: 41px;
-            }
-            .auto-style8 {
-                width: 25px;
-                height: 41px;
-            }
-            .auto-style9 {
-                height: 41px;
-            }
+        
             </style>
     <script type="text/javascript" >
         var rowIndex, columnIndex;
         function OnInit(s, e) {
-            var d = new Date(2022, 8, 3);
-            dtDate.SetDate(d);  
+            var d = new Date(2022, 9, 4);            
+            var d2 = new Date(2022, 9, 11);
+            var x = document.getElementById("chartRdiv");
+            x.style.display = "none";
         }
 
         function isNumeric(n) {
@@ -199,21 +168,30 @@
                 toastr.options.preventDuplicates = true;
                 toastr.options.onclick = null;
             }
+            lblMin.SetText(s.cpMin);
+            lblMax.SetText(s.cpMax);
+            lblAvg.SetText(s.cpAvg);
+            lblSTD.SetText(s.cpSTD);
+            lblCP.SetText(s.cpCP);
+            lblCPK1.SetText(s.cpCPK1);
+            lblCPK2.SetText(s.cpCPK2);
+
             chartX.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + dtTo.GetText() + '|' + cboShow.GetValue());
+            chartR.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + dtTo.GetText());                
             Histogram.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + dtTo.GetText());
         }
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
     <div style="padding: 0px 5px 5px 5px">
-        <table class="auto-style3" style="width: 100%">
+        <table style="width: 100%">
         <tr >
-            <td style="padding:5px 0px 0px 0px" class="auto-style2">
+            <td style="padding:5px 0px 0px 0px" >
                 <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="Factory" Font-Names="Segoe UI" 
                     Font-Size="9pt">
                 </dx:ASPxLabel>
             </td>
-            <td style=" padding:5px 0px 0px 0px" class="auto-style3">
+            <td style=" padding:5px 0px 0px 0px" >
                 <dx:ASPxComboBox ID="cboFactory" runat="server" Theme="Office2010Black" TextField="FactoryName"
                     ClientInstanceName="cboFactory" ValueField="FactoryCode" Font-Names="Segoe UI" 
                     Font-Size="9pt" Height="25px" 
@@ -229,12 +207,12 @@
                     </ButtonStyle>
                 </dx:ASPxComboBox>
             </td>
-            <td style=" padding:5px 0px 0px 0px" class="auto-style4">
+            <td style=" padding:5px 0px 0px 0px" >
                 <dx:ASPxLabel ID="ASPxLabel4" runat="server" Text="Machine Process" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel>
             </td>
-            <td style="padding:5px 0px 0px 0px" class="auto-style3">
+            <td style="padding:5px 0px 0px 0px" >
                 <dx:ASPxComboBox ID="cboLine" runat="server" Theme="Office2010Black" TextField="LineName"
                     ClientInstanceName="cboLine" ValueField="LineCode" Font-Names="Segoe UI" 
                     Font-Size="9pt" Height="25px" 
@@ -248,15 +226,15 @@
                     </ButtonStyle>
                 </dx:ASPxComboBox>
             </td>
-            <td style=" padding: 5px 0px 0px 10px; " class="auto-style5">
+            <td style=" padding: 5px 0px 0px 10px; " >
                 <dx:ASPxLabel ID="ASPxLabel8" runat="server" Text="Date" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel>
             </td>
-            <td class="auto-style6">
+            <td>
                 &nbsp;
                 </td>
-            <td style="padding: 5px 0px 0px 0px; " class="auto-style7">                
+            <td style="padding: 5px 0px 0px 0px; ">                
                                 <dx:ASPxDateEdit ID="dtDate" runat="server" Theme="Office2010Black" 
                     Width="100px"
                         ClientInstanceName="dtDate" EditFormatString="dd MMM yyyy" DisplayFormatString="dd MMM yyyy"
@@ -284,12 +262,12 @@
            
            
            
-            <td style="padding: 5px 0px 0px 0px; " class="auto-style8">  
+            <td style="padding: 5px 0px 0px 0px; ">  
                                 <dx:ASPxLabel ID="ASPxLabel10" runat="server" Text="To" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel></td>            
            
-            <td style="padding: 5px 0px 0px 0px; " class="auto-style3">  
+            <td style="padding: 5px 0px 0px 0px; ">  
                                 <dx:ASPxDateEdit ID="dtTo" runat="server" ClientInstanceName="dtTo" DisplayFormatString="dd MMM yyyy" EditFormat="Custom" EditFormatString="dd MMM yyyy" Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="2" Theme="Office2010Black" Width="100px">
                                     <CalendarProperties ShowWeekNumbers="False">
                                         <HeaderStyle Font-Size="12pt" Paddings-Padding="5px">
@@ -313,7 +291,7 @@
                                     </ButtonStyle>
                                 </dx:ASPxDateEdit>
             </td>            
-            <td style="padding: 5px 0px 0px 0px" class="auto-style9">
+            <td style="padding: 5px 0px 0px 0px">
 
                 &nbsp;</td>
             <td></td>
@@ -457,9 +435,6 @@
     <dx:ASPxHiddenField ID="hfRevNo" runat="server" ClientInstanceName="hfRevNo">
     </dx:ASPxHiddenField>
 </div>
-<hr style="border-color:darkgray; " class="auto-style1"/>
-
-
 <div style="padding: 10px 5px 5px 5px">
 <dx:ASPxGridView ID="gridX" runat="server" AutoGenerateColumns="False" ClientInstanceName="gridX"
                                 EnableTheming="True" KeyFieldName="Des" Theme="Office2010Black"            
@@ -508,7 +483,7 @@
 <div style="width:100%; overflow-x: auto; border:1px solid black">
 <dx:WebChartControl ID="chartX" runat="server" ClientInstanceName="chartX"
         Height="434px" Width="400px" CrosshairEnabled="True" SeriesDataMember="Description" ToolTipEnabled="False">
-        <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value">
+        <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" CrosshairLabelPattern="{S}: {V:0.000}">
             <viewserializable>
                 <cc1:PointSeriesView>                    
                     <PointMarkerOptions kind="Circle" BorderColor="255, 255, 255"></PointMarkerOptions>
@@ -569,44 +544,203 @@
             </cc1:XYDiagram>
         </DiagramSerializable>
         <titles>
-            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Graph Monitoring" Alignment="Near" />
+            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Graph Monitoring" Alignment="Center" />
         </titles>
         <legend alignmenthorizontal="Left" alignmentvertical="BottomOutside" 
             direction="LeftToRight"></legend> 
     </dx:WebChartControl>
 </div>
 
-<div style="width:100%; overflow-x: auto; border:1px solid black">
-    <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="350px" Width="1080px" ClientInstanceName="Histogram">
-
-        <Titles>
-            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Histogram" Alignment="Near" />
-        </Titles>
-        <DiagramSerializable>
-<cc1:XYDiagram Rotated="True">
-<AxisX VisibleInPanesSerializable="-1" Visibility="True">
-    <NumericScaleOptions AutoGrid="False" ScaleMode="Automatic" />
-    </AxisX>
-
-<AxisY VisibleInPanesSerializable="-1" MinorCount="1" Visibility="True">
-    <Tickmarks MinorLength="1" MinorVisible="False" />
-    <WholeRange Auto="False" AutoSideMargins="False" EndSideMargin="0" MaxValueSerializable="10" MinValueSerializable="0" StartSideMargin="0" />
-    <NumericScaleOptions AutoGrid="False" MinGridSpacingLength="1" />
-    </AxisY>
-</cc1:XYDiagram>
-</DiagramSerializable>
-
-        <Legend Visibility="False"></Legend>
-
+<div id="chartRdiv">
+<dx:WebChartControl ID="chartR" runat="server" ClientInstanceName="chartR"
+        Height="450px" Width="1080px" CrosshairEnabled="True">
         <SeriesSerializable>
-            <cc1:Series ArgumentDataMember="Range" Name="Series 4" ValueDataMembersSerializable="Value" ShowInLegend="False">
+            <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue">
                 <ViewSerializable>
-                    <cc1:SideBySideBarSeriesView BarWidth="1" ColorEach="True">
-                        <Border Color="0, 0, 0" Visibility="True" />
-                    </cc1:SideBySideBarSeriesView>
+                    <cc1:LineSeriesView>
+                    </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
         </SeriesSerializable>
+        <seriestemplate ValueDataMembersSerializable="Value">            
+            <viewserializable>
+                <cc1:LineSeriesView>
+                    <LineMarkerOptions BorderColor="White" Size="8">
+                    </LineMarkerOptions>
+                </cc1:LineSeriesView>
+            </viewserializable>
+        </seriestemplate>  
+        <DiagramSerializable>
+            <cc1:XYDiagram>
+                <AxisX VisibleInPanesSerializable="-1" MinorCount="1">
+                    <GridLines MinorVisible="True">
+                    </GridLines>
+                </AxisX>
+                <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
+                    <Tickmarks MinorLength="1" MinorVisible="False" />
+                    <Label TextAlignment="Near" TextPattern="{V:0.000}">
+                        <ResolveOverlappingOptions AllowHide="True" />
+                    </Label>
+                    <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.001" MaxValueSerializable="0.027" MinValueSerializable="0" StartSideMargin="0" />
+                    <WholeRange Auto="False" MaxValueSerializable="0.027" MinValueSerializable="0" AutoSideMargins="False" EndSideMargin="1" StartSideMargin="1" />
+                    <GridLines>
+                        <LineStyle DashStyle="Dot" />
+                    </GridLines>
+                    <NumericScaleOptions AutoGrid="False" CustomGridAlignment="0.001" GridAlignment="Custom" GridOffset="1" />
+                </AxisY>
+            </cc1:XYDiagram>
+        </DiagramSerializable>
+        <titles>
+            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="R Control Chart" />
+        </titles>
+        <legend alignmenthorizontal="Left" alignmentvertical="BottomOutside" 
+            direction="LeftToRight"></legend> 
+        <ClientSideEvents EndCallback="ChartREndCallBack" Init="OnInit" />
     </dx:WebChartControl>
+</div>
+
+<div style="width:100%; overflow-x: auto; border:1px solid black">
+    <table style="width:100%">
+        <tr>
+            <td style="width:70%">
+<dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="350px" Width="800px" ClientInstanceName="Histogram">
+
+                        <Titles>
+                            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Histogram" Alignment="Center" />
+                        </Titles>
+                        <DiagramSerializable>
+                <cc1:XYDiagram Rotated="True">
+                <AxisX VisibleInPanesSerializable="-1" Visibility="True">
+                    <Tickmarks MinorVisible="False" />
+                    <Label TextPattern="{A:0.000}">
+                    </Label>
+                    <WholeRange AutoSideMargins="False" EndSideMargin="0.5" StartSideMargin="0.5" />
+                    <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Count" IntervalOptions-GridLayoutMode="GridAndLabelShifted" IntervalOptions-OverflowValue="2.715" IntervalOptions-Count="5" IntervalOptions-Pattern="{A1:0.000}-{A2:0.000}" IntervalOptions-UnderflowValue="2.645" IntervalOptions-OverflowValuePattern="{OS}" />
+                    </AxisX>
+
+                <AxisY VisibleInPanesSerializable="-1" MinorCount="1" Visibility="True">
+                    <Tickmarks MinorLength="1" MinorVisible="False" />
+                    <WholeRange AutoSideMargins="False" EndSideMargin="1" StartSideMargin="0" />
+                    <NumericScaleOptions AutoGrid="False" MinGridSpacingLength="1" />
+                    </AxisY>
+                </cc1:XYDiagram>
+                </DiagramSerializable>
+
+                        <Legend Visibility="False"></Legend>
+
+                        <SeriesSerializable>
+                            <cc1:Series ArgumentDataMember="Value" Name="Histogram" ShowInLegend="False" LabelsVisibility="True">
+                                <ViewSerializable>
+                                    <cc1:SideBySideBarSeriesView BarWidth="1" ColorEach="True">
+                                        <Border Color="0, 0, 0" Visibility="False" />
+                                    </cc1:SideBySideBarSeriesView>
+                                </ViewSerializable>
+                                <LabelSerializable>
+                                    <cc1:SideBySideBarSeriesLabel Position="Top">
+                                    </cc1:SideBySideBarSeriesLabel>
+                                </LabelSerializable>
+                            </cc1:Series>
+                        </SeriesSerializable>
+                    </dx:WebChartControl>
+            </td>
+            <td style="vertical-align:top; text-align:left; width:30%; align-items: baseline; padding-right:5px">
+                <table style="width:100%">
+                    <tr >
+                        <td>
+                            <dx:ASPxLabel ID="ASPxLabel3" runat="server" Text="Min" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td style="padding-right:2px">
+                            <dx:ASPxLabel ID="ASPxLabel5" runat="server" Text=":" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td>
+                            <dx:ASPxLabel ID="lblMin" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblMin"></dx:ASPxLabel>
+                        </td>
+                        <td style="width:20px">
+
+                        </td>
+                        <td>
+                            <dx:ASPxLabel ID="ASPxLabel16" runat="server" Text="CP" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td>
+                            <dx:ASPxLabel ID="ASPxLabel17" runat="server" Text=":" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td>
+                            <dx:ASPxLabel ID="lblCP" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblCP"></dx:ASPxLabel>
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <dx:ASPxLabel ID="ASPxLabel7" runat="server" Text="Max" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td style="padding-right:2px">
+                            <dx:ASPxLabel ID="ASPxLabel11" runat="server" Text=":" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td>
+                            <dx:ASPxLabel ID="lblMax" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblMax"></dx:ASPxLabel>
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            <dx:ASPxLabel ID="ASPxLabel18" runat="server" Text="Cpk1" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td style="padding-right:2px">
+                            <dx:ASPxLabel ID="ASPxLabel19" runat="server" Text=":" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td>
+                            <dx:ASPxLabel ID="lblCPK1" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblCPK1"></dx:ASPxLabel>
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <dx:ASPxLabel ID="ASPxLabel12" runat="server" Text="Average" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td style="padding-right:2px">
+                            <dx:ASPxLabel ID="ASPxLabel13" runat="server" Text=":" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td>
+                            <dx:ASPxLabel ID="lblAvg" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblAvg"></dx:ASPxLabel>
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            <dx:ASPxLabel ID="ASPxLabel20" runat="server" Text="Cpk2" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td style="padding-right:2px">
+                            <dx:ASPxLabel ID="ASPxLabel21" runat="server" Text=":" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td>
+                            <dx:ASPxLabel ID="lblCPK2" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblCPK2"></dx:ASPxLabel>
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <dx:ASPxLabel ID="ASPxLabel14" runat="server" Text="Deviation" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td style="padding-right:2px">
+                            <dx:ASPxLabel ID="ASPxLabel15" runat="server" Text=":" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td>
+                            <dx:ASPxLabel ID="lblSTD" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblSTD"></dx:ASPxLabel>
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    
 </div>
 </asp:Content>

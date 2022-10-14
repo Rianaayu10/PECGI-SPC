@@ -45,10 +45,19 @@ Public Class frmSPCInboxNotification
         pDate = 3
         pShift = 4
         pSeq = 5
-        pScheduleStart = 6
-        pScheduleEnd = 7
-        pDelayMinutes = 8
-        Count = 9
+        pUSL = 6
+        pLSL = 7
+        pUCL = 8
+        pLCL = 9
+        pMin = 10
+        pMax = 11
+        pAve = 12
+        pOperator = 13
+        pMK = 14
+        pQC = 15
+        pVerifTime = 16
+        pDelayVerif = 17
+        Count = 18
     End Enum
 
     Private dtNG As DataTable
@@ -146,7 +155,7 @@ Public Class frmSPCInboxNotification
             .Cols(NGResult.pQC).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
 
             .Styles.Fixed.TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
-            .GetCellRange(0, NGResult.pType, 0, NGResult.pQC).StyleNew.BackColor = Color.LightGray
+            .GetCellRange(0, NGResult.pType, 0, NGResult.Count - 1).StyleNew.BackColor = Color.LightGray
 
             .AllowEditing = False
             .Styles.Normal.WordWrap = True
@@ -190,7 +199,7 @@ Public Class frmSPCInboxNotification
 
             .Styles.Fixed.TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
 
-            .GetCellRange(0, DelayInput.pType, 0, DelayInput.pDelayMinutes).StyleNew.BackColor = Color.LightGray
+            .GetCellRange(0, DelayInput.pType, 0, DelayInput.Count - 1).StyleNew.BackColor = Color.LightGray
 
             .AllowEditing = False
             .Styles.Normal.WordWrap = True
@@ -213,12 +222,18 @@ Public Class frmSPCInboxNotification
             .Item(0, DelayVerification.pDate) = "Date"
             .Item(0, DelayVerification.pShift) = "Shift"
             .Item(0, DelayVerification.pSeq) = "Seq"
-            .Item(0, DelayVerification.pScheduleStart) = "Schedule Start"
-            .Item(0, DelayVerification.pScheduleEnd) = "Schedule End"
-            .Item(0, DelayVerification.pDelayMinutes) = "Delay (Minutes)"
-
-            '.Cols(grdHeader.datetime).Width = 150
-            '.Cols(grdHeader.datetime).Width = 450
+            .Item(0, DelayVerification.pUSL) = "USL"
+            .Item(0, DelayVerification.pLSL) = "LSL"
+            .Item(0, DelayVerification.pUCL) = "UCL"
+            .Item(0, DelayVerification.pLCL) = "LCL"
+            .Item(0, DelayVerification.pMin) = "Min"
+            .Item(0, DelayVerification.pMax) = "Max"
+            .Item(0, DelayVerification.pAve) = "Ave"
+            .Item(0, DelayVerification.pOperator) = "Operator"
+            .Item(0, DelayVerification.pMK) = "MK"
+            .Item(0, DelayVerification.pQC) = "QC"
+            .Item(0, DelayVerification.pVerifTime) = "Verif Time"
+            .Item(0, DelayVerification.pDelayVerif) = "Delay Verif"
 
             '.AutoSizeCols()
 
@@ -226,15 +241,24 @@ Public Class frmSPCInboxNotification
             .Cols(DelayVerification.pMachineProcess).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.LeftCenter
             .Cols(DelayVerification.pItemCheck).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.LeftCenter
             .Cols(DelayVerification.pDate).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
+            .Cols(DelayVerification.pDate).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
             .Cols(DelayVerification.pShift).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
             .Cols(DelayVerification.pSeq).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
-            .Cols(DelayVerification.pScheduleStart).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
-            .Cols(DelayVerification.pScheduleEnd).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
-            .Cols(DelayVerification.pDelayMinutes).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
+            .Cols(DelayVerification.pUSL).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
+            .Cols(DelayVerification.pLSL).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
+            .Cols(DelayVerification.pUCL).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
+            .Cols(DelayVerification.pLCL).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
+            .Cols(DelayVerification.pMin).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
+            .Cols(DelayVerification.pMax).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
+            .Cols(DelayVerification.pAve).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
+            .Cols(DelayVerification.pOperator).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.LeftCenter
+            .Cols(DelayVerification.pMK).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
+            .Cols(DelayVerification.pQC).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
+            .Cols(DelayVerification.pVerifTime).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
+            .Cols(DelayVerification.pDelayVerif).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
 
             .Styles.Fixed.TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
-
-            .GetCellRange(0, DelayVerification.pType, 0, DelayVerification.pDelayMinutes).StyleNew.BackColor = Color.LightGray
+            .GetCellRange(0, DelayVerification.pType, 0, DelayVerification.Count - 1).StyleNew.BackColor = Color.LightGray
 
             .AllowEditing = False
             .Styles.Normal.WordWrap = True
@@ -273,6 +297,7 @@ Public Class frmSPCInboxNotification
                 .Item(i + 1, NGResult.pQC) = dtNG.Rows(i)("QC").ToString()
                 .AutoSizeCols()
             Next
+            lblTotalNGResult.Text = "Total : " & dtNG.Rows.Count & " Record"
         End With
     End Sub
     Private Sub DelayInputLoad()
@@ -288,34 +313,86 @@ Public Class frmSPCInboxNotification
                 .Item(i + 1, DelayInput.pSeq) = dtDelayInput.Rows(i)("SequenceNo").ToString()
                 .Item(i + 1, DelayInput.pScheduleStart) = dtDelayInput.Rows(i)("StartTime").ToString()
                 .Item(i + 1, DelayInput.pScheduleEnd) = dtDelayInput.Rows(i)("EndTime").ToString()
-                .Item(i + 1, DelayInput.pDelayMinutes) = dtDelayInput.Rows(i)("Delay").ToString()
 
-                If CInt(.Item(i + 1, DelayInput.pDelayMinutes)) > 60 Then
+                Dim delay = dtDelayInput.Rows(i)("Delay").ToString()
+                Dim tmSpan = TimeSpan.FromMinutes(dtDelayInput.Rows(i)("Delay").ToString())
+                Dim Days = tmSpan.Days * 24
+                Dim Hours = Days + tmSpan.Hours
+                If Days > 0 Then
+                    .Item(i + 1, DelayInput.pDelayMinutes) = Convert.ToString(tmSpan.Days & " Day " & tmSpan.Hours & " Hours " & tmSpan.Minutes & " Minutes")
+
+                Else
+
+                    If Hours > 0 Then
+                        .Item(i + 1, DelayInput.pDelayMinutes) = Convert.ToString(tmSpan.Hours & " Hours " & tmSpan.Minutes & " Minutes")
+                    Else
+                        .Item(i + 1, DelayInput.pDelayMinutes) = Convert.ToString(tmSpan.Minutes & " Minutes")
+                    End If
+
+                End If
+                '.Item(i + 1, DelayInput.pDelayMinutes) = dtDelayInput.Rows(i)("Delay").ToString()
+
+                If CInt(dtDelayInput.Rows(i)("Delay").ToString()) > 60 Then
                     .GetCellRange(i + 1, DelayInput.pDelayMinutes, i + 1, DelayInput.pDelayMinutes).StyleNew.BackColor = Color.Red
                 End If
-                If CInt(.Item(i + 1, DelayInput.pDelayMinutes)) < 60 Then
+                If CInt(dtDelayInput.Rows(i)("Delay").ToString()) < 60 Then
                     .GetCellRange(i + 1, DelayInput.pDelayMinutes, i + 1, DelayInput.pDelayMinutes).StyleNew.BackColor = Color.Yellow
                 End If
 
                 .AutoSizeCols()
             Next
+            lblTotalDelayInput.Text = "Total : " & dtDelayInput.Rows.Count & " Record"
         End With
     End Sub
     Private Sub DelayVerificationLoad()
         With gridDelayVerification
             For i = 0 To dtDelayVerification.Rows.Count - 1
                 .AddItem("")
-                .Item(0, DelayVerification.pType) = "Type"
-                .Item(0, DelayVerification.pMachineProcess) = "Machine Process"
-                .Item(0, DelayVerification.pItemCheck) = "Item Check"
-                .Item(0, DelayVerification.pDate) = "Date"
-                .Item(0, DelayVerification.pShift) = "Shift"
-                .Item(0, DelayVerification.pSeq) = "Seq"
-                .Item(0, DelayVerification.pScheduleStart) = "Schedule Start"
-                .Item(0, DelayVerification.pScheduleEnd) = "Schedule End"
-                .Item(0, DelayVerification.pDelayMinutes) = "Delay (Minutes)"
+                .Item(i + 1, DelayVerification.pType) = dtDelayVerification.Rows(i)("ItemTypeName").ToString()
+                .Item(i + 1, DelayVerification.pMachineProcess) = dtDelayVerification.Rows(i)("LineName").ToString()
+                .Item(i + 1, DelayVerification.pItemCheck) = dtDelayVerification.Rows(i)("ItemCheck").ToString()
+                .Item(i + 1, DelayVerification.pDate) = dtDelayVerification.Rows(i)("Date").ToString()
+                .Item(i + 1, DelayVerification.pShift) = dtDelayVerification.Rows(i)("ShiftCode").ToString()
+                .Item(i + 1, DelayVerification.pSeq) = dtDelayVerification.Rows(i)("SequenceNo").ToString()
+                .Item(i + 1, DelayVerification.pUSL) = dtDelayVerification.Rows(i)("USL").ToString()
+                .Item(i + 1, DelayVerification.pLSL) = dtDelayVerification.Rows(i)("LSL").ToString()
+                .Item(i + 1, DelayVerification.pUCL) = dtDelayVerification.Rows(i)("UCL").ToString()
+                .Item(i + 1, DelayVerification.pLCL) = dtDelayVerification.Rows(i)("LCL").ToString()
+                .Item(i + 1, DelayVerification.pMin) = dtDelayVerification.Rows(i)("MinValue").ToString()
+                .Item(i + 1, DelayVerification.pMax) = dtDelayVerification.Rows(i)("MaxValue").ToString()
+                .Item(i + 1, DelayVerification.pAve) = dtDelayVerification.Rows(i)("Average").ToString()
+                .Item(i + 1, DelayVerification.pOperator) = dtDelayVerification.Rows(i)("Operator").ToString()
+                .Item(i + 1, DelayVerification.pMK) = dtDelayVerification.Rows(i)("MK").ToString()
+                .Item(i + 1, DelayVerification.pQC) = dtDelayVerification.Rows(i)("QC").ToString()
+                .Item(i + 1, DelayVerification.pVerifTime) = dtDelayVerification.Rows(i)("VerifTime").ToString()
+
+                Dim delay = dtDelayVerification.Rows(i)("DelayVerif").ToString()
+                Dim tmSpan = TimeSpan.FromMinutes(dtDelayVerification.Rows(i)("DelayVerif").ToString())
+                Dim Days = tmSpan.Days * 24
+                Dim Hours = Days + tmSpan.Hours
+                If Days > 0 Then
+                    .Item(i + 1, DelayVerification.pDelayVerif) = Convert.ToString(tmSpan.Days & " Day " & tmSpan.Hours & " Hours " & tmSpan.Minutes & " Minutes")
+
+                Else
+
+                    If Hours > 0 Then
+                        .Item(i + 1, DelayVerification.pDelayVerif) = Convert.ToString(tmSpan.Hours & " Hours " & tmSpan.Minutes & " Minutes")
+                    Else
+                        .Item(i + 1, DelayVerification.pDelayVerif) = Convert.ToString(tmSpan.Minutes & " Minutes")
+                    End If
+
+                End If
+                '.Item(i + 1, DelayVerification.pDelayVerif) = dtDelayVerification.Rows(i)("DelayVerif").ToString()
+
+                If CInt(dtDelayVerification.Rows(i)("DelayVerif").ToString()) > 60 Then
+                    .GetCellRange(i + 1, DelayVerification.pDelayVerif, i + 1, DelayVerification.pDelayVerif).StyleNew.BackColor = Color.Red
+                End If
+                If CInt(dtDelayVerification.Rows(i)("DelayVerif").ToString()) < 60 Then
+                    .GetCellRange(i + 1, DelayVerification.pDelayVerif, i + 1, DelayVerification.pDelayVerif).StyleNew.BackColor = Color.Yellow
+                End If
                 .AutoSizeCols()
             Next
+            lblTotalDelayVerification.Text = "Total : " & dtDelayVerification.Rows.Count & " Record"
         End With
     End Sub
 

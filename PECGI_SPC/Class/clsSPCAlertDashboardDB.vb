@@ -94,7 +94,7 @@ Public Class clsSPCAlertDashboardDB
             Using conn As New SqlConnection(Sconn.Stringkoneksi)
                 conn.Open()
                 Dim sql As String = ""
-                sql = "sp_SPC_GetDelayVerify"
+                sql = "sp_SPC_GetDelayVerification"
 
                 Dim cmd As New SqlCommand(sql, conn)
                 cmd.CommandType = CommandType.StoredProcedure
