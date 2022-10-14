@@ -18,6 +18,9 @@
         .auto-style1 {
             height: 12px;
         }
+        .auto-style2 {
+            margin-right: 0;
+        }
     </style>
     <script type="text/javascript" >
         var rowIndex, columnIndex;
@@ -537,9 +540,10 @@
 <div style="padding: 10px 5px 5px 5px">
 <dx:ASPxGridView ID="grid" runat="server" AutoGenerateColumns="False" ClientInstanceName="grid"
             EnableTheming="True" KeyFieldName="SeqNo" Theme="Office2010Black"            
-            OnBatchUpdate="grid_BatchUpdate"          
+            OnBatchUpdate="grid_BatchUpdate"   
+            OnRowValidating="grid_RowValidating"
             Width="100%" 
-            Font-Names="Segoe UI" Font-Size="9pt">
+            Font-Names="Segoe UI" Font-Size="9pt" CssClass="auto-style2">
             <ClientSideEvents 
                 EndCallback="OnEndCallback" BatchEditStartEditing="OnBatchEditStartEditing" 
              />
