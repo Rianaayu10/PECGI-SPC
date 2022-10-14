@@ -9,6 +9,7 @@
     <script type="text/javascript">
 
         function InitRBar(s, e) {
+            console.log(s.cpShow);
             var i = s.cpShow;
             var x = document.getElementById("chartRdiv");
             if (i == '1') {
@@ -80,7 +81,7 @@
                         document.getElementById('Min').style.backgroundColor = 'Yellow';
                     } else {
                         document.getElementById('Min').style.backgroundColor = 'Pink';
-                    }               
+                    }
                 } else {
                     document.getElementById('Min').style.backgroundColor = 'White';
                 }
@@ -287,7 +288,7 @@
                 R = s.cpR;
                 C = s.cpC;
                 NG = s.cpNG;
-            } 
+            }
 
             lblUSL.SetText(USL);
             lblLSL.SetText(LSL);
@@ -919,159 +920,177 @@
     </div>
     <div style="padding: 5px 5px 5px 5px;">
         <div id="chartXdiv" style="overflow-x:auto; width:100%; border:1px solid black"">
-            <dx:WebChartControl ID="chartX" runat="server" ClientInstanceName="chartX"
-            Height="490px" Width="1080px" CrosshairEnabled="True" SeriesDataMember="Description">
-            <SeriesTemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value">
+    <dx:WebChartControl ID="chartX" runat="server" ClientInstanceName="chartX" 
+        Height="490px" Width="1080px" CrosshairEnabled="True" SeriesDataMember="Description" ToolTipEnabled="False">
+        <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" ToolTipPointPattern="{V:0.000}" CrosshairLabelPattern="{S}: {V:0.000}">
+            <viewserializable>
+                <cc1:PointSeriesView>                    
+                    <PointMarkerOptions kind="Circle" BorderColor="255, 255, 255"></PointMarkerOptions>
+                </cc1:PointSeriesView>
+            </viewserializable>
+        </seriestemplate>    
+        <SeriesSerializable>
+            <cc1:Series ArgumentDataMember="Seq" Name="Rule" ValueDataMembersSerializable="RuleValue" LabelsVisibility="False" ShowInLegend="False" ToolTipEnabled="False" ToolTipSeriesPattern="" CrosshairEnabled="False">
                 <ViewSerializable>
-                    <cc1:PointSeriesView>
-                        <PointMarkerOptions Kind="Circle" BorderColor="255, 255, 255"></PointMarkerOptions>
-                    </cc1:PointSeriesView>
+                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="Red" Transparency="200" AxisYName="Secondary AxisY 1">
+                        <Border Visibility="False" />
+                    </cc1:FullStackedBarSeriesView>
                 </ViewSerializable>
-            </SeriesTemplate>
-            <SeriesSerializable>
-                <cc1:Series ArgumentDataMember="Seq" Name="Rule" ValueDataMembersSerializable="RuleValue" LabelsVisibility="False" ShowInLegend="False">
-                    <ViewSerializable>
-                        <cc1:FullStackedBarSeriesView BarWidth="1" Color="Red" Transparency="200">
-                        </cc1:FullStackedBarSeriesView>
-                    </ViewSerializable>
-                </cc1:Series>
-                <cc1:Series ArgumentDataMember="Seq" Name="RuleYellow" ValueDataMembersSerializable="RuleYellow" LabelsVisibility="False" ShowInLegend="False">
-                    <ViewSerializable>
-                        <cc1:FullStackedBarSeriesView BarWidth="1" Color="Yellow" Transparency="200">
-                        </cc1:FullStackedBarSeriesView>
-                    </ViewSerializable>
-                </cc1:Series>
-                <cc1:Series ArgumentDataMember="Seq" Name="Average" ValueDataMembersSerializable="AvgValue">
-                    <ViewSerializable>
-                        <cc1:LineSeriesView Color="Blue">
-                            <LineStyle Thickness="1" />
-                            <LineMarkerOptions Color="Blue" Size="1"></LineMarkerOptions>
-                        </cc1:LineSeriesView>
-                    </ViewSerializable>
-                </cc1:Series>
-                <cc1:Series ArgumentDataMember="Seq" Name="LCL" ValueDataMembersSerializable="LCL" LabelsVisibility="False">
-                    <ViewSerializable>
-                        <cc1:LineSeriesView Color="0, 32, 96" MarkerVisibility="False">
-                            <LineStyle DashStyle="DashDot" Thickness="2" />
-                            <LineMarkerOptions Size="1">
-                            </LineMarkerOptions>
-                        </cc1:LineSeriesView>
-                    </ViewSerializable>
-                    <LabelSerializable>
-                        <cc1:PointSeriesLabel Position="Center">
-                        </cc1:PointSeriesLabel>
-                    </LabelSerializable>
-                </cc1:Series>
-                <cc1:Series ArgumentDataMember="Seq" Name="UCL" ValueDataMembersSerializable="UCL">
-                    <ViewSerializable>
-                        <cc1:LineSeriesView Color="0, 32, 96" MarkerVisibility="False">
-                            <LineStyle DashStyle="DashDot" Thickness="2" />
-                            <LineMarkerOptions Size="1">
-                            </LineMarkerOptions>
-                        </cc1:LineSeriesView>
-                    </ViewSerializable>
-                </cc1:Series>
-                <cc1:Series ArgumentDataMember="Seq" Name="USL" ValueDataMembersSerializable="USL">
-                    <ViewSerializable>
-                        <cc1:LineSeriesView Color="240, 0, 0" MarkerVisibility="False">
-                            <LineStyle Thickness="2" />
-                            <LineMarkerOptions Size="1">
-                            </LineMarkerOptions>
-                        </cc1:LineSeriesView>
-                    </ViewSerializable>
-                </cc1:Series>
-                <cc1:Series ArgumentDataMember="Seq" Name="LSL" ValueDataMembersSerializable="LSL">
-                    <ViewSerializable>
-                        <cc1:LineSeriesView Color="240, 0, 0" MarkerVisibility="False">
-                            <LineStyle Thickness="2" />
-                            <LineMarkerOptions Size="1">
-                            </LineMarkerOptions>
-                        </cc1:LineSeriesView>
-                    </ViewSerializable>
-                </cc1:Series>
+            </cc1:Series>
+            <cc1:Series ArgumentDataMember="Seq" Name="RuleYellow" ValueDataMembersSerializable="RuleYellow" LabelsVisibility="False" ShowInLegend="False" ToolTipEnabled="False" ToolTipSeriesPattern="" CrosshairEnabled="False">
+                <ViewSerializable>
+                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="Yellow" Transparency="200">
+                    </cc1:FullStackedBarSeriesView>
+                </ViewSerializable>
+            </cc1:Series>
+            <cc1:Series ArgumentDataMember="Seq" Name="Average" ValueDataMembersSerializable="AvgValue" CrosshairLabelPattern="{S}: {V:0.000}">
+                <ViewSerializable>
+                    <cc1:LineSeriesView Color="Blue">
+                        <LineStyle Thickness="2" />
+                        <LineMarkerOptions Color="Blue" Size="3"></LineMarkerOptions>
+                    </cc1:LineSeriesView>
+                </ViewSerializable>
+            </cc1:Series>
+            <cc1:Series ArgumentDataMember="Seq" Name="LCL" ValueDataMembersSerializable="LCL" LabelsVisibility="False">
+                <ViewSerializable>
+                    <cc1:LineSeriesView Color="0, 32, 96" MarkerVisibility="False">
+                        <LineStyle DashStyle="DashDot" Thickness="2" />
+                        <LineMarkerOptions Size="1">
+                        </LineMarkerOptions>
+                    </cc1:LineSeriesView>
+                </ViewSerializable>
+                <LabelSerializable>
+                    <cc1:PointSeriesLabel Position="Center">
+                    </cc1:PointSeriesLabel>
+                </LabelSerializable>
+            </cc1:Series>
+            <cc1:Series ArgumentDataMember="Seq" Name="UCL" ValueDataMembersSerializable="UCL">
+                <ViewSerializable>
+                    <cc1:LineSeriesView Color="0, 32, 96" MarkerVisibility="False">
+                        <LineStyle DashStyle="DashDot" Thickness="2" />
+                        <LineMarkerOptions Size="1">
+                        </LineMarkerOptions>
+                    </cc1:LineSeriesView>
+                </ViewSerializable>
+            </cc1:Series>
+            <cc1:Series ArgumentDataMember="Seq" Name="USL" ValueDataMembersSerializable="USL">
+                <ViewSerializable>
+                    <cc1:LineSeriesView Color="240, 0, 0" MarkerVisibility="False">
+                        <LineStyle Thickness="2" />
+                        <LineMarkerOptions Size="1">
+                        </LineMarkerOptions>
+                    </cc1:LineSeriesView>
+                </ViewSerializable>
+            </cc1:Series>
+            <cc1:Series ArgumentDataMember="Seq" Name="LSL" ValueDataMembersSerializable="LSL">
+                <ViewSerializable>
+                    <cc1:LineSeriesView Color="240, 0, 0" MarkerVisibility="False">
+                        <LineStyle Thickness="2" />
+                        <LineMarkerOptions Size="1">
+                        </LineMarkerOptions>
+                    </cc1:LineSeriesView>
+                </ViewSerializable>
+            </cc1:Series>
 
-            </SeriesSerializable>
-            <DiagramSerializable>
-                <cc1:XYDiagram>
-                    <AxisX VisibleInPanesSerializable="-1" MinorCount="1">
-                        <Label Alignment="Center">
-                            <ResolveOverlappingOptions AllowHide="False" />
-                        </Label>
-                        <WholeRange AutoSideMargins="False" EndSideMargin="-0.5" StartSideMargin="-0.5" />
-                        <GridLines MinorVisible="True">
-                        </GridLines>
-                        <NumericScaleOptions AutoGrid="False" />
-                    </AxisX>
-                    <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
-                        <Tickmarks MinorVisible="False" />
-                        <Label TextPattern="{V:0.000}" Font="Tahoma, 7pt">
-                            <ResolveOverlappingOptions AllowHide="True" />
-                        </Label>
-                        <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.015" MaxValueSerializable="2.715" MinValueSerializable="2.645" StartSideMargin="0.025" />
-                        <WholeRange AlwaysShowZeroLevel="False" Auto="False" AutoSideMargins="False" EndSideMargin="0.015" MaxValueSerializable="2.73" MinValueSerializable="2.62" StartSideMargin="0.025" />
-                        <GridLines>
-                            <LineStyle DashStyle="Dot" />
-                        </GridLines>
-                        <NumericScaleOptions AutoGrid="False" CustomGridAlignment="0.005" GridAlignment="Custom" />
-                    </AxisY>
-                </cc1:XYDiagram>
-            </DiagramSerializable>
-            <Titles>
-                <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Graph Monitoring" />
-            </Titles>
-            <Legend AlignmentHorizontal="Left" AlignmentVertical="BottomOutside"
-                Direction="LeftToRight"></Legend>
-        </dx:WebChartControl>
-        </div>
+            <cc1:Series ArgumentDataMember="Seq" Name="CL" ValueDataMembersSerializable="CL">
+                <ViewSerializable>
+                    <cc1:LineSeriesView Color="0, 0, 0">
+                        <LineStyle Thickness="2" />
+                        <LineMarkerOptions Size="1">
+                        </LineMarkerOptions>
+                    </cc1:LineSeriesView>
+                </ViewSerializable>
+            </cc1:Series>
+
+        </SeriesSerializable>     
+        <DiagramSerializable>
+            <cc1:XYDiagram>
+                <AxisX VisibleInPanesSerializable="-1" MinorCount="1">
+                    <Label Alignment="Center">
+                        <ResolveOverlappingOptions AllowHide="False" />
+                    </Label>
+                    <WholeRange AutoSideMargins="False" EndSideMargin="-0.5" StartSideMargin="-0.5" />
+                    <GridLines MinorVisible="True">
+                    </GridLines>
+                    <NumericScaleOptions AutoGrid="False" />
+                </AxisX>
+                <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
+                    <Tickmarks MinorVisible="False" />
+                    <Label TextPattern="{V:0.000}" Font="Tahoma, 7pt">
+                        <ResolveOverlappingOptions AllowHide="True" />
+                    </Label>
+                    <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.015" MaxValueSerializable="2.715" MinValueSerializable="2.645" StartSideMargin="0.025" />
+                    <WholeRange AlwaysShowZeroLevel="False" Auto="False" AutoSideMargins="False" EndSideMargin="0.015" MaxValueSerializable="2.73" MinValueSerializable="2.62" StartSideMargin="0.025" />
+                    <GridLines>
+                        <LineStyle DashStyle="Dot" />
+                    </GridLines>
+                    <NumericScaleOptions AutoGrid="False" CustomGridAlignment="0.005" GridAlignment="Custom" />
+                </AxisY>
+                <SecondaryAxesY>
+                    <cc1:SecondaryAxisY Alignment="Near" AxisID="0" Name="Secondary AxisY 1" Visibility="False" VisibleInPanesSerializable="-1">
+                        <WholeRange AutoSideMargins="False" EndSideMargin="0" StartSideMargin="0" />
+                    </cc1:SecondaryAxisY>
+                </SecondaryAxesY>
+            </cc1:XYDiagram>
+        </DiagramSerializable>
+        <titles>
+            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Graph Monitoring" />
+        </titles>
+        <legend alignmenthorizontal="Left" alignmentvertical="BottomOutside" 
+            direction="LeftToRight"></legend> 
+        <ToolTipOptions ShowForPoints="False" ShowForSeries="True">
+        </ToolTipOptions>
+    </dx:WebChartControl>
+</div>
     </div>
     <div style="padding: 5px 5px 5px 5px;">
         <div id="chartRdiv">
-            <dx:WebChartControl ID="chartR" runat="server" ClientInstanceName="chartR"
-                Height="450px" Width="1080px" CrosshairEnabled="True">
-                <SeriesSerializable>
-                    <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue">
-                        <ViewSerializable>
-                            <cc1:LineSeriesView>
-                            </cc1:LineSeriesView>
-                        </ViewSerializable>
-                    </cc1:Series>
-                </SeriesSerializable>
-                <SeriesTemplate ValueDataMembersSerializable="Value">
-                    <ViewSerializable>
-                        <cc1:LineSeriesView>
-                            <LineMarkerOptions BorderColor="White" Size="8">
-                            </LineMarkerOptions>
-                        </cc1:LineSeriesView>
-                    </ViewSerializable>
-                </SeriesTemplate>
-                <DiagramSerializable>
-                    <cc1:XYDiagram>
-                        <AxisX VisibleInPanesSerializable="-1" MinorCount="1">
-                            <GridLines MinorVisible="True">
-                            </GridLines>
-                        </AxisX>
-                        <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
-                            <Tickmarks MinorLength="1" MinorVisible="False" />
-                            <Label TextAlignment="Near" TextPattern="{V:0.000}">
-                                <ResolveOverlappingOptions AllowHide="True" />
-                            </Label>
-                            <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.001" MaxValueSerializable="0.027" MinValueSerializable="0" StartSideMargin="0" />
-                            <WholeRange Auto="False" MaxValueSerializable="0.027" MinValueSerializable="0" AutoSideMargins="False" EndSideMargin="1" StartSideMargin="1" />
-                            <GridLines>
-                                <LineStyle DashStyle="Dot" />
-                            </GridLines>
-                            <NumericScaleOptions AutoGrid="False" CustomGridAlignment="0.001" GridAlignment="Custom" GridOffset="1" />
-                        </AxisY>
-                    </cc1:XYDiagram>
-                </DiagramSerializable>
-                <Titles>
-                    <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="R Control Chart" />
-                </Titles>
-                <Legend AlignmentHorizontal="Left" AlignmentVertical="BottomOutside"
-                    Direction="LeftToRight"></Legend>
-                <ClientSideEvents EndCallback="ChartREndCallBack" />
-            </dx:WebChartControl>
-        </div>
+    <dx:WebChartControl ID="chartR" runat="server" ClientInstanceName="chartR"
+        Height="450px" Width="1080px" CrosshairEnabled="True">
+        <SeriesSerializable>
+            <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue">
+                <ViewSerializable>
+                    <cc1:LineSeriesView>
+                    </cc1:LineSeriesView>
+                </ViewSerializable>
+            </cc1:Series>
+        </SeriesSerializable>
+        <seriestemplate ValueDataMembersSerializable="Value">            
+            <viewserializable>
+                <cc1:LineSeriesView>
+                    <LineMarkerOptions BorderColor="White" Size="8">
+                    </LineMarkerOptions>
+                </cc1:LineSeriesView>
+            </viewserializable>
+        </seriestemplate>  
+        <DiagramSerializable>
+            <cc1:XYDiagram>
+                <AxisX VisibleInPanesSerializable="-1" MinorCount="1">
+                    <GridLines MinorVisible="True">
+                    </GridLines>
+                </AxisX>
+                <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
+                    <Tickmarks MinorLength="1" MinorVisible="False" />
+                    <Label TextAlignment="Near" TextPattern="{V:0.000}">
+                        <ResolveOverlappingOptions AllowHide="True" />
+                    </Label>
+                    <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.001" MaxValueSerializable="0.027" MinValueSerializable="0" StartSideMargin="0" />
+                    <WholeRange Auto="False" MaxValueSerializable="0.027" MinValueSerializable="0" AutoSideMargins="False" EndSideMargin="1" StartSideMargin="1" />
+                    <GridLines>
+                        <LineStyle DashStyle="Dot" />
+                    </GridLines>
+                    <NumericScaleOptions AutoGrid="False" CustomGridAlignment="0.001" GridAlignment="Custom" GridOffset="1" />
+                </AxisY>
+            </cc1:XYDiagram>
+        </DiagramSerializable>
+        <titles>
+            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="R Control Chart" />
+        </titles>
+        <legend alignmenthorizontal="Left" alignmentvertical="BottomOutside" 
+            direction="LeftToRight"></legend> 
+        <ClientSideEvents EndCallback="ChartREndCallBack" Init="InitRBar" />
+    </dx:WebChartControl>
+</div>
     </div>
     <div style="height: 26px; padding-bottom: 5px; padding-left: 450px; padding-top: 20px">
         <dx:ASPxLabel ID="lblGridActivity" runat="server" Text="ACTIVITY MONITORING"
