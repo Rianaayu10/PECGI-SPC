@@ -81,6 +81,7 @@ Public Class ProdSampleVerification
     Dim prmProdDate = ""
     Dim prmShifCode = ""
     Dim prmSeqNo = ""
+    Dim prmShowVerify = ""
 
 #End Region
 
@@ -229,6 +230,7 @@ Public Class ProdSampleVerification
             cls.ProdDate = Convert.ToDateTime(HideValue.Get("ProdDate")).ToString("yyyy-MM-dd")
             cls.ShiftCode = HideValue.Get("ShiftCode")
             cls.Seq = HideValue.Get("Seq")
+            cls.ShowVerify = HideValue.Get("ShowVerify")
             cls.User = pUser
 
             If pAction = "Load" Then
@@ -771,6 +773,18 @@ Public Class ProdSampleVerification
             data.Seq = HideValue.Get("Seq")
             '======================================================'
 
+            '============== FILL COMBO SEQ =================='
+
+            If prmShowVerify <> "" Then
+                If prmShowVerify = "0" Then
+                    cboShow.SelectedIndex = 0
+                Else
+                    cboShow.SelectedIndex = 1
+                End If
+                cboShow.Enabled = False
+            End If
+            '======================================================'
+
         Catch ex As Exception
             show_error(MsgTypeEnum.Info, "", 0)
         End Try
@@ -1053,6 +1067,7 @@ Public Class ProdSampleVerification
         prmProdDate = Request.QueryString("ProdDate")
         prmShifCode = Request.QueryString("Shift")
         prmSeqNo = Request.QueryString("Sequence")
+        prmShowVerify = Request.QueryString("ShowVerify")
 
         Dim cls As New clsProdSampleVerification
         cls.FactoryCode = prmFactoryCode
@@ -1062,6 +1077,7 @@ Public Class ProdSampleVerification
         cls.ProdDate = Convert.ToDateTime(prmProdDate).ToString("yyyy-MM-dd")
         cls.ShiftCode = prmShifCode
         cls.Seq = prmSeqNo
+        cls.ShowVerify = prmShowVerify
         cls.User = pUser
 
         UpFillCombo()
@@ -1103,6 +1119,7 @@ Public Class ProdSampleVerification
         Dim ToDay = DateTime.Now
         dtProdDate.Value = ToDay
         HideValue.Set("ProdDate", ToDay.ToString("dd MMM yyyy"))
+        HideValue.Set("ShowVerify", cboShow.Value)
         btnBack.Visible = False
 
         Grid.JSProperties("cp_GridTot") = 0  'for disabled button Verify and Download Excel

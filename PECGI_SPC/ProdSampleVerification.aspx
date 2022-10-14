@@ -214,6 +214,11 @@
             HideValue.Set('ProdDate', ProdDate);
         }
 
+        function ChangeVarify() {
+            var ShowVerify = cboShow.GetValue();
+            HideValue.Set('ShowVerify', ShowVerify);
+        }
+
         function EndCallback_Grid(s, e) {
             if (s.cp_message != "" && s.cp_val == 1) {
                 if (s.cp_type == "Success" && s.cp_val == 1) {
@@ -649,6 +654,30 @@
                         <ButtonStyle Width="5px" Paddings-Padding="4px"></ButtonStyle>
                     </dx:ASPxDateEdit>
                 </td>
+                <td style="width: 10px">&nbsp;</td>
+                <td style="width: 110px">
+                    <dx:ASPxLabel ID="lblcboShow" runat="server" Font-Names="Segoe UI" Font-Size="9pt" Text="Show Verified Only">
+                    </dx:ASPxLabel>
+                </td>
+                <td style="width: 10px">&nbsp;</td>
+                <td colspan = "2">
+                    <dx:ASPxComboBox ID="cboShow" runat="server" Theme="Office2010Black" 
+                    ClientInstanceName="cboShow" Font-Names="Segoe UI" 
+                    Font-Size="9pt" Height="25px" 
+                    Width="58px" TabIndex="9" SelectedIndex="0">
+                         <ClientSideEvents ValueChanged="ChangeVarify" />
+                        <Items>                        
+                            <dx:ListEditItem Text="No" Value="0" Selected="true"/>
+                            <dx:ListEditItem Text="Yes" Value="1" />
+                        </Items>
+                        <ItemStyle Height="10px" Paddings-Padding="4px">
+                            <Paddings Padding="4px"></Paddings>
+                        </ItemStyle>
+                        <ButtonStyle Paddings-Padding="4px" Width="5px">
+                            <Paddings Padding="4px"></Paddings>
+                        </ButtonStyle>
+                    </dx:ASPxComboBox>
+                </td>
             </tr>
             <tr>
                 <td>
@@ -719,6 +748,8 @@
                     </dx:ASPxComboBox>
                 </td>
 
+                <td style="width: 10px">&nbsp;</td>
+                <td style="width: 10px">&nbsp;</td>
                 <td style="width: 10px">&nbsp;</td>
                 <td>
                     <dx:ASPxButton ID="btnBrowse" runat="server" AutoPostBack="False" ClientInstanceName="btnBrowse"
