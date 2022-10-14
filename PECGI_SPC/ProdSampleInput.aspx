@@ -561,7 +561,7 @@
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn Caption="Value" VisibleIndex="2" FieldName="Value" Width="80px">
                 <PropertiesTextEdit SelectInputTextOnClick="True" DisplayFormatString="0.000" Width="70px">
-                    <MaskSettings UseInvariantCultureDecimalSymbolOnClient="True" Mask="&lt;0..9999g&gt;.&lt;000..999&gt;" />
+                    <MaskSettings UseInvariantCultureDecimalSymbolOnClient="True" />
                     <ValidationSettings>
                         <RegularExpression ErrorText="Please input valid value" />
                     </ValidationSettings>

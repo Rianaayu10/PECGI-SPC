@@ -487,9 +487,9 @@ Public Class SampleControlQuality
             Dim diagram As XYDiagram = CType(.Diagram, XYDiagram)
             If ht.Count > 0 Then
                 Dim ht1 As clsHistogram = ht(0)
-                diagram.AxisX.WholeRange.MaxValue = ht1.MaxValue + 1
-                diagram.AxisX.NumericScaleOptions.IntervalOptions.OverflowValue = ht1.SpecUSL
-                diagram.AxisX.NumericScaleOptions.IntervalOptions.UnderflowValue = ht1.SpecLSL
+                'diagram.AxisX.WholeRange.MaxValue = ht1.MaxValue + 1
+                diagram.AxisX.NumericScaleOptions.IntervalOptions.OverflowValue = ht1.SpecUSL + 0.01
+                diagram.AxisX.NumericScaleOptions.IntervalOptions.UnderflowValue = ht1.SpecLSL - +0.01
 
                 diagram.AxisX.ConstantLines.Clear()
                 Dim LCL As New ConstantLine("LCL")
@@ -498,6 +498,7 @@ Public Class SampleControlQuality
                 LCL.LineStyle.DashStyle = DashStyle.DashDot
                 diagram.AxisX.ConstantLines.Add(LCL)
                 LCL.AxisValue = ht1.XBarLCL
+                LCL.ShowInLegend = True
 
                 Dim UCL As New ConstantLine("UCL")
                 UCL.Color = System.Drawing.Color.Purple
@@ -505,13 +506,15 @@ Public Class SampleControlQuality
                 UCL.LineStyle.DashStyle = DashStyle.DashDot
                 diagram.AxisX.ConstantLines.Add(UCL)
                 UCL.AxisValue = ht1.XBarUCL
+                UCL.ShowInLegend = True
 
-                'Dim CL As New ConstantLine("CL")
-                'CL.Color = System.Drawing.Color.Black
-                'CL.LineStyle.Thickness = 2
-                'CL.LineStyle.DashStyle = DashStyle.Solid
-                'diagram.AxisX.ConstantLines.Add(CL)
-                'CL.AxisValue = ht1.XBarCL
+                Dim CL As New ConstantLine("CL")
+                CL.Color = System.Drawing.Color.Black
+                CL.LineStyle.Thickness = 2
+                CL.LineStyle.DashStyle = DashStyle.Solid
+                diagram.AxisX.ConstantLines.Add(CL)
+                CL.AxisValue = ht1.XBarCL
+                CL.ShowInLegend = True
 
                 Dim LSL As New ConstantLine("LSL")
                 LSL.Color = System.Drawing.Color.Red
@@ -519,6 +522,7 @@ Public Class SampleControlQuality
                 LSL.LineStyle.DashStyle = DashStyle.Solid
                 diagram.AxisX.ConstantLines.Add(LSL)
                 LSL.AxisValue = ht1.SpecLSL
+                LSL.ShowInLegend = True
 
                 Dim USL As New ConstantLine("USL")
                 USL.Color = System.Drawing.Color.Red
@@ -526,6 +530,7 @@ Public Class SampleControlQuality
                 USL.LineStyle.DashStyle = DashStyle.Solid
                 diagram.AxisX.ConstantLines.Add(USL)
                 USL.AxisValue = ht1.SpecUSL
+                USL.ShowInLegend = True
             End If
         End With
     End Sub
