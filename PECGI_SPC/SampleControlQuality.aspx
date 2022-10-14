@@ -563,10 +563,10 @@
                     <Tickmarks MinorVisible="False" />
                     <Label TextPattern="{A:0.000}">
                     </Label>
-                    <WholeRange AutoSideMargins="False" EndSideMargin="0.01" StartSideMargin="0.5" />
+                    <WholeRange AutoSideMargins="False" EndSideMargin="0.5" StartSideMargin="0.5" />
                     <GridLines Visible="True">
                     </GridLines>
-                    <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Count" IntervalOptions-GridLayoutMode="GridAndLabelShifted" IntervalOptions-OverflowValue="2.715" IntervalOptions-Count="6" IntervalOptions-Pattern="{A1:0.000}-{A2:0.000}" IntervalOptions-UnderflowValue="2.645" />
+                    <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Count" IntervalOptions-GridLayoutMode="GridAndLabelShifted" IntervalOptions-OverflowValue="2.715" IntervalOptions-Count="5" IntervalOptions-Pattern="{A1:0.000}-{A2:0.000}" IntervalOptions-UnderflowValue="2.645" IntervalOptions-OverflowValuePattern="{OS}" />
                     </AxisX>
 
                 <AxisY VisibleInPanesSerializable="-1" MinorCount="1" Visibility="True">
@@ -580,12 +580,16 @@
                         <Legend Visibility="False"></Legend>
 
                         <SeriesSerializable>
-                            <cc1:Series ArgumentDataMember="Value" Name="Histogram" ShowInLegend="False">
+                            <cc1:Series ArgumentDataMember="Value" Name="Histogram" ShowInLegend="False" LabelsVisibility="True">
                                 <ViewSerializable>
                                     <cc1:SideBySideBarSeriesView BarWidth="1" ColorEach="True">
-                                        <Border Color="0, 0, 0" Visibility="True" />
+                                        <Border Color="0, 0, 0" Visibility="False" />
                                     </cc1:SideBySideBarSeriesView>
                                 </ViewSerializable>
+                                <LabelSerializable>
+                                    <cc1:SideBySideBarSeriesLabel Position="Top">
+                                    </cc1:SideBySideBarSeriesLabel>
+                                </LabelSerializable>
                             </cc1:Series>
                         </SeriesSerializable>
                     </dx:WebChartControl>
