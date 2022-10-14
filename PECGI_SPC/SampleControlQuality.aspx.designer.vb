@@ -185,6 +185,15 @@ Partial Public Class SampleControlQuality
     Protected WithEvents chartX As Global.DevExpress.XtraCharts.Web.WebChartControl
 
     '''<summary>
+    '''chartR control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chartR As Global.DevExpress.XtraCharts.Web.WebChartControl
+
+    '''<summary>
     '''Histogram control.
     '''</summary>
     '''<remarks>

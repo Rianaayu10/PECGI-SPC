@@ -238,7 +238,7 @@ Public Class clsXRChartDB
 
 
 
-    Public Shared Function GetChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String) As List(Of clsXRChart)
+    Public Shared Function GetChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Optional PrevDate As String = "") As List(Of clsXRChart)
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String = "sp_SPC_RChart"
@@ -249,6 +249,9 @@ Public Class clsXRChartDB
             cmd.Parameters.AddWithValue("Line", Line)
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
             cmd.Parameters.AddWithValue("ProdDate", ProdDate)
+            If PrevDate <> "" Then
+                cmd.Parameters.AddWithValue("PrevDate", PrevDate)
+            End If
             Dim da As New SqlDataAdapter(cmd)
             Dim dt As New DataTable
             da.Fill(dt)
@@ -264,6 +267,7 @@ Public Class clsXRChartDB
                     xr.RValue = .Item("RValue")
                     value = .Item("MaxValue")
                     xr.MaxValue = value
+                    xr.CountSeq = .Item("SeqCount")
                 End With
                 XRList.Add(xr)
             Next
