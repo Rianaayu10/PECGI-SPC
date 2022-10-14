@@ -22,6 +22,8 @@
         function OnInit(s, e) {
             var d = new Date(2022, 9, 4);            
             var d2 = new Date(2022, 9, 11);
+            var x = document.getElementById("chartRdiv");
+            x.style.display = "none";
         }
 
         function isNumeric(n) {
@@ -549,7 +551,7 @@
     </dx:WebChartControl>
 </div>
 
-<div style="width:100%; overflow-x: auto; border:1px solid black">
+<div id="chartRdiv">
 <dx:WebChartControl ID="chartR" runat="server" ClientInstanceName="chartR"
         Height="450px" Width="1080px" CrosshairEnabled="True">
         <SeriesSerializable>
