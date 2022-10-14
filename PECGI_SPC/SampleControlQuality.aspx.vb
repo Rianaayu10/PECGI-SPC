@@ -340,7 +340,7 @@ Public Class SampleControlQuality
 
                 If dDay <> PrevDay Then
                     BandDay = New GridViewBandColumn
-                    BandDay.Caption = Format(SelDay, "dd MMM yyyy")
+                    BandDay.Caption = Format(SelDay, "dd MMM yy")
                     .Columns.Add(BandDay)
 
                 End If
@@ -355,7 +355,7 @@ Public Class SampleControlQuality
                 Dim colTime As New GridViewDataTextColumn
                 colTime.Caption = dtDay.Rows(iDay)("RegisterDate")
                 colTime.FieldName = dtDay.Rows(iDay)("ColName")
-                colTime.Width = 90
+                colTime.Width = 60
                 colTime.CellStyle.HorizontalAlign = HorizontalAlign.Center
                 BandShift.Columns.Add(colTime)
 
@@ -637,6 +637,8 @@ Public Class SampleControlQuality
             Dim ChartWidth As Integer = CountSeq * 80
             If ChartWidth < 400 Then
                 ChartWidth = 400
+            ElseIf ChartWidth > 1080 Then
+                ChartWidth = 1080
             End If
             .Width = ChartWidth
         End With
@@ -712,6 +714,8 @@ Public Class SampleControlQuality
             Dim ChartWidth As Integer = CountSeq * 80
             If ChartWidth < 400 Then
                 ChartWidth = 400
+            ElseIf ChartWidth > 1080 Then
+                ChartWidth = 1080
             End If
             .Width = ChartWidth
         End With
