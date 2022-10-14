@@ -488,10 +488,10 @@ Public Class SampleControlQuality
             If ht.Count > 0 Then
                 Dim ht1 As clsHistogram = ht(0)
                 diagram.AxisX.WholeRange.MaxValue = ht1.MaxValue + 1
-                diagram.AxisX.NumericScaleOptions.ScaleMode = ScaleMode.Interval
+                diagram.AxisX.NumericScaleOptions.IntervalOptions.OverflowValue = ht1.SpecUSL
+                diagram.AxisX.NumericScaleOptions.IntervalOptions.UnderflowValue = ht1.SpecLSL
 
                 diagram.AxisX.ConstantLines.Clear()
-
                 Dim LCL As New ConstantLine("LCL")
                 LCL.Color = System.Drawing.Color.Purple
                 LCL.LineStyle.Thickness = 2
@@ -506,12 +506,12 @@ Public Class SampleControlQuality
                 diagram.AxisX.ConstantLines.Add(UCL)
                 UCL.AxisValue = ht1.XBarUCL
 
-                Dim CL As New ConstantLine("CL")
-                CL.Color = System.Drawing.Color.Black
-                CL.LineStyle.Thickness = 2
-                CL.LineStyle.DashStyle = DashStyle.Solid
-                diagram.AxisX.ConstantLines.Add(CL)
-                CL.AxisValue = ht1.XBarCL
+                'Dim CL As New ConstantLine("CL")
+                'CL.Color = System.Drawing.Color.Black
+                'CL.LineStyle.Thickness = 2
+                'CL.LineStyle.DashStyle = DashStyle.Solid
+                'diagram.AxisX.ConstantLines.Add(CL)
+                'CL.AxisValue = ht1.XBarCL
 
                 Dim LSL As New ConstantLine("LSL")
                 LSL.Color = System.Drawing.Color.Red

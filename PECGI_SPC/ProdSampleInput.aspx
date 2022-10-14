@@ -855,7 +855,7 @@
 <div id="chartXdiv" style="overflow-x:auto; width:100%; border:1px solid black"">
 <dx:WebChartControl ID="chartX" runat="server" ClientInstanceName="chartX"
         Height="490px" Width="1080px" CrosshairEnabled="True" SeriesDataMember="Description" ToolTipEnabled="False">
-        <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" ToolTipPointPattern="{V:0.000}">
+        <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" ToolTipPointPattern="{V:0.000}" CrosshairLabelPattern="{S}: {V:0.000}">
             <viewserializable>
                 <cc1:PointSeriesView>                    
                     <PointMarkerOptions kind="Circle" BorderColor="255, 255, 255"></PointMarkerOptions>
@@ -876,7 +876,7 @@
                     </cc1:FullStackedBarSeriesView>
                 </ViewSerializable>
             </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="Average" ValueDataMembersSerializable="AvgValue">
+            <cc1:Series ArgumentDataMember="Seq" Name="Average" ValueDataMembersSerializable="AvgValue" CrosshairLabelPattern="{S}: {V:0.000}">
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="Blue">
                         <LineStyle Thickness="2" />
@@ -918,6 +918,16 @@
             <cc1:Series ArgumentDataMember="Seq" Name="LSL" ValueDataMembersSerializable="LSL">
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="240, 0, 0" MarkerVisibility="False">
+                        <LineStyle Thickness="2" />
+                        <LineMarkerOptions Size="1">
+                        </LineMarkerOptions>
+                    </cc1:LineSeriesView>
+                </ViewSerializable>
+            </cc1:Series>
+
+            <cc1:Series ArgumentDataMember="Seq" Name="CL" ValueDataMembersSerializable="CL">
+                <ViewSerializable>
+                    <cc1:LineSeriesView Color="0, 0, 0">
                         <LineStyle Thickness="2" />
                         <LineMarkerOptions Size="1">
                         </LineMarkerOptions>
