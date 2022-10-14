@@ -1226,4 +1226,18 @@ Public Class ProdSampleInput
     Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
         DownloadExcel()
     End Sub
+
+    Protected Sub grid_RowValidating(sender As Object, e As ASPxDataValidationEventArgs)
+        Dim StatusDelete As Integer = If(e.NewValues("DeleteStatus") IsNot Nothing, CInt(Fix(e.NewValues("DeleteStatus"))), 0)
+        If StatusDelete = 1 AndAlso (e.NewValues("Remark") Is Nothing OrElse e.NewValues("Remark") = "") Then
+            AddError(e.Errors, grid.Columns("Remark"), "Please input Remark for deletion!")
+        End If
+    End Sub
+
+    Private Sub AddError(ByVal errors As Dictionary(Of GridViewColumn, String), ByVal column As GridViewColumn, ByVal errorText As String)
+        If errors.ContainsKey(column) Then
+            Return
+        End If
+        errors(column) = errorText
+    End Sub
 End Class

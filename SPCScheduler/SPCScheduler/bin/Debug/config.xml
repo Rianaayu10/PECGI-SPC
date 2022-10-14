@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Connection>
+  <EZDB>
+    <ServerName>WcdKx8fm6FNGAe+yDltqs5v2VWjfAtgemuaEm1by3jy/VXg0JAFPag==</ServerName>
+    <Database>iHeFHB0PugVA7pl62yM49iTxXEQNPY/F</Database>
+    <WinMode>5yraA9blD1aRYDqb7lSwpw==</WinMode>
+    <UserID>ZMq8XX9SHe4=</UserID>
+    <Password>VVLNYP5gxp6KtBfUxb5Pte/wSNyEg1F+</Password>
+    <DatabaseTimeOut>dkerJzq8h9ncgeothd8XLw==</DatabaseTimeOut>
+    <CommandTimeOut>LR4RXxRwZLG+wb7Zkj+DoA==</CommandTimeOut>
+    <MaxRetry>fOvJh5Cvrq4=</MaxRetry>
+    <RetryInterval>U0m+CuWBDCo=</RetryInterval>
+  </EZDB>
+  <Scheduler>
+    <SLtoEZRFolder>bGgjwq18X8Uejk3Gxw7mSfJUd1iSr/srFsbK91ICO7uZiVbqC5I+1EdTwR7afu6PMYpFANJ4QJGliS8ANgWDJw==</SLtoEZRFolder>
+    <SLtoEZRBackUpFolder>bGgjwq18X8Uejk3Gxw7mSfJUd1iSr/srFsbK91ICO7uZiVbqC5I+1EdTwR7afu6PMYpFANJ4QJFVNE1WH6ADT93hEQTF0Z9l</SLtoEZRBackUpFolder>
+    <EZRtoSLFolder>bGgjwq18X8Uejk3Gxw7mSfJUd1iSr/srFsbK91ICO7uDXUArpqe7Vf5jniZu180n</EZRtoSLFolder>
+    <EZRStockTransferFolder>bGgjwq18X8Uejk3Gxw7mSfJUd1iSr/srFsbK91ICO7sGSCD/oLUKN0U+9fmK9FWtU1kqKFe1d4OsooEao/OqGA==</EZRStockTransferFolder>
+    <EZRtoSLBackUpFolder>bGgjwq18X8Uejk3Gxw7mSfJUd1iSr/srFsbK91ICO7uDXUArpqe7VRLjtmQzYmjL+zXXxqBWB4g=</EZRtoSLBackUpFolder>
+    <Interval>2ojLctAsj54=</Interval>
+    <ImportFromHTFolder>B07viKKYqls=</ImportFromHTFolder>
+    <ExportToHTFolder>B07viKKYqls=</ExportToHTFolder>
+    <IntervalHT>B07viKKYqls=</IntervalHT>
+  </Scheduler>
+</Connection>

@@ -558,9 +558,28 @@ Public Class AlertDashboard
             Dim LinkDate = GridDelayVerif.GetRowValues(e.VisibleIndex, "LinkDate")
             Dim ShiftCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "ShiftCode")
             Dim SequenceNo = GridDelayVerif.GetRowValues(e.VisibleIndex, "SequenceNo")
+
+            Dim LSL = GridDelayVerif.GetRowValues(e.VisibleIndex, "LSL")
+            Dim USL = GridDelayVerif.GetRowValues(e.VisibleIndex, "USL")
+            Dim LCL = GridDelayVerif.GetRowValues(e.VisibleIndex, "LCL")
+            Dim UCL = GridDelayVerif.GetRowValues(e.VisibleIndex, "UCL")
+            Dim MinValue = GridDelayVerif.GetRowValues(e.VisibleIndex, "MinValue")
+            Dim MaxValue = GridDelayVerif.GetRowValues(e.VisibleIndex, "MaxValue")
+            Dim Average = GridDelayVerif.GetRowValues(e.VisibleIndex, "Average")
+            Dim VerifTime = GridDelayVerif.GetRowValues(e.VisibleIndex, "VerifTime")
+            Dim DelayTime = GridDelayVerif.GetRowValues(e.VisibleIndex, "DelayVerif")
+            Dim Status = GridDelayVerif.GetRowValues(e.VisibleIndex, "Status")
             ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
 
-            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo, "Delay Verification")
+            Dim Test = DirectCast(GridDelayVerif.GetRowValues(e.VisibleIndex, GridDelayVerif.KeyFieldName, "LinkDate"), Object())(1)
+
+            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo, "3", LSL, USL, LCL, UCL, MinValue, MaxValue, Average, Status, "", "", VerifTime, DelayTime)
+
+            If CountSendEmail > 0 Then
+                show_error(MsgTypeEnum.Success, "Send Email Success", 1)
+            Else
+                show_error(MsgTypeEnum.ErrorMsg, "Send Email Failed", 1)
+            End If
 
             CheckAvailableData = clsSPCAlertDashboardDB.CheckDataSendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
 
@@ -568,14 +587,7 @@ Public Class AlertDashboard
 
                 CountSendEmail = clsSPCAlertDashboardDB.SendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
 
-                'If CountSendEmail > 1 Then
-                '    show_error(MsgTypeEnum.Success, "Send Email Success !", 1)
-                'Else
-                '    show_error(MsgTypeEnum.ErrorMsg, "Send Email Failed !", 1)
-                'End If
-
             Else
-                show_error(MsgTypeEnum.ErrorMsg, "Data Already Sended ", 1)
                 Return
             End If
 
@@ -599,12 +611,26 @@ Public Class AlertDashboard
             Dim LinkDate = GridNG.GetRowValues(e.VisibleIndex, "LinkDate")
             Dim ShiftCode = GridNG.GetRowValues(e.VisibleIndex, "ShiftCode")
             Dim SequenceNo = GridNG.GetRowValues(e.VisibleIndex, "SequenceNo")
+
+            Dim LSL = GridNG.GetRowValues(e.VisibleIndex, "LSL")
+            Dim USL = GridNG.GetRowValues(e.VisibleIndex, "USL")
+            Dim LCL = GridNG.GetRowValues(e.VisibleIndex, "LCL")
+            Dim UCL = GridNG.GetRowValues(e.VisibleIndex, "UCL")
+            Dim MinValue = GridNG.GetRowValues(e.VisibleIndex, "MinValue")
+            Dim MaxValue = GridNG.GetRowValues(e.VisibleIndex, "MaxValue")
+            Dim Average = GridNG.GetRowValues(e.VisibleIndex, "Average")
             ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
 
             'Dim Test = GridDelayVerif.GetRowValues(e.VisibleIndex, GridDelayVerif.KeyFieldName, "LinkDate")
             Dim Test = DirectCast(GridDelayVerif.GetRowValues(e.VisibleIndex, GridDelayVerif.KeyFieldName, "LinkDate"), Object())(1)
 
-            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo, "NG Result")
+            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo, "1", LSL, USL, LCL, UCL, MinValue, MaxValue, Average, "NG", "", "", "", "")
+
+            If CountSendEmail > 0 Then
+                show_error(MsgTypeEnum.Success, "Send Email Success", 1)
+            Else
+                show_error(MsgTypeEnum.ErrorMsg, "Send Email Failed", 1)
+            End If
 
             CheckAvailableData = clsSPCAlertDashboardDB.CheckDataSendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
 
@@ -612,14 +638,8 @@ Public Class AlertDashboard
 
                 CountSendEmail = clsSPCAlertDashboardDB.SendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
 
-                'If CountSendEmail > 1 Then
-                '    show_error(MsgTypeEnum.Success, "Send Email Success !", 1)
-                'Else
-                '    show_error(MsgTypeEnum.ErrorMsg, "Send Email Failed !", 1)
-                'End If
 
             Else
-                show_error(MsgTypeEnum.ErrorMsg, "Data Already Sended ", 1)
                 Return
             End If
 
@@ -643,9 +663,18 @@ Public Class AlertDashboard
             Dim LinkDate = Grid.GetRowValues(e.VisibleIndex, "LinkDate")
             Dim ShiftCode = Grid.GetRowValues(e.VisibleIndex, "ShiftCode")
             Dim SequenceNo = Grid.GetRowValues(e.VisibleIndex, "SequenceNo")
+            Dim ScheduleStart = Grid.GetRowValues(e.VisibleIndex, "StartTime")
+            Dim ScheduleEnd = Grid.GetRowValues(e.VisibleIndex, "EndTime")
+            Dim DelayTime = Grid.GetRowValues(e.VisibleIndex, "Delay")
             ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
 
-            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo, "Delay Input")
+            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo, "2", "", "", "", "", "", "", "", "", ScheduleStart, ScheduleEnd, "", DelayTime)
+
+            If CountSendEmail > 0 Then
+                show_error(MsgTypeEnum.Success, "Send Email Success", 1)
+            Else
+                show_error(MsgTypeEnum.ErrorMsg, "Send Email Failed", 1)
+            End If
 
             CheckAvailableData = clsSPCAlertDashboardDB.CheckDataSendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
 
@@ -653,14 +682,7 @@ Public Class AlertDashboard
 
                 CountSendEmail = clsSPCAlertDashboardDB.SendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
 
-                'If CountSendEmail > 1 Then
-                '    show_error(MsgTypeEnum.Success, "Send Email Success !", 1)
-                'Else
-                '    show_error(MsgTypeEnum.ErrorMsg, "Send Email Failed !", 1)
-                'End If
-
             Else
-                show_error(MsgTypeEnum.ErrorMsg, "Data Already Sended ", 1)
                 Return
             End If
 

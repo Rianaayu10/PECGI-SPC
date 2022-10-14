@@ -480,7 +480,7 @@
 </div>
     <div style="height:10px"></div>
 
-<div style="width:100%; overflow-x: auto; border:1px solid black">
+<div style="width:100%; border:1px solid black">
 <dx:WebChartControl ID="chartX" runat="server" ClientInstanceName="chartX"
         Height="434px" Width="400px" CrosshairEnabled="True" SeriesDataMember="Description" ToolTipEnabled="False">
         <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" CrosshairLabelPattern="{S}: {V:0.000}">
@@ -515,7 +515,7 @@
         </SeriesSerializable>     
         <DiagramSerializable>
             <cc1:XYDiagram>
-                <AxisX VisibleInPanesSerializable="-1" MinorCount="1">
+                <AxisX VisibleInPanesSerializable="-1" MinorCount="1" Visibility="False">
                     <Label Alignment="Center">
                         <ResolveOverlappingOptions AllowHide="False" />
                     </Label>
@@ -551,7 +551,7 @@
     </dx:WebChartControl>
 </div>
 
-<div id="chartRdiv">
+<div id="chartRdiv" style="width:100%; border:1px solid black">
 <dx:WebChartControl ID="chartR" runat="server" ClientInstanceName="chartR"
         Height="450px" Width="1080px" CrosshairEnabled="True">
         <SeriesSerializable>
@@ -572,7 +572,7 @@
         </seriestemplate>  
         <DiagramSerializable>
             <cc1:XYDiagram>
-                <AxisX VisibleInPanesSerializable="-1" MinorCount="1">
+                <AxisX VisibleInPanesSerializable="-1" MinorCount="1" Visibility="False">
                     <GridLines MinorVisible="True">
                     </GridLines>
                 </AxisX>
@@ -599,11 +599,11 @@
     </dx:WebChartControl>
 </div>
 
-<div style="width:100%; overflow-x: auto; border:1px solid black">
+<div style="width:100%; border:1px solid black">
     <table style="width:100%">
         <tr>
             <td style="width:70%">
-<dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="350px" Width="800px" ClientInstanceName="Histogram">
+                <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="350px" Width="800px" ClientInstanceName="Histogram">
 
                         <Titles>
                             <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Histogram" Alignment="Center" />
@@ -621,6 +621,8 @@
                 <AxisY VisibleInPanesSerializable="-1" MinorCount="1" Visibility="True">
                     <Tickmarks MinorLength="1" MinorVisible="False" />
                     <WholeRange AutoSideMargins="False" EndSideMargin="1" StartSideMargin="0" />
+                    <GridLines Visible="False">
+                    </GridLines>
                     <NumericScaleOptions AutoGrid="False" MinGridSpacingLength="1" />
                     </AxisY>
                 </cc1:XYDiagram>

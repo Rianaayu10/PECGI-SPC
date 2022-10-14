@@ -288,7 +288,9 @@ Public Class clsSPCAlertDashboardDB
             Return Nothing
         End Try
     End Function
-    Public Shared Function SendEmail(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, LinkDate As String, ShiftCode As String, SequenceNo As String, NotificationCategory As String, Optional ByRef pErr As String = "") As Integer
+    Public Shared Function SendEmail(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, LinkDate As String, ShiftCode As String, SequenceNo As String, NotificationCategory As String,
+                                     LSL As String, USL As String, LCL As String, UCL As String, MinValue As String, MaxValue As String, Average As String, Status As String,
+                                     ScheduleStart As String, ScheduleEnd As String, VerifTime As String, DelayTime As String, Optional ByRef pErr As String = "") As Integer
         Try
             Using Cn As New SqlConnection(Sconn.Stringkoneksi)
                 Cn.Open()
@@ -304,10 +306,22 @@ Public Class clsSPCAlertDashboardDB
                 cmd.Parameters.AddWithValue("ProdDate", LinkDate)
                 cmd.Parameters.AddWithValue("ShiftCode", ShiftCode)
                 cmd.Parameters.AddWithValue("SequenceNo", SequenceNo)
+                cmd.Parameters.AddWithValue("LSL", LSL)
+                cmd.Parameters.AddWithValue("USL", USL)
+                cmd.Parameters.AddWithValue("LCL", LCL)
+                cmd.Parameters.AddWithValue("UCL", UCL)
+                cmd.Parameters.AddWithValue("MinValue", MinValue)
+                cmd.Parameters.AddWithValue("MaxValue", MaxValue)
+                cmd.Parameters.AddWithValue("Average", Average)
+                cmd.Parameters.AddWithValue("Status", Status)
+                cmd.Parameters.AddWithValue("ScheduleStart", ScheduleStart)
+                cmd.Parameters.AddWithValue("ScheduleEnd", ScheduleEnd)
+                cmd.Parameters.AddWithValue("VerifTime", VerifTime)
+                cmd.Parameters.AddWithValue("DelayTime", DelayTime)
                 cmd.Parameters.AddWithValue("NotificationCategory", NotificationCategory)
                 cmd.Parameters.AddWithValue("LastUser", "spc")
                 Dim i As Integer = cmd.ExecuteNonQuery
-                Return i
+                Return 1
             End Using
         Catch ex As Exception
             pErr = ex.Message

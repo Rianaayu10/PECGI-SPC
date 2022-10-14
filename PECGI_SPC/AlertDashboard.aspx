@@ -1393,6 +1393,21 @@
                             </HeaderStyle>
                             <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"></CellStyle>
                         </dx:GridViewDataTextColumn>
+
+                        <dx:GridViewDataTextColumn Caption="Status" FieldName="Status"
+                            VisibleIndex="20" Width="100px" Settings-AutoFilterCondition="Contains" Visible="false">
+                            <PropertiesTextEdit MaxLength="25" Width="0px">
+                                <Style HorizontalAlign="Left"></Style>
+                            </PropertiesTextEdit>
+                            <Settings AutoFilterCondition="Contains"></Settings>
+                            <FilterCellStyle Paddings-PaddingRight="0px">
+                            <Paddings PaddingRight="0px"></Paddings>
+                            </FilterCellStyle>
+                            <HeaderStyle Paddings-PaddingLeft="0px" HorizontalAlign="Center" VerticalAlign="Middle">
+                            <Paddings PaddingLeft="0px"></Paddings>
+                            </HeaderStyle>
+                            <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"></CellStyle>
+                        </dx:GridViewDataTextColumn>
                                 
                     </Columns>
 
