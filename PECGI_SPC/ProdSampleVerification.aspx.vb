@@ -290,8 +290,22 @@ Public Class ProdSampleVerification
     End Sub
     Private Sub Grid_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles Grid.HtmlDataCellPrepared
         Try
+            Dim cs As New clsSPCColor
+
             If e.DataColumn.FieldName = "nDescIndex" Then
                 DescIndex = e.CellValue
+            ElseIf e.DataColumn.FieldName = "nDesc" Then
+                If e.CellValue = "1" Then
+                    e.Cell.BackColor = cs.Color1
+                ElseIf e.CellValue = "2" Then
+                    e.Cell.BackColor = cs.Color2
+                ElseIf e.CellValue = "3" Then
+                    e.Cell.BackColor = cs.Color3
+                ElseIf e.CellValue = "4" Then
+                    e.Cell.BackColor = cs.Color4
+                ElseIf e.CellValue = "5" Then
+                    e.Cell.BackColor = cs.Color5
+                End If
             ElseIf e.DataColumn.FieldName <> "nDesc" Then
                 If DescIndex = "EachData" Or DescIndex = "XBar" Or DescIndex = "Judgement" Or DescIndex = "Correction" Or DescIndex = "Verification" Then
                     Dim a = e.CellValue
@@ -314,7 +328,7 @@ Public Class ProdSampleVerification
                             e.Cell.Controls.Add(Link)
                         Else
                             e.Cell.Text = val
-                            e.Cell.BackColor = ColorTranslator.FromHtml(scolor)
+                            e.Cell.BackColor = ColorTranslator.FromHtml(sColor)
                         End If
 
                     End If
@@ -381,36 +395,38 @@ Public Class ProdSampleVerification
 
     End Sub
     Private Sub chartX_CustomDrawSeries(sender As Object, e As CustomDrawSeriesEventArgs) Handles chartX.CustomDrawSeries
+        Dim cs As New clsSPCColor
         Dim s As String = e.Series.Name
         If s = "#1" Then
             CType(e.SeriesDrawOptions, PointDrawOptions).Marker.Kind = MarkerKind.Circle
-            CType(e.SeriesDrawOptions, PointDrawOptions).Color = Color.Red
+            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.BorderColor = cs.BorderColor1
+            CType(e.SeriesDrawOptions, PointDrawOptions).Color = cs.Color1
             CType(e.SeriesDrawOptions, PointDrawOptions).Marker.FillStyle.FillMode = FillMode.Solid
-            e.LegendDrawOptions.Color = Color.Red
+            e.LegendDrawOptions.Color = cs.Color1
         ElseIf s = "#2" Then
-            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.Kind = MarkerKind.Diamond
-            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.BorderColor = Color.Orange
-            CType(e.SeriesDrawOptions, PointDrawOptions).Color = Color.Orange
-            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.FillStyle.FillMode = FillMode.Empty
-            e.LegendDrawOptions.Color = Color.Orange
-        ElseIf s = "#3" Then
-            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.Kind = MarkerKind.Triangle
-            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.BorderColor = Color.Green
-            CType(e.SeriesDrawOptions, PointDrawOptions).Color = Color.LightGreen
+            'CType(e.SeriesDrawOptions, PointDrawOptions).Marker.Kind = MarkerKind.Diamond
+            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.BorderColor = cs.BorderColor2
+            CType(e.SeriesDrawOptions, PointDrawOptions).Color = cs.Color2
             CType(e.SeriesDrawOptions, PointDrawOptions).Marker.FillStyle.FillMode = FillMode.Solid
-            e.LegendDrawOptions.Color = Color.LightGreen
+            e.LegendDrawOptions.Color = cs.Color2
+        ElseIf s = "#3" Then
+            'CType(e.SeriesDrawOptions, PointDrawOptions).Marker.Kind = MarkerKind.Triangle
+            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.BorderColor = cs.BorderColor3
+            CType(e.SeriesDrawOptions, PointDrawOptions).Color = cs.Color3
+            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.FillStyle.FillMode = FillMode.Solid
+            e.LegendDrawOptions.Color = cs.Color3
         ElseIf s = "#4" Then
-            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.Kind = MarkerKind.Square
-            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.BorderColor = Color.DarkGreen
-            CType(e.SeriesDrawOptions, PointDrawOptions).Color = Color.DarkGreen
-            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.FillStyle.FillMode = FillMode.Empty
-            e.LegendDrawOptions.Color = Color.DarkGreen
+            'CType(e.SeriesDrawOptions, PointDrawOptions).Marker.Kind = MarkerKind.Square
+            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.BorderColor = cs.BorderColor4
+            CType(e.SeriesDrawOptions, PointDrawOptions).Color = cs.Color4
+            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.FillStyle.FillMode = FillMode.Solid
+            e.LegendDrawOptions.Color = cs.Color4
         ElseIf s = "#5" Then
             CType(e.SeriesDrawOptions, PointDrawOptions).Marker.Kind = MarkerKind.Circle
-            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.BorderColor = Color.Blue
-            CType(e.SeriesDrawOptions, PointDrawOptions).Color = Color.LightBlue
+            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.BorderColor = cs.BorderColor5
+            CType(e.SeriesDrawOptions, PointDrawOptions).Color = cs.Color5
             CType(e.SeriesDrawOptions, PointDrawOptions).Marker.FillStyle.FillMode = FillMode.Solid
-            e.LegendDrawOptions.Color = Color.LightBlue
+            e.LegendDrawOptions.Color = cs.Color5
         End If
     End Sub
     'Private Sub cbkIOTconn_Callback(source As Object, e As CallbackEventArgs) Handles cbkIOTconn.Callback
@@ -965,6 +981,8 @@ Public Class ProdSampleVerification
         End With
     End Sub
     Private Sub LoadChartX(cls As clsProdSampleVerification)
+
+        ChartType = clsXRChartDB.GetChartType(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code)
         Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartXR(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code, cls.ProdDate)
         With chartX
             .DataSource = xr
@@ -979,7 +997,6 @@ Public Class ProdSampleVerification
 
             diagram.AxisY.NumericScaleOptions.CustomGridAlignment = 0.005
             diagram.AxisY.GridLines.MinorVisible = False
-            ChartType = clsXRChartDB.GetChartType(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code)
             If ChartType = "1" Or ChartType = "2" Then
                 .Titles(0).Text = "X Bar Control Chart"
             Else
@@ -1037,8 +1054,6 @@ Public Class ProdSampleVerification
                     MaxValue = Setup.SpecUSL
                 End If
 
-                MinValue = Setup.SpecLSL
-                MaxValue = Setup.SpecUSL
                 diagram.AxisY.WholeRange.MinValue = MinValue
                 diagram.AxisY.WholeRange.MaxValue = MaxValue
                 diagram.AxisY.WholeRange.EndSideMargin = 0.015
