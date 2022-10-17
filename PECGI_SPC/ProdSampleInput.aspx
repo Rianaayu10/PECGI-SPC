@@ -109,6 +109,20 @@
         }
 
         function OnEndCallback(s, e) {
+            if (s.IsEditing()) {  
+                var form = s.GetPopupEditForm();  
+                form.PopUp.AddHandler(function(s,e) {  
+                    var editor = grid.GetEditor('Value');  
+                    if (editor.GetValue() == null)
+                    {
+                        editor.Focus();
+                    } else {
+                        var editor2 = grid.GetEditor('Remark');  
+                        editor2.Focus();
+                    }
+                });  
+            }
+
             if (s.cp_message != "" && s.cp_val == 1) {
                 if (s.cp_type == "Success" && s.cp_val == 1) {
                     toastr.success(s.cp_message, 'Success');
@@ -240,7 +254,7 @@
             if (s.cpRefresh == '1') {
                 gridX.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShow.GetValue());
                 chartX.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShow.GetValue());
-                chartR.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText());                
+                chartR.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShow.GetValue());                
             }            
         }
     </script>
@@ -289,8 +303,8 @@
                     </ButtonStyle>
                 </dx:ASPxComboBox>
             </td>
-            <td style=" padding: 5px 0px 0px 10px; width:50px">
-                <dx:ASPxLabel ID="ASPxLabel8" runat="server" Text="Date" 
+            <td style=" padding: 5px 0px 0px 10px; width:100px">
+                <dx:ASPxLabel ID="ASPxLabel8" runat="server" Text="Prod Date" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel>
             </td>

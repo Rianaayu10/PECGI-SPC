@@ -184,7 +184,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
     <div style="padding: 0px 5px 5px 5px">
-        <table style="width: 100%">
+        <table class="nav-justified">
         <tr >
             <td style="padding:5px 0px 0px 0px" >
                 <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="Factory" Font-Names="Segoe UI" 
@@ -207,7 +207,7 @@
                     </ButtonStyle>
                 </dx:ASPxComboBox>
             </td>
-            <td style=" padding:5px 0px 0px 0px" >
+            <td style=" padding:5px 0px 0px 0px; width:120px" >
                 <dx:ASPxLabel ID="ASPxLabel4" runat="server" Text="Machine Process" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel>
@@ -226,15 +226,12 @@
                     </ButtonStyle>
                 </dx:ASPxComboBox>
             </td>
-            <td style=" padding: 5px 0px 0px 10px; " >
-                <dx:ASPxLabel ID="ASPxLabel8" runat="server" Text="Date" 
+            <td style=" padding: 5px 0px 0px 10px; width:100px" >
+                <dx:ASPxLabel ID="ASPxLabel8" runat="server" Text="Prod Date" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel>
-            </td>
-            <td>
-                &nbsp;
-                </td>
-            <td style="padding: 5px 0px 0px 0px; ">                
+            </td>            
+            <td style="padding: 5px 0px 0px 0px; width:110px">                
                                 <dx:ASPxDateEdit ID="dtDate" runat="server" Theme="Office2010Black" 
                     Width="100px"
                         ClientInstanceName="dtDate" EditFormatString="dd MMM yyyy" DisplayFormatString="dd MMM yyyy"
@@ -262,12 +259,12 @@
            
            
            
-            <td style="padding: 5px 0px 0px 0px; ">  
+            <td style="padding: 2px 0px 0px 0px; width:20px">  
                                 <dx:ASPxLabel ID="ASPxLabel10" runat="server" Text="To" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel></td>            
            
-            <td style="padding: 5px 0px 0px 0px; ">  
+            <td style="padding: 5px 0px 0px 0px; width:100px">  
                                 <dx:ASPxDateEdit ID="dtTo" runat="server" ClientInstanceName="dtTo" DisplayFormatString="dd MMM yyyy" EditFormat="Custom" EditFormatString="dd MMM yyyy" Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="2" Theme="Office2010Black" Width="100px">
                                     <CalendarProperties ShowWeekNumbers="False">
                                         <HeaderStyle Font-Size="12pt" Paddings-Padding="5px">
@@ -345,23 +342,11 @@
                     
             </td>
             <td style=" padding: 3px 0px 0px 10px; ">
-                
-               
-                </td>
-            <td style=" width:10px">
-                                    
-            </td>
-            <td style="padding:3px 0px 0px 0px">
                 <dx:ASPxLabel ID="ASPxLabel9" runat="server" Text="Show Verified Only" 
                         Font-Names="Segoe UI" Font-Size="9pt" Width="109px">
-            </dx:ASPxLabel> 
-                                
-                
-                
-            </td>
-            <td></td>
+            </dx:ASPxLabel>                                
+                </td>
             <td>
-                                
                 <dx:ASPxComboBox ID="cboShow" runat="server" Theme="Office2010Black" 
                     ClientInstanceName="cboShow" Font-Names="Segoe UI" 
                     Font-Size="9pt" Height="25px" 
@@ -374,12 +359,17 @@
                     </ItemStyle>
                     <ButtonStyle Paddings-Padding="4px" Width="5px"><Paddings Padding="4px"></Paddings>
                     </ButtonStyle>
-                </dx:ASPxComboBox>
+                </dx:ASPxComboBox>                                    
+            </td>
+            <td></td>
+            <td>
+                                
+                
                 
             
 
             </td>
-            <td style="width:100px">
+            <td style="width:100px; padding-left:20px">
 
 <dx:ASPxButton ID="btnSearch" runat="server" AutoPostBack="False" 
                     ClientInstanceName="btnSearch" Font-Names="Segoe UI" Font-Size="9pt" 
@@ -426,6 +416,9 @@
                                     Width="90px" TabIndex="10">
                                     <Paddings Padding="2px" />
                                 </dx:ASPxButton>                            
+
+            </td>
+            <td>
 
             </td>
         </tr>

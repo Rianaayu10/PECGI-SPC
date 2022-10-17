@@ -238,7 +238,7 @@ Public Class clsXRChartDB
 
 
 
-    Public Shared Function GetChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Optional PrevDate As String = "") As List(Of clsXRChart)
+    Public Shared Function GetChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Optional PrevDate As String = "", Optional VerifiedOnly As String = "0") As List(Of clsXRChart)
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String = "sp_SPC_RChart"
@@ -252,6 +252,7 @@ Public Class clsXRChartDB
             If PrevDate <> "" Then
                 cmd.Parameters.AddWithValue("PrevDate", PrevDate)
             End If
+            cmd.Parameters.AddWithValue("VerifiedOnly", VerifiedOnly)
             Dim da As New SqlDataAdapter(cmd)
             Dim dt As New DataTable
             da.Fill(dt)

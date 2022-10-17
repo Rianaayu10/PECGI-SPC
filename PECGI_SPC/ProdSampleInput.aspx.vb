@@ -540,7 +540,7 @@ Public Class ProdSampleInput
         Dim linkX As New PrintableComponentLink(ps)
         linkX.Component = (CType(chartX, IChartContainer)).Chart
 
-        LoadChartR(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"))
+        LoadChartR(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), cboShow.Value)
         Dim linkR As New PrintableComponentLink(ps)
         linkR.Component = (CType(chartR, IChartContainer)).Chart
 
@@ -940,8 +940,8 @@ Public Class ProdSampleInput
         End If
     End Sub
 
-    Private Sub LoadChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String)
-        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate)
+    Private Sub LoadChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, VerifiedOnly As String)
+        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, "", VerifiedOnly)
         If xr.Count = 0 Then
             chartR.JSProperties("cpShow") = "0"
         Else
@@ -1184,7 +1184,8 @@ Public Class ProdSampleInput
         Dim LineCode As String = Split(Prm, "|")(2)
         Dim ItemCheckCode As String = Split(Prm, "|")(3)
         Dim ProdDate As String = Split(Prm, "|")(4)
-        LoadChartR(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate)
+        Dim VerifiedOnly As String = Split(Prm, "|")(5)
+        LoadChartR(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, VerifiedOnly)
     End Sub
 
     Private Sub chartX_CustomDrawSeries(sender As Object, e As CustomDrawSeriesEventArgs) Handles chartX.CustomDrawSeries
