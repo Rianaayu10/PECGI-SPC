@@ -261,7 +261,7 @@
                             </td>
 
                             <td style="padding-right: 1em; padding-top: 0.5em">
-                                <dx:ASPxLabel ID="ASPxLabel4" runat="server" Text="Period" Theme="Office2010Black" Font-Names="Segoe UI" Font-Size="10pt" />
+                                <dx:ASPxLabel ID="ASPxLabel4" runat="server" Text="Prod. Date" Theme="Office2010Black" Font-Names="Segoe UI" Font-Size="10pt" />
                             </td>
 
                             <td style="padding-right: 1em; padding-top: 0.5em">
