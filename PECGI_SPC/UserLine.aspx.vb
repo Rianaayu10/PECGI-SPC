@@ -68,7 +68,7 @@ Public Class UserLine
 
 #Region "Initialization"
     Private Sub Page_Init(sender As Object, e As System.EventArgs) Handles Me.Init
-        MenuID = "Z040"
+        MenuID = "Z030"
         sGlobal.getMenu(MenuID)
         Master.SiteTitle = MenuID & " - " & sGlobal.menuName
         show_error(MsgTypeEnum.Info, "", 0)
