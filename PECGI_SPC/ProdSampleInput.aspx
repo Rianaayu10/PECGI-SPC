@@ -303,7 +303,7 @@
                     </ButtonStyle>
                 </dx:ASPxComboBox>
             </td>
-            <td style=" padding: 5px 0px 0px 10px; width:100px">
+            <td style=" padding: 5px 0px 0px 10px; width:80px">
                 <dx:ASPxLabel ID="ASPxLabel8" runat="server" Text="Prod Date" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel>
