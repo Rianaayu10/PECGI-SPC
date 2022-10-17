@@ -586,7 +586,7 @@
                 </td>
                 <td style="width: 10px">&nbsp;</td>
                 <td>
-                    <dx:ASPxLabel ID="lblFromDate" runat="server" Font-Names="Segoe UI" Font-Size="9pt" Text="Date">
+                    <dx:ASPxLabel ID="lblFromDate" runat="server" Font-Names="Segoe UI" Font-Size="9pt" Text="Prod. Date">
                     </dx:ASPxLabel>
                 </td>
                 <td style="width: 20px">&nbsp;</td>
