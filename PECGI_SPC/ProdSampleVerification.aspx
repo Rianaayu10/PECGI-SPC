@@ -79,7 +79,10 @@
                 } else if (MIN < LCL || MIN > UCL) {
                     if (s.cpCS == '1') {
                         document.getElementById('Min').style.backgroundColor = 'Yellow';
-                    } else {
+                    }else if(s.cpCS == '2'){
+                        document.getElementById('Min').style.backgroundColor = 'Yellow';
+                    }
+                    else {
                         document.getElementById('Min').style.backgroundColor = 'Pink';
                     }
                 } else {
@@ -97,7 +100,10 @@
                 } else if (MAX > UCL || MAX < LCL) {
                     if (s.cpCS == '1') {
                         document.getElementById('Max').style.backgroundColor = 'Yellow';
-                    } else {
+                    } else if (s.cpCS == '2') {
+                        document.getElementById('Max').style.backgroundColor = 'Yellow';
+                    }
+                    else {
                         document.getElementById('Max').style.backgroundColor = 'Pink';
                     }
                 } else {
@@ -113,7 +119,10 @@
                 } else if (AVG > UCL || AVG < LCL) {
                     if (s.cpCS == '1') {
                         document.getElementById('Ave').style.backgroundColor = 'Yellow';
-                    } else {
+                    } else if (s.cpCS == '2') {
+                        document.getElementById('Ave').style.backgroundColor = 'Yellow';
+                    }
+                    else {
                         document.getElementById('Ave').style.backgroundColor = 'Pink';
                     }
                 } else {
@@ -325,7 +334,10 @@
                 } else if (MIN < LCL || MIN > UCL) {
                     if (s.cpCS == '1') {
                         document.getElementById('Min').style.backgroundColor = 'Yellow';
-                    } else {
+                    } else if (s.cpCS == '2') {
+                        document.getElementById('Min').style.backgroundColor = 'Yellow';
+                    }
+                    else {
                         document.getElementById('Min').style.backgroundColor = 'Pink';
                     }
                 } else {
@@ -336,13 +348,17 @@
             }
 
             console.log(MAX);
+
             if (MAX != '') {
                 if (MAX > USL || MAX < LSL) {
                     document.getElementById('Max').style.backgroundColor = 'Red';
                 } else if (MAX > UCL || MAX < LCL) {
                     if (s.cpCS == '1') {
                         document.getElementById('Max').style.backgroundColor = 'Yellow';
-                    } else {
+                    } else if (s.cpCS == '2') {
+                        document.getElementById('Max').style.backgroundColor = 'Yellow';
+                    }
+                    else {
                         document.getElementById('Max').style.backgroundColor = 'Pink';
                     }
                 } else {
@@ -358,7 +374,10 @@
                 } else if (AVG > UCL || AVG < LCL) {
                     if (s.cpCS == '1') {
                         document.getElementById('Ave').style.backgroundColor = 'Yellow';
-                    } else {
+                    } else if (s.cpCS == '2') {
+                        document.getElementById('Ave').style.backgroundColor = 'Yellow';
+                    }
+                    else {
                         document.getElementById('Ave').style.backgroundColor = 'Pink';
                     }
                 } else {
