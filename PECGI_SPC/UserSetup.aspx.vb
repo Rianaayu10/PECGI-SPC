@@ -168,7 +168,7 @@ Public Class UserSetup
 
     Private Sub Grid_CellEditorInitialize(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewEditorEventArgs) Handles Grid.CellEditorInitialize
         If Not Grid.IsNewRowEditing Then
-            If e.Column.FieldName = "UserID" Or e.Column.FieldName = "EmployeeID" Then
+            If e.Column.FieldName = "UserID" Then
                 e.Editor.ReadOnly = True
                 e.Editor.ForeColor = Color.Silver
             End If
@@ -249,13 +249,26 @@ Public Class UserSetup
                     e.Errors(dataColumn) = "Please input Employee ID!"
                     show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
                     AdaError = True
-                Else
+                ElseIf Not e.IsNewRow Then
                     Dim dt As DataTable = clsUserSetupDB.GetEmployee(e.NewValues("EmployeeID"))
                     If e.IsNewRow Then
                         If dt.Rows.Count > 0 Then
                             e.Errors(dataColumn) = "Employee ID already exists!"
                             show_error(MsgTypeEnum.Warning, e.Errors(dataColumn), 1)
                             AdaError = True
+                        End If
+                    Else
+                        Dim nrow = e.NewValues.Values.Count
+                        If nrow = 10 Then
+                            Dim a = e.NewValues.Values(7)
+                            Dim b = e.OldValues.Values(7)
+                            If a <> b Then
+                                If dt.Rows.Count > 0 Then
+                                    e.Errors(dataColumn) = "Employee ID already exists!"
+                                    show_error(MsgTypeEnum.Warning, e.Errors(dataColumn), 1)
+                                    AdaError = True
+                                End If
+                            End If
                         End If
                     End If
                 End If
