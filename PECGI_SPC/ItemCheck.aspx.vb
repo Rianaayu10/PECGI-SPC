@@ -26,7 +26,7 @@ Public Class ItemCheck
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         sGlobal.getMenu("A010")
-        Master.SiteTitle = sGlobal.menuName
+        Master.SiteTitle = sGlobal.idMenu & " - " & sGlobal.menuName
 
         'pUser = Session("user")
         'AuthUpdate = sGlobal.Auth_UserUpdate(pUser, "A010")

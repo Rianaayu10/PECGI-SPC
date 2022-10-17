@@ -33,7 +33,7 @@ Public Class ItemCheckByBattery
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         sGlobal.getMenu("A020")
-        Master.SiteTitle = sGlobal.menuName
+        Master.SiteTitle = sGlobal.idMenu & " - " & sGlobal.menuName
 
         pUser = Session("user")
         AuthAccess = sGlobal.Auth_UserAccess(pUser, "A020")

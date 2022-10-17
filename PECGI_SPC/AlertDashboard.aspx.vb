@@ -36,15 +36,16 @@ Public Class AlertDashboard
     End Sub
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        sGlobal.getMenu("X010")
-        Master.SiteTitle = sGlobal.menuName
-        pUser = Session("user")
+        'Master.SiteTitle = sGlobal.menuName
         'AuthUpdate = sGlobal.Auth_UserUpdate(pUser, "X010")
         'show_error(MsgTypeEnum.Info, "", 0)
         'If AuthUpdate = False Then
         '    Dim commandColumn = TryCast(Grid.Columns(0), GridViewCommandColumn)
         '    'commandColumn.Visible = False
         'End If
+        sGlobal.getMenu("X010")
+        Master.SiteTitle = sGlobal.idMenu & " - " & sGlobal.menuName
+        pUser = Session("user")
         pUser = Session("user")
         AuthAccess = sGlobal.Auth_UserAccess(pUser, "X010")
         If AuthAccess = False Then
