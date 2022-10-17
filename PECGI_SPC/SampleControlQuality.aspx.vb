@@ -706,12 +706,11 @@ Public Class SampleControlQuality
                 RUCL.AxisValue = Setup.RUCL
 
                 If xr.Count > 0 Then
+                    CountSeq = xr(0).CountSeq
                     If xr(0).MaxValue > Setup.RUCL Then
                         MaxValue = xr(0).MaxValue
-                        CountSeq = xr(0).CountSeq
                     Else
                         MaxValue = Setup.RUCL
-                        CountSeq = 4
                     End If
                 End If
                 diagram.AxisY.WholeRange.MaxValue = MaxValue
