@@ -366,6 +366,7 @@ Public Class SampleControlQuality
             gridX.DataSource = dtXR
             gridX.DataBind()
 
+            ChartType = clsXRChartDB.GetChartType(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode)
             If ds.Tables.Count > 2 Then
                 dtLSL = ds.Tables(2)
                 dtUSL = ds.Tables(3)
@@ -399,6 +400,8 @@ Public Class SampleControlQuality
         GridXLoad(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, ProdDate2, VerifiedOnly)
     End Sub
 
+    Dim ChartType As String
+
     Private Sub gridX_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles gridX.HtmlDataCellPrepared
         Dim LCL As Double
         Dim UCL As Double
@@ -415,7 +418,15 @@ Public Class SampleControlQuality
             If Value < LSL Or Value > USL Then
                 e.Cell.BackColor = Color.Red
             ElseIf Value < LCL Or Value > UCL Then
-                e.Cell.BackColor = Color.Pink
+                If e.GetValue("Seq") = "1" Then
+                    If ChartType = "2" Then
+                        e.Cell.BackColor = Color.Pink
+                    Else
+                        e.Cell.BackColor = Color.Yellow
+                    End If
+                Else
+                    e.Cell.BackColor = Color.Yellow
+                End If
             End If
         End If
         Dim cs As New clsSPCColor
