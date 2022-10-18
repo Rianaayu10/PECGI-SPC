@@ -418,7 +418,7 @@ Public Class AlertDashboard
         Dim dt As DataTable
         Dim msg As String = ""
 
-        dt = clsSPCAlertDashboardDB.GetList(pUser, pFactory)
+        dt = clsSiteMasterDB.GetDelayInput(pUser, pFactory)
         If dt.Rows.Count > 0 Then
             For i = 0 To dt.Rows.Count - 1
                 If msg <> "" Then msg = msg & ";"
@@ -440,7 +440,7 @@ Public Class AlertDashboard
         Dim dt As DataTable
         Dim msg As String = ""
 
-        dt = clsSPCAlertDashboardDB.GetNGDataList(pUser, pFactory)
+        dt = clsSiteMasterDB.GetNGInput(pUser, pFactory)
         If dt.Rows.Count > 0 Then
             For i = 0 To dt.Rows.Count - 1
                 If msg <> "" Then msg = msg & ";"
@@ -462,7 +462,7 @@ Public Class AlertDashboard
         Dim dt As DataTable
         Dim msg As String = ""
 
-        dt = clsSPCAlertDashboardDB.GetVerifyDataList(pUser, pFactory)
+        dt = clsSiteMasterDB.GetDelayVerify(pUser, pFactory)
         If dt.Rows.Count > 0 Then
             For i = 0 To dt.Rows.Count - 1
                 If msg <> "" Then msg = msg & ";"

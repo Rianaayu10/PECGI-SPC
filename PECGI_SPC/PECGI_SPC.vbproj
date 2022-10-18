@@ -901,6 +901,7 @@
     <Compile Include="Class\clsUserLineDB.vb" />
     <Compile Include="Class\clsUserSetupDB.vb" />
     <Compile Include="Class\clsXRChart.vb" />
+    <Compile Include="Class\clsSiteMasterDB.vb" />
     <Compile Include="Class\Cls_ss_UserMenu.vb" />
     <Compile Include="Class\Cls_ss_UserPrivilege.vb" />
     <Compile Include="Class\Cls_ss_UserPrivilegeDB.vb" />
