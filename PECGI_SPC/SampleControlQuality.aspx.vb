@@ -153,7 +153,7 @@ Public Class SampleControlQuality
                 Dim dDay As String = Format(SelDay, "yyyy-MM-dd")
 
                 iCol = iDay + 2
-                .Cells(iRow, iCol).Value = Format(SelDay, "dd MMM yyyy")
+                .Cells(iRow, iCol).Value = Format(SelDay, "dd MMM yy")
                 .Cells(iRow + 1, iCol).Value = dtDay.Rows(iDay)("ShiftCode")
                 .Cells(iRow + 2, iCol).Value = dtDay.Rows(iDay)("SeqNo")
             Next
@@ -167,7 +167,7 @@ Public Class SampleControlQuality
                 For k = 1 To dt.Columns.Count - 1
                     .Cells(iRow, iCol).Value = dt.Rows(j)(k)
                     If k > 1 Then
-                        .Cells(iRow, iCol).Style.Numberformat.Format = "0.0000"
+                        .Cells(iRow, iCol).Style.Numberformat.Format = "0.000"
                     End If
                     iCol = iCol + 1
                 Next
