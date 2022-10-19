@@ -122,7 +122,7 @@
                     }
                 });  
             }
-
+                        
             if (s.cp_message != "" && s.cp_val == 1) {
                 if (s.cp_type == "Success" && s.cp_val == 1) {
                     toastr.success(s.cp_message, 'Success');
@@ -144,7 +144,7 @@
                     toastr.options.progressBar = false;
                     toastr.options.preventDuplicates = true;
                     toastr.options.onclick = null;
-                    ss.cp_val = 0;
+                    s.cp_val = 0;
                     s.cp_message = "";
                 }
                 else if (s.cp_type == "ErrorMsg" && s.cp_val == 1) {
@@ -166,8 +166,7 @@
                 toastr.options.progressBar = false;
                 toastr.options.preventDuplicates = true;
                 toastr.options.onclick = null;
-            }
-
+            }            
             lblMKUser.SetText(s.cpMKUser);
             lblMKDate.SetText(s.cpMKDate);
             lblQCUser.SetText(s.cpQCUser);
@@ -897,7 +896,7 @@
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="Blue">
                         <LineStyle Thickness="2" />
-                        <LineMarkerOptions Color="Blue" Size="3"></LineMarkerOptions>
+                        <LineMarkerOptions Color="Blue" Size="10" Kind="Diamond"></LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>

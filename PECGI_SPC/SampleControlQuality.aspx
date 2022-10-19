@@ -145,7 +145,7 @@
                     toastr.options.progressBar = false;
                     toastr.options.preventDuplicates = true;
                     toastr.options.onclick = null;
-                    ss.cp_val = 0;
+                    s.cp_val = 0;
                     s.cp_message = "";
                 }
                 else if (s.cp_type == "ErrorMsg" && s.cp_val == 1) {
@@ -500,7 +500,7 @@
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="Blue">
                         <LineStyle Thickness="1" />
-                        <LineMarkerOptions Color="Blue" Size="3">
+                        <LineMarkerOptions Color="Blue" Size="10" Kind="Diamond">
                         </LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>
