@@ -328,13 +328,20 @@
             ConnectionString="<%$ ConnectionStrings:ApplicationServices %>"
             SelectCommand="Exec sp_SPC_ChartSetup_FillCombo '1' "></asp:SqlDataSource>
 
-        <asp:SqlDataSource ID="dsMachine" runat="server"
+        <%--<!<asp:SqlDataSource ID="dsMachine" runat="server"
             ConnectionString="<%$ ConnectionStrings:ApplicationServices %>"
             SelectCommand="Exec sp_SPC_ChartSetup_FillCombo '4' "></asp:SqlDataSource>
 
         <asp:SqlDataSource ID="dsItemCheck" runat="server"
             ConnectionString="<%$ ConnectionStrings:ApplicationServices %>"
-            SelectCommand="Exec sp_SPC_ChartSetup_FillCombo '5' "></asp:SqlDataSource>
+            SelectCommand="Exec sp_SPC_ChartSetup_FillCombo '6' ">
+            <SelectParameters>
+                <asp:Parameter Name="Type" DefaultValue="6" Type="String"/>
+                <asp:ControlParameter ControlID="cboFactory" PropertyName="Value" Name="Param" Type="String"/>
+                <asp:ControlParameter ControlID="cboMachine" PropertyName="Value" Name="Param2" Type="String"/>
+                <asp:ControlParameter ControlID="cboType" PropertyName="Value" Name="Param3" Type="String"/>
+            </SelectParameters>
+        </asp:SqlDataSource>--%>
 
         <dx:ASPxGridView ID="Grid" runat="server" AutoGenerateColumns="False" ClientInstanceName="Grid"
             EnableTheming="True" Theme="Office2010Black" Width="100%" KeyFieldName="Factory;Type;Machine;ItemCheck;Start;LastUpdate"
@@ -375,7 +382,7 @@
 
                 <dx:GridViewDataComboBoxColumn Caption="Machine Process" FieldName="Machine" VisibleIndex="2" FixedStyle="Left"
                     Width="175px" Settings-AutoFilterCondition="Contains">
-                    <PropertiesComboBox DataSourceID="dsMachine" DropDownStyle="DropDownList" TextFormatString="{0}"
+                    <PropertiesComboBox DropDownStyle="DropDownList" TextFormatString="{0}"
                         IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="100%"
                         TextField="Description" ValueField="Description" ClientInstanceName="Machine">
                         <ItemStyle Height="10px" Paddings-Padding="4px">
@@ -385,7 +392,7 @@
                             <Paddings Padding="2px"></Paddings>
                         </ButtonStyle>
                     </PropertiesComboBox>
-                    <Settings AutoFilterCondition="Contains"></Settings>
+                    
                     <FilterCellStyle Paddings-PaddingRight="4px">
                         <Paddings PaddingRight="4px"></Paddings>
                     </FilterCellStyle>
@@ -397,7 +404,7 @@
 
                 <dx:GridViewDataComboBoxColumn Caption="Item Check" FieldName="ItemCheck" VisibleIndex="3" FixedStyle="Left"
                     Width="175px" Settings-AutoFilterCondition="Contains">
-                    <PropertiesComboBox DataSourceID="dsItemCheck" DropDownStyle="DropDownList" TextFormatString="{0}"
+                    <PropertiesComboBox DropDownStyle="DropDownList" TextFormatString="{0}"
                         IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="100%"
                         TextField="Description" ValueField="Description" ClientInstanceName="ItemCheck">
                         <ItemStyle Height="10px" Paddings-Padding="4px">

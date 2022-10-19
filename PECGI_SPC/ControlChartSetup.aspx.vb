@@ -24,6 +24,7 @@ Public Class ControlChartSetup
             pUser = Session("user")
             up_Fillcombo()
         End If
+
     End Sub
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -493,6 +494,9 @@ Public Class ControlChartSetup
                 .Type = Type,
                 .Period = Period
             }
+
+            up_FillComboFilter(Factory, Machine, Type)
+
             dt = clsControlChartSetupDB.GetList(cls)
             Grid.DataSource = dt
             Grid.DataBind()
@@ -529,5 +533,40 @@ Public Class ControlChartSetup
         End Try
     End Function
 #End Region
-    
+
+    Private Sub up_FillComboFilter(Factory, Machine, Type)
+        'Line
+        Dim ds As New SqlDataSource
+        ds.ConnectionString = Sconn.Stringkoneksi
+        ds.SelectCommandType = SqlDataSourceCommandType.StoredProcedure
+        ds.SelectCommand = "sp_SPC_ChartSetup_FillCombo"
+        ds.SelectParameters.Add("Type", "4")
+        ds.SelectParameters.Add("Param", Factory)
+        ds.SelectParameters.Add("Param2", Machine)
+        ds.SelectParameters.Add("Param3", Type)
+        Dim combo As GridViewDataComboBoxColumn = TryCast(Grid.Columns("Machine"), GridViewDataComboBoxColumn)
+        combo.PropertiesComboBox.ValueType = GetType(String)
+        combo.PropertiesComboBox.DataSource = ds
+        combo.PropertiesComboBox.TextField = "Description"
+        combo.PropertiesComboBox.ValueField = "Code"
+        combo.PropertiesComboBox.TextFormatString = "{0}"
+        combo.PropertiesComboBox.IncrementalFilteringMode = IncrementalFilteringMode.Contains
+
+        'Item Check
+        Dim ds2 As New SqlDataSource
+        ds2.ConnectionString = Sconn.Stringkoneksi
+        ds2.SelectCommandType = SqlDataSourceCommandType.StoredProcedure
+        ds2.SelectCommand = "sp_SPC_ChartSetup_FillCombo"
+        ds2.SelectParameters.Add("Type", "6")
+        ds2.SelectParameters.Add("Param", Factory)
+        ds2.SelectParameters.Add("Param2", Machine)
+        ds2.SelectParameters.Add("Param3", Type)
+        Dim combo2 As GridViewDataComboBoxColumn = TryCast(Grid.Columns("ItemCheck"), GridViewDataComboBoxColumn)
+        combo2.PropertiesComboBox.ValueType = GetType(String)
+        combo2.PropertiesComboBox.DataSource = ds2
+        combo2.PropertiesComboBox.TextField = "Description"
+        combo2.PropertiesComboBox.ValueField = "Code"
+        combo2.PropertiesComboBox.TextFormatString = "{0}"
+    End Sub
+
 End Class
