@@ -132,7 +132,9 @@
                 document.getElementById('Ave').style.backgroundColor = 'White';
             }
 
-            if (s.cp_Verify == "1") {
+            console.log(s.cp_AllowSkill);
+
+            if (s.cp_Verify == "1" && s.cp_AllowSkill == true) {
                 btnVerification.SetEnabled(true);
             }
             else {
@@ -387,7 +389,7 @@
                 document.getElementById('Ave').style.backgroundColor = 'White';
             }
 
-            if (s.cp_Verify == "1") {
+            if (s.cp_Verify == "1" && s.cp_AllowSkill == true) {
                 btnVerification.SetEnabled(true);
             } else {
                 btnVerification.SetEnabled(false);

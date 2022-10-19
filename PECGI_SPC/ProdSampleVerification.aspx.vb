@@ -22,6 +22,7 @@ Public Class ProdSampleVerification
 #Region "Declaration"
 
     Dim pUser As String = ""
+    Dim pEmplooyeeID As String = ""
     Dim MenuID As String = ""
     Dim dt As DataTable
     Dim ds As DataSet
@@ -1119,6 +1120,12 @@ Public Class ProdSampleVerification
             show_errorGrid(MsgTypeEnum.Warning, RespChartSetUp, 1)
         End If
 
+        dtProdDate.Enabled = False
+        btnClear.Enabled = False
+        btnBack.Visible = False
+        dtProdDate.Value = Convert.ToDateTime(prmProdDate)
+        HideValue.Set("ProdDate", prmProdDate)
+
         If Request.QueryString("menu") = "ProductionSampleVerificationList.aspx" Then
             HideValue.Set("prm_factory", prmFactoryCode)
             HideValue.Set("prm_ItemType", prmItemType)
@@ -1128,14 +1135,8 @@ Public Class ProdSampleVerification
             HideValue.Set("prm_ToDate", Request.QueryString("ToDate"))
             HideValue.Set("prm_MK", Request.QueryString("MK"))
             HideValue.Set("prm_QC", Request.QueryString("QC"))
-
-            dtProdDate.Enabled = False
-            'btnBrowse.Enabled = False
-            btnClear.Enabled = False
+            btnBack.Visible = True
         End If
-
-        dtProdDate.Value = Convert.ToDateTime(prmProdDate)
-        HideValue.Set("ProdDate", prmProdDate)
 
     End Sub
     Private Sub LoadForm()
@@ -1174,9 +1175,10 @@ Public Class ProdSampleVerification
     End Sub
     Private Sub Validation_Verify(cls As clsProdSampleVerification)
         VerifyStatus = clsProdSampleVerificationDB.Validation(GetVerifyPrivilege, cls)
-        'Dim AllowSkill As Boolean = clsIOT.AllowSkill(cls.User, cls.FactoryCode, cls.LineCode, cls.ItemType_Code)
+        pEmplooyeeID = clsIOT.GetEmployeeID(pUser)
+        Dim AllowSkill As Boolean = clsIOT.AllowSkill(pEmplooyeeID, cls.FactoryCode, cls.LineCode, cls.ItemType_Code)
         Grid.JSProperties("cp_Verify") = VerifyStatus 'parameter to authorization verify
-        'Grid.JSProperties("cp_AllowSkill") = AllowSkill 'parameter to authorization verify
+        Grid.JSProperties("cp_AllowSkill") = AllowSkill 'parameter to authorization verify
     End Sub
 #End Region
 
