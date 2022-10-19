@@ -113,24 +113,6 @@ Partial Public Class ControlChartSetup
     Protected WithEvents dsType As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''dsMachine control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents dsMachine As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''dsItemCheck control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents dsItemCheck As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
     '''Grid control.
     '''</summary>
     '''<remarks>
