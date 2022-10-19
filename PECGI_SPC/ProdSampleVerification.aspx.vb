@@ -797,7 +797,7 @@ Public Class ProdSampleVerification
                 Else
                     cboShow.SelectedIndex = 1
                 End If
-                cboShow.Enabled = False
+                'cboShow.Enabled = False
                 HideValue.Set("ShowVerify", prmShowVerify)
                 data.Seq = HideValue.Get("ShowVerify")
             End If
@@ -1130,7 +1130,7 @@ Public Class ProdSampleVerification
             HideValue.Set("prm_QC", Request.QueryString("QC"))
 
             dtProdDate.Enabled = False
-            btnBrowse.Enabled = False
+            'btnBrowse.Enabled = False
             btnClear.Enabled = False
         End If
 
