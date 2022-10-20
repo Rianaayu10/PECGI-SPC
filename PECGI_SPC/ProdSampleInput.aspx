@@ -954,7 +954,7 @@
         </SeriesSerializable>     
         <DiagramSerializable>
             <cc1:XYDiagram>
-                <AxisX VisibleInPanesSerializable="-1" MinorCount="1">
+                <AxisX VisibleInPanesSerializable="-1" MinorCount="1" Visibility="False">
                     <Label Alignment="Center">
                         <ResolveOverlappingOptions AllowHide="False" />
                     </Label>
@@ -1022,7 +1022,7 @@
         </seriestemplate>  
         <DiagramSerializable>
             <cc1:XYDiagram>
-                <AxisX VisibleInPanesSerializable="-1" MinorCount="1">
+                <AxisX VisibleInPanesSerializable="-1" MinorCount="1" Visibility="True">
                     <GridLines MinorVisible="True">
                     </GridLines>
                 </AxisX>
