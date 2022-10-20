@@ -164,4 +164,23 @@ Public Class clsSPCResultDB
             Return Result.SPCResultID
         End Using
     End Function
+
+    Public Shared Function InsertRuleBreak(Result As clsSPCResult) As Integer
+        Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+            Cn.Open()
+            Dim q As String = "sp_SPC_RuleBreak_Ins"
+            Dim cmd As New SqlCommand(q, Cn)
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.AddWithValue("FactoryCode", Result.FactoryCode)
+            cmd.Parameters.AddWithValue("ItemTypeCode", Result.ItemTypeCode)
+            cmd.Parameters.AddWithValue("LineCode", Result.LineCode)
+            cmd.Parameters.AddWithValue("ItemCheckCode", Result.ItemCheckCode)
+            cmd.Parameters.AddWithValue("ProdDate", Result.ProdDate)
+            cmd.Parameters.AddWithValue("ShiftCode", Result.ShiftCode)
+            cmd.Parameters.AddWithValue("SequenceNo", Result.SequenceNo)
+            cmd.Parameters.AddWithValue("RegisterUser", Result.RegisterUser)
+            Dim r As Integer = cmd.ExecuteScalar
+            Return r
+        End Using
+    End Function
 End Class

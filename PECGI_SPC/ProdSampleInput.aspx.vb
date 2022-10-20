@@ -343,7 +343,7 @@ Public Class ProdSampleInput
             ProdDate = Format(dtVer.Rows(0)(1), "dd MMM yyyy")
             Dim ShiftCode As String = dtVer.Rows(0)(2) & ""
             Sequence = dtVer.Rows(0)(3)
-            show_error(MsgTypeEnum.Warning, "Date " & ProdDate & ", Shift " & ShiftCode & ", Sequence " & Sequence & " is not yet verified", 1)
+            show_error(MsgTypeEnum.Warning, "Previous Sequence is not yet verified (" & ProdDate & ", Shift " & ShiftCode & ", Sequence " & Sequence & ")", 1)
         End If
     End Sub
 
