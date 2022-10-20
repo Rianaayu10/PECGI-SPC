@@ -32,6 +32,9 @@ Partial Class frmSPCInboxNotification
         Me.cboFactory = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.pnlContent = New System.Windows.Forms.Panel()
+        Me.lblTotalNGResult = New System.Windows.Forms.Label()
+        Me.lblTotalDelayVerification = New System.Windows.Forms.Label()
+        Me.lblTotalDelayInput = New System.Windows.Forms.Label()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Label14 = New System.Windows.Forms.Label()
         Me.Label15 = New System.Windows.Forms.Label()
@@ -54,9 +57,6 @@ Partial Class frmSPCInboxNotification
         Me.Label4 = New System.Windows.Forms.Label()
         Me.gridNGResult = New C1.Win.C1FlexGrid.C1FlexGrid()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.lblTotalDelayInput = New System.Windows.Forms.Label()
-        Me.lblTotalDelayVerification = New System.Windows.Forms.Label()
-        Me.lblTotalNGResult = New System.Windows.Forms.Label()
         Me.pnlHeader.SuspendLayout()
         Me.pnlContent.SuspendLayout()
         Me.Panel3.SuspendLayout()
@@ -166,6 +166,33 @@ Partial Class frmSPCInboxNotification
         Me.pnlContent.Name = "pnlContent"
         Me.pnlContent.Size = New System.Drawing.Size(980, 655)
         Me.pnlContent.TabIndex = 2
+        '
+        'lblTotalNGResult
+        '
+        Me.lblTotalNGResult.AutoSize = True
+        Me.lblTotalNGResult.Location = New System.Drawing.Point(65, 185)
+        Me.lblTotalNGResult.Name = "lblTotalNGResult"
+        Me.lblTotalNGResult.Size = New System.Drawing.Size(78, 13)
+        Me.lblTotalNGResult.TabIndex = 5
+        Me.lblTotalNGResult.Text = "Total : 0 Record"
+        '
+        'lblTotalDelayVerification
+        '
+        Me.lblTotalDelayVerification.AutoSize = True
+        Me.lblTotalDelayVerification.Location = New System.Drawing.Point(65, 600)
+        Me.lblTotalDelayVerification.Name = "lblTotalDelayVerification"
+        Me.lblTotalDelayVerification.Size = New System.Drawing.Size(78, 13)
+        Me.lblTotalDelayVerification.TabIndex = 5
+        Me.lblTotalDelayVerification.Text = "Total : 0 Record"
+        '
+        'lblTotalDelayInput
+        '
+        Me.lblTotalDelayInput.AutoSize = True
+        Me.lblTotalDelayInput.Location = New System.Drawing.Point(65, 392)
+        Me.lblTotalDelayInput.Name = "lblTotalDelayInput"
+        Me.lblTotalDelayInput.Size = New System.Drawing.Size(78, 13)
+        Me.lblTotalDelayInput.TabIndex = 4
+        Me.lblTotalDelayInput.Text = "Total : 0 Record"
         '
         'Panel3
         '
@@ -417,33 +444,6 @@ Partial Class frmSPCInboxNotification
         '
         Me.Timer1.Enabled = True
         Me.Timer1.Interval = 1000
-        '
-        'lblTotalDelayInput
-        '
-        Me.lblTotalDelayInput.AutoSize = True
-        Me.lblTotalDelayInput.Location = New System.Drawing.Point(65, 392)
-        Me.lblTotalDelayInput.Name = "lblTotalDelayInput"
-        Me.lblTotalDelayInput.Size = New System.Drawing.Size(78, 13)
-        Me.lblTotalDelayInput.TabIndex = 4
-        Me.lblTotalDelayInput.Text = "Total : 0 Record"
-        '
-        'lblTotalDelayVerification
-        '
-        Me.lblTotalDelayVerification.AutoSize = True
-        Me.lblTotalDelayVerification.Location = New System.Drawing.Point(65, 600)
-        Me.lblTotalDelayVerification.Name = "lblTotalDelayVerification"
-        Me.lblTotalDelayVerification.Size = New System.Drawing.Size(78, 13)
-        Me.lblTotalDelayVerification.TabIndex = 5
-        Me.lblTotalDelayVerification.Text = "Total : 0 Record"
-        '
-        'lblTotalNGResult
-        '
-        Me.lblTotalNGResult.AutoSize = True
-        Me.lblTotalNGResult.Location = New System.Drawing.Point(65, 185)
-        Me.lblTotalNGResult.Name = "lblTotalNGResult"
-        Me.lblTotalNGResult.Size = New System.Drawing.Size(78, 13)
-        Me.lblTotalNGResult.TabIndex = 5
-        Me.lblTotalNGResult.Text = "Total : 0 Record"
         '
         'frmSPCInboxNotification
         '

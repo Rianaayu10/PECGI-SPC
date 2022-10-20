@@ -22,4 +22,23 @@ Public Class clsSPCNotification
         End Try
     End Function
 
+    Public Shared Function CheckNotificationLog(constr As String, UserID As String, Type As String) As DataTable
+        Try
+            Dim sql As String = "sp_NotificationLog_CheckUpdate"
+            Dim dt As New DataTable
+            Using con As New SqlConnection(constr)
+                con.Open()
+                Dim cmd As New SqlCommand(sql, con)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Parameters.AddWithValue("@NotifType", Type)
+                cmd.Parameters.AddWithValue("@UserID", UserID)
+                Dim da As New SqlDataAdapter(cmd)
+                da.Fill(dt)
+                Return dt
+            End Using
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+
 End Class
