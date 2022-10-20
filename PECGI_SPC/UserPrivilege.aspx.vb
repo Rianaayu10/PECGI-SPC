@@ -28,6 +28,7 @@ Public Class UserPrivilege
         Dim dsMenu As List(Of Cls_ss_UserMenu)
         dsMenu = clsUserSetupDB.GetListMenu(pUserID, pErr)
         If pErr = "" Then
+            gridMenu.SettingsPager.PageSize = dsMenu.Count
             gridMenu.DataSource = dsMenu
             gridMenu.DataBind()
             If dsMenu Is Nothing Then

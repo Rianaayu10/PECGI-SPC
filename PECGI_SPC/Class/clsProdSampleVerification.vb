@@ -25,5 +25,6 @@
     Public Property Remark As String
     Public Property PIC As String
     Public Property Seq As String
+    Public Property ShowVerify As String
     Public Property Time As String
 End Class

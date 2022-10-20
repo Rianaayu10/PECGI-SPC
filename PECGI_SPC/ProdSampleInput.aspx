@@ -18,12 +18,15 @@
         .auto-style1 {
             height: 12px;
         }
+        .auto-style2 {
+            margin-right: 0;
+        }
     </style>
     <script type="text/javascript" >
         var rowIndex, columnIndex;
         function OnInit(s, e) {
-            var d = new Date(2022, 8, 3);
-            dtDate.SetDate(d);  
+            var x = document.getElementById("chartRdiv");
+            x.style.display = "none";
         }
 
         function isNumeric(n) {
@@ -106,6 +109,20 @@
         }
 
         function OnEndCallback(s, e) {
+            if (s.IsEditing()) {  
+                var form = s.GetPopupEditForm();  
+                form.PopUp.AddHandler(function(s,e) {  
+                    var editor = grid.GetEditor('Value');  
+                    if (editor.GetValue() == null)
+                    {
+                        editor.Focus();
+                    } else {
+                        var editor2 = grid.GetEditor('Remark');  
+                        editor2.Focus();
+                    }
+                });  
+            }
+                        
             if (s.cp_message != "" && s.cp_val == 1) {
                 if (s.cp_type == "Success" && s.cp_val == 1) {
                     toastr.success(s.cp_message, 'Success');
@@ -127,7 +144,7 @@
                     toastr.options.progressBar = false;
                     toastr.options.preventDuplicates = true;
                     toastr.options.onclick = null;
-                    ss.cp_val = 0;
+                    s.cp_val = 0;
                     s.cp_message = "";
                 }
                 else if (s.cp_type == "ErrorMsg" && s.cp_val == 1) {
@@ -149,8 +166,7 @@
                 toastr.options.progressBar = false;
                 toastr.options.preventDuplicates = true;
                 toastr.options.onclick = null;
-            }
-
+            }            
             lblMKUser.SetText(s.cpMKUser);
             lblMKDate.SetText(s.cpMKDate);
             lblQCUser.SetText(s.cpQCUser);
@@ -237,7 +253,7 @@
             if (s.cpRefresh == '1') {
                 gridX.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShow.GetValue());
                 chartX.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShow.GetValue());
-                chartR.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText());                
+                chartR.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShow.GetValue());                
             }            
         }
     </script>
@@ -286,8 +302,8 @@
                     </ButtonStyle>
                 </dx:ASPxComboBox>
             </td>
-            <td style=" padding: 5px 0px 0px 10px; width:50px">
-                <dx:ASPxLabel ID="ASPxLabel8" runat="server" Text="Date" 
+            <td style=" padding: 5px 0px 0px 10px; width:80px">
+                <dx:ASPxLabel ID="ASPxLabel8" runat="server" Text="Prod Date" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel>
             </td>
@@ -475,7 +491,6 @@
 		                    e.processOnServer = false;
 		                    return;
                         }
-                        grid.CancelEdit();
  	                    grid.PerformCallback('load' + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + cboShow.GetValue());
                     }" />
                     <Paddings Padding="2px" />
@@ -538,9 +553,10 @@
 <div style="padding: 10px 5px 5px 5px">
 <dx:ASPxGridView ID="grid" runat="server" AutoGenerateColumns="False" ClientInstanceName="grid"
             EnableTheming="True" KeyFieldName="SeqNo" Theme="Office2010Black"            
-            OnBatchUpdate="grid_BatchUpdate"          
+            OnBatchUpdate="grid_BatchUpdate"   
+            OnRowValidating="grid_RowValidating"
             Width="100%" 
-            Font-Names="Segoe UI" Font-Size="9pt">
+            Font-Names="Segoe UI" Font-Size="9pt" CssClass="auto-style2">
             <ClientSideEvents 
                 EndCallback="OnEndCallback" BatchEditStartEditing="OnBatchEditStartEditing" 
              />
@@ -561,7 +577,7 @@
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn Caption="Value" VisibleIndex="2" FieldName="Value" Width="80px">
                 <PropertiesTextEdit SelectInputTextOnClick="True" DisplayFormatString="0.000" Width="70px">
-                    <MaskSettings UseInvariantCultureDecimalSymbolOnClient="True" Mask="&lt;0..9999g&gt;.&lt;000..999&gt;" />
+                    <MaskSettings UseInvariantCultureDecimalSymbolOnClient="True" />
                     <ValidationSettings>
                         <RegularExpression ErrorText="Please input valid value" />
                     </ValidationSettings>
@@ -855,7 +871,7 @@
 <div id="chartXdiv" style="overflow-x:auto; width:100%; border:1px solid black"">
 <dx:WebChartControl ID="chartX" runat="server" ClientInstanceName="chartX"
         Height="490px" Width="1080px" CrosshairEnabled="True" SeriesDataMember="Description" ToolTipEnabled="False">
-        <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" ToolTipPointPattern="{V:0.000}">
+        <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" ToolTipPointPattern="{V:0.000}" CrosshairLabelPattern="{S}: {V:0.000}">
             <viewserializable>
                 <cc1:PointSeriesView>                    
                     <PointMarkerOptions kind="Circle" BorderColor="255, 255, 255"></PointMarkerOptions>
@@ -876,15 +892,15 @@
                     </cc1:FullStackedBarSeriesView>
                 </ViewSerializable>
             </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="Average" ValueDataMembersSerializable="AvgValue">
+            <cc1:Series ArgumentDataMember="Seq" Name="Average" ValueDataMembersSerializable="AvgValue" CrosshairLabelPattern="{S}: {V:0.000}">
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="Blue">
                         <LineStyle Thickness="2" />
-                        <LineMarkerOptions Color="Blue" Size="3"></LineMarkerOptions>
+                        <LineMarkerOptions Color="Blue" Size="10" Kind="Diamond"></LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="LCL" ValueDataMembersSerializable="LCL" LabelsVisibility="False">
+            <cc1:Series ArgumentDataMember="Seq" Name="LCL" ValueDataMembersSerializable="LCL" LabelsVisibility="False" CrosshairLabelPattern="{S}: {V:0.000}">
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="0, 32, 96" MarkerVisibility="False">
                         <LineStyle DashStyle="DashDot" Thickness="2" />
@@ -897,7 +913,7 @@
                     </cc1:PointSeriesLabel>
                 </LabelSerializable>
             </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="UCL" ValueDataMembersSerializable="UCL">
+            <cc1:Series ArgumentDataMember="Seq" Name="UCL" ValueDataMembersSerializable="UCL" CrosshairLabelPattern="{S}: {V:0.000}">
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="0, 32, 96" MarkerVisibility="False">
                         <LineStyle DashStyle="DashDot" Thickness="2" />
@@ -906,7 +922,7 @@
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="USL" ValueDataMembersSerializable="USL">
+            <cc1:Series ArgumentDataMember="Seq" Name="USL" ValueDataMembersSerializable="USL" CrosshairLabelPattern="{S}: {V:0.000}">
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="240, 0, 0" MarkerVisibility="False">
                         <LineStyle Thickness="2" />
@@ -915,9 +931,19 @@
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="LSL" ValueDataMembersSerializable="LSL">
+            <cc1:Series ArgumentDataMember="Seq" Name="LSL" ValueDataMembersSerializable="LSL" CrosshairLabelPattern="{S}: {V:0.000}">
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="240, 0, 0" MarkerVisibility="False">
+                        <LineStyle Thickness="2" />
+                        <LineMarkerOptions Size="1">
+                        </LineMarkerOptions>
+                    </cc1:LineSeriesView>
+                </ViewSerializable>
+            </cc1:Series>
+
+            <cc1:Series ArgumentDataMember="Seq" Name="CL" ValueDataMembersSerializable="CL" CrosshairLabelPattern="{S}: {V:0.000}">
+                <ViewSerializable>
+                    <cc1:LineSeriesView Color="0, 0, 0">
                         <LineStyle Thickness="2" />
                         <LineMarkerOptions Size="1">
                         </LineMarkerOptions>
@@ -957,7 +983,7 @@
             </cc1:XYDiagram>
         </DiagramSerializable>
         <titles>
-            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Graph Monitoring" />
+            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="" />
         </titles>
         <legend alignmenthorizontal="Left" alignmentvertical="BottomOutside" 
             direction="LeftToRight"></legend> 
@@ -1019,7 +1045,7 @@
         </titles>
         <legend alignmenthorizontal="Left" alignmentvertical="BottomOutside" 
             direction="LeftToRight"></legend> 
-        <ClientSideEvents EndCallback="ChartREndCallBack" />
+        <ClientSideEvents EndCallback="ChartREndCallBack" Init="OnInit" />
     </dx:WebChartControl>
 </div>
             </td>

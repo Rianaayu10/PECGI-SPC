@@ -15,16 +15,15 @@
         .body {
             border: 1px solid silver; 
         }
-        .auto-style1 {
-            height: 12px;
-        }
-
+        
             </style>
     <script type="text/javascript" >
         var rowIndex, columnIndex;
         function OnInit(s, e) {
-            var d = new Date(2022, 8, 3);
-            dtDate.SetDate(d);  
+            var d = new Date(2022, 9, 4);            
+            var d2 = new Date(2022, 9, 11);
+            var x = document.getElementById("chartRdiv");
+            x.style.display = "none";
         }
 
         function isNumeric(n) {
@@ -146,7 +145,7 @@
                     toastr.options.progressBar = false;
                     toastr.options.preventDuplicates = true;
                     toastr.options.onclick = null;
-                    ss.cp_val = 0;
+                    s.cp_val = 0;
                     s.cp_message = "";
                 }
                 else if (s.cp_type == "ErrorMsg" && s.cp_val == 1) {
@@ -178,13 +177,14 @@
             lblCPK2.SetText(s.cpCPK2);
 
             chartX.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + dtTo.GetText() + '|' + cboShow.GetValue());
+            chartR.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + dtTo.GetText());                
             Histogram.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + dtTo.GetText());
         }
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
     <div style="padding: 0px 5px 5px 5px">
-        <table style="width: 100%">
+        <table class="nav-justified">
         <tr >
             <td style="padding:5px 0px 0px 0px" >
                 <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="Factory" Font-Names="Segoe UI" 
@@ -207,7 +207,7 @@
                     </ButtonStyle>
                 </dx:ASPxComboBox>
             </td>
-            <td style=" padding:5px 0px 0px 0px" >
+            <td style=" padding:5px 0px 0px 0px; width:120px" >
                 <dx:ASPxLabel ID="ASPxLabel4" runat="server" Text="Machine Process" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel>
@@ -226,15 +226,12 @@
                     </ButtonStyle>
                 </dx:ASPxComboBox>
             </td>
-            <td style=" padding: 5px 0px 0px 10px; " >
-                <dx:ASPxLabel ID="ASPxLabel8" runat="server" Text="Date" 
+            <td style=" padding: 5px 0px 0px 10px; width:100px" >
+                <dx:ASPxLabel ID="ASPxLabel8" runat="server" Text="Prod Date" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel>
-            </td>
-            <td>
-                &nbsp;
-                </td>
-            <td style="padding: 5px 0px 0px 0px; ">                
+            </td>            
+            <td style="padding: 5px 0px 0px 0px; width:110px">                
                                 <dx:ASPxDateEdit ID="dtDate" runat="server" Theme="Office2010Black" 
                     Width="100px"
                         ClientInstanceName="dtDate" EditFormatString="dd MMM yyyy" DisplayFormatString="dd MMM yyyy"
@@ -262,12 +259,12 @@
            
            
            
-            <td style="padding: 5px 0px 0px 0px; ">  
+            <td style="padding: 2px 0px 0px 0px; width:20px">  
                                 <dx:ASPxLabel ID="ASPxLabel10" runat="server" Text="To" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel></td>            
            
-            <td style="padding: 5px 0px 0px 0px; ">  
+            <td style="padding: 5px 0px 0px 0px; width:100px">  
                                 <dx:ASPxDateEdit ID="dtTo" runat="server" ClientInstanceName="dtTo" DisplayFormatString="dd MMM yyyy" EditFormat="Custom" EditFormatString="dd MMM yyyy" Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="2" Theme="Office2010Black" Width="100px">
                                     <CalendarProperties ShowWeekNumbers="False">
                                         <HeaderStyle Font-Size="12pt" Paddings-Padding="5px">
@@ -345,23 +342,11 @@
                     
             </td>
             <td style=" padding: 3px 0px 0px 10px; ">
-                
-               
-                </td>
-            <td style=" width:10px">
-                                    
-            </td>
-            <td style="padding:3px 0px 0px 0px">
                 <dx:ASPxLabel ID="ASPxLabel9" runat="server" Text="Show Verified Only" 
                         Font-Names="Segoe UI" Font-Size="9pt" Width="109px">
-            </dx:ASPxLabel> 
-                                
-                
-                
-            </td>
-            <td></td>
+            </dx:ASPxLabel>                                
+                </td>
             <td>
-                                
                 <dx:ASPxComboBox ID="cboShow" runat="server" Theme="Office2010Black" 
                     ClientInstanceName="cboShow" Font-Names="Segoe UI" 
                     Font-Size="9pt" Height="25px" 
@@ -374,12 +359,17 @@
                     </ItemStyle>
                     <ButtonStyle Paddings-Padding="4px" Width="5px"><Paddings Padding="4px"></Paddings>
                     </ButtonStyle>
-                </dx:ASPxComboBox>
+                </dx:ASPxComboBox>                                    
+            </td>
+            <td></td>
+            <td>
+                                
+                
                 
             
 
             </td>
-            <td style="width:100px">
+            <td style="width:100px; padding-left:20px">
 
 <dx:ASPxButton ID="btnSearch" runat="server" AutoPostBack="False" 
                     ClientInstanceName="btnSearch" Font-Names="Segoe UI" Font-Size="9pt" 
@@ -426,6 +416,9 @@
                                     Width="90px" TabIndex="10">
                                     <Paddings Padding="2px" />
                                 </dx:ASPxButton>                            
+
+            </td>
+            <td>
 
             </td>
         </tr>
@@ -480,7 +473,7 @@
 </div>
     <div style="height:10px"></div>
 
-<div style="width:100%; overflow-x: auto; border:1px solid black">
+<div style="width:100%; border:1px solid black">
 <dx:WebChartControl ID="chartX" runat="server" ClientInstanceName="chartX"
         Height="434px" Width="400px" CrosshairEnabled="True" SeriesDataMember="Description" ToolTipEnabled="False">
         <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" CrosshairLabelPattern="{S}: {V:0.000}">
@@ -507,7 +500,7 @@
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="Blue">
                         <LineStyle Thickness="1" />
-                        <LineMarkerOptions Color="Blue" Size="3">
+                        <LineMarkerOptions Color="Blue" Size="10" Kind="Diamond">
                         </LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>
@@ -515,7 +508,7 @@
         </SeriesSerializable>     
         <DiagramSerializable>
             <cc1:XYDiagram>
-                <AxisX VisibleInPanesSerializable="-1" MinorCount="1">
+                <AxisX VisibleInPanesSerializable="-1" MinorCount="1" Visibility="False">
                     <Label Alignment="Center">
                         <ResolveOverlappingOptions AllowHide="False" />
                     </Label>
@@ -544,31 +537,85 @@
             </cc1:XYDiagram>
         </DiagramSerializable>
         <titles>
-            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Graph Monitoring" Alignment="Near" />
+            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Graph Monitoring" Alignment="Center" />
         </titles>
         <legend alignmenthorizontal="Left" alignmentvertical="BottomOutside" 
             direction="LeftToRight"></legend> 
     </dx:WebChartControl>
 </div>
 
-<div style="width:100%; overflow-x: auto; border:1px solid black">
+<div id="chartRdiv" style="width:100%; border:1px solid black">
+<dx:WebChartControl ID="chartR" runat="server" ClientInstanceName="chartR"
+        Height="450px" Width="1080px" CrosshairEnabled="True">
+        <SeriesSerializable>
+            <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue">
+                <ViewSerializable>
+                    <cc1:LineSeriesView>
+                    </cc1:LineSeriesView>
+                </ViewSerializable>
+            </cc1:Series>
+        </SeriesSerializable>
+        <seriestemplate ValueDataMembersSerializable="Value">            
+            <viewserializable>
+                <cc1:LineSeriesView>
+                    <LineMarkerOptions BorderColor="White" Size="8">
+                    </LineMarkerOptions>
+                </cc1:LineSeriesView>
+            </viewserializable>
+        </seriestemplate>  
+        <DiagramSerializable>
+            <cc1:XYDiagram>
+                <AxisX VisibleInPanesSerializable="-1" MinorCount="1" Visibility="False">
+                    <GridLines MinorVisible="True">
+                    </GridLines>
+                </AxisX>
+                <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
+                    <Tickmarks MinorLength="1" MinorVisible="False" />
+                    <Label TextAlignment="Near" TextPattern="{V:0.000}">
+                        <ResolveOverlappingOptions AllowHide="True" />
+                    </Label>
+                    <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.001" MaxValueSerializable="0.027" MinValueSerializable="0" StartSideMargin="0" />
+                    <WholeRange Auto="False" MaxValueSerializable="0.027" MinValueSerializable="0" AutoSideMargins="False" EndSideMargin="1" StartSideMargin="1" />
+                    <GridLines>
+                        <LineStyle DashStyle="Dot" />
+                    </GridLines>
+                    <NumericScaleOptions AutoGrid="False" CustomGridAlignment="0.001" GridAlignment="Custom" GridOffset="1" />
+                </AxisY>
+            </cc1:XYDiagram>
+        </DiagramSerializable>
+        <titles>
+            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="R Control Chart" />
+        </titles>
+        <legend alignmenthorizontal="Left" alignmentvertical="BottomOutside" 
+            direction="LeftToRight"></legend> 
+        <ClientSideEvents EndCallback="ChartREndCallBack" Init="OnInit" />
+    </dx:WebChartControl>
+</div>
+
+<div style="width:100%; border:1px solid black">
     <table style="width:100%">
         <tr>
             <td style="width:70%">
                 <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="350px" Width="800px" ClientInstanceName="Histogram">
 
                         <Titles>
-                            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Histogram" Alignment="Near" />
+                            <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Histogram" Alignment="Center" />
                         </Titles>
                         <DiagramSerializable>
                 <cc1:XYDiagram Rotated="True">
                 <AxisX VisibleInPanesSerializable="-1" Visibility="True">
-                    <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Width" IntervalOptions-GridLayoutMode="GridAndLabelShifted" IntervalOptions-OverflowValue="2.715" IntervalOptions-OverflowValuePattern="2,645" />
+                    <Tickmarks MinorVisible="False" />
+                    <Label TextPattern="{A:0.000}">
+                    </Label>
+                    <WholeRange AutoSideMargins="False" EndSideMargin="0.5" StartSideMargin="0.5" />
+                    <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Count" IntervalOptions-GridLayoutMode="GridAndLabelShifted" IntervalOptions-OverflowValue="2.715" IntervalOptions-Count="5" IntervalOptions-Pattern="{A1:0.000}-{A2:0.000}" IntervalOptions-UnderflowValue="2.645" IntervalOptions-OverflowValuePattern="{OS}" />
                     </AxisX>
 
                 <AxisY VisibleInPanesSerializable="-1" MinorCount="1" Visibility="True">
                     <Tickmarks MinorLength="1" MinorVisible="False" />
                     <WholeRange AutoSideMargins="False" EndSideMargin="1" StartSideMargin="0" />
+                    <GridLines Visible="False">
+                    </GridLines>
                     <NumericScaleOptions AutoGrid="False" MinGridSpacingLength="1" />
                     </AxisY>
                 </cc1:XYDiagram>
@@ -577,12 +624,16 @@
                         <Legend Visibility="False"></Legend>
 
                         <SeriesSerializable>
-                            <cc1:Series ArgumentDataMember="Range" Name="Histogram" ValueDataMembersSerializable="Value" ShowInLegend="False">
+                            <cc1:Series ArgumentDataMember="Value" Name="Histogram" ShowInLegend="False" LabelsVisibility="True">
                                 <ViewSerializable>
                                     <cc1:SideBySideBarSeriesView BarWidth="1" ColorEach="True">
-                                        <Border Color="0, 0, 0" Visibility="True" />
+                                        <Border Color="0, 0, 0" Visibility="False" />
                                     </cc1:SideBySideBarSeriesView>
                                 </ViewSerializable>
+                                <LabelSerializable>
+                                    <cc1:SideBySideBarSeriesLabel Position="Top">
+                                    </cc1:SideBySideBarSeriesLabel>
+                                </LabelSerializable>
                             </cc1:Series>
                         </SeriesSerializable>
                     </dx:WebChartControl>

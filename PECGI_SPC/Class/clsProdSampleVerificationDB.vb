@@ -44,6 +44,7 @@ Public Class clsProdSampleVerificationDB
                 cmd.Parameters.AddWithValue("ActionGrid", If(ActionGrid, ""))
                 cmd.Parameters.AddWithValue("Shiftcode_Grid", If(data.Shiftcode_Grid, ""))
                 cmd.Parameters.AddWithValue("ProdDate_Grid", If(data.ProdDate_Grid, ""))
+                cmd.Parameters.AddWithValue("ShowVerify", If(data.ShowVerify, ""))
                 cmd.Parameters.AddWithValue("User", If(data.User, ""))
                 Dim da As New SqlDataAdapter(cmd)
                 Dim ds As New DataSet

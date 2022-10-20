@@ -863,7 +863,7 @@
         .card {
             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
             transition: 0.3s;
-            width: 500px;
+            width: 305px;
             padding: 10px 10px 10px 10px;
         }
 
@@ -871,9 +871,6 @@
                 box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
             }
 
-        .container {
-            padding: 2px 2px 2px 2px;
-        }
     </style>
 
     <script type="text/javascript">
@@ -952,28 +949,29 @@
                             var Seq = a[i].split("|")[5];
                             var Delay = a[i].split("|")[6];
 
-                            console.log(ProdDate);
-                            console.log(ItemCode);
-                            console.log(Line);
-                            console.log(ItemCheck);
-                            console.log(Shift);
-                            console.log(Seq);
-                            console.log(Delay);
-                            console.log(nValue);
+                            //console.log(ProdDate);
+                            //console.log(ItemCode);
+                            //console.log(Line);
+                            //console.log(ItemCheck);
+                            //console.log(Shift);
+                            //console.log(Seq);
+                            //console.log(Delay);
+                            //console.log(nValue);
 
                             html += '<a target="_blank" class="btn" href=' + nValue + '>'
-                            html += '<button class="card" style = "border:none; text-align:left; color:black;">'
-                            html += '<div class="container"><table>'
+                            html += '<button class="card" style = "border:none; text-align:left; color:black; font-size:11px">'
+                            html += '<table> '
                             html += '<tr><td> Date </td><td style="width: 30px" align="center"> : </td><td>' + ProdDate + '</td></tr>'
                             html += '<tr><td> Item Type </td><td style="width: 30px" align="center"> : </td><td>' + ItemCode + '</td></tr>'
                             html += '<tr><td> Machine Process </td><td style="width: 30px" align="center"> : </td><td>' + Line + '</td></tr>'
                             html += '<tr><td> Item Check </td><td style="width: 30px" align="center"> : </td><td>' + ItemCheck + '</td></tr>'
                             html += '<tr><td> Shift / Sequence </td><td style="width: 30px" align="center"> : </td><td>' + Shift + ' / ' + Seq + '</td></tr>'
-                            html += '<tr><td> Delay Time </td><td style="width: 30px" align="center"> : </td><td>' + Delay + '</td></tr>'
-                            html += '</table></div></button></a>'
+                            if (Delay != "") {
+                                html += '<tr><td> Delay Time </td><td style="width: 30px" align="center"> : </td><td>' + Delay + '</td></tr>'
+                            }
+                            html += '</table>'
+                            html += '</button></a>'
 
-                            /*console.log(nValue);*/
-                            //html += '<label style="border-bottom:groove"><a href=' + nValue + '><span class="fa fa-bell icon-color-bad"></span><span style="font-size:15px; color:black; margin-left:12px">' + Label + '</span></a></label><br/>'
                         };
                     } else {
                         html = '<div class="sa-ajax-notification-container"><div class="alert sa-ajax-notification-alert"><h4>Click a button to show messages here</h4> Data Is Not Found!</div ><span class="fa fa-search fa-4x fa-border"></span></div >'

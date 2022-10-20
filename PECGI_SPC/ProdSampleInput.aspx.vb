@@ -221,8 +221,8 @@ Public Class ProdSampleInput
         Result.ProdDate = dtDate.Value
         Result.ShiftCode = cboShift.Value
         Result.SequenceNo = cboSeq.Value
-        Result.SubLotNo = ""
-        Result.Remark = ""
+        Result.SubLotNo = txtSubLotNo.Text
+        Result.Remark = txtRemarks.Text
         Result.RegisterUser = Session("user") & ""
         clsSPCResultDB.Insert(Result)
 
@@ -539,7 +539,7 @@ Public Class ProdSampleInput
         Dim linkX As New PrintableComponentLink(ps)
         linkX.Component = (CType(chartX, IChartContainer)).Chart
 
-        LoadChartR(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"))
+        LoadChartR(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), cboShow.Value)
         Dim linkR As New PrintableComponentLink(ps)
         linkR.Component = (CType(chartR, IChartContainer)).Chart
 
@@ -939,8 +939,8 @@ Public Class ProdSampleInput
         End If
     End Sub
 
-    Private Sub LoadChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String)
-        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate)
+    Private Sub LoadChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, VerifiedOnly As String)
+        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, "", VerifiedOnly)
         If xr.Count = 0 Then
             chartR.JSProperties("cpShow") = "0"
         Else
@@ -1145,11 +1145,13 @@ Public Class ProdSampleInput
                     e.Cell.BackColor = Color.Red
                 ElseIf Value < LCL Or Value > UCL Then
                     If e.GetValue("Seq") = "1" Then
-                        e.Cell.BackColor = Color.Pink
-                    ElseIf ChartType = "1" Then
-                        e.Cell.BackColor = Color.Yellow
+                        If ChartType = "2" Then
+                            e.Cell.BackColor = Color.Pink
+                        Else
+                            e.Cell.BackColor = Color.Yellow
+                        End If
                     Else
-                        e.Cell.BackColor = Color.Pink
+                        e.Cell.BackColor = Color.Yellow
                     End If
                 End If
             End If
@@ -1183,7 +1185,8 @@ Public Class ProdSampleInput
         Dim LineCode As String = Split(Prm, "|")(2)
         Dim ItemCheckCode As String = Split(Prm, "|")(3)
         Dim ProdDate As String = Split(Prm, "|")(4)
-        LoadChartR(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate)
+        Dim VerifiedOnly As String = Split(Prm, "|")(5)
+        LoadChartR(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, VerifiedOnly)
     End Sub
 
     Private Sub chartX_CustomDrawSeries(sender As Object, e As CustomDrawSeriesEventArgs) Handles chartX.CustomDrawSeries
@@ -1224,5 +1227,19 @@ Public Class ProdSampleInput
 
     Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
         DownloadExcel()
+    End Sub
+
+    Protected Sub grid_RowValidating(sender As Object, e As ASPxDataValidationEventArgs)
+        Dim StatusDelete As Integer = If(e.NewValues("DeleteStatus") IsNot Nothing, CInt(Fix(e.NewValues("DeleteStatus"))), 0)
+        If StatusDelete = 1 AndAlso (e.NewValues("Remark") Is Nothing OrElse e.NewValues("Remark") = "") Then
+            AddError(e.Errors, grid.Columns("Remark"), "Please input Remark for deletion!")
+        End If
+    End Sub
+
+    Private Sub AddError(ByVal errors As Dictionary(Of GridViewColumn, String), ByVal column As GridViewColumn, ByVal errorText As String)
+        If errors.ContainsKey(column) Then
+            Return
+        End If
+        errors(column) = errorText
     End Sub
 End Class

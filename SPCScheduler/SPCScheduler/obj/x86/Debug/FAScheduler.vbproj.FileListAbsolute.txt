@@ -1,0 +1,21 @@
+D:\TOS\MKI\MKI FA Source Code\FAScheduler\FAScheduler\obj\x86\Debug\FAScheduler.Resources.resources
+D:\TOS\MKI\MKI FA Source Code\FAScheduler\FAScheduler\obj\x86\Debug\FAScheduler.vbproj.GenerateResource.Cache
+D:\TOS\MKI\MKI FA Source Code\FAScheduler\FAScheduler\bin\Debug\FAScheduler.exe
+D:\TOS\MKI\MKI FA Source Code\FAScheduler\FAScheduler\bin\Debug\FAScheduler.pdb
+D:\TOS\MKI\MKI FA Source Code\FAScheduler\FAScheduler\bin\Debug\FAScheduler.xml
+D:\TOS\MKI\MKI FA Source Code\FAScheduler\FAScheduler\obj\x86\Debug\FAScheduler.frmScheduler.resources
+D:\TOS\MKI\MKI FA Source Code\FAScheduler\FAScheduler\obj\x86\Debug\FAScheduler.exe
+D:\TOS\MKI\MKI FA Source Code\FAScheduler\FAScheduler\obj\x86\Debug\FAScheduler.xml
+D:\TOS\MKI\MKI FA Source Code\FAScheduler\FAScheduler\obj\x86\Debug\FAScheduler.pdb
+D:\Share\FAScheduler\FAScheduler\obj\x86\Debug\FAScheduler.exe
+D:\Share\FAScheduler\FAScheduler\obj\x86\Debug\FAScheduler.xml
+D:\Share\FAScheduler\FAScheduler\obj\x86\Debug\FAScheduler.pdb
+D:\Share\FAScheduler\FAScheduler\bin\Debug\FAScheduler.exe
+D:\Share\FAScheduler\FAScheduler\bin\Debug\FAScheduler.pdb
+D:\Share\FAScheduler\FAScheduler\bin\Debug\FAScheduler.xml
+D:\Share\FAScheduler\FAScheduler\obj\x86\Debug\FAScheduler.Resources.resources
+D:\Share\FAScheduler\FAScheduler\obj\x86\Debug\FAScheduler.frmScheduler.resources
+D:\Share\FAScheduler\FAScheduler\obj\x86\Debug\FAScheduler.vbproj.GenerateResource.Cache
+D:\Share\OGIScheduler\FAScheduler\obj\x86\Debug\FAScheduler.exe
+D:\Share\OGIScheduler\FAScheduler\obj\x86\Debug\FAScheduler.xml
+D:\Share\OGIScheduler\FAScheduler\obj\x86\Debug\FAScheduler.pdb

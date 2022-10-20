@@ -22,6 +22,7 @@ Public Class ProdSampleVerification
 #Region "Declaration"
 
     Dim pUser As String = ""
+    Dim pEmplooyeeID As String = ""
     Dim MenuID As String = ""
     Dim dt As DataTable
     Dim ds As DataSet
@@ -81,6 +82,7 @@ Public Class ProdSampleVerification
     Dim prmProdDate = ""
     Dim prmShifCode = ""
     Dim prmSeqNo = ""
+    Dim prmShowVerify = ""
 
 #End Region
 
@@ -229,6 +231,7 @@ Public Class ProdSampleVerification
             cls.ProdDate = Convert.ToDateTime(HideValue.Get("ProdDate")).ToString("yyyy-MM-dd")
             cls.ShiftCode = HideValue.Get("ShiftCode")
             cls.Seq = HideValue.Get("Seq")
+            cls.ShowVerify = HideValue.Get("ShowVerify")
             cls.User = pUser
 
             If pAction = "Load" Then
@@ -288,8 +291,22 @@ Public Class ProdSampleVerification
     End Sub
     Private Sub Grid_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles Grid.HtmlDataCellPrepared
         Try
+            Dim cs As New clsSPCColor
+
             If e.DataColumn.FieldName = "nDescIndex" Then
                 DescIndex = e.CellValue
+            ElseIf e.DataColumn.FieldName = "nDesc" Then
+                If e.CellValue = "1" Then
+                    e.Cell.BackColor = cs.Color1
+                ElseIf e.CellValue = "2" Then
+                    e.Cell.BackColor = cs.Color2
+                ElseIf e.CellValue = "3" Then
+                    e.Cell.BackColor = cs.Color3
+                ElseIf e.CellValue = "4" Then
+                    e.Cell.BackColor = cs.Color4
+                ElseIf e.CellValue = "5" Then
+                    e.Cell.BackColor = cs.Color5
+                End If
             ElseIf e.DataColumn.FieldName <> "nDesc" Then
                 If DescIndex = "EachData" Or DescIndex = "XBar" Or DescIndex = "Judgement" Or DescIndex = "Correction" Or DescIndex = "Verification" Then
                     Dim a = e.CellValue
@@ -312,7 +329,7 @@ Public Class ProdSampleVerification
                             e.Cell.Controls.Add(Link)
                         Else
                             e.Cell.Text = val
-                            e.Cell.BackColor = ColorTranslator.FromHtml(scolor)
+                            e.Cell.BackColor = ColorTranslator.FromHtml(sColor)
                         End If
 
                     End If
@@ -379,36 +396,38 @@ Public Class ProdSampleVerification
 
     End Sub
     Private Sub chartX_CustomDrawSeries(sender As Object, e As CustomDrawSeriesEventArgs) Handles chartX.CustomDrawSeries
+        Dim cs As New clsSPCColor
         Dim s As String = e.Series.Name
         If s = "#1" Then
             CType(e.SeriesDrawOptions, PointDrawOptions).Marker.Kind = MarkerKind.Circle
-            CType(e.SeriesDrawOptions, PointDrawOptions).Color = Color.Red
+            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.BorderColor = cs.BorderColor1
+            CType(e.SeriesDrawOptions, PointDrawOptions).Color = cs.Color1
             CType(e.SeriesDrawOptions, PointDrawOptions).Marker.FillStyle.FillMode = FillMode.Solid
-            e.LegendDrawOptions.Color = Color.Red
+            e.LegendDrawOptions.Color = cs.Color1
         ElseIf s = "#2" Then
-            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.Kind = MarkerKind.Diamond
-            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.BorderColor = Color.Orange
-            CType(e.SeriesDrawOptions, PointDrawOptions).Color = Color.Orange
-            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.FillStyle.FillMode = FillMode.Empty
-            e.LegendDrawOptions.Color = Color.Orange
-        ElseIf s = "#3" Then
-            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.Kind = MarkerKind.Triangle
-            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.BorderColor = Color.Green
-            CType(e.SeriesDrawOptions, PointDrawOptions).Color = Color.LightGreen
+            'CType(e.SeriesDrawOptions, PointDrawOptions).Marker.Kind = MarkerKind.Diamond
+            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.BorderColor = cs.BorderColor2
+            CType(e.SeriesDrawOptions, PointDrawOptions).Color = cs.Color2
             CType(e.SeriesDrawOptions, PointDrawOptions).Marker.FillStyle.FillMode = FillMode.Solid
-            e.LegendDrawOptions.Color = Color.LightGreen
+            e.LegendDrawOptions.Color = cs.Color2
+        ElseIf s = "#3" Then
+            'CType(e.SeriesDrawOptions, PointDrawOptions).Marker.Kind = MarkerKind.Triangle
+            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.BorderColor = cs.BorderColor3
+            CType(e.SeriesDrawOptions, PointDrawOptions).Color = cs.Color3
+            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.FillStyle.FillMode = FillMode.Solid
+            e.LegendDrawOptions.Color = cs.Color3
         ElseIf s = "#4" Then
-            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.Kind = MarkerKind.Square
-            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.BorderColor = Color.DarkGreen
-            CType(e.SeriesDrawOptions, PointDrawOptions).Color = Color.DarkGreen
-            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.FillStyle.FillMode = FillMode.Empty
-            e.LegendDrawOptions.Color = Color.DarkGreen
+            'CType(e.SeriesDrawOptions, PointDrawOptions).Marker.Kind = MarkerKind.Square
+            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.BorderColor = cs.BorderColor4
+            CType(e.SeriesDrawOptions, PointDrawOptions).Color = cs.Color4
+            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.FillStyle.FillMode = FillMode.Solid
+            e.LegendDrawOptions.Color = cs.Color4
         ElseIf s = "#5" Then
             CType(e.SeriesDrawOptions, PointDrawOptions).Marker.Kind = MarkerKind.Circle
-            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.BorderColor = Color.Blue
-            CType(e.SeriesDrawOptions, PointDrawOptions).Color = Color.LightBlue
+            CType(e.SeriesDrawOptions, PointDrawOptions).Marker.BorderColor = cs.BorderColor5
+            CType(e.SeriesDrawOptions, PointDrawOptions).Color = cs.Color5
             CType(e.SeriesDrawOptions, PointDrawOptions).Marker.FillStyle.FillMode = FillMode.Solid
-            e.LegendDrawOptions.Color = Color.LightBlue
+            e.LegendDrawOptions.Color = cs.Color5
         End If
     End Sub
     'Private Sub cbkIOTconn_Callback(source As Object, e As CallbackEventArgs) Handles cbkIOTconn.Callback
@@ -771,6 +790,20 @@ Public Class ProdSampleVerification
             data.Seq = HideValue.Get("Seq")
             '======================================================'
 
+            '============== FILL COMBO SEQ =================='
+
+            If prmShowVerify <> "" Then
+                If prmShowVerify = "0" Then
+                    cboShow.SelectedIndex = 0
+                Else
+                    cboShow.SelectedIndex = 1
+                End If
+                'cboShow.Enabled = False
+                HideValue.Set("ShowVerify", prmShowVerify)
+                data.Seq = HideValue.Get("ShowVerify")
+            End If
+            '======================================================'
+
         Catch ex As Exception
             show_error(MsgTypeEnum.Info, "", 0)
         End Try
@@ -940,11 +973,17 @@ Public Class ProdSampleVerification
                 End If
                 diagram.AxisY.WholeRange.MaxValue = MaxValue
                 diagram.AxisY.VisualRange.MaxValue = MaxValue
+                If MaxValue > 0 Then
+                    Dim GridAlignment As Double = Math.Round(MaxValue / 34, 4)
+                    diagram.AxisY.NumericScaleOptions.CustomGridAlignment = GridAlignment
+                End If
             End If
             .DataBind()
         End With
     End Sub
     Private Sub LoadChartX(cls As clsProdSampleVerification)
+
+        ChartType = clsXRChartDB.GetChartType(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code)
         Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartXR(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code, cls.ProdDate)
         With chartX
             .DataSource = xr
@@ -959,7 +998,6 @@ Public Class ProdSampleVerification
 
             diagram.AxisY.NumericScaleOptions.CustomGridAlignment = 0.005
             diagram.AxisY.GridLines.MinorVisible = False
-            ChartType = clsXRChartDB.GetChartType(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code)
             If ChartType = "1" Or ChartType = "2" Then
                 .Titles(0).Text = "X Bar Control Chart"
             Else
@@ -1017,8 +1055,6 @@ Public Class ProdSampleVerification
                     MaxValue = Setup.SpecUSL
                 End If
 
-                MinValue = Setup.SpecLSL
-                MaxValue = Setup.SpecUSL
                 diagram.AxisY.WholeRange.MinValue = MinValue
                 diagram.AxisY.WholeRange.MaxValue = MaxValue
                 diagram.AxisY.WholeRange.EndSideMargin = 0.015
@@ -1028,12 +1064,16 @@ Public Class ProdSampleVerification
                 diagram.AxisY.VisualRange.EndSideMargin = 0.015
 
                 Dim diff As Double = MaxValue - MinValue
-                Dim gridAlignment As Double = Math.Round(diff / 15, 3)
-                diagram.AxisY.NumericScaleOptions.CustomGridAlignment = gridAlignment
+                If diff > 0 Then
+                    Dim gridAlignment As Double = Math.Round(diff / 15, 3)
+                    diagram.AxisY.NumericScaleOptions.CustomGridAlignment = gridAlignment
+                End If
 
                 CType(.Diagram, XYDiagram).SecondaryAxesY.Clear()
                 Dim myAxisY As New SecondaryAxisY("my Y-Axis")
                 myAxisY.Visibility = DevExpress.Utils.DefaultBoolean.False
+                myAxisY.WholeRange.EndSideMargin = 0
+                myAxisY.WholeRange.StartSideMargin = 0
                 CType(.Diagram, XYDiagram).SecondaryAxesY.Add(myAxisY)
                 CType(.Series("Rule").View, XYDiagramSeriesViewBase).AxisY = myAxisY
                 CType(.Series("RuleYellow").View, XYDiagramSeriesViewBase).AxisY = myAxisY
@@ -1053,6 +1093,7 @@ Public Class ProdSampleVerification
         prmProdDate = Request.QueryString("ProdDate")
         prmShifCode = Request.QueryString("Shift")
         prmSeqNo = Request.QueryString("Sequence")
+        prmShowVerify = Request.QueryString("ShowVerify")
 
         Dim cls As New clsProdSampleVerification
         cls.FactoryCode = prmFactoryCode
@@ -1062,6 +1103,7 @@ Public Class ProdSampleVerification
         cls.ProdDate = Convert.ToDateTime(prmProdDate).ToString("yyyy-MM-dd")
         cls.ShiftCode = prmShifCode
         cls.Seq = prmSeqNo
+        cls.ShowVerify = prmShowVerify
         cls.User = pUser
 
         UpFillCombo()
@@ -1078,6 +1120,12 @@ Public Class ProdSampleVerification
             show_errorGrid(MsgTypeEnum.Warning, RespChartSetUp, 1)
         End If
 
+        dtProdDate.Enabled = False
+        btnClear.Enabled = False
+        btnBack.Visible = False
+        dtProdDate.Value = Convert.ToDateTime(prmProdDate)
+        HideValue.Set("ProdDate", prmProdDate)
+
         If Request.QueryString("menu") = "ProductionSampleVerificationList.aspx" Then
             HideValue.Set("prm_factory", prmFactoryCode)
             HideValue.Set("prm_ItemType", prmItemType)
@@ -1087,14 +1135,8 @@ Public Class ProdSampleVerification
             HideValue.Set("prm_ToDate", Request.QueryString("ToDate"))
             HideValue.Set("prm_MK", Request.QueryString("MK"))
             HideValue.Set("prm_QC", Request.QueryString("QC"))
-
-            dtProdDate.Enabled = False
-            btnBrowse.Enabled = False
-            btnClear.Enabled = False
+            btnBack.Visible = True
         End If
-
-        dtProdDate.Value = Convert.ToDateTime(prmProdDate)
-        HideValue.Set("ProdDate", prmProdDate)
 
     End Sub
     Private Sub LoadForm()
@@ -1103,6 +1145,7 @@ Public Class ProdSampleVerification
         Dim ToDay = DateTime.Now
         dtProdDate.Value = ToDay
         HideValue.Set("ProdDate", ToDay.ToString("dd MMM yyyy"))
+        HideValue.Set("ShowVerify", cboShow.Value)
         btnBack.Visible = False
 
         Grid.JSProperties("cp_GridTot") = 0  'for disabled button Verify and Download Excel
@@ -1132,9 +1175,10 @@ Public Class ProdSampleVerification
     End Sub
     Private Sub Validation_Verify(cls As clsProdSampleVerification)
         VerifyStatus = clsProdSampleVerificationDB.Validation(GetVerifyPrivilege, cls)
-        'Dim AllowSkill As Boolean = clsIOT.AllowSkill(cls.User, cls.FactoryCode, cls.LineCode, cls.ItemType_Code)
+        pEmplooyeeID = clsIOT.GetEmployeeID(pUser)
+        Dim AllowSkill As Boolean = clsIOT.AllowSkill(pEmplooyeeID, cls.FactoryCode, cls.LineCode, cls.ItemType_Code)
         Grid.JSProperties("cp_Verify") = VerifyStatus 'parameter to authorization verify
-        'Grid.JSProperties("cp_AllowSkill") = AllowSkill 'parameter to authorization verify
+        Grid.JSProperties("cp_AllowSkill") = AllowSkill 'parameter to authorization verify
     End Sub
 #End Region
 

@@ -6,6 +6,9 @@ Public Class ClsLine
     Public Property LineCode As String
     Public Property VisualProcessCode As String
     Public Property LineName As String
+    Public Property AllowShow As Integer
+    Public Property AllowUpdate As Integer
+    Public Property AllowVerify As Integer
 End Class
 
 
@@ -13,7 +16,11 @@ Public Class ClsLineDB
     Public Shared Function GetList(UserID As String, FactoryCode As String, ItemTypeCode As String) As List(Of ClsLine)
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
-            Dim q As String = "select distinct L.FactoryCode, L.ProcessCode, L.LineCode, L.LineCode + ' - ' + L.LineName as LineName " & vbCrLf &
+            Dim q As String = "select distinct L.FactoryCode, L.ProcessCode, L.LineCode, L.LineCode + ' - ' + L.LineName as LineName, " & vbCrLf &
+                "isnull(P.AllowShow, 0) AllowShow, " & vbCrLf &
+                "isnull(P.AllowUpdate, 0) AllowUpdate, " & vbCrLf &
+                "isnull(P.AllowVerify, 0) AllowVerify " & vbCrLf
+            q = q &
                 "from MS_Line L inner join spc_ItemCheckByType I " & vbCrLf &
                 "on L.FactoryCode = I.FactoryCode and L.LineCode = I.LineCode " & vbCrLf &
                 "inner join spc_UserLine P on L.LineCode = P.LineCode " & vbCrLf &
@@ -38,6 +45,9 @@ Public Class ClsLineDB
                 Factory.ProcessCode = rd("ProcessCode")
                 Factory.LineCode = rd("LineCode")
                 Factory.LineName = rd("LineName")
+                Factory.AllowShow = rd("AllowShow")
+                Factory.AllowUpdate = rd("AllowUpdate")
+                Factory.AllowVerify = rd("AllowVerify")
                 FactoryList.Add(Factory)
             Loop
             rd.Close()

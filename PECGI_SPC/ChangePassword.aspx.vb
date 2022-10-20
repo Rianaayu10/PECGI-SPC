@@ -50,7 +50,7 @@ Public Class ChangePassword
 
 #Region "FORM EVENTS"
     Private Sub Page_Init(ByVal sender As Object, ByVale As System.EventArgs) Handles Me.Init
-        MenuID = "Z030"
+        MenuID = "Z040"
         sGlobal.getMenu(MenuID)
         Master.SiteTitle = MenuID & " - " & sGlobal.menuName
 

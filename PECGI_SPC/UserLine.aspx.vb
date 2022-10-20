@@ -27,6 +27,7 @@ Public Class UserLine
     Private Sub up_GridLoad(ByVal pUserID As String)
         Dim dsMenu As List(Of clsUserLine)
         dsMenu = clsUserLineDB.GetList(pUserID)
+        gridMenu.SettingsPager.PageSize = dsMenu.Count
         gridMenu.DataSource = dsMenu
         gridMenu.DataBind()
     End Sub
@@ -67,7 +68,7 @@ Public Class UserLine
 
 #Region "Initialization"
     Private Sub Page_Init(sender As Object, e As System.EventArgs) Handles Me.Init
-        MenuID = "Z040"
+        MenuID = "Z030"
         sGlobal.getMenu(MenuID)
         Master.SiteTitle = MenuID & " - " & sGlobal.menuName
         show_error(MsgTypeEnum.Info, "", 0)
