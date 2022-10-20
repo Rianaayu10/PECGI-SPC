@@ -64,6 +64,7 @@ Public Class AlertDashboard
 
         If Not IsPostBack And Not IsCallback Then
             dtDate.Value = DateTime.Now
+            rbAuto.Checked = True
         End If
     End Sub
     Protected Sub Grid_AfterPerformCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles Grid.AfterPerformCallback
@@ -548,11 +549,17 @@ Public Class AlertDashboard
             Dim VerifTime = GridDelayVerif.GetRowValues(e.VisibleIndex, "VerifTime")
             Dim DelayTime = GridDelayVerif.GetRowValues(e.VisibleIndex, "DelayVerif")
             Dim Status = GridDelayVerif.GetRowValues(e.VisibleIndex, "Status")
+            Dim MK = GridDelayVerif.GetRowValues(e.VisibleIndex, "MK")
+            Dim QC = GridDelayVerif.GetRowValues(e.VisibleIndex, "QC")
             ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
 
             Dim Test = DirectCast(GridDelayVerif.GetRowValues(e.VisibleIndex, GridDelayVerif.KeyFieldName, "LinkDate"), Object())(1)
 
-            UserTo = clsSPCAlertDashboardDB.GetUserLine(FactoryCode, LineCode, "2")
+            If MK.ToString() = "" AndAlso QC.ToString() = "" Then
+                UserTo = clsSPCAlertDashboardDB.GetUserLine(FactoryCode, LineCode, "3")
+            ElseIf MK.ToString() = "" Then
+                UserTo = clsSPCAlertDashboardDB.GetUserLine(FactoryCode, LineCode, "2")
+            End If
 
             CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo, "3", LSL, USL, LCL, UCL, MinValue, MaxValue, Average, Status, "", "", VerifTime, DelayTime, UserTo)
 
@@ -562,15 +569,15 @@ Public Class AlertDashboard
                 show_error(MsgTypeEnum.ErrorMsg, "Send Email Failed", 1)
             End If
 
-            CheckAvailableData = clsSPCAlertDashboardDB.CheckDataSendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
+            'CheckAvailableData = clsSPCAlertDashboardDB.CheckDataSendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
 
-            If CheckAvailableData.Rows.Count <= 0 Then
+            'If CheckAvailableData.Rows.Count <= 0 Then
 
-                CountSendEmail = clsSPCAlertDashboardDB.SendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
+            '    CountSendEmail = clsSPCAlertDashboardDB.SendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
 
-            Else
-                Return
-            End If
+            'Else
+            '    Return
+            'End If
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -616,16 +623,16 @@ Public Class AlertDashboard
                 show_error(MsgTypeEnum.ErrorMsg, "Send Email Failed", 1)
             End If
 
-            CheckAvailableData = clsSPCAlertDashboardDB.CheckDataSendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
+            'CheckAvailableData = clsSPCAlertDashboardDB.CheckDataSendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
 
-            If CheckAvailableData.Rows.Count <= 0 Then
+            'If CheckAvailableData.Rows.Count <= 0 Then
 
-                CountSendEmail = clsSPCAlertDashboardDB.SendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
+            '    CountSendEmail = clsSPCAlertDashboardDB.SendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
 
 
-            Else
-                Return
-            End If
+            'Else
+            '    Return
+            'End If
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -663,15 +670,15 @@ Public Class AlertDashboard
                 show_error(MsgTypeEnum.ErrorMsg, "Send Email Failed", 1)
             End If
 
-            CheckAvailableData = clsSPCAlertDashboardDB.CheckDataSendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
+            'CheckAvailableData = clsSPCAlertDashboardDB.CheckDataSendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
 
-            If CheckAvailableData.Rows.Count <= 0 Then
+            'If CheckAvailableData.Rows.Count <= 0 Then
 
-                CountSendEmail = clsSPCAlertDashboardDB.SendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
+            '    CountSendEmail = clsSPCAlertDashboardDB.SendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)
 
-            Else
-                Return
-            End If
+            'Else
+            '    Return
+            'End If
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

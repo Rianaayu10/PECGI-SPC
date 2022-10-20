@@ -209,25 +209,30 @@
                                     </ButtonStyle>
                                 </dx:ASPxComboBox>
                             </td>
-                            <td style=" width:60px; padding:1px 0px 0px 0px">
+                            <td style=" width:80px; padding:1px 0px 0px 0px">
                                 <dx:ASPxLabel ID="ASPxLabel8" runat="server" Text="Prod Date" 
                                     Font-Names="Segoe UI" Font-Size="9pt">
                                 </dx:ASPxLabel>
                             </td>
-                            <td style=" width:60px; padding:1px 0px 0px 0px">
-                                <asp:RadioButton ID="rbAuto" runat="server" Text=" Today" GroupName="ProdDateSelection"/>  
-                                <%--<asp:RadioButtonList ID="ProdDateSelection" runat="server">
-                                    <asp:ListItem Text="Today" Value="rbAuto" />
-                                    <asp:ListItem Text="" Value="rbManual" />
-                                </asp:RadioButtonList>--%>
+                            <td style=" width:80px; padding:1px 0px 0px 0px">
+                                <table>
+                                    <tr>
+                                        <td style=" width:60px; padding:1px 0px 0px 0px">
+                                            <asp:RadioButton ID="rbAuto" runat="server" GroupName="ProdDateSelection"/>  
+                                        </td>
+                                        <td style=" width:150px; padding:1px 0px 0px 0px">
+                                            <p>Today</p>
+                                        </td>
+                                    </tr>
+                                </table>
                             </td>
                             <td style=" width:130px; padding:1px 0px 0px 0px">
                                 <table>
                                     <tr>
-                                        <td style=" width:130px; padding:1px 0px 0px 0px">
+                                        <td style=" width:60px; padding:1px 0px 0px 0px">
                                             <asp:RadioButton ID="rbManual" runat="server" Text="" GroupName="ProdDateSelection" />  
                                         </td>
-                                        <td>
+                                        <td style=" width:100px; padding:1px 0px 0px 0px">
                                             <dx:ASPxDateEdit ID="dtDate" runat="server" Theme="Office2010Black" Width="100px" ClientInstanceName="dtDate" EditFormatString="dd MMM yyyy" DisplayFormatString="dd MMM yyyy"
                                             Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="2" EditFormat="Custom">
                                                 <CalendarProperties ShowWeekNumbers="False">
@@ -260,26 +265,23 @@
                     </table>
                 </td>
 
-                <td>
-                </td>
-
-                <td>
-                    <table style="width: 100%; height: 50px">
+                <td style="float: left; width: 130px ">
+                    <table style="width: 200px; height: 50px">
                         <tr>
-                            <td style="width: 10%;" align="left">
+                            <td style="width: 70px;" align="left">
                                 <dx:ASPxLabel ID="ASPxLabel9" runat="server" Text="" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
                             </td>
-                            <td style="width: 10%;" align="left">
+                            <td style="width: 130px;" align="left">
                                 <dx:ASPxLabel ID="ASPxLabel11" runat="server" Text="Date :" CssClass="text" />
                                 &nbsp
                                 <dx:ASPxLabel ID="lblDateNow" ClientInstanceName="lblOK" runat="server" Text="" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
                             </td>
                         </tr>
                         <tr>
-                            <td style="width: 10%;" align="left">
+                            <td style="width: 70px;" align="left">
                                 <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
                             </td>
-                            <td style="width: 10%;" align="left">
+                            <td style="width: 130px;" align="left">
                                 <dx:ASPxLabel ID="ASPxLabel2" runat="server" Text="Time :" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
                                 &nbsp
                                 <%--<dx:ASPxLabel ID="lblTimeNow" runat="server" Text="" CssClass="text" />--%>

@@ -524,11 +524,15 @@ Public Class frmSPCInboxNotification
                     GridLoad()
                     setFactory()
                 Else
-                    If CDate(currentNGLastUpdate) > CDate(NGInputLastUpdate) OrElse CDate(currentDelayInput) > CDate(DelayInputLastUpdate) OrElse CDate(currentDelayVerification) > CDate(DelayVerificationLastUpdate) Then
-                        GridHeader()
-                        GridLoad()
-                        setFactory()
-                    End If
+                    Try
+                        If CDate(currentNGLastUpdate) > CDate(NGInputLastUpdate) OrElse CDate(currentDelayInput) > CDate(DelayInputLastUpdate) OrElse CDate(currentDelayVerification) > CDate(DelayVerificationLastUpdate) Then
+                            GridHeader()
+                            GridLoad()
+                            setFactory()
+                        End If
+                    Catch ex As Exception
+
+                    End Try
                 End If
                 frmSPCAlertNotifications.GetNotify(NGInputLastUpdate, DelayInputLastUpdate, DelayVerificationLastUpdate, ConnectionString, UserIDLogin,
                                                     currentNGLastUpdate, currentDelayInput, currentDelayVerification)
@@ -538,6 +542,9 @@ Public Class frmSPCInboxNotification
         Catch ex As Exception
             Dim errMsg As String
             errMsg = ex.Message
+            GridHeader()
+            GridLoad()
+            setFactory()
         End Try
         inThrdProcess = False
     End Sub
