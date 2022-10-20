@@ -16,7 +16,7 @@ Public Class clsSPCAlertDashboardDB
         End Using
     End Function
 
-    Public Shared Function GetList(User As String, FactoryCode As String, Optional ByRef pErr As String = "") As DataTable
+    Public Shared Function GetList(User As String, FactoryCode As String, pProdDateType As Integer, pProdDate As DateTime, Optional ByRef pErr As String = "") As DataTable
         Try
             Using conn As New SqlConnection(Sconn.Stringkoneksi)
                 conn.Open()
@@ -28,6 +28,8 @@ Public Class clsSPCAlertDashboardDB
                 With cmd.Parameters
                     .AddWithValue("User", User)
                     .AddWithValue("FactoryCode", FactoryCode)
+                    .AddWithValue("ProdDateType", pProdDateType)
+                    .AddWithValue("ProdDate", pProdDate)
                 End With
                 Dim da As New SqlDataAdapter(cmd)
                 Dim dt As New DataTable
@@ -40,7 +42,7 @@ Public Class clsSPCAlertDashboardDB
             Return Nothing
         End Try
     End Function
-    Public Shared Function GetDelayVerificationGrid(User As String, FactoryCode As String, Optional ByRef pErr As String = "") As DataTable
+    Public Shared Function GetDelayVerificationGrid(User As String, FactoryCode As String, pProdDateType As Integer, pProdDate As DateTime, Optional ByRef pErr As String = "") As DataTable
         Try
             Using conn As New SqlConnection(Sconn.Stringkoneksi)
                 conn.Open()
@@ -52,6 +54,8 @@ Public Class clsSPCAlertDashboardDB
                 With cmd.Parameters
                     .AddWithValue("User", User)
                     .AddWithValue("FactoryCode", FactoryCode)
+                    .AddWithValue("ProdDateType", pProdDateType)
+                    .AddWithValue("ProdDate", pProdDate)
                 End With
                 Dim da As New SqlDataAdapter(cmd)
                 Dim dt As New DataTable
@@ -64,7 +68,7 @@ Public Class clsSPCAlertDashboardDB
             Return Nothing
         End Try
     End Function
-    Public Shared Function GetNGDataList(User As String, FactoryCode As String, Optional ByRef pErr As String = "") As DataTable
+    Public Shared Function GetNGDataList(User As String, FactoryCode As String, pProdDateType As Integer, pProdDate As DateTime, Optional ByRef pErr As String = "") As DataTable
         Try
             Using conn As New SqlConnection(Sconn.Stringkoneksi)
                 conn.Open()
@@ -76,6 +80,8 @@ Public Class clsSPCAlertDashboardDB
                 With cmd.Parameters
                     .AddWithValue("User", User)
                     .AddWithValue("FactoryCode", FactoryCode)
+                    .AddWithValue("ProdDateType", pProdDateType)
+                    .AddWithValue("ProdDate", pProdDate)
                 End With
                 Dim da As New SqlDataAdapter(cmd)
                 Dim dt As New DataTable
@@ -290,7 +296,7 @@ Public Class clsSPCAlertDashboardDB
     End Function
     Public Shared Function SendEmail(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, LinkDate As String, ShiftCode As String, SequenceNo As String, NotificationCategory As String,
                                      LSL As String, USL As String, LCL As String, UCL As String, MinValue As String, MaxValue As String, Average As String, Status As String,
-                                     ScheduleStart As String, ScheduleEnd As String, VerifTime As String, DelayTime As String, Optional ByRef pErr As String = "") As Integer
+                                     ScheduleStart As String, ScheduleEnd As String, VerifTime As String, DelayTime As String, UserTo As String, Optional ByRef pErr As String = "") As Integer
         Try
             Using Cn As New SqlConnection(Sconn.Stringkoneksi)
                 Cn.Open()
@@ -320,6 +326,7 @@ Public Class clsSPCAlertDashboardDB
                 cmd.Parameters.AddWithValue("DelayTime", DelayTime)
                 cmd.Parameters.AddWithValue("NotificationCategory", NotificationCategory)
                 cmd.Parameters.AddWithValue("LastUser", "spc")
+                cmd.Parameters.AddWithValue("To", UserTo)
                 Dim i As Integer = cmd.ExecuteNonQuery
                 Return 1
             End Using
@@ -380,6 +387,35 @@ Public Class clsSPCAlertDashboardDB
                 cmd.Parameters.AddWithValue("LastUser", "spc")
                 Dim i As Integer = cmd.ExecuteNonQuery
                 Return i
+            End Using
+        Catch ex As Exception
+            pErr = ex.Message
+            Return Nothing
+        End Try
+
+    End Function
+    Public Shared Function GetUserLine(FactoryCode As String, LineCode As String, pType As String, Optional ByRef pErr As String = "") As String
+        Try
+            Dim ListDataUserLine As String = ""
+            Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+                Cn.Open()
+                Dim q As String
+                q = "select US.Email from spc_UserLine UL INNER JOIN spc_UserSetup US ON UL.AppID = US.AppID AND UL.UserID = US.UserID WHERE UL.FactoryCode = @FactoryCode AND UL.LineCode = LineCode "
+                Dim cmd As New SqlCommand(q, Cn)
+                'Dim des As New clsDESEncryption("TOS")
+                cmd.CommandType = CommandType.Text
+                cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
+                cmd.Parameters.AddWithValue("LineCode", LineCode)
+
+                Dim da As New SqlDataAdapter(cmd)
+                Dim dt As New DataTable
+                da.Fill(dt)
+
+                For Each dr As DataRow In dt.Rows
+                    ListDataUserLine = dr.ToString() + ";" + ListDataUserLine
+                Next
+
+                Return ListDataUserLine
             End Using
         Catch ex As Exception
             pErr = ex.Message

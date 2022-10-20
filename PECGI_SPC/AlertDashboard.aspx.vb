@@ -36,13 +36,6 @@ Public Class AlertDashboard
     End Sub
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        'Master.SiteTitle = sGlobal.menuName
-        'AuthUpdate = sGlobal.Auth_UserUpdate(pUser, "X010")
-        'show_error(MsgTypeEnum.Info, "", 0)
-        'If AuthUpdate = False Then
-        '    Dim commandColumn = TryCast(Grid.Columns(0), GridViewCommandColumn)
-        '    'commandColumn.Visible = False
-        'End If
         sGlobal.getMenu("X010")
         Master.SiteTitle = sGlobal.idMenu & " - " & sGlobal.menuName
         pUser = Session("user")
@@ -68,8 +61,11 @@ Public Class AlertDashboard
         End If
 
         lblDateNow.Text = DateTime.Now.ToString("dd-MMM-yyyy") 'HH:mm:ss
-    End Sub
 
+        If Not IsPostBack And Not IsCallback Then
+            dtDate.Value = DateTime.Now
+        End If
+    End Sub
     Protected Sub Grid_AfterPerformCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles Grid.AfterPerformCallback
         If e.CallbackName <> "CANCELEDIT" Then
             up_GridLoad(cboFactory.Value)
@@ -77,84 +73,15 @@ Public Class AlertDashboard
     End Sub
 
     Protected Sub Grid_RowInserting(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataInsertingEventArgs) Handles Grid.RowInserting
-        'e.Cancel = True
-        'Dim pErr As String = ""
-        'Dim User As New ClsSPCItemCheckByType With {
-        '    .FactoryCode = e.NewValues("FactoryCode"),
-        '    .FactoryName = cboFactory.Text,
-        '    .ItemTypeCode = e.NewValues("ItemTypeName"),
-        '    .LineCode = e.NewValues("LineCode"),
-        '    .ItemCheck = e.NewValues("ItemCheck"),
-        '    .FrequencyCode = e.NewValues("FrequencyCode"),
-        '    .RegistrationNo = e.NewValues("RegistrationNo"),
-        '    .SampleSize = e.NewValues("SampleSize"),
-        '    .Remark = e.NewValues("Remark"),
-        '    .Evaluation = e.NewValues("Evaluation"),
-        '    .CharacteristicItem = e.NewValues("CharacteristicItem"),
-        '    .ActiveStatus = e.NewValues("ActiveStatus"),
-        '    .UpdateUser = pUser,
-        '    .CreateUser = pUser
-        '}
-        'Try
-        '    clsSPCAlertDashboardDB.Insert(User)
-        '    Grid.CancelEdit()
-        '    up_GridLoad(cboFactory.Value)
-        '    show_error(MsgTypeEnum.Success, "Save data successfully!", 1)
-        'Catch ex As Exception
-        '    show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
-        'End Try
+
     End Sub
 
     Protected Sub Grid_RowUpdating(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataUpdatingEventArgs) Handles Grid.RowUpdating
-        'e.Cancel = True
-        'Dim pErr As String = ""
-        'Dim LineCode As String = ""
-        'Dim ItemCheck As String = ""
-        'LineCode = e.NewValues("LineCode")
-        'ItemCheck = e.NewValues("ItemCheck")
-        'Dim User As New ClsSPCItemCheckByType With {
-        '    .FactoryCode = e.NewValues("FactoryCode"),
-        '    .ItemTypeCode = e.NewValues("ItemTypeCode"),
-        '    .LineCode = LineCode.Substring(0, LineCode.IndexOf(" -")),
-        '    .ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -")),
-        '    .FrequencyCode = e.NewValues("FrequencyCode"),
-        '    .RegistrationNo = e.NewValues("RegistrationNo"),
-        '    .SampleSize = e.NewValues("SampleSize"),
-        '    .Remark = e.NewValues("Remark"),
-        '    .Evaluation = e.NewValues("Evaluation"),
-        '    .CharacteristicItem = e.NewValues("CharacteristicStatus"),
-        '    .ActiveStatus = e.NewValues("ActiveStatus"),
-        '    .UpdateUser = pUser,
-        '    .CreateUser = pUser
-        '}
-        'Try
-        '    clsSPCAlertDashboardDB.Update(User)
-        '    Grid.CancelEdit()
-        '    up_GridLoad(cboFactory.Value)
-        '    show_error(MsgTypeEnum.Success, "Update data successfully!", 1)
-        'Catch ex As Exception
-        '    show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
-        'End Try
+
     End Sub
 
     Protected Sub Grid_RowDeleting(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataDeletingEventArgs) Handles Grid.RowDeleting
-        'e.Cancel = True
-        'Try
-        '    Dim FactoryCode As String = e.Values("FactoryCode")
-        '    Dim ItemTypeCode As String = e.Values("ItemTypeCode")
-        '    Dim LineCode As String = e.Values("LineCode")
-        '    Dim ItemCheck As String = e.Values("ItemCheck")
 
-        '    LineCode = LineCode.Substring(0, LineCode.IndexOf(" -"))
-        '    ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
-
-        '    clsSPCAlertDashboardDB.Delete(FactoryCode, ItemTypeCode, LineCode, ItemCheck)
-        '    Grid.CancelEdit()
-        '    up_GridLoad(cboFactory.Value)
-        '    show_error(MsgTypeEnum.Success, "Delete data successfully!", 1)
-        'Catch ex As Exception
-        '    show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
-        'End Try
     End Sub
 
     Private Sub Grid_BeforeGetCallbackResult(ByVal sender As Object, ByVal e As System.EventArgs) Handles Grid.BeforeGetCallbackResult
@@ -210,32 +137,48 @@ Public Class AlertDashboard
     End Sub
 
     Private Sub up_GridLoad(FactoryCode As String)
-        LoadGridDelay(FactoryCode)
-        LoadGridNG(FactoryCode)
-        LoadGridDelayVerif(FactoryCode)
+        Dim pProdDateType As Integer
+
+        'If ProdDateSelection.SelectedValue = "rbAuto" Then
+        '    rbProdDate = 1
+        'ElseIf ProdDateSelection.SelectedValue = "rbManual" Then
+        '    rbProdDate = 2
+        'End If
+        If rbAuto.Checked = True Then
+            pProdDateType = 1
+        ElseIf rbManual.Checked = True Then
+            pProdDateType = 2
+        End If
+
+        Dim pProdDate As DateTime = Convert.ToDateTime(dtDate.Date)
+        Dim pProdDate2 = dtDate.Date.ToString()
+
+        LoadGridDelay(FactoryCode, pProdDateType, pProdDate)
+        LoadGridNG(FactoryCode, pProdDateType, pProdDate)
+        LoadGridDelayVerif(FactoryCode, pProdDateType, pProdDate)
     End Sub
-    Private Sub LoadGridDelayVerif(FactoryCode As String)
+    Private Sub LoadGridDelayVerif(FactoryCode As String, pProdDateType As Integer, pProdDate As DateTime)
         Try
-            GridDelayVerif.DataSource = clsSPCAlertDashboardDB.GetDelayVerificationGrid(pUser, FactoryCode)
+            GridDelayVerif.DataSource = clsSPCAlertDashboardDB.GetDelayVerificationGrid(pUser, FactoryCode, pProdDateType, pProdDate)
             GridDelayVerif.DataBind()
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
         End Try
     End Sub
-    Private Sub LoadGridNG(FactoryCode As String)
+    Private Sub LoadGridNG(FactoryCode As String, pProdDateType As Integer, pProdDate As DateTime)
         Try
             Dim dtLoadNGData As DataTable
             'dtLoadNGData = clsSPCAlertDashboardDB.GetNGDataList(FactoryCode)
-            GridNG.DataSource = clsSPCAlertDashboardDB.GetNGDataList(pUser, FactoryCode)
+            GridNG.DataSource = clsSPCAlertDashboardDB.GetNGDataList(pUser, FactoryCode, pProdDateType, pProdDate)
             GridNG.DataBind()
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
         End Try
     End Sub
-    Private Sub LoadGridDelay(FactoryCode As String)
+    Private Sub LoadGridDelay(FactoryCode As String, pProdDateType As Integer, pProdDate As DateTime)
         Try
             Dim dtLoadGridDelay As DataTable
-            dtLoadGridDelay = clsSPCAlertDashboardDB.GetList(pUser, FactoryCode)
+            dtLoadGridDelay = clsSPCAlertDashboardDB.GetList(pUser, FactoryCode, pProdDateType, pProdDate)
 
             'If dtLoadGridDelay.Rows.Count > 0 Then
             'End If
@@ -543,6 +486,40 @@ Public Class AlertDashboard
             End If
             'e.Cell.Text = Convert.ToString(Hours & ":" & Test.Minutes & ":00")
         End If
+        If e.DataColumn.FieldName = "LSL" Then
+            LSL = (e.CellValue)
+        ElseIf e.DataColumn.FieldName = "USL" Then
+            USL = (e.CellValue)
+        ElseIf e.DataColumn.FieldName = "UCL" Then
+            UCL = (e.CellValue)
+        ElseIf e.DataColumn.FieldName = "LCL" Then
+            LCL = (e.CellValue)
+        ElseIf e.DataColumn.FieldName = "MinValue" Then
+            MinValue = (e.CellValue)
+            If MinValue < LSL Then
+                e.Cell.BackColor = System.Drawing.Color.Red
+            ElseIf MinValue < LCL Then
+                e.Cell.BackColor = System.Drawing.Color.Yellow
+            End If
+        ElseIf e.DataColumn.FieldName = "MaxValue" Then
+            MaxValue = (e.CellValue)
+            If MaxValue > USL Then
+                e.Cell.BackColor = System.Drawing.Color.Red
+            ElseIf MaxValue > UCL Then
+                e.Cell.BackColor = System.Drawing.Color.Yellow
+            End If
+        ElseIf e.DataColumn.FieldName = "Average" Then
+            Average = (e.CellValue)
+            If Average > USL Then
+                e.Cell.BackColor = System.Drawing.Color.Red
+            ElseIf Average > UCL Then
+                e.Cell.BackColor = System.Drawing.Color.Yellow
+            ElseIf Average < LSL Then
+                e.Cell.BackColor = System.Drawing.Color.Red
+            ElseIf Average < LCL Then
+                e.Cell.BackColor = System.Drawing.Color.Yellow
+            End If
+        End If
     End Sub
     Protected Sub GridDelayVerif_CustomButtonCallback(ByVal sender As Object, ByVal e As ASPxGridViewCustomButtonCallbackEventArgs) Handles GridDelayVerif.CustomButtonCallback
 
@@ -550,6 +527,7 @@ Public Class AlertDashboard
 
             Dim CountSendEmail As Integer
             Dim CheckAvailableData As DataTable
+            Dim UserTo As String
 
             Dim FactoryCode = cboFactory.Value
             Dim ItemTypeName = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemTypeName")
@@ -574,7 +552,9 @@ Public Class AlertDashboard
 
             Dim Test = DirectCast(GridDelayVerif.GetRowValues(e.VisibleIndex, GridDelayVerif.KeyFieldName, "LinkDate"), Object())(1)
 
-            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo, "3", LSL, USL, LCL, UCL, MinValue, MaxValue, Average, Status, "", "", VerifTime, DelayTime)
+            UserTo = clsSPCAlertDashboardDB.GetUserLine(FactoryCode, LineCode, "2")
+
+            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo, "3", LSL, USL, LCL, UCL, MinValue, MaxValue, Average, Status, "", "", VerifTime, DelayTime, UserTo)
 
             If CountSendEmail > 0 Then
                 show_error(MsgTypeEnum.Success, "Send Email Success", 1)
@@ -603,6 +583,7 @@ Public Class AlertDashboard
 
             Dim CountSendEmail As Integer
             Dim CheckAvailableData As DataTable
+            Dim UserTo As String
 
             Dim FactoryCode = cboFactory.Value
             Dim ItemTypeName = GridNG.GetRowValues(e.VisibleIndex, "ItemTypeName")
@@ -625,7 +606,9 @@ Public Class AlertDashboard
             'Dim Test = GridDelayVerif.GetRowValues(e.VisibleIndex, GridDelayVerif.KeyFieldName, "LinkDate")
             Dim Test = DirectCast(GridDelayVerif.GetRowValues(e.VisibleIndex, GridDelayVerif.KeyFieldName, "LinkDate"), Object())(1)
 
-            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo, "1", LSL, USL, LCL, UCL, MinValue, MaxValue, Average, "NG", "", "", "", "")
+            UserTo = clsSPCAlertDashboardDB.GetUserLine(FactoryCode, LineCode, "1")
+
+            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo, "1", LSL, USL, LCL, UCL, MinValue, MaxValue, Average, "NG", "", "", "", "", UserTo)
 
             If CountSendEmail > 0 Then
                 show_error(MsgTypeEnum.Success, "Send Email Success", 1)
@@ -655,6 +638,7 @@ Public Class AlertDashboard
 
             Dim CountSendEmail As Integer
             Dim CheckAvailableData As DataTable
+            Dim UserTo As String
 
             Dim FactoryCode = cboFactory.Value
             Dim ItemTypeName = Grid.GetRowValues(e.VisibleIndex, "ItemTypeName")
@@ -669,7 +653,9 @@ Public Class AlertDashboard
             Dim DelayTime = Grid.GetRowValues(e.VisibleIndex, "Delay")
             ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
 
-            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo, "2", "", "", "", "", "", "", "", "", ScheduleStart, ScheduleEnd, "", DelayTime)
+            UserTo = clsSPCAlertDashboardDB.GetUserLine(FactoryCode, LineCode, "1")
+
+            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo, "2", "", "", "", "", "", "", "", "", ScheduleStart, ScheduleEnd, "", DelayTime, UserTo)
 
             If CountSendEmail > 0 Then
                 show_error(MsgTypeEnum.Success, "Send Email Success", 1)
@@ -704,6 +690,12 @@ Public Class AlertDashboard
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
         End Try
     End Sub
+    Private Shared Function GetUserInLine(pUserLine As String) As String
+        Dim ListData As String
+        Dim DataUser As DataTable
+
+        Return ListData
+    End Function
 #End Region
 
 End Class

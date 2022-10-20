@@ -32,6 +32,42 @@ Partial Public Class AlertDashboard
     Protected WithEvents cboFactory As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
+    '''ASPxLabel8 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel8 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''rbAuto control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents rbAuto As Global.System.Web.UI.WebControls.RadioButton
+
+    '''<summary>
+    '''rbManual control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents rbManual As Global.System.Web.UI.WebControls.RadioButton
+
+    '''<summary>
+    '''dtDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dtDate As Global.DevExpress.Web.ASPxDateEdit
+
+    '''<summary>
     '''btnSearch control.
     '''</summary>
     '''<remarks>

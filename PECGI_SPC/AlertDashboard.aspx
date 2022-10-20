@@ -209,6 +209,47 @@
                                     </ButtonStyle>
                                 </dx:ASPxComboBox>
                             </td>
+                            <td style=" width:60px; padding:1px 0px 0px 0px">
+                                <dx:ASPxLabel ID="ASPxLabel8" runat="server" Text="Prod Date" 
+                                    Font-Names="Segoe UI" Font-Size="9pt">
+                                </dx:ASPxLabel>
+                            </td>
+                            <td style=" width:60px; padding:1px 0px 0px 0px">
+                                <asp:RadioButton ID="rbAuto" runat="server" Text=" Today" GroupName="ProdDateSelection"/>  
+                                <%--<asp:RadioButtonList ID="ProdDateSelection" runat="server">
+                                    <asp:ListItem Text="Today" Value="rbAuto" />
+                                    <asp:ListItem Text="" Value="rbManual" />
+                                </asp:RadioButtonList>--%>
+                            </td>
+                            <td style=" width:130px; padding:1px 0px 0px 0px">
+                                <table>
+                                    <tr>
+                                        <td style=" width:130px; padding:1px 0px 0px 0px">
+                                            <asp:RadioButton ID="rbManual" runat="server" Text="" GroupName="ProdDateSelection" />  
+                                        </td>
+                                        <td>
+                                            <dx:ASPxDateEdit ID="dtDate" runat="server" Theme="Office2010Black" Width="100px" ClientInstanceName="dtDate" EditFormatString="dd MMM yyyy" DisplayFormatString="dd MMM yyyy"
+                                            Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="2" EditFormat="Custom">
+                                                <CalendarProperties ShowWeekNumbers="False">
+                                                    <HeaderStyle Font-Size="12pt" Paddings-Padding="5px" ><Paddings Padding="5px"></Paddings>
+                                                    </HeaderStyle>
+                                                    <DayStyle Font-Size="9pt" Paddings-Padding="5px" ><Paddings Padding="5px"></Paddings>
+                                                    </DayStyle>
+                                                    <WeekNumberStyle Font-Size="9pt" Paddings-Padding="5px"><Paddings Padding="5px"></Paddings>
+                                                    </WeekNumberStyle>
+                                                    <FooterStyle Font-Size="9pt" Paddings-Padding="10px" ><Paddings Padding="10px"></Paddings>
+                                                    </FooterStyle>
+                                                    <ButtonStyle Font-Size="9pt" Paddings-Padding="10px"><Paddings Padding="10px"></Paddings>
+                                                    </ButtonStyle>
+                                                </CalendarProperties>                        
+                                                <ButtonStyle Width="5px" Paddings-Padding="4px" >
+                                                    <Paddings Padding="4px"></Paddings>
+                                                </ButtonStyle>
+                                            </dx:ASPxDateEdit>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
                             <td style=" width:100px;">
                                 <dx:ASPxButton ID="btnSearch" runat="server" AutoPostBack="False" ClientInstanceName="btnBrowse" Theme="Office2010Silver" Height="28px"
                                     Text="Browse" style="margin-left: 30px">
