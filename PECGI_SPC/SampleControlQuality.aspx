@@ -16,6 +16,10 @@
             border: 1px solid silver; 
         }
         
+            .auto-style1 {
+                width: 30%;
+            }
+        
             </style>
     <script type="text/javascript" >
         var rowIndex, columnIndex;
@@ -595,8 +599,8 @@
 <div style="width:100%; border:1px solid black">
     <table style="width:100%">
         <tr>
-            <td style="width:70%">
-                <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="350px" Width="800px" ClientInstanceName="Histogram">
+            <td style="width:630px">
+                <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="200px" Width="620px" ClientInstanceName="Histogram" PaletteBaseColorNumber="3" PaletteName="Foundry">
 
                         <Titles>
                             <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Histogram" Alignment="Center" />
@@ -611,8 +615,11 @@
                     <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Count" IntervalOptions-GridLayoutMode="GridAndLabelShifted" IntervalOptions-OverflowValue="2.715" IntervalOptions-Count="5" IntervalOptions-Pattern="{A1:0.000}-{A2:0.000}" IntervalOptions-UnderflowValue="2.645" IntervalOptions-OverflowValuePattern="{OS}" />
                     </AxisX>
 
-                <AxisY VisibleInPanesSerializable="-1" MinorCount="1" Visibility="True">
+                <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
                     <Tickmarks MinorLength="1" MinorVisible="False" />
+                    <Label>
+                        <ResolveOverlappingOptions AllowRotate="False" AllowStagger="False" />
+                    </Label>
                     <WholeRange AutoSideMargins="False" EndSideMargin="1" StartSideMargin="0" />
                     <GridLines Visible="False">
                     </GridLines>
@@ -626,7 +633,7 @@
                         <SeriesSerializable>
                             <cc1:Series ArgumentDataMember="Value" Name="Histogram" ShowInLegend="False" LabelsVisibility="True">
                                 <ViewSerializable>
-                                    <cc1:SideBySideBarSeriesView BarWidth="1" ColorEach="True">
+                                    <cc1:SideBySideBarSeriesView BarWidth="1" Color="149, 179, 215">
                                         <Border Color="0, 0, 0" Visibility="False" />
                                     </cc1:SideBySideBarSeriesView>
                                 </ViewSerializable>
@@ -638,8 +645,8 @@
                         </SeriesSerializable>
                     </dx:WebChartControl>
             </td>
-            <td style="vertical-align:top; text-align:left; width:30%; align-items: baseline; padding-right:5px">
-                <table style="width:100%">
+            <td style="vertical-align:top; text-align:left; align-items: baseline" class="auto-style1">
+                <table style="width:100%; padding-left:5px">
                     <tr >
                         <td>
                             <dx:ASPxLabel ID="ASPxLabel3" runat="server" Text="Min" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
@@ -733,6 +740,9 @@
                         </td>
                     </tr>
                 </table>
+            </td>
+            <td>
+
             </td>
         </tr>
     </table>

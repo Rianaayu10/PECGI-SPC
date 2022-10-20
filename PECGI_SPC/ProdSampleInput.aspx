@@ -1022,9 +1022,11 @@
         </seriestemplate>  
         <DiagramSerializable>
             <cc1:XYDiagram>
-                <AxisX VisibleInPanesSerializable="-1" MinorCount="1" Visibility="True">
+                <AxisX VisibleInPanesSerializable="-1" MinorCount="1" Visibility="False">
+                    <Tickmarks Visible="False" />
                     <GridLines MinorVisible="True">
                     </GridLines>
+                    <NumericScaleOptions AutoGrid="False" ScaleMode="Manual" />
                 </AxisX>
                 <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
                     <Tickmarks MinorLength="1" MinorVisible="False" />

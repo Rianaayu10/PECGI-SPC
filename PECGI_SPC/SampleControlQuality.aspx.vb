@@ -499,8 +499,8 @@ Public Class SampleControlQuality
             If ht.Count > 0 Then
                 Dim ht1 As clsHistogram = ht(0)
                 'diagram.AxisX.WholeRange.MaxValue = ht1.MaxValue + 1
-                diagram.AxisX.NumericScaleOptions.IntervalOptions.OverflowValue = ht1.SpecUSL + 0.01
-                diagram.AxisX.NumericScaleOptions.IntervalOptions.UnderflowValue = ht1.SpecLSL - +0.01
+                diagram.AxisX.NumericScaleOptions.IntervalOptions.OverflowValue = ht1.SpecUSL
+                diagram.AxisX.NumericScaleOptions.IntervalOptions.UnderflowValue = ht1.SpecLSL
 
                 diagram.AxisX.ConstantLines.Clear()
                 Dim LCL As New ConstantLine("LCL")
