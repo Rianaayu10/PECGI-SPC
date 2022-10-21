@@ -86,6 +86,10 @@ Public Class SampleControlQuality
         Dim linkR As New PrintableComponentLink(ps)
         linkR.Component = (CType(chartR, IChartContainer)).Chart
 
+        LoadHistogram(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), Format(dtTo.Value, "yyyy-MM-dd"), cboShow.Value)
+        Dim linkH As New PrintableComponentLink(ps)
+        linkH.Component = (CType(Histogram, IChartContainer)).Chart
+
         Dim compositeLink As New CompositeLink(ps)
         compositeLink.Links.AddRange(New Object() {linkX})
         compositeLink.CreateDocument()
@@ -98,6 +102,12 @@ Public Class SampleControlQuality
         compositeLink2.CreateDocument()
         Dim streamImg2 As New MemoryStream
         compositeLink2.ExportToImage(streamImg2)
+
+        Dim compositeLink3 As New CompositeLink(ps)
+        compositeLink3.Links.AddRange(New Object() {linkH})
+        compositeLink3.CreateDocument()
+        Dim streamImg3 As New MemoryStream
+        compositeLink3.ExportToImage(streamImg3)
 
         Using Pck As New ExcelPackage
             Dim ws As ExcelWorksheet = Pck.Workbook.Worksheets.Add("Sheet1")
@@ -131,7 +141,12 @@ Public Class SampleControlQuality
                 Dim fi2 As New FileInfo(Path & "\chartR.png")
                 Dim Picture2 As OfficeOpenXml.Drawing.ExcelPicture
                 Picture2 = .Drawings.AddPicture("chartR", Image.FromStream(streamImg2))
-                Picture2.SetPosition(LastRow + 25, 0, 0, 0)
+                Picture2.SetPosition(LastRow + 22, 0, 0, 0)
+
+                Dim fi3 As New FileInfo(Path & "\histogram.png")
+                Dim Picture3 As OfficeOpenXml.Drawing.ExcelPicture
+                Picture3 = .Drawings.AddPicture("histogram", Image.FromStream(streamImg3))
+                Picture3.SetPosition(LastRow + 34, 0, 0, 0)
             End With
 
             Dim stream As MemoryStream = New MemoryStream(Pck.GetAsByteArray())
@@ -503,22 +518,26 @@ Public Class SampleControlQuality
         End If
     End Sub
 
-    Private Sub LoadHistogram(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String)
+    Private Sub LoadHistogram(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, VerifiedOnly As String)
         With Histogram
-            Dim ht As List(Of clsHistogram) = clsXRChartDB.GetHistogram(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, ProdDate2)
+            Dim ht As List(Of clsHistogram) = clsXRChartDB.GetHistogram(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, ProdDate2, VerifiedOnly)
             .DataSource = ht
             .DataBind()
             Dim diagram As XYDiagram = CType(.Diagram, XYDiagram)
             If ht.Count > 0 Then
                 Dim ht1 As clsHistogram = ht(0)
-                'diagram.AxisX.WholeRange.MaxValue = ht1.MaxValue + 1
                 diagram.AxisX.NumericScaleOptions.IntervalOptions.OverflowValue = ht1.SpecUSL
                 diagram.AxisX.NumericScaleOptions.IntervalOptions.UnderflowValue = ht1.SpecLSL
+
+                'diagram.AxisX.WholeRange.MaxValue = ht1.SpecUSL
+                'diagram.AxisX.WholeRange.MinValue = ht1.SpecLSL
+                'diagram.AxisX.WholeRange.EndSideMargin = 0.1
+                'diagram.AxisX.WholeRange.StartSideMargin = 0.1
 
                 diagram.AxisX.ConstantLines.Clear()
                 Dim LCL As New ConstantLine("LCL")
                 LCL.Color = System.Drawing.Color.Purple
-                LCL.LineStyle.Thickness = 2
+                LCL.LineStyle.Thickness = 1
                 LCL.LineStyle.DashStyle = DashStyle.DashDot
                 diagram.AxisX.ConstantLines.Add(LCL)
                 LCL.AxisValue = ht1.XBarLCL
@@ -526,7 +545,7 @@ Public Class SampleControlQuality
 
                 Dim UCL As New ConstantLine("UCL")
                 UCL.Color = System.Drawing.Color.Purple
-                UCL.LineStyle.Thickness = 2
+                UCL.LineStyle.Thickness = 1
                 UCL.LineStyle.DashStyle = DashStyle.DashDot
                 diagram.AxisX.ConstantLines.Add(UCL)
                 UCL.AxisValue = ht1.XBarUCL
@@ -534,7 +553,7 @@ Public Class SampleControlQuality
 
                 Dim CL As New ConstantLine("CL")
                 CL.Color = System.Drawing.Color.Black
-                CL.LineStyle.Thickness = 2
+                CL.LineStyle.Thickness = 1
                 CL.LineStyle.DashStyle = DashStyle.Solid
                 diagram.AxisX.ConstantLines.Add(CL)
                 CL.AxisValue = ht1.XBarCL
@@ -542,7 +561,7 @@ Public Class SampleControlQuality
 
                 Dim LSL As New ConstantLine("LSL")
                 LSL.Color = System.Drawing.Color.Red
-                LSL.LineStyle.Thickness = 2
+                LSL.LineStyle.Thickness = 1
                 LSL.LineStyle.DashStyle = DashStyle.Solid
                 diagram.AxisX.ConstantLines.Add(LSL)
                 LSL.AxisValue = ht1.SpecLSL
@@ -550,7 +569,7 @@ Public Class SampleControlQuality
 
                 Dim USL As New ConstantLine("USL")
                 USL.Color = System.Drawing.Color.Red
-                USL.LineStyle.Thickness = 2
+                USL.LineStyle.Thickness = 1
                 USL.LineStyle.DashStyle = DashStyle.Solid
                 diagram.AxisX.ConstantLines.Add(USL)
                 USL.AxisValue = ht1.SpecUSL
@@ -638,11 +657,11 @@ Public Class SampleControlQuality
                 End If
                 diagram.AxisY.WholeRange.MinValue = MinValue
                 diagram.AxisY.WholeRange.MaxValue = MaxValue
-                diagram.AxisY.WholeRange.EndSideMargin = 0.015
+                diagram.AxisY.WholeRange.EndSideMargin = 0.005
 
                 diagram.AxisY.VisualRange.MinValue = MinValue
                 diagram.AxisY.VisualRange.MaxValue = MaxValue
-                diagram.AxisY.VisualRange.EndSideMargin = 0.015
+                diagram.AxisY.VisualRange.EndSideMargin = 0.005
 
                 Dim diff As Double = MaxValue - MinValue
                 Dim gridAlignment As Double = Math.Round(diff / 15, 3)
@@ -679,11 +698,12 @@ Public Class SampleControlQuality
         Dim ItemCheckCode As String = Split(Prm, "|")(3)
         Dim ProdDate As String = Split(Prm, "|")(4)
         Dim PrevDate As String = Split(Prm, "|")(5)
-        LoadChartR(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, PrevDate, ProdDate)
+        Dim VerifiedOnly As String = Split(Prm, "|")(6)
+        LoadChartR(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, PrevDate, ProdDate, VerifiedOnly)
     End Sub
 
-    Private Sub LoadChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, PrevDate As String, ProdDate As String)
-        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, PrevDate, ProdDate)
+    Private Sub LoadChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, PrevDate As String, ProdDate As String, VerifiedOnly As String)
+        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, PrevDate, ProdDate, VerifiedOnly)
         If xr.Count = 0 Then
             chartR.JSProperties("cpShow") = "0"
         Else
@@ -706,14 +726,14 @@ Public Class SampleControlQuality
             If Setup IsNot Nothing Then
                 Dim RCL As New ConstantLine("CL R")
                 RCL.Color = System.Drawing.Color.Purple
-                RCL.LineStyle.Thickness = 2
+                RCL.LineStyle.Thickness = 1
                 RCL.LineStyle.DashStyle = DashStyle.DashDot
                 diagram.AxisY.ConstantLines.Add(RCL)
                 RCL.AxisValue = Setup.RCL
 
                 Dim RUCL As New ConstantLine("UCL R")
                 RUCL.Color = System.Drawing.Color.Purple
-                RUCL.LineStyle.Thickness = 2
+                RUCL.LineStyle.Thickness = 1
                 RUCL.LineStyle.DashStyle = DashStyle.DashDot
                 diagram.AxisY.ConstantLines.Add(RUCL)
                 RUCL.AxisValue = Setup.RUCL
@@ -729,7 +749,7 @@ Public Class SampleControlQuality
                 diagram.AxisY.WholeRange.MaxValue = MaxValue
                 diagram.AxisY.VisualRange.MaxValue = MaxValue
                 If MaxValue > 0 Then
-                    Dim GridAlignment As Double = Math.Round(MaxValue / 34, 4)
+                    Dim GridAlignment As Double = Math.Round(MaxValue / 20, 4)
                     diagram.AxisY.NumericScaleOptions.CustomGridAlignment = GridAlignment
                 End If
             End If
@@ -813,6 +833,7 @@ Public Class SampleControlQuality
         Dim ItemCheckCode As String = Split(Prm, "|")(3)
         Dim ProdDate As String = Split(Prm, "|")(4)
         Dim ProdDate2 As String = Split(Prm, "|")(5)
-        LoadHistogram(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, ProdDate2)
+        Dim VerifiedOnly As String = Split(Prm, "|")(6)
+        LoadHistogram(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, ProdDate2, VerifiedOnly)
     End Sub
 End Class

@@ -181,8 +181,8 @@
             lblCPK2.SetText(s.cpCPK2);
 
             chartX.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + dtTo.GetText() + '|' + cboShow.GetValue());
-            chartR.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + dtTo.GetText());                
-            Histogram.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + dtTo.GetText());
+            chartR.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + dtTo.GetText() + '|' + cboShow.GetValue());                
+            Histogram.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + dtTo.GetText() + '|' + cboShow.GetValue());
         }
     </script>
 </asp:Content>
@@ -526,8 +526,8 @@
                     <Label TextPattern="{V:0.000}" Font="Tahoma, 7pt">
                         <ResolveOverlappingOptions AllowHide="True" />
                     </Label>
-                    <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.015" MaxValueSerializable="2.715" MinValueSerializable="2.645" StartSideMargin="0.025" />
-                    <WholeRange AlwaysShowZeroLevel="False" Auto="False" AutoSideMargins="False" EndSideMargin="0.015" MaxValueSerializable="2.73" MinValueSerializable="2.62" StartSideMargin="0.025" />
+                    <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.015" MaxValueSerializable="2.715" MinValueSerializable="2.7" StartSideMargin="0.025" />
+                    <WholeRange AlwaysShowZeroLevel="False" Auto="False" AutoSideMargins="False" EndSideMargin="0.005" MaxValueSerializable="2.73" MinValueSerializable="2.7" StartSideMargin="0.005" />
                     <GridLines>
                         <LineStyle DashStyle="Dot" />
                     </GridLines>
@@ -550,7 +550,7 @@
 
 <div id="chartRdiv" style="width:100%; border:1px solid black">
 <dx:WebChartControl ID="chartR" runat="server" ClientInstanceName="chartR"
-        Height="450px" Width="1080px" CrosshairEnabled="True">
+        Height="230px" Width="1080px" CrosshairEnabled="True">
         <SeriesSerializable>
             <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue">
                 <ViewSerializable>
@@ -611,8 +611,8 @@
                     <Tickmarks MinorVisible="False" />
                     <Label TextPattern="{A:0.000}">
                     </Label>
-                    <WholeRange AutoSideMargins="False" EndSideMargin="0.5" StartSideMargin="0.5" />
-                    <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Count" IntervalOptions-GridLayoutMode="GridAndLabelShifted" IntervalOptions-OverflowValue="2.715" IntervalOptions-Count="5" IntervalOptions-Pattern="{A1:0.000}-{A2:0.000}" IntervalOptions-UnderflowValue="2.645" IntervalOptions-OverflowValuePattern="{OS}" />
+                    <WholeRange AutoSideMargins="False" EndSideMargin="1" StartSideMargin="1" />
+                    <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Count" IntervalOptions-GridLayoutMode="GridAndLabelShifted" IntervalOptions-OverflowValue="2.715" IntervalOptions-Count="5" IntervalOptions-Pattern="{A1:0.000}-{A2:0.000}" IntervalOptions-UnderflowValue="2.645" IntervalOptions-OverflowValuePattern="{OS}" IntervalOptions-UnderflowValuePattern="{US}" />
                     </AxisX>
 
                 <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
@@ -633,7 +633,7 @@
                         <SeriesSerializable>
                             <cc1:Series ArgumentDataMember="Value" Name="Histogram" ShowInLegend="False" LabelsVisibility="True">
                                 <ViewSerializable>
-                                    <cc1:SideBySideBarSeriesView BarWidth="1" Color="149, 179, 215">
+                                    <cc1:SideBySideBarSeriesView BarWidth="1" Color="184, 204, 228" ColorEach="True">
                                         <Border Color="54, 96, 146" Visibility="True" />
                                     </cc1:SideBySideBarSeriesView>
                                 </ViewSerializable>
