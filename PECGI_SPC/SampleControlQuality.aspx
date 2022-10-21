@@ -600,7 +600,7 @@
     <table style="width:100%; padding-top:10px">
         <tr>
             <td style="width:630px">
-                <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="200px" Width="620px" ClientInstanceName="Histogram" PaletteName="SPC" >
+                <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="400px" Width="620px" ClientInstanceName="Histogram" PaletteName="SPC" >
 
                         <Titles>
                             <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Histogram" Alignment="Center" />
@@ -660,8 +660,8 @@
                         <PaletteWrappers>
                             <dx:PaletteWrapper Name="SPC" ScaleMode="Extrapolate">
                                 <Palette>
-                                    <cc1:PaletteEntry Color="185, 255, 183" Color2="185, 255, 183" />
-                                    <cc1:PaletteEntry Color="172, 242, 207" Color2="172, 242, 207" />
+                                    <cc1:PaletteEntry Color="227, 255, 198" Color2="227, 255, 198" />
+                                    <cc1:PaletteEntry Color="147, 243, 141" Color2="147, 243, 141" />
                                     <cc1:PaletteEntry Color="159, 222, 255" Color2="159, 222, 255" />
                                     <cc1:PaletteEntry Color="222, 204, 255" Color2="222, 204, 255" />
                                     <cc1:PaletteEntry Color="255, 196, 243" Color2="255, 196, 243" />

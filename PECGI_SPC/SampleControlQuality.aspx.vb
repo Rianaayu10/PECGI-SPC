@@ -83,11 +83,15 @@ Public Class SampleControlQuality
         LoadChartX(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), Format(dtTo.Value, "yyyy-MM-dd"), cboShow.Value)
         Dim linkX As New PrintableComponentLink(ps)
         linkX.Component = (CType(chartX, IChartContainer)).Chart
-        Dim linkR As New PrintableComponentLink(ps)
-        linkR.Component = (CType(chartR, IChartContainer)).Chart
 
-        LoadHistogram(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), Format(dtTo.Value, "yyyy-MM-dd"), cboShow.Value)
+        Dim linkR As New PrintableComponentLink(ps)
+        ChartType = clsXRChartDB.GetChartType(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value)
+        If ChartType = "1" Or ChartType = "2" Then
+            linkR.Component = (CType(chartR, IChartContainer)).Chart
+        End If
+
         Dim linkH As New PrintableComponentLink(ps)
+        LoadHistogram(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), Format(dtTo.Value, "yyyy-MM-dd"), cboShow.Value)
         linkH.Component = (CType(Histogram, IChartContainer)).Chart
 
         Dim compositeLink As New CompositeLink(ps)
@@ -138,15 +142,21 @@ Public Class SampleControlQuality
                 Picture = .Drawings.AddPicture("chart", Image.FromStream(streamImg))
                 Picture.SetPosition(LastRow, 0, 0, 0)
 
-                Dim fi2 As New FileInfo(Path & "\chartR.png")
-                Dim Picture2 As OfficeOpenXml.Drawing.ExcelPicture
-                Picture2 = .Drawings.AddPicture("chartR", Image.FromStream(streamImg2))
-                Picture2.SetPosition(LastRow + 22, 0, 0, 0)
+                Dim RowHistogram As Integer
+                If ChartType = "1" Or ChartType = "2" Then
+                    Dim fi2 As New FileInfo(Path & "\chartR.png")
+                    Dim Picture2 As OfficeOpenXml.Drawing.ExcelPicture
+                    Picture2 = .Drawings.AddPicture("chartR", Image.FromStream(streamImg2))
+                    Picture2.SetPosition(LastRow + 22, 0, 0, 0)
+                    RowHistogram = LastRow + 34
+                Else
+                    RowHistogram = LastRow + 22
+                End If
 
                 Dim fi3 As New FileInfo(Path & "\histogram.png")
                 Dim Picture3 As OfficeOpenXml.Drawing.ExcelPicture
                 Picture3 = .Drawings.AddPicture("histogram", Image.FromStream(streamImg3))
-                Picture3.SetPosition(LastRow + 34, 0, 0, 0)
+                Picture3.SetPosition(RowHistogram, 0, 0, 0)
             End With
 
             Dim stream As MemoryStream = New MemoryStream(Pck.GetAsByteArray())
@@ -538,7 +548,7 @@ Public Class SampleControlQuality
                 Dim LCL As New ConstantLine("LCL")
                 LCL.Color = System.Drawing.Color.Red
                 LCL.LineStyle.Thickness = 1
-                LCL.LineStyle.DashStyle = DashStyle.Dot
+                LCL.LineStyle.DashStyle = DashStyle.DashDot
                 diagram.AxisX.ConstantLines.Add(LCL)
                 LCL.AxisValue = ht1.XBarLCL
                 LCL.ShowInLegend = True
@@ -546,7 +556,7 @@ Public Class SampleControlQuality
                 Dim UCL As New ConstantLine("UCL")
                 UCL.Color = System.Drawing.Color.Red
                 UCL.LineStyle.Thickness = 1
-                UCL.LineStyle.DashStyle = DashStyle.Dot
+                UCL.LineStyle.DashStyle = DashStyle.DashDot
                 diagram.AxisX.ConstantLines.Add(UCL)
                 UCL.AxisValue = ht1.XBarUCL
                 UCL.ShowInLegend = True
@@ -558,22 +568,6 @@ Public Class SampleControlQuality
                 diagram.AxisX.ConstantLines.Add(CL)
                 CL.AxisValue = ht1.XBarCL
                 CL.ShowInLegend = True
-
-                Dim LSL As New ConstantLine("LSL")
-                LSL.Color = System.Drawing.Color.Red
-                LSL.LineStyle.Thickness = 1
-                LSL.LineStyle.DashStyle = DashStyle.Solid
-                diagram.AxisX.ConstantLines.Add(LSL)
-                LSL.AxisValue = ht1.SpecLSL
-                LSL.ShowInLegend = True
-
-                Dim USL As New ConstantLine("USL")
-                USL.Color = System.Drawing.Color.Red
-                USL.LineStyle.Thickness = 1
-                USL.LineStyle.DashStyle = DashStyle.Solid
-                diagram.AxisX.ConstantLines.Add(USL)
-                USL.AxisValue = ht1.SpecUSL
-                USL.ShowInLegend = True
             End If
         End With
     End Sub
@@ -750,6 +744,9 @@ Public Class SampleControlQuality
                 End If
                 diagram.AxisY.WholeRange.MaxValue = MaxValue
                 diagram.AxisY.VisualRange.MaxValue = MaxValue
+
+                Dim EndSideMargin As Single = Math.Round(MaxValue / 10, 3)
+                diagram.AxisY.WholeRange.EndSideMargin = EndSideMargin
                 If MaxValue > 0 Then
                     Dim GridAlignment As Double = Math.Round(MaxValue / 20, 4)
                     diagram.AxisY.NumericScaleOptions.CustomGridAlignment = GridAlignment
