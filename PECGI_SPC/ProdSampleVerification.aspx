@@ -132,7 +132,6 @@
                 document.getElementById('Ave').style.backgroundColor = 'White';
             }
 
-            console.log(s.cp_AllowSkill);
 
             if (s.cp_Verify == "1" && s.cp_AllowSkill == true) {
                 btnVerification.SetEnabled(true);
@@ -523,33 +522,52 @@
         }
 
 
-        //function IOTProcess() {
-        //    // Var IOT Tracebility = 1
-        //    cbkIOTconn.PerformCallback('1');
-        //    millisecondsToWait = 1000;
-        //    setTimeout(function () {
-        //        var URL = HideValue.Get('IOTConn');
-        //        console.log(URL);
-        //        window.open('' + URL + '', '_blank');
-        //    }, millisecondsToWait);
+        function IOTProcess() {
+            var URL = HideValue.Get('URL');          
+            var FactoryCode = HideValue.Get('FactoryCode');
+            var ProcessGroup = HideValue.Get('ProcessGroup');
+            var LineGroup = HideValue.Get('LineGroup');
+            var Process = HideValue.Get('Process');
+            var Line = HideValue.Get('LineCode');
+            var Date = HideValue.Get('ProdDate');
+            var InstructionNo = HideValue.Get('InstructionNo');
+            var Shift = HideValue.Get('Shift');
+            var Item = HideValue.Get('ItemTypeDesc');
 
-        //}
+            //TEST
+            //var FactoryCode = "F001" ;
+            //var ProcessGroup = "PG003";
+            //var LineGroup = "ASS01";
+            //var Process = "P002";
+            //var Line = "018";
+            //var Date = "2022-09-15";
+            //var InstructionNo = "F001.P002.018.2209.0099";
+            //var Shift = "SH001";
+            //var Item = "BBRSRUSA0PAD";
 
-        //function IOTTraceability() {
-        //    // Var IOT Tracebility = 2
-        //    cbkIOTconn.PerformCallback('2');
-        //    millisecondsToWait = 1000;
-        //    setTimeout(function () {
-        //        var URL = HideValue.Get('IOTConn');
-        //        console.log(URL);
-        //        window.open('' + URL + '', '_blank');
-        //    }, millisecondsToWait);
-        //}
+            var IOT_URL = URL + 'AssyReport/Index?ReportType=018&Factory=' + FactoryCode + '&ProcessGroup=' + ProcessGroup + '&LineGroup=' + LineGroup + '&Process=' + Process + '&Line=' + Line + '&Date=' + Date + '&InstructionNo=' + InstructionNo + '&Shift=' + Shift + '&Item=' + Item + '&isExplosion=1&UserID=SPC';
+            console.log(IOT_URL);
 
-        //function IOTconn(s, e) {
-        //    console.log(s.cp_URL);
-        //    HideValue.Set('IOTConn', s.cp_URL);
-        //}
+            window.open(IOT_URL, '_blank');
+            //window.open('http://192.168.0.3:8091/AssyReport/Index?ReportType=018&Factory=F001&ProcessGroup=PG003&LineGroup=ASS01&Process=P002&Line=018&Date=2022-09-15&InstructionNo=F001.P002.018.2209.0099&Shift=SH001&Item=BBRSRUSA0PAD&UserID=SPC', '_blank');
+
+        }
+
+        function IOTTraceability() {
+            var URL = HideValue.Get('URL');
+            var ItemDesc = HideValue.Get('ItemTypeDesc');
+            var LotNo = HideValue.Get('SubLotNo');
+
+            // TEST
+            //var ItemDesc = "BBRSRUSA0PAD";
+            //var LotNo = "220916.018.1.0001";
+
+            var IOT_URL = URL + 'TraceabilityReport/Index?ItemCls=02&Item=' + ItemDesc + '&LotNo=' + LotNo + '&isExplosion=1&UserID=SPC';
+            console.log(IOT_URL);
+
+            window.open(IOT_URL, '_blank');
+            //window.open('http://192.168.0.3:8091/TraceabilityReport/Index?ItemCls=02&Item=BBRSRUSA0PAD&LotNo=220916.018.1.0001&isExplosion=1&UserID=SPC', '_blank');           
+        }
 
 
     </script>
@@ -766,14 +784,14 @@
                 <td style="width:100px">
                     <dx:ASPxButton ID="btnIOTProcess" runat="server" AutoPostBack="False" ClientInstanceName="btnIOTProcess"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="View IOT Process Table" Theme="Office2010Silver" Width="100px">
-                        <%--  <ClientSideEvents Click="IOTProcess" />--%>
+                          <ClientSideEvents Click="IOTProcess" />
                     </dx:ASPxButton>
                 </td>
                 <td style="width: 5px"></td>
                 <td style="width:100px">
                     <dx:ASPxButton ID="btnIOTTraceability" runat="server" AutoPostBack="False" ClientInstanceName="btnIOTTraceability"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="View IOT Traceability" Theme="Office2010Silver" Width="100px">
-                        <%-- <ClientSideEvents Click="IOTTraceability" />--%>
+                         <ClientSideEvents Click="IOTTraceability" />
                     </dx:ASPxButton>
                 </td>
                 <td style="width: 5px"></td>

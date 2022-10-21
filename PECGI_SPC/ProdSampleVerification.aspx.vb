@@ -72,6 +72,7 @@ Public Class ProdSampleVerification
     Dim RowIndexName As String = ""
     Dim CharacteristicSts As String = ""
     Dim ChartType As String
+    Dim LotNo As String = ""
 
     'FORM LOAD PARAMETER
     Dim menu = ""
@@ -684,12 +685,16 @@ Public Class ProdSampleVerification
                 Next
                 cboItemType.Enabled = False
             End If
+
+            Dim ItemTypeDesc = ""
             If cboItemType.SelectedIndex < 0 Then
                 a = ""
             Else
                 a = cboItemType.SelectedItem.GetFieldValue("CODE")
+                ItemTypeDesc = cboItemType.SelectedItem.GetDataItem("CODENAME")
             End If
             HideValue.Set("ItemType_Code", a)
+            HideValue.Set("ItemTypeDesc", ItemTypeDesc)
             data.ItemType_Code = HideValue.Get("ItemType_Code")
             '======================================================'
 
@@ -899,6 +904,9 @@ Public Class ProdSampleVerification
         Grid.JSProperties("cpChartSetup") = dtChartSetup.Rows.Count
 
         If dtChartSetup.Rows.Count > 0 Then
+            LotNo = dtChartSetup.Rows(0)("SubLotNo").ToString
+            HideValue.Set("SubLotNo", LotNo)
+
             Grid.JSProperties("cpUSL") = AFormat(dtChartSetup.Rows(0)("USL"))
             Grid.JSProperties("cpLSL") = AFormat(dtChartSetup.Rows(0)("LSL"))
             Grid.JSProperties("cpUCL") = AFormat(dtChartSetup.Rows(0)("UCL"))
@@ -1111,6 +1119,7 @@ Public Class ProdSampleVerification
         Up_GridLoadActivities(cls)
         Up_GridChartSetup(cls)
         Validation_Verify(cls)
+        GetURL(cls)
 
         Dim RespChartSetUp = clsProdSampleVerificationDB.Validation(GetVerifyChartSetup, cls)
         If RespChartSetUp = "" Then
@@ -1175,10 +1184,32 @@ Public Class ProdSampleVerification
     End Sub
     Private Sub Validation_Verify(cls As clsProdSampleVerification)
         VerifyStatus = clsProdSampleVerificationDB.Validation(GetVerifyPrivilege, cls)
+        Grid.JSProperties("cp_Verify") = VerifyStatus 'parameter to authorization verify
+
         pEmplooyeeID = clsIOT.GetEmployeeID(pUser)
         Dim AllowSkill As Boolean = clsIOT.AllowSkill(pEmplooyeeID, cls.FactoryCode, cls.LineCode, cls.ItemType_Code)
-        Grid.JSProperties("cp_Verify") = VerifyStatus 'parameter to authorization verify
         Grid.JSProperties("cp_AllowSkill") = AllowSkill 'parameter to authorization verify
+
+    End Sub
+
+    Private Sub GetURL(cls As clsProdSampleVerification)
+        Dim URL = clsIOT.GetURL(pUser)
+        HideValue.Set("URL", URL)
+
+        Dim dtDailyProd = clsIOT.GetDailyProd(cls.FactoryCode, cls.LineCode, cls.ItemType_Code, LotNo, cls.ProdDate)
+        If dtDailyProd.Rows.Count > 0 Then
+            HideValue.Set("ProcessGroup", dtDailyProd.Rows(0)("ProcessGroup"))
+            HideValue.Set("LineGroup", dtDailyProd.Rows(0)("LineGroup"))
+            HideValue.Set("processCode", dtDailyProd.Rows(0)("process_Code"))
+            HideValue.Set("InstructionNo", dtDailyProd.Rows(0)("Instruction_No"))
+            HideValue.Set("ShiftIOT", dtDailyProd.Rows(0)("Shift"))
+        Else
+            HideValue.Set("ProcessGroup", "")
+            HideValue.Set("LineGroup", "")
+            HideValue.Set("processCode", "")
+            HideValue.Set("InstructionNo", "")
+            HideValue.Set("ShiftIOT", "")
+        End If
     End Sub
 #End Region
 
