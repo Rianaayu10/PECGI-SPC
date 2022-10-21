@@ -353,7 +353,7 @@ Public Class clsSPCAlertDashboardDB
                 cmd.Parameters.AddWithValue("ProdDate", LinkDate)
                 cmd.Parameters.AddWithValue("ShiftCode", ShiftCode)
                 cmd.Parameters.AddWithValue("SequenceNo", SequenceNo)
-                cmd.Parameters.AddWithValue("NotificationCategory", "DV")
+                'cmd.Parameters.AddWithValue("NotificationCategory", "DV")
 
                 Dim da As New SqlDataAdapter(cmd)
                 Dim dt As New DataTable
@@ -400,7 +400,13 @@ Public Class clsSPCAlertDashboardDB
             Using Cn As New SqlConnection(Sconn.Stringkoneksi)
                 Cn.Open()
                 Dim q As String
-                q = "select US.Email from spc_UserLine UL INNER JOIN spc_UserSetup US ON UL.AppID = US.AppID AND UL.UserID = US.UserID WHERE UL.FactoryCode = @FactoryCode AND UL.LineCode = LineCode "
+                If pType = "1" Then
+                    q = "select distinct US.Email from spc_UserLine UL INNER JOIN spc_UserSetup US ON UL.AppID = US.AppID AND UL.UserID = US.UserID WHERE UL.FactoryCode = @FactoryCode AND UL.LineCode = LineCode "
+                ElseIf pType = "2" Then
+                    q = "select distinct US.Email from spc_UserLine UL INNER JOIN spc_UserSetup US ON UL.AppID = US.AppID AND UL.UserID = US.UserID WHERE US.JobPosition = 'MK' "
+                ElseIf pType = "3" Then
+                    q = "select distinct US.Email from spc_UserLine UL INNER JOIN spc_UserSetup US ON UL.AppID = US.AppID AND UL.UserID = US.UserID WHERE US.JobPosition IN ('MK','QC') "
+                End If
                 Dim cmd As New SqlCommand(q, Cn)
                 'Dim des As New clsDESEncryption("TOS")
                 cmd.CommandType = CommandType.Text
@@ -412,7 +418,7 @@ Public Class clsSPCAlertDashboardDB
                 da.Fill(dt)
 
                 For Each dr As DataRow In dt.Rows
-                    ListDataUserLine = dr.ToString() + ";" + ListDataUserLine
+                    ListDataUserLine = dr.Item("Email") + ";" + ListDataUserLine
                 Next
 
                 Return ListDataUserLine

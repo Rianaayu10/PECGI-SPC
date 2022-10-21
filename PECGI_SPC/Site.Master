@@ -938,8 +938,8 @@
                     if (sData != "") {
                         const a = sData.split(";");
                         for (var i = 0; i < a.length; i++) {
-                            var Label = a[i].split("|")[0];
-                            var nValue = a[i].split("|")[1];
+                            var Label = a[i].split("||")[0];
+                            var nValue = a[i].split("||")[1];
 
                             var ProdDate = a[i].split("|")[0];
                             var ItemCode = a[i].split("|")[1];
