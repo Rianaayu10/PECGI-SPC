@@ -600,11 +600,12 @@
     <table style="width:100%; padding-top:10px">
         <tr>
             <td style="width:630px">
-                <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="200px" Width="620px" ClientInstanceName="Histogram" PaletteBaseColorNumber="3" PaletteName="Foundry">
+                <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="200px" Width="620px" ClientInstanceName="Histogram" PaletteName="SPC" >
 
                         <Titles>
                             <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Histogram" Alignment="Center" />
                         </Titles>
+                        <BorderOptions Visibility="True" />
                         <DiagramSerializable>
                 <cc1:XYDiagram Rotated="True">
                 <AxisX VisibleInPanesSerializable="-1" Visibility="True">
@@ -634,15 +635,40 @@
                             <cc1:Series ArgumentDataMember="Value" Name="Histogram" ShowInLegend="False" LabelsVisibility="True">
                                 <ViewSerializable>
                                     <cc1:SideBySideBarSeriesView BarWidth="1" Color="184, 204, 228" ColorEach="True">
-                                        <Border Color="54, 96, 146" Visibility="True" />
+                                        <Border Color="127, 127, 127" Visibility="True" />
+                                        <FillStyle FillMode="Solid">
+                                        </FillStyle>
                                     </cc1:SideBySideBarSeriesView>
                                 </ViewSerializable>
                                 <LabelSerializable>
                                     <cc1:SideBySideBarSeriesLabel Position="Top">
                                     </cc1:SideBySideBarSeriesLabel>
                                 </LabelSerializable>
+                                <ColorizerSerializable>
+                                    <cc1:KeyColorColorizer PaletteName="SPC">
+                                        <KeysSerializable>
+                                            <cc1:ObjectSerializable Type="System.String" Value="1" />
+                                            <cc1:ObjectSerializable Type="System.String" Value="2" />
+                                            <cc1:ObjectSerializable Type="System.String" Value="3" />
+                                            <cc1:ObjectSerializable Type="System.String" Value="4" />
+                                            <cc1:ObjectSerializable Type="System.String" Value="5" />
+                                        </KeysSerializable>
+                                    </cc1:KeyColorColorizer>
+                                </ColorizerSerializable>
                             </cc1:Series>
                         </SeriesSerializable>
+                        <PaletteWrappers>
+                            <dx:PaletteWrapper Name="SPC" ScaleMode="Extrapolate">
+                                <Palette>
+                                    <cc1:PaletteEntry Color="185, 255, 183" Color2="185, 255, 183" />
+                                    <cc1:PaletteEntry Color="172, 242, 207" Color2="172, 242, 207" />
+                                    <cc1:PaletteEntry Color="159, 222, 255" Color2="159, 222, 255" />
+                                    <cc1:PaletteEntry Color="222, 204, 255" Color2="222, 204, 255" />
+                                    <cc1:PaletteEntry Color="255, 196, 243" Color2="255, 196, 243" />
+                                    <cc1:PaletteEntry Color="255, 201, 191" Color2="255, 201, 191" />
+                                </Palette>
+                            </dx:PaletteWrapper>
+                        </PaletteWrappers>
                     </dx:WebChartControl>
             </td>
             <td style="vertical-align:top; text-align:left; padding-top:10px; align-items: baseline" class="auto-style1">

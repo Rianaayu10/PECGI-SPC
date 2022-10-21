@@ -183,7 +183,7 @@ Public Class SampleControlQuality
                 iCol = iDay + 2
                 .Cells(iRow, iCol).Value = Format(SelDay, "dd MMM yy")
                 .Cells(iRow + 1, iCol).Value = dtDay.Rows(iDay)("ShiftCode")
-                .Cells(iRow + 2, iCol).Value = dtDay.Rows(iDay)("SeqNo")
+                .Cells(iRow + 2, iCol).Value = dtDay.Rows(iDay)("RegisterDate")
             Next
             iRow = iRow + 3
             dt = ds.Tables(1)
@@ -536,25 +536,25 @@ Public Class SampleControlQuality
 
                 diagram.AxisX.ConstantLines.Clear()
                 Dim LCL As New ConstantLine("LCL")
-                LCL.Color = System.Drawing.Color.Purple
+                LCL.Color = System.Drawing.Color.Red
                 LCL.LineStyle.Thickness = 1
-                LCL.LineStyle.DashStyle = DashStyle.DashDot
+                LCL.LineStyle.DashStyle = DashStyle.Dot
                 diagram.AxisX.ConstantLines.Add(LCL)
                 LCL.AxisValue = ht1.XBarLCL
                 LCL.ShowInLegend = True
 
                 Dim UCL As New ConstantLine("UCL")
-                UCL.Color = System.Drawing.Color.Purple
+                UCL.Color = System.Drawing.Color.Red
                 UCL.LineStyle.Thickness = 1
-                UCL.LineStyle.DashStyle = DashStyle.DashDot
+                UCL.LineStyle.DashStyle = DashStyle.Dot
                 diagram.AxisX.ConstantLines.Add(UCL)
                 UCL.AxisValue = ht1.XBarUCL
                 UCL.ShowInLegend = True
 
                 Dim CL As New ConstantLine("CL")
-                CL.Color = System.Drawing.Color.Black
+                CL.Color = System.Drawing.Color.Red
                 CL.LineStyle.Thickness = 1
-                CL.LineStyle.DashStyle = DashStyle.Solid
+                CL.LineStyle.DashStyle = DashStyle.Dot
                 diagram.AxisX.ConstantLines.Add(CL)
                 CL.AxisValue = ht1.XBarCL
                 CL.ShowInLegend = True
@@ -606,36 +606,36 @@ Public Class SampleControlQuality
             diagram.AxisY.ConstantLines.Clear()
             If Setup IsNot Nothing Then
                 Dim LCL As New ConstantLine("LCL")
-                LCL.Color = System.Drawing.Color.Purple
-                LCL.LineStyle.Thickness = 2
+                LCL.Color = System.Drawing.Color.Red
+                LCL.LineStyle.Thickness = 1
                 LCL.LineStyle.DashStyle = DashStyle.DashDot
                 diagram.AxisY.ConstantLines.Add(LCL)
                 LCL.AxisValue = Setup.XBarLCL
 
                 Dim UCL As New ConstantLine("UCL")
-                UCL.Color = System.Drawing.Color.Purple
-                UCL.LineStyle.Thickness = 2
+                UCL.Color = System.Drawing.Color.Red
+                UCL.LineStyle.Thickness = 1
                 UCL.LineStyle.DashStyle = DashStyle.DashDot
                 diagram.AxisY.ConstantLines.Add(UCL)
                 UCL.AxisValue = Setup.XBarUCL
 
                 Dim CL As New ConstantLine("CL")
-                CL.Color = System.Drawing.Color.Black
-                CL.LineStyle.Thickness = 2
-                CL.LineStyle.DashStyle = DashStyle.Solid
+                CL.Color = System.Drawing.Color.Red
+                CL.LineStyle.Thickness = 1
+                CL.LineStyle.DashStyle = DashStyle.DashDot
                 diagram.AxisY.ConstantLines.Add(CL)
                 CL.AxisValue = Setup.XBarCL
 
                 Dim LSL As New ConstantLine("LSL")
                 LSL.Color = System.Drawing.Color.Red
-                LSL.LineStyle.Thickness = 2
+                LSL.LineStyle.Thickness = 1
                 LSL.LineStyle.DashStyle = DashStyle.Solid
                 diagram.AxisY.ConstantLines.Add(LSL)
                 LSL.AxisValue = Setup.SpecLSL
 
                 Dim USL As New ConstantLine("USL")
                 USL.Color = System.Drawing.Color.Red
-                USL.LineStyle.Thickness = 2
+                USL.LineStyle.Thickness = 1
                 USL.LineStyle.DashStyle = DashStyle.Solid
                 diagram.AxisY.ConstantLines.Add(USL)
                 USL.AxisValue = Setup.SpecUSL
@@ -655,13 +655,15 @@ Public Class SampleControlQuality
                     MinValue = Setup.SpecLSL
                     MaxValue = Setup.SpecUSL
                 End If
+                Dim EndSideMargin As Single = Math.Round((MaxValue - MinValue) / 20, 3)
+
                 diagram.AxisY.WholeRange.MinValue = MinValue
                 diagram.AxisY.WholeRange.MaxValue = MaxValue
-                diagram.AxisY.WholeRange.EndSideMargin = 0.005
+                diagram.AxisY.WholeRange.EndSideMargin = EndSideMargin
 
                 diagram.AxisY.VisualRange.MinValue = MinValue
                 diagram.AxisY.VisualRange.MaxValue = MaxValue
-                diagram.AxisY.VisualRange.EndSideMargin = 0.005
+                diagram.AxisY.VisualRange.EndSideMargin = EndSideMargin
 
                 Dim diff As Double = MaxValue - MinValue
                 Dim gridAlignment As Double = Math.Round(diff / 15, 3)
@@ -725,14 +727,14 @@ Public Class SampleControlQuality
             diagram.AxisY.ConstantLines.Clear()
             If Setup IsNot Nothing Then
                 Dim RCL As New ConstantLine("CL R")
-                RCL.Color = System.Drawing.Color.Purple
+                RCL.Color = System.Drawing.Color.Red
                 RCL.LineStyle.Thickness = 1
                 RCL.LineStyle.DashStyle = DashStyle.DashDot
                 diagram.AxisY.ConstantLines.Add(RCL)
                 RCL.AxisValue = Setup.RCL
 
                 Dim RUCL As New ConstantLine("UCL R")
-                RUCL.Color = System.Drawing.Color.Purple
+                RUCL.Color = System.Drawing.Color.Red
                 RUCL.LineStyle.Thickness = 1
                 RUCL.LineStyle.DashStyle = DashStyle.DashDot
                 diagram.AxisY.ConstantLines.Add(RUCL)
