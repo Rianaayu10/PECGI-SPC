@@ -25,6 +25,7 @@ Partial Class frmSPCInboxNotification
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSPCInboxNotification))
         Me.pnlHeader = New System.Windows.Forms.Panel()
+        Me.btnRefresh = New System.Windows.Forms.Button()
         Me.lblTime = New System.Windows.Forms.Label()
         Me.lblDate = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -70,6 +71,7 @@ Partial Class frmSPCInboxNotification
         'pnlHeader
         '
         Me.pnlHeader.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.pnlHeader.Controls.Add(Me.btnRefresh)
         Me.pnlHeader.Controls.Add(Me.lblTime)
         Me.pnlHeader.Controls.Add(Me.lblDate)
         Me.pnlHeader.Controls.Add(Me.Label3)
@@ -81,6 +83,18 @@ Partial Class frmSPCInboxNotification
         Me.pnlHeader.Name = "pnlHeader"
         Me.pnlHeader.Size = New System.Drawing.Size(980, 74)
         Me.pnlHeader.TabIndex = 0
+        '
+        'btnRefresh
+        '
+        Me.btnRefresh.BackColor = System.Drawing.SystemColors.HotTrack
+        Me.btnRefresh.FlatAppearance.BorderSize = 0
+        Me.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnRefresh.Location = New System.Drawing.Point(195, 24)
+        Me.btnRefresh.Name = "btnRefresh"
+        Me.btnRefresh.Size = New System.Drawing.Size(75, 25)
+        Me.btnRefresh.TabIndex = 6
+        Me.btnRefresh.Text = "&Refresh"
+        Me.btnRefresh.UseVisualStyleBackColor = False
         '
         'lblTime
         '
@@ -510,4 +524,5 @@ Partial Class frmSPCInboxNotification
     Friend WithEvents lblTotalNGResult As Label
     Friend WithEvents lblTotalDelayVerification As Label
     Friend WithEvents lblTotalDelayInput As Label
+    Friend WithEvents btnRefresh As Button
 End Class

@@ -148,6 +148,17 @@ Public Class frmSPCInboxNotification
         'Loop
         'tgnFinish = True
     End Sub
+
+    Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
+        dtNG = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "NG")
+        dtDelayInput = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "DelayInput")
+        dtDelayVerification = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "DelayVerification")
+        factory = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "Factory").Rows(0)("Factory")
+
+        GridHeader()
+        GridLoad()
+    End Sub
+
 #End Region
 
 #Region "Sub and Function"
@@ -500,7 +511,6 @@ Public Class frmSPCInboxNotification
     End Sub
 
 #End Region
-
 
 #Region "Thread"
 
