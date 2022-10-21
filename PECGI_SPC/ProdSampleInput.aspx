@@ -74,7 +74,7 @@
         }
 
         function OnBatchEditStartEditing(s, e) {
-            if(cboSeq.GetValue() == '') {
+            if(cboSeq.GetValue() == null | cboSeq.GetValue() == '') {
                 e.cancel = true;                
                 toastr.warning('Please select Sequence!', 'Warning');
                 toastr.options.closeButton = false;
@@ -900,56 +900,6 @@
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="LCL" ValueDataMembersSerializable="LCL" LabelsVisibility="False" CrosshairLabelPattern="{S}: {V:0.000}">
-                <ViewSerializable>
-                    <cc1:LineSeriesView Color="0, 32, 96" MarkerVisibility="False">
-                        <LineStyle DashStyle="DashDot" Thickness="2" />
-                        <LineMarkerOptions Size="1">
-                        </LineMarkerOptions>
-                    </cc1:LineSeriesView>
-                </ViewSerializable>
-                <LabelSerializable>
-                    <cc1:PointSeriesLabel Position="Center">
-                    </cc1:PointSeriesLabel>
-                </LabelSerializable>
-            </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="UCL" ValueDataMembersSerializable="UCL" CrosshairLabelPattern="{S}: {V:0.000}">
-                <ViewSerializable>
-                    <cc1:LineSeriesView Color="0, 32, 96" MarkerVisibility="False">
-                        <LineStyle DashStyle="DashDot" Thickness="2" />
-                        <LineMarkerOptions Size="1">
-                        </LineMarkerOptions>
-                    </cc1:LineSeriesView>
-                </ViewSerializable>
-            </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="USL" ValueDataMembersSerializable="USL" CrosshairLabelPattern="{S}: {V:0.000}">
-                <ViewSerializable>
-                    <cc1:LineSeriesView Color="240, 0, 0" MarkerVisibility="False">
-                        <LineStyle Thickness="2" />
-                        <LineMarkerOptions Size="1">
-                        </LineMarkerOptions>
-                    </cc1:LineSeriesView>
-                </ViewSerializable>
-            </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="LSL" ValueDataMembersSerializable="LSL" CrosshairLabelPattern="{S}: {V:0.000}">
-                <ViewSerializable>
-                    <cc1:LineSeriesView Color="240, 0, 0" MarkerVisibility="False">
-                        <LineStyle Thickness="2" />
-                        <LineMarkerOptions Size="1">
-                        </LineMarkerOptions>
-                    </cc1:LineSeriesView>
-                </ViewSerializable>
-            </cc1:Series>
-
-            <cc1:Series ArgumentDataMember="Seq" Name="CL" ValueDataMembersSerializable="CL" CrosshairLabelPattern="{S}: {V:0.000}">
-                <ViewSerializable>
-                    <cc1:LineSeriesView Color="0, 0, 0">
-                        <LineStyle Thickness="2" />
-                        <LineMarkerOptions Size="1">
-                        </LineMarkerOptions>
-                    </cc1:LineSeriesView>
-                </ViewSerializable>
-            </cc1:Series>
 
         </SeriesSerializable>     
         <DiagramSerializable>
@@ -1003,7 +953,7 @@
                 
 <div id="chartRdiv">
     <dx:WebChartControl ID="chartR" runat="server" ClientInstanceName="chartR"
-        Height="450px" Width="1080px" CrosshairEnabled="True">
+        Height="230px" Width="1080px" CrosshairEnabled="True">
         <SeriesSerializable>
             <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue">
                 <ViewSerializable>
