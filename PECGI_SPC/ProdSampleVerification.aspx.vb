@@ -432,6 +432,7 @@ Public Class ProdSampleVerification
             e.LegendDrawOptions.Color = cs.Color5
         End If
     End Sub
+
     'Private Sub cbkIOTconn_Callback(source As Object, e As CallbackEventArgs) Handles cbkIOTconn.Callback
     '    Dim ActionSts = e.Parameter.ToString
 
@@ -936,7 +937,7 @@ Public Class ProdSampleVerification
         End With
     End Sub
     Private Sub LoadChartR(cls As clsProdSampleVerification)
-        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code, cls.ProdDate)
+        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code, cls.ProdDate, "", cls.ShowVerify)
         If xr.Count = 0 Then
             chartR.JSProperties("cpShow") = "0"
             CharacteristicSts = "0"
@@ -944,6 +945,7 @@ Public Class ProdSampleVerification
             chartR.JSProperties("cpShow") = "1"
             CharacteristicSts = "1"
         End If
+
         With chartR
             .DataSource = xr
             Dim diagram As XYDiagram = CType(.Diagram, XYDiagram)
@@ -959,15 +961,15 @@ Public Class ProdSampleVerification
             diagram.AxisY.ConstantLines.Clear()
             If Setup IsNot Nothing Then
                 Dim RCL As New ConstantLine("CL R")
-                RCL.Color = System.Drawing.Color.Purple
-                RCL.LineStyle.Thickness = 2
+                RCL.Color = System.Drawing.Color.Red
+                RCL.LineStyle.Thickness = 1
                 RCL.LineStyle.DashStyle = DashStyle.DashDot
                 diagram.AxisY.ConstantLines.Add(RCL)
                 RCL.AxisValue = Setup.RCL
 
                 Dim RUCL As New ConstantLine("UCL R")
-                RUCL.Color = System.Drawing.Color.Purple
-                RUCL.LineStyle.Thickness = 2
+                RUCL.Color = System.Drawing.Color.Red
+                RUCL.LineStyle.Thickness = 1
                 RUCL.LineStyle.DashStyle = DashStyle.DashDot
                 diagram.AxisY.ConstantLines.Add(RUCL)
                 RUCL.AxisValue = Setup.RUCL
@@ -983,7 +985,7 @@ Public Class ProdSampleVerification
                 diagram.AxisY.WholeRange.MaxValue = MaxValue
                 diagram.AxisY.VisualRange.MaxValue = MaxValue
                 If MaxValue > 0 Then
-                    Dim GridAlignment As Double = Math.Round(MaxValue / 34, 4)
+                    Dim GridAlignment As Double = Math.Round(MaxValue / 20, 4)
                     diagram.AxisY.NumericScaleOptions.CustomGridAlignment = GridAlignment
                 End If
             End If
@@ -991,9 +993,8 @@ Public Class ProdSampleVerification
         End With
     End Sub
     Private Sub LoadChartX(cls As clsProdSampleVerification)
-
         ChartType = clsXRChartDB.GetChartType(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code)
-        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartXR(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code, cls.ProdDate)
+        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartXR(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code, cls.ProdDate, cls.ShowVerify)
         With chartX
             .DataSource = xr
             Dim diagram As XYDiagram = CType(.Diagram, XYDiagram)
@@ -1017,40 +1018,40 @@ Public Class ProdSampleVerification
             Dim Setup As clsChartSetup = clsChartSetupDB.GetData(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code, cls.ProdDate)
             diagram.AxisY.ConstantLines.Clear()
             If Setup IsNot Nothing Then
-                'Dim LCL As New ConstantLine("LCL")
-                'LCL.Color = System.Drawing.Color.Purple
-                'LCL.LineStyle.Thickness = 2
-                'LCL.LineStyle.DashStyle = DashStyle.DashDot
-                'diagram.AxisY.ConstantLines.Add(LCL)
-                'LCL.AxisValue = Setup.XBarLCL
+                Dim LCL As New ConstantLine("LCL")
+                LCL.Color = System.Drawing.Color.Red
+                LCL.LineStyle.Thickness = 1
+                LCL.LineStyle.DashStyle = DashStyle.DashDot
+                diagram.AxisY.ConstantLines.Add(LCL)
+                LCL.AxisValue = Setup.XBarLCL
 
-                'Dim UCL As New ConstantLine("UCL")
-                'UCL.Color = System.Drawing.Color.Purple
-                'UCL.LineStyle.Thickness = 2
-                'UCL.LineStyle.DashStyle = DashStyle.DashDot
-                'diagram.AxisY.ConstantLines.Add(UCL)
-                'UCL.AxisValue = Setup.XBarUCL
+                Dim UCL As New ConstantLine("UCL")
+                UCL.Color = System.Drawing.Color.Red
+                UCL.LineStyle.Thickness = 1
+                UCL.LineStyle.DashStyle = DashStyle.DashDot
+                diagram.AxisY.ConstantLines.Add(UCL)
+                UCL.AxisValue = Setup.XBarUCL
 
-                'Dim CL As New ConstantLine("CL")
-                'CL.Color = System.Drawing.Color.Black
-                'CL.LineStyle.Thickness = 2
-                'CL.LineStyle.DashStyle = DashStyle.Solid
-                'diagram.AxisY.ConstantLines.Add(CL)
-                'CL.AxisValue = Setup.XBarCL
+                Dim CL As New ConstantLine("CL")
+                CL.Color = System.Drawing.Color.Red
+                CL.LineStyle.Thickness = 1
+                CL.LineStyle.DashStyle = DashStyle.DashDot
+                diagram.AxisY.ConstantLines.Add(CL)
+                CL.AxisValue = Setup.XBarCL
 
-                'Dim LSL As New ConstantLine("LSL")
-                'LSL.Color = System.Drawing.Color.Red
-                'LSL.LineStyle.Thickness = 2
-                'LSL.LineStyle.DashStyle = DashStyle.Solid
-                'diagram.AxisY.ConstantLines.Add(LSL)
-                'LSL.AxisValue = Setup.SpecLSL
+                Dim LSL As New ConstantLine("LSL")
+                LSL.Color = System.Drawing.Color.Red
+                LSL.LineStyle.Thickness = 1
+                LSL.LineStyle.DashStyle = DashStyle.Solid
+                diagram.AxisY.ConstantLines.Add(LSL)
+                LSL.AxisValue = Setup.SpecLSL
 
-                'Dim USL As New ConstantLine("USL")
-                'USL.Color = System.Drawing.Color.Red
-                'USL.LineStyle.Thickness = 2
-                'USL.LineStyle.DashStyle = DashStyle.Solid
-                'diagram.AxisY.ConstantLines.Add(USL)
-                'USL.AxisValue = Setup.SpecUSL
+                Dim USL As New ConstantLine("USL")
+                USL.Color = System.Drawing.Color.Red
+                USL.LineStyle.Thickness = 1
+                USL.LineStyle.DashStyle = DashStyle.Solid
+                diagram.AxisY.ConstantLines.Add(USL)
+                USL.AxisValue = Setup.SpecUSL
 
                 Dim MinValue As Double, MaxValue As Double
                 If xr.Count > 0 Then
@@ -1063,14 +1064,15 @@ Public Class ProdSampleVerification
                 If Setup.SpecUSL > MaxValue Then
                     MaxValue = Setup.SpecUSL
                 End If
+                Dim EndSideMargin As Single = Math.Round((MaxValue - MinValue) / 20, 3)
 
                 diagram.AxisY.WholeRange.MinValue = MinValue
                 diagram.AxisY.WholeRange.MaxValue = MaxValue
-                diagram.AxisY.WholeRange.EndSideMargin = 0.015
+                diagram.AxisY.WholeRange.EndSideMargin = EndSideMargin
 
                 diagram.AxisY.VisualRange.MinValue = MinValue
                 diagram.AxisY.VisualRange.MaxValue = MaxValue
-                diagram.AxisY.VisualRange.EndSideMargin = 0.015
+                diagram.AxisY.VisualRange.EndSideMargin = EndSideMargin
 
                 Dim diff As Double = MaxValue - MinValue
                 If diff > 0 Then
@@ -1093,6 +1095,7 @@ Public Class ProdSampleVerification
             'End If
         End With
     End Sub
+
     Private Sub LoadForm_ByAnotherform()
 
         prmFactoryCode = Request.QueryString("FactoryCode")

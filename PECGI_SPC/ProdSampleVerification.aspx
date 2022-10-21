@@ -908,7 +908,7 @@
         </dx:ASPxGridView>
     </div>
     <div style="padding: 5px 5px 5px 5px;">
-      <div id="chartXdiv" style="overflow-x:auto; width:100%; border:1px solid black"">
+     <div id="chartXdiv" style="overflow-x:auto; width:100%; border:1px solid black"">
 <dx:WebChartControl ID="chartX" runat="server" ClientInstanceName="chartX"
         Height="490px" Width="1080px" CrosshairEnabled="True" SeriesDataMember="Description" ToolTipEnabled="False">
         <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" ToolTipPointPattern="{V:0.000}" CrosshairLabelPattern="{S}: {V:0.000}">
@@ -936,57 +936,7 @@
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="Blue">
                         <LineStyle Thickness="2" />
-                        <LineMarkerOptions Color="Blue" Size="3"></LineMarkerOptions>
-                    </cc1:LineSeriesView>
-                </ViewSerializable>
-            </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="LCL" ValueDataMembersSerializable="LCL" LabelsVisibility="False" CrosshairLabelPattern="{S}: {V:0.000}">
-                <ViewSerializable>
-                    <cc1:LineSeriesView Color="0, 32, 96" MarkerVisibility="False">
-                        <LineStyle DashStyle="DashDot" Thickness="2" />
-                        <LineMarkerOptions Size="1">
-                        </LineMarkerOptions>
-                    </cc1:LineSeriesView>
-                </ViewSerializable>
-                <LabelSerializable>
-                    <cc1:PointSeriesLabel Position="Center">
-                    </cc1:PointSeriesLabel>
-                </LabelSerializable>
-            </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="UCL" ValueDataMembersSerializable="UCL" CrosshairLabelPattern="{S}: {V:0.000}">
-                <ViewSerializable>
-                    <cc1:LineSeriesView Color="0, 32, 96" MarkerVisibility="False">
-                        <LineStyle DashStyle="DashDot" Thickness="2" />
-                        <LineMarkerOptions Size="1">
-                        </LineMarkerOptions>
-                    </cc1:LineSeriesView>
-                </ViewSerializable>
-            </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="USL" ValueDataMembersSerializable="USL" CrosshairLabelPattern="{S}: {V:0.000}">
-                <ViewSerializable>
-                    <cc1:LineSeriesView Color="240, 0, 0" MarkerVisibility="False">
-                        <LineStyle Thickness="2" />
-                        <LineMarkerOptions Size="1">
-                        </LineMarkerOptions>
-                    </cc1:LineSeriesView>
-                </ViewSerializable>
-            </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="LSL" ValueDataMembersSerializable="LSL" CrosshairLabelPattern="{S}: {V:0.000}">
-                <ViewSerializable>
-                    <cc1:LineSeriesView Color="240, 0, 0" MarkerVisibility="False">
-                        <LineStyle Thickness="2" />
-                        <LineMarkerOptions Size="1">
-                        </LineMarkerOptions>
-                    </cc1:LineSeriesView>
-                </ViewSerializable>
-            </cc1:Series>
-
-            <cc1:Series ArgumentDataMember="Seq" Name="CL" ValueDataMembersSerializable="CL" CrosshairLabelPattern="{S}: {V:0.000}">
-                <ViewSerializable>
-                    <cc1:LineSeriesView Color="0, 0, 0">
-                        <LineStyle Thickness="2" />
-                        <LineMarkerOptions Size="1">
-                        </LineMarkerOptions>
+                        <LineMarkerOptions Color="Blue" Size="10" Kind="Diamond"></LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
@@ -994,7 +944,7 @@
         </SeriesSerializable>     
         <DiagramSerializable>
             <cc1:XYDiagram>
-                <AxisX VisibleInPanesSerializable="-1" MinorCount="1">
+                <AxisX VisibleInPanesSerializable="-1" MinorCount="1" Visibility="False">
                     <Label Alignment="Center">
                         <ResolveOverlappingOptions AllowHide="False" />
                     </Label>
@@ -1035,7 +985,7 @@
     <div style="padding: 5px 5px 5px 5px;">
       <div id="chartRdiv">
     <dx:WebChartControl ID="chartR" runat="server" ClientInstanceName="chartR"
-        Height="450px" Width="1080px" CrosshairEnabled="True">
+        Height="230px" Width="1080px" CrosshairEnabled="True">
         <SeriesSerializable>
             <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue">
                 <ViewSerializable>
@@ -1054,9 +1004,11 @@
         </seriestemplate>  
         <DiagramSerializable>
             <cc1:XYDiagram>
-                <AxisX VisibleInPanesSerializable="-1" MinorCount="1">
+                <AxisX VisibleInPanesSerializable="-1" MinorCount="1" Visibility="False">
+                    <Tickmarks Visible="False" />
                     <GridLines MinorVisible="True">
                     </GridLines>
+                    <NumericScaleOptions AutoGrid="False" ScaleMode="Manual" />
                 </AxisX>
                 <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
                     <Tickmarks MinorLength="1" MinorVisible="False" />
@@ -1080,6 +1032,7 @@
         <ClientSideEvents EndCallback="ChartREndCallBack" Init="InitRBar" />
     </dx:WebChartControl>
 </div>
+
     </div>
     <div style="height: 26px; padding-bottom: 5px; padding-left: 450px; padding-top: 20px">
         <dx:ASPxLabel ID="lblGridActivity" runat="server" Text="ACTIVITY MONITORING"
