@@ -83,6 +83,8 @@ Public Class SampleControlQuality
         LoadChartX(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), Format(dtTo.Value, "yyyy-MM-dd"), cboShow.Value)
         Dim linkX As New PrintableComponentLink(ps)
         linkX.Component = (CType(chartX, IChartContainer)).Chart
+        Dim linkR As New PrintableComponentLink(ps)
+        linkR.Component = (CType(chartR, IChartContainer)).Chart
 
         Dim compositeLink As New CompositeLink(ps)
         compositeLink.Links.AddRange(New Object() {linkX})
@@ -90,6 +92,12 @@ Public Class SampleControlQuality
         Dim Path As String = Server.MapPath("Download")
         Dim streamImg As New MemoryStream
         compositeLink.ExportToImage(streamImg)
+
+        Dim compositeLink2 As New CompositeLink(ps)
+        compositeLink2.Links.AddRange(New Object() {linkR})
+        compositeLink2.CreateDocument()
+        Dim streamImg2 As New MemoryStream
+        compositeLink2.ExportToImage(streamImg2)
 
         Using Pck As New ExcelPackage
             Dim ws As ExcelWorksheet = Pck.Workbook.Worksheets.Add("Sheet1")
@@ -119,6 +127,11 @@ Public Class SampleControlQuality
                 Dim Picture As OfficeOpenXml.Drawing.ExcelPicture
                 Picture = .Drawings.AddPicture("chart", Image.FromStream(streamImg))
                 Picture.SetPosition(LastRow, 0, 0, 0)
+
+                Dim fi2 As New FileInfo(Path & "\chartR.png")
+                Dim Picture2 As OfficeOpenXml.Drawing.ExcelPicture
+                Picture2 = .Drawings.AddPicture("chartR", Image.FromStream(streamImg2))
+                Picture2.SetPosition(LastRow + 25, 0, 0, 0)
             End With
 
             Dim stream As MemoryStream = New MemoryStream(Pck.GetAsByteArray())

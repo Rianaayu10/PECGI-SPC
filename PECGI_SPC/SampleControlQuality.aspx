@@ -596,8 +596,8 @@
     </dx:WebChartControl>
 </div>
 
-<div style="width:100%; border:1px solid black">
-    <table style="width:100%">
+<div style="width:100%; border:1px solid black;">
+    <table style="width:100%; padding-top:10px">
         <tr>
             <td style="width:630px">
                 <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="200px" Width="620px" ClientInstanceName="Histogram" PaletteBaseColorNumber="3" PaletteName="Foundry">
@@ -634,7 +634,7 @@
                             <cc1:Series ArgumentDataMember="Value" Name="Histogram" ShowInLegend="False" LabelsVisibility="True">
                                 <ViewSerializable>
                                     <cc1:SideBySideBarSeriesView BarWidth="1" Color="149, 179, 215">
-                                        <Border Color="0, 0, 0" Visibility="False" />
+                                        <Border Color="54, 96, 146" Visibility="True" />
                                     </cc1:SideBySideBarSeriesView>
                                 </ViewSerializable>
                                 <LabelSerializable>
@@ -645,7 +645,7 @@
                         </SeriesSerializable>
                     </dx:WebChartControl>
             </td>
-            <td style="vertical-align:top; text-align:left; align-items: baseline" class="auto-style1">
+            <td style="vertical-align:top; text-align:left; padding-top:10px; align-items: baseline" class="auto-style1">
                 <table style="width:100%; padding-left:5px">
                     <tr >
                         <td>
