@@ -45,7 +45,7 @@ Public Class clsSiteMasterDB
         End Try
     End Function
 
-    Public Shared Function GetDelayInput(User As String, FactoryCode As String) As DataTable
+    Public Shared Function GetDelayInput(User As String) As DataTable
         Try
             Using cn As New SqlConnection(Sconn.Stringkoneksi)
                 cn.Open()
@@ -56,7 +56,7 @@ Public Class clsSiteMasterDB
                 cmd.CommandType = CommandType.StoredProcedure
                 With cmd.Parameters
                     .AddWithValue("User", User)
-                    .AddWithValue("FactoryCode", FactoryCode)
+                    .AddWithValue("FactoryCode", "ALL")
                     .AddWithValue("TypeReport", "1")
                 End With
                 Dim da As New SqlDataAdapter(cmd)
@@ -69,7 +69,7 @@ Public Class clsSiteMasterDB
         End Try
     End Function
 
-    Public Shared Function GetDelayVerify(User As String, FactoryCode As String) As DataTable
+    Public Shared Function GetDelayVerify(User As String) As DataTable
         Try
             Using cn As New SqlConnection(Sconn.Stringkoneksi)
                 cn.Open()
@@ -80,7 +80,7 @@ Public Class clsSiteMasterDB
                 cmd.CommandType = CommandType.StoredProcedure
                 With cmd.Parameters
                     .AddWithValue("User", User)
-                    .AddWithValue("FactoryCode", FactoryCode)
+                    .AddWithValue("FactoryCode", "ALL")
                     .AddWithValue("TypeReport", "1")
                 End With
                 Dim da As New SqlDataAdapter(cmd)
@@ -93,7 +93,7 @@ Public Class clsSiteMasterDB
         End Try
     End Function
 
-    Public Shared Function GetNGInput(User As String, FactoryCode As String) As DataTable
+    Public Shared Function GetNGInput(User As String) As DataTable
         Try
             Using cn As New SqlConnection(Sconn.Stringkoneksi)
                 cn.Open()
@@ -104,7 +104,7 @@ Public Class clsSiteMasterDB
                 cmd.CommandType = CommandType.StoredProcedure
                 With cmd.Parameters
                     .AddWithValue("User", User)
-                    .AddWithValue("FactoryCode", FactoryCode)
+                    .AddWithValue("FactoryCode", "ALL")
                     .AddWithValue("TypeReport", "1")
                 End With
                 Dim da As New SqlDataAdapter(cmd)

@@ -39,15 +39,6 @@
 <body class="smart-style fixed-header desktop-detected pace-done minified">
     <!-- HEADER -->
     <header id="header">
-
-        <%--<div id="logo-group" style="width: 220px; margin-left: 0px; padding:8px 0px 0px 35px;">--%>
-        <!-- PLACE YOUR LOGO HERE -->
-        <%--<span id="logo">--%>
-        <%--<img src="Styles/images/logohead.png" alt="MUSASHI" width="150px"/>--%>
-        <%--</span>--%>
-        <%--END LOGO PLACEHOLDER --%>
-        <%--</div>--%>
-
         <!-- projects dropdown -->
         <div class="project-context hidden-xs">
             <span></span>
@@ -55,47 +46,40 @@
         </div>
 
         <div id="logo-group" style="padding-left: 20px">
-            <asp:Repeater ID="NG" runat="server">
-                <ItemTemplate>
-                    <span id="activity" class="activity-dropdown"><i class="fa fa-user"></i><b class="badge"><%# Eval("TotNotif")%> </b></span>
+            <span id="activity" class="activity-dropdown"><i class="fa fa-user"></i><b class="badge" id="lblTot"></b></span>
+            <div class="ajax-dropdown">
+                <div class="btn-group btn-group-justified" data-toggle="buttons">
+                    <label class="btn btn-default" style="font-size: 12px" id="btnDI">
+                        <input type="radio" name="rdDI" />
+                        <span id="lblDI"></span>
+                    </label>
+                    <label class="btn btn-default" style="font-size: 12px" id="btnDV">
+                        <input type="radio" name="rdDV" />
+                        <span id="lblDV"></span>
+                    </label>
+                    <label class="btn btn-default" style="font-size: 12px" id="btnNG">
+                        <input type="radio" name="rdNG" />
+                        <span id="lblNG"></span>
+                    </label>
+                </div>
 
-                    <!-- AJAX-DROPDOWN : control this dropdown height, look and feel from the LESS variable file -->
-                    <div class="ajax-dropdown">
-
-                        <!-- the ID links are fetched via AJAX to the ajax container "ajax-notifications" -->
-                        <div class="btn-group btn-group-justified" data-toggle="buttons">
-                            <label class="btn btn-default" style="font-size: 12px">
-                                <input type="radio" name="btnDelay">
-                                Delay Input (<%# Eval("DelayInput")%>)
-                            </label>
-                            <label class="btn btn-default" style="font-size: 12px">
-                                <input type="radio" name="btnDelayVerify">
-                                Delay Verify (<%# Eval("DelayVerify")%>)
-                            </label>
-                            <label class="btn btn-default" style="font-size: 12px">
-                                <input type="radio" name="btnNG">
-                                NG Input (<%# Eval("NGInput")%>)
-                            </label>
-                        </div>
-
-                        <!-- notification content -->
-                        <div class="ajax-notifications custom-scroll">
-                            <div class="alert-transparent" id="listdata">
-                            </div>
-                        </div>
-                        <!-- end notification content -->
-
-                        <!-- footer: refresh area -->
-                        <span><%# Eval("Date")%>
-                            <button type="button" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Loading..." class="btn btn-xs btn-default pull-right">
-                                <i class="fa fa-refresh"></i>
-                            </button>
-                        </span>
-                        <!-- end footer -->
-
+                <div class="ajax-notifications custom-scroll">
+                    <div class="alert-transparent" id="listdata">
                     </div>
-                </ItemTemplate>
-            </asp:Repeater>
+<%--                    <div class="center-block" style="padding:100px 100px 100px 100px">
+                        <div id="load" class="loader">
+                        </div>
+                    </div>--%>
+                </div>
+
+                <span>
+                    <label id="lblDate"></label>
+                    <button type="button" id="btnRefresh" class="btn btn-xs btn-default pull-right">
+                        <i class="fa fa-refresh"></i>
+                    </button>
+                </span>
+
+            </div>
         </div>
         <!-- end projects dropdown -->
 
@@ -941,33 +925,84 @@
             .card:hover {
                 box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
             }
+
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-radius: 5%;
+            border-top: 5px solid blue;
+            border-bottom: 5rpx solid blue;
+            width: 50px;
+            height: 50px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
     <script type="text/javascript">
-        //$(document).ready(function () {
-        //    $(".menu").each(function () {
-        //        $(this).find('em').each(function () {
-        //            if ($.trim($(this).text()) == "0") {
-        //                $(this).hide();
-        //            }
-        //        });
+        $(document).ready(function () {
+            GetTotNotif();
+        });
 
-        //        $(this).find('span').each(function () {
-        //            if ($.trim($(this).text()) == "0") {
-        //                $(this).hide();
-        //            }
-        //        });
-        //    });
-        //});
+        function GetTotNotif() {
+            var User = $("#lblUser").text();
+            $.ajax({
+                type: "POST",
+                url: "AlertDashboard.aspx/AlertNotif",
+                data: '{ pUser: "' + User + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var sData = data.d.toString();
+                    var nTot = sData.split("|")[0];
+                    var nDI = sData.split("|")[1];
+                    var nDV = sData.split("|")[2];
+                    var nNG = sData.split("|")[3];
+                    var nDate = sData.split("|")[4];
+
+                    $("#lblTot").html(nTot);
+                    $("#lblDI").html('Delay Input ' + nDI);
+                    $("#lblDV").html('Delay Verify ' + nDV);
+                    $("#lblNG").html('NG Input ' + nNG);
+                    $("#lblDate").html(nDate)
+                },
+                failure: function (response) {
+                    alert(response.d);
+                },
+                error: function (response) {
+                    alert(response.d);
+                }
+            });
+        }
 
         function GetNotif(Action) {
 
+           /* $("#listdata").hide();*/
+
             var User = $("#lblUser").text();
-            var Factory = "ALL";
 
             $.ajax({
                 type: "POST",
                 url: "AlertDashboard.aspx/" + Action + "",
-                data: '{ pUser: "' + User + '",pFactory: "' + Factory + '"}',
+                data: '{ pUser: "' + User + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
@@ -979,7 +1014,6 @@
                     if (sData != "") {
                         const a = sData.split(";");
                         for (var i = 0; i < a.length; i++) {
-                            var Label = a[i].split("||")[0];
                             var nValue = a[i].split("||")[1];
 
                             var ProdDate = a[i].split("|")[0];
@@ -989,15 +1023,6 @@
                             var Shift = a[i].split("|")[4];
                             var Seq = a[i].split("|")[5];
                             var Delay = a[i].split("|")[6];
-
-                            //console.log(ProdDate);
-                            //console.log(ItemCode);
-                            //console.log(Line);
-                            //console.log(ItemCheck);
-                            //console.log(Shift);
-                            //console.log(Seq);
-                            //console.log(Delay);
-                            //console.log(nValue);
 
                             html += '<a target="_blank" class="btn" href=' + nValue + '>'
                             html += '<button class="card" style = "border:none; text-align:left; color:black; font-size:11px">'
@@ -1019,6 +1044,12 @@
                     }
 
                     $("#listdata").html(html);
+
+                    //millisecondsToWait = 1000;
+                    //setTimeout(function () {
+                    //    //$("#load").hide();
+                    //    //$("#listdata").show();
+                    //}, millisecondsToWait);
                 },
                 failure: function (response) {
                     alert(response.d);
@@ -1030,22 +1061,29 @@
         }
 
         $("#activity").click(function () {
+            document.getElementById("btnDI").classList.add('active');
             GetNotif("DelayInput")
         });
 
-
-        $(":radio[name='btnDelay']").change(function () {
+        $(":radio[name='rdDI']").change(function () {
             GetNotif("DelayInput");
         });
 
-        $(":radio[name='btnNG']").change(function () {
+        $(":radio[name='rdNG']").change(function () {
             GetNotif("NGInput")
         });
 
-        $(":radio[name='btnDelayVerify']").change(function () {
+        $(":radio[name='rdDV']").change(function () {
             GetNotif("DelayVerify")
         });
 
+        $("#btnRefresh").click(function () {
+            GetTotNotif()
+            GetNotif("DelayInput")
+            document.getElementById("btnDI").classList.add('active');
+            document.getElementById("btnDV").classList.remove('active');
+            document.getElementById("btnNG").classList.remove('active');
+        });
     </script>
 
 </body>

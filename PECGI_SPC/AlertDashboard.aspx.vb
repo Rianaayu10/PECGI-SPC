@@ -357,12 +357,12 @@ Public Class AlertDashboard
 
     <System.Web.Script.Services.ScriptMethod()>
     <WebMethod()>
-    Public Shared Function DelayInput(pUser As String, pFactory As String) As String
+    Public Shared Function DelayInput(pUser As String) As String
 
         Dim dt As DataTable
         Dim msg As String = ""
 
-        dt = clsSiteMasterDB.GetDelayInput(pUser, pFactory)
+        dt = clsSiteMasterDB.GetDelayInput(pUser)
         If dt.Rows.Count > 0 Then
             For i = 0 To dt.Rows.Count - 1
                 If msg <> "" Then msg = msg & ";"
@@ -379,12 +379,12 @@ Public Class AlertDashboard
 
     <System.Web.Script.Services.ScriptMethod()>
     <WebMethod()>
-    Public Shared Function NGInput(pUser As String, pFactory As String) As String
+    Public Shared Function NGInput(pUser As String) As String
 
         Dim dt As DataTable
         Dim msg As String = ""
 
-        dt = clsSiteMasterDB.GetNGInput(pUser, pFactory)
+        dt = clsSiteMasterDB.GetNGInput(pUser)
         If dt.Rows.Count > 0 Then
             For i = 0 To dt.Rows.Count - 1
                 If msg <> "" Then msg = msg & ";"
@@ -401,12 +401,12 @@ Public Class AlertDashboard
 
     <System.Web.Script.Services.ScriptMethod()>
     <WebMethod()>
-    Public Shared Function DelayVerify(pUser As String, pFactory As String) As String
+    Public Shared Function DelayVerify(pUser As String) As String
 
         Dim dt As DataTable
         Dim msg As String = ""
 
-        dt = clsSiteMasterDB.GetDelayVerify(pUser, pFactory)
+        dt = clsSiteMasterDB.GetDelayVerify(pUser)
         If dt.Rows.Count > 0 Then
             For i = 0 To dt.Rows.Count - 1
                 If msg <> "" Then msg = msg & ";"
@@ -420,6 +420,25 @@ Public Class AlertDashboard
         End If
         Return msg
     End Function
+
+    <System.Web.Script.Services.ScriptMethod()>
+    <WebMethod()>
+    Public Shared Function AlertNotif(pUser As String) As String
+        Dim msg As String = ""
+
+        Dim dtDI = clsSiteMasterDB.GetDelayInput(pUser)
+        Dim dtDV = clsSiteMasterDB.GetDelayVerify(pUser)
+        Dim dtNG = clsSiteMasterDB.GetNGInput(pUser)
+
+        Dim TotDI = dtDI.Rows.Count
+        Dim TotDV = dtDV.Rows.Count
+        Dim TotNG = dtNG.Rows.Count
+        Dim TotNotif = TotDI + TotDV + TotNG
+        msg = TotNotif & "|" & TotDI & "|" & TotDV & "|" & TotNG & "|" & DateTime.Now.ToString("yyyy MMM dd HH:mm:ss")
+
+        Return msg
+    End Function
+
 
     Protected Sub GridDelayVerif_RowInserting(sender As Object, e As ASPxDataInsertingEventArgs)
 

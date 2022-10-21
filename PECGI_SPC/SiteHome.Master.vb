@@ -58,10 +58,6 @@ Public Class SiteHome
             .BindMenu()
             lblUser.Text = Session("user").ToString
             lblAdmin.Text = Session("AdminStatus").ToString
-
-            dt = .Notification()
-            Me.NG.DataSource = dt
-            Me.NG.DataBind()
         End With
 
         Session.Timeout = 600 'in minutes
@@ -110,36 +106,6 @@ Public Class SiteHome
             rptSubMenu.DataBind()
         End If
     End Sub
-
-    Private Function Notification() As DataTable
-        Dim dtDelayInput = clsSiteMasterDB.GetDelayInput(pUser, "ALL")
-        Dim nDelayInput = dtDelayInput.Rows.Count
-        Dim colDelayInput = New DataColumn("DelayInput", GetType(Int32))
-
-        Dim dtDelayVerify = clsSiteMasterDB.GetDelayVerify(pUser, "ALL")
-        Dim nDelayVerify = dtDelayVerify.Rows.Count
-        Dim colDelayVerify = New DataColumn("DelayVerify", GetType(Int32))
-
-        Dim dtNGInput = clsSiteMasterDB.GetNGInput(pUser, "ALL")
-        Dim nNGInput = dtNGInput.Rows.Count
-        Dim colNGInput = New DataColumn("NGInput", GetType(Int32))
-
-        Dim nTotNotif = nDelayInput + nDelayVerify + nNGInput
-        Dim colTotNotif = New DataColumn("TotNotif", GetType(Int32))
-
-        Dim colDate = New DataColumn("Date", GetType(String))
-
-        Dim dt As New DataTable
-        dt.Columns.Add(colDelayInput)
-        dt.Columns.Add(colDelayVerify)
-        dt.Columns.Add(colNGInput)
-        dt.Columns.Add(colTotNotif)
-        dt.Columns.Add(colDate)
-
-        dt.Rows.Add(nDelayInput, nDelayVerify, nNGInput, nTotNotif, DateTime.Now.ToString("dd MMM yyyy HH:mm:ss"))
-
-        Return dt
-    End Function
 
 #End Region
 
