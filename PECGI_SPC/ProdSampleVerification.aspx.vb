@@ -55,6 +55,7 @@ Public Class ProdSampleVerification
 
     'SPECIFICATION CHART
     Dim VerifyStatus As String = "0"
+    Dim VerifyDesc As String = ""
     Dim DescIndex As String = ""
 
     'EXCEL PARAMETER
@@ -369,12 +370,14 @@ Public Class ProdSampleVerification
         cls.Seq = HideValue.Get("Seq")
         cls.User = pUser
 
-        Dim RespChartSetUp = clsProdSampleVerificationDB.Validation(GetVerifyChartSetup, cls)
+        Dim dt = clsProdSampleVerificationDB.Validation(GetVerifyChartSetup, cls)
+        Dim Resp = dt.Rows(0)("response")
+        Dim RespDesc = dt.Rows(0)("respDesc")
 
-        If RespChartSetUp = "" Then
+        If Resp = "1" Then
             LoadChartX(cls)
         Else
-            show_errorGrid(MsgTypeEnum.Warning, RespChartSetUp, 1)
+            show_errorGrid(MsgTypeEnum.Warning, RespDesc, 1)
         End If
     End Sub
     Private Sub chartR_CustomCallback(sender As Object, e As CustomCallbackEventArgs) Handles chartR.CustomCallback
@@ -388,7 +391,8 @@ Public Class ProdSampleVerification
         cls.Seq = HideValue.Get("Seq")
         cls.User = pUser
 
-        Dim RespChartSetUp = clsProdSampleVerificationDB.Validation(GetVerifyChartSetup, cls)
+        Dim dt = clsProdSampleVerificationDB.Validation(GetVerifyChartSetup, cls)
+        Dim RespChartSetUp = dt.Rows(0)("response").ToString
 
         If RespChartSetUp = "" Then
             LoadChartR(cls)
@@ -1125,12 +1129,15 @@ Public Class ProdSampleVerification
         Validation_Verify(cls)
         GetURL(cls)
 
-        Dim RespChartSetUp = clsProdSampleVerificationDB.Validation(GetVerifyChartSetup, cls)
-        If RespChartSetUp = "" Then
+        Dim dt = clsProdSampleVerificationDB.Validation(GetVerifyChartSetup, cls)
+        Dim Resp = dt.Rows(0)("response")
+        Dim RespDesc = dt.Rows(0)("respDesc")
+
+        If Resp = "1" Then
             LoadChartX(cls)
             LoadChartR(cls)
         Else
-            show_errorGrid(MsgTypeEnum.Warning, RespChartSetUp, 1)
+            show_errorGrid(MsgTypeEnum.Warning, RespDesc, 1)
         End If
 
         dtProdDate.Enabled = False
@@ -1187,13 +1194,21 @@ Public Class ProdSampleVerification
         End Try
     End Sub
     Private Sub Validation_Verify(cls As clsProdSampleVerification)
-        VerifyStatus = clsProdSampleVerificationDB.Validation(GetVerifyPrivilege, cls)
-        GridX.JSProperties("cp_Verify") = VerifyStatus 'parameter to authorization verify
-
         pEmplooyeeID = clsIOT.GetEmployeeID(pUser)
         Dim AllowSkill As Boolean = clsIOT.AllowSkill(pEmplooyeeID, cls.FactoryCode, cls.LineCode, cls.ItemType_Code)
         GridX.JSProperties("cp_AllowSkill") = AllowSkill 'parameter to authorization verify
+        If AllowSkill = False Then
+            show_errorGrid(MsgTypeEnum.Warning, "Can not verify the data, Please check allow skill map!", 1)
+        End If
 
+        Dim dt = clsProdSampleVerificationDB.Validation(GetVerifyPrivilege, cls)
+        VerifyStatus = dt.Rows(0)("Response").ToString
+        VerifyDesc = dt.Rows(0)("RespDesc").ToString
+
+        GridX.JSProperties("cp_Verify") = VerifyStatus  'parameter to authorization verify
+        If VerifyStatus = "0" Then
+            show_errorGrid(MsgTypeEnum.Warning, VerifyDesc, 1)
+        End If
     End Sub
 
     Private Sub GetURL(cls As clsProdSampleVerification)

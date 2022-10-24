@@ -9,7 +9,7 @@
     <script type="text/javascript">
 
         function InitRBar(s, e) {
-            console.log(s.cpShow);
+            /*console.log(s.cpShow);*/
             var i = s.cpShow;
             var x = document.getElementById("chartRdiv");
             if (i == '1') {
@@ -20,6 +20,51 @@
         }
 
         function InitGrid(s, e) {
+
+            if (s.cp_message != "" && s.cp_val == 1) {
+                if (s.cp_type == "Success" && s.cp_val == 1) {
+                    toastr.success(s.cp_message, 'Success');
+                    toastr.options.closeButton = false;
+                    toastr.options.debug = false;
+                    toastr.options.newestOnTop = false;
+                    toastr.options.progressBar = false;
+                    toastr.options.preventDuplicates = true;
+                    toastr.options.onclick = null;
+                    s.cp_val = 0;
+                    s.cp_message = "";
+                }
+                else if (s.cp_type == "ErrorMsg" && s.cp_val == 1) {
+                    toastr.error(s.cp_message, 'Error');
+                    toastr.options.closeButton = false;
+                    toastr.options.debug = false;
+                    toastr.options.newestOnTop = false;
+                    toastr.options.progressBar = false;
+                    toastr.options.preventDuplicates = true;
+                    toastr.options.onclick = null;
+                    s.cp_val = 0;
+                    s.cp_message = "";
+                }
+                else if (s.cp_type == "Warning" && s.cp_val == 1) {
+                    toastr.warning(s.cp_message, 'Warning');
+                    toastr.options.closeButton = false;
+                    toastr.options.debug = false;
+                    toastr.options.newestOnTop = false;
+                    toastr.options.progressBar = false;
+                    toastr.options.preventDuplicates = true;
+                    toastr.options.onclick = null;
+                    s.cp_val = 0;
+                    s.cp_message = "";
+                }
+                else if (s.cp_message == "" && s.cp_val == 0) {
+                    toastr.options.closeButton = false;
+                    toastr.options.debug = false;
+                    toastr.options.newestOnTop = false;
+                    toastr.options.progressBar = false;
+                    toastr.options.preventDuplicates = true;
+                    toastr.options.onclick = null;
+                }
+            }
+
             var USL = "";
             var LSL = "";
             var UCL = "";
@@ -92,8 +137,6 @@
                 document.getElementById('Min').style.backgroundColor = 'White';
             }
 
-            console.log(MAX);
-
             if (MAX != '') {
                 if (MAX > USL || MAX < LSL) {
                     document.getElementById('Max').style.backgroundColor = 'Red';
@@ -151,7 +194,6 @@
                 btnIOTProcess.SetEnabled(false);
                 btnIOTTraceability.SetEnabled(false);
             }
-
         }
 
         function ChangeFactory() {
@@ -348,7 +390,7 @@
                 document.getElementById('Min').style.backgroundColor = 'White';
             }
 
-            console.log(MAX);
+           /* console.log(MAX);*/
 
             if (MAX != '') {
                 if (MAX > USL || MAX < LSL) {
@@ -514,7 +556,7 @@
             var Shift = HideValue.Get('ShiftCode');
             var Seq = HideValue.Get('Seq');
 
-            console.log(ProdDate);
+            /*console.log(ProdDate);*/
 
             window.open('ProdSampleInput.aspx?menu=prodSampleVerification.aspx' + '&FactoryCode=' + Factory + '&ItemTypeCode=' + ItemType
                 + '&Line=' + Line + '&ItemCheckCode=' + ItemCheck + '&ProdDate=' + ProdDate + '&Shift=' + Shift + '&Sequence=' + Seq
@@ -546,7 +588,7 @@
             //var Item = "BBRSRUSA0PAD";
 
             var IOT_URL = URL + 'AssyReport/Index?ReportType=018&Factory=' + FactoryCode + '&ProcessGroup=' + ProcessGroup + '&LineGroup=' + LineGroup + '&Process=' + Process + '&Line=' + Line + '&Date=' + Date + '&InstructionNo=' + InstructionNo + '&Shift=' + Shift + '&Item=' + Item + '&isExplosion=1&UserID=SPC';
-            console.log(IOT_URL);
+            /*console.log(IOT_URL);*/
 
             window.open(IOT_URL, '_blank');
             //window.open('http://192.168.0.3:8091/AssyReport/Index?ReportType=018&Factory=F001&ProcessGroup=PG003&LineGroup=ASS01&Process=P002&Line=018&Date=2022-09-15&InstructionNo=F001.P002.018.2209.0099&Shift=SH001&Item=BBRSRUSA0PAD&UserID=SPC', '_blank');
@@ -563,7 +605,7 @@
             //var LotNo = "220916.018.1.0001";
 
             var IOT_URL = URL + 'TraceabilityReport/Index?ItemCls=02&Item=' + ItemDesc + '&LotNo=' + LotNo + '&isExplosion=1&UserID=SPC';
-            console.log(IOT_URL);
+            /*console.log(IOT_URL);*/
 
             window.open(IOT_URL, '_blank');
             //window.open('http://192.168.0.3:8091/TraceabilityReport/Index?ItemCls=02&Item=BBRSRUSA0PAD&LotNo=220916.018.1.0001&isExplosion=1&UserID=SPC', '_blank');           

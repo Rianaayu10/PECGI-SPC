@@ -56,7 +56,7 @@ Public Class clsProdSampleVerificationDB
         End Try
     End Function
 
-    Public Shared Function Validation(Action As String, data As clsProdSampleVerification) As String
+    Public Shared Function Validation(Action As String, data As clsProdSampleVerification) As DataTable
         Try
             Using conn As New SqlConnection(Sconn.Stringkoneksi)
                 conn.Open()
@@ -75,8 +75,10 @@ Public Class clsProdSampleVerificationDB
                 cmd.Parameters.AddWithValue("User", If(data.User, ""))
                 Dim da As New SqlDataAdapter(cmd)
                 Dim ds As New DataSet
+                Dim dt As New DataTable
                 da.Fill(ds)
-                Return ds.Tables(0).Rows(0)("Response").ToString()
+                dt = ds.Tables(0)
+                Return dt
             End Using
         Catch ex As Exception
             Throw New Exception("Query Error !" & ex.Message)
