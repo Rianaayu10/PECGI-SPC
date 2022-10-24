@@ -228,10 +228,10 @@ Public Class clsXRChartDB
             Cn.Open()
             Dim q As String = "select top 1 isnull(CharacteristicStatus, '0') from spc_ItemCheckByType where FactoryCode = @FactoryCode and ItemTypeCode = @ItemTypeCode and LineCode = @Line and ItemCheckCode = @ItemCheckCode "
             Dim cmd As New SqlCommand(q, Cn)
-            cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
-            cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
-            cmd.Parameters.AddWithValue("Line", Line)
-            cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
+            cmd.Parameters.AddWithValue("FactoryCode", FactoryCode & "")
+            cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode & "")
+            cmd.Parameters.AddWithValue("Line", Line & "")
+            cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode & "")
             Dim ChartType As String = cmd.ExecuteScalar
             Return ChartType
         End Using
