@@ -3,8 +3,9 @@
   <MySubMain>true</MySubMain>
   <MainForm>Form1</MainForm>
   <SingleInstance>false</SingleInstance>
-  <ShutdownMode>1</ShutdownMode>
+  <ShutdownMode>0</ShutdownMode>
   <EnableVisualStyles>true</EnableVisualStyles>
   <AuthenticationMode>0</AuthenticationMode>
+  <ApplicationType>0</ApplicationType>
   <SaveMySettingsOnExit>true</SaveMySettingsOnExit>
 </MyApplicationData>

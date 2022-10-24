@@ -2,10 +2,8 @@
 Imports System.Net
 Imports System.IO
 Imports C1.Win.C1List
-Imports spc_alert_notifications.ToastNotifications
-Imports Microsoft.Toolkit.Uwp.Notifications
 Imports Microsoft.Win32
-Imports SPCSystemNotification.ToastNotifications
+Imports SPCSystemNotifications.ToastNotifications
 
 Public Class frmSPCAlertNotifications
 

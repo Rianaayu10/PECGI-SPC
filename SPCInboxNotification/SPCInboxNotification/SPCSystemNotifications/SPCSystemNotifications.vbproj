@@ -6,11 +6,11 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{24DCE2FF-1617-4B1B-A2FD-F896F6F7B015}</ProjectGuid>
+    <ProjectGuid>{A2B20F1D-38C0-4CBC-8CC3-7A591C49C4E1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>SPCSystemNotification.My.MyApplication</StartupObject>
-    <RootNamespace>SPCSystemNotification</RootNamespace>
-    <AssemblyName>SPCSystemNotification</AssemblyName>
+    <StartupObject>SPCSystemNotifications.My.MyApplication</StartupObject>
+    <RootNamespace>SPCSystemNotifications</RootNamespace>
+    <AssemblyName>SPCSystemNotifications</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
@@ -23,7 +23,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>SPCSystemNotification.xml</DocumentationFile>
+    <DocumentationFile>SPCSystemNotifications.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
@@ -33,7 +33,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>SPCSystemNotification.xml</DocumentationFile>
+    <DocumentationFile>SPCSystemNotifications.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -123,7 +123,6 @@
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
-      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -152,7 +151,6 @@
     <EmbeddedResource Include="frmSPCInboxNotification.resx">
       <DependentUpon>frmSPCInboxNotification.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="My Project\licenses.licx" />
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -228,7 +226,6 @@
     <Content Include="img\sort_desc_disabled.png" />
     <Content Include="img\violate.jpg" />
     <Content Include="img\vt-menu.png" />
-    <None Include="Resources\close_icon.bmp" />
     <Content Include="Sounds\cityscape.wav" />
     <Content Include="Sounds\festival.wav" />
     <Content Include="Sounds\garden.wav" />
@@ -237,6 +234,7 @@
     <Content Include="Sounds\normal.wav" />
     <Content Include="Sounds\savanna.wav" />
     <Content Include="Sounds\sonata.wav" />
+    <None Include="Resources\close_icon.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
