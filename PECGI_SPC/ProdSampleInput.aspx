@@ -895,7 +895,7 @@
             <cc1:Series ArgumentDataMember="Seq" Name="Average" ValueDataMembersSerializable="AvgValue" CrosshairLabelPattern="{S}: {V:0.000}">
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="Blue">
-                        <LineStyle Thickness="2" />
+                        <LineStyle Thickness="1" />
                         <LineMarkerOptions Color="Blue" Size="10" Kind="Diamond"></LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>
@@ -958,6 +958,7 @@
             <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue">
                 <ViewSerializable>
                     <cc1:LineSeriesView>
+                        <LineStyle Thickness="1" />
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>

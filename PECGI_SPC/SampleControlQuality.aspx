@@ -555,6 +555,7 @@
             <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue">
                 <ViewSerializable>
                     <cc1:LineSeriesView>
+                        <LineStyle Thickness="1" />
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
