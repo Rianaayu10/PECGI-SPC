@@ -62,7 +62,7 @@ Public Class ProdSampleQCSummary
         End Try
     End Sub
 
-    Protected Sub Grid_AfterPerformCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles Grid.AfterPerformCallback
+    Protected Sub Gridx_AfterPerformCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles Gridx.AfterPerformCallback
         If e.CallbackName <> "CANCELEDIT" And e.CallbackName <> "CUSTOMCALLBACK" Then
             Dim cls As New clsProdSampleQCSummary
             Dim dTime As DateTime = dtPeriod.Value
@@ -78,7 +78,7 @@ Public Class ProdSampleQCSummary
         End If
     End Sub
 
-    Private Sub Grid_CustomCallback(sender As Object, e As ASPxGridViewCustomCallbackEventArgs) Handles Grid.CustomCallback
+    Private Sub Gridx_CustomCallback(sender As Object, e As ASPxGridViewCustomCallbackEventArgs) Handles Gridx.CustomCallback
         Try
             Dim pAction As String = Split(e.Parameters, "|")(0)
             Dim cls As New clsProdSampleQCSummary
@@ -115,7 +115,7 @@ Public Class ProdSampleQCSummary
         End Try
     End Sub
 
-    Private Sub Grid_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles Grid.HtmlDataCellPrepared
+    Private Sub Gridx_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles Gridx.HtmlDataCellPrepared
         Dim Link As New HyperLink()
         Dim cSplit As Integer = 1
 
@@ -141,7 +141,18 @@ Public Class ProdSampleQCSummary
                     End If
                 ElseIf e.CellValue.ToString.Contains("NoProd") Or e.CellValue.ToString.Contains("NoResult") Then
                     If Split(e.CellValue, "||").Count > 1 Then
-                        e.Cell.Text = IIf(e.CellValue.ToString.Contains("NoResult"), "No Data " & Split(e.CellValue, "||")(2), "")
+                        e.Cell.Text = ""
+                        If e.CellValue.ToString.Contains("NoResult") Then
+                            Link.ForeColor = Color.Black
+                            Link.NavigateUrl = Split(e.CellValue, "||")(2)
+                            Link.Text = "No Data " & Split(e.CellValue, "||")(3)
+                            Link.Target = "_blank"
+
+                            e.Cell.Controls.Add(Link)
+
+                        End If
+
+                        'e.Cell.Text = IIf(e.CellValue.ToString.Contains("NoResult"), "No Data " & Split(e.CellValue, "||")(3), "")
                         e.Cell.BackColor = ColorTranslator.FromHtml(Split(e.CellValue, "||")(1))
                         If Split(e.CellValue, "||")(1) = "#515151" Then e.Cell.BorderColor = ColorTranslator.FromHtml("#515151")
                     End If
@@ -171,7 +182,8 @@ Public Class ProdSampleQCSummary
 
                     If strSplit.Contains("NoProd") Or strSplit.Contains("NoResult") Or strSplit.Contains("NOK") Then
                         If strSplit.Contains("NoResult") Then
-                            result += "No Data " & Split(strSplit, "||")(2) & "<br/>"
+                            result += "No Data " & Split(strSplit, "||")(3) & "<br/>"
+                            resultURL = IIf(resultURL = "", Split(strSplit, "||")(2), resultURL)
                         End If
                     ElseIf strSplit.Contains("NG") Then
                         result += "NG " & Split(strSplit, "||")(3) & "<br/>"
@@ -184,17 +196,15 @@ Public Class ProdSampleQCSummary
 
                 e.Cell.Text = ""
                 If result.Contains("No Data") And result.Contains("NG") = False And result.Contains("OK") = False Then
-                    e.Cell.Text = result
                     e.Cell.BackColor = ColorTranslator.FromHtml("#FFFB00")
                     e.Cell.BorderColor = ColorTranslator.FromHtml("#FFFB00")
-                Else
-                    Link.ForeColor = Color.Black
-                    Link.Text = result
-                    Link.NavigateUrl = resultURL
-                    Link.Target = "_blank"
-
-                    e.Cell.Controls.Add(Link)
                 End If
+                Link.ForeColor = Color.Black
+                Link.Text = result
+                Link.NavigateUrl = resultURL
+                Link.Target = "_blank"
+
+                e.Cell.Controls.Add(Link)
             End If
         End If
     End Sub
@@ -206,9 +216,9 @@ Public Class ProdSampleQCSummary
 
 #Region "Functions"
     Private Sub show_error(ByVal msgType As MsgTypeEnum, ByVal ErrMsg As String, ByVal pVal As Integer)
-        Grid.JSProperties("cp_message") = ErrMsg
-        Grid.JSProperties("cp_type") = msgType
-        Grid.JSProperties("cp_val") = pVal
+        Gridx.JSProperties("cp_message") = ErrMsg
+        Gridx.JSProperties("cp_type") = msgType
+        Gridx.JSProperties("cp_val") = pVal
     End Sub
 
     Private Sub up_Fillcombo()
@@ -312,7 +322,7 @@ Public Class ProdSampleQCSummary
 
     Private Sub up_GridLoad(cls As clsProdSampleQCSummary)
         Dim OK As Integer = 0, NG As Integer = 0, no As Integer = 0, sampletime As String = "", ds As New DataSet
-        With Grid
+        With Gridx
             .Columns.Clear()
 
             Dim Col0 As New GridViewDataTextColumn
@@ -333,7 +343,7 @@ Public Class ProdSampleQCSummary
 
             If dt.Rows.Count > 0 Then
                 For i = 1 To dt.Columns.Count - 1
-                    Dim Col As New GridViewDataTextColumn()
+                    Dim Col As New GridViewDataTextColumn
 
                     With Col
                         .FieldName = dt.Columns(i).ColumnName
@@ -357,6 +367,7 @@ Public Class ProdSampleQCSummary
                 End If
                 If cls.Frequency = "ALL" Or cls.Sequence = "ALL" Then sampletime = "ALL"
 
+
                 If ds.Tables(2).Select("Result Like '%OK%'").Length > 0 Then
                     OK = ds.Tables(2).Select("Result Like '%OK%'")(0)("Jumlah")
                 End If
@@ -370,7 +381,6 @@ Public Class ProdSampleQCSummary
                 End If
 
 
-
                 .JSProperties("cp_header") = "Yes"
                 .JSProperties("cp_sampletime") = sampletime
                 .JSProperties("cp_ok") = OK
@@ -379,6 +389,7 @@ Public Class ProdSampleQCSummary
                 .JSProperties("cp_total") = OK + NG + no
             Else
                 .JSProperties("cp_header") = "No"
+                If HF.Get("Excel") = "2" Then show_error(MsgTypeEnum.Warning, "Data Not Found", 1)
             End If
             .DataSource = dt
             .DataBind()

@@ -293,13 +293,13 @@ Partial Public Class ProdSampleQCSummary
     Protected WithEvents btnExcel As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
-    '''Grid control.
+    '''Gridx control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents Grid As Global.DevExpress.Web.ASPxGridView
+    Protected WithEvents Gridx As Global.DevExpress.Web.ASPxGridView
 
     '''<summary>
     '''ASPxLabel15 control.
