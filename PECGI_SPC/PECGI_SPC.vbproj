@@ -881,7 +881,6 @@
     <Compile Include="Class\clsItemCheck.vb" />
     <Compile Include="Class\clsItemType.vb" />
     <Compile Include="Class\ClsLine.vb" />
-    <Compile Include="Class\ClsLineDB.vb" />
     <Compile Include="Class\clsMeasurementDevice.vb" />
     <Compile Include="Class\clsProdSampleQCSummary.vb" />
     <Compile Include="Class\clsProdSampleVerification.vb" />
