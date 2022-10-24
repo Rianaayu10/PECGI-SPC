@@ -82,6 +82,7 @@ Public Class clsSiteMasterDB
                     .AddWithValue("User", User)
                     .AddWithValue("FactoryCode", "ALL")
                     .AddWithValue("TypeReport", "1")
+                    .AddWithValue("TypeForm", "1")
                 End With
                 Dim da As New SqlDataAdapter(cmd)
                 Dim dt As New DataTable
