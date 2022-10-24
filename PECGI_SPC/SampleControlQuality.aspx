@@ -602,7 +602,7 @@
     <table style="width:100%; padding-top:10px">
         <tr>
             <td style="width:630px">
-                <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="400px" Width="620px" ClientInstanceName="Histogram" PaletteName="SPC" >
+                <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="230px" Width="620px" ClientInstanceName="Histogram" PaletteName="SPC" CssClass="editableform" >
 
                         <Titles>
                             <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Histogram" Alignment="Center" />
@@ -637,7 +637,7 @@
                             <cc1:Series ArgumentDataMember="Value" Name="Histogram" ShowInLegend="False" LabelsVisibility="True">
                                 <ViewSerializable>
                                     <cc1:SideBySideBarSeriesView BarWidth="1" Color="184, 204, 228" ColorEach="True">
-                                        <Border Color="127, 127, 127" Visibility="True" />
+                                        <Border Color="127, 127, 127" Visibility="False" />
                                         <FillStyle FillMode="Solid">
                                         </FillStyle>
                                     </cc1:SideBySideBarSeriesView>
@@ -662,12 +662,12 @@
                         <PaletteWrappers>
                             <dx:PaletteWrapper Name="SPC" ScaleMode="Extrapolate">
                                 <Palette>
-                                    <cc1:PaletteEntry Color="227, 255, 198" Color2="227, 255, 198" />
-                                    <cc1:PaletteEntry Color="147, 243, 141" Color2="147, 243, 141" />
+                                    <cc1:PaletteEntry Color="105, 228, 180" Color2="105, 228, 180" />
+                                    <cc1:PaletteEntry Color="155, 248, 139" Color2="155, 248, 139" />
                                     <cc1:PaletteEntry Color="159, 222, 255" Color2="159, 222, 255" />
-                                    <cc1:PaletteEntry Color="222, 204, 255" Color2="222, 204, 255" />
+                                    <cc1:PaletteEntry Color="197, 166, 255" Color2="197, 166, 255" />
                                     <cc1:PaletteEntry Color="255, 196, 243" Color2="255, 196, 243" />
-                                    <cc1:PaletteEntry Color="255, 201, 191" Color2="255, 201, 191" />
+                                    <cc1:PaletteEntry Color="255, 157, 140" Color2="255, 157, 140" />
                                 </Palette>
                             </dx:PaletteWrapper>
                         </PaletteWrappers>

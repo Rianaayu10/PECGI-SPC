@@ -963,14 +963,14 @@ Public Class ProdSampleInput
                 Dim RCL As New ConstantLine("CL R")
                 RCL.Color = System.Drawing.Color.Red
                 RCL.LineStyle.Thickness = 1
-                RCL.LineStyle.DashStyle = DashStyle.DashDot
+                RCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(RCL)
                 RCL.AxisValue = Setup.RCL
 
                 Dim RUCL As New ConstantLine("UCL R")
                 RUCL.Color = System.Drawing.Color.Red
                 RUCL.LineStyle.Thickness = 1
-                RUCL.LineStyle.DashStyle = DashStyle.DashDot
+                RUCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(RUCL)
                 RUCL.AxisValue = Setup.RUCL
 
@@ -1024,21 +1024,21 @@ Public Class ProdSampleInput
                 Dim LCL As New ConstantLine("LCL")
                 LCL.Color = System.Drawing.Color.Red
                 LCL.LineStyle.Thickness = 1
-                LCL.LineStyle.DashStyle = DashStyle.DashDot
+                LCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(LCL)
                 LCL.AxisValue = Setup.XBarLCL
 
                 Dim UCL As New ConstantLine("UCL")
                 UCL.Color = System.Drawing.Color.Red
                 UCL.LineStyle.Thickness = 1
-                UCL.LineStyle.DashStyle = DashStyle.DashDot
+                UCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(UCL)
                 UCL.AxisValue = Setup.XBarUCL
 
                 Dim CL As New ConstantLine("CL")
                 CL.Color = System.Drawing.Color.Red
                 CL.LineStyle.Thickness = 1
-                CL.LineStyle.DashStyle = DashStyle.DashDot
+                CL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(CL)
                 CL.AxisValue = Setup.XBarCL
 
