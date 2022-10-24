@@ -1,9 +1,13 @@
 ﻿Imports C1.Win
 Imports C1.Win.C1FlexGrid
+Imports System
 Imports System.Threading
 Imports System.Windows.Forms
 Imports System.Transactions
 Imports System.Drawing
+Imports System.IO
+Imports System.Data.SqlClient
+Imports System.Xml
 
 Public Class frmSPCInboxNotification
 
@@ -103,9 +107,9 @@ Public Class frmSPCInboxNotification
     Dim Finish As Boolean
     Dim inThrdProcess As Boolean = False
 
-    Delegate Sub SetLabelCallBack(ByVal txt As String, ByVal labelControl As Windows.Forms.Label)
+    Delegate Sub SetLabelCallBack(ByVal txt As String, ByVal labelControl As System.Windows.Forms.Label)
     Delegate Sub SetGridCallBack(ByVal dt As DataTable, ByVal grid As C1FlexGrid, ByVal Type As String)
-    Delegate Sub SetComboCallBack(ByVal txt As String, ByVal combo As Windows.Forms.ComboBox)
+    Delegate Sub SetComboCallBack(ByVal txt As String, ByVal combo As System.Windows.Forms.ComboBox)
 #End Region
 
 #Region "Init"
@@ -588,7 +592,7 @@ Public Class frmSPCInboxNotification
         thrd.Start()
     End Sub
 
-    Private Sub setLabel(ByVal txt As String, ByVal labelControl As Windows.Forms.Label)
+    Private Sub setLabel(ByVal txt As String, ByVal labelControl As System.Windows.Forms.Label)
         If labelControl.InvokeRequired Then
             Dim d As New SetLabelCallBack(AddressOf setLabel)
             Me.Invoke(d, New Object() {txt, labelControl})
@@ -648,7 +652,7 @@ Public Class frmSPCInboxNotification
                     .Cols(NGResult.pQC).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
 
                     .Styles.Fixed.TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
-                    .GetCellRange(0, NGResult.pType, 0, NGResult.Count - 1).StyleNew.BackColor = Color.LightGray
+                    '.GetCellRange(0, NGResult.pType, 0, NGResult.Count - 1).StyleNew.BackColor = Color.LightGray
 
                     .AllowEditing = False
                     .Styles.Normal.WordWrap = True
@@ -728,7 +732,7 @@ Public Class frmSPCInboxNotification
 
                     .Styles.Fixed.TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
 
-                    .GetCellRange(0, DelayInput.pType, 0, DelayInput.Count - 1).StyleNew.BackColor = Color.LightGray
+                    '.GetCellRange(0, DelayInput.pType, 0, DelayInput.Count - 1).StyleNew.BackColor = Color.LightGray
 
                     .AllowEditing = False
                     .Styles.Normal.WordWrap = True
@@ -841,7 +845,7 @@ Public Class frmSPCInboxNotification
                     .Cols(DelayVerification.pDelayVerif).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
 
                     .Styles.Fixed.TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
-                    .GetCellRange(0, DelayVerification.pType, 0, DelayVerification.Count - 1).StyleNew.BackColor = Color.LightGray
+                    '.GetCellRange(0, DelayVerification.pType, 0, DelayVerification.Count - 1).StyleNew.BackColor = Color.LightGray
 
                     .AllowEditing = False
                     .Styles.Normal.WordWrap = True
@@ -907,7 +911,7 @@ Public Class frmSPCInboxNotification
         End If
     End Sub
 
-    Private Sub setCombo(ByVal txt As String, ByVal combo As Windows.Forms.ComboBox)
+    Private Sub setCombo(ByVal txt As String, ByVal combo As System.Windows.Forms.ComboBox)
         If combo.InvokeRequired Then
             Dim d As New SetComboCallBack(AddressOf setCombo)
             Me.Invoke(d, New Object() {txt, combo})

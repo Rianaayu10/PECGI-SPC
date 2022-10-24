@@ -183,7 +183,7 @@ Namespace ToastNotifications
             'pbClose
             '
             Me.pbClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.pbClose.Image = Global.spc_alert_notifications.My.Resources.Resources.close_icon
+            'Me.pbClose.Image = Global.SPCInboxNotification.My.Resources.Resources.close_icon
             Me.pbClose.Location = New System.Drawing.Point(336, 0)
             Me.pbClose.Name = "pbClose"
             Me.pbClose.Size = New System.Drawing.Size(19, 21)

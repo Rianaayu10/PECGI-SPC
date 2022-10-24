@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.spc_alert_notifications.frmSPCAlertNotifications
+            Me.MainForm = Global.SPCInboxNotification.frmSPCAlertNotifications
         End Sub
     End Class
 End Namespace

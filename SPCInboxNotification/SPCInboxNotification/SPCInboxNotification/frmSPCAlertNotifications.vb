@@ -5,6 +5,7 @@ Imports C1.Win.C1List
 Imports spc_alert_notifications.ToastNotifications
 Imports Microsoft.Toolkit.Uwp.Notifications
 Imports Microsoft.Win32
+Imports SPCInboxNotification.ToastNotifications
 
 Public Class frmSPCAlertNotifications
 
@@ -326,7 +327,7 @@ Public Class frmSPCAlertNotifications
                 End If
 
 
-                    firstLoad = 1
+                firstLoad = 1
                 If firstLoad = 0 Then
                     firstLoad += 1
                 End If
@@ -340,67 +341,67 @@ Public Class frmSPCAlertNotifications
     End Sub
 
     Private Sub ShowNotification(Context() As String, type As String)
-        If type = "NG" Then
-            Dim popup As PopupNotifier = New PopupNotifier
-            popup.Image = My.Resources.NG
-            popup.ContentFont = New System.Drawing.Font("Tahoma", 12.0F)
-            popup.Size = New Size(350, 150)
-            popup.ShowGrip = False
-            popup.TitlePadding = New Padding(3)
-            popup.ContentPadding = New Padding(3)
-            popup.ImagePadding = New Padding(8)
-            popup.AnimationDuration = 1000 '600000
-            popup.AnimationInterval = 1
-            popup.HeaderColor = Color.FromArgb(255, 255, 0)
-            popup.Scroll = True
-            popup.ShowCloseButton = False
-            popup.TitleText = "SPC Notification NG Input"
-            popup.ContentText = Context(0) & vbCrLf '&
-            'Context(1)
-            AddHandler popup.Click, AddressOf PopupNG_Click
-            popup.Popup()
+        'If type = "NG" Then
+        '    Dim popup As PopupNotifier = New PopupNotifier
+        '    popup.Image = My.Resources.NG
+        '    popup.ContentFont = New System.Drawing.Font("Tahoma", 12.0F)
+        '    popup.Size = New Size(350, 150)
+        '    popup.ShowGrip = False
+        '    popup.TitlePadding = New Padding(3)
+        '    popup.ContentPadding = New Padding(3)
+        '    popup.ImagePadding = New Padding(8)
+        '    popup.AnimationDuration = 1000 '600000
+        '    popup.AnimationInterval = 1
+        '    popup.HeaderColor = Color.FromArgb(255, 255, 0)
+        '    popup.Scroll = True
+        '    popup.ShowCloseButton = False
+        '    popup.TitleText = "SPC Notification NG Input"
+        '    popup.ContentText = Context(0) & vbCrLf '&
+        '    'Context(1)
+        '    AddHandler popup.Click, AddressOf PopupNG_Click
+        '    popup.Popup()
 
-        ElseIf type = "Delay Input" Then
-            Dim popup As PopupNotifier = New PopupNotifier
-            popup.Image = My.Resources.NG
-            popup.ContentFont = New System.Drawing.Font("Tahoma", 12.0F)
-            popup.Size = New Size(350, 150)
-            popup.ShowGrip = False
-            popup.TitlePadding = New Padding(3)
-            popup.ContentPadding = New Padding(3)
-            popup.ImagePadding = New Padding(8)
-            popup.AnimationDuration = 1000 '600000
-            popup.AnimationInterval = 1
-            popup.HeaderColor = Color.FromArgb(255, 255, 0)
-            popup.Scroll = True
-            popup.ShowCloseButton = False
-            popup.TitleText = "SPC Notification Delay Input"
-            popup.ContentText = Context(0) & vbCrLf '&
-            'Context(1)
-            AddHandler popup.Click, AddressOf PopupDelayInput_Click
-            popup.Popup()
+        'ElseIf type = "Delay Input" Then
+        '    Dim popup As PopupNotifier = New PopupNotifier
+        '    popup.Image = My.Resources.NG
+        '    popup.ContentFont = New System.Drawing.Font("Tahoma", 12.0F)
+        '    popup.Size = New Size(350, 150)
+        '    popup.ShowGrip = False
+        '    popup.TitlePadding = New Padding(3)
+        '    popup.ContentPadding = New Padding(3)
+        '    popup.ImagePadding = New Padding(8)
+        '    popup.AnimationDuration = 1000 '600000
+        '    popup.AnimationInterval = 1
+        '    popup.HeaderColor = Color.FromArgb(255, 255, 0)
+        '    popup.Scroll = True
+        '    popup.ShowCloseButton = False
+        '    popup.TitleText = "SPC Notification Delay Input"
+        '    popup.ContentText = Context(0) & vbCrLf '&
+        '    'Context(1)
+        '    AddHandler popup.Click, AddressOf PopupDelayInput_Click
+        '    popup.Popup()
 
-        ElseIf type = "Delay Verification" Then
-            Dim popup As PopupNotifier = New PopupNotifier
-            popup.Image = My.Resources.NG
-            popup.ContentFont = New System.Drawing.Font("Tahoma", 12.0F)
-            popup.Size = New Size(350, 150)
-            popup.ShowGrip = False
-            popup.TitlePadding = New Padding(3)
-            popup.ContentPadding = New Padding(3)
-            popup.ImagePadding = New Padding(8)
-            popup.AnimationDuration = 1000 '600000
-            popup.AnimationInterval = 1
-            popup.HeaderColor = Color.FromArgb(255, 255, 0)
-            popup.Scroll = True
-            popup.ShowCloseButton = False
-            popup.TitleText = "SPC Notification Delay Verification"
-            popup.ContentText = Context(0) & vbCrLf '&
-            'Context(1)
-            AddHandler popup.Click, AddressOf PopupDelayVerification_Click
-            popup.Popup()
+        'ElseIf type = "Delay Verification" Then
+        '    Dim popup As PopupNotifier = New PopupNotifier
+        '    popup.Image = My.Resources.NG
+        '    popup.ContentFont = New System.Drawing.Font("Tahoma", 12.0F)
+        '    popup.Size = New Size(350, 150)
+        '    popup.ShowGrip = False
+        '    popup.TitlePadding = New Padding(3)
+        '    popup.ContentPadding = New Padding(3)
+        '    popup.ImagePadding = New Padding(8)
+        '    popup.AnimationDuration = 1000 '600000
+        '    popup.AnimationInterval = 1
+        '    popup.HeaderColor = Color.FromArgb(255, 255, 0)
+        '    popup.Scroll = True
+        '    popup.ShowCloseButton = False
+        '    popup.TitleText = "SPC Notification Delay Verification"
+        '    popup.ContentText = Context(0) & vbCrLf '&
+        '    'Context(1)
+        '    AddHandler popup.Click, AddressOf PopupDelayVerification_Click
+        '    popup.Popup()
 
-        End If
+        'End If
 
     End Sub
 

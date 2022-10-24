@@ -157,7 +157,7 @@ Partial Class frmLoginSettings
         Me.txtLink.Location = New System.Drawing.Point(72, 108)
         Me.txtLink.Name = "txtLink"
         Me.txtLink.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtLink.PlaceholderText = "http://192.168.0.8:8080/"
+        'Me.txtLink.PlaceholderText = "http://192.168.0.8:8080/"
         Me.txtLink.Size = New System.Drawing.Size(271, 23)
         Me.txtLink.TabIndex = 19
         '

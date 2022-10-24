@@ -57,7 +57,7 @@ Partial Class frmInboxNotifications
         '
         Me.pctClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pctClose.BackColor = System.Drawing.Color.Red
-        Me.pctClose.Image = Global.spc_alert_notifications.My.Resources.Resources.close_icon
+        'Me.pctClose.Image = Global.SPCInboxNotification.My.Resources.Resources.close_icon
         Me.pctClose.Location = New System.Drawing.Point(641, 1)
         Me.pctClose.Name = "pctClose"
         Me.pctClose.Size = New System.Drawing.Size(19, 20)

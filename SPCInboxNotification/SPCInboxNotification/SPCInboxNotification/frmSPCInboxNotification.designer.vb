@@ -33,11 +33,9 @@ Partial Class frmSPCInboxNotification
         Me.cboFactory = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.pnlContent = New System.Windows.Forms.Panel()
-        Me.lblTotalNGResult = New System.Windows.Forms.Label()
-        Me.lblTotalDelayVerification = New System.Windows.Forms.Label()
-        Me.lblTotalDelayInput = New System.Windows.Forms.Label()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Label14 = New System.Windows.Forms.Label()
+        Me.lblTotalDelayVerification = New System.Windows.Forms.Label()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Label17 = New System.Windows.Forms.Label()
@@ -45,12 +43,14 @@ Partial Class frmSPCInboxNotification
         Me.gridDelayVerification = New C1.Win.C1FlexGrid.C1FlexGrid()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Label9 = New System.Windows.Forms.Label()
+        Me.lblTotalDelayInput = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.gridDelayInput = New C1.Win.C1FlexGrid.C1FlexGrid()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.lblTotalNGResult = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -70,7 +70,7 @@ Partial Class frmSPCInboxNotification
         '
         'pnlHeader
         '
-        Me.pnlHeader.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.pnlHeader.BackColor = System.Drawing.Color.White
         Me.pnlHeader.Controls.Add(Me.btnRefresh)
         Me.pnlHeader.Controls.Add(Me.lblTime)
         Me.pnlHeader.Controls.Add(Me.lblDate)
@@ -86,9 +86,8 @@ Partial Class frmSPCInboxNotification
         '
         'btnRefresh
         '
-        Me.btnRefresh.BackColor = System.Drawing.SystemColors.HotTrack
+        Me.btnRefresh.BackColor = System.Drawing.SystemColors.Control
         Me.btnRefresh.FlatAppearance.BorderSize = 0
-        Me.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnRefresh.Location = New System.Drawing.Point(195, 24)
         Me.btnRefresh.Name = "btnRefresh"
         Me.btnRefresh.Size = New System.Drawing.Size(75, 25)
@@ -100,10 +99,10 @@ Partial Class frmSPCInboxNotification
         '
         Me.lblTime.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblTime.AutoSize = True
-        Me.lblTime.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.lblTime.Font = New System.Drawing.Font("Tahoma", 9.75!)
         Me.lblTime.Location = New System.Drawing.Point(855, 37)
         Me.lblTime.Name = "lblTime"
-        Me.lblTime.Size = New System.Drawing.Size(67, 16)
+        Me.lblTime.Size = New System.Drawing.Size(68, 16)
         Me.lblTime.TabIndex = 5
         Me.lblTime.Text = "HH:mm:ss"
         '
@@ -111,10 +110,10 @@ Partial Class frmSPCInboxNotification
         '
         Me.lblDate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblDate.AutoSize = True
-        Me.lblDate.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.lblDate.Font = New System.Drawing.Font("Tahoma", 9.75!)
         Me.lblDate.Location = New System.Drawing.Point(855, 15)
         Me.lblDate.Name = "lblDate"
-        Me.lblDate.Size = New System.Drawing.Size(83, 16)
+        Me.lblDate.Size = New System.Drawing.Size(84, 16)
         Me.lblDate.TabIndex = 4
         Me.lblDate.Text = "dd MMM yyyy"
         '
@@ -122,10 +121,10 @@ Partial Class frmSPCInboxNotification
         '
         Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.Label3.Font = New System.Drawing.Font("Tahoma", 9.75!)
         Me.Label3.Location = New System.Drawing.Point(815, 37)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(45, 16)
+        Me.Label3.Size = New System.Drawing.Size(46, 16)
         Me.Label3.TabIndex = 3
         Me.Label3.Text = "Time :"
         '
@@ -133,17 +132,16 @@ Partial Class frmSPCInboxNotification
         '
         Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.Label2.Font = New System.Drawing.Font("Tahoma", 9.75!)
         Me.Label2.Location = New System.Drawing.Point(815, 15)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(46, 16)
+        Me.Label2.Size = New System.Drawing.Size(47, 16)
         Me.Label2.TabIndex = 2
         Me.Label2.Text = "Date  :"
         '
         'cboFactory
         '
-        Me.cboFactory.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.cboFactory.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.cboFactory.Font = New System.Drawing.Font("Tahoma", 9.75!)
         Me.cboFactory.FormattingEnabled = True
         Me.cboFactory.Location = New System.Drawing.Point(68, 24)
         Me.cboFactory.Name = "cboFactory"
@@ -153,18 +151,15 @@ Partial Class frmSPCInboxNotification
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.Label1.Font = New System.Drawing.Font("Tahoma", 9.75!)
         Me.Label1.Location = New System.Drawing.Point(12, 27)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(49, 16)
+        Me.Label1.Size = New System.Drawing.Size(50, 16)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Factory"
         '
         'pnlContent
         '
-        Me.pnlContent.Controls.Add(Me.lblTotalNGResult)
-        Me.pnlContent.Controls.Add(Me.lblTotalDelayVerification)
-        Me.pnlContent.Controls.Add(Me.lblTotalDelayInput)
         Me.pnlContent.Controls.Add(Me.Panel3)
         Me.pnlContent.Controls.Add(Me.Label18)
         Me.pnlContent.Controls.Add(Me.gridDelayVerification)
@@ -175,48 +170,22 @@ Partial Class frmSPCInboxNotification
         Me.pnlContent.Controls.Add(Me.Label4)
         Me.pnlContent.Controls.Add(Me.gridNGResult)
         Me.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.pnlContent.Font = New System.Drawing.Font("Calibri", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.pnlContent.Font = New System.Drawing.Font("Calibri", 8.25!)
         Me.pnlContent.Location = New System.Drawing.Point(0, 74)
         Me.pnlContent.Name = "pnlContent"
-        Me.pnlContent.Size = New System.Drawing.Size(980, 655)
+        Me.pnlContent.Size = New System.Drawing.Size(980, 573)
         Me.pnlContent.TabIndex = 2
-        '
-        'lblTotalNGResult
-        '
-        Me.lblTotalNGResult.AutoSize = True
-        Me.lblTotalNGResult.Location = New System.Drawing.Point(65, 185)
-        Me.lblTotalNGResult.Name = "lblTotalNGResult"
-        Me.lblTotalNGResult.Size = New System.Drawing.Size(78, 13)
-        Me.lblTotalNGResult.TabIndex = 5
-        Me.lblTotalNGResult.Text = "Total : 0 Record"
-        '
-        'lblTotalDelayVerification
-        '
-        Me.lblTotalDelayVerification.AutoSize = True
-        Me.lblTotalDelayVerification.Location = New System.Drawing.Point(65, 600)
-        Me.lblTotalDelayVerification.Name = "lblTotalDelayVerification"
-        Me.lblTotalDelayVerification.Size = New System.Drawing.Size(78, 13)
-        Me.lblTotalDelayVerification.TabIndex = 5
-        Me.lblTotalDelayVerification.Text = "Total : 0 Record"
-        '
-        'lblTotalDelayInput
-        '
-        Me.lblTotalDelayInput.AutoSize = True
-        Me.lblTotalDelayInput.Location = New System.Drawing.Point(65, 392)
-        Me.lblTotalDelayInput.Name = "lblTotalDelayInput"
-        Me.lblTotalDelayInput.Size = New System.Drawing.Size(78, 13)
-        Me.lblTotalDelayInput.TabIndex = 4
-        Me.lblTotalDelayInput.Text = "Total : 0 Record"
         '
         'Panel3
         '
-        Me.Panel3.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Panel3.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel3.Controls.Add(Me.Label14)
+        Me.Panel3.Controls.Add(Me.lblTotalDelayVerification)
         Me.Panel3.Controls.Add(Me.Label15)
         Me.Panel3.Controls.Add(Me.Label16)
         Me.Panel3.Controls.Add(Me.Label17)
-        Me.Panel3.Location = New System.Drawing.Point(3, 616)
+        Me.Panel3.Location = New System.Drawing.Point(3, 528)
         Me.Panel3.Name = "Panel3"
         Me.Panel3.Size = New System.Drawing.Size(974, 25)
         Me.Panel3.TabIndex = 49
@@ -229,6 +198,16 @@ Partial Class frmSPCInboxNotification
         Me.Label14.Size = New System.Drawing.Size(96, 13)
         Me.Label14.TabIndex = 3
         Me.Label14.Text = "Delay > 60 Minutes"
+        '
+        'lblTotalDelayVerification
+        '
+        Me.lblTotalDelayVerification.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblTotalDelayVerification.AutoSize = True
+        Me.lblTotalDelayVerification.Location = New System.Drawing.Point(887, 6)
+        Me.lblTotalDelayVerification.Name = "lblTotalDelayVerification"
+        Me.lblTotalDelayVerification.Size = New System.Drawing.Size(78, 13)
+        Me.lblTotalDelayVerification.TabIndex = 5
+        Me.lblTotalDelayVerification.Text = "Total : 0 Record"
         '
         'Label15
         '
@@ -257,12 +236,12 @@ Partial Class frmSPCInboxNotification
         '
         'Label18
         '
-        Me.Label18.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Label18.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label18.BackColor = System.Drawing.Color.DimGray
-        Me.Label18.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
-        Me.Label18.ForeColor = System.Drawing.SystemColors.Window
-        Me.Label18.Location = New System.Drawing.Point(3, 459)
+        Me.Label18.BackColor = System.Drawing.Color.LightBlue
+        Me.Label18.Font = New System.Drawing.Font("Tahoma", 9.75!)
+        Me.Label18.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.Label18.Location = New System.Drawing.Point(3, 382)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(974, 25)
         Me.Label18.TabIndex = 47
@@ -274,14 +253,14 @@ Partial Class frmSPCInboxNotification
         Me.gridDelayVerification.AllowDragging = C1.Win.C1FlexGrid.AllowDraggingEnum.None
         Me.gridDelayVerification.AllowEditing = False
         Me.gridDelayVerification.AllowSorting = C1.Win.C1FlexGrid.AllowSortingEnum.None
-        Me.gridDelayVerification.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.gridDelayVerification.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gridDelayVerification.AutoClipboard = True
         Me.gridDelayVerification.BackColor = System.Drawing.Color.White
         Me.gridDelayVerification.ColumnInfo = "3,0,0,0,0,100,Columns:1{Width:118;}" & Global.Microsoft.VisualBasic.ChrW(9) & "2{Width:120;}" & Global.Microsoft.VisualBasic.ChrW(9)
         Me.gridDelayVerification.ExtendLastCol = True
         Me.gridDelayVerification.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.None
-        Me.gridDelayVerification.Location = New System.Drawing.Point(3, 484)
+        Me.gridDelayVerification.Location = New System.Drawing.Point(3, 407)
         Me.gridDelayVerification.Name = "gridDelayVerification"
         Me.gridDelayVerification.Rows.Count = 5
         Me.gridDelayVerification.Rows.DefaultSize = 20
@@ -292,13 +271,14 @@ Partial Class frmSPCInboxNotification
         '
         'Panel2
         '
-        Me.Panel2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Panel2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel2.Controls.Add(Me.Label9)
+        Me.Panel2.Controls.Add(Me.lblTotalDelayInput)
         Me.Panel2.Controls.Add(Me.Label10)
         Me.Panel2.Controls.Add(Me.Label11)
         Me.Panel2.Controls.Add(Me.Label12)
-        Me.Panel2.Location = New System.Drawing.Point(3, 408)
+        Me.Panel2.Location = New System.Drawing.Point(3, 340)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(974, 25)
         Me.Panel2.TabIndex = 46
@@ -311,6 +291,16 @@ Partial Class frmSPCInboxNotification
         Me.Label9.Size = New System.Drawing.Size(96, 13)
         Me.Label9.TabIndex = 3
         Me.Label9.Text = "Delay > 60 Minutes"
+        '
+        'lblTotalDelayInput
+        '
+        Me.lblTotalDelayInput.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblTotalDelayInput.AutoSize = True
+        Me.lblTotalDelayInput.Location = New System.Drawing.Point(887, 6)
+        Me.lblTotalDelayInput.Name = "lblTotalDelayInput"
+        Me.lblTotalDelayInput.Size = New System.Drawing.Size(78, 13)
+        Me.lblTotalDelayInput.TabIndex = 4
+        Me.lblTotalDelayInput.Text = "Total : 0 Record"
         '
         'Label10
         '
@@ -339,12 +329,12 @@ Partial Class frmSPCInboxNotification
         '
         'Label13
         '
-        Me.Label13.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Label13.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label13.BackColor = System.Drawing.Color.DimGray
-        Me.Label13.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
-        Me.Label13.ForeColor = System.Drawing.SystemColors.Window
-        Me.Label13.Location = New System.Drawing.Point(3, 251)
+        Me.Label13.BackColor = System.Drawing.Color.LightBlue
+        Me.Label13.Font = New System.Drawing.Font("Tahoma", 9.75!)
+        Me.Label13.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.Label13.Location = New System.Drawing.Point(3, 191)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(974, 25)
         Me.Label13.TabIndex = 44
@@ -356,14 +346,14 @@ Partial Class frmSPCInboxNotification
         Me.gridDelayInput.AllowDragging = C1.Win.C1FlexGrid.AllowDraggingEnum.None
         Me.gridDelayInput.AllowEditing = False
         Me.gridDelayInput.AllowSorting = C1.Win.C1FlexGrid.AllowSortingEnum.None
-        Me.gridDelayInput.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.gridDelayInput.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gridDelayInput.AutoClipboard = True
         Me.gridDelayInput.BackColor = System.Drawing.Color.White
         Me.gridDelayInput.ColumnInfo = "3,0,0,0,0,100,Columns:1{Width:118;}" & Global.Microsoft.VisualBasic.ChrW(9) & "2{Width:120;}" & Global.Microsoft.VisualBasic.ChrW(9)
         Me.gridDelayInput.ExtendLastCol = True
         Me.gridDelayInput.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.None
-        Me.gridDelayInput.Location = New System.Drawing.Point(3, 276)
+        Me.gridDelayInput.Location = New System.Drawing.Point(3, 216)
         Me.gridDelayInput.Name = "gridDelayInput"
         Me.gridDelayInput.Rows.Count = 5
         Me.gridDelayInput.Rows.DefaultSize = 20
@@ -374,16 +364,27 @@ Partial Class frmSPCInboxNotification
         '
         'Panel1
         '
-        Me.Panel1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Panel1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Panel1.Controls.Add(Me.lblTotalNGResult)
         Me.Panel1.Controls.Add(Me.Label7)
         Me.Panel1.Controls.Add(Me.Label8)
         Me.Panel1.Controls.Add(Me.Label6)
         Me.Panel1.Controls.Add(Me.Label5)
-        Me.Panel1.Location = New System.Drawing.Point(3, 201)
+        Me.Panel1.Location = New System.Drawing.Point(3, 153)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(974, 25)
         Me.Panel1.TabIndex = 43
+        '
+        'lblTotalNGResult
+        '
+        Me.lblTotalNGResult.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblTotalNGResult.AutoSize = True
+        Me.lblTotalNGResult.Location = New System.Drawing.Point(887, 6)
+        Me.lblTotalNGResult.Name = "lblTotalNGResult"
+        Me.lblTotalNGResult.Size = New System.Drawing.Size(78, 13)
+        Me.lblTotalNGResult.TabIndex = 5
+        Me.lblTotalNGResult.Text = "Total : 0 Record"
         '
         'Label7
         '
@@ -423,10 +424,10 @@ Partial Class frmSPCInboxNotification
         '
         Me.Label4.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label4.BackColor = System.Drawing.Color.DimGray
-        Me.Label4.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
-        Me.Label4.ForeColor = System.Drawing.SystemColors.Window
-        Me.Label4.Location = New System.Drawing.Point(3, 43)
+        Me.Label4.BackColor = System.Drawing.Color.LightBlue
+        Me.Label4.Font = New System.Drawing.Font("Tahoma", 9.75!)
+        Me.Label4.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.Label4.Location = New System.Drawing.Point(3, 3)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(974, 25)
         Me.Label4.TabIndex = 6
@@ -438,14 +439,15 @@ Partial Class frmSPCInboxNotification
         Me.gridNGResult.AllowDragging = C1.Win.C1FlexGrid.AllowDraggingEnum.None
         Me.gridNGResult.AllowEditing = False
         Me.gridNGResult.AllowSorting = C1.Win.C1FlexGrid.AllowSortingEnum.None
-        Me.gridNGResult.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.gridNGResult.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gridNGResult.AutoClipboard = True
         Me.gridNGResult.BackColor = System.Drawing.Color.White
         Me.gridNGResult.ColumnInfo = "3,0,0,0,0,100,Columns:1{Width:118;}" & Global.Microsoft.VisualBasic.ChrW(9) & "2{Width:120;}" & Global.Microsoft.VisualBasic.ChrW(9)
         Me.gridNGResult.ExtendLastCol = True
         Me.gridNGResult.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.None
-        Me.gridNGResult.Location = New System.Drawing.Point(3, 68)
+        Me.gridNGResult.Location = New System.Drawing.Point(3, 28)
         Me.gridNGResult.Name = "gridNGResult"
         Me.gridNGResult.Rows.Count = 5
         Me.gridNGResult.Rows.DefaultSize = 20
@@ -464,10 +466,10 @@ Partial Class frmSPCInboxNotification
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(980, 729)
+        Me.ClientSize = New System.Drawing.Size(980, 647)
         Me.Controls.Add(Me.pnlContent)
         Me.Controls.Add(Me.pnlHeader)
-        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.Name = "frmSPCInboxNotification"
@@ -477,7 +479,6 @@ Partial Class frmSPCInboxNotification
         Me.pnlHeader.ResumeLayout(False)
         Me.pnlHeader.PerformLayout()
         Me.pnlContent.ResumeLayout(False)
-        Me.pnlContent.PerformLayout()
         Me.Panel3.ResumeLayout(False)
         Me.Panel3.PerformLayout()
         CType(Me.gridDelayVerification, System.ComponentModel.ISupportInitialize).EndInit()
