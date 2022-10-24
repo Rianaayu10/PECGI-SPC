@@ -516,7 +516,7 @@
                     <Label Alignment="Center">
                         <ResolveOverlappingOptions AllowHide="False" />
                     </Label>
-                    <WholeRange AutoSideMargins="False" EndSideMargin="-0.5" StartSideMargin="-0.5" />
+                    <WholeRange AutoSideMargins="False" EndSideMargin="0.5" StartSideMargin="0.5" />
                     <GridLines MinorVisible="True">
                     </GridLines>
                     <NumericScaleOptions AutoGrid="False" />
@@ -571,6 +571,7 @@
         <DiagramSerializable>
             <cc1:XYDiagram>
                 <AxisX VisibleInPanesSerializable="-1" MinorCount="1" Visibility="False">
+                    <WholeRange AutoSideMargins="False" EndSideMargin="0.5" StartSideMargin="0.5" />
                     <GridLines MinorVisible="True">
                     </GridLines>
                 </AxisX>
