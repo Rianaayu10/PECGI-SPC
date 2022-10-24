@@ -79,7 +79,7 @@
                 } else if (MIN < LCL || MIN > UCL) {
                     if (s.cpCS == '1') {
                         document.getElementById('Min').style.backgroundColor = 'Yellow';
-                    }else if(s.cpCS == '2'){
+                    } else if (s.cpCS == '2') {
                         document.getElementById('Min').style.backgroundColor = 'Yellow';
                     }
                     else {
@@ -523,7 +523,7 @@
 
 
         function IOTProcess() {
-            var URL = HideValue.Get('URL');          
+            var URL = HideValue.Get('URL');
             var FactoryCode = HideValue.Get('FactoryCode');
             var ProcessGroup = HideValue.Get('ProcessGroup');
             var LineGroup = HideValue.Get('LineGroup');
@@ -879,7 +879,7 @@
     </div>
 
     <div style="padding: 5px 5px 5px 5px;">
-        <dx:ASPxGridView ID="Grid" runat="server" AutoGenerateColumns="False" ClientInstanceName="Grid"
+        <dx:ASPxGridView ID="GridX" runat="server" AutoGenerateColumns="False" ClientInstanceName="Grid"
             EnableTheming="True" KeyFieldName="nDesc" Theme="Office2010Black"
             Width="100%" Font-Names="Segoe UI" Font-Size="9pt">
             <ClientSideEvents EndCallback="EndCallback_Grid" Init="InitGrid" />
@@ -908,7 +908,7 @@
         </dx:ASPxGridView>
     </div>
     <div style="padding: 5px 5px 5px 5px;">
-     <div id="chartXdiv" style="overflow-x:auto; width:100%; border:1px solid black"">
+<div id="chartXdiv" style="overflow-x:auto; width:100%; border:1px solid black"">
 <dx:WebChartControl ID="chartX" runat="server" ClientInstanceName="chartX"
         Height="490px" Width="1080px" CrosshairEnabled="True" SeriesDataMember="Description" ToolTipEnabled="False">
         <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" ToolTipPointPattern="{V:0.000}" CrosshairLabelPattern="{S}: {V:0.000}">
@@ -935,7 +935,7 @@
             <cc1:Series ArgumentDataMember="Seq" Name="Average" ValueDataMembersSerializable="AvgValue" CrosshairLabelPattern="{S}: {V:0.000}">
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="Blue">
-                        <LineStyle Thickness="2" />
+                        <LineStyle Thickness="1" />
                         <LineMarkerOptions Color="Blue" Size="10" Kind="Diamond"></LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>
@@ -948,7 +948,8 @@
                     <Label Alignment="Center">
                         <ResolveOverlappingOptions AllowHide="False" />
                     </Label>
-                    <WholeRange AutoSideMargins="False" EndSideMargin="-0.5" StartSideMargin="-0.5" />
+                    <VisualRange Auto="False" MaxValueSerializable="9" MinValueSerializable="0" />
+                    <WholeRange AutoSideMargins="False" EndSideMargin="0.5" StartSideMargin="0.5" />
                     <GridLines MinorVisible="True">
                     </GridLines>
                     <NumericScaleOptions AutoGrid="False" />
@@ -958,8 +959,8 @@
                     <Label TextPattern="{V:0.000}" Font="Tahoma, 7pt">
                         <ResolveOverlappingOptions AllowHide="True" />
                     </Label>
-                    <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.015" MaxValueSerializable="2.715" MinValueSerializable="2.645" StartSideMargin="0.025" />
-                    <WholeRange AlwaysShowZeroLevel="False" Auto="False" AutoSideMargins="False" EndSideMargin="0.015" MaxValueSerializable="2.73" MinValueSerializable="2.62" StartSideMargin="0.025" />
+                    <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.015" MaxValueSerializable="2.715" MinValueSerializable="2.7" StartSideMargin="0.025" />
+                    <WholeRange AlwaysShowZeroLevel="False" Auto="False" AutoSideMargins="False" EndSideMargin="0.005" MaxValueSerializable="2.73" MinValueSerializable="2.7" StartSideMargin="0.005" />
                     <GridLines>
                         <LineStyle DashStyle="Dot" />
                     </GridLines>
@@ -983,13 +984,14 @@
 </div>
     </div>
     <div style="padding: 5px 5px 5px 5px;">
-      <div id="chartRdiv">
+<div id="chartRdiv">
     <dx:WebChartControl ID="chartR" runat="server" ClientInstanceName="chartR"
         Height="230px" Width="1080px" CrosshairEnabled="True">
         <SeriesSerializable>
             <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue">
                 <ViewSerializable>
                     <cc1:LineSeriesView>
+                        <LineStyle Thickness="1" />
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
@@ -1006,6 +1008,7 @@
             <cc1:XYDiagram>
                 <AxisX VisibleInPanesSerializable="-1" MinorCount="1" Visibility="False">
                     <Tickmarks Visible="False" />
+                    <WholeRange AutoSideMargins="False" EndSideMargin="0.5" StartSideMargin="0.5" />
                     <GridLines MinorVisible="True">
                     </GridLines>
                     <NumericScaleOptions AutoGrid="False" ScaleMode="Manual" />
@@ -1032,7 +1035,6 @@
         <ClientSideEvents EndCallback="ChartREndCallBack" Init="InitRBar" />
     </dx:WebChartControl>
 </div>
-
     </div>
     <div style="height: 26px; padding-bottom: 5px; padding-left: 450px; padding-top: 20px">
         <dx:ASPxLabel ID="lblGridActivity" runat="server" Text="ACTIVITY MONITORING"

@@ -419,13 +419,13 @@ Partial Public Class ProdSampleVerification
     Protected WithEvents lblR As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
-    '''Grid control.
+    '''GridX control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents Grid As Global.DevExpress.Web.ASPxGridView
+    Protected WithEvents GridX As Global.DevExpress.Web.ASPxGridView
 
     '''<summary>
     '''chartX control.

@@ -219,7 +219,7 @@ Public Class ProdSampleVerification
 #End Region
 
 #Region "GRID CALLBACK"
-    Private Sub Grid_CustomCallback(sender As Object, e As ASPxGridViewCustomCallbackEventArgs) Handles Grid.CustomCallback
+    Private Sub Grid_CustomCallback(sender As Object, e As ASPxGridViewCustomCallbackEventArgs) Handles GridX.CustomCallback
         Try
             Dim SpcResultID As String = ""
             Dim msgErr As String = ""
@@ -291,7 +291,7 @@ Public Class ProdSampleVerification
             GridActivity.SettingsCommandButton.UpdateButton.Text = "Save"
         End If
     End Sub
-    Private Sub Grid_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles Grid.HtmlDataCellPrepared
+    Private Sub Grid_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles GridX.HtmlDataCellPrepared
         Try
             Dim cs As New clsSPCColor
 
@@ -636,9 +636,9 @@ Public Class ProdSampleVerification
         GridActivity.JSProperties("cp_val") = pVal
     End Sub
     Private Sub show_errorGrid(ByVal msgType As MsgTypeEnum, ByVal ErrMsg As String, ByVal pVal As Integer)
-        Grid.JSProperties("cp_message") = ErrMsg
-        Grid.JSProperties("cp_type") = msgType
-        Grid.JSProperties("cp_val") = pVal
+        GridX.JSProperties("cp_message") = ErrMsg
+        GridX.JSProperties("cp_type") = msgType
+        GridX.JSProperties("cp_val") = pVal
     End Sub
     Private Sub UpFillCombo()
         Try
@@ -818,7 +818,7 @@ Public Class ProdSampleVerification
     Private Sub Up_GridLoad(cls As clsProdSampleVerification)
         Dim msgErr As String = ""
 
-        With Grid
+        With GridX
             .Columns.Clear()
             Dim ColDescIndex As New GridViewDataTextColumn
             ColDescIndex.FieldName = "nDescIndex"
@@ -897,32 +897,32 @@ Public Class ProdSampleVerification
                 .Styles.CommandColumn.BackColor = Color.White
                 .Styles.CommandColumn.ForeColor = Color.Black
             End If
-            Grid.JSProperties("cp_GridTot") = dtGrid.Rows.Count
+            GridX.JSProperties("cp_GridTot") = dtGrid.Rows.Count
         End With
     End Sub
     Private Sub Up_GridChartSetup(cls As clsProdSampleVerification)
         ds = clsProdSampleVerificationDB.GridLoad(GetCharSetup, cls)
         Dim dtChartSetup As DataTable = ds.Tables(0)
-        Grid.JSProperties("cpChartSetup") = dtChartSetup.Rows.Count
+        GridX.JSProperties("cpChartSetup") = dtChartSetup.Rows.Count
 
         If dtChartSetup.Rows.Count > 0 Then
             LotNo = dtChartSetup.Rows(0)("SubLotNo").ToString
             HideValue.Set("SubLotNo", LotNo)
 
-            Grid.JSProperties("cpUSL") = AFormat(dtChartSetup.Rows(0)("USL"))
-            Grid.JSProperties("cpLSL") = AFormat(dtChartSetup.Rows(0)("LSL"))
-            Grid.JSProperties("cpUCL") = AFormat(dtChartSetup.Rows(0)("UCL"))
-            Grid.JSProperties("cpLCL") = AFormat(dtChartSetup.Rows(0)("LCL"))
+            GridX.JSProperties("cpUSL") = AFormat(dtChartSetup.Rows(0)("USL"))
+            GridX.JSProperties("cpLSL") = AFormat(dtChartSetup.Rows(0)("LSL"))
+            GridX.JSProperties("cpUCL") = AFormat(dtChartSetup.Rows(0)("UCL"))
+            GridX.JSProperties("cpLCL") = AFormat(dtChartSetup.Rows(0)("LCL"))
 
-            Grid.JSProperties("cpMIN") = AFormat(dtChartSetup.Rows(0)("nMIN"))
-            Grid.JSProperties("cpMAX") = AFormat(dtChartSetup.Rows(0)("nMAX"))
-            Grid.JSProperties("cpAVG") = AFormat(dtChartSetup.Rows(0)("nAVG"))
-            Grid.JSProperties("cpR") = AFormat(dtChartSetup.Rows(0)("nR"))
+            GridX.JSProperties("cpMIN") = AFormat(dtChartSetup.Rows(0)("nMIN"))
+            GridX.JSProperties("cpMAX") = AFormat(dtChartSetup.Rows(0)("nMAX"))
+            GridX.JSProperties("cpAVG") = AFormat(dtChartSetup.Rows(0)("nAVG"))
+            GridX.JSProperties("cpR") = AFormat(dtChartSetup.Rows(0)("nR"))
 
-            Grid.JSProperties("cpC") = dtChartSetup.Rows(0)("C").ToString
-            Grid.JSProperties("cpNG") = dtChartSetup.Rows(0)("NG").ToString
+            GridX.JSProperties("cpC") = dtChartSetup.Rows(0)("C").ToString
+            GridX.JSProperties("cpNG") = dtChartSetup.Rows(0)("NG").ToString
 
-            Grid.JSProperties("cpCS") = dtChartSetup.Rows(0)("CS").ToString
+            GridX.JSProperties("cpCS") = dtChartSetup.Rows(0)("CS").ToString
         End If
     End Sub
     Private Sub Up_GridLoadActivities(cls As clsProdSampleVerification)
@@ -1161,9 +1161,9 @@ Public Class ProdSampleVerification
         HideValue.Set("ShowVerify", cboShow.Value)
         btnBack.Visible = False
 
-        Grid.JSProperties("cp_GridTot") = 0  'for disabled button Verify and Download Excel
-        Grid.JSProperties("cp_Verify") = VerifyStatus 'for authorization verify
-        Grid.JSProperties("cpChartSetup") = 0
+        GridX.JSProperties("cp_GridTot") = 0  'for disabled button Verify and Download Excel
+        GridX.JSProperties("cp_Verify") = VerifyStatus 'for authorization verify
+        GridX.JSProperties("cpChartSetup") = 0
     End Sub
     Private Function AFormat(v As Object) As String
         If v Is Nothing OrElse IsDBNull(v) Then
@@ -1188,11 +1188,11 @@ Public Class ProdSampleVerification
     End Sub
     Private Sub Validation_Verify(cls As clsProdSampleVerification)
         VerifyStatus = clsProdSampleVerificationDB.Validation(GetVerifyPrivilege, cls)
-        Grid.JSProperties("cp_Verify") = VerifyStatus 'parameter to authorization verify
+        GridX.JSProperties("cp_Verify") = VerifyStatus 'parameter to authorization verify
 
         pEmplooyeeID = clsIOT.GetEmployeeID(pUser)
         Dim AllowSkill As Boolean = clsIOT.AllowSkill(pEmplooyeeID, cls.FactoryCode, cls.LineCode, cls.ItemType_Code)
-        Grid.JSProperties("cp_AllowSkill") = AllowSkill 'parameter to authorization verify
+        GridX.JSProperties("cp_AllowSkill") = AllowSkill 'parameter to authorization verify
 
     End Sub
 
