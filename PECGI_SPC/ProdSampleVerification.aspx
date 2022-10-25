@@ -1090,7 +1090,8 @@
             SelectCommand="SELECT CODE = UserID, CODENAME = UserID FROM dbo.spc_UserSetup "></asp:SqlDataSource>
 
         <dx:ASPxGridView ID="GridActivity" runat="server" AutoGenerateColumns="False" ClientInstanceName="GridActivity" OnRowValidating="GridActivity_Validating"
-            EnableTheming="True" KeyFieldName="ActivityID" Theme="Office2010Black" Width="100%" Font-Names="Segoe UI" Font-Size="9pt">
+            EnableTheming="True" KeyFieldName="ActivityID" Theme="Office2010Black" Width="100%" Font-Names="Segoe UI" Font-Size="9pt" 
+            OnAfterPerformCallback="Grid_AfterPerformCallback">
             <ClientSideEvents EndCallback="EndCallback_GridActivity" />
             <Columns>
                 <dx:GridViewCommandColumn FixedStyle="Left"

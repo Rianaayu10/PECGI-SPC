@@ -271,7 +271,8 @@ Public Class ProdSampleVerification
             .ItemCheck_Code = HideValue.Get("ItemCheck_Code"),
             .ProdDate = Convert.ToDateTime(dtProdDate.Value).ToString("yyyy-MM-dd"),
             .ShiftCode = HideValue.Get("ShiftCode"),
-            .Seq = HideValue.Get("Seq")
+            .Seq = HideValue.Get("Seq"),
+            .User = pUser
             }
 
             If pAction = "Load" Then
@@ -290,6 +291,24 @@ Public Class ProdSampleVerification
     Private Sub GridActivity_BeforeGetCallbackResult(ByVal sender As Object, ByVal e As System.EventArgs) Handles GridActivity.BeforeGetCallbackResult
         If GridActivity.IsNewRowEditing Then
             GridActivity.SettingsCommandButton.UpdateButton.Text = "Save"
+        End If
+    End Sub
+    Protected Sub Grid_AfterPerformCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles GridActivity.AfterPerformCallback
+        If e.CallbackName <> "CANCELEDIT" Then
+
+            Dim cls As New clsProdSampleVerification With {
+            .FactoryCode = cboFactory.Value,
+            .ItemType_Code = cboItemType.Value,
+            .LineCode = cboLineID.Value,
+            .ItemCheck_Code = cboItemCheck.Value,
+            .ProdDate = Convert.ToDateTime(dtProdDate.Value).ToString("yyyy-MM-dd"),
+            .ShiftCode = cboShift.Value,
+            .Seq = cboSeq.Value,
+            .User = pUser
+            }
+
+            Up_GridLoadActivities(cls)
+
         End If
     End Sub
     Private Sub Grid_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles GridX.HtmlDataCellPrepared
@@ -436,25 +455,6 @@ Public Class ProdSampleVerification
             e.LegendDrawOptions.Color = cs.Color5
         End If
     End Sub
-
-    'Private Sub cbkIOTconn_Callback(source As Object, e As CallbackEventArgs) Handles cbkIOTconn.Callback
-    '    Dim ActionSts = e.Parameter.ToString
-
-    '    Dim cls As New clsProdSampleVerification
-    '    cls.FactoryCode = HideValue.Get("FactoryCode")
-    '    cls.ItemType_Code = HideValue.Get("ItemType_Code")
-    '    cls.LineCode = HideValue.Get("LineCode")
-    '    cls.ItemCheck_Code = HideValue.Get("ItemCheck_Code")
-    '    cls.ProdDate = Convert.ToDateTime(HideValue.Get("ProdDate")).ToString("yyyy-MM-dd")
-    '    cls.ShiftCode = HideValue.Get("ShiftCode")
-    '    cls.Seq = HideValue.Get("Seq")
-    '    cls.User = pUser
-
-    '    dt = clsProdSampleVerificationDB.IOTconnection(ActionSts, cls)
-    '    Dim URL = dt.Rows(0)("URL").ToString()
-    '    cbkIOTconn.JSProperties("cp_URL") = URL
-
-    'End Sub
 #End Region
 
 #Region "GRID EVENT INSERT - UPDATE - DELETE"
@@ -1099,7 +1099,6 @@ Public Class ProdSampleVerification
             'End If
         End With
     End Sub
-
     Private Sub LoadForm_ByAnotherform()
 
         prmFactoryCode = Request.QueryString("FactoryCode")
@@ -1210,7 +1209,6 @@ Public Class ProdSampleVerification
             show_errorGrid(MsgTypeEnum.Warning, VerifyDesc, 1)
         End If
     End Sub
-
     Private Sub GetURL(cls As clsProdSampleVerification)
         Dim URL = clsIOT.GetURL(pUser)
         HideValue.Set("URL", URL)
