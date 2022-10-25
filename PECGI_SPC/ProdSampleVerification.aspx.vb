@@ -242,6 +242,7 @@ Public Class ProdSampleVerification
                 Up_GridLoad(cls)
                 Up_GridChartSetup(cls)
                 Validation_Verify(cls)
+                GetURL(cls)
 
             ElseIf pAction = "Verify" Then
 
@@ -1211,21 +1212,21 @@ Public Class ProdSampleVerification
     End Sub
     Private Sub GetURL(cls As clsProdSampleVerification)
         Dim URL = clsIOT.GetURL(pUser)
-        HideValue.Set("URL", URL)
+        GridX.JSProperties("cp_URL") = URL
 
         Dim dtDailyProd = clsIOT.GetDailyProd(cls.FactoryCode, cls.LineCode, cls.ItemType_Code, LotNo, cls.ProdDate)
         If dtDailyProd.Rows.Count > 0 Then
-            HideValue.Set("ProcessGroup", dtDailyProd.Rows(0)("ProcessGroup"))
-            HideValue.Set("LineGroup", dtDailyProd.Rows(0)("LineGroup"))
-            HideValue.Set("processCode", dtDailyProd.Rows(0)("process_Code"))
-            HideValue.Set("InstructionNo", dtDailyProd.Rows(0)("Instruction_No"))
-            HideValue.Set("ShiftIOT", dtDailyProd.Rows(0)("Shift"))
+            GridX.JSProperties("cp_ProcessGroup") = dtDailyProd.Rows(0)("ProcessGroup")
+            GridX.JSProperties("cp_LineGroup") = dtDailyProd.Rows(0)("LineGroup")
+            GridX.JSProperties("cp_processCode") = dtDailyProd.Rows(0)("process_Code")
+            GridX.JSProperties("cp_InstructionNo") = dtDailyProd.Rows(0)("Instruction_No")
+            GridX.JSProperties("cp_Shift") = dtDailyProd.Rows(0)("Shift")
         Else
-            HideValue.Set("ProcessGroup", "")
-            HideValue.Set("LineGroup", "")
-            HideValue.Set("processCode", "")
-            HideValue.Set("InstructionNo", "")
-            HideValue.Set("ShiftIOT", "")
+            GridX.JSProperties("cp_ProcessGroup") = ""
+            GridX.JSProperties("cp_LineGroup") = ""
+            GridX.JSProperties("cp_processCode") = ""
+            GridX.JSProperties("cp_InstructionNo") = ""
+            GridX.JSProperties("cp_Shift") = ""
         End If
     End Sub
 #End Region
