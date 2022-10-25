@@ -122,10 +122,6 @@
             
         }
 
-        function OpenWindow(s, e) {
-            var selectedDate = dtDate.GetText();
-            window.open('ProdSampleInput.aspx?FactoryCode=' + cboFactory.GetValue() + '&ItemTypeCode=' + cboType.GetValue() + '&Line=' + cboLine.GetValue() + '&ItemCheckCode=' + cboItemCheck.GetValue() + '&Shift=' + cboShift.GetValue() + '&ProdDate=' + dtDate.GetText() + '&Sequence=' + cboSeq.GetValue(), "NewWindow");
-        }
 
         function OnEndCallback(s, e) {
             if (s.cp_message != "" && s.cp_val == 1) {

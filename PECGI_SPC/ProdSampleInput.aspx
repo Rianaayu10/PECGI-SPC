@@ -24,6 +24,8 @@
     </style>
     <script type="text/javascript" >
         var rowIndex, columnIndex;
+        var prevShift;
+
         function OnInit(s, e) {
             var x = document.getElementById("chartRdiv");
             x.style.display = "none";
@@ -35,6 +37,12 @@
             } else {
                 return !isNaN(parseFloat(n)) && isFinite(n);
             }
+        }
+
+        
+        function cboShiftEndCallback(s, e) {
+            cboShift.SetEnabled(true);            
+            cboShift.SetValue(prevShift);                
         }
 
         function ValidateSave(s, e) {
@@ -60,11 +68,13 @@
             cboItemCheck.SetEnabled(false);
             cboItemCheck.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue());
             cboShift.SetEnabled(false);
+            prevShift = cboShift.GetValue();            
             cboShift.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue());            
         }
 
         function cboItemCheckChanged(s, e) {
             cboShift.SetEnabled(false);
+            prevShift = cboShift.GetValue();
             cboShift.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue());                        
         }
 
@@ -396,15 +406,12 @@
                     Font-Size="9pt" Height="25px" 
                     Width="190px" TabIndex="5" >
                     <ClientSideEvents EndCallback="function(s, e) {
-                            cboItemCheck.SetEnabled(true);                            
-                       }"
+                            cboItemCheck.SetEnabled(true);}"
                         SelectedIndexChanged="cboItemCheckChanged"/>
 
-                    <ItemStyle Height="10px" Paddings-Padding="4px">
-<Paddings Padding="4px"></Paddings>
+                    <ItemStyle Height="10px" Paddings-Padding="4px"><Paddings Padding="4px"></Paddings>
                     </ItemStyle>
-                    <ButtonStyle Paddings-Padding="4px" Width="5px">
-<Paddings Padding="4px"></Paddings>
+                    <ButtonStyle Paddings-Padding="4px" Width="5px"><Paddings Padding="4px"></Paddings>
                     </ButtonStyle>
                 </dx:ASPxComboBox>
                 
@@ -424,7 +431,7 @@
                     Font-Size="9pt" Height="25px" 
                     Width="100px" TabIndex="3">
                     <ClientSideEvents SelectedIndexChanged="cboShiftChanged" 
-                        EndCallback="function(s, e) {cboShift.SetEnabled(true);}"
+                        EndCallback="cboShiftEndCallback"
                         />
                     <ButtonStyle Paddings-Padding="4px" Width="5px">
 <Paddings Padding="4px"></Paddings>
