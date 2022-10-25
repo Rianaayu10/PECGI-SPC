@@ -59,7 +59,8 @@ Public Class clsIOT
                 "inner join Ms_Item I on D.Item_Code = I.Item_Code " & vbCrLf &
                 "inner join MS_ItemType T on I.Item_Type = T.ItemTypeCode " & vbCrLf &
                 "where S.FactoryCode = @FactoryCode and S.LineCode = @LineCode and I.Item_Type = @ItemTypeCode " & vbCrLf &
-                "and E.EmployeeID = @EmployeeID and E.SkillCode = @SkillCode"
+                "and E.EmployeeID = @EmployeeID and E.SkillCode = @SkillCode" & vbCrLf &
+                "and CAST(GETDATE() AS DATE) BETWEEN CAST(StartDate AS DATE) AND CAST(EndDate AS DATE)"
             Dim cmd As New SqlCommand(q, Cn)
             cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
             cmd.Parameters.AddWithValue("LineCode", LineCode)
