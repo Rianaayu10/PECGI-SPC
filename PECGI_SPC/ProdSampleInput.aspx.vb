@@ -1146,7 +1146,7 @@ Public Class ProdSampleInput
                     e.Cell.BackColor = Color.Red
                 ElseIf Value < LCL Or Value > UCL Then
                     If e.GetValue("Seq") = "1" Then
-                        If ChartType = "2" Then
+                        If ChartType = "2" Or ChartType = "0" Then
                             e.Cell.BackColor = Color.Pink
                         Else
                             e.Cell.BackColor = Color.Yellow
