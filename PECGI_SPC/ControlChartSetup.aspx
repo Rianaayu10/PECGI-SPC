@@ -324,9 +324,9 @@
     </div>
     
     <div style="padding: 20px 0px 0px 0px">
-        <asp:SqlDataSource ID="dsType" runat="server"
+        <%--<asp:SqlDataSource ID="dsType" runat="server"
             ConnectionString="<%$ ConnectionStrings:ApplicationServices %>"
-            SelectCommand="Exec sp_SPC_ChartSetup_FillCombo '1' "></asp:SqlDataSource>
+            SelectCommand="Exec sp_SPC_ChartSetup_FillCombo '1' "></asp:SqlDataSource>--%>
 
         <%--<!<asp:SqlDataSource ID="dsMachine" runat="server"
             ConnectionString="<%$ ConnectionStrings:ApplicationServices %>"
@@ -360,7 +360,7 @@
 
                 <dx:GridViewDataComboBoxColumn Caption="Type" FieldName="Type" VisibleIndex="1" FixedStyle="Left"
                     Width="85px" Settings-AutoFilterCondition="Contains">
-                    <PropertiesComboBox DataSourceID="dsType" DropDownStyle="DropDownList" TextFormatString="{0}" DisplayFormatString="{1}"
+                    <PropertiesComboBox DropDownStyle="DropDownList" TextFormatString="{0}" DisplayFormatString="{1}"
                         IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="100%"
                         TextField="Description" ValueField="Description" ClientInstanceName="Type">
                         <ItemStyle Height="10px" Paddings-Padding="4px">
