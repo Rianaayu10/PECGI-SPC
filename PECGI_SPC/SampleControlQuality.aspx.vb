@@ -87,6 +87,7 @@ Public Class SampleControlQuality
         Dim linkR As New PrintableComponentLink(ps)
         ChartType = clsXRChartDB.GetChartType(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value)
         If ChartType = "1" Or ChartType = "2" Then
+            LoadChartR(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), Format(dtTo.Value, "yyyy-MM-dd"), cboShow.Value)
             linkR.Component = (CType(chartR, IChartContainer)).Chart
         End If
 
@@ -692,14 +693,14 @@ Public Class SampleControlQuality
         Dim ItemTypeCode As String = Split(Prm, "|")(1)
         Dim LineCode As String = Split(Prm, "|")(2)
         Dim ItemCheckCode As String = Split(Prm, "|")(3)
-        Dim ProdDate As String = Split(Prm, "|")(4)
-        Dim PrevDate As String = Split(Prm, "|")(5)
+        Dim PrevDate As String = Split(Prm, "|")(4)
+        Dim ProdDate As String = Split(Prm, "|")(5)
         Dim VerifiedOnly As String = Split(Prm, "|")(6)
         LoadChartR(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, PrevDate, ProdDate, VerifiedOnly)
     End Sub
 
     Private Sub LoadChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, PrevDate As String, ProdDate As String, VerifiedOnly As String)
-        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, PrevDate, ProdDate, VerifiedOnly)
+        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, PrevDate, VerifiedOnly)
         If xr.Count = 0 Then
             chartR.JSProperties("cpShow") = "0"
         Else
