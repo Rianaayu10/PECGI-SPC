@@ -23,7 +23,7 @@ Public Class ProdSampleQCSummaryDetail
 #Region "Events"
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         sGlobal.getMenu(pMenuID)
-        Master.SiteTitle = pMenuID & " - " & sGlobal.menuName & " NG Results"
+        Master.SiteTitle = pMenuID & " - " & sGlobal.menuName & " Results"
         pUser = Session("user")
         '{menu=ProdIDSummary&FactoryCode=F001&ItemTypeCode=TPMSBR011&ItemCheckCode=IC022&ProdDate=2022-08-04&Frequency=03&Sequence=5&Line=ALL}
         Factory = Request.QueryString("FactoryCode") & ""
@@ -50,9 +50,16 @@ Public Class ProdSampleQCSummaryDetail
     End Sub
 
     Private Sub Grid_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles Grid.HtmlDataCellPrepared
-        If (e.DataColumn.FieldName <> "Link") Then
-            e.Cell.Text = Split(e.CellValue, "||")(0)
-            e.Cell.BackColor = ColorTranslator.FromHtml(Split(e.CellValue, "||")(1))
+        If (e.DataColumn.FieldName = "Result") Then
+            If e.CellValue.ToString.Contains("OK") Then
+                e.Cell.Text = IIf(e.CellValue = "OK", "OK", "")
+            ElseIf e.CellValue.ToString.Contains("NoResult") Then
+                e.Cell.Text = "Delay"
+                e.Cell.BackColor = ColorTranslator.FromHtml(Split(e.CellValue, "||")(1))
+            ElseIf e.CellValue.ToString.Contains("NG") Then
+                e.Cell.Text = "NG"
+                e.Cell.BackColor = ColorTranslator.FromHtml(Split(e.CellValue, "||")(1))
+            End If
         End If
     End Sub
 #End Region

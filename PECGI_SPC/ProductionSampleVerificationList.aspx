@@ -445,10 +445,13 @@
             </tr>
         </table>
     </div>
+
+
+
     <div style="padding: 5px 5px 5px 5px">
         <dx:ASPxGridView ID="Grid" runat="server" AutoGenerateColumns="False" ClientInstanceName="Grid"
             EnableTheming="True" KeyFieldName="SPCResultID" Theme="Office2010Black"
-            Width="100%" Font-Names="Segoe UI" Font-Size="9pt">
+            Width="100%" Font-Names="Segoe UI" Font-Size="9pt" OnAfterPerformCallback="Grid_AfterPerformCallback">
             <ClientSideEvents EndCallback="OnEndCallback" Init="OnInit" SelectionChanged="SelectionChanged" />
             <Columns>
                 <dx:GridViewCommandColumn ShowSelectCheckbox="True" VisibleIndex="1" Width="30px" FixedStyle="Left" Caption=" ">
@@ -605,11 +608,10 @@
                 </dx:GridViewBandColumn>
             </Columns>
             <SettingsBehavior ColumnResizeMode="control"/>
-            <SettingsPager Mode="ShowPager" PageSize="20" AlwaysShowPager="true" PageSizeItemSettings-Visible="true">
+            <SettingsPager Mode="ShowPager" PageSize="20" AlwaysShowPager="true">
                 <PageSizeItemSettings Visible="True"></PageSizeItemSettings>
             </SettingsPager>
-            <Settings HorizontalScrollBarMode="Auto" VerticalScrollBarMode="Auto" VerticalScrollableHeight="300" />
-            
+            <Settings HorizontalScrollBarMode="Auto" VerticalScrollBarMode="Auto" VerticalScrollableHeight="300" />     
         </dx:ASPxGridView>
     </div>
 

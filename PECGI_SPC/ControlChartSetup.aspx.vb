@@ -532,41 +532,74 @@ Public Class ControlChartSetup
             Throw New Exception(ex.Message)
         End Try
     End Function
-#End Region
 
     Private Sub up_FillComboFilter(Factory, Machine, Type)
-        'Line
+        'Type
         Dim ds As New SqlDataSource
-        ds.ConnectionString = Sconn.Stringkoneksi
-        ds.SelectCommandType = SqlDataSourceCommandType.StoredProcedure
-        ds.SelectCommand = "sp_SPC_ChartSetup_FillCombo"
-        ds.SelectParameters.Add("Type", "4")
-        ds.SelectParameters.Add("Param", Factory)
-        ds.SelectParameters.Add("Param2", Machine)
-        ds.SelectParameters.Add("Param3", Type)
-        Dim combo As GridViewDataComboBoxColumn = TryCast(Grid.Columns("Machine"), GridViewDataComboBoxColumn)
-        combo.PropertiesComboBox.ValueType = GetType(String)
-        combo.PropertiesComboBox.DataSource = ds
-        combo.PropertiesComboBox.TextField = "Description"
-        combo.PropertiesComboBox.ValueField = "Code"
-        combo.PropertiesComboBox.TextFormatString = "{0}"
-        combo.PropertiesComboBox.IncrementalFilteringMode = IncrementalFilteringMode.Contains
+        With ds
+            .ConnectionString = Sconn.Stringkoneksi
+            .SelectCommandType = SqlDataSourceCommandType.StoredProcedure
+            .SelectCommand = "sp_SPC_ChartSetup_FillCombo"
+            .SelectParameters.Add("Type", "7")
+            .SelectParameters.Add("Param", Factory)
+            .SelectParameters.Add("Param2", Machine)
+            .SelectParameters.Add("Param3", Type)
+        End With
+
+        Dim combo As GridViewDataComboBoxColumn = TryCast(Grid.Columns("Type"), GridViewDataComboBoxColumn)
+        With combo
+            .PropertiesComboBox.ValueType = GetType(String)
+            .PropertiesComboBox.DataSource = ds
+            .PropertiesComboBox.TextField = "Description"
+            .PropertiesComboBox.ValueField = "Code"
+            .PropertiesComboBox.TextFormatString = "{0}"
+            .PropertiesComboBox.IncrementalFilteringMode = IncrementalFilteringMode.Contains
+        End With
+
+        'Line
+        Dim ds2 As New SqlDataSource
+        With ds2
+            .ConnectionString = Sconn.Stringkoneksi
+            .SelectCommandType = SqlDataSourceCommandType.StoredProcedure
+            .SelectCommand = "sp_SPC_ChartSetup_FillCombo"
+            .SelectParameters.Add("Type", "4")
+            .SelectParameters.Add("Param", Factory)
+            .SelectParameters.Add("Param2", Machine)
+            .SelectParameters.Add("Param3", Type)
+        End With
+        
+        Dim combo2 As GridViewDataComboBoxColumn = TryCast(Grid.Columns("Machine"), GridViewDataComboBoxColumn)
+        With combo2
+            .PropertiesComboBox.ValueType = GetType(String)
+            .PropertiesComboBox.DataSource = ds2
+            .PropertiesComboBox.TextField = "Description"
+            .PropertiesComboBox.ValueField = "Code"
+            .PropertiesComboBox.TextFormatString = "{0}"
+            .PropertiesComboBox.IncrementalFilteringMode = IncrementalFilteringMode.Contains
+        End With
 
         'Item Check
-        Dim ds2 As New SqlDataSource
-        ds2.ConnectionString = Sconn.Stringkoneksi
-        ds2.SelectCommandType = SqlDataSourceCommandType.StoredProcedure
-        ds2.SelectCommand = "sp_SPC_ChartSetup_FillCombo"
-        ds2.SelectParameters.Add("Type", "6")
-        ds2.SelectParameters.Add("Param", Factory)
-        ds2.SelectParameters.Add("Param2", Machine)
-        ds2.SelectParameters.Add("Param3", Type)
-        Dim combo2 As GridViewDataComboBoxColumn = TryCast(Grid.Columns("ItemCheck"), GridViewDataComboBoxColumn)
-        combo2.PropertiesComboBox.ValueType = GetType(String)
-        combo2.PropertiesComboBox.DataSource = ds2
-        combo2.PropertiesComboBox.TextField = "Description"
-        combo2.PropertiesComboBox.ValueField = "Code"
-        combo2.PropertiesComboBox.TextFormatString = "{0}"
+        Dim ds3 As New SqlDataSource
+        With ds3
+            .ConnectionString = Sconn.Stringkoneksi
+            .SelectCommandType = SqlDataSourceCommandType.StoredProcedure
+            .SelectCommand = "sp_SPC_ChartSetup_FillCombo"
+            .SelectParameters.Add("Type", "6")
+            .SelectParameters.Add("Param", Factory)
+            .SelectParameters.Add("Param2", Machine)
+            .SelectParameters.Add("Param3", Type)
+        End With
+        
+        Dim combo3 As GridViewDataComboBoxColumn = TryCast(Grid.Columns("ItemCheck"), GridViewDataComboBoxColumn)
+        With combo3
+            .PropertiesComboBox.ValueType = GetType(String)
+            .PropertiesComboBox.DataSource = ds3
+            .PropertiesComboBox.TextField = "Description"
+            .PropertiesComboBox.ValueField = "Code"
+            .PropertiesComboBox.TextFormatString = "{0}"
+        End With
+        
     End Sub
+#End Region
 
 End Class

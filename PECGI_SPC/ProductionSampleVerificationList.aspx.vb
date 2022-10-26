@@ -221,7 +221,23 @@ Public Class ProductionSampleVerificationList
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 0)
         End Try
     End Sub
+    Protected Sub Grid_AfterPerformCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles Grid.AfterPerformCallback
+        If e.CallbackName <> "CANCELEDIT" Then
 
+            Dim cls As New clsProductionSampleVerificationList
+            cls.FactoryCode = cboFactory.Value
+            cls.ItemType_Code = cboItemType.Value
+            cls.LineCode = cboLineID.Value
+            cls.ItemCheck_Code = cboItemCheck.Value
+            cls.ProdDateFrom = Convert.ToDateTime(dtFromDate.Value).ToString("yyyy-MM-dd")
+            cls.ProdDateTo = Convert.ToDateTime(dtToDate.Value).ToString("yyyy-MM-dd")
+            cls.MKVerification = cboMK.Value
+            cls.QCVerification = cboQC.Value
+            cls.UserID = pUser
+
+            UpGridLoad(cls)
+        End If
+    End Sub
 #End Region
 #Region "Procedure"
     Private Sub show_error(ByVal msgType As MsgTypeEnum, ByVal ErrMsg As String, ByVal pVal As Integer)

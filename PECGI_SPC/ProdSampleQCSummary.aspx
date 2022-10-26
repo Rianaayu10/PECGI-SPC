@@ -10,7 +10,7 @@
         }
         .text {
             font-weight: bold;
-            font-size: 10pt;
+            font-size: 9pt;
             font-family: Segoe UI;
         }
     </style>
@@ -92,7 +92,7 @@
 
         function up_Browse() {
             debugger
-            HF.Set('Excel', '0');
+            HF.Set('Excel', '2');
             var FactoryCode = cboFactory.GetValue();
             var ItemType_Code = cboType.GetValue();
             var LineCode = cboMachine.GetValue();
@@ -109,7 +109,7 @@
                 toastr.options.preventDuplicates = true;
             }
             else {
-                Grid.PerformCallback('Load');
+                Gridx.PerformCallback('Load');
             }
         }
     </script>
@@ -142,7 +142,7 @@
             var hAll = h1 + p1 + h2 + p2 + h3 + pF;
             /* alert(h1 + p1 + h2 + p2 + h3);*/
             var height = Math.max(0, document.documentElement.clientHeight);
-            Grid.SetHeight(height - hAll);
+            Gridx.SetHeight(height - hAll);
         };
     </script>
 </asp:Content>
@@ -156,7 +156,7 @@
                     <table>
                         <tr>
                             <td style="padding-right: 1em">
-                                <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="Factory" Theme="Office2010Black" Font-Names="Segoe UI" Font-Size="10pt" />
+                                <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="Factory" Theme="Office2010Black" Font-Names="Segoe UI" Font-Size="9pt" />
                             </td>
 
                             <td style="padding-right: 1em">
@@ -178,13 +178,13 @@
                                         cboMachine.SetEnabled(false);
                                         cboMachine.PerformCallback();
                                 
-                                        Grid.PerformCallback('Kosong');
+                                        Gridx.PerformCallback('Kosong');
                                     }" />
                                 </dx:ASPxComboBox>
                             </td>
 
                             <td style="padding-right: 1em">
-                                <dx:ASPxLabel ID="ASPxLabel2" runat="server" Text="Machine Process" Theme="Office2010Black" Font-Names="Segoe UI" Font-Size="10pt" />
+                                <dx:ASPxLabel ID="ASPxLabel2" runat="server" Text="Machine Process" Theme="Office2010Black" Font-Names="Segoe UI" Font-Size="9pt" />
                             </td>
 
                             <td style="padding-right: 1em">
@@ -205,13 +205,13 @@
                                         cboFrequency.SetEnabled(false);
                                         cboFrequency.PerformCallback();
 
-                                        Grid.PerformCallback('Kosong');
+                                        Gridx.PerformCallback('Kosong');
                                     }" />
                                 </dx:ASPxComboBox>
                             </td>
 
                             <td style="padding-right: 1em; padding-top: 0.5em">
-                                <dx:ASPxLabel ID="ASPxLabel5" runat="server" Text="Frequency" Theme="Office2010Black" Font-Names="Segoe UI" Font-Size="10pt" />
+                                <dx:ASPxLabel ID="ASPxLabel5" runat="server" Text="Frequency" Theme="Office2010Black" Font-Names="Segoe UI" Font-Size="9pt" />
                             </td>
 
                             <td style="padding-right: 1em; padding-top: 0.5em">
@@ -231,7 +231,7 @@
                                         cboSequence.SetEnabled(false);
                                         cboSequence.PerformCallback();
 
-                                        Grid.PerformCallback('Kosong');
+                                        Gridx.PerformCallback('Kosong');
                                     }" />
                                 </dx:ASPxComboBox>
                             </td>
@@ -239,7 +239,7 @@
 
                         <tr>
                             <td style="padding-right: 1em; padding-top: 0.5em">
-                                <dx:ASPxLabel ID="ASPxLabel3" runat="server" Text="Type" Theme="Office2010Black" Font-Names="Segoe UI" Font-Size="10pt" />
+                                <dx:ASPxLabel ID="ASPxLabel3" runat="server" Text="Type" Theme="Office2010Black" Font-Names="Segoe UI" Font-Size="9pt" />
                             </td>
 
                             <td style="padding-right: 1em; padding-top: 0.5em">
@@ -255,13 +255,13 @@
                                         cboMachine.SetEnabled(false);
                                         cboMachine.PerformCallback();
 
-                                        Grid.PerformCallback('Kosong');
+                                        Gridx.PerformCallback('Kosong');
                                     }" />
                                 </dx:ASPxComboBox>
                             </td>
 
                             <td style="padding-right: 1em; padding-top: 0.5em">
-                                <dx:ASPxLabel ID="ASPxLabel4" runat="server" Text="Prod. Date" Theme="Office2010Black" Font-Names="Segoe UI" Font-Size="10pt" />
+                                <dx:ASPxLabel ID="ASPxLabel4" runat="server" Text="Prod. Date" Theme="Office2010Black" Font-Names="Segoe UI" Font-Size="9pt" />
                             </td>
 
                             <td style="padding-right: 1em; padding-top: 0.5em">
@@ -269,7 +269,8 @@
                                     DisplayFormatString="dd MMM yyyy" EditFormatString="dd MMM yyyy" AutoPostBack="false">
                                     <ClientSideEvents Init="function(s, e){var today = new Date(); dtPeriod.SetDate(today);}" />
                                     <ClientSideEvents ValueChanged="function(s, e){
-                                        Grid.PerformCallback('Kosong');
+                                        HF.Set('Excel', '0');
+                                        Gridx.PerformCallback('Kosong');
                                     }" />
                                     <CalendarProperties>
                                         <HeaderStyle Font-Size="12pt" Paddings-Padding="5px" />
@@ -284,7 +285,7 @@
                             </td>
 
                             <td style="padding-right: 1em; padding-top: 0.5em">
-                                <dx:ASPxLabel ID="ASPxLabel6" runat="server" Text="Sequence" Theme="Office2010Black" Font-Names="Segoe UI" Font-Size="10pt" />
+                                <dx:ASPxLabel ID="ASPxLabel6" runat="server" Text="Sequence" Theme="Office2010Black" Font-Names="Segoe UI" Font-Size="9pt" />
                             </td>
 
                             <td style="padding-right: 1em; padding-top: 0.5em">
@@ -299,7 +300,7 @@
                                         btnExcel.SetEnabled(true); 
                                     }" />
                                     <ClientSideEvents SelectedIndexChanged="function(s, e) {
-                                        Grid.PerformCallback('Kosong');
+                                        Gridx.PerformCallback('Kosong');
                                     }" />
                                 </dx:ASPxComboBox>
                             </td>
@@ -322,7 +323,7 @@
                                         cboType.SetSelectedIndex(-1);
                                         cboSequence.SetSelectedIndex(-1);
                                         var today = new Date(); dtPeriod.SetDate(today);
-                                        Grid.PerformCallback('Kosong');
+                                        Gridx.PerformCallback('Kosong');
                                     }" />
                                 </dx:ASPxButton>
                             </td>
@@ -416,7 +417,7 @@
                                     <ClientSideEvents Click="function(s, e){
                                         debugger
                                         HF.Set('Excel', '1');
-                                            if (Grid.GetVisibleRowsOnPage() == 0){
+                                            if (Gridx.GetVisibleRowsOnPage() == 0){
                                                 toastr.warning('Please Click Browse First!', 'Warning');
                                                 toastr.options.closeButton = false;
                                                 toastr.options.debug = false;
@@ -438,7 +439,7 @@
     </div>
 
     <div style="padding: 20px 0px 0px 0px">
-        <dx:ASPxGridView ID="Grid" runat="server" AutoGenerateColumns="False" ClientInstanceName="Grid"
+        <dx:ASPxGridView ID="Gridx" runat="server" AutoGenerateColumns="False" ClientInstanceName="Gridx"
             EnableTheming="True" KeyFieldName="Type" Theme="Office2010Black" Width="100%"
             Font-Names="Segoe UI" Font-Size="9pt">
             <ClientSideEvents EndCallback="OnEndCallback" />

@@ -242,6 +242,7 @@ Public Class ProdSampleVerification
                 Up_GridLoad(cls)
                 Up_GridChartSetup(cls)
                 Validation_Verify(cls)
+                GetURL(cls)
 
             ElseIf pAction = "Verify" Then
 
@@ -271,7 +272,8 @@ Public Class ProdSampleVerification
             .ItemCheck_Code = HideValue.Get("ItemCheck_Code"),
             .ProdDate = Convert.ToDateTime(dtProdDate.Value).ToString("yyyy-MM-dd"),
             .ShiftCode = HideValue.Get("ShiftCode"),
-            .Seq = HideValue.Get("Seq")
+            .Seq = HideValue.Get("Seq"),
+            .User = pUser
             }
 
             If pAction = "Load" Then
@@ -290,6 +292,24 @@ Public Class ProdSampleVerification
     Private Sub GridActivity_BeforeGetCallbackResult(ByVal sender As Object, ByVal e As System.EventArgs) Handles GridActivity.BeforeGetCallbackResult
         If GridActivity.IsNewRowEditing Then
             GridActivity.SettingsCommandButton.UpdateButton.Text = "Save"
+        End If
+    End Sub
+    Protected Sub Grid_AfterPerformCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles GridActivity.AfterPerformCallback
+        If e.CallbackName <> "CANCELEDIT" Then
+
+            Dim cls As New clsProdSampleVerification With {
+            .FactoryCode = cboFactory.Value,
+            .ItemType_Code = cboItemType.Value,
+            .LineCode = cboLineID.Value,
+            .ItemCheck_Code = cboItemCheck.Value,
+            .ProdDate = Convert.ToDateTime(dtProdDate.Value).ToString("yyyy-MM-dd"),
+            .ShiftCode = cboShift.Value,
+            .Seq = cboSeq.Value,
+            .User = pUser
+            }
+
+            Up_GridLoadActivities(cls)
+
         End If
     End Sub
     Private Sub Grid_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles GridX.HtmlDataCellPrepared
@@ -436,25 +456,6 @@ Public Class ProdSampleVerification
             e.LegendDrawOptions.Color = cs.Color5
         End If
     End Sub
-
-    'Private Sub cbkIOTconn_Callback(source As Object, e As CallbackEventArgs) Handles cbkIOTconn.Callback
-    '    Dim ActionSts = e.Parameter.ToString
-
-    '    Dim cls As New clsProdSampleVerification
-    '    cls.FactoryCode = HideValue.Get("FactoryCode")
-    '    cls.ItemType_Code = HideValue.Get("ItemType_Code")
-    '    cls.LineCode = HideValue.Get("LineCode")
-    '    cls.ItemCheck_Code = HideValue.Get("ItemCheck_Code")
-    '    cls.ProdDate = Convert.ToDateTime(HideValue.Get("ProdDate")).ToString("yyyy-MM-dd")
-    '    cls.ShiftCode = HideValue.Get("ShiftCode")
-    '    cls.Seq = HideValue.Get("Seq")
-    '    cls.User = pUser
-
-    '    dt = clsProdSampleVerificationDB.IOTconnection(ActionSts, cls)
-    '    Dim URL = dt.Rows(0)("URL").ToString()
-    '    cbkIOTconn.JSProperties("cp_URL") = URL
-
-    'End Sub
 #End Region
 
 #Region "GRID EVENT INSERT - UPDATE - DELETE"
@@ -1099,7 +1100,6 @@ Public Class ProdSampleVerification
             'End If
         End With
     End Sub
-
     Private Sub LoadForm_ByAnotherform()
 
         prmFactoryCode = Request.QueryString("FactoryCode")
@@ -1210,24 +1210,23 @@ Public Class ProdSampleVerification
             show_errorGrid(MsgTypeEnum.Warning, VerifyDesc, 1)
         End If
     End Sub
-
     Private Sub GetURL(cls As clsProdSampleVerification)
         Dim URL = clsIOT.GetURL(pUser)
-        HideValue.Set("URL", URL)
+        GridX.JSProperties("cp_URL") = URL
 
         Dim dtDailyProd = clsIOT.GetDailyProd(cls.FactoryCode, cls.LineCode, cls.ItemType_Code, LotNo, cls.ProdDate)
         If dtDailyProd.Rows.Count > 0 Then
-            HideValue.Set("ProcessGroup", dtDailyProd.Rows(0)("ProcessGroup"))
-            HideValue.Set("LineGroup", dtDailyProd.Rows(0)("LineGroup"))
-            HideValue.Set("processCode", dtDailyProd.Rows(0)("process_Code"))
-            HideValue.Set("InstructionNo", dtDailyProd.Rows(0)("Instruction_No"))
-            HideValue.Set("ShiftIOT", dtDailyProd.Rows(0)("Shift"))
+            GridX.JSProperties("cp_ProcessGroup") = dtDailyProd.Rows(0)("ProcessGroup")
+            GridX.JSProperties("cp_LineGroup") = dtDailyProd.Rows(0)("LineGroup")
+            GridX.JSProperties("cp_processCode") = dtDailyProd.Rows(0)("process_Code")
+            GridX.JSProperties("cp_InstructionNo") = dtDailyProd.Rows(0)("Instruction_No")
+            GridX.JSProperties("cp_Shift") = dtDailyProd.Rows(0)("Shift")
         Else
-            HideValue.Set("ProcessGroup", "")
-            HideValue.Set("LineGroup", "")
-            HideValue.Set("processCode", "")
-            HideValue.Set("InstructionNo", "")
-            HideValue.Set("ShiftIOT", "")
+            GridX.JSProperties("cp_ProcessGroup") = ""
+            GridX.JSProperties("cp_LineGroup") = ""
+            GridX.JSProperties("cp_processCode") = ""
+            GridX.JSProperties("cp_InstructionNo") = ""
+            GridX.JSProperties("cp_Shift") = ""
         End If
     End Sub
 #End Region

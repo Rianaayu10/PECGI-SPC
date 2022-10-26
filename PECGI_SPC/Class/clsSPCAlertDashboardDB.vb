@@ -56,6 +56,7 @@ Public Class clsSPCAlertDashboardDB
                     .AddWithValue("FactoryCode", FactoryCode)
                     .AddWithValue("ProdDateType", pProdDateType)
                     .AddWithValue("ProdDate", pProdDate)
+                    .AddWithValue("TypeForm", "2")
                 End With
                 Dim da As New SqlDataAdapter(cmd)
                 Dim dt As New DataTable

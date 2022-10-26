@@ -10,7 +10,7 @@
         }
         .text {
             font-weight: bold;
-            font-size: 10pt;
+            font-size: 9pt;
             font-family: Segoe UI;
         }
     </style>
@@ -193,7 +193,18 @@
                     <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
                 </dx:GridViewDataTextColumn>
 
-                <dx:GridViewDataTextColumn Caption="#####NOTUSE" VisibleIndex="8" Width="0px" Settings-AutoFilterCondition="Contains" FieldName="Seq">
+                <dx:GridViewDataTextColumn Caption="Status" VisibleIndex="8" Width="70px" Settings-AutoFilterCondition="Contains" FieldName="Result">
+                    <Settings AutoFilterCondition="Contains"></Settings>
+                    <FilterCellStyle Paddings-PaddingRight="4px">
+                        <Paddings PaddingRight="4px"></Paddings>
+                    </FilterCellStyle>
+                    <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                        <Paddings PaddingLeft="5px"></Paddings>
+                    </HeaderStyle>
+                    <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
+                </dx:GridViewDataTextColumn>
+
+                <dx:GridViewDataTextColumn Caption="#####NOTUSE" VisibleIndex="9" Width="0px" Settings-AutoFilterCondition="Contains" FieldName="Seq">
                     <Settings AutoFilterCondition="Contains"></Settings>
                     <FilterCellStyle Paddings-PaddingRight="4px">
                         <Paddings PaddingRight="4px"></Paddings>

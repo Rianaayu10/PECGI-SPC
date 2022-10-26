@@ -8,6 +8,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript">
 
+    /*======== Initialitation R Chart ==========*/
         function InitRBar(s, e) {
             /*console.log(s.cpShow);*/
             var i = s.cpShow;
@@ -18,7 +19,8 @@
                 x.style.display = "none";
             }
         }
-
+    
+    /*======== Initialitation Grid X ==========*/
         function InitGrid(s, e) {
 
             if (s.cp_message != "" && s.cp_val == 1) {
@@ -64,6 +66,15 @@
                     toastr.options.onclick = null;
                 }
             }
+
+            console.log(s.cp_ProcessGroup);
+
+            HideValue.Set('URL', s.cp_URL);
+            HideValue.Set('ProcessGroup', s.cp_ProcessGroup);
+            HideValue.Set('LineGroup', s.cp_LineGroup);
+            HideValue.Set('ProcessCode', s.cp_ProcessCode);
+            HideValue.Set('InstructionNo', s.cp_InstructionNo);
+            HideValue.Set('Shift', s.cp_Shift);
 
             var USL = "";
             var LSL = "";
@@ -317,6 +328,13 @@
                 }
             }
 
+            HideValue.Set('URL', s.cp_URL);
+            HideValue.Set('ProcessGroup', s.cp_ProcessGroup);
+            HideValue.Set('LineGroup', s.cp_LineGroup);
+            HideValue.Set('ProcessCode', s.cp_ProcessCode);
+            HideValue.Set('InstructionNo', s.cp_InstructionNo);
+            HideValue.Set('Shift', s.cp_Shift);
+
             var USL = "";
             var LSL = "";
             var UCL = "";
@@ -569,7 +587,7 @@
             var FactoryCode = HideValue.Get('FactoryCode');
             var ProcessGroup = HideValue.Get('ProcessGroup');
             var LineGroup = HideValue.Get('LineGroup');
-            var Process = HideValue.Get('Process');
+            var Process = HideValue.Get('ProcessCode');
             var Line = HideValue.Get('LineCode');
             var Date = HideValue.Get('ProdDate');
             var InstructionNo = HideValue.Get('InstructionNo');
@@ -1090,7 +1108,8 @@
             SelectCommand="SELECT CODE = UserID, CODENAME = UserID FROM dbo.spc_UserSetup "></asp:SqlDataSource>
 
         <dx:ASPxGridView ID="GridActivity" runat="server" AutoGenerateColumns="False" ClientInstanceName="GridActivity" OnRowValidating="GridActivity_Validating"
-            EnableTheming="True" KeyFieldName="ActivityID" Theme="Office2010Black" Width="100%" Font-Names="Segoe UI" Font-Size="9pt">
+            EnableTheming="True" KeyFieldName="ActivityID" Theme="Office2010Black" Width="100%" Font-Names="Segoe UI" Font-Size="9pt" 
+            OnAfterPerformCallback="Grid_AfterPerformCallback">
             <ClientSideEvents EndCallback="EndCallback_GridActivity" />
             <Columns>
                 <dx:GridViewCommandColumn FixedStyle="Left"
