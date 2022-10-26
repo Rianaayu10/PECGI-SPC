@@ -15,7 +15,7 @@ Public Class clsSequenceNo
 End Class
 
 Public Class clsFrequencyDB
-    Public Shared Function GetShift(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, Optional ProdDate As String = "") As List(Of clsShift)
+    Public Shared Function GetShift(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, Optional ProdDate As String = "", Optional ShiftCode As String = "") As List(Of clsShift)
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String
@@ -31,6 +31,9 @@ Public Class clsFrequencyDB
                     "inner join vw_spcResultDetailOK D on R.SPCResultID = D.SPCResultID " & vbCrLf &
                     "where T.FactoryCode = @FactoryCode and T.ItemTypeCode = @ItemTypeCode and T.LineCode = @LineCode and T.ItemCheckCode = @ItemCheckCode  " & vbCrLf &
                     "and T.ActiveStatus = 1 and F.ActiveStatus = 1  " & vbCrLf
+                If ShiftCode <> "" Then
+                    q = q & "and F.ShiftCode <= '" & ShiftCode & "' "
+                End If
             End If
             Dim cmd As New SqlCommand(q, Cn)
             cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
@@ -53,7 +56,7 @@ Public Class clsFrequencyDB
         End Using
     End Function
 
-    Public Shared Function GetSequence(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, Optional ShiftCode As String = "", Optional ProdDate As String = "") As List(Of clsSequenceNo)
+    Public Shared Function GetSequence(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, Optional ShiftCode As String = "", Optional ProdDate As String = "", Optional SeqNo As Integer = 0) As List(Of clsSequenceNo)
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String
@@ -76,6 +79,9 @@ Public Class clsFrequencyDB
                 q = "select distinct R.SequenceNo, convert(char(5), R.RegisterDate, 114) StartTime from spc_Result R " & vbCrLf &
                     "inner join uf_SPCResult_Detail(0) D on R.SPCResultID = D.SPCResultID " & vbCrLf &
                     "where R.ProdDate = @ProdDate and R.FactoryCode = @FactoryCode and R.ItemTypeCode = @ItemTypeCode and R.LineCode = @LineCode and R.ItemCheckCode = @ItemCheckCode and ShiftCode = @ShiftCode " & vbCrLf
+                If SeqNo <> 0 Then
+                    q = q & "and R.SequenceNo <= " & SeqNo
+                End If
             End If
             Dim cmd As New SqlCommand(q, Cn)
             If ProdDate <> "" Then

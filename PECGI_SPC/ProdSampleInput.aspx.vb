@@ -79,14 +79,24 @@ Public Class ProdSampleInput
                     BandDay.Caption = Format(SelDay, "dd MMM yyyy")
                     .Columns.Add(BandDay)
 
-                    Dim Shiftlist As List(Of clsShift) = clsFrequencyDB.GetShift(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay)
+                    Dim Shiftlist As List(Of clsShift)
+                    If SelDay = CDate(Hdr.ProdDate) Then
+                        Shiftlist = clsFrequencyDB.GetShift(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay, Hdr.ShiftCode)
+                    Else
+                        Shiftlist = clsFrequencyDB.GetShift(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay)
+                    End If
 
                     For Each Shift In Shiftlist
                         Dim BandShift As New GridViewBandColumn
                         BandShift.Caption = "S-" & Shift.ShiftName
                         BandDay.Columns.Add(BandShift)
 
-                        Dim SeqList As List(Of clsSequenceNo) = clsFrequencyDB.GetSequence(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Shift.ShiftCode, dDay)
+                        Dim SeqList As List(Of clsSequenceNo)
+                        If SelDay = CDate(Hdr.ProdDate) Then
+                            SeqList = clsFrequencyDB.GetSequence(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Shift.ShiftCode, dDay, Hdr.Seq)
+                        Else
+                            SeqList = clsFrequencyDB.GetSequence(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Shift.ShiftCode, dDay)
+                        End If
                         Dim ColIndex As Integer = 1
                         For Each Seq In SeqList
                             Dim colTime As New GridViewDataTextColumn
@@ -535,11 +545,11 @@ Public Class ProdSampleInput
 
     Private Sub DownloadExcel()
         Dim ps As New PrintingSystem()
-        LoadChartX(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), cboShow.Value)
+        LoadChartX(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), cboShow.Value, cboSeq.Value)
         Dim linkX As New PrintableComponentLink(ps)
         linkX.Component = (CType(chartX, IChartContainer)).Chart
 
-        LoadChartR(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), cboShow.Value)
+        LoadChartR(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), cboShow.Value, cboSeq.Value)
         Dim linkR As New PrintableComponentLink(ps)
         linkR.Component = (CType(chartR, IChartContainer)).Chart
 
@@ -924,6 +934,8 @@ Public Class ProdSampleInput
         Hdr.ItemCheckCode = Split(e.Parameters, "|")(3)
         Hdr.ProdDate = Split(e.Parameters, "|")(4)
         Hdr.VerifiedOnly = Split(e.Parameters, "|")(5)
+        Hdr.Seq = Split(e.Parameters, "|")(6)
+        Hdr.ShiftCode = Split(e.Parameters, "|")(7)
         GridXLoad(Hdr)
     End Sub
 
@@ -939,7 +951,7 @@ Public Class ProdSampleInput
         End If
     End Sub
 
-    Private Sub LoadChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, VerifiedOnly As String)
+    Private Sub LoadChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, VerifiedOnly As String, SeqNo As Integer)
         Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, "", VerifiedOnly)
         If xr.Count = 0 Then
             chartR.JSProperties("cpShow") = "0"
@@ -995,9 +1007,9 @@ Public Class ProdSampleInput
 
     Dim ChartType As String
 
-    Private Sub LoadChartX(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, VerifiedOnly As String)
+    Private Sub LoadChartX(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, VerifiedOnly As String, SeqNo As String)
         ChartType = clsXRChartDB.GetChartType(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
-        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartXR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, VerifiedOnly)
+        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartXR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, VerifiedOnly, SeqNo)
         With chartX
             .DataSource = xr
             Dim diagram As XYDiagram = CType(.Diagram, XYDiagram)
@@ -1111,8 +1123,9 @@ Public Class ProdSampleInput
         Dim ItemCheckCode As String = Split(Prm, "|")(3)
         Dim ProdDate As String = Split(Prm, "|")(4)
         Dim VerifiedOnly As String = Split(Prm, "|")(5)
+        Dim SeqNo As String = Split(Prm, "|")(6)
 
-        LoadChartX(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, VerifiedOnly)
+        LoadChartX(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, VerifiedOnly, SeqNo)
     End Sub
 
     Private Sub gridX_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles gridX.HtmlDataCellPrepared
@@ -1187,7 +1200,8 @@ Public Class ProdSampleInput
         Dim ItemCheckCode As String = Split(Prm, "|")(3)
         Dim ProdDate As String = Split(Prm, "|")(4)
         Dim VerifiedOnly As String = Split(Prm, "|")(5)
-        LoadChartR(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, VerifiedOnly)
+        Dim SeqNo As String = Split(Prm, "|")(6)
+        LoadChartR(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, VerifiedOnly, SeqNo)
     End Sub
 
     Private Sub chartX_CustomDrawSeries(sender As Object, e As CustomDrawSeriesEventArgs) Handles chartX.CustomDrawSeries
