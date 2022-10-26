@@ -22,7 +22,6 @@
 
         /*======== Initialitation Grid X ==========*/
         function InitGrid(s, e) {
-
             if (s.cp_message != "" && s.cp_val == 1) {
                 if (s.cp_type == "Success" && s.cp_val == 1) {
                     toastr.success(s.cp_message, 'Success');
@@ -80,6 +79,8 @@
             var LSL = "";
             var UCL = "";
             var LCL = "";
+            var RUCL = "";
+            var RLCL = "";
             var MIN = "";
             var MAX = "";
             var AVG = "";
@@ -93,6 +94,8 @@
                 LSL = s.cpLSL;
                 UCL = s.cpUCL;
                 LCL = s.cpLCL;
+                RUCL = s.cpRUCL;
+                RLCL = s.cpRLCL;
                 MIN = s.cpMIN;
                 MAX = s.cpMAX;
                 AVG = s.cpAVG;
@@ -134,9 +137,7 @@
                     document.getElementById('Min').style.backgroundColor = 'Red';
                 } else if (MIN < LCL || MIN > UCL) {
                     if (s.cpCS == '1') {
-                        document.getElementById('Min').style.backgroundColor = 'Yellow';
-                    } else if (s.cpCS == '2') {
-                        document.getElementById('Min').style.backgroundColor = 'Yellow';
+                        document.getElementById('Min').style.backgroundColor = '#FFFE91';
                     }
                     else {
                         document.getElementById('Min').style.backgroundColor = 'Pink';
@@ -153,9 +154,7 @@
                     document.getElementById('Max').style.backgroundColor = 'Red';
                 } else if (MAX > UCL || MAX < LCL) {
                     if (s.cpCS == '1') {
-                        document.getElementById('Max').style.backgroundColor = 'Yellow';
-                    } else if (s.cpCS == '2') {
-                        document.getElementById('Max').style.backgroundColor = 'Yellow';
+                        document.getElementById('Max').style.backgroundColor = '#FFFE91';
                     }
                     else {
                         document.getElementById('Max').style.backgroundColor = 'Pink';
@@ -172,13 +171,21 @@
                     document.getElementById('Ave').style.backgroundColor = 'Red';
                 } else if (AVG > UCL || AVG < LCL) {
                     if (s.cpCS == '1') {
-                        document.getElementById('Ave').style.backgroundColor = 'Yellow';
-                    } else if (s.cpCS == '2') {
-                        document.getElementById('Ave').style.backgroundColor = 'Yellow';
+                        document.getElementById('Ave').style.backgroundColor = '#FFFE91';
                     }
                     else {
                         document.getElementById('Ave').style.backgroundColor = 'Pink';
                     }
+                } else {
+                    document.getElementById('Ave').style.backgroundColor = 'White';
+                }
+            } else {
+                document.getElementById('Ave').style.backgroundColor = 'White';
+            }
+
+            if (R != '') {
+                if (R > RUCL || AVG < RLCL) {
+                    document.getElementById('R').style.backgroundColor = '#FFFF00';
                 } else {
                     document.getElementById('Ave').style.backgroundColor = 'White';
                 }
@@ -339,6 +346,8 @@
             var LSL = "";
             var UCL = "";
             var LCL = "";
+            var RUCL = "";
+            var RLCL = "";
             var MIN = "";
             var MAX = "";
             var AVG = "";
@@ -352,6 +361,8 @@
                 LSL = s.cpLSL;
                 UCL = s.cpUCL;
                 LCL = s.cpLCL;
+                RUCL = s.cpRUCL;
+                RLCL = s.cpRLCL;
                 MIN = s.cpMIN;
                 MAX = s.cpMAX;
                 AVG = s.cpAVG;
@@ -388,15 +399,12 @@
                 document.getElementById('C').style.backgroundColor = 'White';
             }
 
-
             if (MIN != '') {
                 if (MIN < LSL || MIN > USL) {
                     document.getElementById('Min').style.backgroundColor = 'Red';
                 } else if (MIN < LCL || MIN > UCL) {
                     if (s.cpCS == '1') {
-                        document.getElementById('Min').style.backgroundColor = 'Yellow';
-                    } else if (s.cpCS == '2') {
-                        document.getElementById('Min').style.backgroundColor = 'Yellow';
+                        document.getElementById('Min').style.backgroundColor = '#FFFE91';
                     }
                     else {
                         document.getElementById('Min').style.backgroundColor = 'Pink';
@@ -408,16 +416,12 @@
                 document.getElementById('Min').style.backgroundColor = 'White';
             }
 
-            /* console.log(MAX);*/
-
             if (MAX != '') {
                 if (MAX > USL || MAX < LSL) {
                     document.getElementById('Max').style.backgroundColor = 'Red';
                 } else if (MAX > UCL || MAX < LCL) {
                     if (s.cpCS == '1') {
-                        document.getElementById('Max').style.backgroundColor = 'Yellow';
-                    } else if (s.cpCS == '2') {
-                        document.getElementById('Max').style.backgroundColor = 'Yellow';
+                        document.getElementById('Max').style.backgroundColor = '#FFFE91';
                     }
                     else {
                         document.getElementById('Max').style.backgroundColor = 'Pink';
@@ -434,13 +438,21 @@
                     document.getElementById('Ave').style.backgroundColor = 'Red';
                 } else if (AVG > UCL || AVG < LCL) {
                     if (s.cpCS == '1') {
-                        document.getElementById('Ave').style.backgroundColor = 'Yellow';
-                    } else if (s.cpCS == '2') {
-                        document.getElementById('Ave').style.backgroundColor = 'Yellow';
+                        document.getElementById('Ave').style.backgroundColor = '#FFFE91';
                     }
                     else {
                         document.getElementById('Ave').style.backgroundColor = 'Pink';
                     }
+                } else {
+                    document.getElementById('Ave').style.backgroundColor = 'White';
+                }
+            } else {
+                document.getElementById('Ave').style.backgroundColor = 'White';
+            }
+
+            if (R != '') {
+                if (R > RUCL || AVG < RLCL) {
+                    document.getElementById('R').style.backgroundColor = '#FFFF00';
                 } else {
                     document.getElementById('Ave').style.backgroundColor = 'White';
                 }
@@ -580,7 +592,6 @@
                 + '&Line=' + Line + '&ItemCheckCode=' + ItemCheck + '&ProdDate=' + ProdDate + '&Shift=' + Shift + '&Sequence=' + Seq
                 + '', '_blank');
         }
-
 
         function IOTProcess() {
             var URL = HideValue.Get('URL');

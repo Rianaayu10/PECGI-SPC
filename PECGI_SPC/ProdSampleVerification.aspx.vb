@@ -918,6 +918,8 @@ Public Class ProdSampleVerification
             GridX.JSProperties("cpLSL") = AFormat(dtChartSetup.Rows(0)("LSL"))
             GridX.JSProperties("cpUCL") = AFormat(dtChartSetup.Rows(0)("UCL"))
             GridX.JSProperties("cpLCL") = AFormat(dtChartSetup.Rows(0)("LCL"))
+            GridX.JSProperties("cpRUCL") = AFormat(dtChartSetup.Rows(0)("RUCL"))
+            GridX.JSProperties("cpRLCL") = AFormat(dtChartSetup.Rows(0)("RLCL"))
 
             GridX.JSProperties("cpMIN") = AFormat(dtChartSetup.Rows(0)("nMIN"))
             GridX.JSProperties("cpMAX") = AFormat(dtChartSetup.Rows(0)("nMAX"))
@@ -1629,12 +1631,9 @@ Public Class ProdSampleVerification
                                 Dim data = dtGrid.Rows(i)(n)
                                 Dim RowIndex = Trim(dtGrid.Rows(i)(0))
                                 If n > 1 Then
-                                    If RowIndex = "EachData" Or RowIndex = "XBar" Or RowIndex = "R" Or RowIndex = "Judgement" Or RowIndex = "Correction" Or RowIndex = "Verification" Then
+                                    If RowIndex = "EachData" Or RowIndex = "XBar" Or RowIndex = "Judgement" Or RowIndex = "Correction" Or RowIndex = "Verification" Then
                                         If IsDBNull(data) Then
                                             .Cells(irow + i, n).Value = data
-                                        ElseIf RowIndex = "R" Then
-                                            .Cells(irow + i, n).Value = CDec(data)
-                                            .Cells(irow + i, n).Style.Numberformat.Format = "####0.000"
                                         Else
                                             Dim value = Split(data, "|")(0)
                                             Dim color = Split(data, "|")(1)
