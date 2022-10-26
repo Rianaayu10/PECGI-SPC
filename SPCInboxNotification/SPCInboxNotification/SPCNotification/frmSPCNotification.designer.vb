@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class frmSPCInboxNotification
+Partial Class frmSPCNotification
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -23,7 +23,7 @@ Partial Class frmSPCInboxNotification
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSPCInboxNotification))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSPCNotification))
         Me.pnlHeader = New System.Windows.Forms.Panel()
         Me.btnRefresh = New System.Windows.Forms.Button()
         Me.lblTime = New System.Windows.Forms.Label()
@@ -58,11 +58,6 @@ Partial Class frmSPCInboxNotification
         Me.Label4 = New System.Windows.Forms.Label()
         Me.gridNGResult = New C1.Win.C1FlexGrid.C1FlexGrid()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.NotificationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SettingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.pnlHeader.SuspendLayout()
         Me.pnlContent.SuspendLayout()
         Me.Panel3.SuspendLayout()
@@ -71,7 +66,6 @@ Partial Class frmSPCInboxNotification
         CType(Me.gridDelayInput, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.gridNGResult, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'pnlHeader
@@ -474,38 +468,7 @@ Partial Class frmSPCInboxNotification
         Me.Timer1.Enabled = True
         Me.Timer1.Interval = 1000
         '
-        'NotifyIcon1
-        '
-        Me.NotifyIcon1.BalloonTipTitle = "SPC Alert Notification"
-        Me.NotifyIcon1.Icon = CType(resources.GetObject("NotifyIcon1.Icon"), System.Drawing.Icon)
-        Me.NotifyIcon1.Text = "spc alert"
-        Me.NotifyIcon1.Visible = True
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NotificationToolStripMenuItem, Me.SettingToolStripMenuItem, Me.ExitToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(138, 70)
-        '
-        'NotificationToolStripMenuItem
-        '
-        Me.NotificationToolStripMenuItem.Name = "NotificationToolStripMenuItem"
-        Me.NotificationToolStripMenuItem.Size = New System.Drawing.Size(137, 22)
-        Me.NotificationToolStripMenuItem.Text = "Notification"
-        '
-        'SettingToolStripMenuItem
-        '
-        Me.SettingToolStripMenuItem.Name = "SettingToolStripMenuItem"
-        Me.SettingToolStripMenuItem.Size = New System.Drawing.Size(137, 22)
-        Me.SettingToolStripMenuItem.Text = "Setting"
-        '
-        'ExitToolStripMenuItem
-        '
-        Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(137, 22)
-        Me.ExitToolStripMenuItem.Text = "Exit"
-        '
-        'frmSPCInboxNotification
+        'frmSPCNotification
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -516,7 +479,7 @@ Partial Class frmSPCInboxNotification
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
-        Me.Name = "frmSPCInboxNotification"
+        Me.Name = "frmSPCNotification"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "SPC Notification"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
@@ -532,7 +495,6 @@ Partial Class frmSPCInboxNotification
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         CType(Me.gridNGResult, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -571,9 +533,4 @@ Partial Class frmSPCInboxNotification
     Friend WithEvents lblTotalDelayVerification As Label
     Friend WithEvents lblTotalDelayInput As Label
     Friend WithEvents btnRefresh As Button
-    Friend WithEvents NotifyIcon1 As System.Windows.Forms.NotifyIcon
-    Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents NotificationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents SettingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ExitToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

@@ -3,7 +3,6 @@ Imports System.Net
 Imports System.IO
 Imports C1.Win.C1List
 Imports Microsoft.Win32
-Imports SPCSystemNotifications.ToastNotifications
 
 Public Class frmSPCAlertNotifications
 
@@ -62,9 +61,17 @@ Public Class frmSPCAlertNotifications
         Return Result
     End Function
 
-    Private Sub InboxToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InboxToolStripMenuItem.Click
-        Dim frm As New frmSPCInboxNotification(dtNG, dtDelayInput, dtDelayVerification, factory)
-        frm.Show()
+    Private Sub InboxToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NotificationToolStripMenuItem.Click
+        'Dim frm As New frmSPCInboxNotification(dtNG, dtDelayInput, dtDelayVerification, factory)
+        'frm.Show()
+        Dim Path As String = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
+        For Each p As Process In Process.GetProcessesByName("SPCNotification")
+            p.Refresh()
+            p.Kill()
+            p.Close()
+        Next
+        Path = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
+        Process.Start(Path)
     End Sub
 
     Private Sub SettingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SettingToolStripMenuItem.Click
@@ -95,8 +102,16 @@ Public Class frmSPCAlertNotifications
         Try
             Timer1.Enabled = False
             Timer1.Stop()
-            Dim frm As New frmSPCInboxNotification(dtNG, dtDelayInput, dtDelayVerification, factory) 'frmInboxNotifications(dtNG, dtDelayInput, dtDelayVerification)
-            frm.Show()
+            Dim Path As String = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
+            For Each p As Process In Process.GetProcessesByName("SPCNotification")
+                p.Refresh()
+                p.Kill()
+                p.Close()
+            Next
+            Path = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
+            Process.Start(Path)
+            'Dim frm As New frmSPCInboxNotification(dtNG, dtDelayInput, dtDelayVerification, factory) 'frmInboxNotifications(dtNG, dtDelayInput, dtDelayVerification)
+            'frm.Show()
             'Close()
         Catch ex As Exception
             MsgBox("Something error.", MsgBoxStyle.OkOnly, "Error!")
@@ -345,127 +360,6 @@ Public Class frmSPCAlertNotifications
             ProcessRunning = False
         End If
     End Sub
-
-    Private Sub ShowNotification(Context() As String, type As String)
-        'If type = "NG" Then
-        '    Dim popup As PopupNotifier = New PopupNotifier
-        '    popup.Image = My.Resources.NG
-        '    popup.ContentFont = New System.Drawing.Font("Tahoma", 12.0F)
-        '    popup.Size = New Size(350, 150)
-        '    popup.ShowGrip = False
-        '    popup.TitlePadding = New Padding(3)
-        '    popup.ContentPadding = New Padding(3)
-        '    popup.ImagePadding = New Padding(8)
-        '    popup.AnimationDuration = 1000 '600000
-        '    popup.AnimationInterval = 1
-        '    popup.HeaderColor = Color.FromArgb(255, 255, 0)
-        '    popup.Scroll = True
-        '    popup.ShowCloseButton = False
-        '    popup.TitleText = "SPC Notification NG Input"
-        '    popup.ContentText = Context(0) & vbCrLf '&
-        '    'Context(1)
-        '    AddHandler popup.Click, AddressOf PopupNG_Click
-        '    popup.Popup()
-
-        'ElseIf type = "Delay Input" Then
-        '    Dim popup As PopupNotifier = New PopupNotifier
-        '    popup.Image = My.Resources.NG
-        '    popup.ContentFont = New System.Drawing.Font("Tahoma", 12.0F)
-        '    popup.Size = New Size(350, 150)
-        '    popup.ShowGrip = False
-        '    popup.TitlePadding = New Padding(3)
-        '    popup.ContentPadding = New Padding(3)
-        '    popup.ImagePadding = New Padding(8)
-        '    popup.AnimationDuration = 1000 '600000
-        '    popup.AnimationInterval = 1
-        '    popup.HeaderColor = Color.FromArgb(255, 255, 0)
-        '    popup.Scroll = True
-        '    popup.ShowCloseButton = False
-        '    popup.TitleText = "SPC Notification Delay Input"
-        '    popup.ContentText = Context(0) & vbCrLf '&
-        '    'Context(1)
-        '    AddHandler popup.Click, AddressOf PopupDelayInput_Click
-        '    popup.Popup()
-
-        'ElseIf type = "Delay Verification" Then
-        '    Dim popup As PopupNotifier = New PopupNotifier
-        '    popup.Image = My.Resources.NG
-        '    popup.ContentFont = New System.Drawing.Font("Tahoma", 12.0F)
-        '    popup.Size = New Size(350, 150)
-        '    popup.ShowGrip = False
-        '    popup.TitlePadding = New Padding(3)
-        '    popup.ContentPadding = New Padding(3)
-        '    popup.ImagePadding = New Padding(8)
-        '    popup.AnimationDuration = 1000 '600000
-        '    popup.AnimationInterval = 1
-        '    popup.HeaderColor = Color.FromArgb(255, 255, 0)
-        '    popup.Scroll = True
-        '    popup.ShowCloseButton = False
-        '    popup.TitleText = "SPC Notification Delay Verification"
-        '    popup.ContentText = Context(0) & vbCrLf '&
-        '    'Context(1)
-        '    AddHandler popup.Click, AddressOf PopupDelayVerification_Click
-        '    popup.Popup()
-
-        'End If
-
-    End Sub
-
-    Private Sub PopupNG_Click()
-        Dim URL As String = "https://www.google.com/"
-        Dim NewProcess As ProcessStartInfo = New ProcessStartInfo(URL)
-        NewProcess.UseShellExecute = True
-        Process.Start(NewProcess)
-    End Sub
-    Private Sub PopupDelayInput_Click()
-        Dim URL As String = "https://www.google.com/"
-        Dim NewProcess As ProcessStartInfo = New ProcessStartInfo(URL)
-        NewProcess.UseShellExecute = True
-        Process.Start(NewProcess)
-    End Sub
-    Private Sub PopupDelayVerification_Click()
-        Dim URL As String = "https://www.google.com/"
-        Dim NewProcess As ProcessStartInfo = New ProcessStartInfo(URL)
-        NewProcess.UseShellExecute = True
-        Process.Start(NewProcess)
-    End Sub
-
-    Private Sub ShowNotification(Header As String, Body As String, Type As String, link As String)
-        Dim duration = DirectCast(Nothing, Integer) = -1
-        'Call Integer.TryParse(comboBoxDuration.SelectedItem.ToString(), duration)
-        'If duration <= 0 Then
-        duration = 10
-        'End If
-
-        Dim animationMethod = FormAnimator.AnimationMethod.Slide
-        For Each method As FormAnimator.AnimationMethod In [Enum].GetValues(GetType(FormAnimator.AnimationMethod))
-            If Equals(method.ToString(), "Right") Then
-                animationMethod = method
-                Exit For
-            End If
-        Next
-
-        Dim animationDirection = FormAnimator.AnimationDirection.Up
-        For Each direction As FormAnimator.AnimationDirection In [Enum].GetValues(GetType(FormAnimator.AnimationDirection))
-            If Equals(direction.ToString(), "Slide") Then
-                animationDirection = direction
-                Exit For
-            End If
-        Next
-
-        Dim toastNotification = New ToastNotifications.frmNotification(Header, Body, duration, animationMethod, animationDirection, Type, link, dtNG, dtDelayInput, dtDelayVerification)
-        'PlayNotificationSound("Normal")
-        toastNotification.Show()
-    End Sub
-    'Private Sub PlayNotificationSound(ByVal sound As String)
-    '    Dim soundsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Sounds")
-    '    Dim soundFile = Path.Combine(soundsFolder, sound & ".wav")
-
-    '    Using player = New System.Media.SoundPlayer(soundFile)
-    '        player.Play()
-    '    End Using
-    'End Sub
-
 #End Region
 
 End Class

@@ -25,7 +25,7 @@ Partial Class frmSPCAlertNotifications
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSPCAlertNotifications))
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.InboxToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NotificationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -37,33 +37,33 @@ Partial Class frmSPCAlertNotifications
         '
         'ContextMenuStrip1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InboxToolStripMenuItem, Me.SettingToolStripMenuItem, Me.ExitToolStripMenuItem})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NotificationToolStripMenuItem, Me.SettingToolStripMenuItem, Me.ExitToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(112, 70)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(153, 92)
         '
-        'InboxToolStripMenuItem
+        'NotificationToolStripMenuItem
         '
-        Me.InboxToolStripMenuItem.Name = "InboxToolStripMenuItem"
-        Me.InboxToolStripMenuItem.Size = New System.Drawing.Size(111, 22)
-        Me.InboxToolStripMenuItem.Text = "Inbox"
+        Me.NotificationToolStripMenuItem.Name = "NotificationToolStripMenuItem"
+        Me.NotificationToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NotificationToolStripMenuItem.Text = "Notification"
         '
         'SettingToolStripMenuItem
         '
         Me.SettingToolStripMenuItem.Name = "SettingToolStripMenuItem"
-        Me.SettingToolStripMenuItem.Size = New System.Drawing.Size(111, 22)
+        Me.SettingToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.SettingToolStripMenuItem.Text = "Setting"
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(111, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.Label1.Location = New System.Drawing.Point(12, 9)
+        Me.Label1.Font = New System.Drawing.Font("Segoe UI", 12.0!)
+        Me.Label1.Location = New System.Drawing.Point(10, 8)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(160, 21)
         Me.Label1.TabIndex = 0
@@ -89,9 +89,9 @@ Partial Class frmSPCAlertNotifications
         '
         'frmSPCAlertNotifications
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(255, 39)
+        Me.ClientSize = New System.Drawing.Size(219, 34)
         Me.Controls.Add(Me.Label1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
@@ -109,7 +109,7 @@ Partial Class frmSPCAlertNotifications
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
     Friend WithEvents SettingToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Timer1 As Timer
-    Friend WithEvents InboxToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents NotificationToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ExitToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents NotifyIcon1 As NotifyIcon
     Friend WithEvents notifyInbox As NotifyIcon

@@ -9,7 +9,7 @@ Imports System.Data.SqlClient
 Imports System.Xml
 Imports Microsoft.Win32
 
-Public Class frmSPCInboxNotification
+Public Class frmSPCNotification
 
 #Region "Declare"
     'Data Login
@@ -29,6 +29,7 @@ Public Class frmSPCInboxNotification
     Private Database As String
     Private UserName As String
     Private Password As String
+    Private Interval As String
 
     Dim NGInputLastUpdate As String
     Dim DelayInputLastUpdate As String
@@ -49,6 +50,7 @@ Public Class frmSPCInboxNotification
     Dim DelayInputRowsCount As Integer = 0
     Dim DelayVerificationRowsCount As Integer = 0
 
+    Dim dtmInterval As DateTime
 
     Private Enum DelayInput
         pType = 0
@@ -111,9 +113,12 @@ Public Class frmSPCInboxNotification
     Dim Finish As Boolean
     Dim inThrdProcess As Boolean = False
 
+    Protected thrdIsrunning As Boolean = False
+
     Delegate Sub SetLabelCallBack(ByVal txt As String, ByVal labelControl As System.Windows.Forms.Label)
     Delegate Sub SetGridCallBack(ByVal dt As DataTable, ByVal grid As C1FlexGrid, ByVal Type As String)
     Delegate Sub SetComboCallBack(ByVal txt As String, ByVal combo As System.Windows.Forms.ComboBox)
+    Delegate Sub setButtonCallBack(ByVal btn As System.Windows.Forms.Button)
 #End Region
 
 #Region "Init"
@@ -126,17 +131,25 @@ Public Class frmSPCInboxNotification
     'End Sub
 
     Private Sub frmInboxNotifications_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        dtmInterval = New DateTime
+        dtmInterval = Format(Date.Now, "yyyy-MM-dd HH:mm:ss")
+
         config = New clsConfig
         up_AppSettingLoad(ls_path)
         ConnectionString = config.ConnectionString
-        Timer1.Enabled = False
-        Timer1.Stop()
-        setDateTime()
-        btnRefresh.PerformClick()
-        Timer1.Enabled = True
-        Timer1.Start()
-        'GridHeader()
-        'GridLoad()
+        'setDateTime()
+        'Timer1.Enabled = False
+        'Timer1.Stop()
+        'setDateTime()
+        'setButton(btnRefresh)
+        'Timer1.Enabled = True
+        'Timer1.Start()
+        dtNG = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "NG")
+        dtDelayInput = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "DelayInput")
+        dtDelayVerification = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "DelayVerification")
+        factory = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "Factory").Rows(0)("Factory")
+        GridHeader()
+        GridLoad()
         setFactory()
     End Sub
 #End Region
@@ -144,13 +157,26 @@ Public Class frmSPCInboxNotification
 #Region "Control-Event"
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+        Try
+            'up_DispatchTime()
+            setDateTime()
+            If dtmInterval <= Format(Date.Now, "yyyy-MM-dd HH:mm:ss") Then
+                up_dispatchThread()
+                dtmInterval = Format(Date.Now.AddMinutes(Interval), "yyyy-MM-dd HH:mm:ss")
+            End If
+        Catch ex As Exception
 
-        up_dispatchThread()
-        Timer1.Stop()
+        End Try
+
+        'Timer1.Stop()
     End Sub
 
+    'Private Sub tmrDateTime_Tick(sender As System.Object, e As System.EventArgs) Handles tmrDateTime.Tick
+    '    setDateTime()
+    'End Sub
+
     Private Sub frmSPCInboxNotification_Move(sender As System.Object, e As System.EventArgs) Handles MyBase.Move
-        Me.Hide()
+        'Me.Hide()
     End Sub
 
     Private Sub frmSPCInboxNotification_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
@@ -172,37 +198,6 @@ Public Class frmSPCInboxNotification
 
         GridHeader()
         GridLoad()
-    End Sub
-
-    Private Sub InboxToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NotificationToolStripMenuItem.Click
-        'Dim frm As New frmSPCInboxNotification(dtNG, dtDelayInput, dtDelayVerification, factory)
-        'frm.Show()
-    End Sub
-
-    Private Sub SettingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SettingToolStripMenuItem.Click
-        frmLoginSettings.Show()
-    End Sub
-
-    Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
-        Application.Exit()
-    End Sub
-
-    Private Sub NotifyIcon1_Click(sender As Object, e As EventArgs)
-        Try
-            'Timer1.Enabled = False
-            'Timer1.Stop()
-            'Dim frm As New frmSPCInboxNotification(dtNG, dtDelayInput, dtDelayVerification, factory) 'frmInboxNotifications(dtNG, dtDelayInput, dtDelayVerification)
-            'frm.Show()
-            Me.Show()
-            'Close()
-        Catch ex As Exception
-            MsgBox("Something error.", MsgBoxStyle.OkOnly, "Error!")
-        End Try
-    End Sub
-
-    Private Sub NotifyShowing_Click(sender As Object, e As EventArgs)
-        'ContextMenuStrip1.Show(Cursor.Position)
-        Me.Show()
     End Sub
 
 #End Region
@@ -235,6 +230,10 @@ Public Class frmSPCInboxNotification
                     If Not IsNothing(SPCDB.Element("Database")) Then Database = NewEnryption.DecryptData(SPCDB.Element("Database").Value)
                     If Not IsNothing(SPCDB.Element("UserID")) Then UserName = NewEnryption.DecryptData(SPCDB.Element("UserID").Value)
                     If Not IsNothing(SPCDB.Element("Password")) Then Password = NewEnryption.DecryptData(SPCDB.Element("Password").Value)
+                End If
+                Dim Notification = Settings.Descendants("Notification").FirstOrDefault()
+                If Not IsNothing(Notification) Then
+                    If Not IsNothing(Notification.Element("Interval")) Then Interval = NewEnryption.DecryptData(Notification.Element("Interval").Value)
                 End If
             Else
                 MessageBox.Show("Config File is not found!")
@@ -562,39 +561,42 @@ Public Class frmSPCInboxNotification
 
     Private Sub loadDataRecord()
         Try
-            config = New clsConfig
+            'config = New clsConfig
             up_AppSettingLoad(ls_path)
             ConnectionString = config.ConnectionString
-            up_GetData()
+            'Application.DoEvents()
 
-            If inThrdProcess = False Then
-                inThrdProcess = True
-                dtNG = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "NG")
-                dtDelayInput = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "DelayInput")
-                dtDelayVerification = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "DelayVerification")
-                factory = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "Factory").Rows(0)("Factory")
+            'Application.DoEvents()
+            setButton(btnRefresh)
+
+            'If inThrdProcess = False Then
+            '    inThrdProcess = True
+            '    dtNG = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "NG")
+            '    dtDelayInput = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "DelayInput")
+            '    dtDelayVerification = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "DelayVerification")
+            '    factory = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "Factory").Rows(0)("Factory")
 
 
-                If firstLoad = 0 Then
-                    GridHeader()
-                    GridLoad()
-                    setFactory()
-                Else
-                    Try
-                        If CDate(currentNGLastUpdate) > CDate(NGInputLastUpdate) OrElse CDate(currentDelayInput) > CDate(DelayInputLastUpdate) OrElse CDate(currentDelayVerification) > CDate(DelayVerificationLastUpdate) Then
-                            GridHeader()
-                            GridLoad()
-                            setFactory()
-                        End If
-                    Catch ex As Exception
+            '    If firstLoad = 0 Then
+            '        GridHeader()
+            '        GridLoad()
+            '        setFactory()
+            '    Else
+            '        Try
+            '            If CDate(currentNGLastUpdate) > CDate(NGInputLastUpdate) OrElse CDate(currentDelayInput) > CDate(DelayInputLastUpdate) OrElse CDate(currentDelayVerification) > CDate(DelayVerificationLastUpdate) Then
+            '                GridHeader()
+            '                GridLoad()
+            '                setFactory()
+            '            End If
+            '        Catch ex As Exception
 
-                    End Try
-                End If
-                'frmSPCAlertNotifications.GetNotify(NGInputLastUpdate, DelayInputLastUpdate, DelayVerificationLastUpdate, ConnectionString, UserIDLogin,
-                '                                    currentNGLastUpdate, currentDelayInput, currentDelayVerification)
+            '        End Try
+            '    End If
+            '    'frmSPCAlertNotifications.GetNotify(NGInputLastUpdate, DelayInputLastUpdate, DelayVerificationLastUpdate, ConnectionString, UserIDLogin,
+            '    '                                    currentNGLastUpdate, currentDelayInput, currentDelayVerification)
 
-                firstLoad = 1
-            End If
+            '    firstLoad = 1
+            'End If
         Catch ex As Exception
             Dim errMsg As String
             errMsg = ex.Message
@@ -609,10 +611,13 @@ Public Class frmSPCInboxNotification
         Dim errMsg As String = ""
         Finish = False
         endThread = False
+        thrdIsrunning = True
 
         Do Until Finish
             Try
-                setDateTime()
+                'Application.DoEvents()
+                'setDateTime()
+                'Application.DoEvents()
                 loadDataRecord()
 
 
@@ -621,8 +626,10 @@ Public Class frmSPCInboxNotification
                         Finish = True
                     End If
                 End SyncLock
+                StopThread()
             Catch ex As Exception
                 Dim pErrMsg As String = ex.Message
+
             End Try
         Loop
 
@@ -964,177 +971,19 @@ Public Class frmSPCInboxNotification
         End If
     End Sub
 
+    Private Sub setButton(ByVal btn As System.Windows.Forms.Button)
+        If btn.InvokeRequired Then
+            Dim d As New setButtonCallBack(AddressOf setButton)
+            Me.Invoke(d, New Object() {btn})
+        Else
+            btn.PerformClick()
+        End If
+    End Sub
+
     Public Sub StopThread()
         SyncLock accessLock
             endThread = True
         End SyncLock
-    End Sub
-
-    Private Sub up_GetData()
-        'NG = NG Result
-        'DV = Delay Verification
-        'DI = Delay Input
-        Try
-            If firstLoad = 0 Then
-                dtNG = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "NG")
-                dtDelayInput = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "DelayInput")
-                dtDelayVerification = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "DelayVerification")
-                factory = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "Factory").Rows(0)("Factory")
-
-                NGInputRowsCount = dtNG.Rows.Count
-                DelayInputRowsCount = dtDelayInput.Rows.Count
-                DelayVerificationRowsCount = dtDelayVerification.Rows.Count
-
-                Dim header, body As String
-                'Dim strDate As String = dtNG.Rows(i)("Date")
-                'header = "ALERT Notification"
-                body = " - NG Result : " & NGInputRowsCount & " " & vbCrLf &
-                       " - Delay Input : " & DelayInputRowsCount & " " & vbCrLf &
-                       " - Delay Verification : " & DelayVerificationRowsCount
-                'link = pLink '+ dtNG.Rows(i)("Link")
-                'ShowNotification(header, body, "NG", link)
-
-                NotifyIcon1.ShowBalloonTip(500, "There are new notifications:", body, ToolTipIcon.Info)
-                AddHandler NotifyIcon1.Click, AddressOf Me.NotifyShowing_Click
-                AddHandler NotifyIcon1.BalloonTipClicked, AddressOf Me.NotifyIcon1_Click
-
-            Else
-                dtNG = clsSPCNotification.CheckNotificationLog(ConnectionString, UserIDLogin, "NG")
-                dtDelayInput = clsSPCNotification.CheckNotificationLog(ConnectionString, UserIDLogin, "DI")
-                dtDelayVerification = clsSPCNotification.CheckNotificationLog(ConnectionString, UserIDLogin, "DV")
-
-
-                If dtNG.Rows.Count > 0 Then
-                    NGInputRowsCount = dtNG.Rows.Count
-                    DelayInputRowsCount = 0
-                    DelayVerificationRowsCount = 0
-                    currentNGLastUpdate = dtNG.Rows(dtNG.Rows.Count - 1)("LastUpdate")
-                Else
-                    NGInputRowsCount = 0
-                    DelayInputRowsCount = 0
-                    DelayVerificationRowsCount = 0
-                    currentNGLastUpdate = NGInputLastUpdate
-                End If
-                If dtDelayInput.Rows.Count > 0 Then
-                    NGInputRowsCount = NGInputRowsCount
-                    DelayInputRowsCount = dtDelayInput.Rows.Count
-                    DelayVerificationRowsCount = 0
-                    currentDelayInput = dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("LastUpdate")
-                Else
-                    NGInputRowsCount = NGInputRowsCount
-                    DelayInputRowsCount = 0
-                    DelayVerificationRowsCount = 0
-                    currentDelayInput = DelayInputLastUpdate
-                End If
-                If dtDelayVerification.Rows.Count > 0 Then
-                    NGInputRowsCount = NGInputRowsCount
-                    DelayInputRowsCount = DelayInputRowsCount
-                    DelayVerificationRowsCount = dtDelayVerification.Rows.Count
-                    currentDelayVerification = dtDelayVerification.Rows(dtDelayVerification.Rows.Count - 1)("LastUpdate")
-                Else
-                    NGInputRowsCount = NGInputRowsCount
-                    DelayInputRowsCount = DelayInputRowsCount
-                    DelayVerificationRowsCount = 0
-                    currentDelayVerification = DelayVerificationLastUpdate
-                End If
-
-                Try
-                    If CDate(currentNGLastUpdate) > CDate(NGInputLastUpdate) Then
-                        Dim drRemoved As DataRow() = dtNG.Select("LastUpdate <= '" & CDate(NGInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
-                        For i = 0 To drRemoved.Length - 1
-                            dtNG.Rows.Remove(drRemoved(i))
-                        Next
-                    End If
-                Catch ex As Exception
-
-                End Try
-                Try
-                    If CDate(currentDelayInput) > CDate(DelayInputLastUpdate) Then
-                        Dim drRemoved1 As DataRow() = dtDelayInput.Select("UpdateTime <= '" & CDate(DelayInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
-                        For i = 0 To drRemoved1.Length - 1
-                            dtDelayInput.Rows.Remove(drRemoved1(i))
-                        Next
-                    Else
-                        Dim drRemoved1 As DataRow() = dtDelayInput.Select("UpdateTime <= '" & CDate(DelayInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
-                        For i = 0 To drRemoved1.Length - 1
-                            dtDelayInput.Rows.Remove(drRemoved1(i))
-                        Next
-                    End If
-                Catch ex As Exception
-
-                End Try
-                Try
-                    If CDate(currentDelayVerification) > CDate(DelayVerificationLastUpdate) Then
-                        Dim drRemoved2 As DataRow() = dtDelayVerification.Select("UpdateDate <= '" & CDate(DelayVerificationLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
-                        For i = 0 To drRemoved2.Length - 1
-                            dtDelayVerification.Rows.Remove(drRemoved2(i))
-                        Next
-                    Else
-                        Dim drRemoved2 As DataRow() = dtDelayVerification.Select("UpdateDate <= '" & CDate(DelayVerificationLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
-                        For i = 0 To drRemoved2.Length - 1
-                            dtDelayVerification.Rows.Remove(drRemoved2(i))
-                        Next
-                    End If
-                Catch ex As Exception
-
-                End Try
-
-
-                NGInputRowsCount = dtNG.Rows.Count
-                DelayInputRowsCount = dtDelayInput.Rows.Count
-                DelayVerificationRowsCount = dtDelayVerification.Rows.Count
-
-
-                Try
-                    If CDate(currentNGLastUpdate) > CDate(NGInputLastUpdate) OrElse CDate(currentDelayInput) > CDate(DelayInputLastUpdate) OrElse CDate(currentDelayVerification) > CDate(DelayVerificationLastUpdate) Then
-                        Dim header, body, link As String
-                        'Dim strDate As String = dtNG.Rows(i)("Date")
-                        'header = "ALERT Notification"
-                        body = " - NG Result : " & NGInputRowsCount & " " & vbCrLf &
-                               " - Delay Input : " & DelayInputRowsCount & " " & vbCrLf &
-                               " - Delay Verification : " & DelayVerificationRowsCount
-                        link = pLink '+ dtNG.Rows(i)("Link")
-                        'ShowNotification(header, body, "NG", link)
-
-                        NotifyIcon1.ShowBalloonTip(500, "There are new notifications:", body, ToolTipIcon.Info)
-                        AddHandler NotifyIcon1.Click, AddressOf Me.NotifyShowing_Click
-                        AddHandler NotifyIcon1.BalloonTipClicked, AddressOf Me.NotifyIcon1_Click
-
-                    End If
-                Catch ex As Exception
-
-                End Try
-
-                If dtNG.Rows.Count > 0 Then
-                    NGInputLastUpdate = dtNG.Rows(dtNG.Rows.Count - 1)("LastUpdate")
-                Else
-                    NGInputLastUpdate = 0
-                End If
-
-                If dtDelayInput.Rows.Count > 0 Then
-                    DelayInputLastUpdate = dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("LastUpdate")
-                Else
-                    DelayInputLastUpdate = 0
-                End If
-
-                If dtDelayVerification.Rows.Count > 0 Then
-                    DelayVerificationLastUpdate = dtDelayVerification.Rows(dtDelayVerification.Rows.Count - 1)("LastUpdate")
-                Else
-                    DelayVerificationLastUpdate = 0
-                End If
-
-
-            End If
-
-
-            firstLoad = 1
-            If firstLoad = 0 Then
-                firstLoad += 1
-            End If
-
-        Catch ex As Exception
-
-        End Try
     End Sub
 
 #End Region

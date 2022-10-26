@@ -6,11 +6,11 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A2B20F1D-38C0-4CBC-8CC3-7A591C49C4E1}</ProjectGuid>
+    <ProjectGuid>{E2501BE2-E6D6-415A-B48F-1A8AAD4309F6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>SPCSystemNotifications.My.MyApplication</StartupObject>
-    <RootNamespace>SPCSystemNotifications</RootNamespace>
-    <AssemblyName>SPCSystemNotifications</AssemblyName>
+    <StartupObject>SPCNotification.My.MyApplication</StartupObject>
+    <RootNamespace>SPCNotification</RootNamespace>
+    <AssemblyName>SPCNotification</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
@@ -23,7 +23,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>SPCSystemNotifications.xml</DocumentationFile>
+    <DocumentationFile>SPCNotification.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
@@ -33,7 +33,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>SPCSystemNotifications.xml</DocumentationFile>
+    <DocumentationFile>SPCNotification.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -66,10 +66,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Tulpep.NotificationWindow, Version=1.1.38.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\Tulpep.NotificationWindow.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -89,28 +85,10 @@
     <Compile Include="class\clsSPCNotification.vb" />
     <Compile Include="class\formAnimator.vb" />
     <Compile Include="class\NativeMethods.vb" />
-    <Compile Include="frmInboxNotifications.Designer.vb">
-      <DependentUpon>frmInboxNotifications.vb</DependentUpon>
+    <Compile Include="frmSPCNotification.designer.vb">
+      <DependentUpon>frmSPCNotification.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmInboxNotifications.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmLoginSettings.Designer.vb">
-      <DependentUpon>frmLoginSettings.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmLoginSettings.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmSPCAlertNotifications.Designer.vb">
-      <DependentUpon>frmSPCAlertNotifications.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmSPCAlertNotifications.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmSPCInboxNotification.designer.vb">
-      <DependentUpon>frmSPCInboxNotification.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmSPCInboxNotification.vb">
+    <Compile Include="frmSPCNotification.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -130,17 +108,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="frmInboxNotifications.resx">
-      <DependentUpon>frmInboxNotifications.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmLoginSettings.resx">
-      <DependentUpon>frmLoginSettings.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmSPCAlertNotifications.resx">
-      <DependentUpon>frmSPCAlertNotifications.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmSPCInboxNotification.resx">
-      <DependentUpon>frmSPCInboxNotification.vb</DependentUpon>
+    <EmbeddedResource Include="frmSPCNotification.resx">
+      <DependentUpon>frmSPCNotification.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\licenses.licx" />
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -167,7 +136,6 @@
     <Content Include="bin\Debug\C1.Win.C1List.4.dll" />
     <Content Include="bin\Debug\C1.Win.C1List.4.xml" />
     <Content Include="bin\Debug\config.xml" />
-    <Content Include="bin\Debug\Tulpep.NotificationWindow.dll" />
     <Content Include="img\ajax-loader.gif" />
     <Content Include="img\alpha.png" />
     <Content Include="img\background.jpg" />
@@ -218,6 +186,7 @@
     <Content Include="img\sort_desc_disabled.png" />
     <Content Include="img\violate.jpg" />
     <Content Include="img\vt-menu.png" />
+    <None Include="Resources\close_icon.bmp" />
     <Content Include="Sounds\cityscape.wav" />
     <Content Include="Sounds\festival.wav" />
     <Content Include="Sounds\garden.wav" />
@@ -226,7 +195,6 @@
     <Content Include="Sounds\normal.wav" />
     <Content Include="Sounds\savanna.wav" />
     <Content Include="Sounds\sonata.wav" />
-    <None Include="Resources\close_icon.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

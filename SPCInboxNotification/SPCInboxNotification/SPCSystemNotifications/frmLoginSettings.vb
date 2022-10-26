@@ -90,9 +90,15 @@ Public Class frmLoginSettings
         SPCDB.Add(New XElement("Password", NewEnryption.EncryptData(txtDBPassword.Text)))
         Settings.Add(SPCDB)
 
+        ''03. Interval Notification
+        Dim Notification = New XElement("Notification")
+        Notification.Add(New XElement("Interval", NewEnryption.EncryptData(txtInterval.Text)))
+        Settings.Add(Notification)
+
         docXML.Add(Settings)
         docXML.Save("config.xml")
 
+        
 
         If chkStartUp.Checked = True Then
             Dim reg As RegistryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", True)
@@ -125,6 +131,10 @@ Public Class frmLoginSettings
                     If Not IsNothing(SPCDB.Element("Database")) Then txtDBDatabase.Text = NewEnryption.DecryptData(SPCDB.Element("Database").Value)
                     If Not IsNothing(SPCDB.Element("UserID")) Then txtDBUserID.Text = NewEnryption.DecryptData(SPCDB.Element("UserID").Value)
                     If Not IsNothing(SPCDB.Element("Password")) Then txtDBPassword.Text = NewEnryption.DecryptData(SPCDB.Element("Password").Value)
+                End If
+                Dim Notification = Settings.Descendants("Notification").FirstOrDefault()
+                If Not IsNothing(Notification) Then
+                    If Not IsNothing(Notification.Element("Interval")) Then txtInterval.Text = NewEnryption.DecryptData(Notification.Element("Interval").Value)
                 End If
             Else
                 MessageBox.Show("Config File is not found!")
