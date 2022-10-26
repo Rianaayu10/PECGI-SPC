@@ -942,15 +942,12 @@ Public Class ProdSampleVerification
         End With
     End Sub
     Private Sub LoadChartR(cls As clsProdSampleVerification)
-        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code, cls.ProdDate, "", cls.ShowVerify)
+        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code, cls.ProdDate, "", cls.ShowVerify, cls.Seq)
         If xr.Count = 0 Then
             chartR.JSProperties("cpShow") = "0"
-            CharacteristicSts = "0"
         Else
             chartR.JSProperties("cpShow") = "1"
-            CharacteristicSts = "1"
         End If
-
         With chartR
             .DataSource = xr
             Dim diagram As XYDiagram = CType(.Diagram, XYDiagram)
@@ -968,14 +965,14 @@ Public Class ProdSampleVerification
                 Dim RCL As New ConstantLine("CL R")
                 RCL.Color = System.Drawing.Color.Red
                 RCL.LineStyle.Thickness = 1
-                RCL.LineStyle.DashStyle = DashStyle.DashDot
+                RCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(RCL)
                 RCL.AxisValue = Setup.RCL
 
                 Dim RUCL As New ConstantLine("UCL R")
                 RUCL.Color = System.Drawing.Color.Red
                 RUCL.LineStyle.Thickness = 1
-                RUCL.LineStyle.DashStyle = DashStyle.DashDot
+                RUCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(RUCL)
                 RUCL.AxisValue = Setup.RUCL
 
@@ -997,9 +994,10 @@ Public Class ProdSampleVerification
             .DataBind()
         End With
     End Sub
+
     Private Sub LoadChartX(cls As clsProdSampleVerification)
         ChartType = clsXRChartDB.GetChartType(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code)
-        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartXR(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code, cls.ProdDate, cls.ShowVerify)
+        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartXR(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code, cls.ProdDate, cls.ShowVerify, cls.Seq)
         With chartX
             .DataSource = xr
             Dim diagram As XYDiagram = CType(.Diagram, XYDiagram)
@@ -1026,21 +1024,21 @@ Public Class ProdSampleVerification
                 Dim LCL As New ConstantLine("LCL")
                 LCL.Color = System.Drawing.Color.Red
                 LCL.LineStyle.Thickness = 1
-                LCL.LineStyle.DashStyle = DashStyle.DashDot
+                LCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(LCL)
                 LCL.AxisValue = Setup.XBarLCL
 
                 Dim UCL As New ConstantLine("UCL")
                 UCL.Color = System.Drawing.Color.Red
                 UCL.LineStyle.Thickness = 1
-                UCL.LineStyle.DashStyle = DashStyle.DashDot
+                UCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(UCL)
                 UCL.AxisValue = Setup.XBarUCL
 
                 Dim CL As New ConstantLine("CL")
                 CL.Color = System.Drawing.Color.Red
                 CL.LineStyle.Thickness = 1
-                CL.LineStyle.DashStyle = DashStyle.DashDot
+                CL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(CL)
                 CL.AxisValue = Setup.XBarCL
 
@@ -1100,6 +1098,7 @@ Public Class ProdSampleVerification
             'End If
         End With
     End Sub
+
     Private Sub LoadForm_ByAnotherform()
 
         prmFactoryCode = Request.QueryString("FactoryCode")

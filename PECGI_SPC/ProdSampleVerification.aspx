@@ -8,7 +8,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript">
 
-    /*======== Initialitation R Chart ==========*/
+        /*======== Initialitation R Chart ==========*/
         function InitRBar(s, e) {
             /*console.log(s.cpShow);*/
             var i = s.cpShow;
@@ -19,8 +19,8 @@
                 x.style.display = "none";
             }
         }
-    
-    /*======== Initialitation Grid X ==========*/
+
+        /*======== Initialitation Grid X ==========*/
         function InitGrid(s, e) {
 
             if (s.cp_message != "" && s.cp_val == 1) {
@@ -408,7 +408,7 @@
                 document.getElementById('Min').style.backgroundColor = 'White';
             }
 
-           /* console.log(MAX);*/
+            /* console.log(MAX);*/
 
             if (MAX != '') {
                 if (MAX > USL || MAX < LSL) {
@@ -1019,8 +1019,8 @@
                     <Label TextPattern="{V:0.000}" Font="Tahoma, 7pt">
                         <ResolveOverlappingOptions AllowHide="True" />
                     </Label>
-                    <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.015" MaxValueSerializable="2.715" MinValueSerializable="2.7" StartSideMargin="0.025" />
-                    <WholeRange AlwaysShowZeroLevel="False" Auto="False" AutoSideMargins="False" EndSideMargin="0.005" MaxValueSerializable="2.73" MinValueSerializable="2.7" StartSideMargin="0.005" />
+                    <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.015" MaxValueSerializable="2.715" MinValueSerializable="2.71" StartSideMargin="0.025" />
+                    <WholeRange AlwaysShowZeroLevel="False" Auto="False" AutoSideMargins="False" EndSideMargin="0.005" MaxValueSerializable="2.73" MinValueSerializable="2.71" StartSideMargin="0.005" />
                     <GridLines>
                         <LineStyle DashStyle="Dot" />
                     </GridLines>
