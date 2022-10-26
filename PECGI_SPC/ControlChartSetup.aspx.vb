@@ -151,9 +151,14 @@ Public Class ControlChartSetup
                 e.NewValues("ItemCheckEditGrid"), _
                 StTime.ToString("yyyy-MM-dd"), StTime.ToString("yyyy-MM-dd"), _
                 EnTime.ToString("yyyy-MM-dd"), EnTime.ToString("yyyy-MM-dd"), _
-                e.NewValues("SpecUSL"), e.NewValues("SpecLSL"), _
-                e.NewValues("XCL"), e.NewValues("XUCL"), e.NewValues("XLCL"), _
-                e.NewValues("RCL"), e.NewValues("RLCL"), e.NewValues("RUCL"), _
+                e.NewValues("SpecUSL"), e.NewValues("SpecUSL"), _
+                e.NewValues("SpecLSL"), e.NewValues("SpecLSL"), _
+                e.NewValues("XCL"), e.NewValues("XCL"), _
+                e.NewValues("XUCL"), e.NewValues("XUCL"), _
+                e.NewValues("XLCL"), e.NewValues("XLCL"), _
+                e.NewValues("RCL"), e.NewValues("RCL"), _
+                e.NewValues("RLCL"), e.NewValues("RLCL"), _
+                e.NewValues("RUCL"), e.NewValues("RUCL"), _
                 pUser)
             Grid.CancelEdit()
             up_GridLoad()
@@ -176,9 +181,14 @@ Public Class ControlChartSetup
                 e.NewValues("ItemCheckEditGrid"), _
                 StTime.ToString("yyyy-MM-dd"), StTimeOld.ToString("yyyy-MM-dd"), _
                 EnTime.ToString("yyyy-MM-dd"), EnTimeOld.ToString("yyyy-MM-dd"), _
-                e.NewValues("SpecUSL"), e.NewValues("SpecLSL"), _
-                e.NewValues("XCL"), e.NewValues("XUCL"), e.NewValues("XLCL"), _
-                e.NewValues("RCL"), e.NewValues("RLCL"), e.NewValues("RUCL"), _
+                e.NewValues("SpecUSL"), e.OldValues("SpecUSL"), _
+                e.NewValues("SpecLSL"), e.OldValues("SpecLSL"), _
+                e.NewValues("XCL"), e.OldValues("XCL"), _
+                e.NewValues("XUCL"), e.OldValues("XUCL"), _
+                e.NewValues("XLCL"), e.OldValues("XLCL"), _
+                e.NewValues("RCL"), e.OldValues("RCL"), _
+                e.NewValues("RLCL"), e.OldValues("RLCL"), _
+                e.NewValues("RUCL"), e.OldValues("RUCL"), _
                 pUser)
             Grid.CancelEdit()
             up_GridLoad()
@@ -508,9 +518,15 @@ Public Class ControlChartSetup
     Private Function up_InsUpd(Type As String, Factory As String, ItemType As String, Machine As String, ItemCheck As String, _
                                Start As String, StartOld As String, _
                                EndTime As String, EndTimeOld As String, _
-                               SpecUSL As String, SpecLSL As String, _
-                               XBarCL As String, XBarUCL As String, XBarLCL As String, _
-                               RCL As String, RLCL As String, RUCL As String, User As String) As Boolean
+                               SpecUSL As String, SpecUSLOld As String, _
+                               SpecLSL As String, SpecLSLOld As String, _
+                               XBarCL As String, XBarCLOld As String, _
+                               XBarUCL As String, XBarUCLOld As String, _
+                               XBarLCL As String, XBarLCLOld As String, _
+                               RCL As String, RCLOld As String, _
+                               RLCL As String, RLCLOld As String, _
+                               RUCL As String, RUCLOld As String, _
+                               User As String) As Boolean
         Dim message As String = IIf(Type = "0", "Save data successfully!", "Update data successfully!") '0 Save | 1 Update
         Try
             Dim cls As New clsControlChartSetup With
@@ -521,12 +537,18 @@ Public Class ControlChartSetup
                 .Machine = Machine,
                 .StartTime = Start, .StartTimeOld = StartOld,
                 .EndTime = EndTime, .EndTimeOld = EndTimeOld,
-                .SpecUSL = SpecUSL, .SpecLSL = SpecLSL,
-                .XBarCL = XBarCL, .XBarUCL = XBarUCL, .XBarLCL = XBarLCL,
-                .RCL = RCL, .RLCL = RLCL, .RUCL = RUCL,
+                .SpecUSL = SpecUSL, .SpecUSLOld = SpecUSLOld,
+                .SpecLSL = SpecLSL, .SpecLSLOld = SpecLSLOld,
+                .XBarCL = XBarCL, .XBarCLOld = XBarCLOld,
+                .XBarUCL = XBarUCL, .XBarUCLOld = XBarUCLOld,
+                .XBarLCL = XBarLCL, .XBarLCLOld = XBarLCLOld,
+                .RCL = RCL, .RCLOld = RCLOld,
+                .RLCL = RLCL, .RLCLOld = RLCLOld,
+                .RUCL = RUCL, .RUCLOld = RUCLOld,
                 .User = User
             }
             clsControlChartSetupDB.InsertUpdate(cls, Type)
+            clsControlChartSetupDB.Email(cls, Type)
             show_error(MsgTypeEnum.Success, message, 1)
         Catch ex As Exception
             Throw New Exception(ex.Message)
