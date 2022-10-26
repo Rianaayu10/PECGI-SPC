@@ -100,8 +100,8 @@ Public Class frmSPCAlertNotifications
 
     Private Sub NotifyIcon1_Click(sender As Object, e As EventArgs)
         Try
-            Timer1.Enabled = False
-            Timer1.Stop()
+            'Timer1.Enabled = False
+            'Timer1.Stop()
             Dim Path As String = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
             For Each p As Process In Process.GetProcessesByName("SPCNotification")
                 p.Refresh()
@@ -119,7 +119,23 @@ Public Class frmSPCAlertNotifications
     End Sub
 
     Private Sub NotifyShowing_Click(sender As Object, e As EventArgs)
-        ContextMenuStrip1.Show(Cursor.Position)
+        Try
+            'Timer1.Enabled = False
+            'Timer1.Stop()
+            Dim Path As String = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
+            For Each p As Process In Process.GetProcessesByName("SPCNotification")
+                p.Refresh()
+                p.Kill()
+                p.Close()
+            Next
+            Path = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
+            Process.Start(Path)
+            'Dim frm As New frmSPCInboxNotification(dtNG, dtDelayInput, dtDelayVerification, factory) 'frmInboxNotifications(dtNG, dtDelayInput, dtDelayVerification)
+            'frm.Show()
+            'Close()
+        Catch ex As Exception
+            MsgBox("Something error.", MsgBoxStyle.OkOnly, "Error!")
+        End Try
 
     End Sub
 #End Region
