@@ -952,7 +952,7 @@ Public Class ProdSampleInput
     End Sub
 
     Private Sub LoadChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, VerifiedOnly As String, SeqNo As Integer)
-        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, "", VerifiedOnly)
+        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, "", VerifiedOnly, SeqNo)
         If xr.Count = 0 Then
             chartR.JSProperties("cpShow") = "0"
         Else
@@ -1134,6 +1134,8 @@ Public Class ProdSampleInput
         Dim LSL As Double
         Dim USL As Double
         Dim SetupFound As Boolean = False
+        Dim LightYellow As Color = Color.FromArgb(255, 255, 153)
+
         If Not IsDBNull(e.CellValue) AndAlso (e.DataColumn.FieldName.StartsWith("1") Or e.DataColumn.FieldName.StartsWith("2")) _
             And (e.GetValue("Seq") = "1" Or e.GetValue("Seq") = "3" Or e.GetValue("Seq") = "4" Or e.GetValue("Seq") = "5") Then
             If (e.DataColumn.FieldName.StartsWith("1")) Then
@@ -1164,8 +1166,10 @@ Public Class ProdSampleInput
                         Else
                             e.Cell.BackColor = Color.Yellow
                         End If
-                    Else
+                    ElseIf ChartType = "0" Then
                         e.Cell.BackColor = Color.Yellow
+                    Else
+                        e.Cell.BackColor = LightYellow
                     End If
                 End If
             End If

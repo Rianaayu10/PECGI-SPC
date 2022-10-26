@@ -218,7 +218,7 @@
                     document.getElementById('Min').style.backgroundColor = 'Red';
                 } else if (s.cpMin < s.cpLCL | s.cpMin > s.cpUCL) {
                     if (s.cpChartType = '1') {
-                        document.getElementById('Min').style.backgroundColor = 'Yellow';
+                        document.getElementById('Min').style.backgroundColor = '#FFFF99';
                     } else {
                         document.getElementById('Min').style.backgroundColor = 'Pink';
                     }                    
@@ -233,7 +233,7 @@
                     document.getElementById('Max').style.backgroundColor = 'Red';
                 } else if (s.cpMax > s.cpUCL | s.cpMax < s.cpLCL) {
                     if (s.cpChartType = '1') {
-                        document.getElementById('Max').style.backgroundColor = 'Yellow';
+                        document.getElementById('Max').style.backgroundColor = '#FFFF99';
                     } else {
                         document.getElementById('Max').style.backgroundColor = 'Pink';
                     }                      
@@ -249,7 +249,7 @@
                     document.getElementById('Ave').style.backgroundColor = 'Red';
                 } else if (s.cpAve > s.cpUCL | s.cpAve < s.cpLCL) {
                     if (s.cpChartType = '1') {
-                        document.getElementById('Ave').style.backgroundColor = 'Yellow';
+                        document.getElementById('Ave').style.backgroundColor = '#FFFF99';
                     } else {
                         document.getElementById('Ave').style.backgroundColor = 'Pink';
                     }                         
@@ -551,6 +551,8 @@
                 </table>
             </td>
             <td style="width:300px">            
+        
+                <asp:Label ID="Label2" runat="server" BackColor="#FFFF99" Visible="False"></asp:Label>
         
             </td>
         </tr>

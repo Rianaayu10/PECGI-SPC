@@ -598,7 +598,7 @@
     <table style="width:100%; padding-top:10px">
         <tr>
             <td style="width:630px">
-                <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="230px" Width="620px" ClientInstanceName="Histogram" PaletteName="SPC" CssClass="editableform" >
+                <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="400px" Width="550px" ClientInstanceName="Histogram" CssClass="editableform" >
 
                         <Titles>
                             <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Histogram" Alignment="Center" />
@@ -611,6 +611,8 @@
                     <Label TextPattern="{A:0.000}">
                     </Label>
                     <WholeRange AutoSideMargins="False" EndSideMargin="1" StartSideMargin="1" />
+                    <GridLines Visible="True">
+                    </GridLines>
                     <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Count" IntervalOptions-GridLayoutMode="GridAndLabelShifted" IntervalOptions-OverflowValue="2.715" IntervalOptions-Count="5" IntervalOptions-Pattern="{A1:0.000}-{A2:0.000}" IntervalOptions-UnderflowValue="2.645" IntervalOptions-OverflowValuePattern="{OS}" IntervalOptions-UnderflowValuePattern="{US}" />
                     </AxisX>
 
@@ -620,8 +622,6 @@
                         <ResolveOverlappingOptions AllowRotate="False" AllowStagger="False" />
                     </Label>
                     <WholeRange AutoSideMargins="False" EndSideMargin="1" StartSideMargin="0" />
-                    <GridLines Visible="False">
-                    </GridLines>
                     <NumericScaleOptions AutoGrid="False" MinGridSpacingLength="1" />
                     </AxisY>
                 </cc1:XYDiagram>
@@ -632,8 +632,8 @@
                         <SeriesSerializable>
                             <cc1:Series ArgumentDataMember="Value" Name="Histogram" ShowInLegend="False" LabelsVisibility="True">
                                 <ViewSerializable>
-                                    <cc1:SideBySideBarSeriesView BarWidth="1" Color="184, 204, 228" ColorEach="True">
-                                        <Border Color="127, 127, 127" Visibility="False" />
+                                    <cc1:SideBySideBarSeriesView BarWidth="0.98" Color="219, 238, 227">
+                                        <Border Color="95, 73, 122" Visibility="True" />
                                         <FillStyle FillMode="Solid">
                                         </FillStyle>
                                     </cc1:SideBySideBarSeriesView>
@@ -642,17 +642,6 @@
                                     <cc1:SideBySideBarSeriesLabel Position="Top">
                                     </cc1:SideBySideBarSeriesLabel>
                                 </LabelSerializable>
-                                <ColorizerSerializable>
-                                    <cc1:KeyColorColorizer PaletteName="SPC">
-                                        <KeysSerializable>
-                                            <cc1:ObjectSerializable Type="System.String" Value="1" />
-                                            <cc1:ObjectSerializable Type="System.String" Value="2" />
-                                            <cc1:ObjectSerializable Type="System.String" Value="3" />
-                                            <cc1:ObjectSerializable Type="System.String" Value="4" />
-                                            <cc1:ObjectSerializable Type="System.String" Value="5" />
-                                        </KeysSerializable>
-                                    </cc1:KeyColorColorizer>
-                                </ColorizerSerializable>
                             </cc1:Series>
                         </SeriesSerializable>
                         <PaletteWrappers>
