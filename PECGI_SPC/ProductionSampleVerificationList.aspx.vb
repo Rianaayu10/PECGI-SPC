@@ -39,6 +39,7 @@ Public Class ProductionSampleVerificationList
     Dim nMinColor As String = ""
     Dim nMaxColor As String = ""
     Dim nAvgColor As String = ""
+    Dim nRColor As String = ""
     Dim ResultColor As String = ""
     Dim CorStsColor As String = ""
     Dim MKColor As String = ""
@@ -190,6 +191,8 @@ Public Class ProductionSampleVerificationList
                 nMaxColor = e.CellValue
             ElseIf e.DataColumn.FieldName = "nAvgColor" Then
                 nAvgColor = e.CellValue
+            ElseIf e.DataColumn.FieldName = "nRColor" Then
+                nRColor = e.CellValue
             ElseIf e.DataColumn.FieldName = "ResultColor" Then
                 ResultColor = e.CellValue
             ElseIf e.DataColumn.FieldName = "CorStsColor" Then
@@ -204,6 +207,8 @@ Public Class ProductionSampleVerificationList
                 e.Cell.BackColor = ColorTranslator.FromHtml(nMaxColor)
             ElseIf e.DataColumn.FieldName = "nAvg" Then
                 e.Cell.BackColor = ColorTranslator.FromHtml(nAvgColor)
+            ElseIf e.DataColumn.FieldName = "nR" Then
+                e.Cell.BackColor = ColorTranslator.FromHtml(nRColor)
             ElseIf (e.DataColumn.FieldName = "Cor_Sts") Then
                 e.Cell.BackColor = ColorTranslator.FromHtml(CorStsColor)
             ElseIf (e.DataColumn.FieldName = "Result") Then
