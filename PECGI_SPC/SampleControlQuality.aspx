@@ -479,7 +479,7 @@
         <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" CrosshairLabelPattern="{S}: {V:0.000}">
             <viewserializable>
                 <cc1:PointSeriesView>                    
-                    <PointMarkerOptions kind="Circle" BorderColor="255, 255, 255"></PointMarkerOptions>
+                    <PointMarkerOptions kind="Circle" BorderColor="255, 255, 255" Size="4"></PointMarkerOptions>
                 </cc1:PointSeriesView>
             </viewserializable>
         </seriestemplate>    
@@ -500,7 +500,7 @@
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="Blue">
                         <LineStyle Thickness="1" />
-                        <LineMarkerOptions Color="Blue" Size="10" Kind="Diamond">
+                        <LineMarkerOptions Color="Blue" Size="3" Kind="Diamond">
                         </LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>
@@ -552,6 +552,8 @@
                 <ViewSerializable>
                     <cc1:LineSeriesView>
                         <LineStyle Thickness="1" />
+                        <LineMarkerOptions Size="5">
+                    </LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
@@ -559,7 +561,7 @@
         <seriestemplate ValueDataMembersSerializable="Value">            
             <viewserializable>
                 <cc1:LineSeriesView>
-                    <LineMarkerOptions BorderColor="White" Size="8">
+                    <LineMarkerOptions BorderColor="White" Size="4">
                     </LineMarkerOptions>
                 </cc1:LineSeriesView>
             </viewserializable>
@@ -598,7 +600,7 @@
     <table style="width:100%; padding-top:10px">
         <tr>
             <td style="width:630px">
-                <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="400px" Width="550px" ClientInstanceName="Histogram" CssClass="editableform" >
+                <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="320px" Width="550px" ClientInstanceName="Histogram" CssClass="editableform" >
 
                         <Titles>
                             <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Histogram" Alignment="Center" />
@@ -610,7 +612,7 @@
                     <Tickmarks MinorVisible="False" />
                     <Label TextPattern="{A:0.000}">
                     </Label>
-                    <WholeRange AutoSideMargins="False" EndSideMargin="1" StartSideMargin="1" />
+                    <WholeRange AutoSideMargins="False" EndSideMargin="3" StartSideMargin="3" />
                     <GridLines Visible="True">
                     </GridLines>
                     <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Count" IntervalOptions-GridLayoutMode="GridAndLabelShifted" IntervalOptions-OverflowValue="2.715" IntervalOptions-Count="5" IntervalOptions-Pattern="{A1:0.000}-{A2:0.000}" IntervalOptions-UnderflowValue="2.645" IntervalOptions-OverflowValuePattern="{OS}" IntervalOptions-UnderflowValuePattern="{US}" />
@@ -621,7 +623,7 @@
                     <Label>
                         <ResolveOverlappingOptions AllowRotate="False" AllowStagger="False" />
                     </Label>
-                    <WholeRange AutoSideMargins="False" EndSideMargin="1" StartSideMargin="0" />
+                    <WholeRange AutoSideMargins="False" EndSideMargin="2" StartSideMargin="2" />
                     <NumericScaleOptions AutoGrid="False" MinGridSpacingLength="1" />
                     </AxisY>
                 </cc1:XYDiagram>
@@ -632,8 +634,8 @@
                         <SeriesSerializable>
                             <cc1:Series ArgumentDataMember="Value" Name="Histogram" ShowInLegend="False" LabelsVisibility="True">
                                 <ViewSerializable>
-                                    <cc1:SideBySideBarSeriesView BarWidth="0.98" Color="219, 238, 227">
-                                        <Border Color="95, 73, 122" Visibility="True" />
+                                    <cc1:SideBySideBarSeriesView BarWidth="0.95" Color="Navy">
+                                        <Border Color="49, 133, 155" Visibility="True" />
                                         <FillStyle FillMode="Solid">
                                         </FillStyle>
                                     </cc1:SideBySideBarSeriesView>

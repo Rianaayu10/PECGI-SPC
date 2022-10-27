@@ -883,7 +883,7 @@
         <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" ToolTipPointPattern="{V:0.000}" CrosshairLabelPattern="{S}: {V:0.000}">
             <viewserializable>
                 <cc1:PointSeriesView>                    
-                    <PointMarkerOptions kind="Circle" BorderColor="255, 255, 255"></PointMarkerOptions>
+                    <PointMarkerOptions kind="Circle" BorderColor="255, 255, 255" Size="5"></PointMarkerOptions>
                 </cc1:PointSeriesView>
             </viewserializable>
         </seriestemplate>    
@@ -905,7 +905,7 @@
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="Blue">
                         <LineStyle Thickness="1" />
-                        <LineMarkerOptions Color="Blue" Size="10" Kind="Diamond"></LineMarkerOptions>
+                        <LineMarkerOptions Color="Blue" Size="5" Kind="Diamond"></LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
@@ -969,6 +969,8 @@
                 <ViewSerializable>
                     <cc1:LineSeriesView>
                         <LineStyle Thickness="1" />
+                    <LineMarkerOptions BorderColor="White" Size="8">
+                    </LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
@@ -976,7 +978,7 @@
         <seriestemplate ValueDataMembersSerializable="Value">            
             <viewserializable>
                 <cc1:LineSeriesView>
-                    <LineMarkerOptions BorderColor="White" Size="8">
+                    <LineMarkerOptions BorderColor="White" Size="3">
                     </LineMarkerOptions>
                 </cc1:LineSeriesView>
             </viewserializable>
