@@ -600,7 +600,7 @@
     <table style="width:100%; padding-top:10px">
         <tr>
             <td style="width:630px">
-                <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="320px" Width="550px" ClientInstanceName="Histogram" CssClass="editableform" >
+                <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="320px" Width="320px" ClientInstanceName="Histogram" CssClass="editableform" >
 
                         <Titles>
                             <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Histogram" Alignment="Center" />
@@ -613,9 +613,7 @@
                     <Label TextPattern="{A:0.000}">
                     </Label>
                     <WholeRange AutoSideMargins="False" EndSideMargin="3" StartSideMargin="3" />
-                    <GridLines Visible="True">
-                    </GridLines>
-                    <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Count" IntervalOptions-GridLayoutMode="GridAndLabelShifted" IntervalOptions-OverflowValue="2.715" IntervalOptions-Count="5" IntervalOptions-Pattern="{A1:0.000}-{A2:0.000}" IntervalOptions-UnderflowValue="2.645" IntervalOptions-OverflowValuePattern="{OS}" IntervalOptions-UnderflowValuePattern="{US}" />
+                    <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Count" IntervalOptions-GridLayoutMode="GridAndLabelShifted" IntervalOptions-Count="8" IntervalOptions-Pattern="{A1:0.000}-{A2:0.000}" IntervalOptions-OverflowValuePattern="{OS}" IntervalOptions-UnderflowValuePattern="{US}" />
                     </AxisX>
 
                 <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
@@ -624,6 +622,8 @@
                         <ResolveOverlappingOptions AllowRotate="False" AllowStagger="False" />
                     </Label>
                     <WholeRange AutoSideMargins="False" EndSideMargin="2" StartSideMargin="2" />
+                    <GridLines Visible="False">
+                    </GridLines>
                     <NumericScaleOptions AutoGrid="False" MinGridSpacingLength="1" />
                     </AxisY>
                 </cc1:XYDiagram>
@@ -632,10 +632,10 @@
                         <Legend Visibility="False"></Legend>
 
                         <SeriesSerializable>
-                            <cc1:Series ArgumentDataMember="Value" Name="Histogram" ShowInLegend="False" LabelsVisibility="True">
+                            <cc1:Series ArgumentDataMember="Value" Name="Histogram" ShowInLegend="False">
                                 <ViewSerializable>
-                                    <cc1:SideBySideBarSeriesView BarWidth="0.95" Color="Navy">
-                                        <Border Color="49, 133, 155" Visibility="True" />
+                                    <cc1:SideBySideBarSeriesView BarWidth="1" Color="84, 141, 212">
+                                        <Border Color="255, 255, 255" Visibility="True" />
                                         <FillStyle FillMode="Solid">
                                         </FillStyle>
                                     </cc1:SideBySideBarSeriesView>
