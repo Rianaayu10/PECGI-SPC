@@ -412,12 +412,13 @@ Public Class ProdSampleVerification
         cls.User = pUser
 
         Dim dt = clsProdSampleVerificationDB.Validation(GetVerifyChartSetup, cls)
-        Dim RespChartSetUp = dt.Rows(0)("response").ToString
+        Dim Resp = dt.Rows(0)("response")
+        Dim RespDesc = dt.Rows(0)("respDesc")
 
-        If RespChartSetUp = "" Then
+        If Resp = "1" Then
             LoadChartR(cls)
         Else
-            show_errorGrid(MsgTypeEnum.Warning, RespChartSetUp, 1)
+            show_errorGrid(MsgTypeEnum.Warning, RespDesc, 1)
         End If
 
     End Sub
@@ -1413,7 +1414,8 @@ Public Class ProdSampleVerification
                     Dim LSL = dtChartSetup.Rows(0)("LSL")
                     Dim UCL = dtChartSetup.Rows(0)("UCL")
                     Dim LCL = dtChartSetup.Rows(0)("LCL")
-                    Dim R = dtChartSetup.Rows(0)("nR")
+                    Dim RUCL = dtChartSetup.Rows(0)("RUCL")
+                    Dim RLCL = dtChartSetup.Rows(0)("RLCL")
                     Dim CS = dtChartSetup.Rows(0)("CS")
 
                     irow = irow + 1
@@ -1435,9 +1437,7 @@ Public Class ProdSampleVerification
                         MINclr = "#ff0000"
                     ElseIf MIN < LCL Or MIN > UCL Then
                         If CS = "1" Then
-                            MINclr = "#fffb00"
-                        ElseIf CS = "2" Then
-                            MINclr = "#fffb00"
+                            MINclr = "#FFFE91"
                         Else
                             MINclr = "#FFC0CB"
                         End If
@@ -1453,9 +1453,7 @@ Public Class ProdSampleVerification
                         MAXclr = "#ff0000"
                     ElseIf MAX < LCL Or MAX > UCL Then
                         If CS = "1" Then
-                            MAXclr = "#fffb00"
-                        ElseIf CS = "2" Then
-                            MAXclr = "#fffb00"
+                            MAXclr = "#FFFE91"
                         Else
                             MAXclr = "#FFC0CB"
                         End If
@@ -1471,21 +1469,27 @@ Public Class ProdSampleVerification
                         AVGclr = "#ff0000"
                     ElseIf AVG < LCL Or AVG > UCL Then
                         If CS = "1" Then
-                            AVGclr = "#fffb00"
-                        ElseIf CS = "2" Then
-                            AVGclr = "#fffb00"
+                            AVGclr = "#FFFE91"
                         Else
                             AVGclr = "#FFC0CB"
                         End If
                     End If
+
                     .Cells(irow, 17).Value = AVG
                     .Cells(irow, 17).Style.Numberformat.Format = "####0.000"
                     .Cells(irow, 17).Style.Fill.PatternType = ExcelFillStyle.Solid
                     .Cells(irow, 17).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(AVGclr))
 
+                    Dim R = dtChartSetup.Rows(0)("nR")
+                    Dim RClr = "#FFFFFF"
+                    If R < RLCL Or R > RUCL Then
+                        RClr = "#FFFF00"
+                    End If
+
                     .Cells(irow, 18).Value = R
                     .Cells(irow, 18).Style.Numberformat.Format = "####0.000"
-
+                    .Cells(irow, 18).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(irow, 18).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(RClr))
 
                     Dim C = dtChartSetup.Rows(0)("C")
                     Dim Cclr = "#FFFFFF"
