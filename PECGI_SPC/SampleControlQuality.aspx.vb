@@ -465,11 +465,9 @@ Public Class SampleControlQuality
                 e.Cell.BackColor = Color.Red
             ElseIf Value < LCL Or Value > UCL Then
                 If e.GetValue("Seq") = "1" Then
-                    If ChartType = "2" Or ChartType = "0" Then
-                        e.Cell.BackColor = Color.Pink
-                    Else
-                        e.Cell.BackColor = Color.Yellow
-                    End If
+                    e.Cell.BackColor = Color.Pink
+                ElseIf ChartType = "0" Then
+                    e.Cell.BackColor = Color.Pink
                 Else
                     e.Cell.BackColor = LightYellow
                 End If
@@ -584,6 +582,26 @@ Public Class SampleControlQuality
                 diagram.AxisX.ConstantLines.Add(CL)
                 CL.AxisValue = ht1.XBarCL
                 CL.ShowInLegend = True
+
+                Dim LSL As New ConstantLine("LSL")
+                LSL.Color = System.Drawing.Color.Red
+                LSL.LineStyle.Thickness = 1
+                LSL.LineStyle.DashStyle = DashStyle.Solid
+                diagram.AxisX.ConstantLines.Add(LSL)
+                LSL.AxisValue = ht1.SpecLSL
+                LSL.ShowInLegend = True
+
+                Dim USL As New ConstantLine("USL")
+                USL.Color = System.Drawing.Color.Red
+                USL.LineStyle.Thickness = 1
+                USL.LineStyle.DashStyle = DashStyle.Solid
+                diagram.AxisX.ConstantLines.Add(USL)
+                USL.AxisValue = ht1.SpecUSL
+                USL.ShowInLegend = True
+
+                Dim MaxValue As Single = ht(0).MaxValue
+                diagram.AxisX.WholeRange.SideMarginsValue = MaxValue
+                diagram.AxisY.NumericScaleOptions.GridSpacing = 5
             End If
         End With
     End Sub
