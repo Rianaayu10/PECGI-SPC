@@ -412,12 +412,13 @@ Public Class ProdSampleVerification
         cls.User = pUser
 
         Dim dt = clsProdSampleVerificationDB.Validation(GetVerifyChartSetup, cls)
-        Dim RespChartSetUp = dt.Rows(0)("response").ToString
+        Dim Resp = dt.Rows(0)("response")
+        Dim RespDesc = dt.Rows(0)("respDesc")
 
-        If RespChartSetUp = "" Then
+        If Resp = "1" Then
             LoadChartR(cls)
         Else
-            show_errorGrid(MsgTypeEnum.Warning, RespChartSetUp, 1)
+            show_errorGrid(MsgTypeEnum.Warning, RespDesc, 1)
         End If
 
     End Sub
@@ -918,6 +919,8 @@ Public Class ProdSampleVerification
             GridX.JSProperties("cpLSL") = AFormat(dtChartSetup.Rows(0)("LSL"))
             GridX.JSProperties("cpUCL") = AFormat(dtChartSetup.Rows(0)("UCL"))
             GridX.JSProperties("cpLCL") = AFormat(dtChartSetup.Rows(0)("LCL"))
+            GridX.JSProperties("cpRUCL") = AFormat(dtChartSetup.Rows(0)("RUCL"))
+            GridX.JSProperties("cpRLCL") = AFormat(dtChartSetup.Rows(0)("RLCL"))
 
             GridX.JSProperties("cpMIN") = AFormat(dtChartSetup.Rows(0)("nMIN"))
             GridX.JSProperties("cpMAX") = AFormat(dtChartSetup.Rows(0)("nMAX"))
@@ -942,15 +945,12 @@ Public Class ProdSampleVerification
         End With
     End Sub
     Private Sub LoadChartR(cls As clsProdSampleVerification)
-        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code, cls.ProdDate, "", cls.ShowVerify)
+        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code, cls.ProdDate, "", cls.ShowVerify, cls.Seq)
         If xr.Count = 0 Then
             chartR.JSProperties("cpShow") = "0"
-            CharacteristicSts = "0"
         Else
             chartR.JSProperties("cpShow") = "1"
-            CharacteristicSts = "1"
         End If
-
         With chartR
             .DataSource = xr
             Dim diagram As XYDiagram = CType(.Diagram, XYDiagram)
@@ -968,14 +968,14 @@ Public Class ProdSampleVerification
                 Dim RCL As New ConstantLine("CL R")
                 RCL.Color = System.Drawing.Color.Red
                 RCL.LineStyle.Thickness = 1
-                RCL.LineStyle.DashStyle = DashStyle.DashDot
+                RCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(RCL)
                 RCL.AxisValue = Setup.RCL
 
                 Dim RUCL As New ConstantLine("UCL R")
                 RUCL.Color = System.Drawing.Color.Red
                 RUCL.LineStyle.Thickness = 1
-                RUCL.LineStyle.DashStyle = DashStyle.DashDot
+                RUCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(RUCL)
                 RUCL.AxisValue = Setup.RUCL
 
@@ -997,9 +997,10 @@ Public Class ProdSampleVerification
             .DataBind()
         End With
     End Sub
+
     Private Sub LoadChartX(cls As clsProdSampleVerification)
         ChartType = clsXRChartDB.GetChartType(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code)
-        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartXR(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code, cls.ProdDate, cls.ShowVerify)
+        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartXR(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code, cls.ProdDate, cls.ShowVerify, cls.Seq)
         With chartX
             .DataSource = xr
             Dim diagram As XYDiagram = CType(.Diagram, XYDiagram)
@@ -1026,21 +1027,21 @@ Public Class ProdSampleVerification
                 Dim LCL As New ConstantLine("LCL")
                 LCL.Color = System.Drawing.Color.Red
                 LCL.LineStyle.Thickness = 1
-                LCL.LineStyle.DashStyle = DashStyle.DashDot
+                LCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(LCL)
                 LCL.AxisValue = Setup.XBarLCL
 
                 Dim UCL As New ConstantLine("UCL")
                 UCL.Color = System.Drawing.Color.Red
                 UCL.LineStyle.Thickness = 1
-                UCL.LineStyle.DashStyle = DashStyle.DashDot
+                UCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(UCL)
                 UCL.AxisValue = Setup.XBarUCL
 
                 Dim CL As New ConstantLine("CL")
                 CL.Color = System.Drawing.Color.Red
                 CL.LineStyle.Thickness = 1
-                CL.LineStyle.DashStyle = DashStyle.DashDot
+                CL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(CL)
                 CL.AxisValue = Setup.XBarCL
 
@@ -1100,6 +1101,7 @@ Public Class ProdSampleVerification
             'End If
         End With
     End Sub
+
     Private Sub LoadForm_ByAnotherform()
 
         prmFactoryCode = Request.QueryString("FactoryCode")
@@ -1412,7 +1414,8 @@ Public Class ProdSampleVerification
                     Dim LSL = dtChartSetup.Rows(0)("LSL")
                     Dim UCL = dtChartSetup.Rows(0)("UCL")
                     Dim LCL = dtChartSetup.Rows(0)("LCL")
-                    Dim R = dtChartSetup.Rows(0)("nR")
+                    Dim RUCL = dtChartSetup.Rows(0)("RUCL")
+                    Dim RLCL = dtChartSetup.Rows(0)("RLCL")
                     Dim CS = dtChartSetup.Rows(0)("CS")
 
                     irow = irow + 1
@@ -1434,9 +1437,7 @@ Public Class ProdSampleVerification
                         MINclr = "#ff0000"
                     ElseIf MIN < LCL Or MIN > UCL Then
                         If CS = "1" Then
-                            MINclr = "#fffb00"
-                        ElseIf CS = "2" Then
-                            MINclr = "#fffb00"
+                            MINclr = "#FFFE91"
                         Else
                             MINclr = "#FFC0CB"
                         End If
@@ -1452,9 +1453,7 @@ Public Class ProdSampleVerification
                         MAXclr = "#ff0000"
                     ElseIf MAX < LCL Or MAX > UCL Then
                         If CS = "1" Then
-                            MAXclr = "#fffb00"
-                        ElseIf CS = "2" Then
-                            MAXclr = "#fffb00"
+                            MAXclr = "#FFFE91"
                         Else
                             MAXclr = "#FFC0CB"
                         End If
@@ -1470,21 +1469,27 @@ Public Class ProdSampleVerification
                         AVGclr = "#ff0000"
                     ElseIf AVG < LCL Or AVG > UCL Then
                         If CS = "1" Then
-                            AVGclr = "#fffb00"
-                        ElseIf CS = "2" Then
-                            AVGclr = "#fffb00"
+                            AVGclr = "#FFFE91"
                         Else
                             AVGclr = "#FFC0CB"
                         End If
                     End If
+
                     .Cells(irow, 17).Value = AVG
                     .Cells(irow, 17).Style.Numberformat.Format = "####0.000"
                     .Cells(irow, 17).Style.Fill.PatternType = ExcelFillStyle.Solid
                     .Cells(irow, 17).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(AVGclr))
 
+                    Dim R = dtChartSetup.Rows(0)("nR")
+                    Dim RClr = "#FFFFFF"
+                    If R < RLCL Or R > RUCL Then
+                        RClr = "#FFFF00"
+                    End If
+
                     .Cells(irow, 18).Value = R
                     .Cells(irow, 18).Style.Numberformat.Format = "####0.000"
-
+                    .Cells(irow, 18).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(irow, 18).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(RClr))
 
                     Dim C = dtChartSetup.Rows(0)("C")
                     Dim Cclr = "#FFFFFF"
@@ -1630,12 +1635,9 @@ Public Class ProdSampleVerification
                                 Dim data = dtGrid.Rows(i)(n)
                                 Dim RowIndex = Trim(dtGrid.Rows(i)(0))
                                 If n > 1 Then
-                                    If RowIndex = "EachData" Or RowIndex = "XBar" Or RowIndex = "R" Or RowIndex = "Judgement" Or RowIndex = "Correction" Or RowIndex = "Verification" Then
+                                    If RowIndex = "EachData" Or RowIndex = "XBar" Or RowIndex = "Judgement" Or RowIndex = "Correction" Or RowIndex = "Verification" Then
                                         If IsDBNull(data) Then
                                             .Cells(irow + i, n).Value = data
-                                        ElseIf RowIndex = "R" Then
-                                            .Cells(irow + i, n).Value = CDec(data)
-                                            .Cells(irow + i, n).Style.Numberformat.Format = "####0.000"
                                         Else
                                             Dim value = Split(data, "|")(0)
                                             Dim color = Split(data, "|")(1)

@@ -218,7 +218,7 @@
                     document.getElementById('Min').style.backgroundColor = 'Red';
                 } else if (s.cpMin < s.cpLCL | s.cpMin > s.cpUCL) {
                     if (s.cpChartType = '1') {
-                        document.getElementById('Min').style.backgroundColor = 'Yellow';
+                        document.getElementById('Min').style.backgroundColor = '#FFFF99';
                     } else {
                         document.getElementById('Min').style.backgroundColor = 'Pink';
                     }                    
@@ -233,7 +233,7 @@
                     document.getElementById('Max').style.backgroundColor = 'Red';
                 } else if (s.cpMax > s.cpUCL | s.cpMax < s.cpLCL) {
                     if (s.cpChartType = '1') {
-                        document.getElementById('Max').style.backgroundColor = 'Yellow';
+                        document.getElementById('Max').style.backgroundColor = '#FFFF99';
                     } else {
                         document.getElementById('Max').style.backgroundColor = 'Pink';
                     }                      
@@ -249,7 +249,7 @@
                     document.getElementById('Ave').style.backgroundColor = 'Red';
                 } else if (s.cpAve > s.cpUCL | s.cpAve < s.cpLCL) {
                     if (s.cpChartType = '1') {
-                        document.getElementById('Ave').style.backgroundColor = 'Yellow';
+                        document.getElementById('Ave').style.backgroundColor = '#FFFF99';
                     } else {
                         document.getElementById('Ave').style.backgroundColor = 'Pink';
                     }                         
@@ -551,6 +551,8 @@
                 </table>
             </td>
             <td style="width:300px">            
+        
+                <asp:Label ID="Label2" runat="server" BackColor="#FFFF99" Visible="False"></asp:Label>
         
             </td>
         </tr>
@@ -881,7 +883,7 @@
         <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" ToolTipPointPattern="{V:0.000}" CrosshairLabelPattern="{S}: {V:0.000}">
             <viewserializable>
                 <cc1:PointSeriesView>                    
-                    <PointMarkerOptions kind="Circle" BorderColor="255, 255, 255"></PointMarkerOptions>
+                    <PointMarkerOptions kind="Circle" BorderColor="255, 255, 255" Size="5"></PointMarkerOptions>
                 </cc1:PointSeriesView>
             </viewserializable>
         </seriestemplate>    
@@ -903,7 +905,7 @@
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="Blue">
                         <LineStyle Thickness="1" />
-                        <LineMarkerOptions Color="Blue" Size="10" Kind="Diamond"></LineMarkerOptions>
+                        <LineMarkerOptions Color="Blue" Size="5" Kind="Diamond"></LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
@@ -967,6 +969,8 @@
                 <ViewSerializable>
                     <cc1:LineSeriesView>
                         <LineStyle Thickness="1" />
+                    <LineMarkerOptions BorderColor="White" Size="8">
+                    </LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
@@ -974,7 +978,7 @@
         <seriestemplate ValueDataMembersSerializable="Value">            
             <viewserializable>
                 <cc1:LineSeriesView>
-                    <LineMarkerOptions BorderColor="White" Size="8">
+                    <LineMarkerOptions BorderColor="White" Size="3">
                     </LineMarkerOptions>
                 </cc1:LineSeriesView>
             </viewserializable>

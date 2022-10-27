@@ -7,18 +7,16 @@ Public Class clsControlChartSetup
     Public Property Period As String
     Public Property ItemType As String
     Public Property ItemCheck As String
-    Public Property StartTime As String
-    Public Property StartTimeOld As String
-    Public Property EndTime As String
-    Public Property EndTimeOld As String
-    Public Property SpecUSL As String
-    Public Property SpecLSL As String
-    Public Property XBarCL As String
-    Public Property XBarLCL As String
-    Public Property XBarUCL As String
-    Public Property RCL As String
-    Public Property RLCL As String
-    Public Property RUCL As String
+    Public Property StartTime As String : Public Property StartTimeOld As String
+    Public Property EndTime As String : Public Property EndTimeOld As String
+    Public Property SpecUSL As String : Public Property SpecUSLOld As String
+    Public Property SpecLSL As String : Public Property SpecLSLOld As String
+    Public Property XBarCL As String : Public Property XBarCLOld As String
+    Public Property XBarLCL As String : Public Property XBarLCLOld As String
+    Public Property XBarUCL As String : Public Property XBarUCLOld As String
+    Public Property RCL As String : Public Property RCLOld As String
+    Public Property RLCL As String : Public Property RLCLOld As String
+    Public Property RUCL As String : Public Property RUCLOld As String
     Public Property User As String
 End Class
 
@@ -86,6 +84,38 @@ Public Class clsControlChartSetupDB
                 cmd.Parameters.AddWithValue("RCL", CDbl(cls.RCL))
                 cmd.Parameters.AddWithValue("RLCL", CDbl(cls.RLCL))
                 cmd.Parameters.AddWithValue("RUCL", CDbl(cls.RUCL))
+                cmd.Parameters.AddWithValue("User", cls.User)
+                cmd.Parameters.AddWithValue("Type", Type)
+
+                cmd.ExecuteNonQuery()
+            End Using
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
+
+    Public Shared Function Email(cls As clsControlChartSetup, Type As String) As Boolean
+        Try
+            Using cn As New SqlConnection(Sconn.Stringkoneksi)
+                cn.Open()
+                Dim sql As String
+                sql = "sp_SPC_ChartSetup_Email"
+                Dim cmd As New SqlCommand(sql, cn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Parameters.AddWithValue("Factory", cls.Factory)
+                cmd.Parameters.AddWithValue("ItemType", cls.ItemType)
+                cmd.Parameters.AddWithValue("Line", cls.Machine)
+                cmd.Parameters.AddWithValue("ItemCheck", cls.ItemCheck)
+                cmd.Parameters.AddWithValue("Start", cls.StartTime) : cmd.Parameters.AddWithValue("StartOld", cls.StartTimeOld)
+                cmd.Parameters.AddWithValue("End", cls.EndTime) : cmd.Parameters.AddWithValue("EndOld", cls.EndTimeOld)
+                cmd.Parameters.AddWithValue("SpecUSL", CDbl(cls.SpecUSL)) : cmd.Parameters.AddWithValue("SpecUSLOld", CDbl(cls.SpecUSLOld))
+                cmd.Parameters.AddWithValue("SpecLSL", CDbl(cls.SpecLSL)) : cmd.Parameters.AddWithValue("SpecLSLOld", CDbl(cls.SpecLSLOld))
+                cmd.Parameters.AddWithValue("XBarCL", CDbl(cls.XBarCL)) : cmd.Parameters.AddWithValue("XBarCLOld", CDbl(cls.XBarCLOld))
+                cmd.Parameters.AddWithValue("XBarUCL", CDbl(cls.XBarUCL)) : cmd.Parameters.AddWithValue("XBarUCLOld", CDbl(cls.XBarUCLOld))
+                cmd.Parameters.AddWithValue("XBarLCL", CDbl(cls.XBarLCL)) : cmd.Parameters.AddWithValue("XBarLCLOld", CDbl(cls.XBarLCLOld))
+                cmd.Parameters.AddWithValue("RCL", CDbl(cls.RCL)) : cmd.Parameters.AddWithValue("RCLOld", CDbl(cls.RCLOld))
+                cmd.Parameters.AddWithValue("RLCL", CDbl(cls.RLCL)) : cmd.Parameters.AddWithValue("RLCLOld", CDbl(cls.RLCLOld))
+                cmd.Parameters.AddWithValue("RUCL", CDbl(cls.RUCL)) : cmd.Parameters.AddWithValue("RUCLOld", CDbl(cls.RUCLOld))
                 cmd.Parameters.AddWithValue("User", cls.User)
                 cmd.Parameters.AddWithValue("Type", Type)
 

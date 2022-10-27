@@ -343,6 +343,8 @@ Public Class SampleControlQuality
     Dim dtLCL As DataTable
     Dim dtUCL As DataTable
     Dim dtCP As DataTable
+    Dim dtRUCL As DataTable
+    Dim dtRLCL As DataTable
 
     Private Sub GridXLoad(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, VerifiedOnly As Integer)
         With gridX
@@ -412,6 +414,8 @@ Public Class SampleControlQuality
                 dtLCL = ds.Tables(4)
                 dtUCL = ds.Tables(5)
                 dtCP = ds.Tables(6)
+                dtRUCL = ds.Tables(7)
+                dtRLCL = ds.Tables(8)
 
                 If dtCP.Rows.Count > 0 Then
                     .JSProperties("cpMin") = dtCP.Rows(0)("Min") & ""
@@ -446,6 +450,9 @@ Public Class SampleControlQuality
         Dim UCL As Double
         Dim LSL As Double
         Dim USL As Double
+        Dim RUCL As Double
+        Dim RLCL As Double
+        Dim LightYellow As Color = Color.FromArgb(255, 255, 153)
 
         Dim ColName As String = e.DataColumn.FieldName
         If Not IsDBNull(e.CellValue) AndAlso ColName <> "Seq" AndAlso ColName <> "Des" AndAlso (e.GetValue("Seq") = "1" Or e.GetValue("Seq") = "3" Or e.GetValue("Seq") = "4" Or e.GetValue("Seq") = "5") Then
@@ -458,14 +465,20 @@ Public Class SampleControlQuality
                 e.Cell.BackColor = Color.Red
             ElseIf Value < LCL Or Value > UCL Then
                 If e.GetValue("Seq") = "1" Then
-                    If ChartType = "2" Or ChartType = "0" Then
-                        e.Cell.BackColor = Color.Pink
-                    Else
-                        e.Cell.BackColor = Color.Yellow
-                    End If
+                    e.Cell.BackColor = Color.Pink
+                ElseIf ChartType = "0" Then
+                    e.Cell.BackColor = Color.Pink
                 Else
-                    e.Cell.BackColor = Color.Yellow
+                    e.Cell.BackColor = LightYellow
                 End If
+            End If
+        End If
+        If Not IsDBNull(e.CellValue) AndAlso ColName <> "Seq" And ColName <> "Des" And e.GetValue("Seq") = "6" Then
+            RUCL = dtRUCL.Rows(0)(ColName)
+            RLCL = dtRLCL.Rows(0)(ColName)
+            Dim Value As Double = clsSPCResultDB.ADecimal(e.CellValue)
+            If Value < RLCL Or Value > RUCL Then
+                e.Cell.BackColor = Color.Yellow
             End If
         End If
         Dim cs As New clsSPCColor
@@ -569,6 +582,26 @@ Public Class SampleControlQuality
                 diagram.AxisX.ConstantLines.Add(CL)
                 CL.AxisValue = ht1.XBarCL
                 CL.ShowInLegend = True
+
+                Dim LSL As New ConstantLine("LSL")
+                LSL.Color = System.Drawing.Color.Red
+                LSL.LineStyle.Thickness = 1
+                LSL.LineStyle.DashStyle = DashStyle.Solid
+                diagram.AxisX.ConstantLines.Add(LSL)
+                LSL.AxisValue = ht1.SpecLSL
+                LSL.ShowInLegend = True
+
+                Dim USL As New ConstantLine("USL")
+                USL.Color = System.Drawing.Color.Red
+                USL.LineStyle.Thickness = 1
+                USL.LineStyle.DashStyle = DashStyle.Solid
+                diagram.AxisX.ConstantLines.Add(USL)
+                USL.AxisValue = ht1.SpecUSL
+                USL.ShowInLegend = True
+
+                Dim MaxValue As Single = ht(0).MaxValue
+                diagram.AxisX.WholeRange.SideMarginsValue = MaxValue
+                diagram.AxisY.NumericScaleOptions.GridSpacing = 5
             End If
         End With
     End Sub

@@ -476,6 +476,8 @@
                 </dx:GridViewDataTextColumn>
                 <dx:GridViewDataTextColumn FieldName="nAvgColor" Width="0" VisibleIndex="0">
                 </dx:GridViewDataTextColumn>
+                <dx:GridViewDataTextColumn FieldName="nRColor" Width="0" VisibleIndex="0">
+                </dx:GridViewDataTextColumn>
                 <dx:GridViewDataTextColumn FieldName="ResultColor" Width="0" VisibleIndex="0">
                 </dx:GridViewDataTextColumn>
                 <dx:GridViewDataTextColumn FieldName="CorStsColor" Width="0" VisibleIndex="0">
