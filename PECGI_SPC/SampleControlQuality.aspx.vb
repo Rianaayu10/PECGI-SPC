@@ -473,7 +473,7 @@ Public Class SampleControlQuality
                 End If
             End If
         End If
-        If Not IsDBNull(e.CellValue) AndAlso ColName <> "Seq" And ColName <> "Des" And e.GetValue("Seq") = "6" Then
+        If Not IsDBNull(e.CellValue) AndAlso ColName <> "Seq" And ColName <> "Des" And e.GetValue("Seq") = "6" And ChartType <> "0" Then
             RUCL = dtRUCL.Rows(0)(ColName)
             RLCL = dtRLCL.Rows(0)(ColName)
             Dim Value As Double = clsSPCResultDB.ADecimal(e.CellValue)
@@ -599,8 +599,8 @@ Public Class SampleControlQuality
                 USL.AxisValue = ht1.SpecUSL
                 USL.ShowInLegend = True
 
-                Dim MaxValue As Single = ht(0).MaxValue
-                diagram.AxisX.WholeRange.SideMarginsValue = MaxValue
+                'Dim MaxValue As Single = ht(0).MaxValue
+                'diagram.AxisX.WholeRange.SideMarginsValue = MaxValue
                 diagram.AxisY.NumericScaleOptions.GridSpacing = 5
             End If
         End With

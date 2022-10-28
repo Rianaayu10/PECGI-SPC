@@ -75,15 +75,20 @@ Public Class ProdSampleInput
             For iDay = 1 To 2
                 If Not IsDBNull(SelDay) Then
                     Dim dDay As String = Format(CDate(SelDay), "yyyy-MM-dd")
-                    Dim BandDay As New GridViewBandColumn
-                    BandDay.Caption = Format(SelDay, "dd MMM yyyy")
-                    .Columns.Add(BandDay)
+                    Dim BandDay As GridViewBandColumn
 
                     Dim Shiftlist As List(Of clsShift)
                     If SelDay = CDate(Hdr.ProdDate) Then
                         Shiftlist = clsFrequencyDB.GetShift(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay, Hdr.ShiftCode)
                     Else
                         Shiftlist = clsFrequencyDB.GetShift(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay)
+                    End If
+
+                    If Shiftlist.Count > 0 Then
+                        BandDay = New GridViewBandColumn
+                        BandDay.Caption = Format(SelDay, "dd MMM yyyy")
+                        .Columns.Add(BandDay)
+
                     End If
 
                     For Each Shift In Shiftlist
@@ -132,6 +137,18 @@ Public Class ProdSampleInput
                         colUSL.FieldName = "SpecUSL" & iDay.ToString
                         colUSL.Visible = False
                         BandShift.Columns.Add(colUSL)
+
+                        Dim colRLCL As New GridViewDataTextColumn
+                        colRLCL.Caption = "RLCL"
+                        colRLCL.FieldName = "SpecRLCL" & iDay.ToString
+                        colRLCL.Visible = False
+                        BandShift.Columns.Add(colRLCL)
+
+                        Dim colRUCL As New GridViewDataTextColumn
+                        colRUCL.Caption = "RUCL"
+                        colRUCL.FieldName = "SpecRUCL" & iDay.ToString
+                        colRUCL.Visible = False
+                        BandShift.Columns.Add(colRUCL)
 
                     Next
                 End If
@@ -1133,11 +1150,13 @@ Public Class ProdSampleInput
         Dim UCL As Double
         Dim LSL As Double
         Dim USL As Double
+        Dim RUCL As Double
+        Dim RLCL As Double
         Dim SetupFound As Boolean = False
         Dim LightYellow As Color = Color.FromArgb(255, 255, 153)
 
         If Not IsDBNull(e.CellValue) AndAlso (e.DataColumn.FieldName.StartsWith("1") Or e.DataColumn.FieldName.StartsWith("2")) _
-            And (e.GetValue("Seq") = "1" Or e.GetValue("Seq") = "3" Or e.GetValue("Seq") = "4" Or e.GetValue("Seq") = "5") Then
+        And (e.GetValue("Seq") = "1" Or e.GetValue("Seq") = "3" Or e.GetValue("Seq") = "4" Or e.GetValue("Seq") = "5" Or e.GetValue("Seq") = "6") Then
             If (e.DataColumn.FieldName.StartsWith("1")) Then
                 If Not IsDBNull(e.GetValue("XBarLCL1")) Then
                     SetupFound = True
@@ -1145,6 +1164,8 @@ Public Class ProdSampleInput
                     UCL = e.GetValue("XBarUCL1")
                     LSL = e.GetValue("SpecLSL1")
                     USL = e.GetValue("SpecUSL1")
+                    RLCL = e.GetValue("RLCL1")
+                    RUCL = e.GetValue("RUCL1")
                 End If
             ElseIf (e.DataColumn.FieldName.StartsWith("2")) Then
                 If Not IsDBNull(e.GetValue("XBarLCL2")) Then
@@ -1153,21 +1174,30 @@ Public Class ProdSampleInput
                     UCL = e.GetValue("XBarUCL2")
                     LSL = e.GetValue("SpecLSL2")
                     USL = e.GetValue("SpecUSL2")
+                    RLCL = e.GetValue("RLCL2")
+                    RUCL = e.GetValue("RUCL2")
                 End If
             End If
             If SetupFound Then
                 Dim Value As Double = clsSPCResultDB.ADecimal(e.CellValue)
-                If Value < LSL Or Value > USL Then
-                    e.Cell.BackColor = Color.Red
-                ElseIf Value < LCL Or Value > UCL Then
-                    If e.GetValue("Seq") = "1" Then
-                        e.Cell.BackColor = Color.Pink
-                    Else
-                        e.Cell.BackColor = LightYellow
+                If e.GetValue("Seq") = "6" Then
+                    If Value < RLCL Or Value > RUCL And ChartType <> "0" Then
+                        e.Cell.BackColor = Color.Yellow
+                    End If
+                Else
+                    If Value < LSL Or Value > USL Then
+                        e.Cell.BackColor = Color.Red
+                    ElseIf Value < LCL Or Value > UCL Then
+                        If e.GetValue("Seq") = "1" Then
+                            e.Cell.BackColor = Color.Pink
+                        Else
+                            e.Cell.BackColor = LightYellow
+                        End If
                     End If
                 End If
             End If
         End If
+
         Dim cs As New clsSPCColor
         If e.DataColumn.FieldName = "Des" Then
             If e.CellValue = "1" Then
