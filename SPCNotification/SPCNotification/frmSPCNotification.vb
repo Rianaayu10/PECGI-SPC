@@ -702,7 +702,12 @@ Public Class frmSPCNotification
                     .Cols(NGResult.pQC).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
 
                     .Styles.Fixed.TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
-                    '.GetCellRange(0, NGResult.pType, 0, NGResult.Count - 1).StyleNew.BackColor = Color.LightGray
+                    .GetCellRange(0, NGResult.pType, 0, NGResult.Count - 1).StyleNew.BackColor = Color.CornflowerBlue
+                    .GetCellRange(0, NGResult.pType, 0, NGResult.Count - 1).StyleNew.ForeColor = Color.White
+
+                    Dim cs As C1.Win.C1FlexGrid.CellStyle = grid.Styles.Add("FontBold")
+                    cs.Font = New Font(grid.Font.Name, grid.Font.Size, FontStyle.Bold)
+                    grid.Rows(0).Style = cs
 
                     .AllowEditing = False
                     .Styles.Normal.WordWrap = True
@@ -781,8 +786,12 @@ Public Class frmSPCNotification
                     .Cols(DelayInput.pDelayMinutes).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
 
                     .Styles.Fixed.TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
+                    .GetCellRange(0, DelayInput.pType, 0, DelayInput.Count - 1).StyleNew.BackColor = Color.CornflowerBlue
+                    .GetCellRange(0, DelayInput.pType, 0, DelayInput.Count - 1).StyleNew.ForeColor = Color.White
 
-                    '.GetCellRange(0, DelayInput.pType, 0, DelayInput.Count - 1).StyleNew.BackColor = Color.LightGray
+                    Dim cs As C1.Win.C1FlexGrid.CellStyle = grid.Styles.Add("FontBold")
+                    cs.Font = New Font(grid.Font.Name, grid.Font.Size, FontStyle.Bold)
+                    grid.Rows(0).Style = cs
 
                     .AllowEditing = False
                     .Styles.Normal.WordWrap = True
@@ -895,7 +904,12 @@ Public Class frmSPCNotification
                     .Cols(DelayVerification.pDelayVerif).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
 
                     .Styles.Fixed.TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
-                    '.GetCellRange(0, DelayVerification.pType, 0, DelayVerification.Count - 1).StyleNew.BackColor = Color.LightGray
+                    .GetCellRange(0, DelayVerification.pType, 0, DelayVerification.Count - 1).StyleNew.BackColor = Color.CornflowerBlue
+                    .GetCellRange(0, DelayVerification.pType, 0, DelayVerification.Count - 1).StyleNew.ForeColor = Color.White
+
+                    Dim cs As C1.Win.C1FlexGrid.CellStyle = grid.Styles.Add("FontBold")
+                    cs.Font = New Font(grid.Font.Name, grid.Font.Size, FontStyle.Bold)
+                    grid.Rows(0).Style = cs
 
                     .AllowEditing = False
                     .Styles.Normal.WordWrap = True

@@ -72,18 +72,22 @@ Public Class frmSPCAlertNotifications
         Next
         Path = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
         Process.Start(Path)
+        ContextMenuStrip1.Hide()
     End Sub
 
     Private Sub SettingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SettingToolStripMenuItem.Click
         frmLoginSettings.Show()
+        ContextMenuStrip1.Hide()
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
         Application.Exit()
+        ContextMenuStrip1.Hide()
     End Sub
 
     Private Sub frmSPCAlertNotifications_Move(sender As Object, e As EventArgs) Handles MyBase.Move
         Me.Hide()
+        ContextMenuStrip1.Hide()
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
@@ -98,10 +102,11 @@ Public Class frmSPCAlertNotifications
         End If
     End Sub
 
-    Private Sub NotifyIcon1_Click(sender As Object, e As EventArgs)
+    Private Sub NotifyIcon1_Click(sender As Object, ByVal e As EventArgs)
         Try
             'Timer1.Enabled = False
             'Timer1.Stop()
+            'If e.Button = Windows.Forms.MouseButtons.Left Then
             Dim Path As String = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
             For Each p As Process In Process.GetProcessesByName("SPCNotification")
                 p.Refresh()
@@ -110,6 +115,9 @@ Public Class frmSPCAlertNotifications
             Next
             Path = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
             Process.Start(Path)
+            'Else
+
+            'End If
             'Dim frm As New frmSPCInboxNotification(dtNG, dtDelayInput, dtDelayVerification, factory) 'frmInboxNotifications(dtNG, dtDelayInput, dtDelayVerification)
             'frm.Show()
             'Close()
@@ -118,18 +126,23 @@ Public Class frmSPCAlertNotifications
         End Try
     End Sub
 
-    Private Sub NotifyShowing_Click(sender As Object, e As EventArgs)
+    Private Sub NotifyShowing_Click(sender As Object, e As System.Windows.Forms.MouseEventArgs)
         Try
             'Timer1.Enabled = False
             'Timer1.Stop()
-            Dim Path As String = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
-            For Each p As Process In Process.GetProcessesByName("SPCNotification")
-                p.Refresh()
-                p.Kill()
-                p.Close()
-            Next
-            Path = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
-            Process.Start(Path)
+            If e.Button = Windows.Forms.MouseButtons.Left Then
+                Dim Path As String = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
+                For Each p As Process In Process.GetProcessesByName("SPCNotification")
+                    p.Refresh()
+                    p.Kill()
+                    p.Close()
+                Next
+                Path = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
+                Process.Start(Path)
+            Else
+                ContextMenuStrip1.Show(MousePosition)
+            End If
+            
             'Dim frm As New frmSPCInboxNotification(dtNG, dtDelayInput, dtDelayVerification, factory) 'frmInboxNotifications(dtNG, dtDelayInput, dtDelayVerification)
             'frm.Show()
             'Close()
@@ -232,8 +245,10 @@ Public Class frmSPCAlertNotifications
                     'ShowNotification(header, body, "NG", link)
 
                     NotifyIcon1.ShowBalloonTip(500, "There are new notifications:", body, ToolTipIcon.Info)
-                    AddHandler NotifyIcon1.Click, AddressOf Me.NotifyShowing_Click
+                    'AddHandler NotifyIcon1.Click, AddressOf Me.NotifyShowing_Click
+                    AddHandler NotifyIcon1.MouseDown, AddressOf Me.NotifyShowing_Click
                     AddHandler NotifyIcon1.BalloonTipClicked, AddressOf Me.NotifyIcon1_Click
+
 
                 Else
                     dtNG = clsSPCNotification.CheckNotificationLog(ConnectionString, UserIDLogin, "NG")
@@ -334,8 +349,10 @@ Public Class frmSPCAlertNotifications
                             'ShowNotification(header, body, "NG", link)
 
                             NotifyIcon1.ShowBalloonTip(500, "There are new notifications:", body, ToolTipIcon.Info)
-                            AddHandler NotifyIcon1.Click, AddressOf Me.NotifyShowing_Click
+                            'AddHandler NotifyIcon1.Click, AddressOf Me.NotifyShowing_Click
+                            AddHandler NotifyIcon1.MouseDown, AddressOf Me.NotifyShowing_Click
                             AddHandler NotifyIcon1.BalloonTipClicked, AddressOf Me.NotifyIcon1_Click
+
 
                         End If
                     Catch ex As Exception

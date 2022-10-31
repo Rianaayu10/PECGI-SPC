@@ -39,24 +39,24 @@ Partial Class frmSPCAlertNotifications
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NotificationToolStripMenuItem, Me.SettingToolStripMenuItem, Me.ExitToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(153, 92)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(138, 70)
         '
         'NotificationToolStripMenuItem
         '
         Me.NotificationToolStripMenuItem.Name = "NotificationToolStripMenuItem"
-        Me.NotificationToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NotificationToolStripMenuItem.Size = New System.Drawing.Size(137, 22)
         Me.NotificationToolStripMenuItem.Text = "Notification"
         '
         'SettingToolStripMenuItem
         '
         Me.SettingToolStripMenuItem.Name = "SettingToolStripMenuItem"
-        Me.SettingToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.SettingToolStripMenuItem.Size = New System.Drawing.Size(137, 22)
         Me.SettingToolStripMenuItem.Text = "Setting"
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(137, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'Label1
@@ -77,9 +77,8 @@ Partial Class frmSPCAlertNotifications
         'NotifyIcon1
         '
         Me.NotifyIcon1.BalloonTipTitle = "SPC Alert Notification"
-        Me.NotifyIcon1.ContextMenuStrip = Me.ContextMenuStrip1
         Me.NotifyIcon1.Icon = CType(resources.GetObject("NotifyIcon1.Icon"), System.Drawing.Icon)
-        Me.NotifyIcon1.Text = "spc alert"
+        Me.NotifyIcon1.Text = "SPC Notification"
         Me.NotifyIcon1.Visible = True
         '
         'notifyInbox

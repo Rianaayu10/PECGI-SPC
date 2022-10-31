@@ -158,6 +158,10 @@
     <Content Include="bin\Debug\C1.Win.C1List.4.dll" />
     <Content Include="bin\Debug\C1.Win.C1List.4.xml" />
     <Content Include="bin\Debug\config.xml" />
+    <Content Include="bin\Debug\SPCNotification.exe" />
+    <Content Include="bin\Debug\SPCNotification.pdb" />
+    <Content Include="bin\Debug\SPCNotification.vshost.exe" />
+    <Content Include="bin\Debug\SPCNotification.xml" />
     <Content Include="bin\Debug\Tulpep.NotificationWindow.dll" />
     <Content Include="img\ajax-loader.gif" />
     <Content Include="img\alpha.png" />

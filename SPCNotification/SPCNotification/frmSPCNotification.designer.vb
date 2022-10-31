@@ -58,6 +58,9 @@ Partial Class frmSPCNotification
         Me.Label4 = New System.Windows.Forms.Label()
         Me.gridNGResult = New C1.Win.C1FlexGrid.C1FlexGrid()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.Label20 = New System.Windows.Forms.Label()
         Me.pnlHeader.SuspendLayout()
         Me.pnlContent.SuspendLayout()
         Me.Panel3.SuspendLayout()
@@ -66,32 +69,33 @@ Partial Class frmSPCNotification
         CType(Me.gridDelayInput, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.gridNGResult, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel4.SuspendLayout()
         Me.SuspendLayout()
         '
         'pnlHeader
         '
-        Me.pnlHeader.BackColor = System.Drawing.Color.White
+        Me.pnlHeader.BackColor = System.Drawing.Color.CornflowerBlue
+        Me.pnlHeader.Controls.Add(Me.Label20)
+        Me.pnlHeader.Controls.Add(Me.Label19)
+        Me.pnlHeader.Controls.Add(Me.Panel4)
         Me.pnlHeader.Controls.Add(Me.btnRefresh)
-        Me.pnlHeader.Controls.Add(Me.lblTime)
-        Me.pnlHeader.Controls.Add(Me.lblDate)
-        Me.pnlHeader.Controls.Add(Me.Label3)
-        Me.pnlHeader.Controls.Add(Me.Label2)
         Me.pnlHeader.Controls.Add(Me.cboFactory)
         Me.pnlHeader.Controls.Add(Me.Label1)
         Me.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top
         Me.pnlHeader.Location = New System.Drawing.Point(0, 0)
         Me.pnlHeader.Name = "pnlHeader"
-        Me.pnlHeader.Size = New System.Drawing.Size(980, 74)
+        Me.pnlHeader.Size = New System.Drawing.Size(980, 56)
         Me.pnlHeader.TabIndex = 0
         '
         'btnRefresh
         '
+        Me.btnRefresh.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnRefresh.BackColor = System.Drawing.SystemColors.Control
         Me.btnRefresh.FlatAppearance.BorderSize = 0
         Me.btnRefresh.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnRefresh.Location = New System.Drawing.Point(195, 24)
+        Me.btnRefresh.Location = New System.Drawing.Point(700, 14)
         Me.btnRefresh.Name = "btnRefresh"
-        Me.btnRefresh.Size = New System.Drawing.Size(75, 25)
+        Me.btnRefresh.Size = New System.Drawing.Size(75, 30)
         Me.btnRefresh.TabIndex = 6
         Me.btnRefresh.Text = "&Refresh"
         Me.btnRefresh.UseVisualStyleBackColor = False
@@ -100,10 +104,11 @@ Partial Class frmSPCNotification
         '
         Me.lblTime.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblTime.AutoSize = True
-        Me.lblTime.Font = New System.Drawing.Font("Tahoma", 9.75!)
-        Me.lblTime.Location = New System.Drawing.Point(855, 37)
+        Me.lblTime.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTime.ForeColor = System.Drawing.Color.White
+        Me.lblTime.Location = New System.Drawing.Point(91, 31)
         Me.lblTime.Name = "lblTime"
-        Me.lblTime.Size = New System.Drawing.Size(68, 16)
+        Me.lblTime.Size = New System.Drawing.Size(72, 16)
         Me.lblTime.TabIndex = 5
         Me.lblTime.Text = "HH:mm:ss"
         '
@@ -111,10 +116,11 @@ Partial Class frmSPCNotification
         '
         Me.lblDate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblDate.AutoSize = True
-        Me.lblDate.Font = New System.Drawing.Font("Tahoma", 9.75!)
-        Me.lblDate.Location = New System.Drawing.Point(855, 15)
+        Me.lblDate.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDate.ForeColor = System.Drawing.Color.White
+        Me.lblDate.Location = New System.Drawing.Point(91, 9)
         Me.lblDate.Name = "lblDate"
-        Me.lblDate.Size = New System.Drawing.Size(84, 16)
+        Me.lblDate.Size = New System.Drawing.Size(97, 16)
         Me.lblDate.TabIndex = 4
         Me.lblDate.Text = "dd MMM yyyy"
         '
@@ -122,8 +128,9 @@ Partial Class frmSPCNotification
         '
         Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Tahoma", 9.75!)
-        Me.Label3.Location = New System.Drawing.Point(815, 37)
+        Me.Label3.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.ForeColor = System.Drawing.Color.White
+        Me.Label3.Location = New System.Drawing.Point(51, 31)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(46, 16)
         Me.Label3.TabIndex = 3
@@ -133,10 +140,11 @@ Partial Class frmSPCNotification
         '
         Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Tahoma", 9.75!)
-        Me.Label2.Location = New System.Drawing.Point(815, 15)
+        Me.Label2.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.ForeColor = System.Drawing.Color.White
+        Me.Label2.Location = New System.Drawing.Point(51, 9)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(47, 16)
+        Me.Label2.Size = New System.Drawing.Size(52, 16)
         Me.Label2.TabIndex = 2
         Me.Label2.Text = "Date  :"
         '
@@ -144,20 +152,22 @@ Partial Class frmSPCNotification
         '
         Me.cboFactory.Font = New System.Drawing.Font("Tahoma", 9.75!)
         Me.cboFactory.FormattingEnabled = True
-        Me.cboFactory.Location = New System.Drawing.Point(68, 24)
+        Me.cboFactory.Location = New System.Drawing.Point(548, 22)
         Me.cboFactory.Name = "cboFactory"
         Me.cboFactory.Size = New System.Drawing.Size(121, 24)
         Me.cboFactory.TabIndex = 1
+        Me.cboFactory.Visible = False
         '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Tahoma", 9.75!)
-        Me.Label1.Location = New System.Drawing.Point(12, 27)
+        Me.Label1.Location = New System.Drawing.Point(492, 25)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(50, 16)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Factory"
+        Me.Label1.Visible = False
         '
         'pnlContent
         '
@@ -172,9 +182,9 @@ Partial Class frmSPCNotification
         Me.pnlContent.Controls.Add(Me.gridNGResult)
         Me.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pnlContent.Font = New System.Drawing.Font("Calibri", 8.25!)
-        Me.pnlContent.Location = New System.Drawing.Point(0, 74)
+        Me.pnlContent.Location = New System.Drawing.Point(0, 56)
         Me.pnlContent.Name = "pnlContent"
-        Me.pnlContent.Size = New System.Drawing.Size(980, 573)
+        Me.pnlContent.Size = New System.Drawing.Size(980, 591)
         Me.pnlContent.TabIndex = 2
         '
         'Panel3
@@ -186,7 +196,7 @@ Partial Class frmSPCNotification
         Me.Panel3.Controls.Add(Me.Label15)
         Me.Panel3.Controls.Add(Me.Label16)
         Me.Panel3.Controls.Add(Me.Label17)
-        Me.Panel3.Location = New System.Drawing.Point(3, 528)
+        Me.Panel3.Location = New System.Drawing.Point(3, 552)
         Me.Panel3.Name = "Panel3"
         Me.Panel3.Size = New System.Drawing.Size(974, 25)
         Me.Panel3.TabIndex = 49
@@ -240,10 +250,10 @@ Partial Class frmSPCNotification
         '
         Me.Label18.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label18.BackColor = System.Drawing.Color.LightBlue
-        Me.Label18.Font = New System.Drawing.Font("Tahoma", 9.75!)
-        Me.Label18.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label18.Location = New System.Drawing.Point(3, 382)
+        Me.Label18.BackColor = System.Drawing.Color.CornflowerBlue
+        Me.Label18.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label18.ForeColor = System.Drawing.Color.White
+        Me.Label18.Location = New System.Drawing.Point(3, 381)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(974, 25)
         Me.Label18.TabIndex = 47
@@ -263,12 +273,12 @@ Partial Class frmSPCNotification
         Me.gridDelayVerification.ExtendLastCol = True
         Me.gridDelayVerification.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.None
         Me.gridDelayVerification.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gridDelayVerification.Location = New System.Drawing.Point(3, 407)
+        Me.gridDelayVerification.Location = New System.Drawing.Point(3, 408)
         Me.gridDelayVerification.Name = "gridDelayVerification"
         Me.gridDelayVerification.Rows.Count = 5
         Me.gridDelayVerification.Rows.DefaultSize = 21
         Me.gridDelayVerification.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Cell
-        Me.gridDelayVerification.Size = New System.Drawing.Size(976, 117)
+        Me.gridDelayVerification.Size = New System.Drawing.Size(976, 141)
         Me.gridDelayVerification.StyleInfo = resources.GetString("gridDelayVerification.StyleInfo")
         Me.gridDelayVerification.TabIndex = 48
         '
@@ -281,7 +291,7 @@ Partial Class frmSPCNotification
         Me.Panel2.Controls.Add(Me.Label10)
         Me.Panel2.Controls.Add(Me.Label11)
         Me.Panel2.Controls.Add(Me.Label12)
-        Me.Panel2.Location = New System.Drawing.Point(3, 340)
+        Me.Panel2.Location = New System.Drawing.Point(3, 347)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(974, 25)
         Me.Panel2.TabIndex = 46
@@ -335,10 +345,10 @@ Partial Class frmSPCNotification
         '
         Me.Label13.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label13.BackColor = System.Drawing.Color.LightBlue
-        Me.Label13.Font = New System.Drawing.Font("Tahoma", 9.75!)
-        Me.Label13.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label13.Location = New System.Drawing.Point(3, 191)
+        Me.Label13.BackColor = System.Drawing.Color.CornflowerBlue
+        Me.Label13.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label13.ForeColor = System.Drawing.Color.White
+        Me.Label13.Location = New System.Drawing.Point(3, 179)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(974, 25)
         Me.Label13.TabIndex = 44
@@ -358,12 +368,12 @@ Partial Class frmSPCNotification
         Me.gridDelayInput.ExtendLastCol = True
         Me.gridDelayInput.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.None
         Me.gridDelayInput.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gridDelayInput.Location = New System.Drawing.Point(3, 216)
+        Me.gridDelayInput.Location = New System.Drawing.Point(3, 206)
         Me.gridDelayInput.Name = "gridDelayInput"
         Me.gridDelayInput.Rows.Count = 5
         Me.gridDelayInput.Rows.DefaultSize = 21
         Me.gridDelayInput.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Cell
-        Me.gridDelayInput.Size = New System.Drawing.Size(976, 117)
+        Me.gridDelayInput.Size = New System.Drawing.Size(976, 138)
         Me.gridDelayInput.StyleInfo = resources.GetString("gridDelayInput.StyleInfo")
         Me.gridDelayInput.TabIndex = 45
         '
@@ -376,7 +386,7 @@ Partial Class frmSPCNotification
         Me.Panel1.Controls.Add(Me.Label8)
         Me.Panel1.Controls.Add(Me.Label6)
         Me.Panel1.Controls.Add(Me.Label5)
-        Me.Panel1.Location = New System.Drawing.Point(3, 153)
+        Me.Panel1.Location = New System.Drawing.Point(3, 146)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(974, 25)
         Me.Panel1.TabIndex = 43
@@ -430,9 +440,9 @@ Partial Class frmSPCNotification
         '
         Me.Label4.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label4.BackColor = System.Drawing.Color.LightBlue
-        Me.Label4.Font = New System.Drawing.Font("Tahoma", 9.75!)
-        Me.Label4.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.Label4.BackColor = System.Drawing.Color.CornflowerBlue
+        Me.Label4.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.ForeColor = System.Drawing.Color.White
         Me.Label4.Location = New System.Drawing.Point(3, 3)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(974, 25)
@@ -454,12 +464,12 @@ Partial Class frmSPCNotification
         Me.gridNGResult.ExtendLastCol = True
         Me.gridNGResult.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.None
         Me.gridNGResult.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gridNGResult.Location = New System.Drawing.Point(3, 28)
+        Me.gridNGResult.Location = New System.Drawing.Point(3, 30)
         Me.gridNGResult.Name = "gridNGResult"
         Me.gridNGResult.Rows.Count = 5
         Me.gridNGResult.Rows.DefaultSize = 21
         Me.gridNGResult.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Cell
-        Me.gridNGResult.Size = New System.Drawing.Size(976, 117)
+        Me.gridNGResult.Size = New System.Drawing.Size(976, 113)
         Me.gridNGResult.StyleInfo = resources.GetString("gridNGResult.StyleInfo")
         Me.gridNGResult.TabIndex = 42
         '
@@ -467,6 +477,43 @@ Partial Class frmSPCNotification
         '
         Me.Timer1.Enabled = True
         Me.Timer1.Interval = 1000
+        '
+        'Panel4
+        '
+        Me.Panel4.BackColor = System.Drawing.Color.Black
+        Me.Panel4.Controls.Add(Me.Label2)
+        Me.Panel4.Controls.Add(Me.Label3)
+        Me.Panel4.Controls.Add(Me.lblTime)
+        Me.Panel4.Controls.Add(Me.lblDate)
+        Me.Panel4.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Panel4.Location = New System.Drawing.Point(784, 0)
+        Me.Panel4.Margin = New System.Windows.Forms.Padding(0)
+        Me.Panel4.Name = "Panel4"
+        Me.Panel4.Size = New System.Drawing.Size(196, 56)
+        Me.Panel4.TabIndex = 7
+        '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.Font = New System.Drawing.Font("Tahoma", 21.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label19.ForeColor = System.Drawing.Color.White
+        Me.Label19.Location = New System.Drawing.Point(4, 10)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(163, 35)
+        Me.Label19.TabIndex = 8
+        Me.Label19.Text = "Panasonic"
+        '
+        'Label20
+        '
+        Me.Label20.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label20.Font = New System.Drawing.Font("Tahoma", 21.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label20.ForeColor = System.Drawing.Color.Black
+        Me.Label20.Location = New System.Drawing.Point(159, 12)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(541, 35)
+        Me.Label20.TabIndex = 9
+        Me.Label20.Text = "SPC MONITORING"
+        Me.Label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'frmSPCNotification
         '
@@ -495,6 +542,8 @@ Partial Class frmSPCNotification
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         CType(Me.gridNGResult, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel4.ResumeLayout(False)
+        Me.Panel4.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -533,4 +582,7 @@ Partial Class frmSPCNotification
     Friend WithEvents lblTotalDelayVerification As Label
     Friend WithEvents lblTotalDelayInput As Label
     Friend WithEvents btnRefresh As Button
+    Friend WithEvents Panel4 As System.Windows.Forms.Panel
+    Friend WithEvents Label19 As System.Windows.Forms.Label
+    Friend WithEvents Label20 As System.Windows.Forms.Label
 End Class
