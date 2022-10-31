@@ -16,10 +16,6 @@
             border: 1px solid silver; 
         }
         
-            .auto-style1 {
-                width: 30%;
-            }
-        
             </style>
     <script type="text/javascript" >
         var rowIndex, columnIndex;
@@ -660,8 +656,8 @@
                         </PaletteWrappers>
                     </dx:WebChartControl>
             </td>
-            <td style="vertical-align:top; text-align:left; padding-top:10px; align-items: baseline" class="auto-style1">
-                <table style="width:100%; padding-left:5px">
+            <td style="vertical-align:top; text-align:left; padding-top:10px; align-items: baseline; width:70%">
+                <table style="width:400px; padding-left:5px">
                     <tr >
                         <td>
                             <dx:ASPxLabel ID="ASPxLabel3" runat="server" Text="Min" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
