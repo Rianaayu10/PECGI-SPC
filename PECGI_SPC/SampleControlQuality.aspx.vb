@@ -427,6 +427,8 @@ Public Class SampleControlQuality
                     .JSProperties("cpCP") = dtCP.Rows(0)("CP") & ""
                     .JSProperties("cpCPK1") = dtCP.Rows(0)("CPK1") & ""
                     .JSProperties("cpCPK2") = dtCP.Rows(0)("CPK2") & ""
+                    .JSProperties("cpXBarBar") = dtCP.Rows(0)("XBarBar") & ""
+                    .JSProperties("cpXBarColor") = dtCP.Rows(0)("XBarColor") & ""
                 End If
             End If
         End With
@@ -550,8 +552,9 @@ Public Class SampleControlQuality
             Dim diagram As XYDiagram = CType(.Diagram, XYDiagram)
             If ht.Count > 0 Then
                 Dim ht1 As clsHistogram = ht(0)
-                diagram.AxisX.NumericScaleOptions.IntervalOptions.OverflowValue = ht1.SpecUSL
-                diagram.AxisX.NumericScaleOptions.IntervalOptions.UnderflowValue = ht1.SpecLSL
+                'diagram.AxisX.NumericScaleOptions.IntervalOptions.OverflowValue = ht1.SpecUSL
+                'diagram.AxisX.NumericScaleOptions.IntervalOptions.UnderflowValue = ht1.SpecLSL
+                'diagram.AxisX.WholeRange.SetMinMaxValues(ht1.SpecLSL, ht1.SpecUSL)
 
                 'diagram.AxisX.WholeRange.MaxValue = ht1.SpecUSL
                 'diagram.AxisX.WholeRange.MinValue = ht1.SpecLSL
@@ -560,6 +563,7 @@ Public Class SampleControlQuality
 
                 diagram.AxisX.ConstantLines.Clear()
                 Dim LCL As New ConstantLine("LCL")
+                LCL.Title.TextColor = Color.Black
                 LCL.Color = System.Drawing.Color.Red
                 LCL.LineStyle.Thickness = 1
                 LCL.LineStyle.DashStyle = DashStyle.Dash
@@ -568,6 +572,7 @@ Public Class SampleControlQuality
                 LCL.ShowInLegend = True
 
                 Dim UCL As New ConstantLine("UCL")
+                UCL.Title.TextColor = Color.Black
                 UCL.Color = System.Drawing.Color.Red
                 UCL.LineStyle.Thickness = 1
                 UCL.LineStyle.DashStyle = DashStyle.Dash
@@ -575,7 +580,10 @@ Public Class SampleControlQuality
                 UCL.AxisValue = ht1.XBarUCL
                 UCL.ShowInLegend = True
 
+                Dim DarkGray As Color = Color.FromArgb(33, 33, 33)
+
                 Dim CL As New ConstantLine("CL")
+                CL.Title.TextColor = DarkGray
                 CL.Color = System.Drawing.Color.Red
                 CL.LineStyle.Thickness = 1
                 CL.LineStyle.DashStyle = DashStyle.Dash
@@ -584,6 +592,7 @@ Public Class SampleControlQuality
                 CL.ShowInLegend = True
 
                 Dim LSL As New ConstantLine("LSL")
+                LSL.Title.TextColor = DarkGray
                 LSL.Color = System.Drawing.Color.Red
                 LSL.LineStyle.Thickness = 1
                 LSL.LineStyle.DashStyle = DashStyle.Solid
@@ -592,6 +601,7 @@ Public Class SampleControlQuality
                 LSL.ShowInLegend = True
 
                 Dim USL As New ConstantLine("USL")
+                USL.Title.TextColor = DarkGray
                 USL.Color = System.Drawing.Color.Red
                 USL.LineStyle.Thickness = 1
                 USL.LineStyle.DashStyle = DashStyle.Solid
@@ -630,7 +640,7 @@ Public Class SampleControlQuality
                 .Titles(0).Text = "Graph Monitoring"
             End If
 
-            Dim Setup As clsChartSetup = clsChartSetupDB.GetData(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate)
+            Dim Setup As clsChartSetup = clsChartSetupDB.GetData(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate2)
             diagram.AxisY.ConstantLines.Clear()
             If Setup IsNot Nothing Then
                 Dim LCL As New ConstantLine("LCL")

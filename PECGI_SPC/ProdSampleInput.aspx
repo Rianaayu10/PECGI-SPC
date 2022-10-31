@@ -23,6 +23,61 @@
         }
     </style>
     <script type="text/javascript" >
+         var prevOnLoad = window.onload;
+        window.onload = myOnLoad;
+        function myOnLoad(){
+            if(prevOnLoad != null)
+                prevOnLoad();
+            document.onkeydown = myOnKeyDown;
+        }
+        function myOnKeyDown(){            
+            if(event.keyCode == 112)
+                grid.StartEdit();
+            if(event.keyCode == 27)
+                grid.CancelEdit();
+            if(event.keyCode == 13)
+                grid.UpdateEdit();
+            if ((event.altKey && event.keyCode == 78) || (event.altKey && event.keyCode == 46))  
+              AddNewRow(); 
+        }
+
+        function AddNewRow(s, e) {
+            var errmsg = '';
+            if(cboFactory.GetText() == '') {
+                cboFactory.Focus();
+                errmsg = 'Please select Factory!';                                                                
+	        } else if(cboType.GetText() == '') {
+                cboType.Focus();
+                errmsg = 'Please select Type!';
+	        } else if(cboLine.GetText() == '') {
+                cboLine.Focus();
+                errmsg = 'Please select Machine Process!';
+	        } else if(cboItemCheck.GetText() == '') {
+                cboItemCheck.Focus();
+                errmsg = 'Please select Item Check!';
+	        } else if(cboShift.GetText() == '') {
+                cboShift.Focus();
+                errmsg = 'Please select Shift!';
+	        } else if(cboSeq.GetText() == '') {
+                cboSeq.Focus();
+                errmsg = 'Please select Sequence!';
+	        }
+
+            if(errmsg != '') {
+                toastr.warning(errmsg, 'Warning');
+                toastr.options.closeButton = false;
+                toastr.options.debug = false;
+                toastr.options.newestOnTop = false;
+                toastr.options.progressBar = false;
+                toastr.options.preventDuplicates = true;
+                toastr.options.onclick = null;		
+		        e.processOnServer = false;
+		        return;
+            }
+            grid.AddNewRow(); 
+        }
+
+
         var rowIndex, columnIndex;
         var prevShift;
 
@@ -522,6 +577,16 @@
                 <table>
                     <tr>
                         <td style="padding-right:5px">
+                                <dx:ASPxButton ID="btnNew" runat="server" AutoPostBack="False" 
+                                    ClientInstanceName="btnNew" Font-Names="Segoe UI" Font-Size="9pt" 
+                                    Height="25px" Text="New (Alt+N)" Theme="Office2010Silver" UseSubmitBehavior="False" 
+                                    Width="110px" TabIndex="10">
+                                    <Paddings Padding="2px" />
+                                    <ClientSideEvents Click="AddNewRow"
+                                    />
+                                </dx:ASPxButton>
+                        </td>
+                        <td style="padding-right:5px">
                                 <dx:ASPxButton ID="btnSave" runat="server" AutoPostBack="False" 
                                     ClientInstanceName="btnSave" Font-Names="Segoe UI" Font-Size="9pt" 
                                     Height="25px" Text="Save" Theme="Office2010Silver" UseSubmitBehavior="False" 
@@ -552,7 +617,7 @@
             </td>
             <td style="width:300px">            
         
-                <asp:Label ID="Label2" runat="server" BackColor="#FFFF99" Visible="False"></asp:Label>
+                <asp:Label ID="Label2" runat="server" BackColor="#FFFF99" Visible="False" ForeColor="#333333"></asp:Label>
         
             </td>
         </tr>
@@ -578,7 +643,7 @@
 </SettingsPopup>
         <Columns>
 
-            <dx:GridViewCommandColumn ShowEditButton="True" VisibleIndex="0" Width="50px" ShowNewButtonInHeader="True">
+            <dx:GridViewCommandColumn ShowEditButton="True" VisibleIndex="0" Width="50px">
             </dx:GridViewCommandColumn>
 
             <dx:GridViewDataTextColumn Caption="Data#" VisibleIndex="1" FieldName="SeqNo" Width="50px">
