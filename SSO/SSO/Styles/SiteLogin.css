@@ -1,0 +1,43 @@
+﻿body {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Segoe UI';
+    background-color: #F1F1F1;
+    background-repeat: no-repeat;
+    border-bottom-width: 1000%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.form-area{
+    position: fixed;
+    top: 23%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 475px;
+    box-sizing: border-box;
+    padding: 35px;
+}
+
+.header-area {
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    height: 49px;
+    background: #F0F0F0;
+    border: 1px none #CCC;
+    padding: 0px;
+}
+
+.footer-area {
+    margin: 0px;
+    padding: 0px;
+    position: absolute;
+    top: 90%;
+    left: 25%;
+    right: 25%;
+}
+
