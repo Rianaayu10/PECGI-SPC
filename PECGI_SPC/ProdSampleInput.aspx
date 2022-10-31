@@ -84,6 +84,8 @@
         function OnInit(s, e) {
             var x = document.getElementById("chartRdiv");
             x.style.display = "none";
+            btnNew.SetEnabled(false);
+            btnSave.SetEnabled(false);
         }
 
         function isNumeric(n) {
@@ -314,7 +316,13 @@
             } else {
                 document.getElementById('Ave').style.backgroundColor = 'White';
             }
-
+            if (s.cpAllowInsert == '1') {
+                btnNew.SetEnabled(true);
+                btnSave.SetEnabled(true);
+            } else {
+                btnNew.SetEnabled(false);
+                btnSave.SetEnabled(false);
+            }
             if (s.cpRefresh == '1') {
                 gridX.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShow.GetValue() + '|' + cboSeq.GetValue() + '|' + cboShift.GetValue());
                 chartX.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShow.GetValue() + '|' + cboSeq.GetValue() + '|' + cboShift.GetValue());

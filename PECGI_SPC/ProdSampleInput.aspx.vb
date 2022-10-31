@@ -366,6 +366,11 @@ Public Class ProdSampleInput
         Dim LastVerification As Integer = dtVer.Rows(0)(0)
         grid.SettingsDataSecurity.AllowInsert = LastVerification = 1 And Not Verified And AuthUpdate
         grid.SettingsDataSecurity.AllowEdit = LastVerification = 1 And Not Verified And AuthUpdate
+        If grid.SettingsDataSecurity.AllowInsert Then
+            grid.JSProperties("cpAllowInsert") = "1"
+        Else
+            grid.JSProperties("cpAllowInsert") = "0"
+        End If
         If LastVerification = 0 Then
             ProdDate = Format(dtVer.Rows(0)(1), "dd MMM yyyy")
             Dim ShiftCode As String = dtVer.Rows(0)(2) & ""
