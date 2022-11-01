@@ -10,7 +10,7 @@
 #Region "Control Events"
     Protected Sub btnLogin_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnLogin.Click
         Try
-            If validation() Then
+            If validation(txtusername.Text, txtpassword.Text) Then
                 Session("user") = txtusername.Text
                 Response.Redirect("Main.aspx")
             End If
@@ -19,84 +19,75 @@
         End Try
     End Sub
     Private Sub _Default_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        If Request.QueryString("UserID") IsNot Nothing And Request.QueryString("FactoryCode") IsNot Nothing Then
+        If Request.QueryString("Link") IsNot Nothing Then
             Dim clsDESEncryption As New clsDESEncryption("TOS")
-            Dim UserID = clsDESEncryption.DecryptData(Request.QueryString("UserID"))
-            Dim FactoryCode = clsDESEncryption.DecryptData(Request.QueryString("FactoryCode"))
-            Dim User As clsUserSetup = clsUserSetupDB.GetData(UserID)
+            Dim Link = clsDESEncryption.DecryptData(Request.QueryString("Link"))
+            Dim ActionForm = Link.Split("|")(0)
+            Dim User = Link.Split("|")(1)
+            Dim Password = Link.Split("|")(2)
+            Dim ActionLink = Link.Split("|")(3)
 
-            If User Is Nothing Then
-                lblInfo.Visible = True
-                lblInfo.Text = "Invalid User Name!"
-                txtusername.Focus()
-            ElseIf User.LockStatus = "1" Then
-                lblInfo.Visible = True
-                If User.FailedLogin >= 12 Then
-                    lblInfo.Text = "User is locked after 12 failed logins." & vbCrLf & "Please contact your administrator!"
-                Else
-                    lblInfo.Text = "User is locked." & vbCrLf & "Please contact your administrator!"
+            If validation(User, Password) Then
+                Session("user") = User
+                If ActionForm = "SPCNotification" Then
+                    Response.Redirect(ActionLink)
+                ElseIf ActionForm = "SPCSSO" Then
+                    Response.Redirect("Main.aspx")
                 End If
-                txtusername.Focus()
-            ElseIf User.FactoryCode <> FactoryCode Then
-                lblInfo.Visible = True
-                lblInfo.Text = "User don't have access in this factory!"
-                txtusername.Focus()
-            Else
-                clsUserSetupDB.ResetFailedLogin(User.UserID)
-                Session("AdminStatus") = User.AdminStatus
-                Session("user") = UserID
-                Response.Redirect("Main.aspx")
             End If
         End If
-        'Session("user") = False
         btnVersion.Visible = False
         btnVersion.Text = "Version: " & System.Reflection.Assembly.GetExecutingAssembly.GetName.Version.ToString()
     End Sub
 #End Region
 
 #Region "Function"
-    Private Function validation() As Boolean
+    Private Function validation(User As String, Password As String) As Boolean
         Try
-            If txtusername.Text.Trim = "" Then
+            If User = "" Then
                 lblInfo.Visible = True
                 lblInfo.Text = "Please input username!"
                 txtusername.Focus()
                 Return False
             End If
 
-            If txtpassword.Text.Trim = "" Then
+            If Password = "" Then
                 lblInfo.Visible = True
                 lblInfo.Text = "Please input password!"
                 txtpassword.Focus()
                 Return False
             End If
 
-            Dim User As clsUserSetup = clsUserSetupDB.GetData(txtusername.Text)
-            If User Is Nothing Then
+            Dim DataUser As clsUserSetup = clsUserSetupDB.GetData(User)
+
+            If DataUser Is Nothing Then
                 lblInfo.Visible = True
-                lblInfo.Text = "Invalid User Name!"
+                lblInfo.Text = "User don't have access in this factory (Invalid User Name)!"
                 txtusername.Focus()
                 Return False
             End If
-            If User.LockStatus = "1" Then
+
+            If DataUser.LockStatus = "1" Then
                 lblInfo.Visible = True
-                If User.FailedLogin >= 12 Then
+                If DataUser.FailedLogin >= 12 Then
                     lblInfo.Text = "User is locked after 12 failed logins." & vbCrLf & "Please contact your administrator!"
                 Else
                     lblInfo.Text = "User is locked." & vbCrLf & "Please contact your administrator!"
-                End If                
+                End If
                 txtusername.Focus()
                 Return False
             End If
-            If User.Password <> txtpassword.Text Then
+
+            If DataUser.Password <> Password Then
                 lblInfo.Visible = True
                 lblInfo.Text = "Invalid Password!"
-                clsUserSetupDB.AddFailedLogin(User.UserID)
+                clsUserSetupDB.AddFailedLogin(DataUser.UserID)
                 txtusername.Focus()
                 Return False
             End If
-            clsUserSetupDB.ResetFailedLogin(User.UserID)
-            Session("AdminStatus") = User.AdminStatus
+
+            clsUserSetupDB.ResetFailedLogin(DataUser.UserID)
+            Session("AdminStatus") = DataUser.AdminStatus
         Catch ex As Exception
             Response.Write("Validation Exception :<br>" & ex.ToString)
         End Try
