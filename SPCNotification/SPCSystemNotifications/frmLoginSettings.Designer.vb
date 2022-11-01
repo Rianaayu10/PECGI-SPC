@@ -163,7 +163,6 @@ Partial Class frmLoginSettings
         '
         Me.txtLink.Location = New System.Drawing.Point(62, 94)
         Me.txtLink.Name = "txtLink"
-        Me.txtLink.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.txtLink.Size = New System.Drawing.Size(233, 20)
         Me.txtLink.TabIndex = 19
         '

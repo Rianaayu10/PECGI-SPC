@@ -45,6 +45,7 @@ Public Class frmSPCAlertNotifications
     Dim currentDelayInput As String
     Dim currentDelayVerification As String
     Dim firstLoad As Integer = 0
+    Dim firstballonLoad As Integer = 0
 
     Private Sub frmSPCAlertNotifications_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Timer1.Enabled = True
@@ -72,22 +73,22 @@ Public Class frmSPCAlertNotifications
         Next
         Path = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
         Process.Start(Path)
-        ContextMenuStrip1.Hide()
+        'ContextMenuStrip1.Visible = False
     End Sub
 
     Private Sub SettingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SettingToolStripMenuItem.Click
         frmLoginSettings.Show()
-        ContextMenuStrip1.Hide()
+        'ContextMenuStrip1.Visible = False
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
         Application.Exit()
-        ContextMenuStrip1.Hide()
+        'ContextMenuStrip1.Hide()
     End Sub
 
     Private Sub frmSPCAlertNotifications_Move(sender As Object, e As EventArgs) Handles MyBase.Move
         Me.Hide()
-        ContextMenuStrip1.Hide()
+        'ContextMenuStrip1.Visible = False
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
@@ -106,15 +107,18 @@ Public Class frmSPCAlertNotifications
         Try
             'Timer1.Enabled = False
             'Timer1.Stop()
-            'If e.Button = Windows.Forms.MouseButtons.Left Then
-            Dim Path As String = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
-            For Each p As Process In Process.GetProcessesByName("SPCNotification")
-                p.Refresh()
-                p.Kill()
-                p.Close()
-            Next
-            Path = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
-            Process.Start(Path)
+            If firstballonLoad > 0 Then
+                'If e.Button = Windows.Forms.MouseButtons.Left Then
+                Dim Path As String = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
+                For Each p As Process In Process.GetProcessesByName("SPCNotification")
+                    p.Refresh()
+                    p.Kill()
+                    p.Close()
+                Next
+                Path = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
+                Process.Start(Path)
+            End If
+            firstballonLoad = 1
             'Else
 
             'End If
@@ -139,8 +143,8 @@ Public Class frmSPCAlertNotifications
                 Next
                 Path = AddSlash(My.Application.Info.DirectoryPath) & "SPCNotification.exe"
                 Process.Start(Path)
-            Else
-                ContextMenuStrip1.Show(MousePosition)
+                'Else
+                '    ContextMenuStrip1.Show(MousePosition)
             End If
             
             'Dim frm As New frmSPCInboxNotification(dtNG, dtDelayInput, dtDelayVerification, factory) 'frmInboxNotifications(dtNG, dtDelayInput, dtDelayVerification)
