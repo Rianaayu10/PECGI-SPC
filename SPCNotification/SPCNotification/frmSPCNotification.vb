@@ -792,6 +792,7 @@ Public Class frmSPCNotification
                     cs.Font = New Font(grid.Font.Name, grid.Font.Size, FontStyle.Bold)
                     grid.Rows(0).Style = cs
 
+                    
                     .AllowEditing = False
                     .Styles.Normal.WordWrap = True
                     .ExtendLastCol = False
@@ -830,6 +831,36 @@ Public Class frmSPCNotification
                         Dim cs As C1.Win.C1FlexGrid.CellStyle = grid.Styles.Add("FontUnderline")
                         cs.Font = New Font(grid.Font.Name, grid.Font.Size, FontStyle.Underline)
                         grid.Cols(0).Style = cs
+
+                        Dim LSL As Double = dtNG.Rows(i)("LSL").ToString()
+                        Dim USL As Double = dtNG.Rows(i)("USL").ToString()
+                        Dim LCL As Double = dtNG.Rows(i)("LCL").ToString()
+                        Dim UCL As Double = dtNG.Rows(i)("UCL").ToString()
+                        Dim MinValue As Double = dtNG.Rows(i)("MinValue").ToString()
+                        Dim MaxValue As Double = dtNG.Rows(i)("MaxValue").ToString()
+                        Dim Average As Double = dtNG.Rows(i)("Average").ToString()
+
+                        If MinValue < LSL Then
+                            .GetCellRange(i + 1, NGResult.pMin, i + 1, NGResult.pMin).StyleNew.BackColor = Color.Red
+                        ElseIf MinValue < LCL Then
+                            .GetCellRange(i + 1, NGResult.pMin, i + 1, NGResult.pMin).StyleNew.BackColor = Color.Yellow
+                        End If
+
+                        If MaxValue > USL Then
+                            .GetCellRange(i + 1, NGResult.pMax, i + 1, NGResult.pMax).StyleNew.BackColor = Color.Red
+                        ElseIf MaxValue > UCL Then
+                            .GetCellRange(i + 1, NGResult.pMax, i + 1, NGResult.pMax).StyleNew.BackColor = Color.Yellow
+                        End If
+
+                        If Average > USL Then
+                            .GetCellRange(i + 1, NGResult.pAve, i + 1, NGResult.pAve).StyleNew.BackColor = Color.Red
+                        ElseIf Average > UCL Then
+                            .GetCellRange(i + 1, NGResult.pAve, i + 1, NGResult.pAve).StyleNew.BackColor = Color.Yellow
+                        ElseIf Average < LSL Then
+                            .GetCellRange(i + 1, NGResult.pAve, i + 1, NGResult.pAve).StyleNew.BackColor = Color.Red
+                        ElseIf Average < LCL Then
+                            .GetCellRange(i + 1, NGResult.pAve, i + 1, NGResult.pAve).StyleNew.BackColor = Color.Yellow
+                        End If
 
                         .AutoSizeCols()
                     Next
