@@ -943,6 +943,7 @@ Public Class frmSPCNotification
                         .Item(i + 1, DelayInput.pSeq) = dtDelayInput.Rows(i)("SequenceNo").ToString()
                         .Item(i + 1, DelayInput.pScheduleStart) = dtDelayInput.Rows(i)("StartTime").ToString()
                         .Item(i + 1, DelayInput.pScheduleEnd) = dtDelayInput.Rows(i)("EndTime").ToString()
+                        .Item(i + 1, DelayInput.Link) = dtDelayInput.Rows(i)("Link").ToString()
 
                         Dim delay = dtDelayInput.Rows(i)("Delay").ToString()
                         Dim tmSpan = TimeSpan.FromMinutes(dtDelayInput.Rows(i)("Delay").ToString())
