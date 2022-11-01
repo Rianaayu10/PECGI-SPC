@@ -176,6 +176,15 @@ Partial Public Class ProdSampleInput
     Protected WithEvents hfRevNo As Global.DevExpress.Web.ASPxHiddenField
 
     '''<summary>
+    '''btnNew control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnNew As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
     '''btnSave control.
     '''</summary>
     '''<remarks>

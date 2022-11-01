@@ -392,6 +392,33 @@ Partial Public Class SampleControlQuality
     Protected WithEvents lblSTD As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
+    '''ASPxLabel22 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel22 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''ASPxLabel23 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel23 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''lblXBarBar control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblXBarBar As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
     '''Master property.
     '''</summary>
     '''<remarks>

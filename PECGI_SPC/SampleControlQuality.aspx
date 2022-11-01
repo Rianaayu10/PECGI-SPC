@@ -16,6 +16,10 @@
             border: 1px solid silver; 
         }
         
+            .auto-style1 {
+                width: 60%;
+            }
+        
             </style>
     <script type="text/javascript" >
         var rowIndex, columnIndex;
@@ -171,6 +175,12 @@
             lblCP.SetText(s.cpCP);
             lblCPK1.SetText(s.cpCPK1);
             lblCPK2.SetText(s.cpCPK2);
+            lblXBarBar.SetText(s.cpXBarBar);
+            if (s.cpXBarColor == '1') {                
+                document.getElementById('tdXBarBar').style.backgroundColor = 'Pink';
+            } else {
+                document.getElementById('tdXBarBar').style.backgroundColor = 'White';
+            }
 
             chartX.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + dtTo.GetText() + '|' + cboShow.GetValue());
             chartR.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + dtTo.GetText() + '|' + cboShow.GetValue());                
@@ -596,7 +606,7 @@
     <table style="width:100%; padding-top:10px">
         <tr>
             <td style="width:630px">
-                <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="320px" Width="320px" ClientInstanceName="Histogram" CssClass="editableform" >
+                <dx:WebChartControl ID="Histogram" runat="server" CrosshairEnabled="True" Height="320px" Width="390px" ClientInstanceName="Histogram" CssClass="editableform" >
 
                         <Titles>
                             <cc1:ChartTitle Font="Segoe UI, 12pt, style=Bold" Text="Histogram" Alignment="Center" />
@@ -607,9 +617,10 @@
                 <AxisX VisibleInPanesSerializable="-1" Visibility="True">
                     <Tickmarks MinorVisible="False" />
                     <Label TextPattern="{A:0.000}">
+                        <ResolveOverlappingOptions AllowHide="False" />
                     </Label>
                     <WholeRange AutoSideMargins="False" EndSideMargin="3" StartSideMargin="3" />
-                    <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Count" IntervalOptions-GridLayoutMode="GridAndLabelShifted" IntervalOptions-Count="8" IntervalOptions-Pattern="{A1:0.000}-{A2:0.000}" IntervalOptions-OverflowValuePattern="{OS}" IntervalOptions-UnderflowValuePattern="{US}" />
+                    <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Count" IntervalOptions-GridLayoutMode="GridShiftedLabelCentered" IntervalOptions-Count="8" IntervalOptions-Pattern="{A1:0.000}-{A2:0.000}" IntervalOptions-OverflowValuePattern="{OS}" IntervalOptions-UnderflowValuePattern="{US}" />
                     </AxisX>
 
                 <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
@@ -656,8 +667,8 @@
                         </PaletteWrappers>
                     </dx:WebChartControl>
             </td>
-            <td style="vertical-align:top; text-align:left; padding-top:10px; align-items: baseline; width:70%">
-                <table style="width:400px; padding-left:5px">
+            <td style="vertical-align:top; text-align:left; padding-top:10px; align-items: baseline; " class="auto-style1">
+                <table style="width:300px; padding-left:5px">
                     <tr >
                         <td>
                             <dx:ASPxLabel ID="ASPxLabel3" runat="server" Text="Min" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
@@ -745,6 +756,20 @@
                         </td>
                         <td>
                             <dx:ASPxLabel ID="lblSTD" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblSTD"></dx:ASPxLabel>
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <dx:ASPxLabel ID="ASPxLabel22" runat="server" Text="X Bar Bar" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td style="padding-right:2px">
+                            <dx:ASPxLabel ID="ASPxLabel23" runat="server" Text=":" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td style="width:60px" id="tdXBarBar">
+                            <dx:ASPxLabel ID="lblXBarBar" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXBarBar"></dx:ASPxLabel>
                         </td>
                         <td>
 

@@ -1,9 +1,9 @@
 ---====== Required to fill (Mandatory) ====---
 DECLARE @FactoryCode AS VARCHAR(25) = 'F001', --> Mandatory to change (Get FactoryID from MS Factory)
 		@LineCode AS VARCHAR(5) = '015', --> Mandatory to change (Get Line from MS Line)
-		@EmployeeID AS CHAR(5) = '001', --> Mandatory to change (Get EmployeeID from SPC_UserSetup)
-		@StartDate AS DATE = CAST(GETDATE() AS DATE), --> Mandatory to change
-		@EndDate AS DATE = CAST(DATEADD(DAY,10,GETDATE()) AS DATE) -->Mandatory andatory to change
+		@EmployeeID AS CHAR(5) = '13', --> Mandatory to change (Get EmployeeID from SPC_UserSetup)
+		@StartDate AS DATE = '2022-10-24', --> Mandatory to change
+		@EndDate AS DATE = '2022-12-01' -->Mandatory andatory to change
 ---========================================----
 
 ---====== No need to change (HardCode) ====---
@@ -19,7 +19,7 @@ SELECT @ProcessCode = ProcessCode FROM MS_Line
 WHERE FactoryCode = @FactoryCode AND LineCode = @LineCode
 
 --INSERT MACHINE SKILL MAP
-  IF NOT EXISTS (SELECT * FROM MS_MachineSkillSetting WHERE FactoryCode = @FactoryCode AND LineCode = @LineCode AND SkillCode = @SkillCode)
+  IF NOT EXISTS (SELECT * FROM MS_MachineSkillSetting WHERE FactoryCode = @FactoryCode AND LineCode = @LineCode AND SkillCode = @SkillCode AND ProcessCode = @ProcessCode) 
   BEGIN
 	INSERT INTO MS_MachineSkillSetting
 		( FactoryCode
@@ -66,4 +66,10 @@ WHERE FactoryCode = @FactoryCode AND LineCode = @LineCode
 		, @RegisterDate
 		, @RegisterUser
 		, @RegisterDate )
+  END
+  ELSE
+  BEGIN
+	UPDATE MS_EmployeeSkill
+	SET StartDate = @StartDate, EndDate = @EndDate, UpdateDate = @RegisterDate
+	WHERE SkillCode = @SkillCode AND EmployeeID = @EmployeeID
   END
