@@ -62,7 +62,8 @@ Public Class frmSPCNotification
         pScheduleStart = 6
         pScheduleEnd = 7
         pDelayMinutes = 8
-        Count = 9
+        Link = 9
+        Count = 10
     End Enum
 
     Private Enum NGResult
@@ -82,7 +83,8 @@ Public Class frmSPCNotification
         pOperator = 13
         pMK = 14
         pQC = 15
-        Count = 16
+        Link = 16
+        Count = 17
     End Enum
 
     Private Enum DelayVerification
@@ -104,7 +106,8 @@ Public Class frmSPCNotification
         pQC = 15
         pVerifTime = 16
         pDelayVerif = 17
-        Count = 18
+        Link = 18
+        Count = 19
     End Enum
 
     Dim thrd As Thread
@@ -199,6 +202,84 @@ Public Class frmSPCNotification
         GridHeader()
         GridLoad()
     End Sub
+
+    'Private Sub gridNGResult_AfterEdit(sender As Object, e As C1.Win.C1FlexGrid.RowColEventArgs) Handles gridNGResult.AfterEdit
+    '    If e.Col = NGResult.pType Then
+    '        If gridNGResult.Rows(e.Row).Selected = True Then
+    '            gridNGResult.GetCellRange(e.Row, NGResult.pType, e.Row, NGResult.pType).StyleNew.ForeColor = Color.LightBlue
+    '        End If
+    '    End If
+    'End Sub
+
+    'Private Sub gridDelayInput_AfterEdit(sender As Object, e As C1.Win.C1FlexGrid.RowColEventArgs) Handles gridDelayInput.AfterEdit
+    '    If e.Col = DelayInput.pType Then
+    '        If gridDelayInput.Rows(e.Row).Selected = True Then
+    '            gridDelayInput.GetCellRange(e.Row, DelayInput.pType, e.Row, DelayInput.pType).StyleNew.ForeColor = Color.LightBlue
+    '        End If
+    '    End If
+    'End Sub
+
+    'Private Sub gridDelayVerification_AfterEdit(sender As Object, e As C1.Win.C1FlexGrid.RowColEventArgs) Handles gridDelayVerification.AfterEdit
+    '    If e.Col = DelayVerification.pType Then
+    '        If gridDelayVerification.Rows(e.Row).Selected = True Then
+    '            gridDelayVerification.GetCellRange(e.Row, DelayVerification.pType, e.Row, DelayVerification.pType).StyleNew.ForeColor = Color.LightBlue
+    '        End If
+    '    End If
+    'End Sub
+
+    Private Sub gridNGResult_Click(sender As System.Object, e As System.EventArgs) Handles gridNGResult.Click
+        If gridNGResult.Col = NGResult.pType Then
+            Dim i As Integer
+            i = gridNGResult.Row
+
+            Dim infoUser As String = UserIDLogin & "|" & PasswordLogin
+            Dim Direct As String
+
+            Dim Link As String = gridNGResult.Item(i, DelayInput.Link)
+            Direct = "SPCNotification" & "|" & infoUser & "|" & Link
+
+            Dim pDirect As String = NewEnryption.EncryptData(Direct)
+
+            Dim directLink As String = pLink & "Default.aspx?link=" & pDirect
+            Process.Start(directLink)
+        End If
+    End Sub
+
+    Private Sub gridDelayInput_Click(sender As System.Object, e As System.EventArgs) Handles gridDelayInput.Click
+        If gridDelayInput.Col = DelayInput.pType Then
+            Dim i As Integer
+            i = gridDelayInput.Row
+
+            Dim infoUser As String = UserIDLogin & "|" & PasswordLogin
+            Dim Direct As String
+
+            Dim Link As String = gridDelayInput.Item(i, DelayInput.Link)
+            Direct = "SPCNotification" & "|" & infoUser & "|" & Link
+
+            Dim pDirect As String = NewEnryption.EncryptData(Direct)
+
+            Dim directLink As String = pLink & "Default.aspx?link=" & pDirect
+            Process.Start(directLink)
+        End If
+    End Sub
+
+    Private Sub gridDelayVerification_Click(sender As System.Object, e As System.EventArgs) Handles gridDelayVerification.Click
+        If gridDelayVerification.Col = DelayVerification.pType Then
+            Dim i As Integer
+            i = gridDelayVerification.Row
+
+            Dim infoUser As String = UserIDLogin & "|" & PasswordLogin
+            Dim Direct As String
+            Dim Link As String = gridDelayVerification.Item(i, DelayVerification.Link)
+            Direct = "SPCNotification" & "|" & infoUser & "|" & Link
+
+            Dim pDirect As String = NewEnryption.EncryptData(Direct)
+
+            Dim directLink As String = pLink & "Default.aspx?link=" & pDirect
+            Process.Start(directLink)
+        End If
+    End Sub
+
 
 #End Region
 
@@ -458,7 +539,7 @@ Public Class frmSPCNotification
         'End With
     End Sub
     Private Sub DelayInputLoad()
-        setDelay(dtNG, gridDelayInput, "Content")
+        setDelay(dtDelayInput, gridDelayInput, "Content")
         'With gridDelayInput
         '    '.DataSource = dtDelayInput
         '    For i = 0 To dtDelayInput.Rows.Count - 1
@@ -680,6 +761,7 @@ Public Class frmSPCNotification
                     .Item(0, NGResult.pOperator) = "Operator"
                     .Item(0, NGResult.pMK) = "MK"
                     .Item(0, NGResult.pQC) = "QC"
+                    .Item(0, NGResult.pQC) = "Link"
 
                     '.AutoSizeCols()
 
@@ -700,6 +782,7 @@ Public Class frmSPCNotification
                     .Cols(NGResult.pOperator).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.LeftCenter
                     .Cols(NGResult.pMK).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
                     .Cols(NGResult.pQC).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
+                    .Cols(NGResult.Link).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
 
                     .Styles.Fixed.TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
                     .GetCellRange(0, NGResult.pType, 0, NGResult.Count - 1).StyleNew.BackColor = Color.CornflowerBlue
@@ -709,12 +792,16 @@ Public Class frmSPCNotification
                     cs.Font = New Font(grid.Font.Name, grid.Font.Size, FontStyle.Bold)
                     grid.Rows(0).Style = cs
 
+                    
                     .AllowEditing = False
                     .Styles.Normal.WordWrap = True
                     .ExtendLastCol = False
                     For j As Integer = NGResult.pType To NGResult.Count - 1
                         .AutoSizeCol(j)
                     Next
+
+                    .Cols(NGResult.Link).Visible = False
+
                     .Redraw = True
                 End With
             ElseIf Type = "Content" Then
@@ -738,6 +825,43 @@ Public Class frmSPCNotification
                         .Item(i + 1, NGResult.pOperator) = dtNG.Rows(i)("Operator").ToString()
                         .Item(i + 1, NGResult.pMK) = dtNG.Rows(i)("MK").ToString()
                         .Item(i + 1, NGResult.pQC) = dtNG.Rows(i)("QC").ToString()
+                        .Item(i + 1, NGResult.Link) = dtNG.Rows(i)("Link").ToString()
+
+                        .GetCellRange(i + 1, NGResult.pType, i + 1, NGResult.pType).StyleNew.ForeColor = Color.LightBlue
+                        Dim cs As C1.Win.C1FlexGrid.CellStyle = grid.Styles.Add("FontUnderline")
+                        cs.Font = New Font(grid.Font.Name, grid.Font.Size, FontStyle.Underline)
+                        grid.Cols(0).Style = cs
+
+                        Dim LSL As Double = dtNG.Rows(i)("LSL").ToString()
+                        Dim USL As Double = dtNG.Rows(i)("USL").ToString()
+                        Dim LCL As Double = dtNG.Rows(i)("LCL").ToString()
+                        Dim UCL As Double = dtNG.Rows(i)("UCL").ToString()
+                        Dim MinValue As Double = dtNG.Rows(i)("MinValue").ToString()
+                        Dim MaxValue As Double = dtNG.Rows(i)("MaxValue").ToString()
+                        Dim Average As Double = dtNG.Rows(i)("Average").ToString()
+
+                        If MinValue < LSL Then
+                            .GetCellRange(i + 1, NGResult.pMin, i + 1, NGResult.pMin).StyleNew.BackColor = Color.Red
+                        ElseIf MinValue < LCL Then
+                            .GetCellRange(i + 1, NGResult.pMin, i + 1, NGResult.pMin).StyleNew.BackColor = Color.Yellow
+                        End If
+
+                        If MaxValue > USL Then
+                            .GetCellRange(i + 1, NGResult.pMax, i + 1, NGResult.pMax).StyleNew.BackColor = Color.Red
+                        ElseIf MaxValue > UCL Then
+                            .GetCellRange(i + 1, NGResult.pMax, i + 1, NGResult.pMax).StyleNew.BackColor = Color.Yellow
+                        End If
+
+                        If Average > USL Then
+                            .GetCellRange(i + 1, NGResult.pAve, i + 1, NGResult.pAve).StyleNew.BackColor = Color.Red
+                        ElseIf Average > UCL Then
+                            .GetCellRange(i + 1, NGResult.pAve, i + 1, NGResult.pAve).StyleNew.BackColor = Color.Yellow
+                        ElseIf Average < LSL Then
+                            .GetCellRange(i + 1, NGResult.pAve, i + 1, NGResult.pAve).StyleNew.BackColor = Color.Red
+                        ElseIf Average < LCL Then
+                            .GetCellRange(i + 1, NGResult.pAve, i + 1, NGResult.pAve).StyleNew.BackColor = Color.Yellow
+                        End If
+
                         .AutoSizeCols()
                     Next
                     lblTotalNGResult.Text = "Total : " & dtNG.Rows.Count & " Record"
@@ -769,6 +893,7 @@ Public Class frmSPCNotification
                     .Item(0, DelayInput.pScheduleStart) = "Schedule Start"
                     .Item(0, DelayInput.pScheduleEnd) = "Schedule End"
                     .Item(0, DelayInput.pDelayMinutes) = "Delay (Minutes)"
+                    .Item(0, DelayInput.Link) = "Link"
 
                     '.Cols(grdHeader.datetime).Width = 150
                     '.Cols(grdHeader.datetime).Width = 450
@@ -799,6 +924,9 @@ Public Class frmSPCNotification
                     For j As Integer = DelayInput.pType To DelayInput.Count - 1
                         .AutoSizeCol(j)
                     Next
+
+                    .Cols(DelayInput.Link).Visible = False
+
                     .Redraw = True
                 End With
             ElseIf Type = "Content" Then
@@ -841,6 +969,11 @@ Public Class frmSPCNotification
                             .GetCellRange(i + 1, DelayInput.pDelayMinutes, i + 1, DelayInput.pDelayMinutes).StyleNew.BackColor = Color.Yellow
                         End If
 
+                        .GetCellRange(i + 1, DelayInput.pType, i + 1, DelayInput.pType).StyleNew.ForeColor = Color.Blue
+                        Dim cs As C1.Win.C1FlexGrid.CellStyle = grid.Styles.Add("FontUnderline")
+                        cs.Font = New Font(grid.Font.Name, grid.Font.Size, FontStyle.Underline)
+                        grid.Cols(0).Style = cs
+
                         .AutoSizeCols()
                     Next
                     lblTotalDelayInput.Text = "Total : " & dtDelayInput.Rows.Count & " Record"
@@ -881,6 +1014,8 @@ Public Class frmSPCNotification
                     .Item(0, DelayVerification.pVerifTime) = "Verif Time"
                     .Item(0, DelayVerification.pDelayVerif) = "Delay Verif"
 
+                    .Item(0, DelayVerification.Link) = "Link"
+
                     '.AutoSizeCols()
 
                     .Cols(DelayVerification.pType).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
@@ -903,9 +1038,13 @@ Public Class frmSPCNotification
                     .Cols(DelayVerification.pVerifTime).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
                     .Cols(DelayVerification.pDelayVerif).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
 
+                    .Cols(DelayVerification.Link).TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
+
                     .Styles.Fixed.TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter
                     .GetCellRange(0, DelayVerification.pType, 0, DelayVerification.Count - 1).StyleNew.BackColor = Color.CornflowerBlue
                     .GetCellRange(0, DelayVerification.pType, 0, DelayVerification.Count - 1).StyleNew.ForeColor = Color.White
+
+                    .Cols(DelayVerification.Link).Visible = False
 
                     Dim cs As C1.Win.C1FlexGrid.CellStyle = grid.Styles.Add("FontBold")
                     cs.Font = New Font(grid.Font.Name, grid.Font.Size, FontStyle.Bold)
@@ -941,6 +1080,7 @@ Public Class frmSPCNotification
                         .Item(i + 1, DelayVerification.pMK) = dtDelayVerification.Rows(i)("MK").ToString()
                         .Item(i + 1, DelayVerification.pQC) = dtDelayVerification.Rows(i)("QC").ToString()
                         .Item(i + 1, DelayVerification.pVerifTime) = dtDelayVerification.Rows(i)("VerifTime").ToString()
+                        .Item(i + 1, DelayVerification.Link) = dtDelayVerification.Rows(i)("Link").ToString()
 
                         Dim delay = dtDelayVerification.Rows(i)("DelayVerif").ToString()
                         Dim tmSpan = TimeSpan.FromMinutes(dtDelayVerification.Rows(i)("DelayVerif").ToString())
@@ -966,6 +1106,12 @@ Public Class frmSPCNotification
                         If CInt(dtDelayVerification.Rows(i)("DelayVerif").ToString()) < 60 Then
                             .GetCellRange(i + 1, DelayVerification.pDelayVerif, i + 1, DelayVerification.pDelayVerif).StyleNew.BackColor = Color.Yellow
                         End If
+
+                        .GetCellRange(i + 1, DelayVerification.pType, i + 1, DelayVerification.pType).StyleNew.ForeColor = Color.Blue
+                        Dim cs As C1.Win.C1FlexGrid.CellStyle = grid.Styles.Add("FontUnderline")
+                        cs.Font = New Font(grid.Font.Name, grid.Font.Size, FontStyle.Underline)
+                        grid.Cols(0).Style = cs
+
                         .AutoSizeCols()
                     Next
                     lblTotalDelayVerification.Text = "Total : " & dtDelayVerification.Rows.Count & " Record"

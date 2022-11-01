@@ -77,6 +77,7 @@ Partial Class frmSPCAlertNotifications
         'NotifyIcon1
         '
         Me.NotifyIcon1.BalloonTipTitle = "SPC Alert Notification"
+        Me.NotifyIcon1.ContextMenuStrip = Me.ContextMenuStrip1
         Me.NotifyIcon1.Icon = CType(resources.GetObject("NotifyIcon1.Icon"), System.Drawing.Icon)
         Me.NotifyIcon1.Text = "SPC Notification"
         Me.NotifyIcon1.Visible = True
