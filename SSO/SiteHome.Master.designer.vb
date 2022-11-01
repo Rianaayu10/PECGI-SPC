@@ -41,24 +41,6 @@ Partial Public Class SiteHome
     Protected WithEvents lblUser As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''lblAdmin control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblAdmin As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''rptMenu control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents rptMenu As Global.System.Web.UI.WebControls.Repeater
-
-    '''<summary>
     '''Content control.
     '''</summary>
     '''<remarks>

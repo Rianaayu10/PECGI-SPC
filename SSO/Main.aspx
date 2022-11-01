@@ -42,7 +42,7 @@
                                     <tr>
                                         <td>
                                             <a target="_self" class="btn" href="<%# Eval("URL")%>">
-                                                <button class="card" style="border: none; text-align: left; color: white; background-color: orange">
+                                                <button class="card" style="border: none; text-align: left; color: white; background-color:<%# Eval("BKClr")%>">
                                                     <i class="fa fa-5x fa-bar-chart-o"></i>
                                                 </button>
 
