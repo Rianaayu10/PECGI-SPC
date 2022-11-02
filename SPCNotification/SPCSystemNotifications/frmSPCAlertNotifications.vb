@@ -218,16 +218,6 @@ Public Class frmSPCAlertNotifications
         'DI = Delay Input
 
         If ProcessRunning = False Then
-            'dtNG = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "NG")
-            'dtDelayInput = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "DelayInput")
-            'dtDelayVerification = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "DelayVerification")
-            'factory = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "Factory").Rows(0)("Factory")
-
-            'dtNG = clsSPCNotification.CheckNotificationLog(ConnectionString, UserIDLogin, "NG")
-            'dtDelayInput = clsSPCNotification.CheckNotificationLog(ConnectionString, UserIDLogin, "DI")
-            'dtDelayVerification = clsSPCNotification.CheckNotificationLog(ConnectionString, UserIDLogin, "DV")
-            'factory = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "Factory").Rows(0)("Factory")
-
             Try
                 If firstLoad = 0 Then
                     dtNG = clsSPCNotification.GetData(ConnectionString, UserIDLogin, "NG")
@@ -253,6 +243,20 @@ Public Class frmSPCAlertNotifications
                     AddHandler NotifyIcon1.MouseDown, AddressOf Me.NotifyShowing_Click
                     AddHandler NotifyIcon1.BalloonTipClicked, AddressOf Me.NotifyIcon1_Click
 
+                    If NGInputRowsCount > 0 Then
+                        NGInputLastUpdate = dtNG.Rows(dtNG.Rows.Count - 1)("UpdateDate")
+                    End If
+                    If DelayInputRowsCount > 0 Then
+                        DelayInputLastUpdate = dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("UpdateTime")
+                    End If
+                    If DelayVerificationRowsCount > 0 Then
+                        DelayVerificationLastUpdate = dtDelayVerification.Rows(dtDelayVerification.Rows.Count - 1)("UpdateDate")
+                    End If
+
+                    firstLoad = 1
+                    If firstLoad = 0 Then
+                        firstLoad += 1
+                    End If
 
                 Else
                     dtNG = clsSPCNotification.CheckNotificationLog(ConnectionString, UserIDLogin, "NG")
@@ -295,7 +299,12 @@ Public Class frmSPCAlertNotifications
                     End If
 
                     Try
-                        If CDate(currentNGLastUpdate) > CDate(NGInputLastUpdate) Then
+                        If CDate(currentNGLastUpdate) >= CDate(NGInputLastUpdate) Then
+                            Dim drRemoved As DataRow() = dtNG.Select("LastUpdate <= '" & CDate(NGInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
+                            For i = 0 To drRemoved.Length - 1
+                                dtNG.Rows.Remove(drRemoved(i))
+                            Next
+                        Else
                             Dim drRemoved As DataRow() = dtNG.Select("LastUpdate <= '" & CDate(NGInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
                             For i = 0 To drRemoved.Length - 1
                                 dtNG.Rows.Remove(drRemoved(i))
@@ -305,13 +314,13 @@ Public Class frmSPCAlertNotifications
 
                     End Try
                     Try
-                        If CDate(currentDelayInput) > CDate(DelayInputLastUpdate) Then
-                            Dim drRemoved1 As DataRow() = dtDelayInput.Select("UpdateTime <= '" & CDate(DelayInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
+                        If CDate(currentDelayInput) >= CDate(DelayInputLastUpdate) Then
+                            Dim drRemoved1 As DataRow() = dtDelayInput.Select("LastUpdate <= '" & CDate(DelayInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
                             For i = 0 To drRemoved1.Length - 1
                                 dtDelayInput.Rows.Remove(drRemoved1(i))
                             Next
                         Else
-                            Dim drRemoved1 As DataRow() = dtDelayInput.Select("UpdateTime <= '" & CDate(DelayInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
+                            Dim drRemoved1 As DataRow() = dtDelayInput.Select("LastUpdate <= '" & CDate(DelayInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
                             For i = 0 To drRemoved1.Length - 1
                                 dtDelayInput.Rows.Remove(drRemoved1(i))
                             Next
@@ -320,13 +329,13 @@ Public Class frmSPCAlertNotifications
 
                     End Try
                     Try
-                        If CDate(currentDelayVerification) > CDate(DelayVerificationLastUpdate) Then
-                            Dim drRemoved2 As DataRow() = dtDelayVerification.Select("UpdateDate <= '" & CDate(DelayVerificationLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
+                        If CDate(currentDelayVerification) >= CDate(DelayVerificationLastUpdate) Then
+                            Dim drRemoved2 As DataRow() = dtDelayVerification.Select("LastUpdate <= '" & CDate(DelayVerificationLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
                             For i = 0 To drRemoved2.Length - 1
                                 dtDelayVerification.Rows.Remove(drRemoved2(i))
                             Next
                         Else
-                            Dim drRemoved2 As DataRow() = dtDelayVerification.Select("UpdateDate <= '" & CDate(DelayVerificationLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
+                            Dim drRemoved2 As DataRow() = dtDelayVerification.Select("LastUpdate <= '" & CDate(DelayVerificationLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
                             For i = 0 To drRemoved2.Length - 1
                                 dtDelayVerification.Rows.Remove(drRemoved2(i))
                             Next
@@ -336,58 +345,61 @@ Public Class frmSPCAlertNotifications
                     End Try
 
 
-                    NGInputRowsCount = dtNG.Rows.Count
-                    DelayInputRowsCount = dtDelayInput.Rows.Count
-                    DelayVerificationRowsCount = dtDelayVerification.Rows.Count
+                    NGInputRowsCount = IIf(dtNG.Rows.Count > 0, dtNG.Rows.Count - 1, dtNG.Rows.Count)
+                    DelayInputRowsCount = IIf(dtDelayInput.Rows.Count > 0, dtDelayInput.Rows.Count - 1, dtDelayInput.Rows.Count)
+                    DelayVerificationRowsCount = IIf(dtDelayVerification.Rows.Count > 0, dtDelayVerification.Rows.Count - 1, dtDelayVerification.Rows.Count)
 
 
                     Try
                         If CDate(currentNGLastUpdate) > CDate(NGInputLastUpdate) OrElse CDate(currentDelayInput) > CDate(DelayInputLastUpdate) OrElse CDate(currentDelayVerification) > CDate(DelayVerificationLastUpdate) Then
-                            Dim header, body, link As String
-                            'Dim strDate As String = dtNG.Rows(i)("Date")
-                            'header = "ALERT Notification"
-                            body = " - NG Result : " & NGInputRowsCount & " " & vbCrLf &
-                                   " - Delay Input : " & DelayInputRowsCount & " " & vbCrLf &
-                                   " - Delay Verification : " & DelayVerificationRowsCount
-                            link = pLink '+ dtNG.Rows(i)("Link")
-                            'ShowNotification(header, body, "NG", link)
+                            If firstLoad > 1 Then
+                                Dim header, body, link As String
+                                'Dim strDate As String = dtNG.Rows(i)("Date")
+                                'header = "ALERT Notification"
+                                body = " - NG Result : " & NGInputRowsCount & " " & vbCrLf &
+                                       " - Delay Input : " & DelayInputRowsCount & " " & vbCrLf &
+                                       " - Delay Verification : " & DelayVerificationRowsCount
+                                link = pLink '+ dtNG.Rows(i)("Link")
+                                'ShowNotification(header, body, "NG", link)
 
-                            NotifyIcon1.ShowBalloonTip(500, "There are new notifications:", body, ToolTipIcon.Info)
-                            'AddHandler NotifyIcon1.Click, AddressOf Me.NotifyShowing_Click
-                            AddHandler NotifyIcon1.MouseDown, AddressOf Me.NotifyShowing_Click
-                            AddHandler NotifyIcon1.BalloonTipClicked, AddressOf Me.NotifyIcon1_Click
+                                NotifyIcon1.ShowBalloonTip(500, "There are new notifications:", body, ToolTipIcon.Info)
+                                'AddHandler NotifyIcon1.Click, AddressOf Me.NotifyShowing_Click
+                                AddHandler NotifyIcon1.MouseDown, AddressOf Me.NotifyShowing_Click
+                                AddHandler NotifyIcon1.BalloonTipClicked, AddressOf Me.NotifyIcon1_Click
 
-
+                            End If
+                            If NGInputRowsCount > 0 Then
+                                NGInputLastUpdate = dtNG.Rows(dtNG.Rows.Count - 1)("UpdateDate")
+                            End If
+                            If DelayInputRowsCount > 0 Then
+                                DelayInputLastUpdate = dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("LastUpdate")
+                            End If
+                            If DelayVerificationRowsCount > 0 Then
+                                DelayVerificationLastUpdate = dtDelayVerification.Rows(dtDelayVerification.Rows.Count - 1)("LastUpdate")
+                            End If
+                            firstLoad = 2
                         End If
                     Catch ex As Exception
 
                     End Try
 
-                    If dtNG.Rows.Count > 0 Then
-                        NGInputLastUpdate = dtNG.Rows(dtNG.Rows.Count - 1)("LastUpdate")
-                    Else
-                        NGInputLastUpdate = 0
-                    End If
+                    'If dtNG.Rows.Count > 0 Then
+                    '    NGInputLastUpdate = dtNG.Rows(dtNG.Rows.Count - 1)("LastUpdate")
+                    'Else
+                    '    NGInputLastUpdate = 0
+                    'End If
 
-                    If dtDelayInput.Rows.Count > 0 Then
-                        DelayInputLastUpdate = dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("LastUpdate")
-                    Else
-                        DelayInputLastUpdate = 0
-                    End If
+                    'If dtDelayInput.Rows.Count > 0 Then
+                    '    DelayInputLastUpdate = dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("LastUpdate")
+                    'Else
+                    '    DelayInputLastUpdate = 0
+                    'End If
 
-                    If dtDelayVerification.Rows.Count > 0 Then
-                        DelayVerificationLastUpdate = dtDelayVerification.Rows(dtDelayVerification.Rows.Count - 1)("LastUpdate")
-                    Else
-                        DelayVerificationLastUpdate = 0
-                    End If
-
-
-                End If
-
-
-                firstLoad = 1
-                If firstLoad = 0 Then
-                    firstLoad += 1
+                    'If dtDelayVerification.Rows.Count > 0 Then
+                    '    DelayVerificationLastUpdate = dtDelayVerification.Rows(dtDelayVerification.Rows.Count - 1)("LastUpdate")
+                    'Else
+                    '    DelayVerificationLastUpdate = 0
+                    'End If
                 End If
 
             Catch ex As Exception
