@@ -112,7 +112,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
-    <Content Include="AlertDashboardTest.aspx" />
     <Content Include="CustomFile\css\bootstrap-grid.css" />
     <Content Include="CustomFile\css\bootstrap-grid.min.css" />
     <Content Include="CustomFile\css\bootstrap-grid.rtl.css" />
@@ -906,13 +905,6 @@
     </Compile>
     <Compile Include="About.aspx.vb">
       <DependentUpon>About.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="AlertDashboardTest.aspx.designer.vb">
-      <DependentUpon>AlertDashboardTest.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="AlertDashboardTest.aspx.vb">
-      <DependentUpon>AlertDashboardTest.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SPCDashboard.aspx.designer.vb">

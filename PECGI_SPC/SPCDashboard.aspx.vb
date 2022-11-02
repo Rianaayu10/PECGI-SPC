@@ -34,9 +34,10 @@ Public Class SPCDashboard
     End Sub
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        LoadGridNG()
+        LoadGridNG("1")
         LoadDataDelayInput()
         LoadGridDelayVerif()
+        lblDateNow.Text = DateTime.Now.ToString("dd-MMM-yyyy") 'HH:mm:ss
     End Sub
 
 #End Region
@@ -47,19 +48,35 @@ Public Class SPCDashboard
             Dim dtLoadGridDelay As DataTable
             dtLoadGridDelay = clsSPCAlertDashboardDB.GetList("zqc", "F001", "1", "2022-11-01")
 
-            rptDdelayInput.DataSource = dtLoadGridDelay
-            rptDdelayInput.DataBind()
+            If dtLoadGridDelay.Rows.Count > 0 Then
+                rptDdelayInput.DataSource = dtLoadGridDelay
+                rptDdelayInput.DataBind()
+            Else
+                rptDdelayInput.DataSource = ""
+                rptDdelayInput.DataBind()
+            End If
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
         End Try
     End Sub
-    Private Sub LoadGridNG()
+    Private Sub LoadGridNG(pType As String)
         Try
             Dim dtLoadGridNG As DataTable
             dtLoadGridNG = clsSPCAlertDashboardDB.GetNGDataList("zqc", "F001", "1", "2022-11-01")
 
-            rptDdelayInput.DataSource = dtLoadGridNG
-            rptDdelayInput.DataBind()
+            If pType = "1" Then
+                If dtLoadGridNG.Rows.Count > 0 Then
+                    rptNGInput.DataSource = dtLoadGridNG
+                    rptNGInput.DataBind()
+                Else
+                    rptNGInput.DataSource = ""
+                    rptNGInput.DataBind()
+                End If
+            Else
+                rptNGInput.DataSource = dtLoadGridNG
+                rptNGInput.DataBind()
+            End If
+
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
         End Try
@@ -69,8 +86,14 @@ Public Class SPCDashboard
             Dim dtLoadGridDelayVerif As DataTable
             dtLoadGridDelayVerif = clsSPCAlertDashboardDB.GetDelayVerificationGrid("zqc", "F001", "1", "2022-11-01")
 
-            rptDelayVerification.DataSource = dtLoadGridDelayVerif
-            rptDelayVerification.DataBind()
+            If dtLoadGridDelayVerif.Rows.Count > 0 Then
+                rptDelayVerification.DataSource = dtLoadGridDelayVerif
+                rptDelayVerification.DataBind()
+            Else
+                rptDelayVerification.DataSource = ""
+                rptDelayVerification.DataBind()
+            End If
+
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
         End Try
@@ -79,6 +102,12 @@ Public Class SPCDashboard
         'Grid.JSProperties("cp_message") = ErrMsg
         'Grid.JSProperties("cp_type") = msgType
         'Grid.JSProperties("cp_val") = pVal
+    End Sub
+
+    Protected Sub TimerNGResult_Tick(sender As Object, e As EventArgs)
+        LoadGridNG("2")
+        LoadDataDelayInput()
+        LoadGridDelayVerif()
     End Sub
 
 #End Region
