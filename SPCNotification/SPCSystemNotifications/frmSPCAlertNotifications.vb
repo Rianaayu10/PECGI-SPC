@@ -315,12 +315,12 @@ Public Class frmSPCAlertNotifications
                     End Try
                     Try
                         If CDate(currentDelayInput) >= CDate(DelayInputLastUpdate) Then
-                            Dim drRemoved1 As DataRow() = dtDelayInput.Select("LastUpdate <= '" & CDate(DelayInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
+                            Dim drRemoved1 As DataRow() = dtDelayInput.Select("LastUpdate <= '" & CDate(DelayInputLastUpdate).AddSeconds(1).ToString("yyyy-MM-dd HH:mm:ss") & "'") '.ToString("yyyy-MM-dd HH:mm:ss")
                             For i = 0 To drRemoved1.Length - 1
                                 dtDelayInput.Rows.Remove(drRemoved1(i))
                             Next
                         Else
-                            Dim drRemoved1 As DataRow() = dtDelayInput.Select("LastUpdate <= '" & CDate(DelayInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
+                            Dim drRemoved1 As DataRow() = dtDelayInput.Select("LastUpdate <= '" & CDate(DelayInputLastUpdate).AddSeconds(1).ToString("yyyy-MM-dd HH:mm:ss") & "'") '.ToString("yyyy-MM-dd HH:mm:ss")
                             For i = 0 To drRemoved1.Length - 1
                                 dtDelayInput.Rows.Remove(drRemoved1(i))
                             Next
