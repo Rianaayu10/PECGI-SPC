@@ -701,7 +701,7 @@
                 <SettingsPager Mode="ShowPager" PageSize="20" AlwaysShowPager="true">
                     <PageSizeItemSettings Visible="True" />
                 </SettingsPager>
-                <Settings ShowFilterRow="True" VerticalScrollBarMode="Auto"
+                <Settings ShowFilterRow="False" VerticalScrollBarMode="Auto"
                     VerticalScrollableHeight="300" HorizontalScrollBarMode="Auto" />
                 <SettingsText ConfirmDelete="Are you sure want to delete ?"></SettingsText>
                 <SettingsPopup>
@@ -1005,7 +1005,7 @@
                 <SettingsPager Mode="ShowPager" PageSize="20" AlwaysShowPager="true">
                     <PageSizeItemSettings Visible="True" />
                 </SettingsPager>
-                <Settings ShowFilterRow="True" VerticalScrollBarMode="Auto"
+                <Settings ShowFilterRow="False" VerticalScrollBarMode="Auto"
                     VerticalScrollableHeight="300" HorizontalScrollBarMode="Auto" />
                 <SettingsText ConfirmDelete="Are you sure want to delete ?"></SettingsText>
                 <SettingsPopup>
@@ -1459,7 +1459,7 @@
                 <SettingsPager Mode="ShowPager" PageSize="20" AlwaysShowPager="true">
                     <PageSizeItemSettings Visible="True" />
                 </SettingsPager>
-                <Settings ShowFilterRow="True" VerticalScrollBarMode="Auto" VerticalScrollableHeight="300" HorizontalScrollBarMode="Auto" />
+                <Settings ShowFilterRow="False" VerticalScrollBarMode="Auto" VerticalScrollableHeight="300" HorizontalScrollBarMode="Auto" />
                 <SettingsText ConfirmDelete="Are you sure want to delete ?"></SettingsText>
                 <SettingsPopup>
                     <EditForm Modal="false" HorizontalAlign="WindowCenter" VerticalAlign="WindowCenter" Width="200" />

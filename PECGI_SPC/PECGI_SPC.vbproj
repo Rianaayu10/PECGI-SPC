@@ -112,6 +112,31 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="AlertDashboardTest.aspx" />
+    <Content Include="CustomFile\css\bootstrap-grid.css" />
+    <Content Include="CustomFile\css\bootstrap-grid.min.css" />
+    <Content Include="CustomFile\css\bootstrap-grid.rtl.css" />
+    <Content Include="CustomFile\css\bootstrap-grid.rtl.min.css" />
+    <Content Include="CustomFile\css\bootstrap-reboot.css" />
+    <Content Include="CustomFile\css\bootstrap-reboot.min.css" />
+    <Content Include="CustomFile\css\bootstrap-reboot.rtl.css" />
+    <Content Include="CustomFile\css\bootstrap-reboot.rtl.min.css" />
+    <Content Include="CustomFile\css\bootstrap-utilities.css" />
+    <Content Include="CustomFile\css\bootstrap-utilities.min.css" />
+    <Content Include="CustomFile\css\bootstrap-utilities.rtl.css" />
+    <Content Include="CustomFile\css\bootstrap-utilities.rtl.min.css" />
+    <Content Include="CustomFile\css\bootstrap.css" />
+    <Content Include="CustomFile\css\bootstrap.min.css" />
+    <Content Include="CustomFile\css\bootstrap.rtl.css" />
+    <Content Include="CustomFile\css\bootstrap.rtl.min.css" />
+    <Content Include="CustomFile\js\bootstrap.bundle.js" />
+    <Content Include="CustomFile\js\bootstrap.bundle.min.js" />
+    <Content Include="CustomFile\js\bootstrap.esm.js" />
+    <Content Include="CustomFile\js\bootstrap.esm.min.js" />
+    <Content Include="CustomFile\js\bootstrap.js" />
+    <Content Include="CustomFile\js\bootstrap.min.js" />
+    <Content Include="CustomFile\popper.min.js" />
+    <Content Include="SPCDashboard.aspx" />
     <Content Include="bin\DevExpress.Charts.v14.1.Core.dll" />
     <Content Include="bin\DevExpress.Data.v14.1.dll" />
     <Content Include="bin\DevExpress.Data.v14.1.xml" />
@@ -825,6 +850,28 @@
     <Content Include="Main.aspx" />
     <Content Include="bin\PECGI_SPC.dll.config" />
     <Content Include="bin\QualityCheckSheetSystem.dll.config" />
+    <Content Include="CustomFile\js\bootstrap.bundle.js.map" />
+    <Content Include="CustomFile\js\bootstrap.bundle.min.js.map" />
+    <Content Include="CustomFile\js\bootstrap.esm.js.map" />
+    <Content Include="CustomFile\js\bootstrap.esm.min.js.map" />
+    <Content Include="CustomFile\js\bootstrap.js.map" />
+    <Content Include="CustomFile\js\bootstrap.min.js.map" />
+    <Content Include="CustomFile\css\bootstrap-grid.css.map" />
+    <Content Include="CustomFile\css\bootstrap-grid.min.css.map" />
+    <Content Include="CustomFile\css\bootstrap-grid.rtl.css.map" />
+    <Content Include="CustomFile\css\bootstrap-grid.rtl.min.css.map" />
+    <Content Include="CustomFile\css\bootstrap-reboot.css.map" />
+    <Content Include="CustomFile\css\bootstrap-reboot.min.css.map" />
+    <Content Include="CustomFile\css\bootstrap-reboot.rtl.css.map" />
+    <Content Include="CustomFile\css\bootstrap-reboot.rtl.min.css.map" />
+    <Content Include="CustomFile\css\bootstrap-utilities.css.map" />
+    <Content Include="CustomFile\css\bootstrap-utilities.min.css.map" />
+    <Content Include="CustomFile\css\bootstrap-utilities.rtl.css.map" />
+    <Content Include="CustomFile\css\bootstrap-utilities.rtl.min.css.map" />
+    <Content Include="CustomFile\css\bootstrap.css.map" />
+    <Content Include="CustomFile\css\bootstrap.min.css.map" />
+    <Content Include="CustomFile\css\bootstrap.rtl.css.map" />
+    <Content Include="CustomFile\css\bootstrap.rtl.min.css.map" />
     <None Include="Download\Quality Check Sheet.xlsx" />
     <None Include="My Project\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.4.1-vsdoc.js" />
@@ -859,6 +906,20 @@
     </Compile>
     <Compile Include="About.aspx.vb">
       <DependentUpon>About.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AlertDashboardTest.aspx.designer.vb">
+      <DependentUpon>AlertDashboardTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AlertDashboardTest.aspx.vb">
+      <DependentUpon>AlertDashboardTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SPCDashboard.aspx.designer.vb">
+      <DependentUpon>SPCDashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SPCDashboard.aspx.vb">
+      <DependentUpon>SPCDashboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="App_GlobalResources\DataAccess.vb" />

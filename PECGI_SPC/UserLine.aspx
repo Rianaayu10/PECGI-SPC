@@ -166,7 +166,7 @@
                         SelectCommand="select UserID, FullName from dbo.spc_UserSetup order by UserID"></asp:SqlDataSource>
                 </div>
                 <dx:ASPxGridView ID="gridMenu" runat="server" AutoGenerateColumns="False" ClientInstanceName="gridMenu"
-                    Font-Names="Segoe UI" Font-Size="9pt" KeyFieldName="LineID" Theme="Office2010Black"
+                    Font-Names="Segoe UI" Font-Size="9pt" KeyFieldName="LineID" Theme="Office2010Black" OnAfterPerformCallback="Grid_AfterPerformCallback"
                     Width="100%">
                     <ClientSideEvents
                         BatchEditStartEditing="OnBatchEditStartEditing"
@@ -220,14 +220,14 @@
                         </dx:GridViewDataCheckColumn>
                     </Columns>
                     <SettingsBehavior AllowFocusedRow="True" AllowSort="False" ColumnResizeMode="Control" EnableRowHotTrack="True" />
-                    <SettingsPager AlwaysShowPager="true" PageSizeItemSettings-Visible="true" Mode="ShowPager" NumericButtonCount="10">
+                    <SettingsPager AlwaysShowPager="true" PageSize="20" PageSizeItemSettings-Visible="true" Mode="ShowPager" NumericButtonCount="10">
                         <PageSizeItemSettings Visible="True"></PageSizeItemSettings>
                     </SettingsPager>
                     <SettingsEditing Mode="Batch" NewItemRowPosition="Bottom">
                         <BatchEditSettings ShowConfirmOnLosingChanges="False" />
                     </SettingsEditing>
                     <Settings HorizontalScrollBarMode="Auto"  ShowStatusBar="Hidden" ShowVerticalScrollBar="True"
-                        VerticalScrollBarMode="Auto" VerticalScrollableHeight="300" />
+                        VerticalScrollBarMode="Auto" VerticalScrollableHeight="300" ShowFilterRow="true" />
                     <Styles>
                         <Header HorizontalAlign="Center">
                             <Paddings PaddingBottom="5px" PaddingTop="5px" />

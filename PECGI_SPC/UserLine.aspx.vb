@@ -157,5 +157,12 @@ Public Class UserLine
     Private Sub gridMenu_RowUpdating(sender As Object, e As ASPxDataUpdatingEventArgs) Handles gridMenu.RowUpdating
         e.Cancel = True
     End Sub
+
+    Protected Sub Grid_AfterPerformCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles gridMenu.AfterPerformCallback
+        If e.CallbackName <> "CANCELEDIT" Then
+            up_GridLoad(UserID)
+        End If
+    End Sub
+
 #End Region
 End Class

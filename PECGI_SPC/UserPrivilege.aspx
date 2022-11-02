@@ -180,7 +180,7 @@
                 </div>
 
                 <dx:ASPxGridView ID="gridMenu" runat="server" AutoGenerateColumns="False" ClientInstanceName="gridMenu"
-                    Font-Names="Segoe UI" Font-Size="9pt" KeyFieldName="MenuID" Theme="Office2010Black"
+                    Font-Names="Segoe UI" Font-Size="9pt" KeyFieldName="MenuID" Theme="Office2010Black" OnAfterPerformCallback="Grid_AfterPerformCallback"
                     Width="100%">
                     <ClientSideEvents
                         BatchEditStartEditing="OnBatchEditStartEditing"
@@ -244,7 +244,7 @@
                         <BatchEditSettings ShowConfirmOnLosingChanges="False" />
                     </SettingsEditing>
                     <Settings HorizontalScrollBarMode="Auto" ShowStatusBar="Hidden" ShowVerticalScrollBar="True"
-                        VerticalScrollBarMode="Auto" VerticalScrollableHeight="300" />
+                        VerticalScrollBarMode="Auto" VerticalScrollableHeight="300" ShowFilterRow="True" />
                     <Styles>
                         <Header HorizontalAlign="Center">
                             <Paddings PaddingBottom="5px" PaddingTop="5px" />

@@ -21,7 +21,14 @@
     Private Sub _Default_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Request.QueryString("Link") IsNot Nothing Then
             Dim clsDESEncryption As New clsDESEncryption("TOS")
-            Dim Link = clsDESEncryption.DecryptData(Request.QueryString("Link"))
+            Dim prm = Request.QueryString("Link")
+            prm = prm.Replace(" ", "+")
+            Dim mod4 = prm.Length Mod 4
+            If mod4 > 0 Then
+                prm += New String("=", 4 - mod4)
+            End If
+
+            Dim link = clsDESEncryption.DecryptData(prm)
             Dim ActionForm = Link.Split("|")(0)
             Dim User = Link.Split("|")(1)
             Dim Password = Link.Split("|")(2)
