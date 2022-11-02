@@ -368,19 +368,33 @@ Public Class frmSPCAlertNotifications
                                 AddHandler NotifyIcon1.BalloonTipClicked, AddressOf Me.NotifyIcon1_Click
 
                             End If
-                            If NGInputRowsCount > 0 Then
-                                NGInputLastUpdate = dtNG.Rows(dtNG.Rows.Count - 1)("UpdateDate")
-                            End If
-                            If DelayInputRowsCount > 0 Then
-                                DelayInputLastUpdate = dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("LastUpdate")
-                            End If
-                            If DelayVerificationRowsCount > 0 Then
-                                DelayVerificationLastUpdate = dtDelayVerification.Rows(dtDelayVerification.Rows.Count - 1)("LastUpdate")
-                            End If
+                            'If NGInputRowsCount > 0 Then
+                            '    NGInputLastUpdate = currentNGLastUpdate 'dtNG.Rows(dtNG.Rows.Count - 1)("LastUpdate")
+                            'End If
+                            'If DelayInputRowsCount > 0 Then
+                            '    DelayInputLastUpdate = currentDelayInput 'dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("LastUpdate")
+                            'End If
+                            'If DelayVerificationRowsCount > 0 Then
+                            '    DelayVerificationLastUpdate = currentDelayVerification 'dtDelayVerification.Rows(dtDelayVerification.Rows.Count - 1)("LastUpdate")
+                            'End If
+                            NGInputLastUpdate = currentNGLastUpdate
+                            DelayInputLastUpdate = currentDelayInput
+                            DelayVerificationLastUpdate = currentDelayVerification
                             firstLoad = 2
                         End If
                     Catch ex As Exception
-
+                        'If NGInputRowsCount > 0 Then
+                        '    NGInputLastUpdate = currentNGLastUpdate 'dtNG.Rows(dtNG.Rows.Count - 1)("LastUpdate")
+                        'End If
+                        'If DelayInputRowsCount > 0 Then
+                        '    DelayInputLastUpdate = currentDelayInput 'dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("LastUpdate")
+                        'End If
+                        'If DelayVerificationRowsCount > 0 Then
+                        '    DelayVerificationLastUpdate = currentDelayVerification 'dtDelayVerification.Rows(dtDelayVerification.Rows.Count - 1)("LastUpdate")
+                        'End If
+                        NGInputLastUpdate = currentNGLastUpdate
+                        DelayInputLastUpdate = currentDelayInput
+                        DelayVerificationLastUpdate = currentDelayVerification
                     End Try
 
                     'If dtNG.Rows.Count > 0 Then
