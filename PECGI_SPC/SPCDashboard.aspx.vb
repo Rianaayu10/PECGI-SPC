@@ -34,19 +34,31 @@ Public Class SPCDashboard
     End Sub
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        LoadGridNG("1")
-        LoadDataDelayInput()
-        LoadGridDelayVerif()
+        sGlobal.getMenu("X010")
+        pUser = Session("user")
+        AuthAccess = sGlobal.Auth_UserAccess(pUser, "X010")
+        If AuthAccess = False Then
+            Response.Redirect("~/Main.aspx")
+        End If
+
+        'LoadGridNG("1")
+        'LoadDataDelayInput()
+        'LoadGridDelayVerif()
         lblDateNow.Text = DateTime.Now.ToString("dd-MMM-yyyy") 'HH:mm:ss
     End Sub
 
 #End Region
 
 #Region "Functions"
+    Private Sub up_GridLoad()
+        LoadGridNG()
+        LoadDataDelayInput()
+        LoadGridDelayVerif()
+    End Sub
     Private Sub LoadDataDelayInput()
         Try
             Dim dtLoadGridDelay As DataTable
-            dtLoadGridDelay = clsSPCAlertDashboardDB.GetList("zqc", "F001", "1", "2022-11-01")
+            dtLoadGridDelay = clsSPCAlertDashboardDB.GetList(pUser, "F001", "1", DateTime.Now.ToString("yyyy-MM-dd"))
 
             If dtLoadGridDelay.Rows.Count > 0 Then
                 rptDdelayInput.DataSource = dtLoadGridDelay
@@ -59,21 +71,16 @@ Public Class SPCDashboard
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
         End Try
     End Sub
-    Private Sub LoadGridNG(pType As String)
+    Private Sub LoadGridNG()
         Try
             Dim dtLoadGridNG As DataTable
-            dtLoadGridNG = clsSPCAlertDashboardDB.GetNGDataList("zqc", "F001", "1", "2022-11-01")
+            dtLoadGridNG = clsSPCAlertDashboardDB.GetNGDataList(pUser, "F001", "1", DateTime.Now.ToString("yyyy-MM-dd"))
 
-            If pType = "1" Then
-                If dtLoadGridNG.Rows.Count > 0 Then
-                    rptNGInput.DataSource = dtLoadGridNG
-                    rptNGInput.DataBind()
-                Else
-                    rptNGInput.DataSource = ""
-                    rptNGInput.DataBind()
-                End If
-            Else
+            If dtLoadGridNG.Rows.Count > 0 Then
                 rptNGInput.DataSource = dtLoadGridNG
+                rptNGInput.DataBind()
+            Else
+                rptNGInput.DataSource = ""
                 rptNGInput.DataBind()
             End If
 
@@ -84,7 +91,7 @@ Public Class SPCDashboard
     Private Sub LoadGridDelayVerif()
         Try
             Dim dtLoadGridDelayVerif As DataTable
-            dtLoadGridDelayVerif = clsSPCAlertDashboardDB.GetDelayVerificationGrid("zqc", "F001", "1", "2022-11-01")
+            dtLoadGridDelayVerif = clsSPCAlertDashboardDB.GetDelayVerificationGrid(pUser, "F001", "1", DateTime.Now.ToString("yyyy-MM-dd"))
 
             If dtLoadGridDelayVerif.Rows.Count > 0 Then
                 rptDelayVerification.DataSource = dtLoadGridDelayVerif
@@ -93,6 +100,15 @@ Public Class SPCDashboard
                 rptDelayVerification.DataSource = ""
                 rptDelayVerification.DataBind()
             End If
+
+            For Each rptDV As RepeaterItem In rptDelayVerification.Items
+
+                Dim lbl As Integer = Convert.ToInt32(DirectCast(rptDV.FindControl("Delay"), Label))
+
+                If lbl > 60 Then
+                    Dim Test = "Delay"
+                End If
+            Next
 
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
@@ -105,9 +121,7 @@ Public Class SPCDashboard
     End Sub
 
     Protected Sub TimerNGResult_Tick(sender As Object, e As EventArgs)
-        LoadGridNG("2")
-        LoadDataDelayInput()
-        LoadGridDelayVerif()
+        up_GridLoad()
     End Sub
 
 #End Region
