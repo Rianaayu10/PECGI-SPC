@@ -23,15 +23,6 @@ Partial Public Class SPCDashboard
     Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
 
     '''<summary>
-    '''lblHeader control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblHeader As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''ASPxLabel9 control.
     '''</summary>
     '''<remarks>
@@ -104,13 +95,13 @@ Partial Public Class SPCDashboard
     Protected WithEvents TimerNGResult As Global.System.Web.UI.Timer
 
     '''<summary>
-    '''lblNGResult control.
+    '''lblNGInput control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblNGResult As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblNGInput As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''rptNGInput control.

@@ -101,14 +101,14 @@ Public Class SPCDashboard
                 rptDelayVerification.DataBind()
             End If
 
-            For Each rptDV As RepeaterItem In rptDelayVerification.Items
+            'For Each rptDV As RepeaterItem In rptDelayVerification.Items
 
-                Dim lbl As Integer = Convert.ToInt32(DirectCast(rptDV.FindControl("Delay"), Label))
+            '    Dim lbl As Integer = Convert.ToInt32(DirectCast(rptDV.FindControl("Delay"), Label))
 
-                If lbl > 60 Then
-                    Dim Test = "Delay"
-                End If
-            Next
+            '    If lbl > 60 Then
+            '        Dim Test = "Delay"
+            '    End If
+            'Next
 
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
