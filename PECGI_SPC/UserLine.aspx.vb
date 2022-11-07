@@ -63,6 +63,7 @@ Public Class UserLine
             a = cboUserID.SelectedItem.GetFieldValue("UserID")
         End If
         HideValue.Set("UserID", a)
+        HideValue.Set("Userload", a)
     End Sub
 #End Region
 
@@ -84,19 +85,18 @@ Public Class UserLine
             btnSave.Enabled = False
         End If
 
-        If Request.QueryString("prm") Is Nothing Then
-            UserID = RegisterUser
-            Up_FillCombo(RegisterUser)
-            btnCancel.Visible = False
-            Exit Sub
-        Else
-            btnCancel.Visible = True
-            UserID = Request.QueryString("prm").ToString()
-            Up_FillCombo(UserID)
-        End If
     End Sub
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
+            If Request.QueryString("prm") Is Nothing Then
+                UserID = RegisterUser
+                btnCancel.Visible = False
+            Else
+                btnCancel.Visible = True
+                UserID = Request.QueryString("prm").ToString()
+            End If
+
+            Up_FillCombo(UserID)
             up_GridLoad(UserID)
         End If
     End Sub
@@ -160,7 +160,8 @@ Public Class UserLine
 
     Protected Sub Grid_AfterPerformCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles gridMenu.AfterPerformCallback
         If e.CallbackName <> "CANCELEDIT" Then
-            up_GridLoad(UserID)
+            Dim a = HideValue.Get("Userload")
+            up_GridLoad(a)
         End If
     End Sub
 
