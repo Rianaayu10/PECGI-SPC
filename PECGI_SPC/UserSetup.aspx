@@ -335,7 +335,7 @@
                                 <table align="center">
                                     <tr style="height: 30px">
                                         <td>
-                                            <dx:ASPxLabel ID="ASPxLabel1" runat="server" Font-Names="Segoe UI" Font-Size="8pt" Text="User ID" Width="90px"></dx:ASPxLabel>
+                                            <dx:ASPxLabel ID="ASPxLabel1" runat="server" Font-Names="Segoe UI" Text="User ID" Width="90px"></dx:ASPxLabel>
                                         </td>
                                         <td>
                                             <dx:ASPxGridViewTemplateReplacement ID="editUserID" ReplacementType="EditFormCellEditor"
