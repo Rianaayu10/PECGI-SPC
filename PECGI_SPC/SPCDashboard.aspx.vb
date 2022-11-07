@@ -34,9 +34,9 @@ Public Class SPCDashboard
     End Sub
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        sGlobal.getMenu("X010")
+        sGlobal.getMenu("B010")
         pUser = Session("user")
-        AuthAccess = sGlobal.Auth_UserAccess(pUser, "X010")
+        AuthAccess = sGlobal.Auth_UserAccess(pUser, "B010")
         If AuthAccess = False Then
             Response.Redirect("~/Main.aspx")
         End If
