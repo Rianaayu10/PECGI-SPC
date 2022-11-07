@@ -138,6 +138,7 @@
     <Content Include="CustomFile\js\bootstrap.js" />
     <Content Include="CustomFile\js\bootstrap.min.js" />
     <Content Include="CustomFile\popper.min.js" />
+    <Content Include="SPCDashboardTest.aspx" />
     <Content Include="SPCDashboard.aspx" />
     <Content Include="bin\DevExpress.Charts.v14.1.Core.dll" />
     <Content Include="bin\DevExpress.Data.v14.1.dll" />
@@ -908,6 +909,13 @@
     </Compile>
     <Compile Include="About.aspx.vb">
       <DependentUpon>About.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SPCDashboardTest.aspx.designer.vb">
+      <DependentUpon>SPCDashboardTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SPCDashboardTest.aspx.vb">
+      <DependentUpon>SPCDashboardTest.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SPCDashboard.aspx.designer.vb">
