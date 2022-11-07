@@ -10,7 +10,7 @@
     
     <%--Css--%>
     <link href="CustomFile/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="CustomFile/jquery.dataTables.min.css">
     <style>
         .list-group{
             max-height: 27%;
@@ -82,7 +82,7 @@
     <asp:UpdatePanel runat="server" ID="PanelNGResult">
         <ContentTemplate>
 
-            <asp:Timer runat="server" ID="TimerNGResult" Interval="5000" OnTick="TimerNGResult_Tick" />
+            <asp:Timer runat="server" ID="TimerNGResult" Interval="60000" OnTick="TimerNGResult_Tick" />
 
                 <div style="margin-left: 30px; margin-right: 30px">
 
@@ -455,8 +455,8 @@
     <%--<script src="CustomFile/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     <script src="CustomFile/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="CustomFile/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>--%>
-        <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="CustomFile/jquery-3.5.1.js"></script>
+        <script type="text/javascript" charset="utf8" src="CustomFile/jquery.dataTables.min.js"></script>
 
         <script>
             $(document).ready(function () {

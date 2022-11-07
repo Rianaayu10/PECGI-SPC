@@ -51,14 +51,25 @@ Public Class SPCDashboard
 
 #Region "Functions"
     Private Sub up_GridLoad()
-        LoadGridNG()
-        LoadDataDelayInput()
-        LoadGridDelayVerif()
+        Dim TimeNow = DateTime.Now.ToString("HH:mm")
+        Dim DateTimeNow = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+        Dim DateTimeYesterday = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd")
+        Dim VarDateTime = DateTime.Now
+
+        If TimeNow < "07:00" Then
+            VarDateTime = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd")
+        ElseIf TimeNow > "07:00" Then
+            VarDateTime = DateTime.Now.ToString("yyyy-MM-dd")
+        End If
+
+        LoadGridNG(VarDateTime)
+        LoadDataDelayInput(VarDateTime)
+        LoadGridDelayVerif(VarDateTime)
     End Sub
-    Private Sub LoadDataDelayInput()
+    Private Sub LoadDataDelayInput(VarDateTime As String)
         Try
             Dim dtLoadGridDelay As DataTable
-            dtLoadGridDelay = clsSPCAlertDashboardDB.GetList(pUser, "F001", "1", DateTime.Now.ToString("yyyy-MM-dd"))
+            dtLoadGridDelay = clsSPCAlertDashboardDB.GetList(pUser, "F001", "1", VarDateTime)
 
             If dtLoadGridDelay.Rows.Count > 0 Then
                 rptDdelayInput.DataSource = dtLoadGridDelay
@@ -71,10 +82,10 @@ Public Class SPCDashboard
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
         End Try
     End Sub
-    Private Sub LoadGridNG()
+    Private Sub LoadGridNG(VarDateTime As String)
         Try
             Dim dtLoadGridNG As DataTable
-            dtLoadGridNG = clsSPCAlertDashboardDB.GetNGDataList(pUser, "F001", "1", DateTime.Now.ToString("yyyy-MM-dd"))
+            dtLoadGridNG = clsSPCAlertDashboardDB.GetNGDataList(pUser, "F001", "1", VarDateTime)
 
             If dtLoadGridNG.Rows.Count > 0 Then
                 rptNGInput.DataSource = dtLoadGridNG
@@ -88,10 +99,10 @@ Public Class SPCDashboard
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
         End Try
     End Sub
-    Private Sub LoadGridDelayVerif()
+    Private Sub LoadGridDelayVerif(VarDateTime As String)
         Try
             Dim dtLoadGridDelayVerif As DataTable
-            dtLoadGridDelayVerif = clsSPCAlertDashboardDB.GetDelayVerificationGrid(pUser, "F001", "1", DateTime.Now.ToString("yyyy-MM-dd"))
+            dtLoadGridDelayVerif = clsSPCAlertDashboardDB.GetDelayVerificationGrid(pUser, "F001", "1", VarDateTime)
 
             If dtLoadGridDelayVerif.Rows.Count > 0 Then
                 rptDelayVerification.DataSource = dtLoadGridDelayVerif
