@@ -232,9 +232,11 @@ Public Class frmSPCAlertNotifications
                     Dim header, body As String
                     'Dim strDate As String = dtNG.Rows(i)("Date")
                     'header = "ALERT Notification"
-                    body = " - NG Result : " & NGInputRowsCount & " " & vbCrLf &
-                           " - Delay Input : " & DelayInputRowsCount & " " & vbCrLf &
-                           " - Delay Verification : " & DelayVerificationRowsCount
+                    body = " there is new NG Result " & vbCrLf &
+                           " there is new Delay Input " & vbCrLf &
+                           " there is new Delay Verification " ': " & DelayVerificationRowsCount
+                    ' : " & NGInputRowsCount & " " & vbCrLf &
+                    ' : " & DelayInputRowsCount & " " & vbCrLf &
                     'link = pLink '+ dtNG.Rows(i)("Link")
                     'ShowNotification(header, body, "NG", link)
 
@@ -351,14 +353,79 @@ Public Class frmSPCAlertNotifications
 
 
                     Try
-                        If CDate(currentNGLastUpdate) > CDate(NGInputLastUpdate) OrElse CDate(currentDelayInput) > CDate(DelayInputLastUpdate) OrElse CDate(currentDelayVerification) > CDate(DelayVerificationLastUpdate) Then
+                        If CDate(currentNGLastUpdate) > CDate(NGInputLastUpdate) Then
                             If firstLoad > 1 Then
                                 Dim header, body, link As String
                                 'Dim strDate As String = dtNG.Rows(i)("Date")
                                 'header = "ALERT Notification"
-                                body = " - NG Result : " & NGInputRowsCount & " " & vbCrLf &
-                                       " - Delay Input : " & DelayInputRowsCount & " " & vbCrLf &
-                                       " - Delay Verification : " & DelayVerificationRowsCount
+                                body = " there is new NG Result " '& vbCrLf &
+                                '" there is new Delay Input " & vbCrLf &
+                                '" there is new Delay Verification " ': " & DelayVerificationRowsCount
+                                ' : " & NGInputRowsCount & " " & vbCrLf &
+                                ' : " & DelayInputRowsCount & " " & vbCrLf &
+                                link = pLink '+ dtNG.Rows(i)("Link")
+                                'ShowNotification(header, body, "NG", link)
+
+                                NotifyIcon1.ShowBalloonTip(500, "There are new notifications:", body, ToolTipIcon.Info)
+                                'AddHandler NotifyIcon1.Click, AddressOf Me.NotifyShowing_Click
+                                AddHandler NotifyIcon1.MouseDown, AddressOf Me.NotifyShowing_Click
+                                AddHandler NotifyIcon1.BalloonTipClicked, AddressOf Me.NotifyIcon1_Click
+
+                            End If
+                            'If NGInputRowsCount > 0 Then
+                            '    NGInputLastUpdate = currentNGLastUpdate 'dtNG.Rows(dtNG.Rows.Count - 1)("LastUpdate")
+                            'End If
+                            'If DelayInputRowsCount > 0 Then
+                            '    DelayInputLastUpdate = currentDelayInput 'dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("LastUpdate")
+                            'End If
+                            'If DelayVerificationRowsCount > 0 Then
+                            '    DelayVerificationLastUpdate = currentDelayVerification 'dtDelayVerification.Rows(dtDelayVerification.Rows.Count - 1)("LastUpdate")
+                            'End If
+                            NGInputLastUpdate = currentNGLastUpdate
+                            DelayInputLastUpdate = currentDelayInput
+                            DelayVerificationLastUpdate = currentDelayVerification
+                            firstLoad = 2
+                        End If
+                        If CDate(currentDelayInput) > CDate(DelayInputLastUpdate) Then
+                            If firstLoad > 1 Then
+                                Dim header, body, link As String
+                                'Dim strDate As String = dtNG.Rows(i)("Date")
+                                'header = "ALERT Notification"
+                                body = " there is new Delay Input " '& vbCrLf &
+                                '" there is new Delay Verification " ': " & DelayVerificationRowsCount
+                                ' : " & NGInputRowsCount & " " & vbCrLf &
+                                ' : " & DelayInputRowsCount & " " & vbCrLf &
+                                link = pLink '+ dtNG.Rows(i)("Link")
+                                'ShowNotification(header, body, "NG", link)
+
+                                NotifyIcon1.ShowBalloonTip(500, "There are new notifications:", body, ToolTipIcon.Info)
+                                'AddHandler NotifyIcon1.Click, AddressOf Me.NotifyShowing_Click
+                                AddHandler NotifyIcon1.MouseDown, AddressOf Me.NotifyShowing_Click
+                                AddHandler NotifyIcon1.BalloonTipClicked, AddressOf Me.NotifyIcon1_Click
+
+                            End If
+                            'If NGInputRowsCount > 0 Then
+                            '    NGInputLastUpdate = currentNGLastUpdate 'dtNG.Rows(dtNG.Rows.Count - 1)("LastUpdate")
+                            'End If
+                            'If DelayInputRowsCount > 0 Then
+                            '    DelayInputLastUpdate = currentDelayInput 'dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("LastUpdate")
+                            'End If
+                            'If DelayVerificationRowsCount > 0 Then
+                            '    DelayVerificationLastUpdate = currentDelayVerification 'dtDelayVerification.Rows(dtDelayVerification.Rows.Count - 1)("LastUpdate")
+                            'End If
+                            NGInputLastUpdate = currentNGLastUpdate
+                            DelayInputLastUpdate = currentDelayInput
+                            DelayVerificationLastUpdate = currentDelayVerification
+                            firstLoad = 2
+                        End If
+                        If CDate(currentDelayVerification) > CDate(DelayVerificationLastUpdate) Then
+                            If firstLoad > 1 Then
+                                Dim header, body, link As String
+                                'Dim strDate As String = dtNG.Rows(i)("Date")
+                                'header = "ALERT Notification"
+                                body = " there is new Delay Verification " ': " & DelayVerificationRowsCount
+                                ' : " & NGInputRowsCount & " " & vbCrLf &
+                                ' : " & DelayInputRowsCount & " " & vbCrLf &
                                 link = pLink '+ dtNG.Rows(i)("Link")
                                 'ShowNotification(header, body, "NG", link)
 
