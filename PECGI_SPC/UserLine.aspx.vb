@@ -94,6 +94,7 @@ Public Class UserLine
             Else
                 btnCancel.Visible = True
                 UserID = Request.QueryString("prm").ToString()
+                cboUserID.Enabled = False
             End If
 
             Up_FillCombo(UserID)
