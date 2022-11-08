@@ -105,19 +105,23 @@ Public Module sGlobal
         Using sqlConn As New SqlConnection(Sconn.Stringkoneksi)
             sqlConn.Open()
 
-            If pMenuID = "Z020" Then
-                Dim q As String = "select AdminStatus from dbo.spc_UserSetup A" & vbCrLf &
-                              "Inner Join dbo.spc_UserPrivilege B ON A.AppID = B.AppID AND A.UserID = B.UserID" & vbCrLf &
-                              "where A.UserID = '" & pUserID & "' and A.AdminStatus = 1"
-                Dim cmd As New SqlCommand(q, sqlConn)
-                Dim rd As SqlDataReader = cmd.ExecuteReader()
-                If rd.Read() Then
-                    retVal = True
-                    rd.Close()
-                    Return retVal
-                End If
-                rd.Close()
-            End If
+            'If pMenuID = "Z020" Or pMenuID = "Z030" Then
+            '    Dim q As String = "select AllowUpdate from dbo.spc_UserSetup A" & vbCrLf &
+            '                  "Inner Join dbo.spc_UserPrivilege B ON A.AppID = B.AppID AND A.UserID = B.UserID AND B.MenuID ='" & pMenuID & "'" & vbCrLf &
+            '                  "where A.UserID = '" & pUserID & "' and A.AdminStatus = 1"
+            '    Dim cmd As New SqlCommand(q, sqlConn)
+            '    Dim rd As SqlDataReader = cmd.ExecuteReader()
+            '    If rd.Read() Then
+            '        If rd("AllowUpdate") = "1" Then
+            '            retVal = True
+            '        ElseIf rd("AllowUpdate") = "0" Then
+            '            retVal = False
+            '        End If
+            '        rd.Close()
+            '        Return retVal
+            '    End If
+            '    rd.Close()
+            'End If
 
 
             Dim ls_SQL As String = "SELECT AllowUpdate FROM dbo.spc_UserPrivilege WHERE AppID = 'SPC' AND UserID = '" & Trim(pUserID) & "' AND MenuID = '" & Trim(pMenuID) & "'"
@@ -143,25 +147,38 @@ Public Module sGlobal
         Using sqlConn As New SqlConnection(Sconn.Stringkoneksi)
             sqlConn.Open()
 
-            If pMenuID = "Z020" Then
-                Dim q As String = "select AdminStatus from dbo.spc_UserSetup A" & vbCrLf &
-                              "Inner Join dbo.spc_UserPrivilege B ON A.AppID = B.AppID AND A.UserID = B.UserID" & vbCrLf &
-                              "where A.UserID = '" & pUserID & "' and A.AdminStatus = 1"
-                Dim cmd As New SqlCommand(q, sqlConn)
-                Dim rd As SqlDataReader = cmd.ExecuteReader()
-                If rd.Read() Then
-                    retVal = True
-                    rd.Close()
-                    Return retVal
-                End If
-                rd.Close()
-            End If
+            'GET ADMIN STATUS
+            'Dim sql As String = "SELECT AdminStatus FROM dbo.spc_Usersetup WHERE UserID = '" & pUserID & "' AND AppID = 'SPC'"
+            'Dim sql_cmd As New SqlCommand(sql, sqlConn)
+            'Dim sql_rd As SqlDataReader = sql_cmd.ExecuteReader()
+            'Dim AdminStatus As String = ""
+            'If sql_rd.Read() Then
+            '    AdminStatus = sql_rd("AdminStatus")
+            'End If
+            'sql_rd.Close()
+
+            'If AdminStatus = "1" Then
+            '    Dim q As String = "Select AllowAccess from dbo.spc_UserSetup A" & vbCrLf &
+            '                  "Inner Join dbo.spc_UserPrivilege B On A.AppID = B.AppID And A.UserID = B.UserID And B.MenuID ='" & pMenuID & "'" & vbCrLf &
+            '                  "where A.UserID = '" & pUserID & "' and A.AdminStatus = 1"
+            '    Dim cmd As New SqlCommand(q, sqlConn)
+            '    Dim rd As SqlDataReader = cmd.ExecuteReader()
+            '    If rd.Read() Then
+            '        If rd("AllowAccess") = "1" Then
+            '            retVal = True
+            '        ElseIf rd("AllowAccess") = "0" Then
+            '            retVal = False
+            '        End If
+            '        rd.Close()
+            '        Return retVal
+            '    End If
+            '    rd.Close()
+            'End If
 
 
             Dim ls_SQL As String = "SELECT AllowAccess FROM dbo.spc_UserPrivilege WHERE AppID = 'SPC' AND UserID = '" & Trim(pUserID) & "' AND MenuID = '" & Trim(pMenuID) & "'"
             Dim sqlCmd As New SqlCommand(ls_SQL, sqlConn)
             Dim sqlRdr As SqlDataReader = sqlCmd.ExecuteReader()
-
             If sqlRdr.Read() Then
                 If sqlRdr("AllowAccess") = "1" Then
                     retVal = True

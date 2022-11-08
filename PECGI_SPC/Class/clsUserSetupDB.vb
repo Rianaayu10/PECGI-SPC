@@ -167,7 +167,7 @@ Public Class clsUserSetupDB
                     .LockStatus = dt.Rows(i)("LockStatus"),
                     .FactoryCode = dt.Rows(i)("FactoryCode") & "",
                     .JobPosition = dt.Rows(i)("JobPosition") & "",
-                    .EmployeeID = dt.Rows(i)("EmployeeID") & "",
+                    .EmployeeID = dt.Rows(i)("EmployeeID").ToString.Trim & "",
                     .Email = dt.Rows(i)("Email") & "",
                     .LastUpdate = Date.Parse(dt.Rows(i)("UpdateDate").ToString()).ToString("yyyy MMM dd HH:mm:ss"),
                     .LastUser = dt.Rows(i)("UpdateUser") & ""

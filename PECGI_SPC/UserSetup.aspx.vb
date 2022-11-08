@@ -14,6 +14,8 @@ Public Class UserSetup
 #Region "Declaration"
     Dim pUser As String = ""
     Dim MenuID As String = ""
+    Dim MenuID_UserPrivilege As String = ""
+    Dim MenuID_UserLine As String = ""
 
     Public AuthUpdate As Boolean = False
     Public AuthDelete As Boolean = False
@@ -48,6 +50,9 @@ Public Class UserSetup
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         MenuID = "Z010"
+        MenuID_UserPrivilege = "Z020"
+        MenuID_UserLine = "Z030"
+
         sGlobal.getMenu(MenuID)
         Master.SiteTitle = MenuID & " - " & sGlobal.menuName
         show_error(MsgTypeEnum.Info, "", 0)
@@ -58,17 +63,33 @@ Public Class UserSetup
             Response.Redirect("~/Main.aspx")
         End If
 
+        Dim commandColumn = TryCast(Grid.Columns(0), GridViewCommandColumn)
+
         AuthUpdate = sGlobal.Auth_UserUpdate(pUser, MenuID)
         If AuthUpdate = False Then
-            Dim commandColumn = TryCast(Grid.Columns(0), GridViewCommandColumn)
             commandColumn.ShowEditButton = False
             commandColumn.ShowNewButtonInHeader = False
         End If
 
-        AuthDelete = sGlobal.Auth_UserDelete(pUser, "Z010")
+        AuthDelete = sGlobal.Auth_UserDelete(pUser, MenuID)
         If AuthDelete = False Then
-            Dim commandColumn = TryCast(Grid.Columns(0), GridViewCommandColumn)
             commandColumn.ShowDeleteButton = False
+        End If
+
+        If AuthUpdate = False And AuthDelete = False Then
+            commandColumn.Visible = False
+        End If
+
+        AuthAccess = sGlobal.Auth_UserAccess(pUser, MenuID_UserPrivilege)
+        If AuthAccess = False Then
+            Dim LinkPrivilege = TryCast(Grid.Columns(1), GridViewDataTextColumn)
+            LinkPrivilege.Visible = False
+        End If
+
+        AuthAccess = sGlobal.Auth_UserAccess(pUser, MenuID_UserLine)
+        If AuthAccess = False Then
+            Dim LinkLine = TryCast(Grid.Columns(2), GridViewDataTextColumn)
+            LinkLine.Visible = False
         End If
     End Sub
 #End Region
@@ -94,7 +115,7 @@ Public Class UserSetup
             .UserID = e.NewValues("UserID") & "",
             .FullName = e.NewValues("FullName") & "",
             .Password = e.NewValues("Password") & "",
-            .AdminStatus = e.NewValues("AdminStatus") & "",
+            .AdminStatus = If(e.NewValues("AdminStatus") = "Yes", "1", "0"),
             .Description = e.NewValues("Description") & "",
             .FactoryCode = e.NewValues("FactoryCode"),
             .JobPosition = e.NewValues("JobPosition"),
@@ -128,7 +149,7 @@ Public Class UserSetup
             .UserID = e.OldValues("UserID"),
             .FullName = e.NewValues("FullName") & "",
             .Password = e.NewValues("Password") & "",
-            .AdminStatus = e.NewValues("AdminStatus"),
+            .AdminStatus = If(e.NewValues("AdminStatus") = "Yes", "1", "0"),
             .Description = e.NewValues("Description") & "",
             .FactoryCode = e.NewValues("FactoryCode"),
             .JobPosition = e.NewValues("JobPosition") & "",

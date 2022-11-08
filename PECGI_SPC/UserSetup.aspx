@@ -160,13 +160,13 @@
                         <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataTextColumn>
 
-                    <dx:GridViewDataComboBoxColumn Caption="Admin Status" FieldName="AdminStatus"
+                    <dx:GridViewDataComboBoxColumn Caption="Admin Status" FieldName="AdminStatus" 
                         VisibleIndex="6" Width="90px" Settings-AutoFilterCondition="Contains">
-                        <PropertiesComboBox DropDownStyle="DropDownList" Width="80px" TextFormatString="{0}"
+                        <PropertiesComboBox DropDownStyle="DropDownList" Width="80px"
                             IncrementalFilteringMode="StartsWith" DisplayFormatInEditMode="true">
                             <Items>
-                                <dx:ListEditItem Text="Yes" Value="1" />
-                                <dx:ListEditItem Text="No" Value="0" />
+                                <dx:ListEditItem Text="Yes" Value="Yes" />
+                                <dx:ListEditItem Text="No" Value="No" />
                             </Items>
                             <ItemStyle Height="10px" Paddings-Padding="4px">
                                 <Paddings Padding="4px"></Paddings>
@@ -181,6 +181,28 @@
                         </HeaderStyle>
                         <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataComboBoxColumn>
+
+                 <%--    <dx:GridViewDataComboBoxColumn Caption="Admin Status" FieldName="AdminStatus"
+                        VisibleIndex="6" Width="90px" Settings-AutoFilterCondition="Contains">
+                        <PropertiesComboBox DataSourceID="dsAdminStatus" DropDownStyle="DropDownList"
+                            IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="120px"
+                            TextField="CODE" ValueField="CODEDESC" ClientInstanceName="AdminStatus">
+                            <ItemStyle Height="10px" Paddings-Padding="4px">
+                                <Paddings Padding="4px"></Paddings>
+                            </ItemStyle>
+                            <ButtonStyle Width="5px" Paddings-Padding="2px">
+                                <Paddings Padding="2px"></Paddings>
+                            </ButtonStyle>
+                        </PropertiesComboBox>
+                        <Settings AutoFilterCondition="Contains"></Settings>
+                        <FilterCellStyle Paddings-PaddingRight="4px">
+                            <Paddings PaddingRight="4px"></Paddings>
+                        </FilterCellStyle>
+                        <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                            <Paddings PaddingLeft="5px"></Paddings>
+                        </HeaderStyle>
+                        <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
+                    </dx:GridViewDataComboBoxColumn>--%>
 
                     <dx:GridViewDataComboBoxColumn Caption="FactoryCode" FieldName="FactoryCode"
                         VisibleIndex="7" Width="130px" Settings-AutoFilterCondition="Contains">
