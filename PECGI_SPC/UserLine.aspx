@@ -130,6 +130,7 @@
                                     <ClientSideEvents SelectedIndexChanged="function(s, e) {
                                                   var UserID = cboUserID.GetValue();
                                                   HideValue.Set('UserID', UserID);
+                                                  HideValue.Set('Userload', UserID);
 	                                              gridMenu.PerformCallback('load|' + UserID);
                                              }" />
                                     <Columns>
@@ -150,6 +151,9 @@
                                     EnableTheming="True" TextField="UserID" TextFormatString="{0}"
                                     ValueField="UserID" ClientInstanceName="cboUserReplace">
                                     <ClientSideEvents SelectedIndexChanged="function(s, e) {
+                                                var UserReplace = cboUserReplace.GetValue();
+                                                HideValue.Set('UserReplace', UserReplace);
+                                                HideValue.Set('Userload', UserReplace);
 	                                            gridMenu.PerformCallback('load|' + cboUserReplace.GetValue());
                                             }" />
                                     <Columns>

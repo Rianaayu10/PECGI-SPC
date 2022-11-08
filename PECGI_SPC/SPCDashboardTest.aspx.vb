@@ -7,7 +7,7 @@ Imports DevExpress.Web.Data
 Imports System.Drawing
 Imports System.Web.Services
 
-Public Class SPCDashboard
+Public Class SPCDashboardTest
     Inherits System.Web.UI.Page
 
 #Region "Declare"
@@ -34,17 +34,18 @@ Public Class SPCDashboard
     End Sub
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        sGlobal.getMenu("B010")
-        pUser = Session("user")
-        AuthAccess = sGlobal.Auth_UserAccess(pUser, "B010")
-        If AuthAccess = False Then
-            Response.Redirect("~/Main.aspx")
-        End If
+        'sGlobal.getMenu("B010")
+        'pUser = Session("user")
+        'AuthAccess = sGlobal.Auth_UserAccess(pUser, "B010")
+        'If AuthAccess = False Then
+        '    Response.Redirect("~/Main.aspx")
+        'End If
 
         'LoadGridNG("1")
         'LoadDataDelayInput()
         'LoadGridDelayVerif()
-        lblDateNow.Text = DateTime.Now.ToString("dd-MMM-yyyy") 'HH:mm:ss
+        'lblDateNow.Text = DateTime.Now.ToString("dd-MMM-yyyy") 'HH:mm:ss
+        pUser = "zqc"
     End Sub
 
 #End Region

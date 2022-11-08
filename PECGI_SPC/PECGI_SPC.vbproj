@@ -112,7 +112,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
-    <Content Include="AlertDashboardTest.aspx" />
     <Content Include="CustomFile\css\bootstrap-grid.css" />
     <Content Include="CustomFile\css\bootstrap-grid.min.css" />
     <Content Include="CustomFile\css\bootstrap-grid.rtl.css" />
@@ -129,6 +128,9 @@
     <Content Include="CustomFile\css\bootstrap.min.css" />
     <Content Include="CustomFile\css\bootstrap.rtl.css" />
     <Content Include="CustomFile\css\bootstrap.rtl.min.css" />
+    <Content Include="CustomFile\jquery-3.5.1.js" />
+    <Content Include="CustomFile\jquery.dataTables.min.css" />
+    <Content Include="CustomFile\jquery.dataTables.min.js" />
     <Content Include="CustomFile\js\bootstrap.bundle.js" />
     <Content Include="CustomFile\js\bootstrap.bundle.min.js" />
     <Content Include="CustomFile\js\bootstrap.esm.js" />
@@ -136,6 +138,7 @@
     <Content Include="CustomFile\js\bootstrap.js" />
     <Content Include="CustomFile\js\bootstrap.min.js" />
     <Content Include="CustomFile\popper.min.js" />
+    <Content Include="SPCDashboardTest.aspx" />
     <Content Include="SPCDashboard.aspx" />
     <Content Include="bin\DevExpress.Charts.v14.1.Core.dll" />
     <Content Include="bin\DevExpress.Data.v14.1.dll" />
@@ -908,11 +911,11 @@
       <DependentUpon>About.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="AlertDashboardTest.aspx.designer.vb">
-      <DependentUpon>AlertDashboardTest.aspx</DependentUpon>
+    <Compile Include="SPCDashboardTest.aspx.designer.vb">
+      <DependentUpon>SPCDashboardTest.aspx</DependentUpon>
     </Compile>
-    <Compile Include="AlertDashboardTest.aspx.vb">
-      <DependentUpon>AlertDashboardTest.aspx</DependentUpon>
+    <Compile Include="SPCDashboardTest.aspx.vb">
+      <DependentUpon>SPCDashboardTest.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SPCDashboard.aspx.designer.vb">

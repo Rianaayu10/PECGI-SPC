@@ -11,7 +11,7 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class SPCDashboard
+Partial Public Class SPCDashboardTest
 
     '''<summary>
     '''form1 control.
@@ -21,51 +21,6 @@ Partial Public Class SPCDashboard
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
-
-    '''<summary>
-    '''ASPxLabel9 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ASPxLabel9 As Global.DevExpress.Web.ASPxLabel
-
-    '''<summary>
-    '''ASPxLabel11 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ASPxLabel11 As Global.DevExpress.Web.ASPxLabel
-
-    '''<summary>
-    '''lblDateNow control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblDateNow As Global.DevExpress.Web.ASPxLabel
-
-    '''<summary>
-    '''ASPxLabel1 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ASPxLabel1 As Global.DevExpress.Web.ASPxLabel
-
-    '''<summary>
-    '''ASPxLabel2 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ASPxLabel2 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
     '''ScriptManagerNGResult control.
@@ -95,15 +50,6 @@ Partial Public Class SPCDashboard
     Protected WithEvents TimerNGResult As Global.System.Web.UI.Timer
 
     '''<summary>
-    '''lblNGInput control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblNGInput As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''rptNGInput control.
     '''</summary>
     '''<remarks>
@@ -113,15 +59,6 @@ Partial Public Class SPCDashboard
     Protected WithEvents rptNGInput As Global.System.Web.UI.WebControls.Repeater
 
     '''<summary>
-    '''lblDelayInput control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblDelayInput As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''rptDdelayInput control.
     '''</summary>
     '''<remarks>
@@ -129,15 +66,6 @@ Partial Public Class SPCDashboard
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents rptDdelayInput As Global.System.Web.UI.WebControls.Repeater
-
-    '''<summary>
-    '''lblDelayVerification control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblDelayVerification As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''rptDelayVerification control.

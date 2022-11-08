@@ -70,6 +70,7 @@ Public Class UserPrivilege
             a = cboUserID.SelectedItem.GetFieldValue("UserID")
         End If
         HideValue.Set("UserID", a)
+        HideValue.Set("Userload", a)
     End Sub
 
 #End Region
@@ -93,21 +94,19 @@ Public Class UserPrivilege
         If AuthUpdate = False Then
             btnSave.Enabled = False
         End If
-
-        If Request.QueryString("prm") Is Nothing Then
-            UserID = RegisterUser
-            Up_FillCombo(UserID)
-            btnCancel.Visible = False
-        Else
-            btnCancel.Visible = True
-            UserID = Request.QueryString("prm").ToString()
-            cboUserID.Enabled = False
-            Up_FillCombo(UserID)
-        End If
     End Sub
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
+            If Request.QueryString("prm") Is Nothing Then
+                UserID = RegisterUser
+                btnCancel.Visible = False
+            Else
+                btnCancel.Visible = True
+                UserID = Request.QueryString("prm").ToString()
+                cboUserID.Enabled = False
+            End If
+            Up_FillCombo(UserID)
             up_GridLoad(UserID)
         End If
     End Sub
@@ -155,9 +154,9 @@ Public Class UserPrivilege
     Private Sub gridMenu_CustomCallback(sender As Object, e As DevExpress.Web.ASPxGridViewCustomCallbackEventArgs) Handles gridMenu.CustomCallback
 
         Dim pAction As String = Split(e.Parameters, "|")(0)
-        Dim sUserID As String = Split(e.Parameters, "|")(1)
+        Dim pUser = Split(e.Parameters, "|")(1)
 
-        up_GridLoad(sUserID)
+        'up_GridLoad(prm_UserID)
         If pAction = "save" Then
             show_error(MsgTypeEnum.Success, "Update data successful", 1)
         End If
@@ -169,6 +168,7 @@ Public Class UserPrivilege
         Dim pAction As String = Split(e.Parameter, "|")(0)
         Dim FromUserID As String = Split(e.Parameter, "|")(1)
         Dim TouserID As String = Split(e.Parameter, "|")(2)
+
         If FromUserID <> "null" Then
             Cls_ss_UserPrivilegeDB.Copy(FromUserID, TouserID, RegisterUser)
         End If
@@ -180,7 +180,8 @@ Public Class UserPrivilege
 
     Protected Sub Grid_AfterPerformCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles gridMenu.AfterPerformCallback
         If e.CallbackName <> "CANCELEDIT" Then
-            up_GridLoad(UserID)
+            Dim a = HideValue.Get("Userload")
+            up_GridLoad(a)
         End If
     End Sub
 #End Region
