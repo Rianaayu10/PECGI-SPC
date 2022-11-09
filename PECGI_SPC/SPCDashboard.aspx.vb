@@ -30,7 +30,8 @@ Public Class SPCDashboard
 #Region "Events"
     Private Sub Page_Init(ByVal sender As Object, ByVale As System.EventArgs) Handles Me.Init
         If Not Page.IsPostBack Then
-            'up_GridLoad()
+            pUser = Session("user")
+            up_GridLoad()
         End If
     End Sub
 
