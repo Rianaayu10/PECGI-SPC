@@ -174,7 +174,6 @@
             <td colspan="2">
                 <dx:ASPxButton ID="btnClear" runat="server" Text="Clear" AutoPostBack="False" Height="16px" Width="80px" Font-Names="Segoe UI" Font-Size="10pt" UseSubmitBehavior="False">
                     <ClientSideEvents Click="function(s, e) {
-	                    txtCurrentPassword.SetText('');
 	                    txtNewPassword.SetText('');
                         txtNewPassword.Focus();
                     }" />
