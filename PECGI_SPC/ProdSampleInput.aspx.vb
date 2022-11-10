@@ -323,7 +323,8 @@ Public Class ProdSampleInput
         grid.DataBind()
 
         Dim UserID As String = Session("user")
-        Dim AllowSkill As Boolean = clsIOT.AllowSkill(UserID, FactoryCode, Line, ItemTypeCode)
+        Dim pEmplooyeeID = clsIOT.GetEmployeeID(UserID)
+        Dim AllowSkill As Boolean = clsIOT.AllowSkill(pEmplooyeeID, FactoryCode, Line, ItemTypeCode)
         ChartType = clsXRChartDB.GetChartType(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
         grid.JSProperties("cpChartType") = ChartType
 
