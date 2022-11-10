@@ -80,8 +80,9 @@ Public Class clsFrequencyDB
                     "inner join uf_SPCResult_Detail(0) D on R.SPCResultID = D.SPCResultID " & vbCrLf &
                     "where R.ProdDate = @ProdDate and R.FactoryCode = @FactoryCode and R.ItemTypeCode = @ItemTypeCode and R.LineCode = @LineCode and R.ItemCheckCode = @ItemCheckCode and ShiftCode = @ShiftCode " & vbCrLf
                 If SeqNo <> 0 Then
-                    q = q & "and R.SequenceNo <= " & SeqNo
+                    q = q & "and R.SequenceNo <= " & SeqNo & vbCrLf
                 End If
+                q = q & "order by R.SequenceNo "
             End If
             Dim cmd As New SqlCommand(q, Cn)
             If ProdDate <> "" Then
