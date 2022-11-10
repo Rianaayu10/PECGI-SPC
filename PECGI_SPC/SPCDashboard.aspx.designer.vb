@@ -23,24 +23,6 @@ Partial Public Class SPCDashboard
     Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
 
     '''<summary>
-    '''ASPxLabel3 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ASPxLabel3 As Global.DevExpress.Web.ASPxLabel
-
-    '''<summary>
-    '''ASPxLabel4 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ASPxLabel4 As Global.DevExpress.Web.ASPxLabel
-
-    '''<summary>
     '''lblDateNow control.
     '''</summary>
     '''<remarks>
@@ -48,24 +30,6 @@ Partial Public Class SPCDashboard
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblDateNow As Global.DevExpress.Web.ASPxLabel
-
-    '''<summary>
-    '''ASPxLabel6 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ASPxLabel6 As Global.DevExpress.Web.ASPxLabel
-
-    '''<summary>
-    '''ASPxLabel7 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ASPxLabel7 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
     '''ScriptManagerNGResult control.

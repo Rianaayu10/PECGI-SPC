@@ -50,8 +50,8 @@
         table {
             width:400px;
         }
-        .test {
-            right: 0;
+        .tableNav {
+            height: 10px
         }
         th {background-color:rgb(69, 132, 224);color: white;}
         
@@ -77,11 +77,11 @@
 
     <form id="form1" runat="server">
         
-    <nav class="navbar" style="background-color:#4584e0">
+    <%--<nav class="navbar" style="background-color:#4584e0">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-4">
-                <img src="img/logo-panasonic.svg" alt="" width="100" height="40" class="d-inline-block align-text-top" style="">
+                <img src="img/logo-panasonic.svg" alt="" width="100" height="50" class="d-inline-block align-text-top" style="">
                 </div>
                 <div class="col-lg-4">
                     <center>
@@ -89,31 +89,41 @@
                     </center>
                 </div>
                 <div class="col-lg-4" style="color: white">
-                    <div class="col-lg-5"></div>
-                    <div class="col-lg-7">
-                        <div class="test">
-
-                            <div  style="background-color: black;color: white;padding-right: 10px;padding-left: 10px;padding-bottom: 5px">
-                                <dx:ASPxLabel ID="ASPxLabel3" runat="server" Text="" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
-                                <dx:ASPxLabel ID="ASPxLabel4" runat="server" Text="Date :" CssClass="text" />
-                                &nbsp
-                                <dx:ASPxLabel ID="lblDateNow" ClientInstanceName="lblOK" runat="server" Text="" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
-
-                                <br />
-
-                                <dx:ASPxLabel ID="ASPxLabel6" runat="server" Text="" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
-                                <dx:ASPxLabel ID="ASPxLabel7" runat="server" Text="Time :" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
-                                &nbsp
-                                <label id="lblTimeNow"></label>
-                            </div>
-                        
-                        </div>
+                    <div class="col-lg-8"></div>
+                    <div class="col-lg-4">
+                        <p style="text-align : left;color: black">Date : <dx:ASPxLabel ID="lblDateNow" ClientInstanceName="lblOK" runat="server" Text="" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
+                            <br /> Time : <label id="lblTimeNow"></label> </p>
                     </div>
 
                 </div>
             </div>
         </div>
-    </nav>
+    </nav>--%>
+
+            <header>
+                <table style="width:100%; background-color:#4584e0; " >
+                    <tbody style="height: 40px; overflow-x: hidden; overflow-y: hidden;">
+                        <tr style="height:10px">
+                            <td align="center" width="10%"><img src="img/logo-panasonic.svg" alt="" width="100" height="50" class="d-inline-block align-text-top" style="margin-top: -10px;"></td>
+                            <td width="80%" align="center">
+                                <font style="color:black; font-size:19pt; font-weight:bold; font-family:Segoe UI" ><b><u><label style="margin-top: -10px;">SPC MONITORING</label></u></b></font>
+                            </td>
+                        
+                            <td style="padding-right:10px">
+                                
+                            </td>
+                            <td align="right" style="width:10%; background-color:black">
+                                <%--<input type="text" id="fdate" name="fdate" disabled="disabled" style="text-align:left; padding-left:50px; width:150px; background-color:transparent; color:white; font-family:'Segoe UI'; font-size:7pt; border:0px; font-weight:900">
+                                <input type="text" id="ftime" name="ftime" disabled="disabled" style="text-align:left; padding-bottom:5px; padding-left:50px; width:150px; background-color:transparent; color:white; font-family:'Segoe UI'; font-size:7pt; border:0px; font-weight:900">--%>
+                                <small><p style="text-align : left;color: white;margin-top: 5px;margin-left: 5px">Date : <dx:ASPxLabel ID="lblDateNow" ClientInstanceName="lblOK" runat="server" Text="" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
+                                <br /> Time : <label id="lblTimeNow"></label> </p></small>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </header>
+
+        <br />
 
     <asp:ScriptManager ID="ScriptManagerNGResult" runat="server"></asp:ScriptManager>
 
