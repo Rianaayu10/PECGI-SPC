@@ -280,6 +280,7 @@ Public Class ProdSampleInput
         grid.JSProperties("cpMax") = ""
         grid.JSProperties("cpAve") = ""
         grid.JSProperties("cpR") = ""
+        grid.JSProperties("cpRNG") = ""
         grid.JSProperties("cpC") = " "
         grid.JSProperties("cpNG") = " "
         grid.JSProperties("cpMKUser") = " "
@@ -349,6 +350,7 @@ Public Class ProdSampleInput
                 grid.JSProperties("cpMax") = AFormat(.Item("MaxValue"))
                 grid.JSProperties("cpAve") = AFormat(.Item("AvgValue"))
                 grid.JSProperties("cpR") = AFormat(.Item("RValue"))
+                grid.JSProperties("cpRNG") = .Item("RValueNG")
                 grid.JSProperties("cpC") = .Item("CValue")
                 grid.JSProperties("cpNG") = .Item("NGValue")
                 grid.JSProperties("cpMKDate") = .Item("MKDate")
