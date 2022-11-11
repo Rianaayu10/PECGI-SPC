@@ -112,6 +112,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="AlertDelayVerification.aspx" />
+    <Content Include="AlertDelayInput.aspx" />
     <Content Include="CustomFile\css\bootstrap-grid.css" />
     <Content Include="CustomFile\css\bootstrap-grid.min.css" />
     <Content Include="CustomFile\css\bootstrap-grid.rtl.css" />
@@ -183,7 +185,7 @@
     <Content Include="img\musashi\ImagePreview1.gif" />
     <Content Include="img\panasonic-login.png" />
     <Content Include="ItemCheck.aspx" />
-    <Content Include="AlertDashboard.aspx" />
+    <Content Include="AlertNGResult.aspx" />
     <Content Include="ItemCheckByBattery.aspx" />
     <Content Include="MeasurementDevice.aspx" />
     <Content Include="ProdSampleInput.aspx" />
@@ -911,6 +913,20 @@
       <DependentUpon>About.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="AlertDelayVerification.aspx.designer.vb">
+      <DependentUpon>AlertDelayVerification.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AlertDelayVerification.aspx.vb">
+      <DependentUpon>AlertDelayVerification.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AlertDelayInput.aspx.designer.vb">
+      <DependentUpon>AlertDelayInput.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AlertDelayInput.aspx.vb">
+      <DependentUpon>AlertDelayInput.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="SPCDashboardTest.aspx.designer.vb">
       <DependentUpon>SPCDashboardTest.aspx</DependentUpon>
     </Compile>
@@ -984,11 +1000,11 @@
       <DependentUpon>ItemCheck.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="AlertDashboard.aspx.designer.vb">
-      <DependentUpon>AlertDashboard.aspx</DependentUpon>
+    <Compile Include="AlertNGResult.aspx.designer.vb">
+      <DependentUpon>AlertNGResult.aspx</DependentUpon>
     </Compile>
-    <Compile Include="AlertDashboard.aspx.vb">
-      <DependentUpon>AlertDashboard.aspx</DependentUpon>
+    <Compile Include="AlertNGResult.aspx.vb">
+      <DependentUpon>AlertNGResult.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ItemCheckByBattery.aspx.designer.vb">
