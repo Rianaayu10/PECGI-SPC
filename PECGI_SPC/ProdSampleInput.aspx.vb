@@ -264,7 +264,7 @@ Public Class ProdSampleInput
         clsSPCResultDetailDB.Insert(Detail)
         grid.CancelEdit()
 
-        show_error(MsgTypeEnum.Success, "Update data successfully!", 1)
+        show_error(MsgTypeEnum.Success, "Update data successfull!", 1)
     End Sub
 
     Protected Sub grid_RowDeleting(sender As Object, e As DevExpress.Web.Data.ASPxDataDeletingEventArgs) Handles grid.RowDeleting
@@ -372,7 +372,9 @@ Public Class ProdSampleInput
         Else
             grid.JSProperties("cpAllowInsert") = "0"
         End If
-        If LastVerification = 0 Then
+        If AllowSkill = 0 Then
+            show_error(MsgTypeEnum.Warning, "You don't have skill for this item", 1)
+        ElseIf LastVerification = 0 Then
             ProdDate = Format(dtVer.Rows(0)(1), "dd MMM yyyy")
             Dim ShiftCode As String = dtVer.Rows(0)(2) & ""
             Sequence = dtVer.Rows(0)(3)
@@ -409,6 +411,7 @@ Public Class ProdSampleInput
                     Dim pRemark As String = Split(e.Parameters, "|")(10)
                     pUser = Session("user") & ""
                     clsSPCResultDB.Update(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pSubLotNo, pRemark, pUser)
+                    show_error(MsgTypeEnum.Success, "Update data successfull!", 1)
                 End If
                 GridLoad(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pVerified)
         End Select
@@ -440,7 +443,7 @@ Public Class ProdSampleInput
         clsSPCResultDetailDB.Insert(Detail)
         grid.CancelEdit()
 
-        show_error(MsgTypeEnum.Success, "Update data successfully!", 1)
+        show_error(MsgTypeEnum.Success, "Update data successfull!", 1)
     End Sub
 
     Private Sub cbkRefresh_Callback(source As Object, e As CallbackEventArgs) Handles cbkRefresh.Callback
@@ -572,9 +575,12 @@ Public Class ProdSampleInput
         Dim linkX As New PrintableComponentLink(ps)
         linkX.Component = (CType(chartX, IChartContainer)).Chart
 
-        LoadChartR(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), cboShow.Value, cboSeq.Value)
         Dim linkR As New PrintableComponentLink(ps)
-        linkR.Component = (CType(chartR, IChartContainer)).Chart
+        ChartType = clsXRChartDB.GetChartType(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value)
+        If ChartType = "1" Or ChartType = "2" Then
+            LoadChartR(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), cboShow.Value, cboSeq.Value)
+            linkR.Component = (CType(chartR, IChartContainer)).Chart
+        End If
 
         Dim compositeLink As New CompositeLink(ps)
         compositeLink.Links.AddRange(New Object() {linkX})
@@ -620,10 +626,12 @@ Public Class ProdSampleInput
                 Picture = .Drawings.AddPicture("chart", Image.FromStream(streamImg))
                 Picture.SetPosition(LastRow, 0, 0, 0)
 
-                Dim fi2 As New FileInfo(Path & "\chartR.png")
-                Dim Picture2 As OfficeOpenXml.Drawing.ExcelPicture
-                Picture2 = .Drawings.AddPicture("chartR", Image.FromStream(streamImg2))
-                Picture2.SetPosition(LastRow + 25, 0, 0, 0)
+                If ChartType = "1" Or ChartType = "2" Then
+                    Dim fi2 As New FileInfo(Path & "\chartR.png")
+                    Dim Picture2 As OfficeOpenXml.Drawing.ExcelPicture
+                    Picture2 = .Drawings.AddPicture("chartR", Image.FromStream(streamImg2))
+                    Picture2.SetPosition(LastRow + 25, 0, 0, 0)
+                End If
             End With
 
             Dim stream As MemoryStream = New MemoryStream(Pck.GetAsByteArray())
@@ -799,8 +807,8 @@ Public Class ProdSampleInput
             Dim StartCol1 As Integer, EndCol1 As Integer
             Dim StartCol2 As Integer, EndCol2 As Integer
             Dim FieldNames As New List(Of String)
+            Dim iCol As Integer = 1
             For iDay = 1 To 2
-                Dim iCol As Integer = 1
                 If Not IsDBNull(SelDay) Then
                     iRow = StartRow
                     iCol = iCol + 1
