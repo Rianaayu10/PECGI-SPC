@@ -966,7 +966,7 @@
             var User = $("#lblUser").text();
             $.ajax({
                 type: "POST",
-                url: "AlertDashboard.aspx/AlertNotif",
+                url: "AlertDelayInput.aspx/AlertNotif",
                 data: '{ pUser: "' + User + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -1000,7 +1000,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "AlertDashboard.aspx/" + Action + "",
+                url: Action,
                 data: '{ pUser: "' + User + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -1061,24 +1061,24 @@
 
         $("#activity").click(function () {
             document.getElementById("btnDI").classList.add('active');
-            GetNotif("DelayInput")
+            GetNotif("AlertDelayInput.aspx/DelayInput")
         });
 
         $(":radio[name='rdDI']").change(function () {
-            GetNotif("DelayInput");
+            GetNotif("AlertDelayInput.aspx/DelayInput");
         });
 
         $(":radio[name='rdNG']").change(function () {
-            GetNotif("NGInput")
+            GetNotif("AlertNGResult.aspx/NGInput")
         });
 
         $(":radio[name='rdDV']").change(function () {
-            GetNotif("DelayVerify")
+            GetNotif("AlertDelayVerification.aspx/DelayVerify")
         });
 
         $("#btnRefresh").click(function () {
             GetTotNotif()
-            GetNotif("DelayInput")
+            GetNotif("AlertDelayInput.aspx/DelayInput")
             document.getElementById("btnDI").classList.add('active');
             document.getElementById("btnDV").classList.remove('active');
             document.getElementById("btnNG").classList.remove('active');
