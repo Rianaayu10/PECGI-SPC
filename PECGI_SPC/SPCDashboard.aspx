@@ -7,6 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SPC Dashboard</title>
+    <link href="Styles/images/favicon_pecgi.ico" rel="SHORTCUT ICON" type="image/icon" />
     
     <meta charset="utf-8">
     <meta name="description" content="">
