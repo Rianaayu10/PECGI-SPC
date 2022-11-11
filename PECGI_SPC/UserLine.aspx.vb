@@ -142,6 +142,7 @@ Public Class UserLine
         Dim pUserID As String = Split(e.Parameters, "|")(1)
         If pAction = "save" Then
             show_error(MsgTypeEnum.Success, "Update data successful", 1)
+            HideValue.Set("Userload", pUserID)
         End If
         up_GridLoad(pUserID)
     End Sub

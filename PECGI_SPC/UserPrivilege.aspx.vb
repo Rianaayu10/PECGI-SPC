@@ -159,6 +159,7 @@ Public Class UserPrivilege
         'up_GridLoad(prm_UserID)
         If pAction = "save" Then
             show_error(MsgTypeEnum.Success, "Update data successful", 1)
+            HideValue.Set("Userload", pUser)
         End If
 
         gridMenu.JSProperties("cp_Show") = AuthAccess
