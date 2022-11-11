@@ -139,7 +139,7 @@
                         <!-- NG Result -->
                         <div class="col-lg-12">
 
-                            <div class="table-responsive">
+                            <div class="table-responsive" style="border: 2px solid black; border-collapse: collapse;overflow-x: hidden; overflow-y: hidden;">
                             
                             <nav class="navTable" style="background-color:rgb(69, 132, 224);color: white;height: 25px;">
                                 <div class="container-fluid">
@@ -161,7 +161,7 @@
 
                                 <asp:Repeater runat="server" ID="rptNGInput" OnItemDataBound="rptNGInput_OnItemDataBound">
                                     <HeaderTemplate>
-                                        <table id="tblNG" class="table table-bordered table-responsive" style=" font-size: 13px">
+                                        <table id="tblNG" class="table table-bordered table-responsive" style=" font-size: 13px;">
                                             <thead>
                                                 <tr>
                                                     <th style="width: 100px">Type</th>
@@ -249,7 +249,7 @@
                         <!-- Delay Input -->
                         <div class="col-lg-12">
                         
-                            <div class="table-responsive">
+                            <div class="table-responsive" style="border: 2px solid black; border-collapse: collapse;margin-top: 10px">
 
                                 <nav style="background-color:rgb(69, 132, 224);color: white;height: 25px;width: 100%">
                                     <div class="container-fluid">
@@ -329,7 +329,7 @@
                         <!-- Delay Verification -->
                         <div class="col-lg-12">
                                                 
-                            <div class="table-responsive">
+                            <div class="table-responsive" style="border: 2px solid black; border-collapse: collapse;overflow-x: hidden; overflow-y: hidden;margin-top: 10px">
 
                                 <nav class="navTable" style="background-color:rgb(69, 132, 224);color: white;height: 25px;">
                                     <div class="container-fluid">
@@ -360,7 +360,7 @@
                                                     <th scope="col" style="width: 150px">Date</th>
                                                     <th scope="col" style="width: 50px">Shift</th>
                                                     <th scope="col" style="width: 50px">Seq</th>
-                                                    <th scope="col" style="width: 100px">USL</th>
+                                                    <th scope="col" style="width: 80px">USL</th>
                                                     <th scope="col" style="width: 100px">LSL</th>
                                                     <th scope="col" style="width: 100px">UCL</th>
                                                     <th scope="col" style="width: 100px">LCL</th>
@@ -370,7 +370,7 @@
                                                     <th scope="col" style="width: 80px">Operator</th>
                                                     <th scope="col" style="width: 80px">MK</th>
                                                     <th scope="col" style="width: 80px">QC</th>
-                                                    <th scope="col" style="width: 115px">Delay Verif</th>
+                                                    <th scope="col" style="width: 135px">Delay Verification</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="height-table">
@@ -395,7 +395,7 @@
                                                     <td style="width: 50px">
                                                         <asp:Label ID="lblSeq" runat="server" Text='<%# Eval("SequenceNo") %>' />
                                                     </td>
-                                                    <td style="width: 100px">
+                                                    <td style="width: 80px">
                                                         <asp:Label ID="lblUSL" runat="server" Text='<%# Eval("USL") %>' />
                                                     </td>
                                                     <td style="width: 100px">
@@ -425,7 +425,7 @@
                                                     <td style="width: 80px">
                                                         <asp:Label ID="lblQC" runat="server" Text='<%# Eval("QC") %>' />
                                                     </td>
-                                                    <td style="width: 115px" runat="server" id="DelayVerification">
+                                                    <td style="width: 135px" runat="server" id="DelayVerification">
                                                         <asp:Label ID="lblDelayVerif" runat="server" Text='<%# Eval("DelayVerif") %>' />
                                                     </td>
                                                 </tr>
