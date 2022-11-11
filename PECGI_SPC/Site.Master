@@ -940,7 +940,7 @@
             var User = $("#lblUser").text();
             $.ajax({
                 type: "POST",
-                url: "AlertDashboard.aspx/AlertNotif",
+                url: "AlertNGResult.aspx/AlertNotif",
                 data: '{ pUser: "' + User + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -974,7 +974,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "AlertDashboard.aspx/" + Action + "",
+                url: "AlertNGResult.aspx/" + Action + "",
                 data: '{ pUser: "' + User + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
