@@ -316,6 +316,12 @@
             } else {
                 document.getElementById('Ave').style.backgroundColor = 'White';
             }
+
+            if(s.cpRNG == '1') {
+                document.getElementById('R').style.backgroundColor = 'Yellow';
+            } else {
+                document.getElementById('R').style.backgroundColor = 'White';
+            }
             if (s.cpAllowInsert == '1') {
                 btnNew.SetEnabled(true);
                 btnSave.SetEnabled(true);
