@@ -146,7 +146,7 @@
                                             <asp:RadioButton ID="rbAuto" runat="server" GroupName="ProdDateSelection"/>  
                                         </td>
                                         <td style=" width:150px; padding:1px 0px 0px 0px">
-                                            <p>Today</p>
+                                            <p style="font-family: Segoe UI; Font-Size: 9pt">Today</p>
                                         </td>
                                     </tr>
                                 </table>
