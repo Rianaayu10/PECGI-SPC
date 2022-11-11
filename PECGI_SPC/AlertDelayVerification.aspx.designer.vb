@@ -11,7 +11,7 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class AlertDashboard
+Partial Public Class AlertDelayVerification
 
     '''<summary>
     '''ASPxLabel3 control.
@@ -174,42 +174,6 @@ Partial Public Class AlertDashboard
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents dsSequence As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''GridNG control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents GridNG As Global.DevExpress.Web.ASPxGridView
-
-    '''<summary>
-    '''SendEmailNG control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents SendEmailNG As Global.DevExpress.Web.GridViewCommandColumnCustomButton
-
-    '''<summary>
-    '''Grid control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents Grid As Global.DevExpress.Web.ASPxGridView
-
-    '''<summary>
-    '''SendEmailDelayInput control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents SendEmailDelayInput As Global.DevExpress.Web.GridViewCommandColumnCustomButton
 
     '''<summary>
     '''GridDelayVerif control.
