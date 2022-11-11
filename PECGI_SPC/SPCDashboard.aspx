@@ -104,9 +104,9 @@
                 <table style="width:100%; background-color:#4584e0; " >
                     <tbody style="height: 40px; overflow-x: hidden; overflow-y: hidden;">
                         <tr style="height:10px">
-                            <td align="center" width="10%"><img src="img/logo-panasonic.svg" alt="" width="100" height="50" class="d-inline-block align-text-top" style="margin-top: -10px;"></td>
+                            <td align="center" width="10%"><a href="Main.aspx"><img src="img/logo-panasonic.svg" alt="" width="100" height="50" class="d-inline-block align-text-top" style="margin-top: -10px;"></a></td>
                             <td width="80%" align="center">
-                                <font style="color:black; font-size:19pt; font-weight:bold; font-family:Segoe UI" ><b><u><label style="margin-top: -10px;">SPC MONITORING</label></u></b></font>
+                                <font style="color:black; font-size:19pt; font-weight:bold; font-family:Segoe UI" ><u><label style="margin-top: -10px;"><b>SPC MONITORING</b></label></u></font>
                             </td>
                         
                             <td style="padding-right:10px">
