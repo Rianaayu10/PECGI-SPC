@@ -1204,7 +1204,7 @@ Public Class ProdSampleInput
                     If Value < LSL Or Value > USL Then
                         e.Cell.BackColor = Color.Red
                     ElseIf Value < LCL Or Value > UCL Then
-                        If e.GetValue("Seq") = "1" Then
+                        If e.GetValue("Seq") = "1" Or ChartType = "0" Then
                             e.Cell.BackColor = Color.Pink
                         Else
                             e.Cell.BackColor = LightYellow

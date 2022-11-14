@@ -269,12 +269,11 @@
             } else {
                 document.getElementById('C').style.backgroundColor = 'White';
             }      
-
             if(s.cpMin != '') {
                 if (s.cpMin < s.cpLSL | s.cpMin > s.cpUSL) {
                     document.getElementById('Min').style.backgroundColor = 'Red';
                 } else if (s.cpMin < s.cpLCL | s.cpMin > s.cpUCL) {
-                    if (s.cpChartType = '1') {
+                    if (s.cpChartType == '1') {
                         document.getElementById('Min').style.backgroundColor = '#FFFF99';
                     } else {
                         document.getElementById('Min').style.backgroundColor = 'Pink';
@@ -288,8 +287,8 @@
             if(s.cpMax != '') {
                 if (s.cpMax > s.cpUSL | s.cpMax < s.cpLSL) {
                     document.getElementById('Max').style.backgroundColor = 'Red';
-                } else if (s.cpMax > s.cpUCL | s.cpMax < s.cpLCL) {
-                    if (s.cpChartType = '1') {
+                } else if (s.cpMax > s.cpUCL | s.cpMax < s.cpLCL) {                    
+                    if (s.cpChartType == '1') {
                         document.getElementById('Max').style.backgroundColor = '#FFFF99';
                     } else {
                         document.getElementById('Max').style.backgroundColor = 'Pink';
@@ -305,7 +304,7 @@
                 if (s.cpAve > s.cpUSL | s.cpAve < s.cpLSL) {
                     document.getElementById('Ave').style.backgroundColor = 'Red';
                 } else if (s.cpAve > s.cpUCL | s.cpAve < s.cpLCL) {
-                    if (s.cpChartType = '1') {
+                    if (s.cpChartType == '1') {
                         document.getElementById('Ave').style.backgroundColor = '#FFFF99';
                     } else {
                         document.getElementById('Ave').style.backgroundColor = 'Pink';
