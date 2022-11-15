@@ -68,25 +68,21 @@
 
             console.log(s.cp_ProcessGroup);
 
-            HideValue.Set('URL', s.cp_URL);
-            HideValue.Set('ProcessGroup', s.cp_ProcessGroup);
-            HideValue.Set('LineGroup', s.cp_LineGroup);
-            HideValue.Set('ProcessCode', s.cp_ProcessCode);
-            HideValue.Set('InstructionNo', s.cp_InstructionNo);
-            HideValue.Set('Shift', s.cp_Shift);
+            HideValue.Set('IOT_URL', s.cp_URL);
+            //HideValue.Set('IOT_FactoryCode', s.cp_FactoryCode);
+            HideValue.Set('IOT_ProcessGroup', s.cp_ProcessGroup);
+            HideValue.Set('IOT_LineGroup', s.cp_LineGroup);
+            HideValue.Set('IOT_ProcessCode', s.cp_ProcessCode);
+            //HideValue.Set('IOT_LineCode', s.cp_LineCode);
+            //HideValue.Set('IOT_ScheduleDate', s.cp_ScheduleDate);
+            HideValue.Set('IOT_InstructionNo', s.cp_InstructionNo);
+            HideValue.Set('IOT_Shift', s.cp_Shift);
+            HideValue.Set('IOT_ItemCode', s.cp_ItemCode);
+            HideValue.Set('SubLotNo', s.cpSubLotNo);
 
-            var USL = "";
-            var LSL = "";
-            var UCL = "";
-            var LCL = "";
-            var RUCL = "";
-            var RLCL = "";
-            var MIN = "";
-            var MAX = "";
-            var AVG = "";
-            var R = "";
-            var C = "";
-            var NG = "";
+            var USL = "", LSL = "", UCL = "", LCL = "";
+            var RUCL = "", RLCL = "", MIN = "", MAX = "";
+            var AVG = "", R = "", C = "", NG = "";
 
             if (s.cpChartSetup > 0) {
 
@@ -184,7 +180,7 @@
             }
 
             if (R != '') {
-                if (R > RUCL || AVG < RLCL) {
+                if (R > RUCL || R < RLCL) {
                     document.getElementById('R').style.backgroundColor = '#FFFF00';
                 } else {
                     document.getElementById('R').style.backgroundColor = 'White';
@@ -229,9 +225,13 @@
             var FactoryCode = cboFactory.GetValue();
             var ItemType_Code = cboItemType.GetValue();
             var LineCode = cboLineID.GetValue();
+            var ItemTypeDesc = cboItemType.GetText();
+            console.log(ItemTypeDesc)
             HideValue.Set('FactoryCode', FactoryCode);
             HideValue.Set('ItemType_Code', ItemType_Code);
             HideValue.Set('LineCode', LineCode);
+            HideValue.Set('ItemTypeDesc', ItemTypeDesc);
+
             if (LineCode == null) {
                 LineCode = ""
             }
@@ -335,12 +335,19 @@
                 }
             }
 
-            HideValue.Set('URL', s.cp_URL);
-            HideValue.Set('ProcessGroup', s.cp_ProcessGroup);
-            HideValue.Set('LineGroup', s.cp_LineGroup);
-            HideValue.Set('ProcessCode', s.cp_ProcessCode);
-            HideValue.Set('InstructionNo', s.cp_InstructionNo);
-            HideValue.Set('Shift', s.cp_Shift);
+            HideValue.Set('IOT_URL', s.cp_URL);
+            //HideValue.Set('IOT_FactoryCode', s.cp_FactoryCode);
+            HideValue.Set('IOT_ProcessGroup', s.cp_ProcessGroup);
+            HideValue.Set('IOT_LineGroup', s.cp_LineGroup);
+            HideValue.Set('IOT_ProcessCode', s.cp_ProcessCode);
+            //HideValue.Set('IOT_LineCode', s.cp_LineCode);
+            //HideValue.Set('IOT_ScheduleDate', s.cp_ScheduleDate);
+            HideValue.Set('IOT_InstructionNo', s.cp_InstructionNo);
+            HideValue.Set('IOT_Shift', s.cp_Shift);
+            HideValue.Set('IOT_ItemCode', s.cp_ItemCode);
+            HideValue.Set('SubLotNo', s.cpSubLotNo);
+
+            console.log(s.cpSubLotNo)
 
             var USL = "";
             var LSL = "";
@@ -451,7 +458,7 @@
             }
 
             if (R != '') {
-                if (R > RUCL || AVG < RLCL) {
+                if (R > RUCL || R < RLCL) {
                     document.getElementById('R').style.backgroundColor = '#FFFF00';
                 } else {
                     document.getElementById('R').style.backgroundColor = 'White';
@@ -594,16 +601,27 @@
         }
 
         function IOTProcess() {
-            var URL = HideValue.Get('URL');
-            var FactoryCode = HideValue.Get('FactoryCode');
-            var ProcessGroup = HideValue.Get('ProcessGroup');
-            var LineGroup = HideValue.Get('LineGroup');
-            var Process = HideValue.Get('ProcessCode');
-            var Line = HideValue.Get('LineCode');
-            var Date = HideValue.Get('ProdDate');
-            var InstructionNo = HideValue.Get('InstructionNo');
-            var Shift = HideValue.Get('Shift');
-            var Item = HideValue.Get('ItemTypeDesc');
+
+            var URL = HideValue.Get('IOT_URL') === null ? "-" : HideValue.Get('IOT_URL');
+            var FactoryCode = HideValue.Get('FactoryCode') === null ? "-" : HideValue.Get('FactoryCode');
+            var ProcessGroup = HideValue.Get('IOT_ProcessGroup') === null ? "-" : HideValue.Get('IOT_ProcessGroup');
+            var LineGroup = HideValue.Get('IOT_LineGroup') === null ? "-" : HideValue.Get('IOT_LineGroup');
+            var Process = HideValue.Get('IOT_ProcessCode') === null ? "-" : HideValue.Get('IOT_ProcessCode');
+            var Line = HideValue.Get('LineCode') === null ? "-" : HideValue.Get('LineCode');
+            //var Date = HideValue.Get('ProdDate');
+            var InstructionNo = HideValue.Get('IOT_InstructionNo') === null ? "-" : HideValue.Get('IOT_InstructionNo');
+            var Shift = HideValue.Get('IOT_Shift') === null ? "-" : HideValue.Get('IOT_Shift');
+            var Item = HideValue.Get('ItemTypeDesc') === null ? "-" : HideValue.Get('ItemTypeDesc');
+
+            var months = {
+                Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
+                Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
+            };
+            var p = HideValue.Get('ProdDate').split(' ');
+            var Date = p[2] + "-" + months[p[1]] + "-" + p[0];
+
+
+            console.log(Date);
 
             //TEST
             //var FactoryCode = "F001" ;
@@ -616,8 +634,8 @@
             //var Shift = "SH001";
             //var Item = "BBRSRUSA0PAD";
 
-            var IOT_URL = URL + 'AssyReport/Index?ReportType=018&Factory=' + FactoryCode + '&ProcessGroup=' + ProcessGroup + '&LineGroup=' + LineGroup + '&Process=' + Process + '&Line=' + Line + '&Date=' + Date + '&InstructionNo=' + InstructionNo + '&Shift=' + Shift + '&Item=' + Item + '&isExplosion=1&UserID=SPC';
-            /*console.log(IOT_URL);*/
+            var IOT_URL = URL + 'AssyReport/Index?ReportType=018&Factory=' + FactoryCode + '&ProcessGroup=' + ProcessGroup + '&LineGroup=' + LineGroup + '&Process=' + Process + '&Line=' + Line + '&Date=' + Date + '&InstructionNo=' + InstructionNo + '&Shift=' + Shift + '&Item=' + Item + '&UserID=SPC';
+            //console.log(IOT_URL);
 
             window.open(IOT_URL, '_blank');
             //window.open('http://192.168.0.3:8091/AssyReport/Index?ReportType=018&Factory=F001&ProcessGroup=PG003&LineGroup=ASS01&Process=P002&Line=018&Date=2022-09-15&InstructionNo=F001.P002.018.2209.0099&Shift=SH001&Item=BBRSRUSA0PAD&UserID=SPC', '_blank');
@@ -625,9 +643,10 @@
         }
 
         function IOTTraceability() {
-            var URL = HideValue.Get('URL');
-            var ItemDesc = HideValue.Get('ItemTypeDesc');
-            var LotNo = HideValue.Get('SubLotNo');
+
+            var URL = HideValue.Get('IOT_URL') === null ? "-" : HideValue.Get('IOT_URL');
+            var ItemDesc = HideValue.Get('ItemTypeDesc') === null ? "-" : HideValue.Get('ItemTypeDesc');
+            var LotNo = HideValue.Get('SubLotNo') === null ? "-" : HideValue.Get('SubLotNo');
 
             // TEST
             //var ItemDesc = "BBRSRUSA0PAD";
@@ -1121,13 +1140,14 @@
             ConnectionString="<%$ConnectionStrings:ApplicationServices %>"
             SelectCommand="SELECT CODE = UserID, CODENAME = UserID FROM dbo.spc_UserSetup "></asp:SqlDataSource>
 
-        <dx:ASPxGridView ID="GridActivity" runat="server" AutoGenerateColumns="False" ClientInstanceName="GridActivity" OnRowValidating="GridActivity_Validating"
-            EnableTheming="True" KeyFieldName="ActivityID" Theme="Office2010Black" Width="100%" Font-Names="Segoe UI" Font-Size="9pt" 
+        <dx:ASPxGridView ID="GridActivity" runat="server" AutoGenerateColumns="False" ClientInstanceName="GridActivity"
+            OnRowValidating="GridActivity_Validating" EnableTheming="True" KeyFieldName="ActivityID" Theme="Office2010Black" 
+            Width="100%" Font-Names="Segoe UI" Font-Size="9pt" 
             OnAfterPerformCallback="Grid_AfterPerformCallback">
             <ClientSideEvents EndCallback="EndCallback_GridActivity" />
             <Columns>
                 <dx:GridViewCommandColumn FixedStyle="Left"
-                    VisibleIndex="0" ShowEditButton="true" ShowDeleteButton="true"
+                    VisibleIndex="0" ShowEditButton="true" ShowDeleteButton="true" ShowNewButtonInHeader="true"
                     ShowClearFilterButton="true" Width="80px">
                     <HeaderStyle Paddings-PaddingLeft="3px" HorizontalAlign="Center"
                         VerticalAlign="Middle">

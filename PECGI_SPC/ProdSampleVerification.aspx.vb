@@ -19,7 +19,7 @@ Imports DevExpress.XtraCharts.Native
 Public Class ProdSampleVerification
     Inherits System.Web.UI.Page
 
-#Region "Declaration"
+#Region "DECLARATION"
 
     Dim pUser As String = ""
     Dim pEmplooyeeID As String = ""
@@ -93,6 +93,8 @@ Public Class ProdSampleVerification
         pUser = Session("user")
         MenuID = "B040"
         Session("LogUserID") = pUser
+
+        ' Authorization User Access
         AuthAccess = sGlobal.Auth_UserAccess(pUser, MenuID)
         If AuthAccess = False Then
             Response.Redirect("~/Main.aspx")
@@ -100,26 +102,35 @@ Public Class ProdSampleVerification
         sGlobal.getMenu(MenuID)
         Master.SiteTitle = MenuID & " - " & sGlobal.menuName
 
+        ' Authorization Update Privilege
+        Dim commandColumn = TryCast(GridActivity.Columns(0), GridViewCommandColumn)
         AuthUpdate = sGlobal.Auth_UserUpdate(pUser, MenuID)
         If AuthUpdate = False Then
-            Dim commandColumn = TryCast(GridActivity.Columns(0), GridViewCommandColumn)
             commandColumn.ShowEditButton = False
             commandColumn.ShowNewButtonInHeader = False
             btnVerification.Enabled = False
         End If
 
+        ' Authorization Delete Privilege
         AuthDelete = sGlobal.Auth_UserDelete(pUser, MenuID)
         If AuthDelete = False Then
-            Dim commandColumn = TryCast(GridActivity.Columns(0), GridViewCommandColumn)
             commandColumn.ShowDeleteButton = False
             btnVerification.Enabled = False
         End If
 
+        ' Authorization Delete and Update Privilege
+        If AuthDelete = False And AuthUpdate = False Then
+            commandColumn.Width = 0 'supaya button new/edit/delete muncul
+        Else
+            commandColumn.Width = 80 'supaya button new/edit/delete tidak muncul
+        End If
+
         If Not Page.IsPostBack Then
+            commandColumn.Width = 0 'supaya button new/edit/delete tidak muncul
             If Request.QueryString("menu") IsNot Nothing Then
-                LoadForm_ByAnotherform()
+                LoadForm_ByAnotherform() 'jika dipanggil dari menu lain
             Else
-                LoadForm()
+                LoadForm() 'jika dipanggil dari form itu sendiri=
             End If
         End If
     End Sub
@@ -219,7 +230,7 @@ Public Class ProdSampleVerification
 
 #End Region
 
-#Region "GRID CALLBACK"
+#Region "GRID X CALLBACK"
     Private Sub Grid_CustomCallback(sender As Object, e As ASPxGridViewCustomCallbackEventArgs) Handles GridX.CustomCallback
         Try
             Dim SpcResultID As String = ""
@@ -239,6 +250,7 @@ Public Class ProdSampleVerification
 
             If pAction = "Load" Then
 
+                Verify(cls)
                 Up_GridLoad(cls)
                 Up_GridChartSetup(cls)
                 Validation_Verify(cls)
@@ -246,9 +258,9 @@ Public Class ProdSampleVerification
 
             ElseIf pAction = "Verify" Then
 
+                Validation_Verify(cls)
                 Verify(cls)
                 Up_GridLoad(cls)
-                Validation_Verify(cls)
 
             ElseIf pAction = "Clear" Then
                 Dim data As New clsProdSampleVerification
@@ -259,58 +271,6 @@ Public Class ProdSampleVerification
         Catch ex As Exception
             show_errorGrid(MsgTypeEnum.ErrorMsg, ex.Message, 1)
         End Try
-    End Sub
-    Private Sub GridActivity_CustomCallback(sender As Object, e As ASPxGridViewCustomCallbackEventArgs) Handles GridActivity.CustomCallback
-        Try
-            Dim msgErr As String = ""
-            Dim pAction As String = Split(e.Parameters, "|")(0)
-
-            Dim cls As New clsProdSampleVerification With {
-            .FactoryCode = HideValue.Get("FactoryCode"),
-            .ItemType_Code = HideValue.Get("ItemType_Code"),
-            .LineCode = HideValue.Get("LineCode"),
-            .ItemCheck_Code = HideValue.Get("ItemCheck_Code"),
-            .ProdDate = Convert.ToDateTime(dtProdDate.Value).ToString("yyyy-MM-dd"),
-            .ShiftCode = HideValue.Get("ShiftCode"),
-            .Seq = HideValue.Get("Seq"),
-            .User = pUser
-            }
-
-            If pAction = "Load" Then
-
-                Up_GridLoadActivities(cls)
-
-            ElseIf pAction = "Clear" Then
-                Dim data As New clsProdSampleVerification
-                Up_GridLoadActivities(data)
-            End If
-
-        Catch ex As Exception
-            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
-        End Try
-    End Sub
-    Private Sub GridActivity_BeforeGetCallbackResult(ByVal sender As Object, ByVal e As System.EventArgs) Handles GridActivity.BeforeGetCallbackResult
-        If GridActivity.IsNewRowEditing Then
-            GridActivity.SettingsCommandButton.UpdateButton.Text = "Save"
-        End If
-    End Sub
-    Protected Sub Grid_AfterPerformCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles GridActivity.AfterPerformCallback
-        If e.CallbackName <> "CANCELEDIT" Then
-
-            Dim cls As New clsProdSampleVerification With {
-            .FactoryCode = cboFactory.Value,
-            .ItemType_Code = cboItemType.Value,
-            .LineCode = cboLineID.Value,
-            .ItemCheck_Code = cboItemCheck.Value,
-            .ProdDate = Convert.ToDateTime(dtProdDate.Value).ToString("yyyy-MM-dd"),
-            .ShiftCode = cboShift.Value,
-            .Seq = cboSeq.Value,
-            .User = pUser
-            }
-
-            Up_GridLoadActivities(cls)
-
-        End If
     End Sub
     Private Sub Grid_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles GridX.HtmlDataCellPrepared
         Try
@@ -378,6 +338,64 @@ Public Class ProdSampleVerification
             Throw New Exception("Error_EditingGrid !" & ex.Message)
         End Try
     End Sub
+#End Region
+
+#Region "GRID ACITIVITY MONITORING CALLBACK"
+    Private Sub GridActivity_CustomCallback(sender As Object, e As ASPxGridViewCustomCallbackEventArgs) Handles GridActivity.CustomCallback
+        Try
+            Dim msgErr As String = ""
+            Dim pAction As String = Split(e.Parameters, "|")(0)
+
+            Dim cls As New clsProdSampleVerification With {
+            .FactoryCode = HideValue.Get("FactoryCode"),
+            .ItemType_Code = HideValue.Get("ItemType_Code"),
+            .LineCode = HideValue.Get("LineCode"),
+            .ItemCheck_Code = HideValue.Get("ItemCheck_Code"),
+            .ProdDate = Convert.ToDateTime(dtProdDate.Value).ToString("yyyy-MM-dd"),
+            .ShiftCode = HideValue.Get("ShiftCode"),
+            .Seq = HideValue.Get("Seq"),
+            .User = pUser
+            }
+
+            If pAction = "Load" Then
+
+                Up_GridLoadActivities(cls)
+
+            ElseIf pAction = "Clear" Then
+                Dim data As New clsProdSampleVerification
+                Up_GridLoadActivities(data)
+            End If
+
+        Catch ex As Exception
+            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
+        End Try
+    End Sub
+    Private Sub GridActivity_BeforeGetCallbackResult(ByVal sender As Object, ByVal e As System.EventArgs) Handles GridActivity.BeforeGetCallbackResult
+        If GridActivity.IsNewRowEditing Then
+            GridActivity.SettingsCommandButton.UpdateButton.Text = "Save"
+        End If
+    End Sub
+    Protected Sub Grid_AfterPerformCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles GridActivity.AfterPerformCallback
+        If e.CallbackName <> "CANCELEDIT" Then
+
+            Dim cls As New clsProdSampleVerification With {
+            .FactoryCode = cboFactory.Value,
+            .ItemType_Code = cboItemType.Value,
+            .LineCode = cboLineID.Value,
+            .ItemCheck_Code = cboItemCheck.Value,
+            .ProdDate = Convert.ToDateTime(dtProdDate.Value).ToString("yyyy-MM-dd"),
+            .ShiftCode = cboShift.Value,
+            .Seq = cboSeq.Value,
+            .User = pUser
+            }
+
+            Up_GridLoadActivities(cls)
+
+        End If
+    End Sub
+#End Region
+
+#Region "CHART CALLBACK"
     Private Sub chartX_CustomCallback(sender As Object, e As CustomCallbackEventArgs) Handles chartX.CustomCallback
 
         Dim cls As New clsProdSampleVerification
@@ -459,11 +477,7 @@ Public Class ProdSampleVerification
     End Sub
 #End Region
 
-#Region "GRID EVENT INSERT - UPDATE - DELETE"
-    Private Sub GridActivity_CancelRowEditing(sender As Object, e As ASPxStartRowEditingEventArgs) Handles GridActivity.CancelRowEditing
-        Dim commandColumn = TryCast(GridActivity.Columns(0), GridViewCommandColumn)
-        commandColumn.ShowNewButtonInHeader = True
-    End Sub
+#Region "INSERT - UPDATE - DELETE ACTIVITY MONITORING CELL EDITOR"
     Private Sub Grid_CellEditorInitialize(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewEditorEventArgs) Handles GridActivity.CellEditorInitialize
         If e.Column.FieldName = "FactoryName" Or e.Column.FieldName = "ItemTypeName" Or e.Column.FieldName = "LineName" Or e.Column.FieldName = "ItemCheckName" Or e.Column.FieldName = "ShiftName" Then
             e.Editor.ReadOnly = True
@@ -646,6 +660,13 @@ Public Class ProdSampleVerification
         GridX.JSProperties("cp_type") = msgType
         GridX.JSProperties("cp_val") = pVal
     End Sub
+    Private Function AFormat(v As Object) As String
+        If v Is Nothing OrElse IsDBNull(v) Then
+            Return ""
+        Else
+            Return Format(v, "0.000")
+        End If
+    End Function
     Private Sub UpFillCombo()
         Try
             Dim data As New clsProdSampleVerification()
@@ -912,8 +933,10 @@ Public Class ProdSampleVerification
         GridX.JSProperties("cpChartSetup") = dtChartSetup.Rows.Count
 
         If dtChartSetup.Rows.Count > 0 Then
-            LotNo = dtChartSetup.Rows(0)("SubLotNo").ToString
-            HideValue.Set("SubLotNo", LotNo)
+            'LotNo = dtChartSetup.Rows(0)("SubLotNo").ToString
+            'HideValue.Set("SubLotNo", LotNo)
+
+            GridX.JSProperties("cpSubLotNo") = dtChartSetup.Rows(0)("SubLotNo").ToString
 
             GridX.JSProperties("cpUSL") = AFormat(dtChartSetup.Rows(0)("USL"))
             GridX.JSProperties("cpLSL") = AFormat(dtChartSetup.Rows(0)("LSL"))
@@ -934,10 +957,8 @@ Public Class ProdSampleVerification
         End If
     End Sub
     Private Sub Up_GridLoadActivities(cls As clsProdSampleVerification)
-        Dim commandColumn = TryCast(GridActivity.Columns(0), GridViewCommandColumn)
-        commandColumn.ShowNewButtonInHeader = True
-
         With GridActivity
+
             ds = clsProdSampleVerificationDB.GridLoad(GetGridData_Activity, cls)
             Dim dtGridActivity As DataTable = ds.Tables(0)
             .DataSource = dtGridActivity
@@ -948,8 +969,10 @@ Public Class ProdSampleVerification
         Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code, cls.ProdDate, "", cls.ShowVerify, cls.Seq)
         If xr.Count = 0 Then
             chartR.JSProperties("cpShow") = "0"
+            CharacteristicSts = "0"
         Else
             chartR.JSProperties("cpShow") = "1"
+            CharacteristicSts = "1"
         End If
         With chartR
             .DataSource = xr
@@ -997,7 +1020,6 @@ Public Class ProdSampleVerification
             .DataBind()
         End With
     End Sub
-
     Private Sub LoadChartX(cls As clsProdSampleVerification)
         ChartType = clsXRChartDB.GetChartType(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code)
         Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartXR(cls.FactoryCode, cls.ItemType_Code, cls.LineCode, cls.ItemCheck_Code, cls.ProdDate, cls.ShowVerify, cls.Seq)
@@ -1101,7 +1123,6 @@ Public Class ProdSampleVerification
             'End If
         End With
     End Sub
-
     Private Sub LoadForm_ByAnotherform()
 
         prmFactoryCode = Request.QueryString("FactoryCode")
@@ -1174,18 +1195,12 @@ Public Class ProdSampleVerification
         GridX.JSProperties("cp_Verify") = VerifyStatus 'for authorization verify
         GridX.JSProperties("cpChartSetup") = 0
     End Sub
-    Private Function AFormat(v As Object) As String
-        If v Is Nothing OrElse IsDBNull(v) Then
-            Return ""
-        Else
-            Return Format(v, "0.000")
-        End If
-    End Function
     Private Sub Verify(cls As clsProdSampleVerification)
         Try
             Dim Verify = clsProdSampleVerificationDB.Verify(cls)
             If Verify = "" Then
                 show_errorGrid(MsgTypeEnum.Success, "Verify data successfully!", 1)
+                GridX.JSProperties("cp_Verify") = "0" 'Status Verify Success
                 Return
             Else
                 show_errorGrid(MsgTypeEnum.Warning, Verify, 1)
@@ -1218,17 +1233,27 @@ Public Class ProdSampleVerification
 
         Dim dtDailyProd = clsIOT.GetDailyProd(cls.FactoryCode, cls.LineCode, cls.ItemType_Code, LotNo, cls.ProdDate)
         If dtDailyProd.Rows.Count > 0 Then
-            GridX.JSProperties("cp_ProcessGroup") = dtDailyProd.Rows(0)("ProcessGroup")
-            GridX.JSProperties("cp_LineGroup") = dtDailyProd.Rows(0)("LineGroup")
-            GridX.JSProperties("cp_processCode") = dtDailyProd.Rows(0)("process_Code")
-            GridX.JSProperties("cp_InstructionNo") = dtDailyProd.Rows(0)("Instruction_No")
-            GridX.JSProperties("cp_Shift") = dtDailyProd.Rows(0)("Shift")
+            'GridX.JSProperties("cp_FactoryCode") = dtDailyProd.Rows(0)("FactoryCode").ToString.Trim
+            GridX.JSProperties("cp_ProcessGroup") = dtDailyProd.Rows(0)("ProcessGroup").ToString.Trim
+            GridX.JSProperties("cp_LineGroup") = dtDailyProd.Rows(0)("LineGroup").ToString.Trim
+            GridX.JSProperties("cp_ProcessCode") = dtDailyProd.Rows(0)("ProcessCode").ToString.Trim
+            'GridX.JSProperties("cp_LineCode") = dtDailyProd.Rows(0)("LineCode").ToString.Trim
+            'GridX.JSProperties("cp_ScheduleDate") = dtDailyProd.Rows(0)("ScheduleDate")
+            GridX.JSProperties("cp_InstructionNo") = dtDailyProd.Rows(0)("InstructionNo").ToString.Trim
+            GridX.JSProperties("cp_Shift") = dtDailyProd.Rows(0)("Shift").ToString.Trim
+            GridX.JSProperties("cp_ItemCode") = dtDailyProd.Rows(0)("ItemCode").ToString.Trim
+            'GridX.JSProperties("cp_LotNo") = dtDailyProd.Rows(0)("LotNo").ToString.Trim
         Else
+            'GridX.JSProperties("cp_FactoryCode") = ""
             GridX.JSProperties("cp_ProcessGroup") = ""
             GridX.JSProperties("cp_LineGroup") = ""
-            GridX.JSProperties("cp_processCode") = ""
+            GridX.JSProperties("cp_ProcessCode") = ""
+            'GridX.JSProperties("cp_LineCode") = ""
+            'GridX.JSProperties("cp_ScheduleDate") = ""
             GridX.JSProperties("cp_InstructionNo") = ""
             GridX.JSProperties("cp_Shift") = ""
+            GridX.JSProperties("cp_ItemCode") = ""
+            'GridX.JSProperties("cp_LotNo") = ""
         End If
     End Sub
 #End Region
@@ -1273,15 +1298,15 @@ Public Class ProdSampleVerification
 
                     ' ADD CHART
                     If CharacteristicSts = "1" Then
-                        row_CellChart = row_CellResult + 45
+                        row_CellChart = row_CellResult + 40
                     Else
                         row_CellChart = row_CellResult + 23
                     End If
-                    .InsertRow(row_CellResult, row_CellChart)
+                    .InsertRow(row_CellResult + 2, row_CellChart)
                     Dim fi As New FileInfo(Path & "\chart.png")
                     Dim Picture As OfficeOpenXml.Drawing.ExcelPicture
                     Picture = .Drawings.AddPicture("chart", Image.FromStream(streamImg))
-                    Picture.SetPosition(row_CellResult, 0, 0, 0)
+                    Picture.SetPosition(row_CellResult + 2, 0, 0, 0)
 
                     ' ADD GRID ACTIVITY
                     HeaderActivity(ws, cls)
@@ -1360,27 +1385,27 @@ Public Class ProdSampleVerification
             Try
                 Dim irow = row_GridTitle + 2
 
-                .Cells(irow, 11).Value = "Specification"
-                .Cells(irow, 11, irow, 12).Merge = True
+                .Cells(irow, 1).Value = "Specification"
+                .Cells(irow, 1, irow, 2).Merge = True
 
-                .Cells(irow, 13).Value = "X Bar Control"
-                .Cells(irow, 13, irow, 14).Merge = True
+                .Cells(irow, 3).Value = "X Bar Control"
+                .Cells(irow, 3, irow, 4).Merge = True
 
-                .Cells(irow, 15).Value = "Result"
-                .Cells(irow, 15, irow, 20).Merge = True
+                .Cells(irow, 5).Value = "Result"
+                .Cells(irow, 5, irow, 10).Merge = True
                 irow = irow + 1
 
-                .Cells(irow, 11).Value = "USL"
-                .Cells(irow, 12).Value = "LSL"
+                .Cells(irow, 1).Value = "USL"
+                .Cells(irow, 2).Value = "LSL"
 
-                .Cells(irow, 13).Value = "UCL"
-                .Cells(irow, 14).Value = "LCL"
+                .Cells(irow, 3).Value = "UCL"
+                .Cells(irow, 4).Value = "LCL"
 
-                .Cells(irow, 15).Value = "Min"
-                .Cells(irow, 16).Value = "Max"
+                .Cells(irow, 5).Value = "Min"
+                .Cells(irow, 6).Value = "Max"
 
-                .Cells(irow, 17).Value = "Ave"
-                .Cells(irow, 18).Value = "R"
+                .Cells(irow, 7).Value = "Ave"
+                .Cells(irow, 8).Value = "R"
 
                 .Column(11).Width = 10
                 .Column(12).Width = 10
@@ -1391,7 +1416,7 @@ Public Class ProdSampleVerification
                 .Column(17).Width = 10
                 .Column(18).Width = 10
 
-                Dim rgCell As ExcelRange = .Cells(irow - 1, 11, irow - 1, 20)
+                Dim rgCell As ExcelRange = .Cells(irow - 1, 1, irow - 1, 10)
                 rgCell.Style.Font.Size = 10
                 rgCell.Style.Font.Name = "Segoe UI"
                 rgCell.Style.HorizontalAlignment = HorzAlignment.Center
@@ -1399,7 +1424,7 @@ Public Class ProdSampleVerification
                 rgCell.Style.Fill.PatternType = ExcelFillStyle.Solid
                 rgCell.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.DimGray)
 
-                Dim rg2Cell As ExcelRange = .Cells(irow, 11, irow, 18)
+                Dim rg2Cell As ExcelRange = .Cells(irow, 1, irow, 8)
                 rg2Cell.Style.Font.Size = 10
                 rg2Cell.Style.Font.Name = "Segoe UI"
                 rg2Cell.Style.HorizontalAlignment = HorzAlignment.Center
@@ -1419,17 +1444,17 @@ Public Class ProdSampleVerification
                     Dim CS = dtChartSetup.Rows(0)("CS")
 
                     irow = irow + 1
-                    .Cells(irow, 11).Value = USL
-                    .Cells(irow, 11).Style.Numberformat.Format = "####0.000"
+                    .Cells(irow, 1).Value = USL
+                    .Cells(irow, 1).Style.Numberformat.Format = "####0.000"
 
-                    .Cells(irow, 12).Value = LSL
-                    .Cells(irow, 12).Style.Numberformat.Format = "####0.000"
+                    .Cells(irow, 2).Value = LSL
+                    .Cells(irow, 2).Style.Numberformat.Format = "####0.000"
 
-                    .Cells(irow, 13).Value = UCL
-                    .Cells(irow, 13).Style.Numberformat.Format = "####0.000"
+                    .Cells(irow, 3).Value = UCL
+                    .Cells(irow, 3).Style.Numberformat.Format = "####0.000"
 
-                    .Cells(irow, 14).Value = LCL
-                    .Cells(irow, 14).Style.Numberformat.Format = "####0.000"
+                    .Cells(irow, 4).Value = LCL
+                    .Cells(irow, 4).Style.Numberformat.Format = "####0.000"
 
                     Dim MIN = dtChartSetup.Rows(0)("nMIN")
                     Dim MINclr = "#FFFFFF"
@@ -1442,10 +1467,10 @@ Public Class ProdSampleVerification
                             MINclr = "#FFC0CB"
                         End If
                     End If
-                    .Cells(irow, 15).Value = MIN
-                    .Cells(irow, 15).Style.Numberformat.Format = "####0.000"
-                    .Cells(irow, 15).Style.Fill.PatternType = ExcelFillStyle.Solid
-                    .Cells(irow, 15).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(MINclr))
+                    .Cells(irow, 5).Value = MIN
+                    .Cells(irow, 5).Style.Numberformat.Format = "####0.000"
+                    .Cells(irow, 5).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(irow, 5).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(MINclr))
 
                     Dim MAX = dtChartSetup.Rows(0)("nMAX")
                     Dim MAXclr = "#FFFFFF"
@@ -1458,10 +1483,10 @@ Public Class ProdSampleVerification
                             MAXclr = "#FFC0CB"
                         End If
                     End If
-                    .Cells(irow, 16).Value = MAX
-                    .Cells(irow, 16).Style.Numberformat.Format = "####0.000"
-                    .Cells(irow, 16).Style.Fill.PatternType = ExcelFillStyle.Solid
-                    .Cells(irow, 16).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(MAXclr))
+                    .Cells(irow, 6).Value = MAX
+                    .Cells(irow, 6).Style.Numberformat.Format = "####0.000"
+                    .Cells(irow, 6).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(irow, 6).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(MAXclr))
 
                     Dim AVG = dtChartSetup.Rows(0)("nAVG")
                     Dim AVGclr = "#FFFFFF"
@@ -1475,10 +1500,10 @@ Public Class ProdSampleVerification
                         End If
                     End If
 
-                    .Cells(irow, 17).Value = AVG
-                    .Cells(irow, 17).Style.Numberformat.Format = "####0.000"
-                    .Cells(irow, 17).Style.Fill.PatternType = ExcelFillStyle.Solid
-                    .Cells(irow, 17).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(AVGclr))
+                    .Cells(irow, 7).Value = AVG
+                    .Cells(irow, 7).Style.Numberformat.Format = "####0.000"
+                    .Cells(irow, 7).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(irow, 7).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(AVGclr))
 
                     Dim R = dtChartSetup.Rows(0)("nR")
                     Dim RClr = "#FFFFFF"
@@ -1486,22 +1511,22 @@ Public Class ProdSampleVerification
                         RClr = "#FFFF00"
                     End If
 
-                    .Cells(irow, 18).Value = R
-                    .Cells(irow, 18).Style.Numberformat.Format = "####0.000"
-                    .Cells(irow, 18).Style.Fill.PatternType = ExcelFillStyle.Solid
-                    .Cells(irow, 18).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(RClr))
+                    .Cells(irow, 8).Value = R
+                    .Cells(irow, 8).Style.Numberformat.Format = "####0.000"
+                    .Cells(irow, 8).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(irow, 8).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(RClr))
 
                     Dim C = dtChartSetup.Rows(0)("C")
                     Dim Cclr = "#FFFFFF"
                     If C = "C" Then
                         Cclr = "#FFA500"
                     End If
-                    .Cells(irow - 1, 19).Value = C
-                    .Cells(irow - 1, 19, irow, 19).Merge = True
-                    .Cells(irow - 1, 19, irow, 19).Style.HorizontalAlignment = HorizontalAlign.Center
-                    .Cells(irow - 1, 19, irow, 19).Style.VerticalAlignment = VertAlignment.Center
-                    .Cells(irow - 1, 19, irow, 19).Style.Fill.PatternType = ExcelFillStyle.Solid
-                    .Cells(irow - 1, 19, irow, 19).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(Cclr))
+                    .Cells(irow - 1, 9).Value = C
+                    .Cells(irow - 1, 9, irow, 9).Merge = True
+                    .Cells(irow - 1, 9, irow, 9).Style.HorizontalAlignment = HorizontalAlign.Center
+                    .Cells(irow - 1, 9, irow, 9).Style.VerticalAlignment = VertAlignment.Center
+                    .Cells(irow - 1, 9, irow, 9).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(irow - 1, 9, irow, 9).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(Cclr))
 
                     Dim Result = ""
                     Dim Resultclr = "#FFFFFF"
@@ -1512,17 +1537,17 @@ Public Class ProdSampleVerification
                         Result = "OK"
                         Resultclr = "#228B22"
                     End If
-                    .Cells(irow - 1, 20).Value = Result
-                    .Cells(irow - 1, 20, irow, 20).Merge = True
-                    .Cells(irow - 1, 20, irow, 20).Style.HorizontalAlignment = HorizontalAlign.Center
-                    .Cells(irow - 1, 20, irow, 20).Style.VerticalAlignment = VertAlignment.Center
-                    .Cells(irow - 1, 20, irow, 20).Style.Font.Bold = True
-                    .Cells(irow - 1, 20, irow, 20).Style.Fill.PatternType = ExcelFillStyle.Solid
-                    .Cells(irow - 1, 20, irow, 20).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(Resultclr))
+                    .Cells(irow - 1, 10).Value = Result
+                    .Cells(irow - 1, 10, irow, 10).Merge = True
+                    .Cells(irow - 1, 10, irow, 10).Style.HorizontalAlignment = HorizontalAlign.Center
+                    .Cells(irow - 1, 10, irow, 10).Style.VerticalAlignment = VertAlignment.Center
+                    .Cells(irow - 1, 10, irow, 10).Style.Font.Bold = True
+                    .Cells(irow - 1, 10, irow, 10).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(irow - 1, 10, irow, 10).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(Resultclr))
 
                 End If
 
-                Dim Border As ExcelRange = .Cells(irow - 2, 11, irow, 20)
+                Dim Border As ExcelRange = .Cells(irow - 2, 1, irow, 10)
                 Border.Style.Border.Top.Style = ExcelBorderStyle.Thin
                 Border.Style.Border.Bottom.Style = ExcelBorderStyle.Thin
                 Border.Style.Border.Right.Style = ExcelBorderStyle.Thin
@@ -1540,7 +1565,7 @@ Public Class ProdSampleVerification
     Private Sub HeaderResult(ByVal pExl As ExcelWorksheet, cls As clsProdSampleVerification)
         With pExl
             Try
-                Dim irow = row_ChartSetup + 1
+                Dim irow = row_ChartSetup + 4
                 Dim nColDate = 2
                 Dim nColSeq = 2
                 Dim nColShift = 2
@@ -1671,7 +1696,7 @@ Public Class ProdSampleVerification
                 col_CellResult = dtGrid.Columns.Count
                 row_CellResult = irow + dtGrid.Rows.Count
 
-                Dim Border As ExcelRange = .Cells(row_ChartSetup + 2, 1, row_CellResult - 1, col_CellResult - 1)
+                Dim Border As ExcelRange = .Cells(row_ChartSetup + 4, 1, row_CellResult - 1, col_CellResult - 1)
                 Border.Style.Border.Top.Style = ExcelBorderStyle.Thin
                 Border.Style.Border.Bottom.Style = ExcelBorderStyle.Thin
                 Border.Style.Border.Right.Style = ExcelBorderStyle.Thin
