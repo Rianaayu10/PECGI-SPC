@@ -566,7 +566,7 @@ Public Class SampleControlQuality
                 LCL.LineStyle.Thickness = 1
                 LCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisX.ConstantLines.Add(LCL)
-                LCL.AxisValue = ht1.XBarLCL
+                LCL.AxisValue = ht1.CPLCL
                 LCL.ShowInLegend = True
 
                 Dim UCL As New ConstantLine("UCL")
@@ -575,7 +575,7 @@ Public Class SampleControlQuality
                 UCL.LineStyle.Thickness = 1
                 UCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisX.ConstantLines.Add(UCL)
-                UCL.AxisValue = ht1.XBarUCL
+                UCL.AxisValue = ht1.CPUCL
                 UCL.ShowInLegend = True
 
                 Dim DarkGray As Color = Color.FromArgb(33, 33, 33)
@@ -586,7 +586,7 @@ Public Class SampleControlQuality
                 CL.LineStyle.Thickness = 1
                 CL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisX.ConstantLines.Add(CL)
-                CL.AxisValue = ht1.XBarCL
+                CL.AxisValue = ht1.CPCL
                 CL.ShowInLegend = True
 
                 Dim LSL As New ConstantLine("LSL")

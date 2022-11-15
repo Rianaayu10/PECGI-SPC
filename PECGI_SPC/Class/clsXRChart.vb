@@ -23,9 +23,9 @@ Public Class clsHistogram
     Public Property Range As String
     Public Property Value As Double
     Public Property MaxValue As Double
-    Public Property XBarCL As Double
-    Public Property XBarLCL As Double
-    Public Property XBarUCL As Double
+    Public Property CPCL As Double
+    Public Property CPLCL As Double
+    Public Property CPUCL As Double
     Public Property SpecLSL As Double
     Public Property SpecUSL As Double
 
@@ -73,9 +73,9 @@ Public Class clsXRChartDB
                 ht.Range = dt.Rows(i)("ValueRange")
                 ht.Value = dt.Rows(i)("Value")
                 ht.MaxValue = dt.Rows(i)("MaxValue")
-                ht.XBarCL = dt.Rows(i)("XBarCL")
-                ht.XBarLCL = dt.Rows(i)("XBarLCL")
-                ht.XBarUCL = dt.Rows(i)("XBarUCL")
+                ht.CPCL = dt.Rows(i)("CPCL")
+                ht.CPLCL = dt.Rows(i)("CPLCL")
+                ht.CPUCL = dt.Rows(i)("CPUCL")
                 ht.SpecLSL = dt.Rows(i)("SpecLSL")
                 ht.SpecUSL = dt.Rows(i)("SpecUSL")
                 HtList.Add(ht)
