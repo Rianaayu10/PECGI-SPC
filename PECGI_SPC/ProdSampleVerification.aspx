@@ -22,52 +22,7 @@
 
         /*======== Initialitation Grid X ==========*/
         function InitGrid(s, e) {
-            if (s.cp_message != "" && s.cp_val == 1) {
-                if (s.cp_type == "Success" && s.cp_val == 1) {
-                    toastr.success(s.cp_message, 'Success');
-                    toastr.options.closeButton = false;
-                    toastr.options.debug = false;
-                    toastr.options.newestOnTop = false;
-                    toastr.options.progressBar = false;
-                    toastr.options.preventDuplicates = true;
-                    toastr.options.onclick = null;
-                    s.cp_val = 0;
-                    s.cp_message = "";
-                }
-                else if (s.cp_type == "ErrorMsg" && s.cp_val == 1) {
-                    toastr.error(s.cp_message, 'Error');
-                    toastr.options.closeButton = false;
-                    toastr.options.debug = false;
-                    toastr.options.newestOnTop = false;
-                    toastr.options.progressBar = false;
-                    toastr.options.preventDuplicates = true;
-                    toastr.options.onclick = null;
-                    s.cp_val = 0;
-                    s.cp_message = "";
-                }
-                else if (s.cp_type == "Warning" && s.cp_val == 1) {
-                    toastr.warning(s.cp_message, 'Warning');
-                    toastr.options.closeButton = false;
-                    toastr.options.debug = false;
-                    toastr.options.newestOnTop = false;
-                    toastr.options.progressBar = false;
-                    toastr.options.preventDuplicates = true;
-                    toastr.options.onclick = null;
-                    s.cp_val = 0;
-                    s.cp_message = "";
-                }
-                else if (s.cp_message == "" && s.cp_val == 0) {
-                    toastr.options.closeButton = false;
-                    toastr.options.debug = false;
-                    toastr.options.newestOnTop = false;
-                    toastr.options.progressBar = false;
-                    toastr.options.preventDuplicates = true;
-                    toastr.options.onclick = null;
-                }
-            }
-
-            console.log(s.cp_ProcessGroup);
-
+  
             HideValue.Set('IOT_URL', s.cp_URL);
             //HideValue.Set('IOT_FactoryCode', s.cp_FactoryCode);
             HideValue.Set('IOT_ProcessGroup', s.cp_ProcessGroup);
@@ -78,27 +33,11 @@
             HideValue.Set('IOT_InstructionNo', s.cp_InstructionNo);
             HideValue.Set('IOT_Shift', s.cp_Shift);
             HideValue.Set('IOT_ItemCode', s.cp_ItemCode);
-            HideValue.Set('SubLotNo', s.cpSubLotNo);
+            HideValue.Set('IOT_LotNo', s.cp_LotNo);
 
-            var USL = "", LSL = "", UCL = "", LCL = "";
-            var RUCL = "", RLCL = "", MIN = "", MAX = "";
-            var AVG = "", R = "", C = "", NG = "";
-
-            if (s.cpChartSetup > 0) {
-
-                USL = s.cpUSL;
-                LSL = s.cpLSL;
-                UCL = s.cpUCL;
-                LCL = s.cpLCL;
-                RUCL = s.cpRUCL;
-                RLCL = s.cpRLCL;
-                MIN = s.cpMIN;
-                MAX = s.cpMAX;
-                AVG = s.cpAVG;
-                R = s.cpR;
-                C = s.cpC;
-                NG = s.cpNG;
-            }
+            var USL = s.cpUSL, LSL = s.cpLSL, UCL = s.cpUCL,LCL = s.cpLCL;
+            var RUCL = s.cpRUCL, RLCL = s.cpRLCL, MIN = s.cpMIN, MAX = s.cpMAX;
+            var AVG = s.cpAVG, R = s.cpR, C = s.cpC, NG = s.cpNG;
 
             lblUSL.SetText(USL);
             lblLSL.SetText(LSL);
@@ -208,6 +147,50 @@
                 btnIOTProcess.SetEnabled(false);
                 btnIOTTraceability.SetEnabled(false);
             }
+
+            if (s.cp_message != "" && s.cp_val == 1) {
+                if (s.cp_type == "Success" && s.cp_val == 1) {
+                    toastr.success(s.cp_message, 'Success');
+                    toastr.options.closeButton = false;
+                    toastr.options.debug = false;
+                    toastr.options.newestOnTop = false;
+                    toastr.options.progressBar = false;
+                    toastr.options.preventDuplicates = true;
+                    toastr.options.onclick = null;
+                    s.cp_val = 0;
+                    s.cp_message = "";
+                }
+                else if (s.cp_type == "ErrorMsg" && s.cp_val == 1) {
+                    toastr.error(s.cp_message, 'Error');
+                    toastr.options.closeButton = false;
+                    toastr.options.debug = false;
+                    toastr.options.newestOnTop = false;
+                    toastr.options.progressBar = false;
+                    toastr.options.preventDuplicates = true;
+                    toastr.options.onclick = null;
+                    s.cp_val = 0;
+                    s.cp_message = "";
+                }
+                else if (s.cp_type == "Warning" && s.cp_val == 1) {
+                    toastr.warning(s.cp_message, 'Warning');
+                    toastr.options.closeButton = false;
+                    toastr.options.debug = false;
+                    toastr.options.newestOnTop = false;
+                    toastr.options.progressBar = false;
+                    toastr.options.preventDuplicates = true;
+                    toastr.options.onclick = null;
+                    s.cp_val = 0;
+                    s.cp_message = "";
+                }
+                else if (s.cp_message == "" && s.cp_val == 0) {
+                    toastr.options.closeButton = false;
+                    toastr.options.debug = false;
+                    toastr.options.newestOnTop = false;
+                    toastr.options.progressBar = false;
+                    toastr.options.preventDuplicates = true;
+                    toastr.options.onclick = null;
+                }
+            }
         }
 
         function ChangeFactory() {
@@ -291,49 +274,6 @@
         }
 
         function EndCallback_Grid(s, e) {
-            if (s.cp_message != "" && s.cp_val == 1) {
-                if (s.cp_type == "Success" && s.cp_val == 1) {
-                    toastr.success(s.cp_message, 'Success');
-                    toastr.options.closeButton = false;
-                    toastr.options.debug = false;
-                    toastr.options.newestOnTop = false;
-                    toastr.options.progressBar = false;
-                    toastr.options.preventDuplicates = true;
-                    toastr.options.onclick = null;
-                    s.cp_val = 0;
-                    s.cp_message = "";
-                }
-                else if (s.cp_type == "ErrorMsg" && s.cp_val == 1) {
-                    toastr.error(s.cp_message, 'Error');
-                    toastr.options.closeButton = false;
-                    toastr.options.debug = false;
-                    toastr.options.newestOnTop = false;
-                    toastr.options.progressBar = false;
-                    toastr.options.preventDuplicates = true;
-                    toastr.options.onclick = null;
-                    s.cp_val = 0;
-                    s.cp_message = "";
-                }
-                else if (s.cp_type == "Warning" && s.cp_val == 1) {
-                    toastr.warning(s.cp_message, 'Warning');
-                    toastr.options.closeButton = false;
-                    toastr.options.debug = false;
-                    toastr.options.newestOnTop = false;
-                    toastr.options.progressBar = false;
-                    toastr.options.preventDuplicates = true;
-                    toastr.options.onclick = null;
-                    s.cp_val = 0;
-                    s.cp_message = "";
-                }
-                else if (s.cp_message == "" && s.cp_val == 0) {
-                    toastr.options.closeButton = false;
-                    toastr.options.debug = false;
-                    toastr.options.newestOnTop = false;
-                    toastr.options.progressBar = false;
-                    toastr.options.preventDuplicates = true;
-                    toastr.options.onclick = null;
-                }
-            }
 
             HideValue.Set('IOT_URL', s.cp_URL);
             //HideValue.Set('IOT_FactoryCode', s.cp_FactoryCode);
@@ -345,38 +285,11 @@
             HideValue.Set('IOT_InstructionNo', s.cp_InstructionNo);
             HideValue.Set('IOT_Shift', s.cp_Shift);
             HideValue.Set('IOT_ItemCode', s.cp_ItemCode);
-            HideValue.Set('SubLotNo', s.cpSubLotNo);
+            HideValue.Set('IOT_LotNo', s.cp_LotNo);
 
-            console.log(s.cpSubLotNo)
-
-            var USL = "";
-            var LSL = "";
-            var UCL = "";
-            var LCL = "";
-            var RUCL = "";
-            var RLCL = "";
-            var MIN = "";
-            var MAX = "";
-            var AVG = "";
-            var R = "";
-            var C = "";
-            var NG = "";
-
-            if (s.cpChartSetup > 0) {
-
-                USL = s.cpUSL;
-                LSL = s.cpLSL;
-                UCL = s.cpUCL;
-                LCL = s.cpLCL;
-                RUCL = s.cpRUCL;
-                RLCL = s.cpRLCL;
-                MIN = s.cpMIN;
-                MAX = s.cpMAX;
-                AVG = s.cpAVG;
-                R = s.cpR;
-                C = s.cpC;
-                NG = s.cpNG;
-            }
+            var USL = s.cpUSL, LSL = s.cpLSL, UCL = s.cpUCL, LCL = s.cpLCL;
+            var RUCL = s.cpRUCL, RLCL = s.cpRLCL, MIN = s.cpMIN, MAX = s.cpMAX;
+            var AVG = s.cpAVG, R = s.cpR, C = s.cpC, NG = s.cpNG;
 
             lblUSL.SetText(USL);
             lblLSL.SetText(LSL);
@@ -485,6 +398,49 @@
                 btnIOTTraceability.SetEnabled(false);
             }
 
+            if (s.cp_message != "" && s.cp_val == 1) {
+                if (s.cp_type == "Success" && s.cp_val == 1) {
+                    toastr.success(s.cp_message, 'Success');
+                    toastr.options.closeButton = false;
+                    toastr.options.debug = false;
+                    toastr.options.newestOnTop = false;
+                    toastr.options.progressBar = false;
+                    toastr.options.preventDuplicates = true;
+                    toastr.options.onclick = null;
+                    s.cp_val = 0;
+                    s.cp_message = "";
+                }
+                else if (s.cp_type == "ErrorMsg" && s.cp_val == 1) {
+                    toastr.error(s.cp_message, 'Error');
+                    toastr.options.closeButton = false;
+                    toastr.options.debug = false;
+                    toastr.options.newestOnTop = false;
+                    toastr.options.progressBar = false;
+                    toastr.options.preventDuplicates = true;
+                    toastr.options.onclick = null;
+                    s.cp_val = 0;
+                    s.cp_message = "";
+                }
+                else if (s.cp_type == "Warning" && s.cp_val == 1) {
+                    toastr.warning(s.cp_message, 'Warning');
+                    toastr.options.closeButton = false;
+                    toastr.options.debug = false;
+                    toastr.options.newestOnTop = false;
+                    toastr.options.progressBar = false;
+                    toastr.options.preventDuplicates = true;
+                    toastr.options.onclick = null;
+                    s.cp_val = 0;
+                    s.cp_message = "";
+                }
+                else if (s.cp_message == "" && s.cp_val == 0) {
+                    toastr.options.closeButton = false;
+                    toastr.options.debug = false;
+                    toastr.options.newestOnTop = false;
+                    toastr.options.progressBar = false;
+                    toastr.options.preventDuplicates = true;
+                    toastr.options.onclick = null;
+                }
+            }
         }
 
         function EndCallback_GridActivity(s, e) {
@@ -608,11 +564,9 @@
             var LineGroup = HideValue.Get('IOT_LineGroup') === null ? "-" : HideValue.Get('IOT_LineGroup');
             var Process = HideValue.Get('IOT_ProcessCode') === null ? "-" : HideValue.Get('IOT_ProcessCode');
             var Line = HideValue.Get('LineCode') === null ? "-" : HideValue.Get('LineCode');
-            //var Date = HideValue.Get('ProdDate');
             var InstructionNo = HideValue.Get('IOT_InstructionNo') === null ? "-" : HideValue.Get('IOT_InstructionNo');
             var Shift = HideValue.Get('IOT_Shift') === null ? "-" : HideValue.Get('IOT_Shift');
             var Item = HideValue.Get('IOT_ItemCode') === null ? "-" : HideValue.Get('IOT_ItemCode');
-
             var months = {
                 Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
                 Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
@@ -620,8 +574,7 @@
             var p = HideValue.Get('ProdDate').split(' ');
             var Date = p[2] + "-" + months[p[1]] + "-" + p[0];
 
-
-            console.log(Date);
+            //console.log(Date);
 
             //TEST
             //var FactoryCode = "F001" ;
@@ -645,8 +598,8 @@
         function IOTTraceability() {
 
             var URL = HideValue.Get('IOT_URL') === null ? "-" : HideValue.Get('IOT_URL');
-            var ItemDesc = HideValue.Get('ItemTypeDesc') === null ? "-" : HideValue.Get('ItemTypeDesc');
-            var LotNo = HideValue.Get('SubLotNo') === null ? "-" : HideValue.Get('SubLotNo');
+            var ItemDesc = HideValue.Get('IOT_ItemCode') === null ? "-" : HideValue.Get('IOT_ItemCode');
+            var LotNo = HideValue.Get('IOT_LotNo') === null ? "-" : HideValue.Get('IOT_LotNo');
 
             // TEST
             //var ItemDesc = "BBRSRUSA0PAD";

@@ -56,18 +56,24 @@ Public Class clsIOT
     Public Shared Function AllowSkill(EmployeeID As String, FactoryCode As String, LineCode As String, ItemTypeCode As String) As Boolean
         Using Cn As New SqlConnection(Sconn.IOTConnectionString)
             Cn.Open()
-            Dim q As String = "Select E.EmployeeID, S.SequenceNo, S.SkillCode " & vbCrLf &
-                "from MS_MachineSkillSetting S inner join MS_EmployeeSkill E on S.SkillCode = E.SkillCode " & vbCrLf &
-                "inner join MS_ItemDetail D on S.FactoryCode = D.FactoryCode and S.LineCode = D.LineCode " & vbCrLf &
-                "inner join Ms_Item I on D.Item_Code = I.Item_Code " & vbCrLf &
-                "inner join MS_ItemType T on I.Item_Type = T.ItemTypeCode " & vbCrLf &
-                "where S.FactoryCode = @FactoryCode and S.LineCode = @LineCode and I.Item_Type = @ItemTypeCode " & vbCrLf &
-                "and E.EmployeeID = @EmployeeID and E.SkillCode = @SkillCode" & vbCrLf &
-                "and CAST(GETDATE() AS DATE) BETWEEN CAST(StartDate AS DATE) AND CAST(EndDate AS DATE)"
+            Dim q As String = "SELECT MES.EmployeeID FROM MS_Skill MS " & vbCrLf &
+                              "Join MS_MachineSkillSetting MM ON MS.SkillCode = MM.SkillCode " & vbCrLf &
+                              "Join MS_EmployeeSkill MES ON MM.SkillCode = MES.SkillCode" & vbCrLf &
+                              "Join MS_Employee ME ON ME.EmployeeID = MES.EmployeeID" & vbCrLf &
+                              "WHERE MM.FactoryCode = @FactoryCode AND MM.LineCode = @LineCode AND MS.SkillCode = @SkillCode AND MES.EmployeeID = @EmployeeID" & vbCrLf &
+                              "And CAST(GETDATE() As Date) BETWEEN CAST(MES.StartDate AS DATE) And CAST(MES.EndDate AS DATE)"
+
+            '"Select E.EmployeeID, S.SequenceNo, S.SkillCode " & vbCrLf &
+            '    "from MS_MachineSkillSetting S inner join MS_EmployeeSkill E on S.SkillCode = E.SkillCode " & vbCrLf &
+            '    "inner join MS_ItemDetail D on S.FactoryCode = D.FactoryCode and S.LineCode = D.LineCode " & vbCrLf &
+            '    "inner join Ms_Item I on D.Item_Code = I.Item_Code " & vbCrLf &
+            '    "inner join MS_ItemType T on I.Item_Type = T.ItemTypeCode " & vbCrLf &
+            '    "where S.FactoryCode = @FactoryCode and S.LineCode = @LineCode and I.Item_Type = @ItemTypeCode " & vbCrLf &
+            '    "and E.EmployeeID = @EmployeeID and E.SkillCode = @SkillCode" & vbCrLf &
+            '    "and CAST(GETDATE() AS DATE) BETWEEN CAST(StartDate AS DATE) AND CAST(EndDate AS DATE)"
             Dim cmd As New SqlCommand(q, Cn)
             cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
             cmd.Parameters.AddWithValue("LineCode", LineCode)
-            cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
             cmd.Parameters.AddWithValue("EmployeeID", EmployeeID)
             cmd.Parameters.AddWithValue("SkillCode", "SPC001")
             Dim da As New SqlDataAdapter(cmd)

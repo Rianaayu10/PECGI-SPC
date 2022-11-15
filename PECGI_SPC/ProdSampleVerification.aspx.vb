@@ -930,29 +930,19 @@ Public Class ProdSampleVerification
     Private Sub Up_GridChartSetup(cls As clsProdSampleVerification)
         ds = clsProdSampleVerificationDB.GridLoad(GetCharSetup, cls)
         Dim dtChartSetup As DataTable = ds.Tables(0)
-        GridX.JSProperties("cpChartSetup") = dtChartSetup.Rows.Count
-
         If dtChartSetup.Rows.Count > 0 Then
-            'LotNo = dtChartSetup.Rows(0)("SubLotNo").ToString
-            'HideValue.Set("SubLotNo", LotNo)
-
-            GridX.JSProperties("cpSubLotNo") = dtChartSetup.Rows(0)("SubLotNo").ToString
-
             GridX.JSProperties("cpUSL") = AFormat(dtChartSetup.Rows(0)("USL"))
             GridX.JSProperties("cpLSL") = AFormat(dtChartSetup.Rows(0)("LSL"))
             GridX.JSProperties("cpUCL") = AFormat(dtChartSetup.Rows(0)("UCL"))
             GridX.JSProperties("cpLCL") = AFormat(dtChartSetup.Rows(0)("LCL"))
             GridX.JSProperties("cpRUCL") = AFormat(dtChartSetup.Rows(0)("RUCL"))
             GridX.JSProperties("cpRLCL") = AFormat(dtChartSetup.Rows(0)("RLCL"))
-
             GridX.JSProperties("cpMIN") = AFormat(dtChartSetup.Rows(0)("nMIN"))
             GridX.JSProperties("cpMAX") = AFormat(dtChartSetup.Rows(0)("nMAX"))
             GridX.JSProperties("cpAVG") = AFormat(dtChartSetup.Rows(0)("nAVG"))
             GridX.JSProperties("cpR") = AFormat(dtChartSetup.Rows(0)("nR"))
-
             GridX.JSProperties("cpC") = dtChartSetup.Rows(0)("C").ToString
             GridX.JSProperties("cpNG") = dtChartSetup.Rows(0)("NG").ToString
-
             GridX.JSProperties("cpCS") = dtChartSetup.Rows(0)("CS").ToString
         End If
     End Sub
@@ -1229,31 +1219,26 @@ Public Class ProdSampleVerification
     End Sub
     Private Sub GetURL(cls As clsProdSampleVerification)
         Dim URL = clsIOT.GetURL(pUser)
-        GridX.JSProperties("cp_URL") = URL
-
+        Dim ds = clsProdSampleVerificationDB.GridLoad(GetCharSetup, cls)
+        Dim dtLotNo As DataTable = ds.Tables(0)
+        Dim LotNo = dtLotNo.Rows(0)("SubLotNo").ToString
         Dim dtDailyProd = clsIOT.GetDailyProd(cls.FactoryCode, cls.LineCode, cls.ItemType_Code, LotNo, cls.ProdDate)
+
+        GridX.JSProperties("cp_URL") = URL
         If dtDailyProd.Rows.Count > 0 Then
-            'GridX.JSProperties("cp_FactoryCode") = dtDailyProd.Rows(0)("FactoryCode").ToString.Trim
             GridX.JSProperties("cp_ProcessGroup") = dtDailyProd.Rows(0)("ProcessGroup").ToString.Trim
             GridX.JSProperties("cp_LineGroup") = dtDailyProd.Rows(0)("LineGroup").ToString.Trim
             GridX.JSProperties("cp_ProcessCode") = dtDailyProd.Rows(0)("ProcessCode").ToString.Trim
-            'GridX.JSProperties("cp_LineCode") = dtDailyProd.Rows(0)("LineCode").ToString.Trim
-            'GridX.JSProperties("cp_ScheduleDate") = dtDailyProd.Rows(0)("ScheduleDate")
             GridX.JSProperties("cp_InstructionNo") = dtDailyProd.Rows(0)("InstructionNo").ToString.Trim
             GridX.JSProperties("cp_Shift") = dtDailyProd.Rows(0)("Shift").ToString.Trim
             GridX.JSProperties("cp_ItemCode") = dtDailyProd.Rows(0)("ItemCode").ToString.Trim
-            'GridX.JSProperties("cp_LotNo") = dtDailyProd.Rows(0)("LotNo").ToString.Trim
         Else
-            'GridX.JSProperties("cp_FactoryCode") = ""
             GridX.JSProperties("cp_ProcessGroup") = ""
             GridX.JSProperties("cp_LineGroup") = ""
             GridX.JSProperties("cp_ProcessCode") = ""
-            'GridX.JSProperties("cp_LineCode") = ""
-            'GridX.JSProperties("cp_ScheduleDate") = ""
             GridX.JSProperties("cp_InstructionNo") = ""
             GridX.JSProperties("cp_Shift") = ""
             GridX.JSProperties("cp_ItemCode") = ""
-            'GridX.JSProperties("cp_LotNo") = ""
         End If
     End Sub
 #End Region

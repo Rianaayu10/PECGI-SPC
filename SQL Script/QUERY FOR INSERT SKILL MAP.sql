@@ -1,14 +1,14 @@
 ---====== Required to fill (Mandatory) ====---
 DECLARE @FactoryCode AS VARCHAR(25) = 'F001', --> Mandatory to change (Get FactoryID from MS Factory)
-		@LineCode AS VARCHAR(5) = '015', --> Mandatory to change (Get Line from MS Line)
-		@EmployeeID AS CHAR(5) = '13', --> Mandatory to change (Get EmployeeID from SPC_UserSetup)
+		@LineCode AS VARCHAR(5) = '018', --> Mandatory to change (Get Line from MS Line)
+		@EmployeeID AS CHAR(5) = '006', --> Mandatory to change (Get EmployeeID from SPC_UserSetup)
 		@StartDate AS DATE = '2022-10-24', --> Mandatory to change
 		@EndDate AS DATE = '2022-12-01' -->Mandatory andatory to change
 ---========================================----
 
 ---====== No need to change (HardCode) ====---
 DECLARE	@ProcessCode AS VARCHAR(25) = '', --> No need to change (Automotic fill by query)
-		@SequenceNO AS CHAR(1) = '1', --> No need to change (hardcode SequenceNO => 1)
+		@SequenceNO AS CHAR(1) = '0', --> No need to change (hardcode SequenceNO => 1)
 		@SkillCode AS VARCHAR(15) = 'SPC001', --> No need to change (Skil Code for SPC => SPC001 )
 		@ManPower AS VARCHAR(15) = '1', --> No need to change (hardcode ManPower => 1)
 		@RegisterUser AS VARCHAR(50) = 'AdminTos', --> Optional to Change
@@ -21,6 +21,10 @@ WHERE FactoryCode = @FactoryCode AND LineCode = @LineCode
 --INSERT MACHINE SKILL MAP
   IF NOT EXISTS (SELECT * FROM MS_MachineSkillSetting WHERE FactoryCode = @FactoryCode AND LineCode = @LineCode AND SkillCode = @SkillCode AND ProcessCode = @ProcessCode) 
   BEGIN
+	
+	SELECT @SequenceNO = MAX(SequenceNo) FROM MS_MachineSkillSetting WHERE FactoryCode = @FactoryCode AND LineCode = @LineCode AND ProcessCode = @ProcessCode
+	SET @SequenceNO = @SequenceNO + 1
+
 	INSERT INTO MS_MachineSkillSetting
 		( FactoryCode
 		, ProcessCode
@@ -43,6 +47,49 @@ WHERE FactoryCode = @FactoryCode AND LineCode = @LineCode
 		, @RegisterDate
 		, @RegisterUser
 		, @RegisterDate )
+  END
+
+--INSERT MS EMPLOYEE
+  IF NOT EXISTS (SELECT * FROM MS_Employee WHERE EmployeeID = @EmployeeID)
+  BEGIN
+	INSERT INTO MS_Employee(
+		 EmployeeID
+		,FullName
+		,Education
+		,Address
+		,Telephone
+		,EmployeeStatus
+		,RegisterBy
+		,RegisterDate
+		,UpdateBy
+		,UpdateDate
+		,QRCode
+		,Joindate
+		,StartDate_Contract
+		,EndDate_Contract
+	) 
+	VALUES(
+		@EmployeeID
+		,'SPC Integration Status'
+		,'03'
+		,''
+		,''
+		,'01'
+		,@RegisterUser
+		,@RegisterDate
+		,@RegisterUser
+		,@RegisterDate
+		,''
+		,@RegisterDate
+		,@StartDate
+		,@EndDate
+	)
+  END
+  ELSE
+  BEGIN
+	UPDATE MS_Employee
+	SET StartDate_Contract = @StartDate, EndDate_Contract = @EndDate
+	WHERE EmployeeID = @EmployeeID
   END
 
 --INSERT EMPLOYEE SKILL MAP
