@@ -611,7 +611,7 @@
             //var Date = HideValue.Get('ProdDate');
             var InstructionNo = HideValue.Get('IOT_InstructionNo') === null ? "-" : HideValue.Get('IOT_InstructionNo');
             var Shift = HideValue.Get('IOT_Shift') === null ? "-" : HideValue.Get('IOT_Shift');
-            var Item = HideValue.Get('ItemTypeDesc') === null ? "-" : HideValue.Get('ItemTypeDesc');
+            var Item = HideValue.Get('IOT_ItemCode') === null ? "-" : HideValue.Get('IOT_ItemCode');
 
             var months = {
                 Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",

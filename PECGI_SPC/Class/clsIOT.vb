@@ -8,8 +8,9 @@ Public Class clsIOT
                 "LineCode = A.Line_Code, ScheduleDate = CAST(A.Schedule_Date AS Date), InstructionNo = A.Instruction_No," & vbCrLf &
                 "Shift = A.Shift, ItemCode = A.Item_code, LotNo = A.Lot_No" & vbCrLf &
                 "FROM Daily_Production A" & vbCrLf &
-                "INNER JOIN MS_ItemType B ON A.Item_code = B.Description " & vbCrLf &
-                "INNER JOIN MS_Process C ON A.Factory_code = C.FactoryCode And A.process_Code = C.ProcessCode " & vbCrLf &
+                "LEFT JOIN dbo.MS_Item IT ON IT.Item_Code = A.Item_code " & vbCrLf &
+                "LEFT JOIN MS_ItemType B ON A.Item_code = IT.Item_Code " & vbCrLf &
+                "LEFT JOIN MS_Process C ON A.Factory_code = C.FactoryCode And A.process_Code = C.ProcessCode " & vbCrLf &
                 "WHERE TRIM(Factory_code) = @FactoryCode And TRIM(Line_Code) = @LineCode And TRIM(ItemTypeCode) = @ItemTypeCode And COALESCE(TRIM(Lot_No),'') = @LotNo AND CAST(Schedule_Date AS DATE) = @ProdDate"
             Dim cmd As New SqlCommand(q, Cn)
             cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
