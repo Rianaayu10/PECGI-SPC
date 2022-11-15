@@ -126,16 +126,16 @@ Public Class clsXRChartDB
                         value = .Item("RuleYellow")
                         xr.RuleYellow = value
                     End If
-                    If Not IsDBNull(.Item("XbarUCL")) Then
-                        value = .Item("XbarUCL")
+                    If Not IsDBNull(.Item("CPUCL")) Then
+                        value = .Item("CPUCL")
                         xr.UCL = value
                     End If
-                    If Not IsDBNull(.Item("XbarLCL")) Then
-                        value = .Item("XbarLCL")
+                    If Not IsDBNull(.Item("CPLCL")) Then
+                        value = .Item("CPLCL")
                         xr.LCL = value
                     End If
-                    If Not IsDBNull(.Item("XbarCL")) Then
-                        value = .Item("XbarCL")
+                    If Not IsDBNull(.Item("CPCL")) Then
+                        value = .Item("CPCL")
                         xr.CL = value
                     End If
                     If Not IsDBNull(.Item("SpecLSL")) Then

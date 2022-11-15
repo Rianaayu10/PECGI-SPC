@@ -12,6 +12,10 @@ Public Class clsChartSetup
     Public Property XBarCL As Double
     Public Property XBarUCL As Double
     Public Property XBarLCL As Double
+    Public Property CPCL As Double
+    Public Property CPUCL As Double
+    Public Property CPLCL As Double
+
     Public Property RCL As Double
     Public Property RLCL As Double
     Public Property RUCL As Double
@@ -51,9 +55,12 @@ Public Class clsChartSetupDB
                     Setup.EndDate = .Item("EndDate")
                     Setup.SpecUSL = .Item("SpecUSL")
                     Setup.SpecLSL = .Item("SpecLSL")
-                    Setup.XBarCL = .Item("XBarCL")
+                    Setup.XBarCL = 0
                     Setup.XBarUCL = .Item("XBarUCL")
                     Setup.XBarLCL = .Item("XBarLCL")
+                    Setup.CPCL = .Item("CPCL")
+                    Setup.CPUCL = .Item("CPUCL")
+                    Setup.CPLCL = .Item("CPLCL")
                     Setup.RCL = .Item("RCL")
                     Setup.RLCL = .Item("RLCL")
                     Setup.RUCL = .Item("RUCL")

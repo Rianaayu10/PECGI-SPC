@@ -116,13 +116,13 @@ Public Class ProdSampleInput
 
                         Dim colLCL As New GridViewDataTextColumn
                         colLCL.Caption = "LCL"
-                        colLCL.FieldName = "XBarLCL" & iDay.ToString
+                        colLCL.FieldName = "CPLCL" & iDay.ToString
                         colLCL.Visible = False
                         BandShift.Columns.Add(colLCL)
 
                         Dim colUCL As New GridViewDataTextColumn
                         colUCL.Caption = "UCL"
-                        colUCL.FieldName = "XBarUCL" & iDay.ToString
+                        colUCL.FieldName = "CPUCL" & iDay.ToString
                         colUCL.Visible = False
                         BandShift.Columns.Add(colUCL)
 
@@ -337,15 +337,15 @@ Public Class ProdSampleInput
             If Setup IsNot Nothing Then
                 grid.JSProperties("cpUSL") = AFormat(Setup.SpecUSL)
                 grid.JSProperties("cpLSL") = AFormat(Setup.SpecLSL)
-                grid.JSProperties("cpUCL") = AFormat(Setup.XBarUCL)
-                grid.JSProperties("cpLCL") = AFormat(Setup.XBarLCL)
+                grid.JSProperties("cpUCL") = AFormat(Setup.CPUCL)
+                grid.JSProperties("cpLCL") = AFormat(Setup.CPLCL)
             End If
         Else
             With dt.Rows(0)
                 grid.JSProperties("cpUSL") = AFormat(.Item("SpecUSL"))
                 grid.JSProperties("cpLSL") = AFormat(.Item("SpecLSL"))
-                grid.JSProperties("cpUCL") = AFormat(.Item("XBarUCL"))
-                grid.JSProperties("cpLCL") = AFormat(.Item("XBarLCL"))
+                grid.JSProperties("cpUCL") = AFormat(.Item("CPUCL"))
+                grid.JSProperties("cpLCL") = AFormat(.Item("CPLCL"))
                 grid.JSProperties("cpMin") = AFormat(.Item("MinValue"))
                 grid.JSProperties("cpMax") = AFormat(.Item("MaxValue"))
                 grid.JSProperties("cpAve") = AFormat(.Item("AvgValue"))
@@ -464,8 +464,8 @@ Public Class ProdSampleInput
         Else
             cbkRefresh.JSProperties("cpUSL") = Setup.SpecUSL
             cbkRefresh.JSProperties("cpLSL") = Setup.SpecLSL
-            cbkRefresh.JSProperties("cpUCL") = Setup.XBarUCL
-            cbkRefresh.JSProperties("cpLCL") = Setup.XBarLCL
+            cbkRefresh.JSProperties("cpUCL") = Setup.CPUCL
+            cbkRefresh.JSProperties("cpLCL") = Setup.CPLCL
         End If
     End Sub
 
@@ -683,8 +683,8 @@ Public Class ProdSampleInput
                 QCUser = dt.Rows(0)("QCUser") & ""
                 USL = dt.Rows(0)("SpecUSL") & ""
                 LSL = dt.Rows(0)("SpecUSL") & ""
-                UCL = dt.Rows(0)("XBarUCL") & ""
-                LCL = dt.Rows(0)("XBarLCL") & ""
+                UCL = dt.Rows(0)("CPUCL") & ""
+                LCL = dt.Rows(0)("CPLCL") & ""
                 vMin = dt.Rows(0)("MinValue") & ""
                 vMax = dt.Rows(0)("MaxValue") & ""
                 vAvg = dt.Rows(0)("AvgValue") & ""
@@ -1071,21 +1071,21 @@ Public Class ProdSampleInput
                 LCL.LineStyle.Thickness = 1
                 LCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(LCL)
-                LCL.AxisValue = Setup.XBarLCL
+                LCL.AxisValue = Setup.CPLCL
 
                 Dim UCL As New ConstantLine("UCL")
                 UCL.Color = System.Drawing.Color.Red
                 UCL.LineStyle.Thickness = 1
                 UCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(UCL)
-                UCL.AxisValue = Setup.XBarUCL
+                UCL.AxisValue = Setup.CPUCL
 
                 Dim CL As New ConstantLine("CL")
                 CL.Color = System.Drawing.Color.Red
                 CL.LineStyle.Thickness = 1
                 CL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(CL)
-                CL.AxisValue = Setup.XBarCL
+                CL.AxisValue = Setup.CPCL
 
                 Dim LSL As New ConstantLine("LSL")
                 LSL.Color = System.Drawing.Color.Red
@@ -1174,20 +1174,20 @@ Public Class ProdSampleInput
         If Not IsDBNull(e.CellValue) AndAlso (e.DataColumn.FieldName.StartsWith("1") Or e.DataColumn.FieldName.StartsWith("2")) _
         And (e.GetValue("Seq") = "1" Or e.GetValue("Seq") = "3" Or e.GetValue("Seq") = "4" Or e.GetValue("Seq") = "5" Or e.GetValue("Seq") = "6") Then
             If (e.DataColumn.FieldName.StartsWith("1")) Then
-                If Not IsDBNull(e.GetValue("XBarLCL1")) Then
+                If Not IsDBNull(e.GetValue("CPLCL1")) Then
                     SetupFound = True
-                    LCL = e.GetValue("XBarLCL1")
-                    UCL = e.GetValue("XBarUCL1")
+                    LCL = e.GetValue("CPLCL1")
+                    UCL = e.GetValue("CPUCL1")
                     LSL = e.GetValue("SpecLSL1")
                     USL = e.GetValue("SpecUSL1")
                     RLCL = e.GetValue("RLCL1")
                     RUCL = e.GetValue("RUCL1")
                 End If
             ElseIf (e.DataColumn.FieldName.StartsWith("2")) Then
-                If Not IsDBNull(e.GetValue("XBarLCL2")) Then
+                If Not IsDBNull(e.GetValue("CPLCL2")) Then
                     SetupFound = True
-                    LCL = e.GetValue("XBarLCL2")
-                    UCL = e.GetValue("XBarUCL2")
+                    LCL = e.GetValue("CPLCL2")
+                    UCL = e.GetValue("CPUCL2")
                     LSL = e.GetValue("SpecLSL2")
                     USL = e.GetValue("SpecUSL2")
                     RLCL = e.GetValue("RLCL2")

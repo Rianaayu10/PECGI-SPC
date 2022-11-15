@@ -874,7 +874,7 @@
             <table style="width:100%">
                 <tr>
                     <td colspan="2" class="header"><dx:ASPxLabel ID="ASPxLabel22" runat="server" Text="Specification" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
-                    <td colspan="2" class="header"><dx:ASPxLabel ID="ASPxLabel23" runat="server" Text="X Bar Control" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
+                    <td colspan="2" class="header"><dx:ASPxLabel ID="ASPxLabel23" runat="server" Text="Control Plan" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                     <td colspan="6" class="header"><dx:ASPxLabel ID="ASPxLabel24" runat="server" Text="Result" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                 </tr>
                 <tr>
