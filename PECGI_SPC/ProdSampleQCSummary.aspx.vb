@@ -584,9 +584,13 @@ Public Class ProdSampleQCSummary
                                             End If
                                         ElseIf value.Contains("NoProd") Or value.Contains("NoResult") Then
                                             If Split(value, "||").Count > 1 Then
-                                                .Cells(rowsExcel, j + 1).Value = IIf(value.Contains("NoResult"), "No Data " & Split(value, "||")(2), "")
                                                 .Cells(rowsExcel, j + 1, rowsExcel, j + 1).Style.Fill.PatternType = Style.ExcelFillStyle.Solid
-                                                .Cells(rowsExcel, j + 1, rowsExcel, j + 1).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(Split(value, "||")(1)))
+                                                If value.Contains("NoResult") Then
+                                                    .Cells(rowsExcel, j + 1).Value = "No Data " & Split(value, "||")(3)
+                                                    .Cells(rowsExcel, j + 1, rowsExcel, j + 1).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(Split(value, "||")(1)))
+                                                Else
+                                                    .Cells(rowsExcel, j + 1, rowsExcel, j + 1).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(Split(value, "||")(1)))
+                                                End If
                                             End If
                                         ElseIf value.Contains("NoActive") Then
                                             If Split(value, "||").Count > 1 Then
@@ -608,7 +612,7 @@ Public Class ProdSampleQCSummary
 
                                             If strSplit.Contains("NoProd") Or strSplit.Contains("NoResult") Or strSplit.Contains("NOK") Then
                                                 If strSplit.Contains("NoResult") Then
-                                                    result += "No Data " & Split(strSplit, "||")(2) & vbCrLf
+                                                    result += "No Data " & Split(strSplit, "||")(3) & vbCrLf
                                                 End If
                                             ElseIf strSplit.Contains("NG") Then
                                                 result += "NG " & Split(strSplit, "||")(3) & vbCrLf
