@@ -935,6 +935,8 @@ Public Class ProdSampleVerification
             GridX.JSProperties("cpLSL") = AFormat(dtChartSetup.Rows(0)("LSL"))
             GridX.JSProperties("cpUCL") = AFormat(dtChartSetup.Rows(0)("UCL"))
             GridX.JSProperties("cpLCL") = AFormat(dtChartSetup.Rows(0)("LCL"))
+            GridX.JSProperties("cpXBarUCL") = AFormat(dtChartSetup.Rows(0)("XBarUCL"))
+            GridX.JSProperties("cpXBarLCL") = AFormat(dtChartSetup.Rows(0)("XBarUCL"))
             GridX.JSProperties("cpRUCL") = AFormat(dtChartSetup.Rows(0)("RUCL"))
             GridX.JSProperties("cpRLCL") = AFormat(dtChartSetup.Rows(0)("RLCL"))
             GridX.JSProperties("cpMIN") = AFormat(dtChartSetup.Rows(0)("nMIN"))
@@ -1225,6 +1227,7 @@ Public Class ProdSampleVerification
         Dim dtDailyProd = clsIOT.GetDailyProd(cls.FactoryCode, cls.LineCode, cls.ItemType_Code, LotNo, cls.ProdDate)
 
         GridX.JSProperties("cp_URL") = URL
+        GridX.JSProperties("cp_LotNo") = LotNo
         If dtDailyProd.Rows.Count > 0 Then
             GridX.JSProperties("cp_ProcessGroup") = dtDailyProd.Rows(0)("ProcessGroup").ToString.Trim
             GridX.JSProperties("cp_LineGroup") = dtDailyProd.Rows(0)("LineGroup").ToString.Trim

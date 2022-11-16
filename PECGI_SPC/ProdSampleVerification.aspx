@@ -7,7 +7,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript">
-
         /*======== Initialitation R Chart ==========*/
         function InitRBar(s, e) {
             /*console.log(s.cpShow);*/
@@ -37,13 +36,14 @@
 
             var USL = s.cpUSL, LSL = s.cpLSL, UCL = s.cpUCL,LCL = s.cpLCL;
             var RUCL = s.cpRUCL, RLCL = s.cpRLCL, MIN = s.cpMIN, MAX = s.cpMAX;
-            var AVG = s.cpAVG, R = s.cpR, C = s.cpC, NG = s.cpNG;
+            var AVG = s.cpAVG, R = s.cpR, C = s.cpC, NG = s.cpNG, XBarUCL = s.cpXBarUCL, XBarLCL = s.cpXBarLCL;
 
             lblUSL.SetText(USL);
             lblLSL.SetText(LSL);
             lblUCL.SetText(UCL);
             lblLCL.SetText(LCL);
-
+            lblXBarUCL.SetText(XBarUCL);
+            lblXBarLCL.SetText(XBarLCL);
             lblMin.SetText(MIN);
             lblMax.SetText(MAX);
             lblAve.SetText(AVG);
@@ -128,6 +128,19 @@
                 document.getElementById('R').style.backgroundColor = 'White';
             }
 
+            if (s.cpCS == "1") {
+                document.getelementbyid("lblxbarcontrol").style.display = "";
+                document.getelementbyid("hdrxbarucl").style.display = "";
+                document.getelementbyid("hdrxbarlcl").style.display = "";
+                document.getelementbyid("bdxbarucl").style.display = "";
+                document.getElementById("bdXBarLCL").style.display = "";
+            } else {
+                document.getElementById("lblXBarControl").style.display = "none";
+                document.getElementById("hdrXBarUCL").style.display = "none";
+                document.getElementById("hdrXBarLCL").style.display = "none";
+                document.getElementById("bdXBarUCL").style.display = "none";
+                document.getElementById("bdXBarLCL").style.display = "none";
+            }
 
             if (s.cp_Verify == "1" && s.cp_AllowSkill == true) {
                 btnVerification.SetEnabled(true);
@@ -289,13 +302,14 @@
 
             var USL = s.cpUSL, LSL = s.cpLSL, UCL = s.cpUCL, LCL = s.cpLCL;
             var RUCL = s.cpRUCL, RLCL = s.cpRLCL, MIN = s.cpMIN, MAX = s.cpMAX;
-            var AVG = s.cpAVG, R = s.cpR, C = s.cpC, NG = s.cpNG;
+            var AVG = s.cpAVG, R = s.cpR, C = s.cpC, NG = s.cpNG, XBarUCL = s.cpXBarUCL, XBarLCL = s.cpXBarLCL;
 
             lblUSL.SetText(USL);
             lblLSL.SetText(LSL);
             lblUCL.SetText(UCL);
             lblLCL.SetText(LCL);
-
+            lblXBarUCL.SetText(XBarUCL);
+            lblXBarLCL.SetText(XBarLCL);
             lblMin.SetText(MIN);
             lblMax.SetText(MAX);
             lblAve.SetText(AVG);
@@ -378,6 +392,20 @@
                 }
             } else {
                 document.getElementById('R').style.backgroundColor = 'White';
+            }
+
+            if (s.cpCS == "1") {
+                document.getElementById("lblXBarControl").style.display = "";
+                document.getElementById("hdrXBarUCL").style.display = "";
+                document.getElementById("hdrXBarLCL").style.display = "";
+                document.getElementById("bdXBarUCL").style.display = "";
+                document.getElementById("bdXBarLCL").style.display = "";
+            } else {
+                document.getElementById("lblXBarControl").style.display = "none";
+                document.getElementById("hdrXBarUCL").style.display = "none";
+                document.getElementById("hdrXBarLCL").style.display = "none";
+                document.getElementById("bdXBarUCL").style.display = "none";
+                document.getElementById("bdXBarLCL").style.display = "none";
             }
 
             if (s.cp_Verify == "1" && s.cp_AllowSkill == true) {
@@ -502,7 +530,7 @@
         function Browse() {
             chartX.PerformCallback();
             chartR.PerformCallback();
-            Grid.PerformCallback('Load|');
+            GridX.PerformCallback('Load|');
             GridActivity.PerformCallback('Load|');
         }
 
@@ -516,13 +544,13 @@
             cboShift.SetValue('');
             cboSeq.SetValue('');
             HideValue.Set('ProdDate', today);
-            Grid.PerformCallback('Clear|');
+            GridX.PerformCallback('Clear|');
             GridActivity.PerformCallback('Clear|');
             e.cancel = true;
         }
 
         function Verify() {
-            Grid.PerformCallback('Verify');
+            GridX.PerformCallback('Verify');
         }
 
         function Back() {
@@ -844,50 +872,59 @@
                     </dx:ASPxButton>
                 </td>         
                 <td style="width: 5px"></td>
-                <td style="width: 220px"></td>
-                <td style="width: 500px">
+                <td style="width: 120px"></td>
+                <td style="width: 600px">
                     <table style="width: 100%">
                         <tr>
                             <td colspan="2" class="header">
-                                <dx:ASPxLabel ID="ASPxLabel22" runat="server" Text="Specification" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                                <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="Specification" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                             </td>
                             <td colspan="2" class="header">
-                                <dx:ASPxLabel ID="ASPxLabel23" runat="server" Text="X Bar Control" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                                <dx:ASPxLabel ID="ASPxLabel2" runat="server" Text="Control Plant" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            </td>
+                            <td colspan="2" class="header" id="lblXBarControl">
+                                <dx:ASPxLabel ID="ASPxLabel3" runat="server" Text="X Bar Control" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                             </td>
                             <td colspan="6" class="header">
-                                <dx:ASPxLabel ID="ASPxLabel24" runat="server" Text="Result" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                                <dx:ASPxLabel ID="ASPxLabel4" runat="server" Text="Result" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                             </td>
                         </tr>
                         <tr>
                             <td class="header" style="width: 50px">
-                                <dx:ASPxLabel ID="ASPxLabel13" runat="server" Text="USL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                                <dx:ASPxLabel ID="ASPxLabel5" runat="server" Text="USL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                             </td>
                             <td class="header" style="width: 50px">
-                                <dx:ASPxLabel ID="ASPxLabel7" runat="server" Text="LSL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                                <dx:ASPxLabel ID="ASPxLabel6" runat="server" Text="LSL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                             </td>
                             <td class="header" style="width: 50px">
-                                <dx:ASPxLabel ID="ASPxLabel14" runat="server" Text="UCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                                <dx:ASPxLabel ID="ASPxLabel7" runat="server" Text="UCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                             </td>
                             <td class="header" style="width: 50px">
-                                <dx:ASPxLabel ID="ASPxLabel15" runat="server" Text="LCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                                <dx:ASPxLabel ID="ASPxLabel8" runat="server" Text="LCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            </td>
+                             <td class="header" style="width: 60px" id="hdrXBarUCL">
+                                <dx:ASPxLabel ID="ASPxLabel9" runat="server" Text="XBarUCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            </td>
+                            <td class="header" style="width: 60px" id="hdrXBarLCL">
+                                <dx:ASPxLabel ID="ASPxLabel10" runat="server" Text="XBarLCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                             </td>
                             <td class="header" style="width: 50px">
-                                <dx:ASPxLabel ID="ASPxLabel16" runat="server" Text="Min" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                                <dx:ASPxLabel ID="ASPxLabel11" runat="server" Text="Min" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                             </td>
                             <td class="header" style="width: 50px">
-                                <dx:ASPxLabel ID="ASPxLabel17" runat="server" Text="Max" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                                <dx:ASPxLabel ID="ASPxLabel12" runat="server" Text="Max" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                             </td>
                             <td class="header" style="width: 50px">
-                                <dx:ASPxLabel ID="ASPxLabel18" runat="server" Text="Ave" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                                <dx:ASPxLabel ID="ASPxLabel13" runat="server" Text="Ave" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                             </td>
                             <td class="header" style="width: 50px">
-                                <dx:ASPxLabel ID="ASPxLabel19" runat="server" Text="R" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                                <dx:ASPxLabel ID="hASPxLabel14" runat="server" Text="R" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                             </td>
                             <td class="body" align="center" rowspan="2" style="width: 50px" id="C">
-                                <dx:ASPxLabel ID="lblC" runat="server" Text="" Font-Names="Segoe UI" Font-Size="Medium" Font-Bold="True" ForeColor="Black" ClientInstanceName="lblC"></dx:ASPxLabel>
+                                <dx:ASPxLabel ID="ASPxLabel15" runat="server" Text="" Font-Names="Segoe UI" Font-Size="Medium" Font-Bold="True" ForeColor="Black" ClientInstanceName="lblC"></dx:ASPxLabel>
                             </td>
                             <td class="body" align="center" rowspan="2" style="width: 50px" id="NG">
-                                <dx:ASPxLabel ID="lblNG" runat="server" Text="" Font-Names="Segoe UI" Font-Size="Medium" ClientInstanceName="lblNG" Font-Bold="True" ForeColor="Black"></dx:ASPxLabel>
+                                <dx:ASPxLabel ID="ASPxLabel16" runat="server" Text="" Font-Names="Segoe UI" Font-Size="Medium" ClientInstanceName="lblNG" Font-Bold="True" ForeColor="Black"></dx:ASPxLabel>
                             </td>
                         </tr>
                         <tr>
@@ -901,6 +938,12 @@
                             </td>
                             <td class="body" align="center">
                                 <dx:ASPxLabel ID="lblLCL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLCL" ForeColor="Black"></dx:ASPxLabel>
+                            </td>
+                            <td class="body" align="center" id="bdXBarUCL">
+                                <dx:ASPxLabel ID="lblXBarUCL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXBarUCL" ForeColor="Black"></dx:ASPxLabel>
+                            </td>
+                            <td class="body" align="center" id="bdXBarLCL">
+                                <dx:ASPxLabel ID="lblXBarLCL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXBarLCL" ForeColor="Black"></dx:ASPxLabel>
                             </td>
                             <td class="body" align="center" id="Min">
                                 <dx:ASPxLabel ID="lblMin" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblMin" ForeColor="Black"></dx:ASPxLabel>
@@ -922,7 +965,7 @@
     </div>
 
     <div style="padding: 5px 5px 5px 5px;">
-        <dx:ASPxGridView ID="GridX" runat="server" AutoGenerateColumns="False" ClientInstanceName="Grid"
+        <dx:ASPxGridView ID="GridX" runat="server" AutoGenerateColumns="False" ClientInstanceName="GridX"
             EnableTheming="True" KeyFieldName="nDesc" Theme="Office2010Black"
             Width="100%" Font-Names="Segoe UI" Font-Size="9pt">
             <ClientSideEvents EndCallback="EndCallback_Grid" Init="InitGrid" />
