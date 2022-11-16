@@ -506,7 +506,7 @@
                 <dx:GridViewBandColumn Caption="X Bar Control" VisibleIndex="7">
                     <HeaderStyle HorizontalAlign="Center" />
                     <Columns>
-                        <dx:GridViewDataSpinEditColumn Caption="CL" FieldName="XCL"
+                        <%--<dx:GridViewDataSpinEditColumn Caption="CL" FieldName="XCL"
                             width="50px" Settings-AutoFilterCondition="Contains">
                             <PropertiesSpinEdit MaxValue="10000" MinValue="0" DecimalPlaces="3" Increment="0.001" Style-VerticalAlign="Middle" Style-HorizontalAlign="Right">
                                 <ButtonStyle Width="5px" Paddings-Padding="2px">
@@ -515,7 +515,7 @@
                             </PropertiesSpinEdit>
                             <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
                             <CellStyle HorizontalAlign="Right" VerticalAlign="Middle" />
-                        </dx:GridViewDataSpinEditColumn>
+                        </dx:GridViewDataSpinEditColumn>--%>
 
                         <dx:GridViewDataSpinEditColumn Caption="UCL" FieldName="XUCL"
                             width="50px" Settings-AutoFilterCondition="Contains">
@@ -541,7 +541,47 @@
                     </Columns>
                 </dx:GridViewBandColumn>
 
-                <dx:GridViewBandColumn Caption="R Control" VisibleIndex="8">
+                <%--hihihi--%>
+                <dx:GridViewBandColumn Caption="Control Plan Limit" VisibleIndex="8">
+                    <HeaderStyle HorizontalAlign="Center" />
+                    <Columns>
+                        <dx:GridViewDataSpinEditColumn Caption="CL" FieldName="CPCL"
+                            width="50px" Settings-AutoFilterCondition="Contains">
+                            <PropertiesSpinEdit MaxValue="10000" MinValue="0" DecimalPlaces="3" Increment="0.001" Style-VerticalAlign="Middle" Style-HorizontalAlign="Right">
+                                <ButtonStyle Width="5px" Paddings-Padding="2px">
+                                    <Paddings Padding="2px" />
+                                </ButtonStyle>
+                            </PropertiesSpinEdit>
+                            <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
+                            <CellStyle HorizontalAlign="Right" VerticalAlign="Middle" />
+                        </dx:GridViewDataSpinEditColumn>
+
+                        <dx:GridViewDataSpinEditColumn Caption="UCL" FieldName="CPUCL"
+                            width="50px" Settings-AutoFilterCondition="Contains">
+                            <PropertiesSpinEdit MaxValue="10000" MinValue="0" DecimalPlaces="3" Increment="0.001" Style-VerticalAlign="Middle" Style-HorizontalAlign="Right">
+                                <ButtonStyle Width="5px" Paddings-Padding="2px">
+                                    <Paddings Padding="2px" />
+                                </ButtonStyle>
+                            </PropertiesSpinEdit>
+                            <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
+                            <CellStyle HorizontalAlign="Right" VerticalAlign="Middle" />
+                        </dx:GridViewDataSpinEditColumn>
+
+                        <dx:GridViewDataSpinEditColumn Caption="LCL" FieldName="CPLCL"
+                            width="50px" Settings-AutoFilterCondition="Contains">
+                            <PropertiesSpinEdit MaxValue="10000" MinValue="0" DecimalPlaces="3" Increment="0.001" Style-VerticalAlign="Middle" Style-HorizontalAlign="Right">
+                                <ButtonStyle Width="5px" Paddings-Padding="2px">
+                                    <Paddings Padding="2px" />
+                                </ButtonStyle>
+                            </PropertiesSpinEdit>
+                            <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
+                            <CellStyle HorizontalAlign="Right" VerticalAlign="Middle" />
+                        </dx:GridViewDataSpinEditColumn>
+                    </Columns>
+                </dx:GridViewBandColumn>
+                <%--hahhaa--%>
+
+                <dx:GridViewBandColumn Caption="R Control" VisibleIndex="9">
                     <HeaderStyle HorizontalAlign="Center" />
                     <Columns>
                         <dx:GridViewDataSpinEditColumn Caption="CL" FieldName="RCL"
@@ -579,7 +619,7 @@
                     </Columns>
                 </dx:GridViewBandColumn>
 
-                <dx:GridViewDataTextColumn Caption="Last User" FieldName="LastUser" VisibleIndex="9"
+                <dx:GridViewDataTextColumn Caption="Last User" FieldName="LastUser" VisibleIndex="10"
                     Width="75px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="15" Width="100px">
                         <Style HorizontalAlign="Left"></Style>
@@ -594,7 +634,7 @@
                     <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
                 </dx:GridViewDataTextColumn>
 
-                <dx:GridViewDataTextColumn Caption="Last Update" FieldName="LastUpdate" VisibleIndex="10"
+                <dx:GridViewDataTextColumn Caption="Last Update" FieldName="LastUpdate" VisibleIndex="11"
                     Width="135px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="15" Width="100px">
                         <Style HorizontalAlign="Left"></Style>
@@ -786,13 +826,13 @@
                                             runat="server" ColumnID="SpecLSL"></dx:ASPxGridViewTemplateReplacement>
                                     </td>
                                 </tr>
-                                <tr style="height: 30px">
+                                <%--<tr style="height: 30px">
                                     <td>X Bar CL</td>
                                     <td>
                                         <dx:ASPxGridViewTemplateReplacement ID="editXCL" ReplacementType="EditFormCellEditor"
                                             runat="server" ColumnID="XCL"></dx:ASPxGridViewTemplateReplacement>
                                     </td>
-                                </tr>
+                                </tr>--%>
                                 <tr style="height: 30px">
                                     <td>X Bar UCL</td>
                                     <td>
@@ -805,6 +845,27 @@
                                     <td>
                                         <dx:ASPxGridViewTemplateReplacement ID="editXLCL" ReplacementType="EditFormCellEditor"
                                             runat="server" ColumnID="XLCL"></dx:ASPxGridViewTemplateReplacement>
+                                    </td>
+                                </tr>
+                                <tr style="height: 30px">
+                                    <td>Control Plan CL</td>
+                                    <td>
+                                        <dx:ASPxGridViewTemplateReplacement ID="ASPxGridViewTemplateReplacement2" ReplacementType="EditFormCellEditor"
+                                            runat="server" ColumnID="CPCL"></dx:ASPxGridViewTemplateReplacement>
+                                    </td>
+                                </tr>
+                                <tr style="height: 30px">
+                                    <td>Control Plan UCL</td>
+                                    <td>
+                                        <dx:ASPxGridViewTemplateReplacement ID="ASPxGridViewTemplateReplacement3" ReplacementType="EditFormCellEditor"
+                                            runat="server" ColumnID="CPUCL"></dx:ASPxGridViewTemplateReplacement>
+                                    </td>
+                                </tr>
+                                <tr style="height: 30px">
+                                    <td>Control Plan LCL</td>
+                                    <td>
+                                        <dx:ASPxGridViewTemplateReplacement ID="ASPxGridViewTemplateReplacement4" ReplacementType="EditFormCellEditor"
+                                            runat="server" ColumnID="CPLCL"></dx:ASPxGridViewTemplateReplacement>
                                     </td>
                                 </tr>
                                 <tr style="height: 30px">
