@@ -102,9 +102,11 @@ Public Class ControlChartSetup
         ElseIf e.Column.FieldName = "MachineEditGrid" Or e.Column.FieldName = "ItemCheckEditGrid" Then
             e.Editor.Width = "200"
         ElseIf e.Column.FieldName = "SpecUSL" Or e.Column.FieldName = "SpecLSL" _
-            Or e.Column.FieldName = "XCL" Or e.Column.FieldName = "XUCL" Or e.Column.FieldName = "XLCL" _
+            Or e.Column.FieldName = "XUCL" Or e.Column.FieldName = "XLCL" _
+            Or e.Column.FieldName = "CPCL" Or e.Column.FieldName = "CPUCL" Or e.Column.FieldName = "CPLCL" _
             Or e.Column.FieldName = "RCL" Or e.Column.FieldName = "RUCL" Or e.Column.FieldName = "RLCL" Then
             e.Editor.Width = "75"
+            'Or e.Column.FieldName = "XCL"  di Hapus
         End If
     End Sub
 
@@ -153,13 +155,17 @@ Public Class ControlChartSetup
                 EnTime.ToString("yyyy-MM-dd"), EnTime.ToString("yyyy-MM-dd"), _
                 e.NewValues("SpecUSL"), e.NewValues("SpecUSL"), _
                 e.NewValues("SpecLSL"), e.NewValues("SpecLSL"), _
-                e.NewValues("XCL"), e.NewValues("XCL"), _
                 e.NewValues("XUCL"), e.NewValues("XUCL"), _
                 e.NewValues("XLCL"), e.NewValues("XLCL"), _
+                e.NewValues("CPCL"), e.NewValues("CPCL"), _
+                e.NewValues("CPUCL"), e.NewValues("CPUCL"), _
+                e.NewValues("CPLCL"), e.NewValues("CPLCL"), _
                 e.NewValues("RCL"), e.NewValues("RCL"), _
                 e.NewValues("RLCL"), e.NewValues("RLCL"), _
                 e.NewValues("RUCL"), e.NewValues("RUCL"), _
                 pUser)
+            'e.NewValues("XCL"), e.NewValues("XCL"), _ di Hapus
+
             Grid.CancelEdit()
             up_GridLoad()
         Catch ex As Exception
@@ -183,13 +189,17 @@ Public Class ControlChartSetup
                 EnTime.ToString("yyyy-MM-dd"), EnTimeOld.ToString("yyyy-MM-dd"), _
                 e.NewValues("SpecUSL"), e.OldValues("SpecUSL"), _
                 e.NewValues("SpecLSL"), e.OldValues("SpecLSL"), _
-                e.NewValues("XCL"), e.OldValues("XCL"), _
                 e.NewValues("XUCL"), e.OldValues("XUCL"), _
                 e.NewValues("XLCL"), e.OldValues("XLCL"), _
+                e.NewValues("CPCL"), e.OldValues("CPCL"), _
+                e.NewValues("CPUCL"), e.OldValues("CPUCL"), _
+                e.NewValues("CPLCL"), e.OldValues("CPLCL"), _
                 e.NewValues("RCL"), e.OldValues("RCL"), _
                 e.NewValues("RLCL"), e.OldValues("RLCL"), _
                 e.NewValues("RUCL"), e.OldValues("RUCL"), _
                 pUser)
+            'e.NewValues("XCL"), e.OldValues("XCL"), _ di Hapus
+
             Grid.CancelEdit()
             up_GridLoad()
         Catch ex As Exception
@@ -298,12 +308,12 @@ Public Class ControlChartSetup
             AdaError = True
         End If
 
-        tmpdataCol = Grid.DataColumns("XCL")
-        If IsNothing(e.NewValues("XCL")) OrElse e.NewValues("XCL").ToString.Trim = "" Then
-            e.Errors(tmpdataCol) = "please Input a Number!"
-            show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
-            AdaError = True
-        End If
+        'tmpdataCol = Grid.DataColumns("XCL")
+        'If IsNothing(e.NewValues("XCL")) OrElse e.NewValues("XCL").ToString.Trim = "" Then
+        '    e.Errors(tmpdataCol) = "please Input a Number!"
+        '    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+        '    AdaError = True
+        'End If
 
         tmpdataCol = Grid.DataColumns("XUCL")
         If IsNothing(e.NewValues("XUCL")) OrElse e.NewValues("XUCL").ToString.Trim = "" Then
@@ -314,6 +324,27 @@ Public Class ControlChartSetup
 
         tmpdataCol = Grid.DataColumns("XLCL")
         If IsNothing(e.NewValues("XLCL")) OrElse e.NewValues("XLCL").ToString.Trim = "" Then
+            e.Errors(tmpdataCol) = "please Input a Number!"
+            show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+            AdaError = True
+        End If
+
+        tmpdataCol = Grid.DataColumns("CPCL")
+        If IsNothing(e.NewValues("CPCL")) OrElse e.NewValues("CPCL").ToString.Trim = "" Then
+            e.Errors(tmpdataCol) = "please Input a Number!"
+            show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+            AdaError = True
+        End If
+
+        tmpdataCol = Grid.DataColumns("CPUCL")
+        If IsNothing(e.NewValues("CPUCL")) OrElse e.NewValues("CPUCL").ToString.Trim = "" Then
+            e.Errors(tmpdataCol) = "please Input a Number!"
+            show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+            AdaError = True
+        End If
+
+        tmpdataCol = Grid.DataColumns("CPLCL")
+        If IsNothing(e.NewValues("CPLCL")) OrElse e.NewValues("CPLCL").ToString.Trim = "" Then
             e.Errors(tmpdataCol) = "please Input a Number!"
             show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
             AdaError = True
@@ -515,20 +546,25 @@ Public Class ControlChartSetup
         End Try
     End Sub
 
-    Private Function up_InsUpd(Type As String, Factory As String, ItemType As String, Machine As String, ItemCheck As String, _
+    Private Sub up_InsUpd(Type As String, Factory As String, ItemType As String, Machine As String, ItemCheck As String, _
                                Start As String, StartOld As String, _
                                EndTime As String, EndTimeOld As String, _
                                SpecUSL As String, SpecUSLOld As String, _
                                SpecLSL As String, SpecLSLOld As String, _
-                               XBarCL As String, XBarCLOld As String, _
                                XBarUCL As String, XBarUCLOld As String, _
                                XBarLCL As String, XBarLCLOld As String, _
+                               CPCL As String, CPCLOld As String, _
+                               CPUCL As String, CPUCLOld As String, _
+                               CPLCL As String, CPLCLOld As String, _
                                RCL As String, RCLOld As String, _
                                RLCL As String, RLCLOld As String, _
                                RUCL As String, RUCLOld As String, _
-                               User As String) As Boolean
+                               User As String)
+        'XBarCL As String, XBarCLOld As String, _ di Hapus Parameter nya
+
         Dim message As String = IIf(Type = "0", "Save data successfully!", "Update data successfully!") '0 Save | 1 Update
         Try
+            '.XBarCL = XBarCL, .XBarCLOld = XBarCLOld, --di Hapus
             Dim cls As New clsControlChartSetup With
             {
                 .Factory = Factory,
@@ -539,9 +575,11 @@ Public Class ControlChartSetup
                 .EndTime = EndTime, .EndTimeOld = EndTimeOld,
                 .SpecUSL = SpecUSL, .SpecUSLOld = SpecUSLOld,
                 .SpecLSL = SpecLSL, .SpecLSLOld = SpecLSLOld,
-                .XBarCL = XBarCL, .XBarCLOld = XBarCLOld,
                 .XBarUCL = XBarUCL, .XBarUCLOld = XBarUCLOld,
                 .XBarLCL = XBarLCL, .XBarLCLOld = XBarLCLOld,
+                .CPCL = CPCL, .CPCLOld = CPCLOld,
+                .CPUCL = CPUCL, .CPUCLOld = CPUCLOld,
+                .CPLCL = CPLCL, .CPLCLOld = CPLCLOld,
                 .RCL = RCL, .RCLOld = RCLOld,
                 .RLCL = RLCL, .RLCLOld = RLCLOld,
                 .RUCL = RUCL, .RUCLOld = RUCLOld,
@@ -553,7 +591,7 @@ Public Class ControlChartSetup
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
-    End Function
+    End Sub
 
     Private Sub up_FillComboFilter(Factory, Machine, Type)
         'Type
@@ -589,7 +627,7 @@ Public Class ControlChartSetup
             .SelectParameters.Add("Param2", Machine)
             .SelectParameters.Add("Param3", Type)
         End With
-        
+
         Dim combo2 As GridViewDataComboBoxColumn = TryCast(Grid.Columns("Machine"), GridViewDataComboBoxColumn)
         With combo2
             .PropertiesComboBox.ValueType = GetType(String)
@@ -611,7 +649,7 @@ Public Class ControlChartSetup
             .SelectParameters.Add("Param2", Machine)
             .SelectParameters.Add("Param3", Type)
         End With
-        
+
         Dim combo3 As GridViewDataComboBoxColumn = TryCast(Grid.Columns("ItemCheck"), GridViewDataComboBoxColumn)
         With combo3
             .PropertiesComboBox.ValueType = GetType(String)
@@ -620,7 +658,7 @@ Public Class ControlChartSetup
             .PropertiesComboBox.ValueField = "Code"
             .PropertiesComboBox.TextFormatString = "{0}"
         End With
-        
+
     End Sub
 #End Region
 

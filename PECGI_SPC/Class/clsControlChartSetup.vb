@@ -11,9 +11,12 @@ Public Class clsControlChartSetup
     Public Property EndTime As String : Public Property EndTimeOld As String
     Public Property SpecUSL As String : Public Property SpecUSLOld As String
     Public Property SpecLSL As String : Public Property SpecLSLOld As String
-    Public Property XBarCL As String : Public Property XBarCLOld As String
+    'Public Property XBarCL As String : Public Property XBarCLOld As String
     Public Property XBarLCL As String : Public Property XBarLCLOld As String
     Public Property XBarUCL As String : Public Property XBarUCLOld As String
+    Public Property CPCL As String : Public Property CPCLOld As String
+    Public Property CPLCL As String : Public Property CPLCLOld As String
+    Public Property CPUCL As String : Public Property CPUCLOld As String
     Public Property RCL As String : Public Property RCLOld As String
     Public Property RLCL As String : Public Property RLCLOld As String
     Public Property RUCL As String : Public Property RUCLOld As String
@@ -60,7 +63,7 @@ Public Class clsControlChartSetupDB
         End Using
     End Function
 
-    Public Shared Function InsertUpdate(cls As clsControlChartSetup, Type As String) As Boolean
+    Public Shared Sub InsertUpdate(cls As clsControlChartSetup, Type As String)
         Try
             Using cn As New SqlConnection(Sconn.Stringkoneksi)
                 cn.Open()
@@ -78,9 +81,12 @@ Public Class clsControlChartSetupDB
                 cmd.Parameters.AddWithValue("EndOld", cls.EndTimeOld)
                 cmd.Parameters.AddWithValue("SpecUSL", CDbl(cls.SpecUSL))
                 cmd.Parameters.AddWithValue("SpecLSL", CDbl(cls.SpecLSL))
-                cmd.Parameters.AddWithValue("XBarCL", CDbl(cls.XBarCL))
+                'cmd.Parameters.AddWithValue("XBarCL", CDbl(cls.XBarCL))
                 cmd.Parameters.AddWithValue("XBarUCL", CDbl(cls.XBarUCL))
                 cmd.Parameters.AddWithValue("XBarLCL", CDbl(cls.XBarLCL))
+                cmd.Parameters.AddWithValue("CPCL", CDbl(cls.CPCL))
+                cmd.Parameters.AddWithValue("CPUCL", CDbl(cls.CPUCL))
+                cmd.Parameters.AddWithValue("CPLCL", CDbl(cls.CPLCL))
                 cmd.Parameters.AddWithValue("RCL", CDbl(cls.RCL))
                 cmd.Parameters.AddWithValue("RLCL", CDbl(cls.RLCL))
                 cmd.Parameters.AddWithValue("RUCL", CDbl(cls.RUCL))
@@ -92,9 +98,9 @@ Public Class clsControlChartSetupDB
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
-    End Function
+    End Sub
 
-    Public Shared Function Email(cls As clsControlChartSetup, Type As String) As Boolean
+    Public Shared Sub Email(cls As clsControlChartSetup, Type As String)
         Try
             Using cn As New SqlConnection(Sconn.Stringkoneksi)
                 cn.Open()
@@ -110,9 +116,12 @@ Public Class clsControlChartSetupDB
                 cmd.Parameters.AddWithValue("End", cls.EndTime) : cmd.Parameters.AddWithValue("EndOld", cls.EndTimeOld)
                 cmd.Parameters.AddWithValue("SpecUSL", CDbl(cls.SpecUSL)) : cmd.Parameters.AddWithValue("SpecUSLOld", CDbl(cls.SpecUSLOld))
                 cmd.Parameters.AddWithValue("SpecLSL", CDbl(cls.SpecLSL)) : cmd.Parameters.AddWithValue("SpecLSLOld", CDbl(cls.SpecLSLOld))
-                cmd.Parameters.AddWithValue("XBarCL", CDbl(cls.XBarCL)) : cmd.Parameters.AddWithValue("XBarCLOld", CDbl(cls.XBarCLOld))
+                'cmd.Parameters.AddWithValue("XBarCL", CDbl(cls.XBarCL)) : cmd.Parameters.AddWithValue("XBarCLOld", CDbl(cls.XBarCLOld))
                 cmd.Parameters.AddWithValue("XBarUCL", CDbl(cls.XBarUCL)) : cmd.Parameters.AddWithValue("XBarUCLOld", CDbl(cls.XBarUCLOld))
                 cmd.Parameters.AddWithValue("XBarLCL", CDbl(cls.XBarLCL)) : cmd.Parameters.AddWithValue("XBarLCLOld", CDbl(cls.XBarLCLOld))
+                cmd.Parameters.AddWithValue("CPCL", CDbl(cls.CPCL)) : cmd.Parameters.AddWithValue("CPCLOld", CDbl(cls.CPCLOld))
+                cmd.Parameters.AddWithValue("CPUCL", CDbl(cls.CPUCL)) : cmd.Parameters.AddWithValue("CPUCLOld", CDbl(cls.CPUCLOld))
+                cmd.Parameters.AddWithValue("CPLCL", CDbl(cls.CPLCL)) : cmd.Parameters.AddWithValue("CPLCLOld", CDbl(cls.CPLCLOld))
                 cmd.Parameters.AddWithValue("RCL", CDbl(cls.RCL)) : cmd.Parameters.AddWithValue("RCLOld", CDbl(cls.RCLOld))
                 cmd.Parameters.AddWithValue("RLCL", CDbl(cls.RLCL)) : cmd.Parameters.AddWithValue("RLCLOld", CDbl(cls.RLCLOld))
                 cmd.Parameters.AddWithValue("RUCL", CDbl(cls.RUCL)) : cmd.Parameters.AddWithValue("RUCLOld", CDbl(cls.RUCLOld))
@@ -124,9 +133,9 @@ Public Class clsControlChartSetupDB
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
-    End Function
+    End Sub
 
-    Public Shared Function Check(cls As clsControlChartSetup, Optional ByRef pErr As String = "") As Boolean
+    Public Shared Sub Check(cls As clsControlChartSetup, Optional ByRef pErr As String = "")
         Try
             Using cn As New SqlConnection(Sconn.Stringkoneksi)
                 cn.Open()
@@ -145,9 +154,9 @@ Public Class clsControlChartSetupDB
         Catch ex As Exception
             pErr = ex.Message
         End Try
-    End Function
+    End Sub
 
-    Public Shared Function Delete(cls As clsControlChartSetup) As Boolean
+    Public Shared Sub Delete(cls As clsControlChartSetup)
         Try
             Using cn As New SqlConnection(Sconn.Stringkoneksi)
                 cn.Open()
@@ -166,5 +175,5 @@ Public Class clsControlChartSetupDB
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
-    End Function
+    End Sub
 End Class
