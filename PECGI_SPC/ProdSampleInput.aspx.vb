@@ -155,9 +155,14 @@ Public Class ProdSampleInput
                 SelDay = CDate(Hdr.ProdDate)
             Next
             ChartType = clsXRChartDB.GetChartType(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode)
+            If ChartType = "0" Then
+                .JSProperties("cpShow") = "0"
+            Else
+                .JSProperties("cpShow") = "1"
+            End If
             Dim dt As DataTable = clsSPCResultDetailDB.GetTableXR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, Hdr.VerifiedOnly)
-            gridX.DataSource = dt
-            gridX.DataBind()
+            .DataSource = dt
+            .DataBind()
         End With
     End Sub
 
@@ -383,6 +388,17 @@ Public Class ProdSampleInput
             show_error(MsgTypeEnum.Warning, "Previous Sequence is not yet verified (" & ProdDate & ", Shift " & ShiftCode & ", Sequence " & Sequence & ")", 1)
         End If
     End Sub
+
+    Private Function ADbl(v As Object) As Object
+        Dim decimalSeparator As String = Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator
+
+        If v Is Nothing OrElse IsDBNull(v) Then
+            Return Nothing
+        Else
+            v = Replace(v, ".", decimalSeparator)
+            Return CDbl(v)
+        End If
+    End Function
 
     Private Function AFormat(v As Object) As String
         If v Is Nothing OrElse IsDBNull(v) Then
@@ -653,8 +669,11 @@ Public Class ProdSampleInput
         Dim EndCol As Integer
         Dim MKUser As String = "", MKDate As String = ""
         Dim QCUser As String = "", QCDate As String = ""
-        Dim USL As String = "", LSL As String = "", UCL As String = "", LCL As String = "", NG As String = "", C As String = ""
+        Dim USL As String = "", LSL As String = "", UCL As String = "", LCL As String = "", NG As String = "", C As String = "", RLCL As Double, RUCL As Double
         Dim vMin As String = "", vMax As String = "", vAvg As String = "", vR As String = "", SubLotNo As String = "", Remarks As String = ""
+        Dim LightYellow As Color = Color.FromArgb(255, 255, 153)
+        Dim cs As New clsSPCColor
+
         With pExl
             .Cells(iRow, 1).Value = "Data"
             .Cells(iRow, 2).Value = "Value"
@@ -682,7 +701,7 @@ Public Class ProdSampleInput
                 QCDate = dt.Rows(0)("QCDate") & ""
                 QCUser = dt.Rows(0)("QCUser") & ""
                 USL = dt.Rows(0)("SpecUSL") & ""
-                LSL = dt.Rows(0)("SpecUSL") & ""
+                LSL = dt.Rows(0)("SpecLSL") & ""
                 UCL = dt.Rows(0)("CPUCL") & ""
                 LCL = dt.Rows(0)("CPLCL") & ""
                 vMin = dt.Rows(0)("MinValue") & ""
@@ -691,6 +710,8 @@ Public Class ProdSampleInput
                 vR = dt.Rows(0)("RValue") & ""
                 NG = dt.Rows(0)("NGValue") & ""
                 C = dt.Rows(0)("CValue") & ""
+                RLCL = dt.Rows(0)("RLCL")
+                RUCL = dt.Rows(0)("RUCL")
                 SubLotNo = dt.Rows(0)("SubLotNo") & ""
                 Remarks = dt.Rows(0)("Remarks") & ""
             End If
@@ -708,6 +729,16 @@ Public Class ProdSampleInput
                 .Cells(iRow, 8).Value = dt.Rows(i)("RegisterUser")
                 .Cells(iRow, 9).Value = dt.Rows(i)("RegisterDate")
                 .Cells(iRow, 9).Style.Numberformat.Format = "dd MMM yyyy HH:mm"
+                If dt.Rows(i)("DeleteStatus") & "" = "1" Then
+                    .Cells(iRow, 1, iRow, 10).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(iRow, 1, iRow, 10).Style.Fill.BackgroundColor.SetColor(Color.Silver)
+                ElseIf dt.Rows(i)("JudgementColor") & "" = "1" Then
+                    .Cells(iRow, 1, iRow, 10).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(iRow, 1, iRow, 10).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                ElseIf dt.Rows(i)("JudgementColor") & "" = "2" Then
+                    .Cells(iRow, 1, iRow, 10).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(iRow, 1, iRow, 10).Style.Fill.BackgroundColor.SetColor(Color.Red)
+                End If
                 .Cells(iRow, 9, iRow, 10).Merge = True
                 EndRow = iRow
             Next
@@ -746,37 +777,86 @@ Public Class ProdSampleInput
 
             .Cells(iRow, 1).Value = "Specification"
             .Cells(iRow, 1, iRow, 2).Merge = True
-            .Cells(iRow, 3).Value = "X Bar Control"
+            .Cells(iRow, 3).Value = "Control Plan"
             .Cells(iRow, 3, iRow, 4).Merge = True
             .Cells(iRow, 5).Value = "Result"
             .Cells(iRow, 5, iRow, 10).Merge = True
 
             .Cells(iRow + 1, 1).Value = "USL"
-            .Cells(iRow + 2, 1).Value = Val(USL)
+            .Cells(iRow + 2, 1).Value = ADbl(USL)
             .Cells(iRow + 1, 2).Value = "LSL"
-            .Cells(iRow + 2, 2).Value = Val(LSL)
+            .Cells(iRow + 2, 2).Value = ADbl(LSL)
             .Cells(iRow + 1, 3).Value = "UCL"
-            .Cells(iRow + 2, 3).Value = Val(UCL)
+            .Cells(iRow + 2, 3).Value = ADbl(UCL)
             .Cells(iRow + 1, 4).Value = "LCL"
-            .Cells(iRow + 2, 4).Value = Val(LCL)
+            .Cells(iRow + 2, 4).Value = ADbl(LCL)
             .Cells(iRow + 1, 5).Value = "Min"
-            .Cells(iRow + 2, 5).Value = Val(vMin)
+            .Cells(iRow + 2, 5).Value = ADbl(vMin)
             .Cells(iRow + 1, 6).Value = "Max"
-            .Cells(iRow + 2, 6).Value = Val(vMax)
+            .Cells(iRow + 2, 6).Value = ADbl(vMax)
             .Cells(iRow + 1, 7).Value = "Ave"
-            .Cells(iRow + 2, 7).Value = Val(vAvg)
+            .Cells(iRow + 2, 7).Value = ADbl(vAvg)
             .Cells(iRow + 1, 8).Value = "R"
-            .Cells(iRow + 2, 8).Value = Val(vR)
+            .Cells(iRow + 2, 8).Value = ADbl(vR)
+            .Cells(iRow + 2, 1, iRow + 2, 8).Style.Numberformat.Format = "0.000"
 
+            Dim Col As Integer = 5
+            If vMin <> "" Then
+                If ADbl(vMin) < ADbl(LSL) Or ADbl(vMin) > ADbl(USL) Then
+                    .Cells(iRow + 2, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(iRow + 2, Col).Style.Fill.BackgroundColor.SetColor(Color.Red)
+                ElseIf ADbl(vMin) < ADbl(LCL) Or ADbl(vMin) > ADbl(UCL) Then
+                    .Cells(iRow + 2, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    If ChartType = "0" Then
+                        .Cells(iRow + 2, Col).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                    Else
+                        .Cells(iRow + 2, Col).Style.Fill.BackgroundColor.SetColor(LightYellow)
+                    End If
+                End If
+            End If
+            If vMax <> "" Then
+                Col = 6
+                If ADbl(vMax) < ADbl(LSL) Or ADbl(vMax) > ADbl(USL) Then
+                    .Cells(iRow + 2, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(iRow + 2, Col).Style.Fill.BackgroundColor.SetColor(Color.Red)
+                ElseIf ADbl(vMax) < ADbl(LCL) Or ADbl(vMax) > ADbl(UCL) Then
+                    .Cells(iRow + 2, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    If ChartType = "0" Then
+                        .Cells(iRow + 2, Col).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                    Else
+                        .Cells(iRow + 2, Col).Style.Fill.BackgroundColor.SetColor(LightYellow)
+                    End If
+                End If
+            End If
+            If vAvg <> "" Then
+                Col = 7
+                If ADbl(vAvg) < ADbl(LSL) Or ADbl(vAvg) > ADbl(USL) Then
+                    .Cells(iRow + 2, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(iRow + 2, Col).Style.Fill.BackgroundColor.SetColor(Color.Red)
+                ElseIf ADbl(vAvg) < ADbl(LCL) Or ADbl(vAvg) > ADbl(UCL) Then
+                    .Cells(iRow + 2, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    If ChartType = "0" Then
+                        .Cells(iRow + 2, Col).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                    Else
+                        .Cells(iRow + 2, Col).Style.Fill.BackgroundColor.SetColor(LightYellow)
+                    End If
+                End If
+            End If
+            If vR <> "" Then
+                Col = 8
+                If (ADbl(vR) < RLCL Or ADbl(vR) > RUCL) And ChartType <> "0" Then
+                    .Cells(iRow + 2, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(iRow + 2, Col).Style.Fill.BackgroundColor.SetColor(Color.Yellow)
+                End If
+            End If
+
+            .Cells(iRow + 1, 9, iRow + 1, 10).Style.Font.Size = 14
+            .Cells(iRow + 1, 9, iRow + 1, 10).Style.Font.Bold = True
             If NG = "2" Then
                 .Cells(iRow + 1, 10).Value = "NG"
                 .Cells(iRow + 1, 10).Style.Fill.PatternType = ExcelFillStyle.Solid
                 .Cells(iRow + 1, 10).Style.Fill.BackgroundColor.SetColor(Color.Red)
-            ElseIf NG = "1" Then
-                .Cells(iRow + 1, 10).Value = "NG"
-                .Cells(iRow + 1, 10).Style.Fill.PatternType = ExcelFillStyle.Solid
-                .Cells(iRow + 1, 10).Style.Fill.BackgroundColor.SetColor(Color.Pink)
-            ElseIf NG = "0" Then
+            ElseIf NG = "1" Or NG = "0" Then
                 .Cells(iRow + 1, 10).Value = "OK"
                 .Cells(iRow + 1, 10).Style.Fill.PatternType = ExcelFillStyle.Solid
                 .Cells(iRow + 1, 10).Style.Fill.BackgroundColor.SetColor(Color.Green)
@@ -848,15 +928,50 @@ Public Class ProdSampleInput
                         .Row(iRow).Height = 2
                     Else
                         .Cells(iRow, iCol).Value = dt.Rows(j)(1)
+                        Select Case .Cells(iRow, 1).Value
+                            Case "1", "2", "3", "4", "5", "6"
+                                .Cells(iRow, 1).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                .Cells(iRow, 1).Style.Fill.BackgroundColor.SetColor(cs.Color(.Cells(iRow, 1).Value))
+                        End Select
+
                         For Each Fn In FieldNames
                             iCol = iCol + 1
-                            If iCol > 1 Then
+                            Dim objValue As Object = dt.Rows(j)(Fn)
+                            Dim Value As Double
+                            If iCol > 1 And objValue & "" <> "" Then
                                 Select Case .Cells(iRow, 1).Value
-                                    Case "1", "2", "3", "4", "5", "Min", "Max", "Avg", "R"
-                                        .Cells(iRow, iCol).Value = Val(dt.Rows(j)(Fn))
+                                    Case "1", "2", "3", "4", "5", "6", "Min", "Max", "Avg", "R"
+                                        Value = ADbl(objValue)
+                                        .Cells(iRow, iCol).Value = Value
                                         .Cells(iRow, iCol).Style.Numberformat.Format = "0.000"
                                     Case Else
-                                        .Cells(iRow, iCol).Value = dt.Rows(j)(Fn)
+                                        .Cells(iRow, iCol).Value = objValue & ""
+                                End Select
+                                Select Case .Cells(iRow, 1).Value
+                                    Case "1", "2", "3", "4", "5", "6"
+                                        Value = ADbl(objValue)
+                                        If Value < ADbl(LSL) Or Value > ADbl(USL) Then
+                                            .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Red)
+                                        ElseIf Value < ADbl(LCL) Or Value > ADbl(UCL) Then
+                                            .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                                        End If
+                                    Case "Min", "Max", "Avg"
+                                        Value = ADbl(objValue)
+                                        If Value < ADbl(LSL) Or Value > ADbl(USL) Then
+                                            .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Red)
+                                        ElseIf Value < ADbl(LCL) Or Value > ADbl(UCL) Then
+                                            .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(LightYellow)
+                                        End If
+                                    Case "R"
+                                        Value = ADbl(objValue)
+                                        If Value < ADbl(RLCL) Or Value > ADbl(RUCL) And ChartType <> "0" Then
+                                            .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Yellow)
+                                        End If
                                 End Select
                             Else
                                 .Cells(iRow, iCol).Value = dt.Rows(j)(Fn)

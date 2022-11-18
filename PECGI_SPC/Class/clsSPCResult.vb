@@ -28,6 +28,27 @@ Public Class clsSPCColor
     Public Property BorderColor4 As System.Drawing.Color = System.Drawing.Color.DarkViolet
     Public Property BorderColor5 As System.Drawing.Color = System.Drawing.Color.Indigo
     Public Property BorderColor6 As System.Drawing.Color = System.Drawing.Color.SaddleBrown
+
+    Public ReadOnly Property Color(Index As Integer) As System.Drawing.Color
+        Get
+            Select Case Index
+                Case 1
+                    Return Color1
+                Case 2
+                    Return Color2
+                Case 3
+                    Return Color3
+                Case 4
+                    Return Color4
+                Case 5
+                    Return Color5
+                Case 6
+                    Return Color6
+                Case Else
+                    Return System.Drawing.Color.White
+            End Select
+        End Get
+    End Property
 End Class
 
 Public Class clsSPCResultDB

@@ -83,7 +83,18 @@
 
         function OnInit(s, e) {
             var x = document.getElementById("chartRdiv");
-            x.style.display = "none";
+            var y = document.getElementById("colXBarUCL");
+            var z = document.getElementById("colXBarLCL");
+            var y2 = document.getElementById("colXBarUCL2");
+            var z2 = document.getElementById("colXBarLCL2");
+            var w = document.getElementById("headerXBar");
+            
+            x.style.display = "";
+            y.style.display = "";            
+            y2.style.display = "";
+            z.style.display = "";
+            z2.style.display = "";
+            w.style.display = "";
             btnNew.SetEnabled(false);
             btnSave.SetEnabled(false);
         }
@@ -160,6 +171,28 @@
             columnIndex = null;            
         }
 
+        function GridXEndCallBack(s, e) {
+            var i = s.cpShow;
+            var y = document.getElementById("colXBarUCL");            
+            var z = document.getElementById("colXBarLCL");
+            var y2 = document.getElementById("colXBarUCL2");
+            var z2 = document.getElementById("colXBarLCL2");
+            var w = document.getElementById("headerXBar");
+            if (i=='1') {
+                y.style.display = "";
+                y2.style.display = "";
+                z.style.display = "";
+                z2.style.display = "";
+                w.style.display = "";
+            } else {
+                y.style.display = "none";
+                y2.style.display = "none";
+                z.style.display = "none";
+                z2.style.display = "none";
+                w.style.display = "none";
+            }
+        }
+
         function ChartREndCallBack(s, e) {
             var i = s.cpShow;
             var x = document.getElementById("chartRdiv");
@@ -167,8 +200,7 @@
                 x.style.display = "block";
             } else {
                 x.style.display = "none";
-            }
-            
+            }            
         }
 
         function GridLoad(s, e) {
@@ -241,8 +273,13 @@
 
             lblUSL.SetText(s.cpUSL);
             lblLSL.SetText(s.cpLSL);
+            
             lblUCL.SetText(s.cpUCL);
             lblLCL.SetText(s.cpLCL);
+
+            lblXUCL.SetText(s.cpUCL);
+            lblXLCL.SetText(s.cpLCL);
+
             lblMin.SetText(s.cpMin);
             lblMax.SetText(s.cpMax);
             lblAve.SetText(s.cpAve);
@@ -870,11 +907,12 @@
                     </tr>
                 </table>
         </td>
-        <td style="width:500px">
+        <td style="width:600px">
             <table style="width:100%">
                 <tr>
                     <td colspan="2" class="header"><dx:ASPxLabel ID="ASPxLabel22" runat="server" Text="Specification" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                     <td colspan="2" class="header"><dx:ASPxLabel ID="ASPxLabel23" runat="server" Text="Control Plan" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
+                    <td colspan="2" class="header" id="headerXBar"><dx:ASPxLabel runat="server" Text="X Bar Control" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                     <td colspan="6" class="header"><dx:ASPxLabel ID="ASPxLabel24" runat="server" Text="Result" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                 </tr>
                 <tr>
@@ -882,6 +920,8 @@
                     <td class="header" style="width:50px"><dx:ASPxLabel ID="ASPxLabel7" runat="server" Text="LSL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                     <td class="header" style="width:50px"><dx:ASPxLabel ID="ASPxLabel14" runat="server" Text="UCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                     <td class="header" style="width:50px"><dx:ASPxLabel ID="ASPxLabel15" runat="server" Text="LCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
+                    <td class="header" style="width:50px" id="colXBarUCL"><dx:ASPxLabel ID="label16" runat="server" Text="UCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
+                    <td class="header" style="width:50px" id="colXBarLCL"><dx:ASPxLabel ID="label17" runat="server" Text="LCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                     <td class="header" style="width:50px"><dx:ASPxLabel ID="ASPxLabel16" runat="server" Text="Min" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                     <td class="header" style="width:50px"><dx:ASPxLabel ID="ASPxLabel17" runat="server" Text="Max" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                     <td class="header" style="width:50px"><dx:ASPxLabel ID="ASPxLabel18" runat="server" Text="Ave" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
@@ -894,6 +934,8 @@
                     <td class="body" align="center"><dx:ASPxLabel ID="lblLSL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLSL" ForeColor="Black"></dx:ASPxLabel></td>
                     <td class="body" align="center"><dx:ASPxLabel ID="lblUCL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblUCL" ForeColor="Black"></dx:ASPxLabel></td>
                     <td class="body" align="center"><dx:ASPxLabel ID="lblLCL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLCL" ForeColor="Black"></dx:ASPxLabel></td>
+                    <td class="body" align="center" id="colXBarUCL2"><dx:ASPxLabel runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXUCL" ForeColor="Black"></dx:ASPxLabel></td>
+                    <td class="body" align="center" id="colXBarLCL2"><dx:ASPxLabel runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXLCL" ForeColor="Black"></dx:ASPxLabel></td>
                     <td class="body" align="center" id="Min"><dx:ASPxLabel ID="lblMin" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblMin" ForeColor="Black"></dx:ASPxLabel></td>
                     <td class="body" align="center" id="Max"><dx:ASPxLabel ID="lblMax" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblMax" ForeColor="Black"></dx:ASPxLabel></td>
                     <td class="body" align="center" id="Ave"><dx:ASPxLabel ID="lblAve" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblAve" ForeColor="Black"></dx:ASPxLabel></td>
@@ -916,8 +958,7 @@
                                 EnableTheming="True" KeyFieldName="Des" Theme="Office2010Black"            
                                 Width="100%" 
                                 Font-Names="Segoe UI" Font-Size="9pt">
-
-
+                    <ClientSideEvents EndCallback="GridXEndCallBack" />
                     <SettingsPager Mode="ShowAllRecords">
                     </SettingsPager>
 

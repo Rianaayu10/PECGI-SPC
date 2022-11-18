@@ -410,6 +410,24 @@ Partial Public Class ProdSampleInput
     Protected WithEvents ASPxLabel15 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
+    '''label16 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents label16 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''label17 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents label17 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
     '''ASPxLabel16 control.
     '''</summary>
     '''<remarks>
