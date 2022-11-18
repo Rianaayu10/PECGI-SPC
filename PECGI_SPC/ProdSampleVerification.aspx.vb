@@ -946,6 +946,13 @@ Public Class ProdSampleVerification
             GridX.JSProperties("cpC") = dtChartSetup.Rows(0)("C").ToString
             GridX.JSProperties("cpNG") = dtChartSetup.Rows(0)("NG").ToString
             GridX.JSProperties("cpCS") = dtChartSetup.Rows(0)("CS").ToString
+
+            GridX.JSProperties("cpMINClr") = dtChartSetup.Rows(0)("nMINClr")
+            GridX.JSProperties("cpMAXClr") = dtChartSetup.Rows(0)("nMAXClr")
+            GridX.JSProperties("cpAVGClr") = dtChartSetup.Rows(0)("nAVGClr")
+            GridX.JSProperties("cpRClr") = dtChartSetup.Rows(0)("nRClr")
+            GridX.JSProperties("cpC_Clr") = dtChartSetup.Rows(0)("C_Clr")
+            GridX.JSProperties("cpNG_Clr") = dtChartSetup.Rows(0)("NG_Clr")
         End If
     End Sub
     Private Sub Up_GridLoadActivities(cls As clsProdSampleVerification)
@@ -1385,6 +1392,19 @@ Public Class ProdSampleVerification
                 Dim RUCL = dtChartSetup.Rows(0)("RUCL")
                 Dim RLCL = dtChartSetup.Rows(0)("RLCL")
                 Dim CS = dtChartSetup.Rows(0)("CS")
+                Dim MAX = dtChartSetup.Rows(0)("nMAX")
+                Dim MIN = dtChartSetup.Rows(0)("nMIN")
+                Dim AVG = dtChartSetup.Rows(0)("nAVG")
+                Dim R = dtChartSetup.Rows(0)("nR")
+                Dim C = dtChartSetup.Rows(0)("C")
+                Dim NG = dtChartSetup.Rows(0)("NG")
+
+                Dim MAXClr = dtChartSetup.Rows(0)("nMAXClr")
+                Dim MINClr = dtChartSetup.Rows(0)("nMINClr")
+                Dim AVGClr = dtChartSetup.Rows(0)("nAVGClr")
+                Dim RClr = dtChartSetup.Rows(0)("nRClr")
+                Dim C_Clr = dtChartSetup.Rows(0)("C_Clr")
+                Dim NG_Clr = dtChartSetup.Rows(0)("NG_Clr")
 
                 Dim irow = row_GridTitle + 2
                 Dim icolhdr1 = 1
@@ -1488,51 +1508,17 @@ Public Class ProdSampleVerification
                     icolbd = icolbd + 1
                 End If
 
-                Dim MIN = dtChartSetup.Rows(0)("nMIN")
-                Dim MINclr = "#FFFFFF"
-                If MIN < LSL Or MIN > USL Then
-                    MINclr = "#ff0000"
-                ElseIf MIN < LCL Or MIN > UCL Then
-                    If CS = "1" Then
-                        MINclr = "#FFFE91"
-                    Else
-                        MINclr = "#FFC0CB"
-                    End If
-                End If
                 .Cells(irow, icolbd).Value = MIN
                 .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
                 .Cells(irow, icolbd).Style.Fill.PatternType = ExcelFillStyle.Solid
                 .Cells(irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(MINclr))
                 icolbd = icolbd + 1
 
-                Dim MAX = dtChartSetup.Rows(0)("nMAX")
-                Dim MAXclr = "#FFFFFF"
-                If MAX < LSL Or MAX > USL Then
-                    MAXclr = "#ff0000"
-                ElseIf MAX < LCL Or MAX > UCL Then
-                    If CS = "1" Then
-                        MAXclr = "#FFFE91"
-                    Else
-                        MAXclr = "#FFC0CB"
-                    End If
-                End If
                 .Cells(irow, icolbd).Value = MAX
                 .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
                 .Cells(irow, icolbd).Style.Fill.PatternType = ExcelFillStyle.Solid
                 .Cells(irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(MAXclr))
                 icolbd = icolbd + 1
-
-                Dim AVG = dtChartSetup.Rows(0)("nAVG")
-                Dim AVGclr = "#FFFFFF"
-                If AVG < LSL Or AVG > USL Then
-                    AVGclr = "#ff0000"
-                ElseIf AVG < LCL Or AVG > UCL Then
-                    If CS = "1" Then
-                        AVGclr = "#FFFE91"
-                    Else
-                        AVGclr = "#FFC0CB"
-                    End If
-                End If
 
                 .Cells(irow, icolbd).Value = AVG
                 .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
@@ -1540,47 +1526,27 @@ Public Class ProdSampleVerification
                 .Cells(irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(AVGclr))
                 icolbd = icolbd + 1
 
-                Dim R = dtChartSetup.Rows(0)("nR")
-                Dim RClr = "#FFFFFF"
-                If R < RLCL Or R > RUCL Then
-                    RClr = "#FFFF00"
-                End If
-
                 .Cells(irow, icolbd).Value = R
                 .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
                 .Cells(irow, icolbd).Style.Fill.PatternType = ExcelFillStyle.Solid
                 .Cells(irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(RClr))
                 icolbd = icolbd + 1
 
-                Dim C = dtChartSetup.Rows(0)("C")
-                Dim Cclr = "#FFFFFF"
-                If C = "C" Then
-                    Cclr = "#FFA500"
-                End If
                 .Cells(irow - 1, icolbd).Value = C
                 .Cells(irow - 1, icolbd, irow, icolbd).Merge = True
                 .Cells(irow - 1, icolbd, irow, icolbd).Style.HorizontalAlignment = HorizontalAlign.Center
                 .Cells(irow - 1, icolbd, irow, icolbd).Style.VerticalAlignment = VertAlignment.Center
                 .Cells(irow - 1, icolbd, irow, icolbd).Style.Fill.PatternType = ExcelFillStyle.Solid
-                .Cells(irow - 1, icolbd, irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(Cclr))
+                .Cells(irow - 1, icolbd, irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(C_Clr))
                 icolbd = icolbd + 1
 
-                Dim Result = ""
-                Dim Resultclr = "#FFFFFF"
-                If dtChartSetup.Rows(0)("NG").ToString = "1" Then
-                    Result = "NG"
-                    Resultclr = "#FF0000"
-                ElseIf dtChartSetup.Rows(0)("NG").ToString = "0" Then
-                    Result = "OK"
-                    Resultclr = "#228B22"
-                End If
-                .Cells(irow - 1, icolbd).Value = Result
+                .Cells(irow - 1, icolbd).Value = NG
                 .Cells(irow - 1, icolbd, irow, icolbd).Merge = True
                 .Cells(irow - 1, icolbd, irow, icolbd).Style.HorizontalAlignment = HorizontalAlign.Center
                 .Cells(irow - 1, icolbd, irow, icolbd).Style.VerticalAlignment = VertAlignment.Center
                 .Cells(irow - 1, icolbd, irow, icolbd).Style.Font.Bold = True
                 .Cells(irow - 1, icolbd, irow, icolbd).Style.Fill.PatternType = ExcelFillStyle.Solid
-                .Cells(irow - 1, icolbd, irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(Resultclr))
+                .Cells(irow - 1, icolbd, irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(NG_Clr))
 
                 Dim Border As ExcelRange = .Cells(irow - 2, 1, irow, icolbd)
                 Border.Style.Border.Top.Style = ExcelBorderStyle.Thin
@@ -1600,46 +1566,43 @@ Public Class ProdSampleVerification
     Private Sub HeaderResult(ByVal pExl As ExcelWorksheet, cls As clsProdSampleVerification)
         With pExl
             Try
-                Dim irow = row_ChartSetup + 4
-                Dim nColDate = 2
-                Dim nColSeq = 2
-                Dim nColShift = 2
+                Dim irow = row_ChartSetup + 3
+                Dim irowTitle = irow
+                Dim irowhdr1 = irowTitle + 1
+                Dim irowhdr2 = irowhdr1 + 1
+                Dim irowhdr3 = irowhdr2 + 1
+                Dim iColhdr1 = 2
+                Dim iColhdr2 = 2
+                Dim iColhdr3 = 2
+                row_HeaderResult = irowhdr3
 
-                .Cells(irow, 1).Value = "Date"
-                .Cells(irow + 1, 1).Value = "Shift"
-                .Cells(irow + 2, 1).Value = "Time"
+                .Cells(irowhdr1, 1).Value = "Date"
+                .Cells(irowhdr2, 1).Value = "shift"
+                .Cells(irowhdr3, 1).Value = "time"
                 .Column(1).Width = 15
-
-                row_HeaderResult = irow + 2
 
                 ds = clsProdSampleVerificationDB.GridLoad(GetHeader_ProdDate, cls)
                 Dim dtDate As DataTable = ds.Tables(0)
                 If dtDate.Rows.Count > 0 Then
                     For i = 0 To dtDate.Rows.Count - 1
-                        Dim nProdDate = dtDate.Rows(i)("ProdDate")
-                        cls.ProdDate_Grid = Convert.ToDateTime(nProdDate).ToString("yyyy-MM-dd")
-
-                        'GET COLUMN SHIFT
+                        cls.ProdDate_Grid = Convert.ToDateTime(dtDate.Rows(i)("ProdDate")).ToString("yyyy-MM-dd")
                         ds = clsProdSampleVerificationDB.GridLoad(GetHeader_ShifCode, cls)
                         Dim dtShift As DataTable = ds.Tables(0)
                         If dtShift.Rows.Count > 0 Then
                             For n = 0 To dtShift.Rows.Count - 1
                                 cls.Shiftcode_Grid = dtShift.Rows(n)("ShiftCode")
-
-                                'GET COLUMN SHIFT
                                 ds = clsProdSampleVerificationDB.GridLoad(GetHeader_Time, cls)
                                 Dim dtSeq As DataTable = ds.Tables(0)
-                                Dim nSeq = dtSeq.Rows.Count
                                 If dtSeq.Rows.Count > 0 Then
                                     For r = 0 To dtSeq.Rows.Count - 1
-                                        .Cells(irow + 2, nColSeq).Value = dtSeq.Rows(r)("nTimeDesc")
-                                        .Cells(irow + 2, nColSeq).Style.HorizontalAlignment = HorzAlignment.Center
-                                        .Column(nColSeq).Width = 15
-                                        nColSeq = nColSeq + 1
-                                        col_HeaderResult = col_HeaderResult + 1
+                                        .Cells(irowhdr3, iColhdr3).Value = dtSeq.Rows(r)("nTimeDesc")
+                                        .Cells(irowhdr3, iColhdr3).Style.HorizontalAlignment = HorzAlignment.Center
+                                        .Column(iColhdr3).Width = 15
+                                        iColhdr3 = iColhdr3 + 1
                                     Next
                                 End If
-                                '-----------------------------
+
+                                Dim iColhdr2_End = iColhdr3 - 1
 
                                 Dim nShiftCode = dtShift.Rows(n)("ShiftCode")
                                 If nShiftCode = "SH001" Then
@@ -1648,37 +1611,42 @@ Public Class ProdSampleVerification
                                     nShiftCode = "Shift 2"
                                 End If
 
-                                .Cells(irow + 1, nColShift, irow + 1, nColShift + nSeq - 1).Value = nShiftCode
-                                .Cells(irow + 1, nColShift, irow + 1, nColShift + nSeq - 1).Merge = True
-                                .Cells(irow + 1, nColShift, irow + 1, nColShift + nSeq - 1).Style.HorizontalAlignment = HorzAlignment.Center
+                                .Cells(irowhdr2, iColhdr2, irowhdr2, iColhdr2_End).Value = nShiftCode
+                                .Cells(irowhdr2, iColhdr2, irowhdr2, iColhdr2_End).Merge = True
+                                .Cells(irowhdr2, iColhdr2, irowhdr2, iColhdr2_End).Style.HorizontalAlignment = HorzAlignment.Center
 
-                                nColShift = nColSeq
+                                iColhdr2 = iColhdr3
                             Next
-                            '-----------------------------
-
-                            .Cells(irow, nColDate, irow, nColShift - 1).Value = dtDate.Rows(i)("ProdDate")
-                            .Cells(irow, nColDate, irow, nColShift - 1).Merge = True
-                            .Cells(irow, nColDate, irow, nColShift - 1).Style.HorizontalAlignment = HorzAlignment.Center
-
                         End If
+
+                        Dim icolhdr1_End = iColhdr2 - 1
+
+                        .Cells(irowhdr1, iColhdr1, irowhdr1, icolhdr1_End).Value = dtDate.Rows(i)("ProdDate")
+                        .Cells(irowhdr1, iColhdr1, irowhdr1, icolhdr1_End).Merge = True
+                        .Cells(irowhdr1, iColhdr1, irowhdr1, icolhdr1_End).Style.HorizontalAlignment = HorzAlignment.Center
+
+                        iColhdr1 = iColhdr2
+                        col_HeaderResult = iColhdr1 - 1
                     Next
                 End If
 
-                .Cells(irow - 1, 1, irow - 1, col_HeaderResult + 1).Value = "STATISTIC PRODUCT MONITORING"
-                .Cells(irow - 1, 1, irow - 1, col_HeaderResult + 1).Merge = True
-                .Cells(irow - 1, 1, irow - 1, col_HeaderResult + 1).Style.HorizontalAlignment = MenuItemAlignment.Center
-                .Cells(irow - 1, 1, irow - 1, col_HeaderResult + 1).Style.Font.Bold = True
+                .Cells(irowTitle, 1, irowTitle, col_HeaderResult).Value = "STATISTIC PRODUCT MONITORING"
+                .Cells(irowTitle, 1, irowTitle, col_HeaderResult).Merge = True
+                .Cells(irowTitle, 1, irowTitle, col_HeaderResult).Style.HorizontalAlignment = MenuItemAlignment.Center
+                .Cells(irowTitle, 1, irowTitle, col_HeaderResult).Style.Font.Bold = True
 
-                Dim rgCell As ExcelRange = .Cells(irow, 1, row_HeaderResult, col_HeaderResult + 1)
+                Dim rgCell As ExcelRange = .Cells(irowhdr1, 1, irowhdr3, col_HeaderResult)
                 rgCell.Style.Font.Size = 10
                 rgCell.Style.Font.Name = "Segoe UI"
                 rgCell.Style.HorizontalAlignment = HorzAlignment.Center
                 rgCell.Style.Font.Color.SetColor(Color.White)
                 rgCell.Style.Fill.PatternType = ExcelFillStyle.Solid
                 rgCell.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.DimGray)
+
             Catch ex As Exception
                 Throw New Exception(ex.Message)
             End Try
+
         End With
     End Sub
     Private Sub CellResult(ByVal pExl As ExcelWorksheet, cls As clsProdSampleVerification)

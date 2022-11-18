@@ -34,9 +34,10 @@
             HideValue.Set('IOT_ItemCode', s.cp_ItemCode);
             HideValue.Set('IOT_LotNo', s.cp_LotNo);
 
-            var USL = s.cpUSL, LSL = s.cpLSL, UCL = s.cpUCL,LCL = s.cpLCL;
+            var USL = s.cpUSL, LSL = s.cpLSL, UCL = s.cpUCL, LCL = s.cpLCL;
             var RUCL = s.cpRUCL, RLCL = s.cpRLCL, MIN = s.cpMIN, MAX = s.cpMAX;
             var AVG = s.cpAVG, R = s.cpR, C = s.cpC, NG = s.cpNG, XBarUCL = s.cpXBarUCL, XBarLCL = s.cpXBarLCL;
+            var MINClr = s.cpMINClr, MAXClr = s.cpMAXClr, AVClr = s.cpAVGClr, RClr = s.cpRClr, C_Clr = s.cpC_Clr, NG_Clr = s.cpNG_Clr;
 
             lblUSL.SetText(USL);
             lblLSL.SetText(LSL);
@@ -49,84 +50,15 @@
             lblAve.SetText(AVG);
             lblR.SetText(R);
             lblC.SetText(C);
+            lblNG.SetText(NG);
 
-            if (NG == '1') {
-                lblNG.SetText('NG');
-                document.getElementById('NG').style.backgroundColor = 'Red';
-            } else if (NG == '0') {
-                lblNG.SetText('OK');
-                document.getElementById('NG').style.backgroundColor = 'Green';
-            } else {
-                lblNG.SetText('');
-                document.getElementById('NG').style.backgroundColor = 'White';
-            }
+            document.getElementById('NG').style.backgroundColor = '' + NG_Clr + '';
+            document.getElementById('C').style.backgroundColor = '' + C_Clr + '';
+            document.getElementById('Min').style.backgroundColor = '' + MINClr + '';
+            document.getElementById('Max').style.backgroundColor = '' + MAXClr + '';
+            document.getElementById('Ave').style.backgroundColor = '' + AVClr + '';
+            document.getElementById('R').style.backgroundColor = '' + RClr + '';
 
-            if (C == 'C') {
-                document.getElementById('C').style.backgroundColor = 'Orange';
-            } else {
-                document.getElementById('C').style.backgroundColor = 'White';
-            }
-
-            if (MIN != '') {
-                if (MIN < LSL || MIN > USL) {
-                    document.getElementById('Min').style.backgroundColor = 'Red';
-                } else if (MIN < LCL || MIN > UCL) {
-                    if (s.cpCS == '1') {
-                        document.getElementById('Min').style.backgroundColor = '#FFFE91';
-                    }
-                    else {
-                        document.getElementById('Min').style.backgroundColor = 'Pink';
-                    }
-                } else {
-                    document.getElementById('Min').style.backgroundColor = 'White';
-                }
-            } else {
-                document.getElementById('Min').style.backgroundColor = 'White';
-            }
-
-            if (MAX != '') {
-                if (MAX > USL || MAX < LSL) {
-                    document.getElementById('Max').style.backgroundColor = 'Red';
-                } else if (MAX > UCL || MAX < LCL) {
-                    if (s.cpCS == '1') {
-                        document.getElementById('Max').style.backgroundColor = '#FFFE91';
-                    }
-                    else {
-                        document.getElementById('Max').style.backgroundColor = 'Pink';
-                    }
-                } else {
-                    document.getElementById('Max').style.backgroundColor = 'White';
-                }
-            } else {
-                document.getElementById('Max').style.backgroundColor = 'White';
-            }
-
-            if (AVG != '') {
-                if (AVG > USL || AVG < LSL) {
-                    document.getElementById('Ave').style.backgroundColor = 'Red';
-                } else if (AVG > UCL || AVG < LCL) {
-                    if (s.cpCS == '1') {
-                        document.getElementById('Ave').style.backgroundColor = '#FFFE91';
-                    }
-                    else {
-                        document.getElementById('Ave').style.backgroundColor = 'Pink';
-                    }
-                } else {
-                    document.getElementById('Ave').style.backgroundColor = 'White';
-                }
-            } else {
-                document.getElementById('Ave').style.backgroundColor = 'White';
-            }
-
-            if (R != '') {
-                if (R > RUCL || R < RLCL) {
-                    document.getElementById('R').style.backgroundColor = '#FFFF00';
-                } else {
-                    document.getElementById('R').style.backgroundColor = 'White';
-                }
-            } else {
-                document.getElementById('R').style.backgroundColor = 'White';
-            }
 
             if (s.cpCS == "1") {
                 document.getelementbyid("lblxbarcontrol").style.display = "";
@@ -303,6 +235,7 @@
             var USL = s.cpUSL, LSL = s.cpLSL, UCL = s.cpUCL, LCL = s.cpLCL;
             var RUCL = s.cpRUCL, RLCL = s.cpRLCL, MIN = s.cpMIN, MAX = s.cpMAX;
             var AVG = s.cpAVG, R = s.cpR, C = s.cpC, NG = s.cpNG, XBarUCL = s.cpXBarUCL, XBarLCL = s.cpXBarLCL;
+            var MINClr = s.cpMINClr, MAXClr = s.cpMAXClr, AVClr = s.cpAVGClr, RClr = s.cpRClr, C_Clr = s.cpC_Clr, NG_Clr = s.cpNG_Clr;
 
             lblUSL.SetText(USL);
             lblLSL.SetText(LSL);
@@ -315,84 +248,92 @@
             lblAve.SetText(AVG);
             lblR.SetText(R);
             lblC.SetText(C);
+            lblNG.SetText(NG);
 
-            if (NG == '1') {
-                lblNG.SetText('NG');
-                document.getElementById('NG').style.backgroundColor = 'Red';
-            } else if (NG == '0') {
-                lblNG.SetText('OK');
-                document.getElementById('NG').style.backgroundColor = 'Green';
-            } else {
-                lblNG.SetText('');
-                document.getElementById('NG').style.backgroundColor = 'White';
-            }
+            document.getElementById('NG').style.backgroundColor = '' +NG_Clr +'';
+            document.getElementById('C').style.backgroundColor = '' +C_Clr + '';
+            document.getElementById('Min').style.backgroundColor = '' + MINClr + '';
+            document.getElementById('Max').style.backgroundColor = '' +MAXClr + '';
+            document.getElementById('Ave').style.backgroundColor ='' + AVClr + '';
+            document.getElementById('R').style.backgroundColor = '' +RClr+'';
 
-            if (C == 'C') {
-                document.getElementById('C').style.backgroundColor = 'Orange';
-            } else {
-                document.getElementById('C').style.backgroundColor = 'White';
-            }
+            //if (NG == '1') {
+            //    lblNG.SetText('NG');
+            //    document.getElementById('NG').style.backgroundColor = 'Red';
+            //} else if (NG == '0') {
+            //    lblNG.SetText('OK');
+            //    document.getElementById('NG').style.backgroundColor = 'Green';
+            //} else {
+            //    lblNG.SetText('');
+            //    document.getElementById('NG').style.backgroundColor = 'White';
+            //}
 
-            if (MIN != '') {
-                if (MIN < LSL || MIN > USL) {
-                    document.getElementById('Min').style.backgroundColor = 'Red';
-                } else if (MIN < LCL || MIN > UCL) {
-                    if (s.cpCS == '1') {
-                        document.getElementById('Min').style.backgroundColor = '#FFFE91';
-                    }
-                    else {
-                        document.getElementById('Min').style.backgroundColor = 'Pink';
-                    }
-                } else {
-                    document.getElementById('Min').style.backgroundColor = 'White';
-                }
-            } else {
-                document.getElementById('Min').style.backgroundColor = 'White';
-            }
+            //if (C == 'C') {
+            //    document.getElementById('C').style.backgroundColor = 'Orange';
+            //} else {
+            //    document.getElementById('C').style.backgroundColor = 'White';
+            //}
 
-            if (MAX != '') {
-                if (MAX > USL || MAX < LSL) {
-                    document.getElementById('Max').style.backgroundColor = 'Red';
-                } else if (MAX > UCL || MAX < LCL) {
-                    if (s.cpCS == '1') {
-                        document.getElementById('Max').style.backgroundColor = '#FFFE91';
-                    }
-                    else {
-                        document.getElementById('Max').style.backgroundColor = 'Pink';
-                    }
-                } else {
-                    document.getElementById('Max').style.backgroundColor = 'White';
-                }
-            } else {
-                document.getElementById('Max').style.backgroundColor = 'White';
-            }
+            //if (MIN != '') {
+            //    if (MIN < LSL || MIN > USL) {
+            //        document.getElementById('Min').style.backgroundColor = 'Red';
+            //    } else if (MIN < LCL || MIN > UCL) {
+            //        if (s.cpCS == '1') {
+            //            document.getElementById('Min').style.backgroundColor = '#FFFE91';
+            //        }
+            //        else {
+            //            document.getElementById('Min').style.backgroundColor = 'Pink';
+            //        }
+            //    } else {
+            //        document.getElementById('Min').style.backgroundColor = 'White';
+            //    }
+            //} else {
+            //    document.getElementById('Min').style.backgroundColor = 'White';
+            //}
 
-            if (AVG != '') {
-                if (AVG > USL || AVG < LSL) {
-                    document.getElementById('Ave').style.backgroundColor = 'Red';
-                } else if (AVG > UCL || AVG < LCL) {
-                    if (s.cpCS == '1') {
-                        document.getElementById('Ave').style.backgroundColor = '#FFFE91';
-                    }
-                    else {
-                        document.getElementById('Ave').style.backgroundColor = 'Pink';
-                    }
-                } else {
-                    document.getElementById('Ave').style.backgroundColor = 'White';
-                }
-            } else {
-                document.getElementById('Ave').style.backgroundColor = 'White';
-            }
+            //if (MAX != '') {
+            //    if (MAX > USL || MAX < LSL) {
+            //        document.getElementById('Max').style.backgroundColor = 'Red';
+            //    } else if (MAX > UCL || MAX < LCL) {
+            //        if (s.cpCS == '1') {
+            //            document.getElementById('Max').style.backgroundColor = '#FFFE91';
+            //        }
+            //        else {
+            //            document.getElementById('Max').style.backgroundColor = 'Pink';
+            //        }
+            //    } else {
+            //        document.getElementById('Max').style.backgroundColor = 'White';
+            //    }
+            //} else {
+            //    document.getElementById('Max').style.backgroundColor = 'White';
+            //}
 
-            if (R != '') {
-                if (R > RUCL || R < RLCL) {
-                    document.getElementById('R').style.backgroundColor = '#FFFF00';
-                } else {
-                    document.getElementById('R').style.backgroundColor = 'White';
-                }
-            } else {
-                document.getElementById('R').style.backgroundColor = 'White';
-            }
+            //if (AVG != '') {
+            //    if (AVG > USL || AVG < LSL) {
+            //        document.getElementById('Ave').style.backgroundColor = 'Red';
+            //    } else if (AVG > UCL || AVG < LCL) {
+            //        if (s.cpCS == '1') {
+            //            document.getElementById('Ave').style.backgroundColor = '#FFFE91';
+            //        }
+            //        else {
+            //            document.getElementById('Ave').style.backgroundColor = 'Pink';
+            //        }
+            //    } else {
+            //        document.getElementById('Ave').style.backgroundColor = 'White';
+            //    }
+            //} else {
+            //    document.getElementById('Ave').style.backgroundColor = 'White';
+            //}
+
+            //if (R != '') {
+            //    if (R > RUCL || R < RLCL) {
+            //        document.getElementById('R').style.backgroundColor = '#FFFF00';
+            //    } else {
+            //        document.getElementById('R').style.backgroundColor = 'White';
+            //    }
+            //} else {
+            //    document.getElementById('R').style.backgroundColor = 'White';
+            //}
 
             if (s.cpCS == "1") {
                 document.getElementById("lblXBarControl").style.display = "";
