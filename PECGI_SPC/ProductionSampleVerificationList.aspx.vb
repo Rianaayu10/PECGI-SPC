@@ -589,6 +589,8 @@ Public Class ProductionSampleVerificationList
                             .Cells(irow, 8).Value = dt.Rows(i)("nR")
                             .Cells(irow, 8).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
                             .Cells(irow, 8).Style.Numberformat.Format = "####0.000"
+                            .Cells(irow, 8).Style.Fill.PatternType = ExcelFillStyle.Solid
+                            .Cells(irow, 8).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(dt.Rows(i)("nRColor")))
 
                             .Cells(irow, 9).Value = dt.Rows(i)("Cor_Sts")
                             .Cells(irow, 9).Style.HorizontalAlignment = HorizontalAlign.Center
