@@ -66,6 +66,14 @@ Public Class SampleControlQuality
         End With
     End Sub
 
+    Private Sub ExcelFont(Exl As ExcelWorksheet, StartRow As Integer, StartCol As Integer, EndRow As Integer, EndCol As Integer, FontSize As Integer)
+        With Exl
+            Dim Range As ExcelRange = .Cells(StartRow, StartCol, EndRow, EndCol)
+            Range.Style.Font.Size = FontSize
+            Range.Style.Font.Name = "Segoe UI"
+        End With
+    End Sub
+
     Private Sub ExcelBorder(Exl As ExcelWorksheet, Range As ExcelRange)
         With Exl
             Range.Style.Border.Top.Style = ExcelBorderStyle.Thin
@@ -176,12 +184,30 @@ Public Class SampleControlQuality
         Dim StartRow As Integer = iRow
         Dim EndRow As Integer
         Dim EndCol As Integer
+        Dim LCL As Double
+        Dim UCL As Double
+        Dim LSL As Double
+        Dim USL As Double
+        Dim RUCL As Double
+        Dim RLCL As Double
+        Dim LightYellow As Color = Color.FromArgb(255, 255, 153)
+        Dim PrevDate As String = ""
+        Dim PrevShift As String = ""
+        Dim ShiftCode As String
         Dim StartCol1 As Integer, EndCol1 As Integer
         Dim StartCol2 As Integer, EndCol2 As Integer
 
         With pExl
             Dim ds As DataSet = clsSPCResultDetailDB.GetSampleByPeriod(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, Hdr.ProdDate2, Hdr.VerifiedOnly)
             Dim dtDay As DataTable = ds.Tables(0)
+            dtLSL = ds.Tables(2)
+            dtUSL = ds.Tables(3)
+            dtLCL = ds.Tables(4)
+            dtUCL = ds.Tables(5)
+            dtCP = ds.Tables(6)
+            dtRUCL = ds.Tables(7)
+            dtRLCL = ds.Tables(8)
+
             StartRow = iRow
             .Cells(iRow, 1).Value = "Date"
             .Cells(iRow + 1, 1).Value = "Shift"
@@ -193,11 +219,32 @@ Public Class SampleControlQuality
 
                 iCol = iDay + 2
                 .Cells(iRow, iCol).Value = Format(SelDay, "dd MMM yy")
-                .Cells(iRow + 1, iCol).Value = dtDay.Rows(iDay)("ShiftCode")
+                ShiftCode = "S-" & dtDay.Rows(iDay)("ShiftCode")
+                .Cells(iRow + 1, iCol).Value = ShiftCode
                 .Cells(iRow + 2, iCol).Value = dtDay.Rows(iDay)("RegisterDate")
+
+                If PrevDate <> dDay Then
+                    StartCol1 = iCol
+                    StartCol2 = iCol
+                ElseIf PrevShift <> ShiftCode Then
+                    StartCol2 = iCol
+                End If
+                EndCol1 = iCol
+                EndCol2 = iCol
+                If EndCol1 > StartCol1 Then
+                    .Cells(iRow, StartCol1, iRow, EndCol1).Merge = True
+                End If
+                If EndCol2 > StartCol2 Then
+                    .Cells(iRow + 1, StartCol2, iRow + 1, EndCol2).Merge = True
+                End If
+                PrevDate = dDay
+                PrevShift = ShiftCode
             Next
             iRow = iRow + 3
             dt = ds.Tables(1)
+            For k = 1 To dt.Columns.Count - 1
+                .Column(k).Width = 7.3
+            Next
             For j = 0 To dt.Rows.Count - 1
                 iCol = 1
                 If dt.Rows(j)(1) = "-" Or dt.Rows(j)(1) = "--" Then
@@ -207,6 +254,36 @@ Public Class SampleControlQuality
                     .Cells(iRow, iCol).Value = dt.Rows(j)(k)
                     If k > 1 Then
                         .Cells(iRow, iCol).Style.Numberformat.Format = "0.000"
+                        LSL = dtLSL.Rows(0)(iCol)
+                        USL = dtUSL.Rows(0)(iCol)
+                        LCL = dtLCL.Rows(0)(iCol)
+                        UCL = dtUCL.Rows(0)(iCol)
+                        RLCL = dtRLCL.Rows(0)(iCol)
+                        RUCL = dtRUCL.Rows(0)(iCol)
+                        If Not IsDBNull(dt.Rows(j)(k)) Then
+                            If dt.Rows(j)(0) = "6" AndAlso (dt.Rows(j)(k) < RLCL Or dt.Rows(j)(k) > RUCL) Then
+                                .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Yellow)
+                            ElseIf (dt.Rows(j)(k) < LSL Or dt.Rows(j)(k) > USL) Then
+                                If dt.Rows(j)(0) = "1" Or dt.Rows(j)(0) = "3" Or dt.Rows(j)(0) = "4" Or dt.Rows(j)(0) = "5" Then
+                                    .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                    .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Red)
+                                End If
+                            ElseIf dt.Rows(j)(k) < LCL Or dt.Rows(j)(k) > UCL Then
+                                If dt.Rows(j)(0) = "1" Then
+                                    .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                    .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                                ElseIf dt.Rows(j)(0) = "3" Or dt.Rows(j)(0) = "4" Or dt.Rows(j)(0) = "5" Then
+                                    .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                    If ChartType = "0" Then
+                                        .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                                    Else
+                                        .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(LightYellow)
+                                    End If
+                                End If
+                            End If
+
+                        End If
                     End If
                     iCol = iCol + 1
                 Next
@@ -217,7 +294,8 @@ Public Class SampleControlQuality
 
             ExcelHeader(pExl, StartRow, 1, StartRow + 2, EndCol)
             ExcelBorder(pExl, StartRow, 1, EndRow, EndCol)
-            LastRow = iRow + 4
+            ExcelFont(pExl, StartRow, 1, EndRow, EndCol, 8)
+            LastRow = iRow + 1
         End With
     End Sub
 

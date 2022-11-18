@@ -844,7 +844,7 @@ Public Class ProdSampleInput
             End If
             If vR <> "" Then
                 Col = 8
-                If (ADbl(vR) < RLCL Or ADbl(vR) > RUCL) And ChartType <> "0" Then
+                If (ADbl(vR) < RLCL Or ADbl(vR) > RUCL) And (ChartType = "1" Or ChartType = "2") Then
                     .Cells(iRow + 2, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
                     .Cells(iRow + 2, Col).Style.Fill.BackgroundColor.SetColor(Color.Yellow)
                 End If
@@ -983,6 +983,7 @@ Public Class ProdSampleInput
             Next
             ExcelHeader(pExl, StartRow, 1, StartRow + 2, EndCol)
             ExcelBorder(pExl, StartRow, 1, iRow - 1, EndCol)
+            ExcelFont(pExl, StartRow, 1, iRow - 1, EndCol, 8)
 
             LastRow = iRow + 1
         End With
@@ -1018,6 +1019,14 @@ Public Class ProdSampleInput
             Range.Style.Font.Size = 10
             Range.Style.Font.Name = "Segoe UI"
             Range.Style.HorizontalAlignment = HorzAlignment.Center
+        End With
+    End Sub
+
+    Private Sub ExcelFont(Exl As ExcelWorksheet, StartRow As Integer, StartCol As Integer, EndRow As Integer, EndCol As Integer, FontSize As Integer)
+        With Exl
+            Dim Range As ExcelRange = .Cells(StartRow, StartCol, EndRow, EndCol)
+            Range.Style.Font.Size = FontSize
+            Range.Style.Font.Name = "Segoe UI"
         End With
     End Sub
 
