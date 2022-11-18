@@ -27,7 +27,7 @@
             HideValue.Set('IOT_ProcessGroup', s.cp_ProcessGroup);
             HideValue.Set('IOT_LineGroup', s.cp_LineGroup);
             HideValue.Set('IOT_ProcessCode', s.cp_ProcessCode);
-            //HideValue.Set('IOT_LineCode', s.cp_LineCode);
+            HideValue.Set('IOT_LineCode', s.cp_ProcessTableLineCode);
             //HideValue.Set('IOT_ScheduleDate', s.cp_ScheduleDate);
             HideValue.Set('IOT_InstructionNo', s.cp_InstructionNo);
             HideValue.Set('IOT_Shift', s.cp_Shift);
@@ -293,7 +293,7 @@
             HideValue.Set('IOT_ProcessGroup', s.cp_ProcessGroup);
             HideValue.Set('IOT_LineGroup', s.cp_LineGroup);
             HideValue.Set('IOT_ProcessCode', s.cp_ProcessCode);
-            //HideValue.Set('IOT_LineCode', s.cp_LineCode);
+            HideValue.Set('IOT_LineCode', s.cp_ProcessTableLineCode);
             //HideValue.Set('IOT_ScheduleDate', s.cp_ScheduleDate);
             HideValue.Set('IOT_InstructionNo', s.cp_InstructionNo);
             HideValue.Set('IOT_Shift', s.cp_Shift);
@@ -591,7 +591,7 @@
             var ProcessGroup = HideValue.Get('IOT_ProcessGroup') === null ? "-" : HideValue.Get('IOT_ProcessGroup');
             var LineGroup = HideValue.Get('IOT_LineGroup') === null ? "-" : HideValue.Get('IOT_LineGroup');
             var Process = HideValue.Get('IOT_ProcessCode') === null ? "-" : HideValue.Get('IOT_ProcessCode');
-            var Line = HideValue.Get('LineCode') === null ? "-" : HideValue.Get('LineCode');
+            var Line = HideValue.Get('IOT_LineCode') === null ? "-" : HideValue.Get('IOT_LineCode');
             var InstructionNo = HideValue.Get('IOT_InstructionNo') === null ? "-" : HideValue.Get('IOT_InstructionNo');
             var Shift = HideValue.Get('IOT_Shift') === null ? "-" : HideValue.Get('IOT_Shift');
             var Item = HideValue.Get('IOT_ItemCode') === null ? "-" : HideValue.Get('IOT_ItemCode');
@@ -615,7 +615,7 @@
             //var Shift = "SH001";
             //var Item = "BBRSRUSA0PAD";
 
-            var IOT_URL = URL + 'AssyReport/Index?ReportType=018&Factory=' + FactoryCode + '&ProcessGroup=' + ProcessGroup + '&LineGroup=' + LineGroup + '&Process=' + Process + '&Line=' + Line + '&Date=' + Date + '&InstructionNo=' + InstructionNo + '&Shift=' + Shift + '&Item=' + Item + '&UserID=SPC';
+            var IOT_URL = URL + 'AssyReport/Index?ReportType=018&Factory=' + FactoryCode + '&ProcessGroup=' + ProcessGroup + '&LineGroup=' + LineGroup + '&Process=' + Process + '&Line=' + Line + '&Date=' + Date + '&InstructionNo=' + '&Shift=' + Shift + '&Item=' + Item + '&UserID=SPC';
             //console.log(IOT_URL);
 
             window.open(IOT_URL, '_blank');

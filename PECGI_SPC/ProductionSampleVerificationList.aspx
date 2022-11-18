@@ -489,7 +489,7 @@
                 <dx:GridViewDataTextColumn FieldName="ShowVerify" Width="0" VisibleIndex="0">
                 </dx:GridViewDataTextColumn>
 
-                <dx:GridViewDataTextColumn Caption="Date" VisibleIndex="2" Width="80px"
+                <dx:GridViewDataTextColumn Caption="Date" VisibleIndex="2" Width="90px"
                     FieldName="ProdDate">
                     <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle">

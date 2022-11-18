@@ -1222,12 +1222,15 @@ Public Class ProdSampleVerification
     Private Sub GetURL(cls As clsProdSampleVerification)
         Dim URL = clsIOT.GetURL(pUser)
         Dim ds = clsProdSampleVerificationDB.GridLoad(GetCharSetup, cls)
-        Dim dtLotNo As DataTable = ds.Tables(0)
-        Dim LotNo = dtLotNo.Rows(0)("SubLotNo").ToString
+        Dim dt As DataTable = ds.Tables(0)
+        Dim LotNo = dt.Rows(0)("SubLotNo").ToString
+        Dim ProcessTableLineCode = dt.Rows(0)("ProcessTableLineCode").ToString
         Dim dtDailyProd = clsIOT.GetDailyProd(cls.FactoryCode, cls.LineCode, cls.ItemType_Code, LotNo, cls.ProdDate)
 
         GridX.JSProperties("cp_URL") = URL
         GridX.JSProperties("cp_LotNo") = LotNo
+        GridX.JSProperties("cp_ProcessTableLineCode") = ProcessTableLineCode
+
         If dtDailyProd.Rows.Count > 0 Then
             GridX.JSProperties("cp_ProcessGroup") = dtDailyProd.Rows(0)("ProcessGroup").ToString.Trim
             GridX.JSProperties("cp_LineGroup") = dtDailyProd.Rows(0)("LineGroup").ToString.Trim
@@ -1288,7 +1291,7 @@ Public Class ProdSampleVerification
                     If CharacteristicSts = "1" Then
                         row_CellChart = row_CellResult + 40
                     Else
-                        row_CellChart = row_CellResult + 23
+                        row_CellChart = row_CellResult + 25
                     End If
                     .InsertRow(row_CellResult + 2, row_CellChart)
                     Dim fi As New FileInfo(Path & "\chart.png")
@@ -1371,171 +1374,215 @@ Public Class ProdSampleVerification
     Private Sub SpecGrid(ByVal pExl As ExcelWorksheet, cls As clsProdSampleVerification)
         With pExl
             Try
-                Dim irow = row_GridTitle + 2
-
-                .Cells(irow, 1).Value = "Specification"
-                .Cells(irow, 1, irow, 2).Merge = True
-
-                .Cells(irow, 3).Value = "X Bar Control"
-                .Cells(irow, 3, irow, 4).Merge = True
-
-                .Cells(irow, 5).Value = "Result"
-                .Cells(irow, 5, irow, 10).Merge = True
-                irow = irow + 1
-
-                .Cells(irow, 1).Value = "USL"
-                .Cells(irow, 2).Value = "LSL"
-
-                .Cells(irow, 3).Value = "UCL"
-                .Cells(irow, 4).Value = "LCL"
-
-                .Cells(irow, 5).Value = "Min"
-                .Cells(irow, 6).Value = "Max"
-
-                .Cells(irow, 7).Value = "Ave"
-                .Cells(irow, 8).Value = "R"
-
-                .Column(11).Width = 10
-                .Column(12).Width = 10
-                .Column(13).Width = 10
-                .Column(14).Width = 10
-                .Column(15).Width = 10
-                .Column(16).Width = 10
-                .Column(17).Width = 10
-                .Column(18).Width = 10
-
-                Dim rgCell As ExcelRange = .Cells(irow - 1, 1, irow - 1, 10)
-                rgCell.Style.Font.Size = 10
-                rgCell.Style.Font.Name = "Segoe UI"
-                rgCell.Style.HorizontalAlignment = HorzAlignment.Center
-                rgCell.Style.Font.Color.SetColor(Color.White)
-                rgCell.Style.Fill.PatternType = ExcelFillStyle.Solid
-                rgCell.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.DimGray)
-
-                Dim rg2Cell As ExcelRange = .Cells(irow, 1, irow, 8)
-                rg2Cell.Style.Font.Size = 10
-                rg2Cell.Style.Font.Name = "Segoe UI"
-                rg2Cell.Style.HorizontalAlignment = HorzAlignment.Center
-                rg2Cell.Style.Font.Color.SetColor(Color.White)
-                rg2Cell.Style.Fill.PatternType = ExcelFillStyle.Solid
-                rg2Cell.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.DimGray)
-
                 ds = clsProdSampleVerificationDB.GridLoad(GetCharSetup, cls)
                 Dim dtChartSetup As DataTable = ds.Tables(0)
-                If dtChartSetup.Rows.Count > 0 Then
-                    Dim USL = dtChartSetup.Rows(0)("USL")
-                    Dim LSL = dtChartSetup.Rows(0)("LSL")
-                    Dim UCL = dtChartSetup.Rows(0)("UCL")
-                    Dim LCL = dtChartSetup.Rows(0)("LCL")
-                    Dim RUCL = dtChartSetup.Rows(0)("RUCL")
-                    Dim RLCL = dtChartSetup.Rows(0)("RLCL")
-                    Dim CS = dtChartSetup.Rows(0)("CS")
+                Dim USL = dtChartSetup.Rows(0)("USL")
+                Dim LSL = dtChartSetup.Rows(0)("LSL")
+                Dim UCL = dtChartSetup.Rows(0)("UCL")
+                Dim LCL = dtChartSetup.Rows(0)("LCL")
+                Dim XBarUCL = dtChartSetup.Rows(0)("XBarUCL")
+                Dim XBarLCL = dtChartSetup.Rows(0)("XBarLCL")
+                Dim RUCL = dtChartSetup.Rows(0)("RUCL")
+                Dim RLCL = dtChartSetup.Rows(0)("RLCL")
+                Dim CS = dtChartSetup.Rows(0)("CS")
 
-                    irow = irow + 1
-                    .Cells(irow, 1).Value = USL
-                    .Cells(irow, 1).Style.Numberformat.Format = "####0.000"
+                Dim irow = row_GridTitle + 2
+                Dim icolhdr1 = 1
+                Dim icolhdr2 = 1
+                Dim icolbd = 1
 
-                    .Cells(irow, 2).Value = LSL
-                    .Cells(irow, 2).Style.Numberformat.Format = "####0.000"
+                '-----ADD HEADER 1-------
+                .Cells(irow, icolhdr1).Value = "Specification"
+                .Cells(irow, icolhdr1, irow, icolhdr1 + 1).Merge = True
+                icolhdr1 = icolhdr1 + 2
 
-                    .Cells(irow, 3).Value = UCL
-                    .Cells(irow, 3).Style.Numberformat.Format = "####0.000"
+                .Cells(irow, icolhdr1).Value = "Control Plan"
+                .Cells(irow, icolhdr1, irow, icolhdr1 + 1).Merge = True
+                icolhdr1 = icolhdr1 + 2
 
-                    .Cells(irow, 4).Value = LCL
-                    .Cells(irow, 4).Style.Numberformat.Format = "####0.000"
-
-                    Dim MIN = dtChartSetup.Rows(0)("nMIN")
-                    Dim MINclr = "#FFFFFF"
-                    If MIN < LSL Or MIN > USL Then
-                        MINclr = "#ff0000"
-                    ElseIf MIN < LCL Or MIN > UCL Then
-                        If CS = "1" Then
-                            MINclr = "#FFFE91"
-                        Else
-                            MINclr = "#FFC0CB"
-                        End If
-                    End If
-                    .Cells(irow, 5).Value = MIN
-                    .Cells(irow, 5).Style.Numberformat.Format = "####0.000"
-                    .Cells(irow, 5).Style.Fill.PatternType = ExcelFillStyle.Solid
-                    .Cells(irow, 5).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(MINclr))
-
-                    Dim MAX = dtChartSetup.Rows(0)("nMAX")
-                    Dim MAXclr = "#FFFFFF"
-                    If MAX < LSL Or MAX > USL Then
-                        MAXclr = "#ff0000"
-                    ElseIf MAX < LCL Or MAX > UCL Then
-                        If CS = "1" Then
-                            MAXclr = "#FFFE91"
-                        Else
-                            MAXclr = "#FFC0CB"
-                        End If
-                    End If
-                    .Cells(irow, 6).Value = MAX
-                    .Cells(irow, 6).Style.Numberformat.Format = "####0.000"
-                    .Cells(irow, 6).Style.Fill.PatternType = ExcelFillStyle.Solid
-                    .Cells(irow, 6).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(MAXclr))
-
-                    Dim AVG = dtChartSetup.Rows(0)("nAVG")
-                    Dim AVGclr = "#FFFFFF"
-                    If AVG < LSL Or AVG > USL Then
-                        AVGclr = "#ff0000"
-                    ElseIf AVG < LCL Or AVG > UCL Then
-                        If CS = "1" Then
-                            AVGclr = "#FFFE91"
-                        Else
-                            AVGclr = "#FFC0CB"
-                        End If
-                    End If
-
-                    .Cells(irow, 7).Value = AVG
-                    .Cells(irow, 7).Style.Numberformat.Format = "####0.000"
-                    .Cells(irow, 7).Style.Fill.PatternType = ExcelFillStyle.Solid
-                    .Cells(irow, 7).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(AVGclr))
-
-                    Dim R = dtChartSetup.Rows(0)("nR")
-                    Dim RClr = "#FFFFFF"
-                    If R < RLCL Or R > RUCL Then
-                        RClr = "#FFFF00"
-                    End If
-
-                    .Cells(irow, 8).Value = R
-                    .Cells(irow, 8).Style.Numberformat.Format = "####0.000"
-                    .Cells(irow, 8).Style.Fill.PatternType = ExcelFillStyle.Solid
-                    .Cells(irow, 8).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(RClr))
-
-                    Dim C = dtChartSetup.Rows(0)("C")
-                    Dim Cclr = "#FFFFFF"
-                    If C = "C" Then
-                        Cclr = "#FFA500"
-                    End If
-                    .Cells(irow - 1, 9).Value = C
-                    .Cells(irow - 1, 9, irow, 9).Merge = True
-                    .Cells(irow - 1, 9, irow, 9).Style.HorizontalAlignment = HorizontalAlign.Center
-                    .Cells(irow - 1, 9, irow, 9).Style.VerticalAlignment = VertAlignment.Center
-                    .Cells(irow - 1, 9, irow, 9).Style.Fill.PatternType = ExcelFillStyle.Solid
-                    .Cells(irow - 1, 9, irow, 9).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(Cclr))
-
-                    Dim Result = ""
-                    Dim Resultclr = "#FFFFFF"
-                    If dtChartSetup.Rows(0)("NG").ToString = "1" Then
-                        Result = "NG"
-                        Resultclr = "#FF0000"
-                    ElseIf dtChartSetup.Rows(0)("NG").ToString = "0" Then
-                        Result = "OK"
-                        Resultclr = "#228B22"
-                    End If
-                    .Cells(irow - 1, 10).Value = Result
-                    .Cells(irow - 1, 10, irow, 10).Merge = True
-                    .Cells(irow - 1, 10, irow, 10).Style.HorizontalAlignment = HorizontalAlign.Center
-                    .Cells(irow - 1, 10, irow, 10).Style.VerticalAlignment = VertAlignment.Center
-                    .Cells(irow - 1, 10, irow, 10).Style.Font.Bold = True
-                    .Cells(irow - 1, 10, irow, 10).Style.Fill.PatternType = ExcelFillStyle.Solid
-                    .Cells(irow - 1, 10, irow, 10).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(Resultclr))
-
+                If CS = "1" Then
+                    .Cells(irow, icolhdr1).Value = "X Bar Control"
+                    .Cells(irow, icolhdr1, irow, icolhdr1 + 1).Merge = True
+                    icolhdr1 = icolhdr1 + 2
                 End If
 
-                Dim Border As ExcelRange = .Cells(irow - 2, 1, irow, 10)
+                .Cells(irow, icolhdr1).Value = "Result"
+                .Cells(irow, icolhdr1, irow, icolhdr1 + 5).Merge = True
+
+                Dim rgCellhdr1 As ExcelRange = .Cells(irow, 1, irow, icolhdr1 + 5)
+                rgCellhdr1.Style.Font.Size = 10
+                rgCellhdr1.Style.Font.Name = "Segoe UI"
+                rgCellhdr1.Style.HorizontalAlignment = HorzAlignment.Center
+                rgCellhdr1.Style.Font.Color.SetColor(Color.White)
+                rgCellhdr1.Style.Fill.PatternType = ExcelFillStyle.Solid
+                rgCellhdr1.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.DimGray)
+                '-------------------------
+
+                '-----ADD HEADER 2-------
+                irow = irow + 1
+                .Cells(irow, icolhdr2).Value = "USL"
+                icolhdr2 = icolhdr2 + 1
+
+                .Cells(irow, icolhdr2).Value = "LSL"
+                icolhdr2 = icolhdr2 + 1
+
+                .Cells(irow, icolhdr2).Value = "UCL"
+                icolhdr2 = icolhdr2 + 1
+
+                .Cells(irow, icolhdr2).Value = "LCL"
+                icolhdr2 = icolhdr2 + 1
+
+                If CS = "1" Then
+                    .Cells(irow, icolhdr2).Value = "XBarUCL"
+                    icolhdr2 = icolhdr2 + 1
+
+                    .Cells(irow, icolhdr2).Value = "XBarLCL"
+                    icolhdr2 = icolhdr2 + 1
+                End If
+
+                .Cells(irow, icolhdr2).Value = "Min"
+                icolhdr2 = icolhdr2 + 1
+
+                .Cells(irow, icolhdr2).Value = "Max"
+                icolhdr2 = icolhdr2 + 1
+
+                .Cells(irow, icolhdr2).Value = "Ave"
+                icolhdr2 = icolhdr2 + 1
+
+                .Cells(irow, icolhdr2).Value = "R"
+
+                Dim rgCellhdr2 As ExcelRange = .Cells(irow, 1, irow, icolhdr2)
+                rgCellhdr2.Style.Font.Size = 10
+                rgCellhdr2.Style.Font.Name = "Segoe UI"
+                rgCellhdr2.Style.HorizontalAlignment = HorzAlignment.Center
+                rgCellhdr2.Style.Font.Color.SetColor(Color.White)
+                rgCellhdr2.Style.Fill.PatternType = ExcelFillStyle.Solid
+                rgCellhdr2.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.DimGray)
+                '-------------------------
+
+                '-----ADD HEADER 2-------
+                irow = irow + 1
+                .Cells(irow, icolbd).Value = USL
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                icolbd = icolbd + 1
+
+                .Cells(irow, icolbd).Value = LSL
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                icolbd = icolbd + 1
+
+                .Cells(irow, icolbd).Value = UCL
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                icolbd = icolbd + 1
+
+                .Cells(irow, icolbd).Value = LCL
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                icolbd = icolbd + 1
+
+                If CS = "1" Then
+                    .Cells(irow, icolbd).Value = XBarUCL
+                    .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                    icolbd = icolbd + 1
+
+                    .Cells(irow, icolbd).Value = XBarLCL
+                    .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                    icolbd = icolbd + 1
+                End If
+
+                Dim MIN = dtChartSetup.Rows(0)("nMIN")
+                Dim MINclr = "#FFFFFF"
+                If MIN < LSL Or MIN > USL Then
+                    MINclr = "#ff0000"
+                ElseIf MIN < LCL Or MIN > UCL Then
+                    If CS = "1" Then
+                        MINclr = "#FFFE91"
+                    Else
+                        MINclr = "#FFC0CB"
+                    End If
+                End If
+                .Cells(irow, icolbd).Value = MIN
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                .Cells(irow, icolbd).Style.Fill.PatternType = ExcelFillStyle.Solid
+                .Cells(irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(MINclr))
+                icolbd = icolbd + 1
+
+                Dim MAX = dtChartSetup.Rows(0)("nMAX")
+                Dim MAXclr = "#FFFFFF"
+                If MAX < LSL Or MAX > USL Then
+                    MAXclr = "#ff0000"
+                ElseIf MAX < LCL Or MAX > UCL Then
+                    If CS = "1" Then
+                        MAXclr = "#FFFE91"
+                    Else
+                        MAXclr = "#FFC0CB"
+                    End If
+                End If
+                .Cells(irow, icolbd).Value = MAX
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                .Cells(irow, icolbd).Style.Fill.PatternType = ExcelFillStyle.Solid
+                .Cells(irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(MAXclr))
+                icolbd = icolbd + 1
+
+                Dim AVG = dtChartSetup.Rows(0)("nAVG")
+                Dim AVGclr = "#FFFFFF"
+                If AVG < LSL Or AVG > USL Then
+                    AVGclr = "#ff0000"
+                ElseIf AVG < LCL Or AVG > UCL Then
+                    If CS = "1" Then
+                        AVGclr = "#FFFE91"
+                    Else
+                        AVGclr = "#FFC0CB"
+                    End If
+                End If
+
+                .Cells(irow, icolbd).Value = AVG
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                .Cells(irow, icolbd).Style.Fill.PatternType = ExcelFillStyle.Solid
+                .Cells(irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(AVGclr))
+                icolbd = icolbd + 1
+
+                Dim R = dtChartSetup.Rows(0)("nR")
+                Dim RClr = "#FFFFFF"
+                If R < RLCL Or R > RUCL Then
+                    RClr = "#FFFF00"
+                End If
+
+                .Cells(irow, icolbd).Value = R
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                .Cells(irow, icolbd).Style.Fill.PatternType = ExcelFillStyle.Solid
+                .Cells(irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(RClr))
+                icolbd = icolbd + 1
+
+                Dim C = dtChartSetup.Rows(0)("C")
+                Dim Cclr = "#FFFFFF"
+                If C = "C" Then
+                    Cclr = "#FFA500"
+                End If
+                .Cells(irow - 1, icolbd).Value = C
+                .Cells(irow - 1, icolbd, irow, icolbd).Merge = True
+                .Cells(irow - 1, icolbd, irow, icolbd).Style.HorizontalAlignment = HorizontalAlign.Center
+                .Cells(irow - 1, icolbd, irow, icolbd).Style.VerticalAlignment = VertAlignment.Center
+                .Cells(irow - 1, icolbd, irow, icolbd).Style.Fill.PatternType = ExcelFillStyle.Solid
+                .Cells(irow - 1, icolbd, irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(Cclr))
+                icolbd = icolbd + 1
+
+                Dim Result = ""
+                Dim Resultclr = "#FFFFFF"
+                If dtChartSetup.Rows(0)("NG").ToString = "1" Then
+                    Result = "NG"
+                    Resultclr = "#FF0000"
+                ElseIf dtChartSetup.Rows(0)("NG").ToString = "0" Then
+                    Result = "OK"
+                    Resultclr = "#228B22"
+                End If
+                .Cells(irow - 1, icolbd).Value = Result
+                .Cells(irow - 1, icolbd, irow, icolbd).Merge = True
+                .Cells(irow - 1, icolbd, irow, icolbd).Style.HorizontalAlignment = HorizontalAlign.Center
+                .Cells(irow - 1, icolbd, irow, icolbd).Style.VerticalAlignment = VertAlignment.Center
+                .Cells(irow - 1, icolbd, irow, icolbd).Style.Font.Bold = True
+                .Cells(irow - 1, icolbd, irow, icolbd).Style.Fill.PatternType = ExcelFillStyle.Solid
+                .Cells(irow - 1, icolbd, irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(Resultclr))
+
+                Dim Border As ExcelRange = .Cells(irow - 2, 1, irow, icolbd)
                 Border.Style.Border.Top.Style = ExcelBorderStyle.Thin
                 Border.Style.Border.Bottom.Style = ExcelBorderStyle.Thin
                 Border.Style.Border.Right.Style = ExcelBorderStyle.Thin
