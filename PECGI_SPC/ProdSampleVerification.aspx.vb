@@ -1064,7 +1064,7 @@ Public Class ProdSampleVerification
                 CL.LineStyle.Thickness = 1
                 CL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(CL)
-                CL.AxisValue = Setup.XBarCL
+                CL.AxisValue = Setup.CPCL
 
                 Dim LSL As New ConstantLine("LSL")
                 LSL.Color = System.Drawing.Color.Red
