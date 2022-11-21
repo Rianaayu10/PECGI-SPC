@@ -724,14 +724,30 @@ Public Class SampleControlQuality
                 LCL.LineStyle.Thickness = 1
                 LCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(LCL)
-                LCL.AxisValue = Setup.XBarLCL
+                LCL.AxisValue = Setup.CPLCL
 
                 Dim UCL As New ConstantLine("UCL")
                 UCL.Color = System.Drawing.Color.Red
                 UCL.LineStyle.Thickness = 1
                 UCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(UCL)
-                UCL.AxisValue = Setup.XBarUCL
+                UCL.AxisValue = Setup.CPUCL
+
+                If ChartType = "1" Or ChartType = "2" Then
+                    Dim XBarLCL As New ConstantLine("XBarLCL")
+                    XBarLCL.Color = System.Drawing.Color.Red
+                    XBarLCL.LineStyle.Thickness = 1
+                    XBarLCL.LineStyle.DashStyle = DashStyle.Dash
+                    diagram.AxisY.ConstantLines.Add(XBarLCL)
+                    XBarLCL.AxisValue = Setup.XBarLCL
+
+                    Dim XBarUCL As New ConstantLine("XBarUCL")
+                    XBarUCL.Color = System.Drawing.Color.Red
+                    XBarUCL.LineStyle.Thickness = 1
+                    XBarUCL.LineStyle.DashStyle = DashStyle.Dash
+                    diagram.AxisY.ConstantLines.Add(XBarUCL)
+                    XBarUCL.AxisValue = Setup.XBarUCL
+                End If
 
                 Dim CL As New ConstantLine("CL")
                 CL.Color = System.Drawing.Color.Red
