@@ -263,7 +263,11 @@ Public Class SampleControlQuality
                         If Not IsDBNull(dt.Rows(j)(k)) Then
                             If dt.Rows(j)(0) = "6" AndAlso (dt.Rows(j)(k) < RLCL Or dt.Rows(j)(k) > RUCL) Then
                                 .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
-                                .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Yellow)
+                                If k > 2 AndAlso (dt.Rows(j)(k - 1) < RLCL Or dt.Rows(j)(k - 1) > RUCL) Then
+                                    .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                                Else
+                                    .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Yellow)
+                                End If
                             ElseIf (dt.Rows(j)(k) < LSL Or dt.Rows(j)(k) > USL) Then
                                 If dt.Rows(j)(0) = "1" Or dt.Rows(j)(0) = "3" Or dt.Rows(j)(0) = "4" Or dt.Rows(j)(0) = "5" Then
                                     .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
