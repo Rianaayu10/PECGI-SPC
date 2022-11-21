@@ -750,14 +750,16 @@ Public Class ProdSampleInput
                 EndRow = iRow
             Next
 
-            Dim Range1 As ExcelRange = .Cells(StartRow, 1, EndRow, 10)
-            Range1.Style.Border.Top.Style = ExcelBorderStyle.Thin
-            Range1.Style.Border.Bottom.Style = ExcelBorderStyle.Thin
-            Range1.Style.Border.Right.Style = ExcelBorderStyle.Thin
-            Range1.Style.Border.Left.Style = ExcelBorderStyle.Thin
-            Range1.Style.Font.Size = 10
-            Range1.Style.Font.Name = "Segoe UI"
-            Range1.Style.HorizontalAlignment = HorzAlignment.Center
+            If EndRow > StartRow Then
+                Dim Range1 As ExcelRange = .Cells(StartRow, 1, EndRow, 10)
+                Range1.Style.Border.Top.Style = ExcelBorderStyle.Thin
+                Range1.Style.Border.Bottom.Style = ExcelBorderStyle.Thin
+                Range1.Style.Border.Right.Style = ExcelBorderStyle.Thin
+                Range1.Style.Border.Left.Style = ExcelBorderStyle.Thin
+                Range1.Style.Font.Size = 10
+                Range1.Style.Font.Name = "Segoe UI"
+                Range1.Style.HorizontalAlignment = HorzAlignment.Center
+            End If
 
             iRow = iRow + 2
             .Cells(iRow, 1).Value = "Sub Lot No"
@@ -1322,6 +1324,7 @@ Public Class ProdSampleInput
         LoadChartX(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, VerifiedOnly, SeqNo)
     End Sub
 
+    Dim PrevYellow As Integer
     Private Sub gridX_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles gridX.HtmlDataCellPrepared
         Dim LCL As Double
         Dim UCL As Double
@@ -1359,7 +1362,14 @@ Public Class ProdSampleInput
                 Dim Value As Double = clsSPCResultDB.ADecimal(e.CellValue)
                 If e.GetValue("Seq") = "6" Then
                     If Value < RLCL Or Value > RUCL And ChartType <> "0" Then
-                        e.Cell.BackColor = Color.Yellow
+                        If PrevYellow = 1 Then
+                            e.Cell.BackColor = Color.Pink
+                        Else
+                            e.Cell.BackColor = Color.Yellow
+                            PrevYellow = 1
+                        End If
+                    Else
+                        PrevYellow = 0
                     End If
                 Else
                     If Value < LSL Or Value > USL Then

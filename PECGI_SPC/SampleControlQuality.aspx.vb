@@ -330,6 +330,10 @@ Public Class SampleControlQuality
                 .Cells(4, 7, 4, 8).Merge = True
                 .Cells(4, 9).Value = ": " & cls.ProdDate & " to " & cls.ProdDate2
 
+                .Cells(5, 7, 5, 8).Value = "Verified Only"
+                .Cells(5, 7, 5, 8).Merge = True
+                .Cells(5, 9).Value = ": " & cboShow.Text
+
                 Dim rgHdr As ExcelRange = .Cells(3, 3, 9, 4)
                 rgHdr.Style.HorizontalAlignment = HorzAlignment.Near
                 rgHdr.Style.VerticalAlignment = VertAlignment.Center
@@ -516,6 +520,7 @@ Public Class SampleControlQuality
     End Sub
 
     Dim ChartType As String
+    Dim PrevYellow As Integer = 0
 
     Private Sub gridX_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles gridX.HtmlDataCellPrepared
         Dim LCL As Double
@@ -548,7 +553,14 @@ Public Class SampleControlQuality
             RLCL = dtRLCL.Rows(0)(ColName)
             Dim Value As Double = clsSPCResultDB.ADecimal(e.CellValue)
             If Value < RLCL Or Value > RUCL Then
-                e.Cell.BackColor = Color.Yellow
+                If PrevYellow = 1 Then
+                    e.Cell.BackColor = Color.Pink
+                Else
+                    e.Cell.BackColor = Color.Yellow
+                    PrevYellow = 1
+                End If
+            Else
+                PrevYellow = 0
             End If
         End If
         Dim cs As New clsSPCColor
