@@ -725,28 +725,28 @@ Public Class SampleControlQuality
                 diagram.AxisY.ConstantLines.Add(UCL)
                 UCL.AxisValue = Setup.CPUCL
 
-                If ChartType = "1" Or ChartType = "2" Then
-                    Dim XBarLCL As New ConstantLine("XBarLCL")
-                    XBarLCL.Color = System.Drawing.Color.Red
-                    XBarLCL.LineStyle.Thickness = 1
-                    XBarLCL.LineStyle.DashStyle = DashStyle.Dash
-                    diagram.AxisY.ConstantLines.Add(XBarLCL)
-                    XBarLCL.AxisValue = Setup.XBarLCL
-
-                    Dim XBarUCL As New ConstantLine("XBarUCL")
-                    XBarUCL.Color = System.Drawing.Color.Red
-                    XBarUCL.LineStyle.Thickness = 1
-                    XBarUCL.LineStyle.DashStyle = DashStyle.Dash
-                    diagram.AxisY.ConstantLines.Add(XBarUCL)
-                    XBarUCL.AxisValue = Setup.XBarUCL
-                End If
-
                 Dim CL As New ConstantLine("CL")
                 CL.Color = System.Drawing.Color.Red
                 CL.LineStyle.Thickness = 1
                 CL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(CL)
                 CL.AxisValue = Setup.CPCL
+
+                If ChartType = "1" Or ChartType = "2" Then
+                    Dim XBarLCL As New ConstantLine("XBarLCL")
+                    XBarLCL.Color = System.Drawing.Color.Yellow
+                    XBarLCL.LineStyle.Thickness = 1
+                    XBarLCL.LineStyle.DashStyle = DashStyle.Dash
+                    diagram.AxisY.ConstantLines.Add(XBarLCL)
+                    XBarLCL.AxisValue = Setup.XBarLCL
+
+                    Dim XBarUCL As New ConstantLine("XBarUCL")
+                    XBarUCL.Color = System.Drawing.Color.Yellow
+                    XBarUCL.LineStyle.Thickness = 1
+                    XBarUCL.LineStyle.DashStyle = DashStyle.Dash
+                    diagram.AxisY.ConstantLines.Add(XBarUCL)
+                    XBarUCL.AxisValue = Setup.XBarUCL
+                End If
 
                 Dim LSL As New ConstantLine("LSL")
                 LSL.Color = System.Drawing.Color.Red
