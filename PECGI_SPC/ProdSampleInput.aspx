@@ -277,8 +277,8 @@
             lblUCL.SetText(s.cpUCL);
             lblLCL.SetText(s.cpLCL);
 
-            lblXUCL.SetText(s.cpUCL);
-            lblXLCL.SetText(s.cpLCL);
+            lblXBarUCL.SetText(s.cpXBarUCL);
+            lblXBarLCL.SetText(s.cpXBarLCL);
 
             lblMin.SetText(s.cpMin);
             lblMax.SetText(s.cpMax);
@@ -934,8 +934,8 @@
                     <td class="body" align="center"><dx:ASPxLabel ID="lblLSL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLSL" ForeColor="Black"></dx:ASPxLabel></td>
                     <td class="body" align="center"><dx:ASPxLabel ID="lblUCL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblUCL" ForeColor="Black"></dx:ASPxLabel></td>
                     <td class="body" align="center"><dx:ASPxLabel ID="lblLCL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLCL" ForeColor="Black"></dx:ASPxLabel></td>
-                    <td class="body" align="center" id="colXBarUCL2"><dx:ASPxLabel runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXUCL" ForeColor="Black"></dx:ASPxLabel></td>
-                    <td class="body" align="center" id="colXBarLCL2"><dx:ASPxLabel runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXLCL" ForeColor="Black"></dx:ASPxLabel></td>
+                    <td class="body" align="center" id="colXBarUCL2"><dx:ASPxLabel runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXBarUCL" ForeColor="Black"></dx:ASPxLabel></td>
+                    <td class="body" align="center" id="colXBarLCL2"><dx:ASPxLabel runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXBarLCL" ForeColor="Black"></dx:ASPxLabel></td>
                     <td class="body" align="center" id="Min"><dx:ASPxLabel ID="lblMin" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblMin" ForeColor="Black"></dx:ASPxLabel></td>
                     <td class="body" align="center" id="Max"><dx:ASPxLabel ID="lblMax" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblMax" ForeColor="Black"></dx:ASPxLabel></td>
                     <td class="body" align="center" id="Ave"><dx:ASPxLabel ID="lblAve" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblAve" ForeColor="Black"></dx:ASPxLabel></td>

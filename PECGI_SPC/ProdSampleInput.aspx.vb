@@ -344,6 +344,8 @@ Public Class ProdSampleInput
                 grid.JSProperties("cpLSL") = AFormat(Setup.SpecLSL)
                 grid.JSProperties("cpUCL") = AFormat(Setup.CPUCL)
                 grid.JSProperties("cpLCL") = AFormat(Setup.CPLCL)
+                grid.JSProperties("cpXBarUCL") = AFormat(Setup.XBarUCL)
+                grid.JSProperties("cpXBarLCL") = AFormat(Setup.XBarLCL)
             End If
         Else
             With dt.Rows(0)
@@ -351,6 +353,8 @@ Public Class ProdSampleInput
                 grid.JSProperties("cpLSL") = AFormat(.Item("SpecLSL"))
                 grid.JSProperties("cpUCL") = AFormat(.Item("CPUCL"))
                 grid.JSProperties("cpLCL") = AFormat(.Item("CPLCL"))
+                grid.JSProperties("cpXBarUCL") = AFormat(.Item("XBarUCL"))
+                grid.JSProperties("cpXBarLCL") = AFormat(.Item("XBarLCL"))
                 grid.JSProperties("cpMin") = AFormat(.Item("MinValue"))
                 grid.JSProperties("cpMax") = AFormat(.Item("MaxValue"))
                 grid.JSProperties("cpAve") = AFormat(.Item("AvgValue"))
@@ -670,6 +674,7 @@ Public Class ProdSampleInput
         Dim MKUser As String = "", MKDate As String = ""
         Dim QCUser As String = "", QCDate As String = ""
         Dim USL As String = "", LSL As String = "", UCL As String = "", LCL As String = "", NG As String = "", C As String = "", RLCL As Double, RUCL As Double
+        Dim XBarUCL As String = "", XBarLCL As String = ""
         Dim vMin As String = "", vMax As String = "", vAvg As String = "", vR As String = "", SubLotNo As String = "", Remarks As String = ""
         Dim LightYellow As Color = Color.FromArgb(255, 255, 153)
         Dim cs As New clsSPCColor
@@ -704,6 +709,8 @@ Public Class ProdSampleInput
                 LSL = dt.Rows(0)("SpecLSL") & ""
                 UCL = dt.Rows(0)("CPUCL") & ""
                 LCL = dt.Rows(0)("CPLCL") & ""
+                XBarUCL = dt.Rows(0)("XBarUCL") & ""
+                XBarLCL = dt.Rows(0)("XBarLCL") & ""
                 vMin = dt.Rows(0)("MinValue") & ""
                 vMax = dt.Rows(0)("MaxValue") & ""
                 vAvg = dt.Rows(0)("AvgValue") & ""
@@ -779,8 +786,15 @@ Public Class ProdSampleInput
             .Cells(iRow, 1, iRow, 2).Merge = True
             .Cells(iRow, 3).Value = "Control Plan"
             .Cells(iRow, 3, iRow, 4).Merge = True
-            .Cells(iRow, 5).Value = "Result"
-            .Cells(iRow, 5, iRow, 10).Merge = True
+
+            Dim AddCol As Integer = 0
+            If ChartType = "1" Or ChartType = "2" Then
+                AddCol = 2
+                .Cells(iRow, 5).Value = "X Bar Control"
+                .Cells(iRow, 5, iRow, 6).Merge = True
+            End If
+            .Cells(iRow, 5 + AddCol).Value = "Result"
+            .Cells(iRow, 5 + AddCol, iRow, 10).Merge = True
 
             .Cells(iRow + 1, 1).Value = "USL"
             .Cells(iRow + 2, 1).Value = ADbl(USL)
@@ -790,17 +804,24 @@ Public Class ProdSampleInput
             .Cells(iRow + 2, 3).Value = ADbl(UCL)
             .Cells(iRow + 1, 4).Value = "LCL"
             .Cells(iRow + 2, 4).Value = ADbl(LCL)
-            .Cells(iRow + 1, 5).Value = "Min"
-            .Cells(iRow + 2, 5).Value = ADbl(vMin)
-            .Cells(iRow + 1, 6).Value = "Max"
-            .Cells(iRow + 2, 6).Value = ADbl(vMax)
-            .Cells(iRow + 1, 7).Value = "Ave"
-            .Cells(iRow + 2, 7).Value = ADbl(vAvg)
-            .Cells(iRow + 1, 8).Value = "R"
-            .Cells(iRow + 2, 8).Value = ADbl(vR)
-            .Cells(iRow + 2, 1, iRow + 2, 8).Style.Numberformat.Format = "0.000"
 
-            Dim Col As Integer = 5
+            If ChartType = "1" Or ChartType = "2" Then
+                .Cells(iRow + 1, 5).Value = "UCL"
+                .Cells(iRow + 2, 5).Value = ADbl(XBarUCL)
+                .Cells(iRow + 1, 6).Value = "LCL"
+                .Cells(iRow + 2, 6).Value = ADbl(XBarLCL)
+            End If
+            .Cells(iRow + 1, 5 + AddCol).Value = "Min"
+            .Cells(iRow + 2, 5 + AddCol).Value = ADbl(vMin)
+            .Cells(iRow + 1, 6 + AddCol).Value = "Max"
+            .Cells(iRow + 2, 6 + AddCol).Value = ADbl(vMax)
+            .Cells(iRow + 1, 7 + AddCol).Value = "Ave"
+            .Cells(iRow + 2, 7 + AddCol).Value = ADbl(vAvg)
+            .Cells(iRow + 1, 8 + AddCol).Value = "R"
+            .Cells(iRow + 2, 8 + AddCol).Value = ADbl(vR)
+            .Cells(iRow + 2, 1, iRow + 2, 8 + AddCol).Style.Numberformat.Format = "0.000"
+
+            Dim Col As Integer = 5 + AddCol
             If vMin <> "" Then
                 If ADbl(vMin) < ADbl(LSL) Or ADbl(vMin) > ADbl(USL) Then
                     .Cells(iRow + 2, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
@@ -815,7 +836,7 @@ Public Class ProdSampleInput
                 End If
             End If
             If vMax <> "" Then
-                Col = 6
+                Col = 6 + AddCol
                 If ADbl(vMax) < ADbl(LSL) Or ADbl(vMax) > ADbl(USL) Then
                     .Cells(iRow + 2, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
                     .Cells(iRow + 2, Col).Style.Fill.BackgroundColor.SetColor(Color.Red)
@@ -829,7 +850,7 @@ Public Class ProdSampleInput
                 End If
             End If
             If vAvg <> "" Then
-                Col = 7
+                Col = 7 + AddCol
                 If ADbl(vAvg) < ADbl(LSL) Or ADbl(vAvg) > ADbl(USL) Then
                     .Cells(iRow + 2, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
                     .Cells(iRow + 2, Col).Style.Fill.BackgroundColor.SetColor(Color.Red)
@@ -843,41 +864,41 @@ Public Class ProdSampleInput
                 End If
             End If
             If vR <> "" Then
-                Col = 8
+                Col = 8 + AddCol
                 If (ADbl(vR) < RLCL Or ADbl(vR) > RUCL) And (ChartType = "1" Or ChartType = "2") Then
                     .Cells(iRow + 2, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
                     .Cells(iRow + 2, Col).Style.Fill.BackgroundColor.SetColor(Color.Yellow)
                 End If
             End If
 
-            .Cells(iRow + 1, 9, iRow + 1, 10).Style.Font.Size = 14
-            .Cells(iRow + 1, 9, iRow + 1, 10).Style.Font.Bold = True
+            .Cells(iRow + 1, 9 + AddCol, iRow + 1, 10 + AddCol).Style.Font.Size = 14
+            .Cells(iRow + 1, 9 + AddCol, iRow + 1, 10 + AddCol).Style.Font.Bold = True
             If NG = "2" Then
-                .Cells(iRow + 1, 10).Value = "NG"
-                .Cells(iRow + 1, 10).Style.Fill.PatternType = ExcelFillStyle.Solid
-                .Cells(iRow + 1, 10).Style.Fill.BackgroundColor.SetColor(Color.Red)
+                .Cells(iRow + 1, 10 + AddCol).Value = "NG"
+                .Cells(iRow + 1, 10 + AddCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                .Cells(iRow + 1, 10 + AddCol).Style.Fill.BackgroundColor.SetColor(Color.Red)
             ElseIf NG = "1" Or NG = "0" Then
-                .Cells(iRow + 1, 10).Value = "OK"
-                .Cells(iRow + 1, 10).Style.Fill.PatternType = ExcelFillStyle.Solid
-                .Cells(iRow + 1, 10).Style.Fill.BackgroundColor.SetColor(Color.Green)
+                .Cells(iRow + 1, 10 + AddCol).Value = "OK"
+                .Cells(iRow + 1, 10 + AddCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                .Cells(iRow + 1, 10 + AddCol).Style.Fill.BackgroundColor.SetColor(Color.Green)
             Else
-                .Cells(iRow + 1, 10).Value = ""
+                .Cells(iRow + 1, 10 + AddCol).Value = ""
             End If
 
-            .Cells(iRow + 1, 9).Value = C
+            .Cells(iRow + 1, 9 + AddCol).Value = C
             If C <> "" Then
                 .Cells(iRow + 1, 9).Style.Fill.PatternType = ExcelFillStyle.Solid
                 .Cells(iRow + 1, 9).Style.Fill.BackgroundColor.SetColor(Color.Orange)
             End If
-            .Cells(iRow + 1, 9, iRow + 2, 9).Merge = True
-            .Cells(iRow + 1, 10, iRow + 2, 10).Merge = True
-            .Cells(iRow + 1, 9, iRow + 2, 10).Style.VerticalAlignment = ExcelVerticalAlignment.Center
+            .Cells(iRow + 1, 9 + AddCol, iRow + 2, 9 + AddCol).Merge = True
+            .Cells(iRow + 1, 10 + AddCol, iRow + 2, 10 + AddCol).Merge = True
+            .Cells(iRow + 1, 9 + AddCol, iRow + 2, 10 + AddCol).Style.VerticalAlignment = ExcelVerticalAlignment.Center
 
-            .Cells(iRow + 2, 1, iRow + 2, 8).Style.Numberformat.Format = "0.000"
+            .Cells(iRow + 2, 1, iRow + 2, 8 + AddCol).Style.Numberformat.Format = "0.000"
 
-            ExcelHeader(pExl, iRow, 1, iRow + 1, 8)
-            ExcelHeader(pExl, iRow, 9, iRow, 10)
-            ExcelBorder(pExl, iRow, 1, iRow + 2, 10)
+            ExcelHeader(pExl, iRow, 1, iRow + 1, 8 + AddCol)
+            ExcelHeader(pExl, iRow, 9 + AddCol, iRow, 10 + AddCol)
+            ExcelBorder(pExl, iRow, 1, iRow + 2, 10 + AddCol)
 
             iRow = iRow + 4
 
@@ -1203,6 +1224,22 @@ Public Class ProdSampleInput
                 UCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(UCL)
                 UCL.AxisValue = Setup.CPUCL
+
+                If ChartType = "1" Or ChartType = "2" Then
+                    Dim XBarLCL As New ConstantLine("XBarLCL")
+                    XBarLCL.Color = System.Drawing.Color.Red
+                    XBarLCL.LineStyle.Thickness = 1
+                    XBarLCL.LineStyle.DashStyle = DashStyle.Dash
+                    diagram.AxisY.ConstantLines.Add(XBarLCL)
+                    XBarLCL.AxisValue = Setup.XBarLCL
+
+                    Dim XBarUCL As New ConstantLine("XBarUCL")
+                    XBarUCL.Color = System.Drawing.Color.Red
+                    XBarUCL.LineStyle.Thickness = 1
+                    XBarUCL.LineStyle.DashStyle = DashStyle.Dash
+                    diagram.AxisY.ConstantLines.Add(XBarUCL)
+                    XBarUCL.AxisValue = Setup.XBarUCL
+                End If
 
                 Dim CL As New ConstantLine("CL")
                 CL.Color = System.Drawing.Color.Red
