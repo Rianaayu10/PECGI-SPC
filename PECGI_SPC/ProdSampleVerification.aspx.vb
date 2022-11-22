@@ -250,7 +250,6 @@ Public Class ProdSampleVerification
 
             If pAction = "Load" Then
 
-                Verify(cls)
                 Up_GridLoad(cls)
                 Up_GridChartSetup(cls)
                 Validation_Verify(cls)
