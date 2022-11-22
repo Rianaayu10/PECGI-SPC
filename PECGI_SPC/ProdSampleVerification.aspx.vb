@@ -1160,11 +1160,11 @@ Public Class ProdSampleVerification
         cls.User = pUser
 
         UpFillCombo()
+        Validation_Verify(cls)
+        GetURL(cls)
         Up_GridLoad(cls)
         Up_GridLoadActivities(cls)
         Up_GridChartSetup(cls)
-        Validation_Verify(cls)
-        GetURL(cls)
 
         Dim dt = clsProdSampleVerificationDB.Validation(GetVerifyChartSetup, cls)
         Dim Resp = dt.Rows(0)("response")
