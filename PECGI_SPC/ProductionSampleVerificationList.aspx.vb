@@ -11,7 +11,6 @@ Imports DevExpress.Web
 Imports OfficeOpenXml
 Imports OfficeOpenXml.Style
 Imports DevExpress.XtraGrid
-Imports DevExpress.XtraGrid.Views.Base
 Imports DevExpress.Data
 
 Public Class ProductionSampleVerificationList
@@ -54,6 +53,9 @@ Public Class ProductionSampleVerificationList
     Dim sQCVerification = ""
     Dim sProdDateTo = ""
     Dim sProdDateFrom = ""
+
+    ' PARAMETE EXCEL
+    Dim totRowHdr = 0
 
 #End Region
 
@@ -476,55 +478,58 @@ Public Class ProductionSampleVerificationList
                 With ws
                     InsertHeader(ws, cls)
 
-                    .Cells(11, 1, 12, 1).Value = "Date"
-                    .Cells(11, 1, 12, 1).Merge = True
+                    Dim rowStart = totRowHdr + 2
+                    Dim irow = rowStart
 
-                    .Cells(11, 2, 12, 2).Value = "Shift"
-                    .Cells(11, 2, 12, 2).Merge = True
+                    .Cells(irow, 1, irow + 1, 1).Value = "Date"
+                    .Cells(irow, 1, irow + 1, 1).Merge = True
 
-                    .Cells(11, 3, 12, 3).Value = "seq"
-                    .Cells(11, 3, 12, 3).Merge = True
+                    .Cells(irow, 2, irow + 1, 2).Value = "Shift"
+                    .Cells(irow, 2, irow + 1, 2).Merge = True
 
-                    .Cells(11, 4, 12, 4).Value = "Item Check"
-                    .Cells(11, 4, 12, 4).Merge = True
+                    .Cells(irow, 3, irow + 1, 3).Value = "seq"
+                    .Cells(irow, 3, irow + 1, 3).Merge = True
 
-                    .Cells(11, 5, 12, 5).Value = "Min"
-                    .Cells(11, 5, 12, 5).Merge = True
+                    .Cells(irow, 4, irow + 1, 4).Value = "Item Check"
+                    .Cells(irow, 4, irow + 1, 4).Merge = True
 
-                    .Cells(11, 6, 12, 6).Value = "Max"
-                    .Cells(11, 6, 12, 6).Merge = True
+                    .Cells(irow, 5, irow + 1, 5).Value = "Min"
+                    .Cells(irow, 5, irow + 1, 5).Merge = True
 
-                    .Cells(11, 7, 12, 7).Value = "Avg"
-                    .Cells(11, 7, 12, 7).Merge = True
+                    .Cells(irow, 6, irow + 12, 6).Value = "Max"
+                    .Cells(irow, 6, irow + 1, 6).Merge = True
 
-                    .Cells(11, 8, 12, 8).Value = "R"
-                    .Cells(11, 8, 12, 8).Merge = True
+                    .Cells(irow, 7, irow + 1, 7).Value = "Avg"
+                    .Cells(irow, 7, irow + 1, 7).Merge = True
 
-                    .Cells(11, 9, 12, 9).Value = "Correction Status"
-                    .Cells(11, 9, 12, 9).Merge = True
-                    .Cells(11, 9, 12, 9).Style.WrapText = True
+                    .Cells(irow, 8, irow + 1, 8).Value = "R"
+                    .Cells(irow, 8, irow + 1, 8).Merge = True
 
-                    .Cells(11, 10, 12, 10).Value = "Result"
-                    .Cells(11, 10, 12, 10).Merge = True
+                    .Cells(irow, 9, irow + 1, 9).Value = "Correction Status"
+                    .Cells(irow, 9, irow + 1, 9).Merge = True
+                    .Cells(irow, 9, irow + 1, 9).Style.WrapText = True
 
-                    .Cells(11, 11, 12, 11).Value = "Sample Time"
-                    .Cells(11, 11, 12, 11).Merge = True
+                    .Cells(irow, 10, irow + 1, 10).Value = "Result"
+                    .Cells(irow, 10, irow + 1, 10).Merge = True
 
-                    .Cells(11, 12, 12, 12).Value = "Operator"
-                    .Cells(11, 12, 12, 12).Merge = True
+                    .Cells(irow, 11, irow + 1, 11).Value = "Sample Time"
+                    .Cells(irow, 11, irow + 1, 11).Merge = True
 
-                    .Cells(11, 13, 11, 14).Value = "Verification by MK"
-                    .Cells(11, 13, 11, 14).Merge = True
+                    .Cells(irow, 12, irow + 1, 12).Value = "Operator"
+                    .Cells(irow, 12, irow + 1, 12).Merge = True
 
-                    .Cells(11, 15, 11, 16).Value = "Verification by QC"
-                    .Cells(11, 15, 11, 16).Merge = True
+                    .Cells(irow, 13, irow + 1, 14).Value = "Verification by MK"
+                    .Cells(irow, 13, irow + 1, 14).Merge = True
 
-                    .Cells(12, 13).Value = "PIC"
-                    .Cells(12, 14).Value = "Time"
-                    .Cells(12, 15).Value = "PIC"
-                    .Cells(12, 16).Value = "Time"
+                    .Cells(irow, 15, irow + 1, 16).Value = "Verification by QC"
+                    .Cells(irow, 15, irow + 1, 16).Merge = True
 
-                    Dim Hdr As ExcelRange = .Cells(11, 1, 12, 16)
+                    .Cells(irow + 1, 13).Value = "PIC"
+                    .Cells(irow + 1, 14).Value = "Time"
+                    .Cells(irow + 1, 15).Value = "PIC"
+                    .Cells(irow + 1, 16).Value = "Time"
+
+                    Dim Hdr As ExcelRange = .Cells(irow, 1, irow + 1, 16)
                     Hdr.Style.HorizontalAlignment = HorzAlignment.Far
                     Hdr.Style.VerticalAlignment = VertAlignment.Center
                     Hdr.Style.Font.Size = 10
@@ -553,7 +558,7 @@ Public Class ProductionSampleVerificationList
                     .Column(15).Width = 18
                     .Column(16).Width = 18
 
-                    Dim irow = 13
+                    irow = irow + 1
                     For i = 0 To dt.Rows.Count - 1
                         Try
                             .Cells(irow, 1).Value = dt.Rows(i)("ProdDate")
@@ -634,13 +639,13 @@ Public Class ProductionSampleVerificationList
                         End Try
                     Next
 
-                    Dim Dtl As ExcelRange = .Cells(13, 1, irow - 1, 16)
+                    Dim Dtl As ExcelRange = .Cells(irow, 1, irow - 1, 16)
                     Hdr.Style.VerticalAlignment = VertAlignment.Center
                     Hdr.Style.Font.Size = 10
                     Hdr.Style.Font.Name = "Segoe UI"
 
 
-                    Dim Border As ExcelRange = .Cells(11, 1, irow - 1, 16)
+                    Dim Border As ExcelRange = .Cells(rowStart, 1, irow - 1, 16)
                     Border.Style.Border.Top.Style = ExcelBorderStyle.Thin
                     Border.Style.Border.Bottom.Style = ExcelBorderStyle.Thin
                     Border.Style.Border.Right.Style = ExcelBorderStyle.Thin
@@ -664,46 +669,45 @@ Public Class ProductionSampleVerificationList
     End Sub
     Private Sub InsertHeader(ByVal pExl As ExcelWorksheet, cls As clsProductionSampleVerificationList)
         With pExl
-            .Cells(1, 1).Value = "Product Sample Verification List"
-            .Cells(1, 1, 1, 16).Merge = True
-            .Cells(1, 1, 1, 16).Style.HorizontalAlignment = HorzAlignment.Near
-            .Cells(1, 1, 1, 16).Style.VerticalAlignment = VertAlignment.Center
-            .Cells(1, 1, 1, 16).Style.Font.Bold = True
-            .Cells(1, 1, 1, 16).Style.Font.Size = 16
-            .Cells(1, 1, 1, 16).Style.Font.Name = "Segoe UI"
+            Dim irow = 1
 
-            .Cells(3, 1, 3, 2).Value = "Factory Code"
-            .Cells(3, 1, 3, 2).Merge = True
-            .Cells(3, 3).Value = ": " & cls.FactoryName
+            .Cells(irow, 1).Value = "Product Sample Verification List"
+            .Cells(irow, 1, irow, 16).Merge = True
+            .Cells(irow, 1, irow, 16).Style.HorizontalAlignment = HorzAlignment.Near
+            .Cells(irow, 1, irow, 16).Style.VerticalAlignment = VertAlignment.Center
+            .Cells(irow, 1, irow, 16).Style.Font.Bold = True
+            .Cells(irow, 1, irow, 16).Style.Font.Size = 16
+            .Cells(irow, 1, irow, 16).Style.Font.Name = "Segoe UI"
+            irow = irow + 2
 
-            .Cells(4, 1, 4, 2).Value = "Item Type Code"
-            .Cells(4, 1, 4, 2).Merge = True
-            .Cells(4, 3).Value = ": " & cls.ItemType_Name
+            .Cells(irow, 1).Value = "Factory"
+            .Cells(irow, 3).Value = ": " & cls.FactoryName
+            .Cells(irow, 5).Value = "Prod. Date"
+            .Cells(irow, 7).Value = ": " & cls.Period
+            irow = irow + 1
 
-            .Cells(5, 1, 5, 2).Value = "Line Code"
-            .Cells(5, 1, 5, 2).Merge = True
-            .Cells(5, 3).Value = ": " & cls.LineName
+            .Cells(irow, 1).Value = "Type"
+            .Cells(irow, 3).Value = ": " & cls.ItemType_Name
+            .Cells(irow, 5).Value = "MK Verification"
+            .Cells(irow, 7).Value = ": " & cls.MKVerification_Name
+            irow = irow + 1
 
-            .Cells(6, 1, 6, 2).Value = "Item Check Code"
-            .Cells(6, 1, 6, 2).Merge = True
-            .Cells(6, 3).Value = ": " & cls.ItemCheck_Name
+            .Cells(irow, 1).Value = "Machine Process"
+            .Cells(irow, 3).Value = ": " & cls.LineName
+            .Cells(irow, 5).Value = "QC Verification"
+            .Cells(irow, 7).Value = ": " & cls.QCVerification_Name
+            irow = irow + 1
 
-            .Cells(7, 1, 7, 2).Value = "Prod Date"
-            .Cells(7, 1, 7, 2).Merge = True
-            .Cells(7, 3).Value = ": " & cls.Period
-            .Cells(9, 1, 9, 2).Value = "MK Verification"
-            .Cells(9, 1, 9, 2).Merge = True
-            .Cells(9, 3).Value = ": " & cls.MKVerification_Name
+            .Cells(irow, 1).Value = "Item Check"
+            .Cells(irow, 3).Value = ": " & cls.ItemCheck_Name
 
-            .Cells(8, 1, 8, 2).Value = "QC Verification"
-            .Cells(8, 1, 8, 2).Merge = True
-            .Cells(8, 3).Value = ": " & cls.QCVerification_Name
-
-            Dim rgHeader As ExcelRange = .Cells(3, 3, 9, 4)
+            Dim rgHeader As ExcelRange = .Cells(3, 1, 6, 7)
             rgHeader.Style.HorizontalAlignment = HorzAlignment.Near
             rgHeader.Style.VerticalAlignment = VertAlignment.Center
+            rgHeader.Style.Font.Bold = True
             rgHeader.Style.Font.Size = 10
             rgHeader.Style.Font.Name = "Segoe UI"
+            totRowHdr = irow
 
         End With
     End Sub
