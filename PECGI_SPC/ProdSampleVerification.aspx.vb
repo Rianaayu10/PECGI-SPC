@@ -1689,8 +1689,12 @@ Public Class ProdSampleVerification
                                             .Cells(irow + i, n).Style.Fill.PatternType = ExcelFillStyle.Solid
                                             .Cells(irow + i, n).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(color))
                                             If RowIndex = "EachData" Or RowIndex = "XBar" Then
-                                                .Cells(irow + i, n).Value = CDec(value)
-                                                .Cells(irow + i, n).Style.Numberformat.Format = "####0.000"
+                                                If value <> "" Then
+                                                    .Cells(irow + i, n).Value = CDec(value)
+                                                    .Cells(irow + i, n).Style.Numberformat.Format = "####0.000"
+                                                Else
+                                                    .Cells(irow + i, n).Value = value
+                                                End If
                                             Else
                                                 .Cells(irow + i, n).Value = value
                                             End If
