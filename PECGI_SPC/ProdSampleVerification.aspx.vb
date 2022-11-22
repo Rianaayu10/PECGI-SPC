@@ -223,7 +223,7 @@ Public Class ProdSampleVerification
         cls.ShiftName = cboShift.Text
         cls.Seq = cboSeq.Value
         cls.ShowVerify = cboShow.Value
-
+        cls.ShowVerify_Desc = cboShow.Text
 
         up_Excel(cls)
     End Sub
@@ -1330,49 +1330,50 @@ Public Class ProdSampleVerification
     Private Sub GridTitle(ByVal pExl As ExcelWorksheet, cls As clsProdSampleVerification)
         With pExl
             Try
-                .Cells(1, 1).Value = "Production Sample Verification"
-                .Cells(1, 1, 1, 13).Merge = True
-                .Cells(1, 1, 1, 13).Style.HorizontalAlignment = HorzAlignment.Near
-                .Cells(1, 1, 1, 13).Style.VerticalAlignment = VertAlignment.Center
-                .Cells(1, 1, 1, 13).Style.Font.Bold = True
-                .Cells(1, 1, 1, 13).Style.Font.Size = 16
-                .Cells(1, 1, 1, 13).Style.Font.Name = "Segoe UI"
+                Dim irow = 1
 
-                .Cells(3, 1, 3, 2).Value = "Factory Code"
-                .Cells(3, 1, 3, 2).Merge = True
-                .Cells(3, 3).Value = ": " & cls.FactoryName
+                .Cells(irow, 1).Value = "Production Sample Verification"
+                .Cells(irow, 1, irow, 13).Merge = True
+                .Cells(irow, 1, irow, 13).Style.HorizontalAlignment = HorzAlignment.Near
+                .Cells(irow, 1, irow, 13).Style.VerticalAlignment = VertAlignment.Center
+                .Cells(irow, 1, irow, 13).Style.Font.Bold = True
+                .Cells(irow, 1, irow, 13).Style.Font.Size = 16
+                .Cells(irow, 1, irow, 13).Style.Font.Name = "Segoe UI"
+                irow = irow + 2
 
-                .Cells(4, 1, 4, 2).Value = "Item Type Code"
-                .Cells(4, 1, 4, 2).Merge = True
-                .Cells(4, 3).Value = ": " & cls.ItemType_Name
+                Dim irowStar = irow
+                .Cells(irow, 1).Value = "Factory"
+                .Cells(irow, 3).Value = ": " & cls.FactoryName
+                .Cells(irow, 5).Value = "Prod. Date"
+                .Cells(irow, 7).Value = ": " & cls.Period
+                irow = irow + 1
 
-                .Cells(5, 1, 5, 2).Value = "Line Code"
-                .Cells(5, 1, 5, 2).Merge = True
-                .Cells(5, 3).Value = ": " & cls.LineName
+                .Cells(irow, 1).Value = "Type"
+                .Cells(irow, 3).Value = ": " & cls.ItemType_Name
+                .Cells(irow, 5).Value = "Shift"
+                .Cells(irow, 7).Value = ": " & cls.ShiftName
+                irow = irow + 1
 
-                .Cells(6, 1, 6, 2).Value = "Item Check Code"
-                .Cells(6, 1, 6, 2).Merge = True
-                .Cells(6, 3).Value = ": " & cls.ItemCheck_Name
+                .Cells(irow, 1).Value = "Machine Process"
+                .Cells(irow, 3).Value = ": " & cls.LineName
+                .Cells(irow, 5).Value = "Seq"
+                .Cells(irow, 7).Value = ": " & cls.Seq
+                irow = irow + 1
 
-                .Cells(7, 1, 7, 2).Value = "Prod Date"
-                .Cells(7, 1, 7, 2).Merge = True
-                .Cells(7, 3).Value = ": " & cls.Period
+                .Cells(irow, 1).Value = "Item Check"
+                .Cells(irow, 3).Value = ": " & cls.ItemCheck_Name
+                .Cells(irow, 5).Value = "Show Verified Only"
+                .Cells(irow, 7).Value = ": " & cls.ShowVerify_Desc
+                irow = irow + 1
 
-                .Cells(8, 1, 8, 2).Value = "Shift Code"
-                .Cells(8, 1, 8, 2).Merge = True
-                .Cells(8, 3).Value = ": " & cls.ShiftName
-
-                .Cells(9, 1, 9, 2).Value = "Sequence No"
-                .Cells(9, 1, 9, 2).Merge = True
-                .Cells(9, 3).Value = ": " & cls.Seq
-
-                Dim rgHeader As ExcelRange = .Cells(3, 3, 9, 4)
+                Dim rgHeader As ExcelRange = .Cells(irowStar, 1, irow, 7)
                 rgHeader.Style.HorizontalAlignment = HorzAlignment.Near
                 rgHeader.Style.VerticalAlignment = VertAlignment.Center
                 rgHeader.Style.Font.Size = 10
                 rgHeader.Style.Font.Name = "Segoe UI"
+                rgHeader.Style.Font.Bold = True
+                row_GridTitle = irow
 
-                row_GridTitle = 9
             Catch ex As Exception
                 Throw New Exception(ex.Message)
             End Try
@@ -1566,7 +1567,7 @@ Public Class ProdSampleVerification
     Private Sub HeaderResult(ByVal pExl As ExcelWorksheet, cls As clsProdSampleVerification)
         With pExl
             Try
-                Dim irow = row_ChartSetup + 3
+                Dim irow = row_ChartSetup + 2
                 Dim irowTitle = irow
                 Dim irowhdr1 = irowTitle + 1
                 Dim irowhdr2 = irowhdr1 + 1
@@ -1723,35 +1724,26 @@ Public Class ProdSampleVerification
                 irow = irow + 1
 
                 .Cells(irow, 1).Value = "Date"
-                .Cells(irow, 2).Value = "PIC"
+                .Cells(irow, 2).Value = "Shift"
+                .Cells(irow, 3).Value = "Time"
+                .Cells(irow, 4).Value = "PIC"
 
-                .Cells(irow, 3, irow, 4).Value = "Action"
-                .Cells(irow, 3, irow, 4).Style.HorizontalAlignment = HorzAlignment.Center
-                .Cells(irow, 3, irow, 4).Merge = True
-                .Cells(irow, 3, irow, 4).Style.WrapText = True
+                .Cells(irow, 5, irow, 6).Value = "Action"
+                .Cells(irow, 5, irow, 6).Style.HorizontalAlignment = HorzAlignment.Center
+                .Cells(irow, 5, irow, 6).Merge = True
+                .Cells(irow, 5, irow, 6).Style.WrapText = True
 
-                .Cells(irow, 5).Value = "Result"
+                .Cells(irow, 7, irow, 8).Value = "Remark"
+                .Cells(irow, 7, irow, 8).Style.HorizontalAlignment = HorzAlignment.Center
+                .Cells(irow, 7, irow, 8).Merge = True
+                .Cells(irow, 7, irow, 8).Style.WrapText = True
 
-                .Cells(irow, 6).Value = "Remark"
-                .Cells(irow, 6, irow, 7).Style.HorizontalAlignment = HorzAlignment.Center
-                .Cells(irow, 6, irow, 7).Merge = True
-                .Cells(irow, 6, irow, 7).Style.WrapText = True
+                .Cells(irow, 9).Value = "Result"
 
-                .Cells(irow, 8).Value = "Last User"
-                .Cells(irow, 9).Value = "Last Update"
+                .Cells(irow, 10).Value = "Last User"
+                .Cells(irow, 11).Value = "Last Update"
 
-                .Column(1).Width = 15
-                .Column(2).Width = 15
-                .Column(3).Width = 15
-                .Column(4).Width = 15
-
-                .Column(5).Width = 15
-                .Column(6).Width = 15
-                .Column(7).Width = 15
-                .Column(8).Width = 15
-                .Column(9).Width = 15
-
-                col_HeaderActivity = 9
+                col_HeaderActivity = 11
                 row_HeaderActivity = irow
 
                 Dim rgCell As ExcelRange = .Cells(irow, 1, irow, col_HeaderActivity)
@@ -1778,34 +1770,53 @@ Public Class ProdSampleVerification
                     irow = irow + 1
 
                     For i = 0 To dtGridActivity.Rows.Count - 1
-                        .Cells(irow + i, 1).Value = dtGridActivity.Rows(0)("ProdDate")
+                        .Cells(irow + i, 1).Value = dtGridActivity.Rows(i)("ProdDate")
                         .Cells(irow + i, 1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center
 
-                        .Cells(irow + i, 2).Value = dtGridActivity.Rows(0)("PIC")
-                        .Cells(irow + i, 2).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left
+                        .Cells(irow + i, 2).Value = dtGridActivity.Rows(i)("ShiftName")
+                        .Cells(irow + i, 2).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center
 
-                        .Cells(irow + i, 3, irow + i, 4).Value = dtGridActivity.Rows(0)("Action")
-                        .Cells(irow + i, 3, irow + i, 4).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left
-                        .Cells(irow + i, 3, irow + i, 4).Merge = True
-                        .Cells(irow + i, 3, irow + i, 4).Style.WrapText = True
+                        .Cells(irow + i, 3).Value = dtGridActivity.Rows(i)("Time_Desc")
+                        .Cells(irow + i, 3).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center
 
-                        .Cells(irow + i, 5).Value = If(dtGridActivity.Rows(0)("Result") = 0, "OK", "NG")
-                        .Cells(irow + i, 5).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center
+                        .Cells(irow + i, 4).Value = dtGridActivity.Rows(i)("PIC")
+                        .Cells(irow + i, 4).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left
 
-                        .Cells(irow + i, 6, irow + i, 7).Value = dtGridActivity.Rows(0)("Remark")
-                        .Cells(irow + i, 6, irow + i, 7).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left
-                        .Cells(irow + i, 6, irow + i, 7).Merge = True
-                        .Cells(irow + i, 6, irow + i, 7).Style.WrapText = True
+                        .Cells(irow + i, 5, irow + i, 6).Value = dtGridActivity.Rows(i)("Action")
+                        .Cells(irow + i, 5, irow + i, 6).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left
+                        .Cells(irow + i, 5, irow + i, 6).Merge = True
+                        .Cells(irow + i, 5, irow + i, 6).Style.WrapText = True
 
-                        .Cells(irow + i, 8).Value = dtGridActivity.Rows(0)("LastUser")
-                        .Cells(irow + i, 8).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left
+                        .Cells(irow + i, 7, irow + i, 8).Value = dtGridActivity.Rows(i)("Remark")
+                        .Cells(irow + i, 7, irow + i, 8).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left
+                        .Cells(irow + i, 7, irow + i, 8).Merge = True
+                        .Cells(irow + i, 7, irow + i, 8).Style.WrapText = True
 
-                        .Cells(irow + i, 9).Value = dtGridActivity.Rows(0)("LastDate")
+                        .Cells(irow + i, 9).Value = If(dtGridActivity.Rows(i)("Result") = 0, "OK", "NG")
                         .Cells(irow + i, 9).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center
+
+                        .Cells(irow + i, 10).Value = dtGridActivity.Rows(i)("LastUser")
+                        .Cells(irow + i, 10).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left
+
+                        .Cells(irow + i, 11).Value = dtGridActivity.Rows(i)("LastDate")
+                        .Cells(irow + i, 11).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center
+
+                        .Column(1).Width = 15
+                        .Column(2).Width = 15
+                        .Column(3).Width = 15
+                        .Column(4).Width = 15
+                        .Column(5).Width = 15
+                        .Column(6).Width = 15
+                        .Column(7).Width = 15
+                        .Column(8).Width = 15
+                        .Column(9).Width = 15
+                        .Column(10).Width = 15
+                        .Column(11).Width = 15
+
                     Next
                 End If
 
-                col_CellActivity = 9
+                col_CellActivity = 11
                 row_CellActivity = irow + nRow
 
                 Dim Border As ExcelRange = .Cells(irow, 1, row_CellActivity, col_CellActivity)

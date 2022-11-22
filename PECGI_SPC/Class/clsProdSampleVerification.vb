@@ -26,5 +26,6 @@
     Public Property PIC As String
     Public Property Seq As String
     Public Property ShowVerify As String
+    Public Property ShowVerify_Desc As String
     Public Property Time As String
 End Class
