@@ -1242,27 +1242,38 @@ Public Class ProdSampleVerification
         End If
     End Sub
     Private Sub GetURL(cls As clsProdSampleVerification)
+        Dim ProcessGroup = ""
+        Dim LineGroup = ""
+        Dim ProcessCode = ""
+        Dim ItemCode = ""
+        Dim ItemCode_Traceability = ""
+
         Dim URL = clsIOT.GetURL(pUser)
         Dim ds = clsProdSampleVerificationDB.GridLoad(GetCharSetup, cls)
         Dim dt As DataTable = ds.Tables(0)
         Dim LotNo = dt.Rows(0)("SubLotNo").ToString
         Dim ProcessTableLineCode = dt.Rows(0)("ProcessTableLineCode").ToString
+
+        Dim dtIOT_ProcessTable = clsIOT.GetIOT_ProcessTable(cls.FactoryCode, ProcessTableLineCode, cls.ItemType_Code, cls.ProdDate, cls.ShiftCode)
+        If dtIOT_ProcessTable.Rows.Count > 0 Then
+            ProcessGroup = dtIOT_ProcessTable.Rows(0)("ProcessGroup").ToString.Trim
+            LineGroup = dtIOT_ProcessTable.Rows(0)("LineGroup").ToString.Trim
+            ProcessCode = dtIOT_ProcessTable.Rows(0)("ProcessCode").ToString.Trim
+            ItemCode = dtIOT_ProcessTable.Rows(0)("ItemCode").ToString.Trim
+        End If
+
+        Dim dtIOT_Traceability = clsIOT.GetIOT_Traceability(cls.FactoryCode, cls.LineCode, cls.ItemType_Code, LotNo, cls.ProdDate, cls.ShiftCode)
+        If dtIOT_Traceability.Rows.Count > 0 Then
+            ItemCode_Traceability = dtIOT_Traceability.Rows(0)("ItemCode").ToString.Trim
+        End If
+
         GridX.JSProperties("cp_URL") = If(URL = "", "-", URL)
         GridX.JSProperties("cp_LotNo") = If(LotNo = "", "-", LotNo)
         GridX.JSProperties("cp_ProcessTableLineCode") = If(ProcessTableLineCode = "", "-", ProcessTableLineCode)
-
-        Dim dtIOT_ProcessTable = clsIOT.GetIOT_ProcessTable(cls.FactoryCode, ProcessTableLineCode, cls.ItemType_Code, cls.ProdDate, cls.ShiftCode)
-        Dim ProcessGroup = dtIOT_ProcessTable.Rows(0)("ProcessGroup").ToString.Trim
-        Dim LineGroup = dtIOT_ProcessTable.Rows(0)("LineGroup").ToString.Trim
-        Dim ProcessCode = dtIOT_ProcessTable.Rows(0)("ProcessCode").ToString.Trim
-        Dim ItemCode = dtIOT_ProcessTable.Rows(0)("ItemCode").ToString.Trim
         GridX.JSProperties("cp_ProcessGroup") = If(ProcessGroup = "", "-", ProcessGroup)
         GridX.JSProperties("cp_LineGroup") = If(LineGroup = "", "-", LineGroup)
         GridX.JSProperties("cp_ProcessCode") = If(ProcessCode = "", "-", ProcessCode)
         GridX.JSProperties("cp_ItemCode") = If(ItemCode = "", "-", ItemCode)
-
-        Dim dtIOT_Traceability = clsIOT.GetIOT_Traceability(cls.FactoryCode, cls.LineCode, cls.ItemType_Code, LotNo, cls.ProdDate, cls.ShiftCode)
-        Dim ItemCode_Traceability = dtIOT_Traceability.Rows(0)("ItemCode").ToString.Trim
         GridX.JSProperties("cp_ItemCode_Traceability") = If(ItemCode_Traceability = "", "-", ItemCode_Traceability)
 
     End Sub
