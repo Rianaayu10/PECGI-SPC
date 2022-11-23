@@ -479,7 +479,7 @@
             //var Shift = "SH001";
             //var Item = "BBRSRUSA0PAD";
 
-            var IOT_URL = URL + 'AssyReport/Index?ReportType=018&Factory=' + FactoryCode + '&ProcessGroup=' + ProcessGroup + '&LineGroup=' + LineGroup + '&Process=' + Process + '&Line=' + Line + '&Date=' + Date + '&InstructionNo=' + '&Shift=' + Shift + '&Item=' + Item + '&UserID=SPC';
+            var IOT_URL = URL + 'AssyReport/Index?ReportType=018&Factory=' + FactoryCode + '&ProcessGroup=' + ProcessGroup + '&LineGroup=' + LineGroup + '&Process=' + Process + '&Line=' + Line + '&Date=' + Date + '&InstructionNo=' + '-' + '&Shift=' + Shift + '&Item=' + Item + '&UserID=SPC';
             //console.log(IOT_URL);
 
             window.open(IOT_URL, '_blank');

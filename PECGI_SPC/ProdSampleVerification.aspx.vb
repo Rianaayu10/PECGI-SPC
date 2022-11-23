@@ -1247,7 +1247,7 @@ Public Class ProdSampleVerification
         Dim dt As DataTable = ds.Tables(0)
         Dim LotNo = dt.Rows(0)("SubLotNo").ToString
         Dim ProcessTableLineCode = dt.Rows(0)("ProcessTableLineCode").ToString
-        Dim dtDailyProd = clsIOT.GetDailyProd(cls.FactoryCode, cls.LineCode, cls.ItemType_Code, LotNo, cls.ProdDate)
+        Dim dtDailyProd = clsIOT.GetDailyProd(cls.FactoryCode, cls.LineCode, cls.ItemType_Code, LotNo, cls.ProdDate, cls.ShiftCode)
 
         GridX.JSProperties("cp_URL") = URL
         GridX.JSProperties("cp_LotNo") = LotNo
