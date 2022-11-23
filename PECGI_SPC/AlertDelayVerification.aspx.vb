@@ -290,6 +290,18 @@ Public Class AlertDelayVerification
             End If
         End If
     End Sub
+    Private Sub GridDelayVerif_CustomCallback(sender As Object, e As ASPxGridViewCustomCallbackEventArgs) Handles GridDelayVerif.CustomCallback
+        Try
+            Dim pAction As String = Split(e.Parameters, "|")(0)
+
+            If pAction = "Load" Then
+                up_GridLoad(cboFactory.Value)
+            End If
+
+        Catch ex As Exception
+            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
+        End Try
+    End Sub
     Protected Sub GridDelayVerif_CustomButtonCallback(ByVal sender As Object, ByVal e As ASPxGridViewCustomButtonCallbackEventArgs) Handles GridDelayVerif.CustomButtonCallback
 
         Try
@@ -351,18 +363,6 @@ Public Class AlertDelayVerification
             Throw New Exception(ex.Message)
         End Try
 
-    End Sub
-    Private Sub GridDelayVerif_CustomCallback(sender As Object, e As ASPxGridViewCustomCallbackEventArgs) Handles GridDelayVerif.CustomCallback
-        Try
-            Dim pAction As String = Split(e.Parameters, "|")(0)
-
-            If pAction = "SendEmail" Then
-                Dim A = "Test"
-            End If
-
-        Catch ex As Exception
-            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
-        End Try
     End Sub
     Private Shared Function GetUserInLine(pUserLine As String) As String
         Dim ListData As String

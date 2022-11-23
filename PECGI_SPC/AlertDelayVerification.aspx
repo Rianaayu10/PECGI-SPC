@@ -61,8 +61,6 @@
         }
 
         function up_Browse() {
-            Grid.PerformCallback('Load');
-            GridNG.PerformCallback('Load');
             GridDelayVerif.PerformCallback('Load');
         }
 

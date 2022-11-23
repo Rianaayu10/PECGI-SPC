@@ -82,11 +82,6 @@ Public Class AlertDashboard
     Private Sub up_GridLoad(FactoryCode As String)
         Dim pProdDateType As Integer
 
-        'If ProdDateSelection.SelectedValue = "rbAuto" Then
-        '    rbProdDate = 1
-        'ElseIf ProdDateSelection.SelectedValue = "rbManual" Then
-        '    rbProdDate = 2
-        'End If
         If rbAuto.Checked = True Then
             pProdDateType = 1
         ElseIf rbManual.Checked = True Then
@@ -107,6 +102,7 @@ Public Class AlertDashboard
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
         End Try
+
     End Sub
 
     Protected Sub GridNG_RowValidating(sender As Object, e As ASPxDataValidationEventArgs)
@@ -294,7 +290,18 @@ Public Class AlertDashboard
 
         Return msg
     End Function
+    Private Sub GridNG_CustomCallback(sender As Object, e As ASPxGridViewCustomCallbackEventArgs) Handles GridNG.CustomCallback
+        Try
+            Dim pAction As String = Split(e.Parameters, "|")(0)
 
+            If pAction = "Load" Then
+                up_GridLoad(cboFactory.Value)
+            End If
+
+        Catch ex As Exception
+            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
+        End Try
+    End Sub
     Protected Sub GridNG_CustomButtonCallback(ByVal sender As Object, ByVal e As ASPxGridViewCustomButtonCallbackEventArgs) Handles GridNG.CustomButtonCallback
 
         Try
