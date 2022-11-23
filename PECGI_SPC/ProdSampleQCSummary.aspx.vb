@@ -198,6 +198,12 @@ Public Class ProdSampleQCSummary
                 If result.Contains("No Data") And result.Contains("NG") = False And result.Contains("OK") = False Then
                     e.Cell.BackColor = ColorTranslator.FromHtml("#FFFB00")
                     e.Cell.BorderColor = ColorTranslator.FromHtml("#FFFB00")
+                ElseIf result.Contains("No Data") = False And result.Contains("NG") And result.Contains("OK") = False Then
+                    e.Cell.BackColor = ColorTranslator.FromHtml("#FF0000")
+                    e.Cell.BorderColor = ColorTranslator.FromHtml("#FF0000")
+                ElseIf result.Contains("No Data") = False And result.Contains("NG") = False And result.Contains("OK") Then
+                    e.Cell.BackColor = ColorTranslator.FromHtml("#FFFFFF")
+                    e.Cell.BorderColor = ColorTranslator.FromHtml("#d2d2d2")
                 End If
                 Link.ForeColor = Color.Black
                 Link.Text = result
@@ -620,6 +626,17 @@ Public Class ProdSampleQCSummary
                                                 result += "OK " & Split(strSplit, "||")(2) & vbCrLf
                                             End If
                                         Next
+
+                                        If result.Contains("OK") And result.Contains("NG") = False And result.Contains("No Data") = False Then
+                                            .Cells(rowsExcel, j + 1, rowsExcel, j + 1).Style.Fill.PatternType = Style.ExcelFillStyle.Solid
+                                            .Cells(rowsExcel, j + 1, rowsExcel, j + 1).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml("#ffffff"))
+                                        ElseIf result.Contains("OK") = False And result.Contains("NG") And result.Contains("No Data") = False Then
+                                            .Cells(rowsExcel, j + 1, rowsExcel, j + 1).Style.Fill.PatternType = Style.ExcelFillStyle.Solid
+                                            .Cells(rowsExcel, j + 1, rowsExcel, j + 1).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml("#FF0000"))
+                                        ElseIf result.Contains("OK") = False And result.Contains("NG") = False And result.Contains("No Data") Then
+                                            .Cells(rowsExcel, j + 1, rowsExcel, j + 1).Style.Fill.PatternType = Style.ExcelFillStyle.Solid
+                                            .Cells(rowsExcel, j + 1, rowsExcel, j + 1).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml("#FFFB00"))
+                                        End If
 
                                         .Cells(rowsExcel, j + 1).Value = Left(result, result.Length - 2)
                                         .Cells(rowsExcel, j + 1).Style.WrapText = True
