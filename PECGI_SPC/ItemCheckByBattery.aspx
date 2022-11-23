@@ -537,8 +537,30 @@
                     <Settings AllowSort="False" />
                 </dx:GridViewDataCheckColumn>--%>
                 
+                <dx:GridViewDataComboBoxColumn Caption="Process Table Line Code" FieldName="ProcessTableLineCode" VisibleIndex="10"
+                    Width="200px" Settings-AutoFilterCondition="Contains">
+                    <PropertiesComboBox DataSourceID="dsMachine" DropDownStyle="DropDownList" TextFormatString="{0}"
+                        IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="195px"
+                        TextField="LineName" ValueField="LineName" ClientInstanceName="LineName">
+                        <ItemStyle Height="10px" Paddings-Padding="4px">
+                            <Paddings Padding="4px"></Paddings>
+                        </ItemStyle>
+                        <ButtonStyle Width="5px" Paddings-Padding="2px">
+                            <Paddings Padding="2px"></Paddings>
+                        </ButtonStyle>
+                    </PropertiesComboBox>
+                    <Settings AutoFilterCondition="Contains"></Settings>
+                    <FilterCellStyle Paddings-PaddingRight="4px">
+                        <Paddings PaddingRight="4px"></Paddings>
+                    </FilterCellStyle>
+                    <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                        <Paddings PaddingLeft="5px"></Paddings>
+                    </HeaderStyle>
+                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
+                </dx:GridViewDataComboBoxColumn>
+                
                 <dx:GridViewDataCheckColumn Caption="Active Status" FieldName="ActiveStatus" 
-                    VisibleIndex="10" Width="60px">
+                    VisibleIndex="11" Width="60px">
                     <PropertiesCheckEdit ValueChecked="1" ValueType="System.Char" 
                         ValueUnchecked="0">
                     </PropertiesCheckEdit>
@@ -546,7 +568,7 @@
                 </dx:GridViewDataCheckColumn>
 
                 <dx:GridViewDataTextColumn Caption="Last User" FieldName="UpdateUser"
-                    VisibleIndex="11" Width="70px" Settings-AutoFilterCondition="Contains">
+                    VisibleIndex="12" Width="70px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="50" Width="70px">
                         <Style HorizontalAlign="Left"></Style>
                     </PropertiesTextEdit>
@@ -561,7 +583,7 @@
                 </dx:GridViewDataTextColumn>
 
                 <dx:GridViewDataTextColumn Caption="Last Update" FieldName="UpdateDate"
-                    VisibleIndex="12" Width="150px" Settings-AutoFilterCondition="Contains">
+                    VisibleIndex="13" Width="150px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="50" Width="200px">
                         <Style HorizontalAlign="Left"></Style>
                     </PropertiesTextEdit>
@@ -695,6 +717,14 @@
                                         <dx:ASPxGridViewTemplateReplacement ID="editCharacteristicStatus" ReplacementType="EditFormCellEditor"
                                             runat="server" ColumnID="CharacteristicStatus">
                                         </dx:ASPxGridViewTemplateReplacement>                                    
+                                    </td>
+                                </tr>
+                                <tr style="height:30px">
+                                    <td>Process Table Line Code</td>                                
+                                    <td>
+                                        <dx:ASPxGridViewTemplateReplacement ID="editProcessTableLineCode" ReplacementType="EditFormCellEditor"
+                                            runat="server" ColumnID="ProcessTableLineCode">
+                                        </dx:ASPxGridViewTemplateReplacement>   
                                     </td>
                                 </tr>
                                 <tr>

@@ -7,7 +7,7 @@ Public Class ClsSPCItemCheckByTypeDB
             Dim q As String
             q = "INSERT INTO spc_ItemCheckByType " & vbCrLf &
                 " VALUES ( @FactoryCode, @ItemTypeCode, @LineCode, @ItemCheck, @FrequencyCode, @RegistrationNo," &
-                " @SampleSize, @Remark, @Evaluation, @CharacteristicItem, @ActiveStatus, @CreateUser, GETDATE(), @CreateUser, GETDATE() ) "
+                " @SampleSize, @Remark, @Evaluation, @CharacteristicItem, @ProcessTableLineCode, @ActiveStatus, @CreateUser, GETDATE(), @CreateUser, GETDATE() ) "
             Dim cmd As New SqlCommand(q, Cn)
             Dim des As New clsDESEncryption("TOS")
             With cmd.Parameters
@@ -21,6 +21,7 @@ Public Class ClsSPCItemCheckByTypeDB
                 .AddWithValue("Remark", pItemCheckByType.Remark)
                 .AddWithValue("Evaluation", pItemCheckByType.Evaluation)
                 .AddWithValue("CharacteristicItem", Val(pItemCheckByType.CharacteristicItem))
+                .AddWithValue("ProcessTableLineCode", pItemCheckByType.ProcessTableLineCode)
                 .AddWithValue("ActiveStatus", Val(pItemCheckByType.ActiveStatus & ""))
                 .AddWithValue("CreateUser", pItemCheckByType.CreateUser)
 
@@ -49,7 +50,7 @@ Public Class ClsSPCItemCheckByTypeDB
             Cn.Open()
             Dim q As String
             q = "UPDATE spc_ItemCheckByType SET FrequencyCode = @FrequencyCode, RegistrationNo = @RegistrationNo, SampleSize = @SampleSize, Remark = @Remark, " &
-                " Evaluation = @Evaluation, CharacteristicStatus = @CharacteristicItem, ActiveStatus = @ActiveStatus, UpdateUser = @UpdateUser, UpdateDate = GETDATE() " &
+                " Evaluation = @Evaluation, CharacteristicStatus = @CharacteristicItem, ProcessTableLineCode = @ProcessTableLineCode, ActiveStatus = @ActiveStatus, UpdateUser = @UpdateUser, UpdateDate = GETDATE() " &
                 " WHERE FactoryCode = @FactoryCode and ItemTypeCode = @ItemTypeCode and LineCode = @LineCode and ItemCheckCode = @ItemCheck "
             Dim des As New clsDESEncryption("TOS")
             Dim cmd As New SqlCommand(q, Cn)
@@ -60,6 +61,7 @@ Public Class ClsSPCItemCheckByTypeDB
                 .AddWithValue("Remark", pItemCheckByType.Remark)
                 .AddWithValue("Evaluation", pItemCheckByType.Evaluation)
                 .AddWithValue("CharacteristicItem", pItemCheckByType.CharacteristicItem)
+                .AddWithValue("ProcessTableLineCode", pItemCheckByType.ProcessTableLineCode)
                 .AddWithValue("ActiveStatus", pItemCheckByType.ActiveStatus)
                 .AddWithValue("UpdateUser", pItemCheckByType.UpdateUser)
                 .AddWithValue("FactoryCode", pItemCheckByType.FactoryCode)
