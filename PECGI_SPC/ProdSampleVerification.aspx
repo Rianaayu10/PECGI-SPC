@@ -22,15 +22,13 @@
         /*======== Initialitation Grid X ==========*/
         function InitGrid(s, e) {  
             HideValue.Set('IOT_URL', s.cp_URL);
-            //HideValue.Set('IOT_FactoryCode', s.cp_FactoryCode);
             HideValue.Set('IOT_ProcessGroup', s.cp_ProcessGroup);
             HideValue.Set('IOT_LineGroup', s.cp_LineGroup);
             HideValue.Set('IOT_ProcessCode', s.cp_ProcessCode);
-            HideValue.Set('IOT_LineCode', s.cp_ProcessTableLineCode);
-            //HideValue.Set('IOT_ScheduleDate', s.cp_ScheduleDate);
-            HideValue.Set('IOT_InstructionNo', s.cp_InstructionNo);
-            HideValue.Set('IOT_Shift', s.cp_Shift);
+            HideValue.Set('IOT_ProcessTableLineCode', s.cp_ProcessTableLineCode);
             HideValue.Set('IOT_ItemCode', s.cp_ItemCode);
+
+            HideValue.Set('IOT_ItemCode_Traceability', s.cp_ItemCode_Traceability);
             HideValue.Set('IOT_LotNo', s.cp_LotNo);
 
             var USL = s.cpUSL, LSL = s.cpLSL, UCL = s.cpUCL, LCL = s.cpLCL;
@@ -222,15 +220,13 @@
         function EndCallback_Grid(s, e) {
 
             HideValue.Set('IOT_URL', s.cp_URL);
-            //HideValue.Set('IOT_FactoryCode', s.cp_FactoryCode);
             HideValue.Set('IOT_ProcessGroup', s.cp_ProcessGroup);
             HideValue.Set('IOT_LineGroup', s.cp_LineGroup);
             HideValue.Set('IOT_ProcessCode', s.cp_ProcessCode);
-            HideValue.Set('IOT_LineCode', s.cp_ProcessTableLineCode);
-            //HideValue.Set('IOT_ScheduleDate', s.cp_ScheduleDate);
-            HideValue.Set('IOT_InstructionNo', s.cp_InstructionNo);
-            HideValue.Set('IOT_Shift', s.cp_Shift);
+            HideValue.Set('IOT_ProcessTableLineCode', s.cp_ProcessTableLineCode);
             HideValue.Set('IOT_ItemCode', s.cp_ItemCode);
+
+            HideValue.Set('IOT_ItemCode_Traceability', s.cp_ItemCode_Traceability);
             HideValue.Set('IOT_LotNo', s.cp_LotNo);
 
             var USL = s.cpUSL, LSL = s.cpLSL, UCL = s.cpUCL, LCL = s.cpLCL;
@@ -450,15 +446,14 @@
 
         function IOTProcess() {
 
-            var URL = HideValue.Get('IOT_URL') === null ? "-" : HideValue.Get('IOT_URL');
-            var FactoryCode = HideValue.Get('FactoryCode') === null ? "-" : HideValue.Get('FactoryCode');
-            var ProcessGroup = HideValue.Get('IOT_ProcessGroup') === null ? "-" : HideValue.Get('IOT_ProcessGroup');
-            var LineGroup = HideValue.Get('IOT_LineGroup') === null ? "-" : HideValue.Get('IOT_LineGroup');
-            var Process = HideValue.Get('IOT_ProcessCode') === null ? "-" : HideValue.Get('IOT_ProcessCode');
-            var Line = HideValue.Get('IOT_LineCode') === null ? "-" : HideValue.Get('IOT_LineCode');
-            var InstructionNo = HideValue.Get('IOT_InstructionNo') === null ? "-" : HideValue.Get('IOT_InstructionNo');
-            var Shift = HideValue.Get('IOT_Shift') === null ? "-" : HideValue.Get('IOT_Shift');
-            var Item = HideValue.Get('IOT_ItemCode') === null ? "-" : HideValue.Get('IOT_ItemCode');
+            var URL = HideValue.Get('IOT_URL')
+            var FactoryCode = HideValue.Get('FactoryCode')
+            var ProcessGroup = HideValue.Get('IOT_ProcessGroup')
+            var LineGroup = HideValue.Get('IOT_LineGroup')
+            var Process = HideValue.Get('IOT_ProcessCode')
+            var Line = HideValue.Get('IOT_ProcessTableLineCode')
+            var Shift = HideValue.Get('ShiftCode')
+            var Item = HideValue.Get('IOT_ItemCode')
             var months = {
                 Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
                 Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
@@ -480,27 +475,25 @@
             //var Item = "BBRSRUSA0PAD";
 
             var IOT_URL = URL + 'AssyReport/Index?ReportType=018&Factory=' + FactoryCode + '&ProcessGroup=' + ProcessGroup + '&LineGroup=' + LineGroup + '&Process=' + Process + '&Line=' + Line + '&Date=' + Date + '&InstructionNo=' + '-' + '&Shift=' + Shift + '&Item=' + Item + '&UserID=SPC';
-            //console.log(IOT_URL);
-
             window.open(IOT_URL, '_blank');
+            //console.log(IOT_URL);
             //window.open('http://192.168.0.3:8091/AssyReport/Index?ReportType=018&Factory=F001&ProcessGroup=PG003&LineGroup=ASS01&Process=P002&Line=018&Date=2022-09-15&InstructionNo=F001.P002.018.2209.0099&Shift=SH001&Item=BBRSRUSA0PAD&UserID=SPC', '_blank');
 
         }
 
         function IOTTraceability() {
 
-            var URL = HideValue.Get('IOT_URL') === null ? "-" : HideValue.Get('IOT_URL');
-            var ItemDesc = HideValue.Get('IOT_ItemCode') === null ? "-" : HideValue.Get('IOT_ItemCode');
-            var LotNo = HideValue.Get('IOT_LotNo') === null ? "-" : HideValue.Get('IOT_LotNo');
+            var URL = HideValue.Get('IOT_URL')
+            var ItemDesc = HideValue.Get('IOT_ItemCode_Traceability') 
+            var LotNo = HideValue.Get('IOT_LotNo')
 
             // TEST
             //var ItemDesc = "BBRSRUSA0PAD";
             //var LotNo = "220916.018.1.0001";
 
             var IOT_URL = URL + 'TraceabilityReport/Index?ItemCls=02&Item=' + ItemDesc + '&LotNo=' + LotNo + '&isExplosion=1&UserID=SPC';
-            /*console.log(IOT_URL);*/
-
             window.open(IOT_URL, '_blank');
+            /*console.log(IOT_URL);*/   
             //window.open('http://192.168.0.3:8091/TraceabilityReport/Index?ItemCls=02&Item=BBRSRUSA0PAD&LotNo=220916.018.1.0001&isExplosion=1&UserID=SPC', '_blank');           
         }
 

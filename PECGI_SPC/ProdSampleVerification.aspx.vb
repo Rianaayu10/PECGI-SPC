@@ -1247,27 +1247,24 @@ Public Class ProdSampleVerification
         Dim dt As DataTable = ds.Tables(0)
         Dim LotNo = dt.Rows(0)("SubLotNo").ToString
         Dim ProcessTableLineCode = dt.Rows(0)("ProcessTableLineCode").ToString
-        Dim dtDailyProd = clsIOT.GetDailyProd(cls.FactoryCode, cls.LineCode, cls.ItemType_Code, LotNo, cls.ProdDate, cls.ShiftCode)
+        GridX.JSProperties("cp_URL") = If(URL = "", "-", URL)
+        GridX.JSProperties("cp_LotNo") = If(LotNo = "", "-", LotNo)
+        GridX.JSProperties("cp_ProcessTableLineCode") = If(ProcessTableLineCode = "", "-", ProcessTableLineCode)
 
-        GridX.JSProperties("cp_URL") = URL
-        GridX.JSProperties("cp_LotNo") = LotNo
-        GridX.JSProperties("cp_ProcessTableLineCode") = ProcessTableLineCode
+        Dim dtIOT_ProcessTable = clsIOT.GetIOT_ProcessTable(cls.FactoryCode, ProcessTableLineCode, cls.ItemType_Code, cls.ProdDate, cls.ShiftCode)
+        Dim ProcessGroup = dtIOT_ProcessTable.Rows(0)("ProcessGroup").ToString.Trim
+        Dim LineGroup = dtIOT_ProcessTable.Rows(0)("LineGroup").ToString.Trim
+        Dim ProcessCode = dtIOT_ProcessTable.Rows(0)("ProcessCode").ToString.Trim
+        Dim ItemCode = dtIOT_ProcessTable.Rows(0)("ItemCode").ToString.Trim
+        GridX.JSProperties("cp_ProcessGroup") = If(ProcessGroup = "", "-", ProcessGroup)
+        GridX.JSProperties("cp_LineGroup") = If(LineGroup = "", "-", LineGroup)
+        GridX.JSProperties("cp_ProcessCode") = If(ProcessCode = "", "-", ProcessCode)
+        GridX.JSProperties("cp_ItemCode") = If(ItemCode = "", "-", ItemCode)
 
-        If dtDailyProd.Rows.Count > 0 Then
-            GridX.JSProperties("cp_ProcessGroup") = dtDailyProd.Rows(0)("ProcessGroup").ToString.Trim
-            GridX.JSProperties("cp_LineGroup") = dtDailyProd.Rows(0)("LineGroup").ToString.Trim
-            GridX.JSProperties("cp_ProcessCode") = dtDailyProd.Rows(0)("ProcessCode").ToString.Trim
-            GridX.JSProperties("cp_InstructionNo") = dtDailyProd.Rows(0)("InstructionNo").ToString.Trim
-            GridX.JSProperties("cp_Shift") = dtDailyProd.Rows(0)("Shift").ToString.Trim
-            GridX.JSProperties("cp_ItemCode") = dtDailyProd.Rows(0)("ItemCode").ToString.Trim
-        Else
-            GridX.JSProperties("cp_ProcessGroup") = ""
-            GridX.JSProperties("cp_LineGroup") = ""
-            GridX.JSProperties("cp_ProcessCode") = ""
-            GridX.JSProperties("cp_InstructionNo") = ""
-            GridX.JSProperties("cp_Shift") = ""
-            GridX.JSProperties("cp_ItemCode") = ""
-        End If
+        Dim dtIOT_Traceability = clsIOT.GetIOT_Traceability(cls.FactoryCode, cls.LineCode, cls.ItemType_Code, LotNo, cls.ProdDate, cls.ShiftCode)
+        Dim ItemCode_Traceability = dtIOT_Traceability.Rows(0)("ItemCode").ToString.Trim
+        GridX.JSProperties("cp_ItemCode_Traceability") = If(ItemCode_Traceability = "", "-", ItemCode_Traceability)
+
     End Sub
 #End Region
 
