@@ -196,9 +196,18 @@ Public Class SampleControlQuality
         Dim ShiftCode As String
         Dim StartCol1 As Integer, EndCol1 As Integer
         Dim StartCol2 As Integer, EndCol2 As Integer
+        Dim cs As New clsSPCColor
 
         With pExl
             Dim ds As DataSet = clsSPCResultDetailDB.GetSampleByPeriod(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, Hdr.ProdDate2, Hdr.VerifiedOnly)
+
+            Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, 1, Hdr.VerifiedOnly)
+            If dt2.Rows.Count > 0 Then
+                LastNG = dt2.Rows(0)("NG")
+            Else
+                LastNG = 0
+            End If
+
             Dim dtDay As DataTable = ds.Tables(0)
             dtLSL = ds.Tables(2)
             dtUSL = ds.Tables(3)
@@ -252,7 +261,13 @@ Public Class SampleControlQuality
                 End If
                 For k = 1 To dt.Columns.Count - 1
                     .Cells(iRow, iCol).Value = dt.Rows(j)(k)
-                    If k > 1 Then
+                    If k = 1 Then
+                        Select Case .Cells(iRow, 1).Value
+                            Case "1", "2", "3", "4", "5", "6"
+                                .Cells(iRow, 1).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                .Cells(iRow, 1).Style.Fill.BackgroundColor.SetColor(cs.Color(.Cells(iRow, 1).Value))
+                        End Select
+                    ElseIf k > 1 Then
                         .Cells(iRow, iCol).Style.Numberformat.Format = "0.000"
                         LSL = dtLSL.Rows(0)(iCol)
                         USL = dtUSL.Rows(0)(iCol)
@@ -265,9 +280,12 @@ Public Class SampleControlQuality
                                 .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
                                 If k > 2 AndAlso (dt.Rows(j)(k - 1) < RLCL Or dt.Rows(j)(k - 1) > RUCL) Then
                                     .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                                ElseIf LastNG = 1 Then
+                                    .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
                                 Else
                                     .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Yellow)
                                 End If
+                                LastNG = 0
                             ElseIf (dt.Rows(j)(k) < LSL Or dt.Rows(j)(k) > USL) Then
                                 If dt.Rows(j)(0) = "1" Or dt.Rows(j)(0) = "3" Or dt.Rows(j)(0) = "4" Or dt.Rows(j)(0) = "5" Then
                                     .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
@@ -423,7 +441,7 @@ Public Class SampleControlQuality
     Dim dtCP As DataTable
     Dim dtRUCL As DataTable
     Dim dtRLCL As DataTable
-
+    Dim LastNG As Integer
     Private Sub GridXLoad(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, VerifiedOnly As Integer)
         With gridX
             .Columns.Clear()
@@ -447,6 +465,13 @@ Public Class SampleControlQuality
 
             Dim ds As DataSet = clsSPCResultDetailDB.GetSampleByPeriod(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, ProdDate2, VerifiedOnly)
             Dim dtDay As DataTable = ds.Tables(0)
+
+            Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, 1, VerifiedOnly)
+            If dt2.Rows.Count > 0 Then
+                LastNG = dt2.Rows(0)("NG")
+            Else
+                LastNG = 0
+            End If
 
             Dim PrevDay As String = ""
             Dim PrevShift As String = ""
@@ -560,12 +585,17 @@ Public Class SampleControlQuality
                 If PrevYellow = 1 Then
                     e.Cell.BackColor = Color.Pink
                 Else
-                    e.Cell.BackColor = Color.Yellow
+                    If LastNG = 1 Then
+                        e.Cell.BackColor = Color.Pink
+                    Else
+                        e.Cell.BackColor = Color.Yellow
+                    End If
                     PrevYellow = 1
                 End If
             Else
                 PrevYellow = 0
             End If
+            LastNG = 0
         End If
         Dim cs As New clsSPCColor
         If e.DataColumn.FieldName = "Des" Then

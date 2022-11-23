@@ -535,33 +535,33 @@ Public Class ProdSampleInput
                 .Cells(1, 1, 1, 13).Style.Font.Size = 16
                 .Cells(1, 1, 1, 13).Style.Font.Name = "Segoe UI"
 
-                .Cells(3, 1, 3, 2).Value = "Factory Code"
+                .Cells(3, 1, 3, 2).Value = "Factory"
                 .Cells(3, 1, 3, 2).Merge = True
                 .Cells(3, 3).Value = ": " & cls.FactoryName
 
-                .Cells(4, 1, 4, 2).Value = "Item Type Code"
+                .Cells(4, 1, 4, 2).Value = "Item Type"
                 .Cells(4, 1, 4, 2).Merge = True
                 .Cells(4, 3).Value = ": " & cls.ItemTypeName
 
-                .Cells(5, 1, 5, 2).Value = "Line Code"
+                .Cells(5, 1, 5, 2).Value = "Machine Process"
                 .Cells(5, 1, 5, 2).Merge = True
                 .Cells(5, 3).Value = ": " & cls.LineName
 
-                .Cells(6, 1, 6, 2).Value = "Item Check Code"
+                .Cells(6, 1, 6, 2).Value = "Item Check"
                 .Cells(6, 1, 6, 2).Merge = True
                 .Cells(6, 3).Value = ": " & cls.ItemCheckName
 
-                .Cells(7, 1, 7, 2).Value = "Prod Date"
-                .Cells(7, 1, 7, 2).Merge = True
-                .Cells(7, 3).Value = ": " & cls.ProdDate
+                .Cells(3, 6, 3, 6).Value = "Prod Date"
+                .Cells(3, 6, 3, 7).Merge = True
+                .Cells(3, 8).Value = ": " & cls.ProdDate
 
-                .Cells(8, 1, 8, 2).Value = "Shift Code"
-                .Cells(8, 1, 8, 2).Merge = True
-                .Cells(8, 3).Value = ": " & cls.Shiftname
+                .Cells(4, 6, 4, 6).Value = "Shift"
+                .Cells(4, 6, 4, 7).Merge = True
+                .Cells(4, 8).Value = ": " & cls.Shiftname
 
-                .Cells(9, 1, 9, 2).Value = "Sequence No"
-                .Cells(9, 1, 9, 2).Merge = True
-                .Cells(9, 3).Value = ": " & cls.Seq
+                .Cells(5, 1, 5, 6).Value = "Sequence"
+                .Cells(5, 1, 5, 7).Merge = True
+                .Cells(5, 8).Value = ": " & cls.Seq
 
                 Dim rgHdr As ExcelRange = .Cells(3, 3, 9, 4)
                 rgHdr.Style.HorizontalAlignment = HorzAlignment.Near
@@ -687,7 +687,7 @@ Public Class ProdSampleInput
 
     Private Sub GridExcel(pExl As ExcelWorksheet, Hdr As clsHeader)
         Dim dt As DataTable = clsSPCResultDetailDB.GetTable(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, Hdr.ShiftCode, Hdr.Seq, Hdr.VerifiedOnly)
-        Dim iRow As Integer = 12
+        Dim iRow As Integer = 8
         Dim StartRow As Integer = iRow
         Dim EndRow As Integer
         Dim EndCol As Integer
