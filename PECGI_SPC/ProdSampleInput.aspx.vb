@@ -50,6 +50,8 @@ Public Class ProdSampleInput
         Public Property VerifiedOnly As String
     End Class
 
+    Dim LastNG As Integer
+
     Private Sub GridXLoad(Hdr As clsHeader)
         With gridX
             .Columns.Clear()
@@ -72,6 +74,14 @@ Public Class ProdSampleInput
             Band2.Columns.Add(Col1)
 
             Dim SelDay As Object = clsSPCResultDB.GetPrevDate(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate)
+
+            Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Format(SelDay, "yyyy-MM-dd"), 1, Hdr.VerifiedOnly)
+            If dt2.Rows.Count > 0 Then
+                LastNG = dt2.Rows(0)("NG")
+            Else
+                LastNG = 0
+            End If
+
             For iDay = 1 To 2
                 If Not IsDBNull(SelDay) Then
                     Dim dDay As String = Format(CDate(SelDay), "yyyy-MM-dd")
@@ -328,6 +338,11 @@ Public Class ProdSampleInput
         grid.DataSource = dt
         grid.DataBind()
 
+        Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Sequence, VerifiedOnly)
+        If dt2.Rows.Count > 0 Then
+            LastNG = dt2.Rows(0)("NG")
+        End If
+
         Dim UserID As String = Session("user")
         Dim pEmplooyeeID = clsIOT.GetEmployeeID(UserID)
         Dim AllowSkill As Boolean = clsIOT.AllowSkill(pEmplooyeeID, FactoryCode, Line, ItemTypeCode)
@@ -346,6 +361,7 @@ Public Class ProdSampleInput
                 grid.JSProperties("cpLCL") = AFormat(Setup.CPLCL)
                 grid.JSProperties("cpXBarUCL") = AFormat(Setup.XBarUCL)
                 grid.JSProperties("cpXBarLCL") = AFormat(Setup.XBarLCL)
+                grid.JSProperties("cpRNG") = ""
             End If
         Else
             With dt.Rows(0)
@@ -359,7 +375,11 @@ Public Class ProdSampleInput
                 grid.JSProperties("cpMax") = AFormat(.Item("MaxValue"))
                 grid.JSProperties("cpAve") = AFormat(.Item("AvgValue"))
                 grid.JSProperties("cpR") = AFormat(.Item("RValue"))
-                grid.JSProperties("cpRNG") = .Item("RValueNG")
+                If LastNG = 1 And .Item("RValue") & "" <> "" And .Item("RValueNG") = "1" Then
+                    grid.JSProperties("cpRNG") = "2"
+                Else
+                    grid.JSProperties("cpRNG") = .Item("RValueNG")
+                End If
                 grid.JSProperties("cpC") = .Item("CValue")
                 grid.JSProperties("cpNG") = .Item("NGValue")
                 grid.JSProperties("cpMKDate") = .Item("MKDate")
@@ -913,12 +933,23 @@ Public Class ProdSampleInput
             Dim StartCol2 As Integer, EndCol2 As Integer
             Dim FieldNames As New List(Of String)
             Dim iCol As Integer = 1
+            Dim AlreadyNG As Boolean = False
             For iDay = 1 To 2
                 If Not IsDBNull(SelDay) Then
                     iRow = StartRow
                     iCol = iCol + 1
                     Dim dDay As String = Format(CDate(SelDay), "yyyy-MM-dd")
                     .Cells(iRow, iCol).Value = Format(SelDay, "dd MMM yyyy")
+                    If iDay = 1 Then
+                        Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay, 1, Hdr.VerifiedOnly)
+                        If dt2.Rows.Count > 0 Then
+                            LastNG = dt2.Rows(0)("NG")
+                        Else
+                            LastNG = 0
+                        End If
+                    Else
+                        LastNG = 0
+                    End If
 
                     StartCol1 = iCol
                     Dim Shiftlist As List(Of clsShift) = clsFrequencyDB.GetShift(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay)
@@ -942,8 +973,9 @@ Public Class ProdSampleInput
                     End If
                 End If
                 SelDay = CDate(Hdr.ProdDate)
-                dt = clsSPCResultDetailDB.GetTableXR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, Hdr.VerifiedOnly)
                 iRow = StartRow + 3
+
+                dt = clsSPCResultDetailDB.GetTableXR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, Hdr.VerifiedOnly)
                 For j = 0 To dt.Rows.Count - 1
                     iCol = 1
                     EndCol = FieldNames.Count + 1
@@ -993,8 +1025,17 @@ Public Class ProdSampleInput
                                         Value = ADbl(objValue)
                                         If Value < ADbl(RLCL) Or Value > ADbl(RUCL) And ChartType <> "0" Then
                                             .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
-                                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Yellow)
+                                            Dim rgb As String = .Cells(iRow, iCol - 1).Style.Fill.BackgroundColor.Rgb
+                                            If rgb = "FFFFFF00" Or rgb = "FFFFC0CB" Then
+                                                .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                                            ElseIf LastNG = 1 Then
+                                                .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                                                AlreadyNG = True
+                                            ElseIf AlreadyNG = False Then
+                                                .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Yellow)
+                                            End If
                                         End If
+                                        LastNG = 0
                                 End Select
                             Else
                                 .Cells(iRow, iCol).Value = dt.Rows(j)(Fn)
@@ -1361,16 +1402,23 @@ Public Class ProdSampleInput
             If SetupFound Then
                 Dim Value As Double = clsSPCResultDB.ADecimal(e.CellValue)
                 If e.GetValue("Seq") = "6" Then
-                    If Value < RLCL Or Value > RUCL And ChartType <> "0" Then
-                        If PrevYellow = 1 Then
-                            e.Cell.BackColor = Color.Pink
+                    If ChartType <> "0" Then
+                        If Value < RLCL Or Value > RUCL Then
+                            If PrevYellow = 1 Then
+                                e.Cell.BackColor = Color.Pink
+                            Else
+                                If LastNG > 0 Then
+                                    e.Cell.BackColor = Color.Pink
+                                Else
+                                    e.Cell.BackColor = Color.Yellow
+                                End If
+                                PrevYellow = 1
+                            End If
                         Else
-                            e.Cell.BackColor = Color.Yellow
-                            PrevYellow = 1
+                            PrevYellow = 0
                         End If
-                    Else
-                        PrevYellow = 0
                     End If
+                    LastNG = 0
                 Else
                     If Value < LSL Or Value > USL Then
                         e.Cell.BackColor = Color.Red

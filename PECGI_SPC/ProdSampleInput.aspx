@@ -355,6 +355,8 @@
 
             if(s.cpRNG == '1') {
                 document.getElementById('R').style.backgroundColor = 'Yellow';
+            } else if(s.cpRNG == '2') {
+                document.getElementById('R').style.backgroundColor = 'Pink';
             } else {
                 document.getElementById('R').style.backgroundColor = 'White';
             }
@@ -965,6 +967,7 @@
 
                     <Settings HorizontalScrollBarMode="Auto" VerticalScrollableHeight="380" VerticalScrollBarMode="Auto" />
                     <SettingsBehavior AllowSort="False" />
+                    <SettingsResizing ColumnResizeMode="Control" />
                     <SettingsDataSecurity AllowDelete="False" AllowEdit="False" AllowInsert="False" />
 
 
