@@ -1,7 +1,7 @@
 ---====== Required to fill (Mandatory) ====---
 DECLARE @FactoryCode AS VARCHAR(25) = 'F001', --> Mandatory to change (Get FactoryID from MS Factory)
-		@LineCode AS VARCHAR(5) = '018', --> Mandatory to change (Get Line from MS Line)
-		@EmployeeID AS CHAR(5) = '006', --> Mandatory to change (Get EmployeeID from SPC_UserSetup)
+		@LineCode AS VARCHAR(5) = '015', --> Mandatory to change (Get Line from MS Line)
+		@EmployeeID AS CHAR(5) = '021', --> Mandatory to change (Get EmployeeID from SPC_UserSetup)
 		@StartDate AS DATE = '2022-10-24', --> Mandatory to change
 		@EndDate AS DATE = '2022-12-01' -->Mandatory andatory to change
 ---========================================----
@@ -22,7 +22,7 @@ WHERE FactoryCode = @FactoryCode AND LineCode = @LineCode
   IF NOT EXISTS (SELECT * FROM MS_MachineSkillSetting WHERE FactoryCode = @FactoryCode AND LineCode = @LineCode AND SkillCode = @SkillCode AND ProcessCode = @ProcessCode) 
   BEGIN
 	
-	SELECT @SequenceNO = MAX(SequenceNo) FROM MS_MachineSkillSetting WHERE FactoryCode = @FactoryCode AND LineCode = @LineCode AND ProcessCode = @ProcessCode
+	SELECT @SequenceNO =COALESCE(MAX(SequenceNo),'0') FROM MS_MachineSkillSetting WHERE FactoryCode = @FactoryCode AND LineCode = @LineCode AND ProcessCode = @ProcessCode
 	SET @SequenceNO = @SequenceNO + 1
 
 	INSERT INTO MS_MachineSkillSetting
@@ -70,7 +70,7 @@ WHERE FactoryCode = @FactoryCode AND LineCode = @LineCode
 	) 
 	VALUES(
 		@EmployeeID
-		,'SPC Integration Status'
+		,'SPC Integration Test'
 		,'03'
 		,''
 		,''
