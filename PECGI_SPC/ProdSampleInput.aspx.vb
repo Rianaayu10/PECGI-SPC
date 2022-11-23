@@ -322,7 +322,7 @@ Public Class ProdSampleInput
             Hdr.LineCode = cboLine.Value
             Hdr.LineName = cboLine.Text
             Hdr.ItemCheckCode = cboItemCheck.Value
-            Hdr.ItemCheckName = cboItemCheck.Value
+            Hdr.ItemCheckName = cboItemCheck.Text
             Hdr.ProdDate = Convert.ToDateTime(dtDate.Value).ToString("yyyy-MM-dd")
             Hdr.ShiftCode = cboShift.Value
             Hdr.Shiftname = cboShift.Text
@@ -553,15 +553,19 @@ Public Class ProdSampleInput
 
                 .Cells(3, 6, 3, 6).Value = "Prod Date"
                 .Cells(3, 6, 3, 7).Merge = True
-                .Cells(3, 8).Value = ": " & cls.ProdDate
+                .Cells(3, 8).Value = ": " & dtDate.Text
 
                 .Cells(4, 6, 4, 6).Value = "Shift"
                 .Cells(4, 6, 4, 7).Merge = True
                 .Cells(4, 8).Value = ": " & cls.Shiftname
 
-                .Cells(5, 1, 5, 6).Value = "Sequence"
-                .Cells(5, 1, 5, 7).Merge = True
+                .Cells(5, 6, 5, 6).Value = "Sequence"
+                .Cells(5, 6, 5, 7).Merge = True
                 .Cells(5, 8).Value = ": " & cls.Seq
+
+                .Cells(6, 6, 6, 6).Value = "Verified Only"
+                .Cells(6, 6, 6, 7).Merge = True
+                .Cells(6, 8).Value = ": " & cboShow.Text
 
                 Dim rgHdr As ExcelRange = .Cells(3, 3, 9, 4)
                 rgHdr.Style.HorizontalAlignment = HorzAlignment.Near
@@ -659,6 +663,7 @@ Public Class ProdSampleInput
                 Hdr.ShiftCode = cboShift.Value
                 Hdr.Shiftname = cboShift.Text
                 Hdr.Seq = cboSeq.Value
+                Hdr.VerifiedOnly = cboShow.Value
 
                 GridTitle(ws, Hdr)
                 GridExcel(ws, Hdr)
