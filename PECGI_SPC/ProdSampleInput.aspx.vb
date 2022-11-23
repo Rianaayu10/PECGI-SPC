@@ -885,11 +885,21 @@ Public Class ProdSampleInput
                     End If
                 End If
             End If
+
+            Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, Hdr.Seq, Hdr.VerifiedOnly)
+            If dt2.Rows.Count > 0 Then
+                LastNG = dt2.Rows(0)("NG")
+            End If
+
             If vR <> "" Then
                 Col = 8 + AddCol
                 If (ADbl(vR) < RLCL Or ADbl(vR) > RUCL) And (ChartType = "1" Or ChartType = "2") Then
                     .Cells(iRow + 2, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
-                    .Cells(iRow + 2, Col).Style.Fill.BackgroundColor.SetColor(Color.Yellow)
+                    If LastNG = 1 Then
+                        .Cells(iRow + 2, Col).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                    Else
+                        .Cells(iRow + 2, Col).Style.Fill.BackgroundColor.SetColor(Color.Yellow)
+                    End If
                 End If
             End If
 
@@ -925,6 +935,15 @@ Public Class ProdSampleInput
             iRow = iRow + 4
 
             Dim SelDay As Object = clsSPCResultDB.GetPrevDate(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate)
+            Dim dDay As String = Format(CDate(SelDay), "yyyy-MM-dd")
+
+            dt2 = clsSPCResultDetailDB.GetLastR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay, 1, Hdr.VerifiedOnly)
+            If dt2.Rows.Count > 0 Then
+                LastNG = dt2.Rows(0)("NG")
+            Else
+                LastNG = 0
+            End If
+
             .Cells(iRow, 1).Value = "Date"
             .Cells(iRow + 1, 1).Value = "Shift"
             .Cells(iRow + 2, 1).Value = "Time"
@@ -938,19 +957,8 @@ Public Class ProdSampleInput
                 If Not IsDBNull(SelDay) Then
                     iRow = StartRow
                     iCol = iCol + 1
-                    Dim dDay As String = Format(CDate(SelDay), "yyyy-MM-dd")
+                    dDay = Format(CDate(SelDay), "yyyy-MM-dd")
                     .Cells(iRow, iCol).Value = Format(SelDay, "dd MMM yyyy")
-                    If iDay = 1 Then
-                        Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay, 1, Hdr.VerifiedOnly)
-                        If dt2.Rows.Count > 0 Then
-                            LastNG = dt2.Rows(0)("NG")
-                        Else
-                            LastNG = 0
-                        End If
-                    Else
-                        LastNG = 0
-                    End If
-
                     StartCol1 = iCol
                     Dim Shiftlist As List(Of clsShift) = clsFrequencyDB.GetShift(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay)
                     For Each Shift In Shiftlist
@@ -972,79 +980,81 @@ Public Class ProdSampleInput
                         .Cells(iRow, StartCol1, iRow, EndCol1).Merge = True
                     End If
                 End If
+                iCol = iCol - 1
                 SelDay = CDate(Hdr.ProdDate)
-                iRow = StartRow + 3
-
-                dt = clsSPCResultDetailDB.GetTableXR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, Hdr.VerifiedOnly)
-                For j = 0 To dt.Rows.Count - 1
-                    iCol = 1
-                    EndCol = FieldNames.Count + 1
-                    If dt.Rows(j)(1) = "-" Or dt.Rows(j)(1) = "--" Then
-                        .Row(iRow).Height = 2
-                    Else
-                        .Cells(iRow, iCol).Value = dt.Rows(j)(1)
-                        Select Case .Cells(iRow, 1).Value
-                            Case "1", "2", "3", "4", "5", "6"
-                                .Cells(iRow, 1).Style.Fill.PatternType = ExcelFillStyle.Solid
-                                .Cells(iRow, 1).Style.Fill.BackgroundColor.SetColor(cs.Color(.Cells(iRow, 1).Value))
-                        End Select
-
-                        For Each Fn In FieldNames
-                            iCol = iCol + 1
-                            Dim objValue As Object = dt.Rows(j)(Fn)
-                            Dim Value As Double
-                            If iCol > 1 And objValue & "" <> "" Then
-                                Select Case .Cells(iRow, 1).Value
-                                    Case "1", "2", "3", "4", "5", "6", "Min", "Max", "Avg", "R"
-                                        Value = ADbl(objValue)
-                                        .Cells(iRow, iCol).Value = Value
-                                        .Cells(iRow, iCol).Style.Numberformat.Format = "0.000"
-                                    Case Else
-                                        .Cells(iRow, iCol).Value = objValue & ""
-                                End Select
-                                Select Case .Cells(iRow, 1).Value
-                                    Case "1", "2", "3", "4", "5", "6"
-                                        Value = ADbl(objValue)
-                                        If Value < ADbl(LSL) Or Value > ADbl(USL) Then
-                                            .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
-                                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Red)
-                                        ElseIf Value < ADbl(LCL) Or Value > ADbl(UCL) Then
-                                            .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
-                                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
-                                        End If
-                                    Case "Min", "Max", "Avg"
-                                        Value = ADbl(objValue)
-                                        If Value < ADbl(LSL) Or Value > ADbl(USL) Then
-                                            .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
-                                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Red)
-                                        ElseIf Value < ADbl(LCL) Or Value > ADbl(UCL) Then
-                                            .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
-                                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(LightYellow)
-                                        End If
-                                    Case "R"
-                                        Value = ADbl(objValue)
-                                        If Value < ADbl(RLCL) Or Value > ADbl(RUCL) And ChartType <> "0" Then
-                                            .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
-                                            Dim rgb As String = .Cells(iRow, iCol - 1).Style.Fill.BackgroundColor.Rgb
-                                            If rgb = "FFFFFF00" Or rgb = "FFFFC0CB" Then
-                                                .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
-                                            ElseIf LastNG = 1 Then
-                                                .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
-                                                AlreadyNG = True
-                                            ElseIf AlreadyNG = False Then
-                                                .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Yellow)
-                                            End If
-                                        End If
-                                        LastNG = 0
-                                End Select
-                            Else
-                                .Cells(iRow, iCol).Value = dt.Rows(j)(Fn)
-                            End If
-                        Next
-                    End If
-                    iRow = iRow + 1
-                Next
             Next
+
+            iRow = StartRow + 3
+            dt = clsSPCResultDetailDB.GetTableXR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, Hdr.VerifiedOnly)
+            For j = 0 To dt.Rows.Count - 1
+                iCol = 1
+                EndCol = FieldNames.Count + 1
+                If dt.Rows(j)(1) = "-" Or dt.Rows(j)(1) = "--" Then
+                    .Row(iRow).Height = 2
+                Else
+                    .Cells(iRow, iCol).Value = dt.Rows(j)(1)
+                    Select Case .Cells(iRow, 1).Value
+                        Case "1", "2", "3", "4", "5", "6"
+                            .Cells(iRow, 1).Style.Fill.PatternType = ExcelFillStyle.Solid
+                            .Cells(iRow, 1).Style.Fill.BackgroundColor.SetColor(cs.Color(.Cells(iRow, 1).Value))
+                    End Select
+
+                    For Each Fn In FieldNames
+                        iCol = iCol + 1
+                        Dim objValue As Object = dt.Rows(j)(Fn)
+                        Dim Value As Double
+                        If iCol > 1 And objValue & "" <> "" Then
+                            Select Case .Cells(iRow, 1).Value
+                                Case "1", "2", "3", "4", "5", "6", "Min", "Max", "Avg", "R"
+                                    Value = ADbl(objValue)
+                                    .Cells(iRow, iCol).Value = Value
+                                    .Cells(iRow, iCol).Style.Numberformat.Format = "0.000"
+                                Case Else
+                                    .Cells(iRow, iCol).Value = objValue & ""
+                            End Select
+                            Select Case .Cells(iRow, 1).Value
+                                Case "1", "2", "3", "4", "5", "6"
+                                    Value = ADbl(objValue)
+                                    If Value < ADbl(LSL) Or Value > ADbl(USL) Then
+                                        .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                        .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Red)
+                                    ElseIf Value < ADbl(LCL) Or Value > ADbl(UCL) Then
+                                        .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                        .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                                    End If
+                                Case "Min", "Max", "Avg"
+                                    Value = ADbl(objValue)
+                                    If Value < ADbl(LSL) Or Value > ADbl(USL) Then
+                                        .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                        .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Red)
+                                    ElseIf Value < ADbl(LCL) Or Value > ADbl(UCL) Then
+                                        .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                        .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(LightYellow)
+                                    End If
+                                Case "R"
+                                    Value = ADbl(objValue)
+                                    If Value < ADbl(RLCL) Or Value > ADbl(RUCL) And ChartType <> "0" Then
+                                        .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                        Dim rgb As String = .Cells(iRow, iCol - 1).Style.Fill.BackgroundColor.Rgb
+                                        If rgb = "FFFFFF00" Or rgb = "FFFFC0CB" Then
+                                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                                        ElseIf LastNG = 1 Then
+                                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                                            AlreadyNG = True
+                                        ElseIf AlreadyNG = False Then
+                                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Yellow)
+                                        End If
+                                    End If
+                                    LastNG = 0
+                            End Select
+                        Else
+                            .Cells(iRow, iCol).Value = dt.Rows(j)(Fn)
+                        End If
+                    Next
+                End If
+                iRow = iRow + 1
+            Next
+
             ExcelHeader(pExl, StartRow, 1, StartRow + 2, EndCol)
             ExcelBorder(pExl, StartRow, 1, iRow - 1, EndCol)
             ExcelFont(pExl, StartRow, 1, iRow - 1, EndCol, 8)
