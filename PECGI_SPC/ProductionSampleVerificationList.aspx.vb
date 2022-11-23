@@ -496,7 +496,7 @@ Public Class ProductionSampleVerificationList
                     .Cells(irow, 5, irow + 1, 5).Value = "Min"
                     .Cells(irow, 5, irow + 1, 5).Merge = True
 
-                    .Cells(irow, 6, irow + 12, 6).Value = "Max"
+                    .Cells(irow, 6, irow + 1, 6).Value = "Max"
                     .Cells(irow, 6, irow + 1, 6).Merge = True
 
                     .Cells(irow, 7, irow + 1, 7).Value = "Avg"
@@ -557,8 +557,8 @@ Public Class ProductionSampleVerificationList
                     .Column(14).Width = 18
                     .Column(15).Width = 18
                     .Column(16).Width = 18
+                    irow = irow + 2
 
-                    irow = irow + 1
                     For i = 0 To dt.Rows.Count - 1
                         Try
                             .Cells(irow, 1).Value = dt.Rows(i)("ProdDate")
