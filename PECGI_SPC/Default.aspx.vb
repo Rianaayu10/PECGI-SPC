@@ -76,8 +76,8 @@
 
             If DataUser.LockStatus = "1" Then
                 lblInfo.Visible = True
-                If DataUser.FailedLogin >= 12 Then
-                    lblInfo.Text = "User is locked after 12 failed logins." & vbCrLf & "Please contact your administrator!"
+                If DataUser.FailedLogin >= 3 Then
+                    lblInfo.Text = "User is locked after 3 failed logins." & vbCrLf & "Please contact your administrator!"
                 Else
                     lblInfo.Text = "User is locked." & vbCrLf & "Please contact your administrator!"
                 End If

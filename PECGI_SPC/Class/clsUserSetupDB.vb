@@ -128,7 +128,7 @@ Public Class clsUserSetupDB
             Dim cmd As New SqlCommand(q, Cn)
             cmd.Parameters.AddWithValue("UserID", pUser)
             Dim i As Integer = cmd.ExecuteNonQuery
-            q = "Update dbo.spc_UserSetup set LockStatus = 1 where UserID = @UserID and isnull(AdminStatus, 0) = 0 and isnull(FailedLogin, 0) >= 12 "
+            q = "Update dbo.spc_UserSetup set LockStatus = 1 where UserID = @UserID and isnull(AdminStatus, 0) = 0 and isnull(FailedLogin, 0) >= 3 "
             cmd.CommandText = q
             cmd.ExecuteNonQuery()
             Return i
