@@ -75,9 +75,13 @@ Public Class ProdSampleInput
 
             Dim SelDay As Object = clsSPCResultDB.GetPrevDate(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate)
 
-            Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Format(SelDay, "yyyy-MM-dd"), 1, Hdr.VerifiedOnly)
-            If dt2.Rows.Count > 0 Then
-                LastNG = dt2.Rows(0)("NG")
+            If Not IsDBNull(SelDay) Then
+                Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Format(SelDay, "yyyy-MM-dd"), 1, Hdr.VerifiedOnly)
+                If dt2.Rows.Count > 0 Then
+                    LastNG = dt2.Rows(0)("NG")
+                Else
+                    LastNG = 0
+                End If
             Else
                 LastNG = 0
             End If
@@ -341,6 +345,8 @@ Public Class ProdSampleInput
         Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Sequence, VerifiedOnly)
         If dt2.Rows.Count > 0 Then
             LastNG = dt2.Rows(0)("NG")
+        Else
+            LastNG = 0
         End If
 
         Dim UserID As String = Session("user")
