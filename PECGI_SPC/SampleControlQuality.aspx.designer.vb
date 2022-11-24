@@ -311,31 +311,31 @@ Partial Public Class SampleControlQuality
     Protected WithEvents lblCPK1 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
-    '''ASPxLabel12 control.
+    '''ASPxLabel22 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents ASPxLabel12 As Global.DevExpress.Web.ASPxLabel
+    Protected WithEvents ASPxLabel22 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
-    '''ASPxLabel13 control.
+    '''ASPxLabel23 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents ASPxLabel13 As Global.DevExpress.Web.ASPxLabel
+    Protected WithEvents ASPxLabel23 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
-    '''lblAvg control.
+    '''lblXBarBar control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblAvg As Global.DevExpress.Web.ASPxLabel
+    Protected WithEvents lblXBarBar As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
     '''ASPxLabel20 control.
@@ -365,31 +365,31 @@ Partial Public Class SampleControlQuality
     Protected WithEvents lblCPK2 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
-    '''ASPxLabel14 control.
+    '''ASPxLabel24 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents ASPxLabel14 As Global.DevExpress.Web.ASPxLabel
+    Protected WithEvents ASPxLabel24 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
-    '''ASPxLabel15 control.
+    '''ASPxLabel25 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents ASPxLabel15 As Global.DevExpress.Web.ASPxLabel
+    Protected WithEvents ASPxLabel25 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
-    '''lblSTD control.
+    '''lblRBar control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblSTD As Global.DevExpress.Web.ASPxLabel
+    Protected WithEvents lblRBar As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
     '''ASPxLabel26 control.
@@ -417,60 +417,6 @@ Partial Public Class SampleControlQuality
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblCPKMin As Global.DevExpress.Web.ASPxLabel
-
-    '''<summary>
-    '''ASPxLabel22 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ASPxLabel22 As Global.DevExpress.Web.ASPxLabel
-
-    '''<summary>
-    '''ASPxLabel23 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ASPxLabel23 As Global.DevExpress.Web.ASPxLabel
-
-    '''<summary>
-    '''lblXBarBar control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblXBarBar As Global.DevExpress.Web.ASPxLabel
-
-    '''<summary>
-    '''ASPxLabel24 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ASPxLabel24 As Global.DevExpress.Web.ASPxLabel
-
-    '''<summary>
-    '''ASPxLabel25 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ASPxLabel25 As Global.DevExpress.Web.ASPxLabel
-
-    '''<summary>
-    '''lblRBar control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblRBar As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
     '''Master property.
