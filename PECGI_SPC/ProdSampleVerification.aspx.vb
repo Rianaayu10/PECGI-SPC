@@ -1247,12 +1247,16 @@ Public Class ProdSampleVerification
         Dim ProcessCode = ""
         Dim ItemCode = ""
         Dim ItemCode_Traceability = ""
+        Dim LotNo = ""
+        Dim ProcessTableLineCode = ""
 
         Dim URL = clsIOT.GetURL(pUser)
         Dim ds = clsProdSampleVerificationDB.GridLoad(GetCharSetup, cls)
         Dim dt As DataTable = ds.Tables(0)
-        Dim LotNo = dt.Rows(0)("SubLotNo").ToString
-        Dim ProcessTableLineCode = dt.Rows(0)("ProcessTableLineCode").ToString
+        If dt.Rows.Count > 0 Then
+            LotNo = dt.Rows(0)("SubLotNo").ToString
+            ProcessTableLineCode = dt.Rows(0)("ProcessTableLineCode").ToString
+        End If
 
         Dim dtIOT_ProcessTable = clsIOT.GetIOT_ProcessTable(cls.FactoryCode, ProcessTableLineCode, cls.ItemType_Code, cls.ProdDate, cls.ShiftCode)
         If dtIOT_ProcessTable.Rows.Count > 0 Then
