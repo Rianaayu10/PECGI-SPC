@@ -175,7 +175,9 @@
             lblCP.SetText(s.cpCP);
             lblCPK1.SetText(s.cpCPK1);
             lblCPK2.SetText(s.cpCPK2);
+            lblCPKMin.SetText(s.cpCPKMin);
             lblXBarBar.SetText(s.cpXBarBar);
+            lblRBar.SetText(s.cpRBar);
             if (s.cpXBarColor == '1') {                
                 document.getElementById('tdXBarBar').style.backgroundColor = 'Pink';
             } else {
@@ -760,6 +762,18 @@
                         <td>
 
                         </td>
+                        <td>
+                            <dx:ASPxLabel ID="ASPxLabel26" runat="server" Text="CPK Min" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td style="padding-right:2px">
+                            <dx:ASPxLabel ID="ASPxLabel27" runat="server" Text=":" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td>
+                            <dx:ASPxLabel ID="lblCPKMin" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblCPKMin"></dx:ASPxLabel>
+                        </td>
+                        <td>
+
+                        </td>
                     </tr>
                     <tr>
                         <td>
@@ -770,6 +784,20 @@
                         </td>
                         <td style="width:60px" id="tdXBarBar">
                             <dx:ASPxLabel ID="lblXBarBar" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXBarBar"></dx:ASPxLabel>
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <dx:ASPxLabel ID="ASPxLabel24" runat="server" Text="R Bar" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td style="padding-right:2px">
+                            <dx:ASPxLabel ID="ASPxLabel25" runat="server" Text=":" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td style="width:60px" id="tdRBar">
+                            <dx:ASPxLabel ID="lblRBar" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblRBar"></dx:ASPxLabel>
                         </td>
                         <td>
 

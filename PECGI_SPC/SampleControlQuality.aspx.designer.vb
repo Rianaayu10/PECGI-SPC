@@ -392,6 +392,33 @@ Partial Public Class SampleControlQuality
     Protected WithEvents lblSTD As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
+    '''ASPxLabel26 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel26 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''ASPxLabel27 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel27 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''lblCPKMin control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblCPKMin As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
     '''ASPxLabel22 control.
     '''</summary>
     '''<remarks>
@@ -417,6 +444,33 @@ Partial Public Class SampleControlQuality
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblXBarBar As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''ASPxLabel24 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel24 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''ASPxLabel25 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel25 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''lblRBar control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblRBar As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
     '''Master property.

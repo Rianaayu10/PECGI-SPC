@@ -350,7 +350,7 @@ Public Class SampleControlQuality
 
                 .Cells(4, 7, 4, 8).Value = "Prod Date"
                 .Cells(4, 7, 4, 8).Merge = True
-                .Cells(4, 9).Value = ": " & cls.ProdDate & " to " & cls.ProdDate2
+                .Cells(4, 9).Value = ": " & dtDate.Text & " to " & dtTo.Text
 
                 .Cells(5, 7, 5, 8).Value = "Verified Only"
                 .Cells(5, 7, 5, 8).Merge = True
@@ -531,7 +531,8 @@ Public Class SampleControlQuality
                     .JSProperties("cpCPK1") = dtCP.Rows(0)("CPK1") & ""
                     .JSProperties("cpCPK2") = dtCP.Rows(0)("CPK2") & ""
                     .JSProperties("cpXBarBar") = dtCP.Rows(0)("XBarBar") & ""
-                    .JSProperties("cpXBarColor") = dtCP.Rows(0)("XBarColor") & ""
+                    .JSProperties("cpRBar") = dtCP.Rows(0)("RBar") & ""
+                    .JSProperties("cpCPKMin") = dtCP.Rows(0)("CPKMin") & ""
                 End If
             End If
         End With
