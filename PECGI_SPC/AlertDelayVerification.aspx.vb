@@ -24,6 +24,7 @@ Public Class AlertDelayVerification
     Dim MinValue As String = ""
     Dim MaxValue As String = ""
     Dim Average As String = ""
+    Dim CharacteristicStatus As Integer
 #End Region
 
 #Region "Events"
@@ -227,12 +228,22 @@ Public Class AlertDelayVerification
                 e.Cell.Controls.Add(Link)
             End If
         End If
+
+        If e.DataColumn.FieldName = "ItemTypeName" Then
+            e.Cell.Text = Split(e.CellValue, "||")(0)
+            CharacteristicStatus = Split(e.CellValue, "||")(1)
+        End If
+
         If e.DataColumn.FieldName = "DelayVerif" Then
             Delay = (e.CellValue)
             Dim Test = TimeSpan.FromMinutes(e.CellValue)
 
             If Delay <= 60 Then
-                e.Cell.BackColor = System.Drawing.Color.Yellow
+                If CharacteristicStatus = 0 Then
+                    e.Cell.BackColor = System.Drawing.Color.Pink
+                ElseIf CharacteristicStatus = 1 Then
+                    e.Cell.BackColor = Color.FromArgb(255, 255, 153)
+                End If
             ElseIf Delay > 60 Then
                 e.Cell.BackColor = System.Drawing.Color.Red
             End If
@@ -268,25 +279,49 @@ Public Class AlertDelayVerification
             If MinValue < LSL Then
                 e.Cell.BackColor = System.Drawing.Color.Red
             ElseIf MinValue < LCL Then
-                e.Cell.BackColor = System.Drawing.Color.Yellow
+
+                If CharacteristicStatus = 0 Then
+                    e.Cell.BackColor = System.Drawing.Color.Pink
+                ElseIf CharacteristicStatus = 1 Then
+                    e.Cell.BackColor = Color.FromArgb(255, 255, 153)
+                End If
+
             End If
         ElseIf e.DataColumn.FieldName = "MaxValue" Then
             MaxValue = (e.CellValue)
             If MaxValue > USL Then
                 e.Cell.BackColor = System.Drawing.Color.Red
             ElseIf MaxValue > UCL Then
-                e.Cell.BackColor = System.Drawing.Color.Yellow
+
+                If CharacteristicStatus = 0 Then
+                    e.Cell.BackColor = System.Drawing.Color.Pink
+                ElseIf CharacteristicStatus = 1 Then
+                    e.Cell.BackColor = Color.FromArgb(255, 255, 153)
+                End If
+
             End If
         ElseIf e.DataColumn.FieldName = "Average" Then
             Average = (e.CellValue)
             If Average > USL Then
                 e.Cell.BackColor = System.Drawing.Color.Red
             ElseIf Average > UCL Then
-                e.Cell.BackColor = System.Drawing.Color.Yellow
+
+                If CharacteristicStatus = 0 Then
+                    e.Cell.BackColor = System.Drawing.Color.Pink
+                ElseIf CharacteristicStatus = 1 Then
+                    e.Cell.BackColor = Color.FromArgb(255, 255, 153)
+                End If
+
             ElseIf Average < LSL Then
                 e.Cell.BackColor = System.Drawing.Color.Red
             ElseIf Average < LCL Then
-                e.Cell.BackColor = System.Drawing.Color.Yellow
+
+                If CharacteristicStatus = 0 Then
+                    e.Cell.BackColor = System.Drawing.Color.Pink
+                ElseIf CharacteristicStatus = 1 Then
+                    e.Cell.BackColor = Color.FromArgb(255, 255, 153)
+                End If
+
             End If
         End If
     End Sub
