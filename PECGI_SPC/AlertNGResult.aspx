@@ -314,6 +314,21 @@
                         <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataTextColumn>
 
+                    <dx:GridViewDataTextColumn Caption="CharacterStatus" FieldName="CharacterStatus"
+                        VisibleIndex="0" Width="100px" Settings-AutoFilterCondition="Contains" Visible="false" >
+                        <PropertiesTextEdit MaxLength="25" Width="100px">
+                            <Style HorizontalAlign="Left"></Style>
+                        </PropertiesTextEdit>
+                        <Settings AutoFilterCondition="Contains"></Settings>
+                        <FilterCellStyle Paddings-PaddingRight="4px">
+                        <Paddings PaddingRight="4px"></Paddings>
+                        </FilterCellStyle>
+                        <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                        <Paddings PaddingLeft="5px"></Paddings>
+                        </HeaderStyle>
+                        <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"></CellStyle>
+                    </dx:GridViewDataTextColumn>
+
                     <dx:GridViewDataComboBoxColumn Caption="Type" FieldName="ItemTypeName" VisibleIndex="1"
                         Width="70px" Settings-AutoFilterCondition="Contains">
                         <PropertiesComboBox DataSourceID="dsType" DropDownStyle="DropDownList" TextFormatString="{0}"

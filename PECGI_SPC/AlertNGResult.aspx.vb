@@ -24,6 +24,7 @@ Public Class AlertDashboard
     Dim MinValue As String = ""
     Dim MaxValue As String = ""
     Dim Average As String = ""
+    Dim CharacterStatus As Integer
 #End Region
 
 #Region "Events"
@@ -96,8 +97,8 @@ Public Class AlertDashboard
     Private Sub LoadGridNG(FactoryCode As String, pProdDateType As Integer, pProdDate As DateTime)
         Try
             Dim dtLoadNGData As DataTable
-            'dtLoadNGData = clsSPCAlertDashboardDB.GetNGDataList(FactoryCode)
-            GridNG.DataSource = clsSPCAlertDashboardDB.GetNGDataList(pUser, FactoryCode, pProdDateType, pProdDate)
+            dtLoadNGData = clsSPCAlertDashboardDB.GetNGDataList(pUser, FactoryCode, pProdDateType, pProdDate)
+            GridNG.DataSource = dtLoadNGData
             GridNG.DataBind()
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
@@ -169,6 +170,15 @@ Public Class AlertDashboard
                 e.Cell.Controls.Add(Link)
             End If
         End If
+        'If e.DataColumn.FieldName = "CharacterStatus" Then
+        '    e.DataColumn.Visible = True
+        '    CharacterStatus = (e.CellValue)
+        '    e.DataColumn.Visible = False
+        'End If
+        If e.DataColumn.FieldName = "ItemTypeName" Then
+            e.Cell.Text = Split(e.CellValue, "||")(0)
+            CharacterStatus = Split(e.CellValue, "||")(1)
+        End If
         If e.DataColumn.FieldName = "LSL" Then
             LSL = (e.CellValue)
         ElseIf e.DataColumn.FieldName = "USL" Then
@@ -182,25 +192,53 @@ Public Class AlertDashboard
             If MinValue < LSL Then
                 e.Cell.BackColor = System.Drawing.Color.Red
             ElseIf MinValue < LCL Then
-                e.Cell.BackColor = System.Drawing.Color.Yellow
+
+                'Check Is special characteristic or not
+                If CharacterStatus = 0 Then
+                    e.Cell.BackColor = System.Drawing.Color.Pink
+                ElseIf CharacterStatus = 1 Then
+                    e.Cell.BackColor = Color.FromArgb(255, 255, 153)
+                End If
+
             End If
         ElseIf e.DataColumn.FieldName = "MaxValue" Then
             MaxValue = (e.CellValue)
             If MaxValue > USL Then
                 e.Cell.BackColor = System.Drawing.Color.Red
             ElseIf MaxValue > UCL Then
-                e.Cell.BackColor = System.Drawing.Color.Yellow
+
+                'Check Is special characteristic or not
+                If CharacterStatus = 0 Then
+                    e.Cell.BackColor = System.Drawing.Color.Pink
+                ElseIf CharacterStatus = 1 Then
+                    e.Cell.BackColor = Color.FromArgb(255, 255, 153)
+                End If
+
             End If
         ElseIf e.DataColumn.FieldName = "Average" Then
             Average = (e.CellValue)
             If Average > USL Then
                 e.Cell.BackColor = System.Drawing.Color.Red
             ElseIf Average > UCL Then
-                e.Cell.BackColor = System.Drawing.Color.Yellow
+
+                'Check Is special characteristic or not
+                If CharacterStatus = 0 Then
+                    e.Cell.BackColor = System.Drawing.Color.Pink
+                ElseIf CharacterStatus = 1 Then
+                    e.Cell.BackColor = Color.FromArgb(255, 255, 153)
+                End If
+
             ElseIf Average < LSL Then
                 e.Cell.BackColor = System.Drawing.Color.Red
             ElseIf Average < LCL Then
-                e.Cell.BackColor = System.Drawing.Color.Yellow
+
+                'Check Is special characteristic or not
+                If CharacterStatus = 0 Then
+                    e.Cell.BackColor = System.Drawing.Color.Pink
+                ElseIf CharacterStatus = 1 Then
+                    e.Cell.BackColor = Color.FromArgb(255, 255, 153)
+                End If
+
             End If
         End If
 
