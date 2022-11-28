@@ -759,11 +759,11 @@
                             <td class="header" style="width: 50px">
                                 <dx:ASPxLabel ID="ASPxLabel8" runat="server" Text="LCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                             </td>
-                             <td class="header" style="width: 60px" id="hdrXBarUCL">
-                                <dx:ASPxLabel ID="ASPxLabel9" runat="server" Text="XBarUCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                             <td class="header" style="width: 50px" id="hdrXBarUCL">
+                                <dx:ASPxLabel ID="ASPxLabel9" runat="server" Text="UCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                             </td>
-                            <td class="header" style="width: 60px" id="hdrXBarLCL">
-                                <dx:ASPxLabel ID="ASPxLabel10" runat="server" Text="XBarLCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            <td class="header" style="width: 50px" id="hdrXBarLCL">
+                                <dx:ASPxLabel ID="ASPxLabel10" runat="server" Text="LCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                             </td>
                             <td class="header" style="width: 50px">
                                 <dx:ASPxLabel ID="ASPxLabel11" runat="server" Text="Min" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
