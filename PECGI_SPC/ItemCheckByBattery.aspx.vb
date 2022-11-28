@@ -275,6 +275,13 @@ Public Class ItemCheckByBattery
             Return
         End If
 
+        GridColumn = Grid.DataColumns("ProcessTableLineCode")
+        If IsNothing(e.NewValues("ProcessTableLineCode")) OrElse e.NewValues("ProcessTableLineCode").ToString.Trim = "" Then
+            e.Errors(GridColumn) = "Process Table Line Code  Must Be Filled !"
+            show_error(MsgTypeEnum.ErrorMsg, "Process Table Line Code Must Be Filled !", 1)
+            Return
+        End If
+
     End Sub
 
     Protected Sub Grid_StartRowEditing(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxStartRowEditingEventArgs) Handles Grid.StartRowEditing
