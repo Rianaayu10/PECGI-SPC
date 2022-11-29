@@ -556,9 +556,9 @@
                     <dx:ASPxLabel ID="lblFromDate" runat="server" Font-Names="Segoe UI" Font-Size="9pt" Text="Prod. Date">
                     </dx:ASPxLabel>
                 </td>
-                <td style="width: 20px">&nbsp;</td>
+                <td style="width: 25px">&nbsp;</td>
                 <td colspan="5">
-                    <dx:ASPxDateEdit ID="dtProdDate" runat="server" Theme="Office2010Black" AutoPostBack="false" Width="155px"
+                    <dx:ASPxDateEdit ID="dtProdDate" runat="server" Theme="Office2010Black" AutoPostBack="false" Width="180px"
                         ClientInstanceName="dtProdDate" EditFormatString="dd MMM yyyy" DisplayFormatString="dd MMM yyyy"
                         Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="5">
                         <ClientSideEvents ValueChanged="ProdDateChange" />
@@ -636,10 +636,10 @@
                     <dx:ASPxLabel ID="lblShift" runat="server" Font-Names="Segoe UI" Font-Size="9pt" Text="Shift">
                     </dx:ASPxLabel>
                 </td>
-                <td style="width: 20px">&nbsp;</td>
+                <td style="width: 25px">&nbsp;</td>
                 <td>
                     <dx:ASPxComboBox ID="cboShift" runat="server" Font-Names="Segoe UI" Height="25px" DropDownStyle="DropDownList" IncrementalFilteringMode="Contains"
-                        ClientInstanceName="cboShift" Theme="Office2010Black" TextField="CODENAME" ValueField="CODE" EnableTheming="True" Width="60px"
+                        ClientInstanceName="cboShift" Theme="Office2010Black" TextField="CODENAME" ValueField="CODE" EnableTheming="True" Width="80px"
                         EnableIncrementalFiltering="True">
                         <ClientSideEvents SelectedIndexChanged="ChangeShift" />
                         <ItemStyle Height="10px" Paddings-Padding="4px" Font-Size="11px" />

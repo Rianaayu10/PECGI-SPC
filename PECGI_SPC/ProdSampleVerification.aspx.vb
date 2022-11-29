@@ -884,11 +884,11 @@ Public Class ProdSampleVerification
 
                             Dim Col_Shift As New GridViewBandColumn
                             Dim nShiftCode = dtShift.Rows(n)("ShiftCode")
-                            If nShiftCode = "SH001" Then
-                                nShiftCode = "Shift 1"
-                            ElseIf nShiftCode = "SH002" Then
-                                nShiftCode = "Shift 2"
-                            End If
+                            'If nShiftCode = "SH001" Then
+                            '    nShiftCode = "Shift 1"
+                            'ElseIf nShiftCode = "SH002" Then
+                            '    nShiftCode = "Shift 2"
+                            'End If
 
                             Col_Shift.Caption = nShiftCode
                             Col_ProdDate.Columns.Add(Col_Shift)
@@ -1633,11 +1633,11 @@ Public Class ProdSampleVerification
                                 Dim iColhdr2_End = iColhdr3 - 1
 
                                 Dim nShiftCode = dtShift.Rows(n)("ShiftCode")
-                                If nShiftCode = "SH001" Then
-                                    nShiftCode = "Shift 1"
-                                ElseIf nShiftCode = "SH002" Then
-                                    nShiftCode = "Shift 2"
-                                End If
+                                'If nShiftCode = "SH001" Then
+                                '    nShiftCode = "Shift 1"
+                                'ElseIf nShiftCode = "SH002" Then
+                                '    nShiftCode = "Shift 2"
+                                'End If
 
                                 .Cells(irowhdr2, iColhdr2, irowhdr2, iColhdr2_End).Value = nShiftCode
                                 .Cells(irowhdr2, iColhdr2, irowhdr2, iColhdr2_End).Merge = True
