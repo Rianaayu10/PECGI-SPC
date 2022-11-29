@@ -521,6 +521,13 @@ Public Class SampleControlQuality
                 dtRLCL = ds.Tables(8)
 
                 If dtCP.Rows.Count > 0 Then
+                    .JSProperties("cpFactory") = FactoryCode
+                    .JSProperties("cpType") = dtCP.Rows(0)("ItemTypeName") & ""
+                    .JSProperties("cpLine") = dtCP.Rows(0)("LineName") & ""
+                    .JSProperties("cpItemCheck") = dtCP.Rows(0)("ItemCheckName") & ""
+                    .JSProperties("cpProdDate") = ProdDate & " - " & ProdDate2
+                    .JSProperties("cpUnit") = dtCP.Rows(0)("Unit") & ""
+
                     .JSProperties("cpMin") = dtCP.Rows(0)("Min") & ""
                     .JSProperties("cpMax") = dtCP.Rows(0)("Max") & ""
                     .JSProperties("cpAvg") = dtCP.Rows(0)("Avg") & ""

@@ -36,8 +36,62 @@
             }
             .auto-style3 {
                 border: 1px solid silver;
-                width: 110px;
+                width: 90px;
                 height: 17px;
+            }
+            .auto-style4 {
+                border: 1px solid silver;
+                background-color: #F0F0F0;
+                text-align: left;
+                height: 16px;
+            }
+            .auto-style6 {
+                border: 1px solid silver;
+                background-color: #F0F0F0;
+                text-align: left;
+                width: 124px;
+            }
+            .auto-style7 {
+                border: 1px solid silver;
+                background-color: #F0F0F0;
+                text-align: left;
+                height: 16px;
+                width: 124px;
+            }
+            .auto-style8 {
+                border: 1px solid silver;
+                background-color: #F0F0F0;
+                text-align: left;
+                width: 124px;
+                height: 17px;
+            }
+            .auto-style9 {
+                border: 1px solid silver;
+                width: 70px;
+            }
+            .auto-style10 {
+                border: 1px solid silver;
+                height: 16px;
+                width: 70px;
+            }
+            .auto-style11 {
+                border: 1px solid silver;
+                width: 70px;
+                height: 17px;
+            }
+            .auto-style12 {
+                border: 1px solid silver;
+                width: 67px;
+                height: 17px;
+            }
+            .auto-style13 {
+                border: 1px solid silver;
+                width: 67px;
+            }
+            .auto-style14 {
+                border: 1px solid silver;
+                height: 16px;
+                width: 67px;
             }
         
             </style>
@@ -196,6 +250,14 @@
             lblCPKMin.SetText(s.cpCPKMin);
             lblXBarBar.SetText(s.cpXBarBar);
             lblRBar.SetText(s.cpRBar);
+
+            lblFactory.SetText(s.cpFactory);
+            lblType.SetText(s.cpType);
+            lblLine.SetText(s.cpLine);
+            lblItemCheck.SetText(s.cpItemCheck);
+            lblProdDate.SetText(s.cpProdDate);
+            lblUnit.SetText(s.cpUnit);
+
             if (s.cpXBarColor == '1') {                
                 document.getElementById('tdXBarBar').style.backgroundColor = 'Pink';
             } else {
@@ -661,8 +723,8 @@
                         <SeriesSerializable>
                             <cc1:Series ArgumentDataMember="Value" Name="Histogram" ShowInLegend="False">
                                 <ViewSerializable>
-                                    <cc1:SideBySideBarSeriesView BarWidth="1.05" Color="84, 141, 212">
-                                        <Border Color="23, 54, 93" Visibility="True" Thickness="1"/>
+                                    <cc1:SideBySideBarSeriesView BarWidth="1.05" Color="149, 179, 215">
+                                        <Border Color="63, 63, 63" Visibility="True" Thickness="1"/>
                                         <FillStyle FillMode="Solid">
                                         </FillStyle>
                                     </cc1:SideBySideBarSeriesView>
@@ -688,60 +750,113 @@
                     </dx:WebChartControl>
             </td>
             <td style="vertical-align:top; text-align:left; padding-top:10px; align-items: baseline; " class="auto-style1">
-                <table style="width:400px; padding-left:5px">
+                <table style="padding-left:5px">
+                    <tr>
+                        <td class="auto-style8">
+                            <dx:ASPxLabel ID="ASPxLabel5" runat="server" Text="Factory" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td  class="auto-style3" style="padding-left:5px" colspan="3">
+                            <dx:ASPxLabel ID="lblFactory" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblFactory"></dx:ASPxLabel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="auto-style8">
+                            <dx:ASPxLabel ID="ASPxLabel11" runat="server" Text="Type" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td  class="auto-style3" style="padding-left:5px" colspan="3">
+                            <dx:ASPxLabel ID="lblType" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblType"></dx:ASPxLabel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="auto-style8">
+                            <dx:ASPxLabel ID="ASPxLabel12" runat="server" Text="Machine Process" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td  class="auto-style3" style="padding-left:5px" colspan="3">
+                            <dx:ASPxLabel ID="lblLine" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLine"></dx:ASPxLabel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="auto-style8">
+                            <dx:ASPxLabel ID="ASPxLabel14" runat="server" Text="Item Check" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td  class="auto-style3" style="padding-left:5px" colspan="3">
+                            <dx:ASPxLabel ID="lblItemCheck" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblItemCheck"></dx:ASPxLabel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="auto-style8">
+                            <dx:ASPxLabel ID="ASPxLabel17" runat="server" Text="Prod Date" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td  class="auto-style3" style="padding-left:5px" colspan="3">
+                            <dx:ASPxLabel ID="lblProdDate" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblProdDate"></dx:ASPxLabel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="auto-style8">
+                            <dx:ASPxLabel ID="ASPxLabel21" runat="server" Text="Unit Measurement" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td  class="auto-style3" style="padding-left:5px" colspan="3">
+                            <dx:ASPxLabel ID="lblUnit" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblUnit"></dx:ASPxLabel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="height:2px">
+                        </td>
+                    </tr>
+
                     <tr >
-                        <td class="auto-style2">
+                        <td class="auto-style8">
                             <dx:ASPxLabel ID="ASPxLabel3" runat="server" Text="Min" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                         </td>
-                        <td  class="auto-style3" style="padding-left:5px">
+                        <td  class="auto-style11" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblMin" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblMin"></dx:ASPxLabel>
                         </td>
                         <td  class="auto-style2">
                             <dx:ASPxLabel ID="ASPxLabel16" runat="server" Text="CP" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                         </td>
-                        <td  class="auto-style3" style="padding-left:5px">
+                        <td  class="auto-style12" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblCP" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblCP"></dx:ASPxLabel>
                         </td>
                     </tr>
                     <tr>
-                        <td class="vheader">
+                        <td class="auto-style6">
                             <dx:ASPxLabel ID="ASPxLabel7" runat="server" Text="Max" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                         </td>
-                        <td class="body" style="padding-left:5px">
+                        <td class="auto-style9" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblMax" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblMax"></dx:ASPxLabel>
                         </td>
                         <td class="vheader">
                             <dx:ASPxLabel ID="ASPxLabel18" runat="server" Text="Cpk1" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                         </td>
-                        <td class="body" style="padding-left:5px">
+                        <td class="auto-style13" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblCPK1" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblCPK1"></dx:ASPxLabel>
                         </td>
                     </tr>
                     <tr>
-                        <td class="vheader">
+                        <td class="auto-style7">
                             <dx:ASPxLabel ID="ASPxLabel22" runat="server" Text="X Bar Bar" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                         </td>
-                        <td style="padding-left:5px" id="tdXBarBar" class="body">
+                        <td style="padding-left:5px" id="tdXBarBar" class="auto-style10">
                             <dx:ASPxLabel ID="lblXBarBar" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXBarBar"></dx:ASPxLabel>
                         </td>
-                        <td class="vheader">
+                        <td class="auto-style4">
                             <dx:ASPxLabel ID="ASPxLabel20" runat="server" Text="Cpk2" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                         </td>
-                        <td class="body" style="padding-left:5px">
+                        <td class="auto-style14" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblCPK2" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblCPK2"></dx:ASPxLabel>
                         </td>
                     </tr>
                     <tr>
-                        <td class="vheader">
+                        <td class="auto-style6">
                             <dx:ASPxLabel ID="ASPxLabel24" runat="server" Text="R Bar" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                         </td>
-                        <td style="padding-left:5px" id="tdRBar" class="body">
+                        <td style="padding-left:5px" id="tdRBar" class="auto-style9">
                             <dx:ASPxLabel ID="lblRBar" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblRBar"></dx:ASPxLabel>
                         </td>
                         <td class="vheader">
                             <dx:ASPxLabel ID="ASPxLabel26" runat="server" Text="CPK Min" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                         </td>
-                        <td class="body" style="padding-left:5px">
+                        <td class="auto-style13" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblCPKMin" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblCPKMin"></dx:ASPxLabel>
                         </td>
                     </tr>
