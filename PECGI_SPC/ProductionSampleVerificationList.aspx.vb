@@ -539,7 +539,7 @@ Public Class ProductionSampleVerificationList
                     Hdr.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.DimGray)
 
                     .Column(1).Width = 15
-                    .Column(2).Width = 5
+                    .Column(2).Width = 10
                     .Column(3).Width = 5
                     .Column(4).Width = 35
 

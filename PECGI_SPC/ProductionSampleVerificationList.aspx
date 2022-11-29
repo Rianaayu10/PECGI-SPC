@@ -168,7 +168,7 @@
                     s.UnselectRowsByKey(previuosRowIndex);
                 } 
                 previuosRowIndex = s.GetRowKey(e.visibleIndex);
-                s.GetSelectedFieldValues("SPCResultID;FactoryCode;ItemTypeCode;LineCode;ItemCheckCode;ProdDate;Shift;SequenceNo;ShowVerify", GetSelectedFieldValuesCallback);
+                s.GetSelectedFieldValues("SPCResultID;FactoryCode;ItemTypeCode;LineCode;ItemCheckCode;ProdDate;ShiftCode;SequenceNo;ShowVerify", GetSelectedFieldValuesCallback);
             }
         }
 
@@ -468,8 +468,6 @@
                 </dx:GridViewDataTextColumn>
                 <dx:GridViewDataTextColumn FieldName="SPCResultID" Visible="false">
                 </dx:GridViewDataTextColumn>
-                 <dx:GridViewDataTextColumn FieldName="Shift" Visible="false">
-                </dx:GridViewDataTextColumn>
                 <dx:GridViewDataTextColumn FieldName="nMaxColor" Width="0" VisibleIndex="0">
                 </dx:GridViewDataTextColumn>
                 <dx:GridViewDataTextColumn FieldName="nMinColor" Width="0" VisibleIndex="0">
@@ -496,7 +494,7 @@
                     </CellStyle>
                 </dx:GridViewDataTextColumn>
 
-                <dx:GridViewDataTextColumn Caption="Shift" VisibleIndex="3" Width="35px"
+                <dx:GridViewDataTextColumn Caption="Shift" VisibleIndex="3" Width="50px"
                     FieldName="ShiftCode">
                     <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                     <CellStyle HorizontalAlign="center" VerticalAlign="Middle">
