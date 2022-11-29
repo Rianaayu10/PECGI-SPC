@@ -480,6 +480,19 @@
                             errmsg = 'Please select Item Check!';
 	                    }
 
+                        if(errmsg == '') {
+                            var d1 = dtDate.GetValue();
+                            var d2 = dtTo.GetValue();
+                            var m1 = d1.getMonth() + 1;
+                            var m2 = d2.getMonth() + 1;
+                            var y1 = d1.getFullYear();
+                            var y2 = d2.getFullYear();
+                            var m = (m2 + y2 * 12) - (m1 + y1 * 12);
+	    	                if (m &gt; 2) {
+			                    errmsg = 'Maximum search 3 months period!';
+		                    }
+                        }
+
                         if(errmsg != '') {
                             toastr.warning(errmsg, 'Warning');
                             toastr.options.closeButton = false;
@@ -724,8 +737,8 @@
                         <SeriesSerializable>
                             <cc1:Series ArgumentDataMember="Value" Name="Histogram" ShowInLegend="False">
                                 <ViewSerializable>
-                                    <cc1:SideBySideBarSeriesView BarWidth="1.06" Color="0, 0, 255">
-                                        <Border Color="12, 12, 12" Visibility="True" Thickness="1"/>
+                                    <cc1:SideBySideBarSeriesView BarWidth="1.07" Color="84, 141, 212">
+                                        <Border Color="63, 63, 63" Visibility="True" Thickness="1"/>
                                         <FillStyle FillMode="Solid">
                                         </FillStyle>
                                     </cc1:SideBySideBarSeriesView>
