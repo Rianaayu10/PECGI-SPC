@@ -724,8 +724,8 @@
                         <SeriesSerializable>
                             <cc1:Series ArgumentDataMember="Value" Name="Histogram" ShowInLegend="False">
                                 <ViewSerializable>
-                                    <cc1:SideBySideBarSeriesView BarWidth="1.05" Color="0, 0, 255">
-                                        <Border Color="0, 0, 0" Visibility="True" Thickness="1"/>
+                                    <cc1:SideBySideBarSeriesView BarWidth="1.06" Color="0, 0, 255">
+                                        <Border Color="12, 12, 12" Visibility="True" Thickness="1"/>
                                         <FillStyle FillMode="Solid">
                                         </FillStyle>
                                     </cc1:SideBySideBarSeriesView>
