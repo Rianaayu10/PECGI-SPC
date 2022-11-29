@@ -159,7 +159,7 @@
 
                 <dx:GridViewDataSpinEditColumn Caption="Sequence No" FieldName="No" VisibleIndex="1"
                     Width="75px" Settings-AutoFilterCondition="Contains">
-                    <PropertiesSpinEdit MaxValue="6" MinValue="1" Width="100%">
+                    <PropertiesSpinEdit MaxValue="7" MinValue="1" Width="100%">
                         <ButtonStyle Width="5px" 
                             Paddings-PaddingBottom="2px" Paddings-PaddingTop="2px" Paddings-PaddingLeft="4px" Paddings-PaddingRight="4px">
                         </ButtonStyle>
@@ -173,8 +173,9 @@
                     <PropertiesComboBox DropDownStyle="DropDownList" Width="100%" TextFormatString="{0}"
                         IncrementalFilteringMode="StartsWith" DisplayFormatInEditMode="true">
                         <Items>
-                            <dx:ListEditItem Text="1" Value="SH001" />
-                            <dx:ListEditItem Text="2" Value="SH002" />
+                            <dx:ListEditItem Text="SH001" Value="SH001" />
+                            <dx:ListEditItem Text="SH002" Value="SH002" />
+                            <dx:ListEditItem Text="SH003" Value="SH003" />
                         </Items>
                         <ItemStyle Height="10px" Paddings-Padding="4px">
                             <Paddings Padding="4px"></Paddings>
