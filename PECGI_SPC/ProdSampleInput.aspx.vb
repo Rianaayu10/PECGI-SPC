@@ -831,9 +831,16 @@ Public Class ProdSampleInput
             .Cells(iRow + 2, 1).Value = "Time"
 
             StartCol1 = 2
+            Dim MaxCol As Integer
             For iDay = 0 To dtDay.Rows.Count - 1
                 Dim SelDay As Date = dtDay.Rows(iDay)("ProdDate")
                 Dim dDay As String = Format(SelDay, "yyyy-MM-dd")
+                Dim Seq As Integer = dtDay.Rows(iDay)("SeqNo")
+
+                If SelDay = Hdr.ProdDate And Seq > Hdr.Seq Then
+                    Exit For
+                End If
+                MaxCol = iDay + 2
 
                 iCol = iDay + 2
                 .Cells(iRow, iCol).Value = Format(SelDay, "dd MMM yy")
@@ -866,7 +873,7 @@ Public Class ProdSampleInput
                     .Row(iRow).Height = 2
                 End If
                 Dim Seq As String = dt.Rows(j)(0)
-                For k = 1 To dt.Columns.Count - 1
+                For k = 1 To MaxCol
                     Dim IsNum As Boolean = Seq < 7 And Seq <> 2 And k > 1
                     If IsNum Then
                         .Cells(iRow, iCol).Value = ADbl(dt.Rows(j)(k))
@@ -928,7 +935,7 @@ Public Class ProdSampleInput
                 Next
                 iRow = iRow + 1
             Next
-            EndCol = dt.Columns.Count - 1
+            EndCol = MaxCol
             EndRow = iRow - 1
 
             ExcelHeader(pExl, StartRow, 1, StartRow + 2, EndCol)
