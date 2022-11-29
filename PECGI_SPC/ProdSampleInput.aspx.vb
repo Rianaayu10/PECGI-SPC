@@ -50,6 +50,14 @@ Public Class ProdSampleInput
         Public Property VerifiedOnly As String
     End Class
 
+    Dim dtXR As DataTable
+    Dim dtLSL As DataTable
+    Dim dtUSL As DataTable
+    Dim dtLCL As DataTable
+    Dim dtUCL As DataTable
+    Dim dtCP As DataTable
+    Dim dtRUCL As DataTable
+    Dim dtRLCL As DataTable
     Dim LastNG As Integer
 
     Private Sub GridXLoad(Hdr As clsHeader)
@@ -73,110 +81,181 @@ Public Class ProdSampleInput
             Col1.CellStyle.HorizontalAlign = HorizontalAlign.Center
             Band2.Columns.Add(Col1)
 
-            Dim SelDay As Object = clsSPCResultDB.GetPrevDate(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate)
+            Dim PrevDate As String = clsSPCResultDB.GetPrevDate(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate)
+            If PrevDate = "" Then
+                PrevDate = Hdr.ProdDate
+            End If
+            Dim ds As DataSet = clsSPCResultDetailDB.GetSampleByPeriod(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, PrevDate, Hdr.ProdDate, Hdr.VerifiedOnly, True)
+            Dim dtDay As DataTable = ds.Tables(0)
 
-            If Not IsDBNull(SelDay) Then
-                Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Format(SelDay, "yyyy-MM-dd"), 1, Hdr.VerifiedOnly)
-                If dt2.Rows.Count > 0 Then
-                    LastNG = dt2.Rows(0)("NG")
-                Else
-                    LastNG = 0
-                End If
+            Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, PrevDate, 1, Hdr.VerifiedOnly)
+            If dt2.Rows.Count > 0 Then
+                LastNG = dt2.Rows(0)("NG")
             Else
                 LastNG = 0
             End If
 
-            For iDay = 1 To 2
-                If Not IsDBNull(SelDay) Then
-                    Dim dDay As String = Format(CDate(SelDay), "yyyy-MM-dd")
-                    Dim BandDay As GridViewBandColumn
+            Dim PrevDay As String = ""
+            Dim PrevShift As String = ""
+            For iDay = 0 To dtDay.Rows.Count - 1
+                Dim SelDay As Date = dtDay.Rows(iDay)("ProdDate")
+                Dim dDay As String = Format(SelDay, "yyyy-MM-dd")
 
-                    Dim Shiftlist As List(Of clsShift)
-                    If SelDay = CDate(Hdr.ProdDate) Then
-                        Shiftlist = clsFrequencyDB.GetShift(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay, Hdr.ShiftCode)
-                    Else
-                        Shiftlist = clsFrequencyDB.GetShift(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay)
-                    End If
+                Dim BandDay As GridViewBandColumn
+                Dim BandShift As GridViewBandColumn
 
-                    If Shiftlist.Count > 0 Then
-                        BandDay = New GridViewBandColumn
-                        BandDay.Caption = Format(SelDay, "dd MMM yyyy")
-                        .Columns.Add(BandDay)
+                If dDay <> PrevDay Then
+                    BandDay = New GridViewBandColumn
+                    BandDay.Caption = Format(SelDay, "dd MMM yy")
+                    .Columns.Add(BandDay)
 
-                    End If
-
-                    For Each Shift In Shiftlist
-                        Dim BandShift As New GridViewBandColumn
-                        BandShift.Caption = "S-" & Shift.ShiftName
-                        BandDay.Columns.Add(BandShift)
-
-                        Dim SeqList As List(Of clsSequenceNo)
-                        If SelDay = CDate(Hdr.ProdDate) Then
-                            SeqList = clsFrequencyDB.GetSequence(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Shift.ShiftCode, dDay, Hdr.Seq)
-                        Else
-                            SeqList = clsFrequencyDB.GetSequence(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Shift.ShiftCode, dDay)
-                        End If
-                        Dim ColIndex As Integer = 1
-                        For Each Seq In SeqList
-                            Dim colTime As New GridViewDataTextColumn
-                            colTime.Caption = Seq.StartTime
-                            colTime.FieldName = iDay.ToString + "_" + Shift.ShiftName.ToString + "_" + Seq.SequenceNo.ToString
-                            colTime.Width = 90
-                            colTime.CellStyle.HorizontalAlign = HorizontalAlign.Center
-
-                            BandShift.Columns.Add(colTime)
-                            ColIndex = ColIndex + 1
-                        Next
-
-                        Dim colLCL As New GridViewDataTextColumn
-                        colLCL.Caption = "LCL"
-                        colLCL.FieldName = "CPLCL" & iDay.ToString
-                        colLCL.Visible = False
-                        BandShift.Columns.Add(colLCL)
-
-                        Dim colUCL As New GridViewDataTextColumn
-                        colUCL.Caption = "UCL"
-                        colUCL.FieldName = "CPUCL" & iDay.ToString
-                        colUCL.Visible = False
-                        BandShift.Columns.Add(colUCL)
-
-                        Dim colLSL As New GridViewDataTextColumn
-                        colLSL.Caption = "LSL"
-                        colLSL.FieldName = "SpecLSL" & iDay.ToString
-                        colLSL.Visible = False
-                        BandShift.Columns.Add(colLSL)
-
-                        Dim colUSL As New GridViewDataTextColumn
-                        colUSL.Caption = "USL"
-                        colUSL.FieldName = "SpecUSL" & iDay.ToString
-                        colUSL.Visible = False
-                        BandShift.Columns.Add(colUSL)
-
-                        Dim colRLCL As New GridViewDataTextColumn
-                        colRLCL.Caption = "RLCL"
-                        colRLCL.FieldName = "SpecRLCL" & iDay.ToString
-                        colRLCL.Visible = False
-                        BandShift.Columns.Add(colRLCL)
-
-                        Dim colRUCL As New GridViewDataTextColumn
-                        colRUCL.Caption = "RUCL"
-                        colRUCL.FieldName = "SpecRUCL" & iDay.ToString
-                        colRUCL.Visible = False
-                        BandShift.Columns.Add(colRUCL)
-
-                    Next
                 End If
-                SelDay = CDate(Hdr.ProdDate)
+
+                Dim SelShift As String = dtDay.Rows(iDay)("ShiftCode")
+                If SelShift <> PrevShift Or dDay <> PrevDay Then
+                    BandShift = New GridViewBandColumn
+                    BandShift.Caption = SelShift
+                    BandDay.Columns.Add(BandShift)
+                End If
+
+                Dim colTime As New GridViewDataTextColumn
+                colTime.Caption = dtDay.Rows(iDay)("RegisterDate")
+                colTime.FieldName = dtDay.Rows(iDay)("ColName")
+                colTime.Width = 60
+                colTime.CellStyle.HorizontalAlign = HorizontalAlign.Center
+                BandShift.Columns.Add(colTime)
+
+                PrevDay = dDay
+                PrevShift = SelShift
             Next
+            dtXR = ds.Tables(1)
+            gridX.DataSource = dtXR
+            gridX.DataBind()
+
             ChartType = clsXRChartDB.GetChartType(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode)
-            If ChartType = "0" Then
-                .JSProperties("cpShow") = "0"
-            Else
-                .JSProperties("cpShow") = "1"
+            If ds.Tables.Count > 2 Then
+                dtLSL = ds.Tables(2)
+                dtUSL = ds.Tables(3)
+                dtLCL = ds.Tables(4)
+                dtUCL = ds.Tables(5)
+                dtCP = ds.Tables(6)
+                dtRUCL = ds.Tables(7)
+                dtRLCL = ds.Tables(8)
             End If
-            Dim dt As DataTable = clsSPCResultDetailDB.GetTableXR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, Hdr.VerifiedOnly)
-            .DataSource = dt
-            .DataBind()
+
+            'Dim SelDay As Object = clsSPCResultDB.GetPrevDate(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate)
+
+            'If Not IsDBNull(SelDay) Then
+            '    Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Format(SelDay, "yyyy-MM-dd"), 1, Hdr.VerifiedOnly)
+            '    If dt2.Rows.Count > 0 Then
+            '        LastNG = dt2.Rows(0)("NG")
+            '    Else
+            '        LastNG = 0
+            '    End If
+            'Else
+            '    LastNG = 0
+            'End If
+
+            'For iDay = 1 To 2
+            '    If Not IsDBNull(SelDay) Then
+            '        Dim dDay As String = Format(CDate(SelDay), "yyyy-MM-dd")
+            '        Dim BandDay As GridViewBandColumn
+
+            '        Dim Shiftlist As List(Of clsShift)
+            '        If SelDay = CDate(Hdr.ProdDate) Then
+            '            Shiftlist = clsFrequencyDB.GetShift(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay, Hdr.ShiftCode)
+            '        Else
+            '            Shiftlist = clsFrequencyDB.GetShift(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay)
+            '        End If
+
+            '        If Shiftlist.Count > 0 Then
+            '            BandDay = New GridViewBandColumn
+            '            BandDay.Caption = Format(SelDay, "dd MMM yyyy")
+            '            .Columns.Add(BandDay)
+
+            '        End If
+
+            '        For Each Shift In Shiftlist
+            '            Dim BandShift As New GridViewBandColumn
+            '            BandShift.Caption = Shift.ShiftCode
+            '            BandDay.Columns.Add(BandShift)
+
+            '            Dim SeqList As List(Of clsSequenceNo)
+            '            If SelDay = CDate(Hdr.ProdDate) Then
+            '                SeqList = clsFrequencyDB.GetSequence(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Shift.ShiftCode, dDay, Hdr.Seq)
+            '            Else
+            '                SeqList = clsFrequencyDB.GetSequence(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Shift.ShiftCode, dDay)
+            '            End If
+            '            Dim ColIndex As Integer = 1
+            '            For Each Seq In SeqList
+            '                Dim colTime As New GridViewDataTextColumn
+            '                colTime.Caption = Seq.StartTime
+            '                colTime.FieldName = iDay.ToString + "_" + Shift.ShiftName.ToString + "_" + Seq.SequenceNo.ToString
+            '                colTime.Width = 90
+            '                colTime.CellStyle.HorizontalAlign = HorizontalAlign.Center
+
+            '                BandShift.Columns.Add(colTime)
+            '                ColIndex = ColIndex + 1
+            '            Next
+
+            '            Dim colLCL As New GridViewDataTextColumn
+            '            colLCL.Caption = "LCL"
+            '            colLCL.FieldName = "CPLCL" & iDay.ToString
+            '            colLCL.Visible = False
+            '            BandShift.Columns.Add(colLCL)
+
+            '            Dim colUCL As New GridViewDataTextColumn
+            '            colUCL.Caption = "UCL"
+            '            colUCL.FieldName = "CPUCL" & iDay.ToString
+            '            colUCL.Visible = False
+            '            BandShift.Columns.Add(colUCL)
+
+            '            Dim colLSL As New GridViewDataTextColumn
+            '            colLSL.Caption = "LSL"
+            '            colLSL.FieldName = "SpecLSL" & iDay.ToString
+            '            colLSL.Visible = False
+            '            BandShift.Columns.Add(colLSL)
+
+            '            Dim colUSL As New GridViewDataTextColumn
+            '            colUSL.Caption = "USL"
+            '            colUSL.FieldName = "SpecUSL" & iDay.ToString
+            '            colUSL.Visible = False
+            '            BandShift.Columns.Add(colUSL)
+
+            '            Dim colRLCL As New GridViewDataTextColumn
+            '            colRLCL.Caption = "RLCL"
+            '            colRLCL.FieldName = "SpecRLCL" & iDay.ToString
+            '            colRLCL.Visible = False
+            '            BandShift.Columns.Add(colRLCL)
+
+            '            Dim colRUCL As New GridViewDataTextColumn
+            '            colRUCL.Caption = "RUCL"
+            '            colRUCL.FieldName = "SpecRUCL" & iDay.ToString
+            '            colRUCL.Visible = False
+            '            BandShift.Columns.Add(colRUCL)
+
+            '        Next
+            '    End If
+            '    SelDay = CDate(Hdr.ProdDate)
+            'Next
+            'ChartType = clsXRChartDB.GetChartType(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode)
+            'If ChartType = "0" Then
+            '    .JSProperties("cpShow") = "0"
+            'Else
+            '    .JSProperties("cpShow") = "1"
+            'End If
+
+            'Dim dt As DataTable = ds.Tables(1)
+            'dtLSL = ds.Tables(2)
+            'dtUSL = ds.Tables(3)
+            'dtLCL = ds.Tables(4)
+            'dtUCL = ds.Tables(5)
+            'dtCP = ds.Tables(6)
+            'dtRUCL = ds.Tables(7)
+            'dtRLCL = ds.Tables(8)
+
+            '.DataSource = dt
+            '.DataBind()
         End With
     End Sub
 
@@ -563,7 +642,7 @@ Public Class ProdSampleInput
 
                 .Cells(4, 6, 4, 6).Value = "Shift"
                 .Cells(4, 6, 4, 7).Merge = True
-                .Cells(4, 8).Value = ": " & cls.Shiftname
+                .Cells(4, 8).Value = ": " & cls.ShiftCode
 
                 .Cells(5, 6, 5, 6).Value = "Sequence"
                 .Cells(5, 6, 5, 7).Merge = True
@@ -672,6 +751,7 @@ Public Class ProdSampleInput
                 Hdr.VerifiedOnly = cboShow.Value
 
                 GridTitle(ws, Hdr)
+                GridExcelInput(ws, Hdr)
                 GridExcel(ws, Hdr)
                 .InsertRow(LastRow, 22)
                 Dim fi As New FileInfo(Path & "\chart.png")
@@ -697,11 +777,167 @@ Public Class ProdSampleInput
     End Sub
 
     Private Sub GridExcel(pExl As ExcelWorksheet, Hdr As clsHeader)
+        Dim dt As DataTable
+        Dim iRow As Integer = LastRow
+        Dim iCol As Integer
+        Dim StartRow As Integer = iRow
+        Dim EndRow As Integer
+        Dim EndCol As Integer
+        Dim LCL As Double
+        Dim UCL As Double
+        Dim LSL As Double
+        Dim USL As Double
+        Dim RUCL As Double
+        Dim RLCL As Double
+        Dim LightYellow As Color = Color.FromArgb(255, 255, 153)
+        Dim PrevDate As String = ""
+        Dim PrevShift As String = ""
+        Dim ShiftCode As String
+        Dim StartCol1 As Integer, EndCol1 As Integer
+        Dim StartCol2 As Integer, EndCol2 As Integer
+        Dim cs As New clsSPCColor
+
+        With pExl
+            PrevDate = clsSPCResultDB.GetPrevDate(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate)
+            If PrevDate = "" Then
+                PrevDate = Hdr.ProdDate
+            End If
+            Dim ds As DataSet = clsSPCResultDetailDB.GetSampleByPeriod(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, PrevDate, Hdr.ProdDate, Hdr.VerifiedOnly)
+
+            Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, 1, Hdr.VerifiedOnly)
+            If dt2.Rows.Count > 0 Then
+                LastNG = dt2.Rows(0)("NG")
+            Else
+                LastNG = 0
+            End If
+
+            Dim dtDay As DataTable = ds.Tables(0)
+            dtLSL = ds.Tables(2)
+            dtUSL = ds.Tables(3)
+            dtLCL = ds.Tables(4)
+            dtUCL = ds.Tables(5)
+            dtCP = ds.Tables(6)
+            dtRUCL = ds.Tables(7)
+            dtRLCL = ds.Tables(8)
+
+            StartRow = iRow
+            .Cells(iRow, 1).Value = "Date"
+            .Cells(iRow + 1, 1).Value = "Shift"
+            .Cells(iRow + 2, 1).Value = "Time"
+
+            StartCol1 = 2
+            For iDay = 0 To dtDay.Rows.Count - 1
+                Dim SelDay As Date = dtDay.Rows(iDay)("ProdDate")
+                Dim dDay As String = Format(SelDay, "yyyy-MM-dd")
+
+                iCol = iDay + 2
+                .Cells(iRow, iCol).Value = Format(SelDay, "dd MMM yy")
+                ShiftCode = dtDay.Rows(iDay)("ShiftCode2")
+                .Cells(iRow + 1, iCol).Value = ShiftCode
+                .Cells(iRow + 2, iCol).Value = dtDay.Rows(iDay)("RegisterDate")
+
+                If PrevDate <> dDay Then
+                    StartCol1 = iCol
+                    StartCol2 = iCol
+                ElseIf PrevShift <> ShiftCode Then
+                    StartCol2 = iCol
+                End If
+                EndCol1 = iCol
+                EndCol2 = iCol
+                If EndCol1 > StartCol1 Then
+                    .Cells(iRow, StartCol1, iRow, EndCol1).Merge = True
+                End If
+                If EndCol2 > StartCol2 Then
+                    .Cells(iRow + 1, StartCol2, iRow + 1, EndCol2).Merge = True
+                End If
+                PrevDate = dDay
+                PrevShift = ShiftCode
+            Next
+            iRow = iRow + 3
+            dt = ds.Tables(1)
+            For j = 0 To dt.Rows.Count - 1
+                iCol = 1
+                If dt.Rows(j)(1) = "-" Or dt.Rows(j)(1) = "--" Then
+                    .Row(iRow).Height = 2
+                End If
+                Dim Seq As String = dt.Rows(j)(0)
+                For k = 1 To dt.Columns.Count - 1
+                    Dim IsNum As Boolean = Seq < 7 And Seq <> 2 And k > 1
+                    If IsNum Then
+                        .Cells(iRow, iCol).Value = ADbl(dt.Rows(j)(k))
+                    Else
+                        .Cells(iRow, iCol).Value = dt.Rows(j)(k)
+                    End If
+                    If k = 1 Then
+                        Select Case .Cells(iRow, 1).Value
+                            Case "1", "2", "3", "4", "5", "6"
+                                .Cells(iRow, 1).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                .Cells(iRow, 1).Style.Fill.BackgroundColor.SetColor(cs.Color(.Cells(iRow, 1).Value))
+                        End Select
+                    ElseIf k > 1 Then
+                        .Cells(iRow, iCol).Style.Numberformat.Format = "0.000"
+                        LSL = dtLSL.Rows(0)(iCol)
+                        USL = dtUSL.Rows(0)(iCol)
+                        LCL = dtLCL.Rows(0)(iCol)
+                        UCL = dtUCL.Rows(0)(iCol)
+                        RLCL = dtRLCL.Rows(0)(iCol)
+                        RUCL = dtRUCL.Rows(0)(iCol)
+                        If Not IsDBNull(dt.Rows(j)(k)) And IsNum Then
+                            Dim Value As Double = ADbl(dt.Rows(j)(k))
+                            Dim PrevValue As Double
+                            If k > 2 Then
+                                PrevValue = ADbl(dt.Rows(j)(k - 1))
+                            End If
+                            If dt.Rows(j)(0) = "6" AndAlso (Value < RLCL Or Value > RUCL) Then
+                                .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                If k > 2 AndAlso (PrevValue < RLCL Or PrevValue > RUCL) Then
+                                    .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                                ElseIf LastNG = 1 Then
+                                    .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                                Else
+                                    .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Yellow)
+                                End If
+                                LastNG = 0
+                            ElseIf (Value < LSL Or Value > USL) Then
+                                If dt.Rows(j)(0) = "1" Or dt.Rows(j)(0) = "3" Or dt.Rows(j)(0) = "4" Or dt.Rows(j)(0) = "5" Then
+                                    .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                    .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Red)
+                                End If
+                            ElseIf Value < LCL Or Value > UCL Then
+                                If dt.Rows(j)(0) = "1" Then
+                                    .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                    .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                                ElseIf dt.Rows(j)(0) = "3" Or dt.Rows(j)(0) = "4" Or dt.Rows(j)(0) = "5" Then
+                                    .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                                    If ChartType = "0" Then
+                                        .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                                    Else
+                                        .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(LightYellow)
+                                    End If
+                                End If
+                            End If
+
+                        End If
+                    End If
+                    iCol = iCol + 1
+                Next
+                iRow = iRow + 1
+            Next
+            EndCol = dt.Columns.Count - 1
+            EndRow = iRow - 1
+
+            ExcelHeader(pExl, StartRow, 1, StartRow + 2, EndCol)
+            ExcelBorder(pExl, StartRow, 1, EndRow, EndCol)
+            ExcelFont(pExl, StartRow, 1, EndRow, EndCol, 8)
+            LastRow = iRow + 1
+        End With
+    End Sub
+
+    Private Sub GridExcelInput(pExl As ExcelWorksheet, Hdr As clsHeader)
         Dim dt As DataTable = clsSPCResultDetailDB.GetTable(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, Hdr.ShiftCode, Hdr.Seq, Hdr.VerifiedOnly)
         Dim iRow As Integer = 8
         Dim StartRow As Integer = iRow
         Dim EndRow As Integer
-        Dim EndCol As Integer
         Dim MKUser As String = "", MKDate As String = ""
         Dim QCUser As String = "", QCDate As String = ""
         Dim USL As String = "", LSL As String = "", UCL As String = "", LCL As String = "", NG As String = "", C As String = "", RLCL As Double, RUCL As Double
@@ -943,134 +1179,134 @@ Public Class ProdSampleInput
             ExcelHeader(pExl, iRow, 9 + AddCol, iRow, 10 + AddCol)
             ExcelBorder(pExl, iRow, 1, iRow + 2, 10 + AddCol)
 
-            iRow = iRow + 4
+            LastRow = iRow + 4
 
-            Dim SelDay As Object = clsSPCResultDB.GetPrevDate(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate)
-            Dim dDay As String = Format(CDate(SelDay), "yyyy-MM-dd")
+            'Dim SelDay As Object = clsSPCResultDB.GetPrevDate(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate)
+            'Dim dDay As String = Format(CDate(SelDay), "yyyy-MM-dd")
 
-            dt2 = clsSPCResultDetailDB.GetLastR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay, 1, Hdr.VerifiedOnly)
-            If dt2.Rows.Count > 0 Then
-                LastNG = dt2.Rows(0)("NG")
-            Else
-                LastNG = 0
-            End If
+            'dt2 = clsSPCResultDetailDB.GetLastR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay, 1, Hdr.VerifiedOnly)
+            'If dt2.Rows.Count > 0 Then
+            '    LastNG = dt2.Rows(0)("NG")
+            'Else
+            '    LastNG = 0
+            'End If
 
-            .Cells(iRow, 1).Value = "Date"
-            .Cells(iRow + 1, 1).Value = "Shift"
-            .Cells(iRow + 2, 1).Value = "Time"
-            StartRow = iRow
-            Dim StartCol1 As Integer, EndCol1 As Integer
-            Dim StartCol2 As Integer, EndCol2 As Integer
-            Dim FieldNames As New List(Of String)
-            Dim iCol As Integer = 1
-            Dim AlreadyNG As Boolean = False
-            For iDay = 1 To 2
-                If Not IsDBNull(SelDay) Then
-                    iRow = StartRow
-                    iCol = iCol + 1
-                    dDay = Format(CDate(SelDay), "yyyy-MM-dd")
-                    .Cells(iRow, iCol).Value = Format(SelDay, "dd MMM yyyy")
-                    StartCol1 = iCol
-                    Dim Shiftlist As List(Of clsShift) = clsFrequencyDB.GetShift(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay)
-                    For Each Shift In Shiftlist
-                        .Cells(iRow + 1, iCol).Value = "S-" & Shift.ShiftName
-                        StartCol2 = iCol
-                        Dim SeqList As List(Of clsSequenceNo) = clsFrequencyDB.GetSequence(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Shift.ShiftCode, dDay)
-                        For Each Seq In SeqList
-                            .Cells(iRow + 2, iCol).Value = Seq.StartTime
-                            FieldNames.Add(iDay.ToString + "_" + Shift.ShiftName.ToString + "_" + Seq.SequenceNo.ToString)
-                            iCol = iCol + 1
-                        Next
-                        EndCol2 = iCol - 1
-                        If EndCol2 > StartCol2 Then
-                            .Cells(iRow + 1, StartCol2, iRow + 1, EndCol2).Merge = True
-                        End If
-                    Next
-                    EndCol1 = iCol - 1
-                    If EndCol1 > StartCol1 Then
-                        .Cells(iRow, StartCol1, iRow, EndCol1).Merge = True
-                    End If
-                End If
-                iCol = iCol - 1
-                SelDay = CDate(Hdr.ProdDate)
-            Next
+            '.Cells(iRow, 1).Value = "Date"
+            '.Cells(iRow + 1, 1).Value = "Shift"
+            '.Cells(iRow + 2, 1).Value = "Time"
+            'StartRow = iRow
+            'Dim StartCol1 As Integer, EndCol1 As Integer
+            'Dim StartCol2 As Integer, EndCol2 As Integer
+            'Dim FieldNames As New List(Of String)
+            'Dim iCol As Integer = 1
+            'Dim AlreadyNG As Boolean = False
+            'For iDay = 1 To 2
+            '    If Not IsDBNull(SelDay) Then
+            '        iRow = StartRow
+            '        iCol = iCol + 1
+            '        dDay = Format(CDate(SelDay), "yyyy-MM-dd")
+            '        .Cells(iRow, iCol).Value = Format(SelDay, "dd MMM yyyy")
+            '        StartCol1 = iCol
+            '        Dim Shiftlist As List(Of clsShift) = clsFrequencyDB.GetShift(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay)
+            '        For Each Shift In Shiftlist
+            '            .Cells(iRow + 1, iCol).Value = Shift.ShiftCode
+            '            StartCol2 = iCol
+            '            Dim SeqList As List(Of clsSequenceNo) = clsFrequencyDB.GetSequence(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Shift.ShiftCode, dDay)
+            '            For Each Seq In SeqList
+            '                .Cells(iRow + 2, iCol).Value = Seq.StartTime
+            '                FieldNames.Add(iDay.ToString + "_" + Shift.ShiftName.ToString + "_" + Seq.SequenceNo.ToString)
+            '                iCol = iCol + 1
+            '            Next
+            '            EndCol2 = iCol - 1
+            '            If EndCol2 > StartCol2 Then
+            '                .Cells(iRow + 1, StartCol2, iRow + 1, EndCol2).Merge = True
+            '            End If
+            '        Next
+            '        EndCol1 = iCol - 1
+            '        If EndCol1 > StartCol1 Then
+            '            .Cells(iRow, StartCol1, iRow, EndCol1).Merge = True
+            '        End If
+            '    End If
+            '    iCol = iCol - 1
+            '    SelDay = CDate(Hdr.ProdDate)
+            'Next
 
-            iRow = StartRow + 3
-            dt = clsSPCResultDetailDB.GetTableXR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, Hdr.VerifiedOnly)
-            For j = 0 To dt.Rows.Count - 1
-                iCol = 1
-                EndCol = FieldNames.Count + 1
-                If dt.Rows(j)(1) = "-" Or dt.Rows(j)(1) = "--" Then
-                    .Row(iRow).Height = 2
-                Else
-                    .Cells(iRow, iCol).Value = dt.Rows(j)(1)
-                    Select Case .Cells(iRow, 1).Value
-                        Case "1", "2", "3", "4", "5", "6"
-                            .Cells(iRow, 1).Style.Fill.PatternType = ExcelFillStyle.Solid
-                            .Cells(iRow, 1).Style.Fill.BackgroundColor.SetColor(cs.Color(.Cells(iRow, 1).Value))
-                    End Select
+            'iRow = StartRow + 3
+            'dt = clsSPCResultDetailDB.GetTableXR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, Hdr.VerifiedOnly)
+            'For j = 0 To dt.Rows.Count - 1
+            '    iCol = 1
+            '    EndCol = FieldNames.Count + 1
+            '    If dt.Rows(j)(1) = "-" Or dt.Rows(j)(1) = "--" Then
+            '        .Row(iRow).Height = 2
+            '    Else
+            '        .Cells(iRow, iCol).Value = dt.Rows(j)(1)
+            '        Select Case .Cells(iRow, 1).Value
+            '            Case "1", "2", "3", "4", "5", "6"
+            '                .Cells(iRow, 1).Style.Fill.PatternType = ExcelFillStyle.Solid
+            '                .Cells(iRow, 1).Style.Fill.BackgroundColor.SetColor(cs.Color(.Cells(iRow, 1).Value))
+            '        End Select
 
-                    For Each Fn In FieldNames
-                        iCol = iCol + 1
-                        Dim objValue As Object = dt.Rows(j)(Fn)
-                        Dim Value As Double
-                        If iCol > 1 And objValue & "" <> "" Then
-                            Select Case .Cells(iRow, 1).Value
-                                Case "1", "2", "3", "4", "5", "6", "Min", "Max", "Avg", "R"
-                                    Value = ADbl(objValue)
-                                    .Cells(iRow, iCol).Value = Value
-                                    .Cells(iRow, iCol).Style.Numberformat.Format = "0.000"
-                                Case Else
-                                    .Cells(iRow, iCol).Value = objValue & ""
-                            End Select
-                            Select Case .Cells(iRow, 1).Value
-                                Case "1", "2", "3", "4", "5", "6"
-                                    Value = ADbl(objValue)
-                                    If Value < ADbl(LSL) Or Value > ADbl(USL) Then
-                                        .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
-                                        .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Red)
-                                    ElseIf Value < ADbl(LCL) Or Value > ADbl(UCL) Then
-                                        .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
-                                        .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
-                                    End If
-                                Case "Min", "Max", "Avg"
-                                    Value = ADbl(objValue)
-                                    If Value < ADbl(LSL) Or Value > ADbl(USL) Then
-                                        .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
-                                        .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Red)
-                                    ElseIf Value < ADbl(LCL) Or Value > ADbl(UCL) Then
-                                        .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
-                                        .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(LightYellow)
-                                    End If
-                                Case "R"
-                                    Value = ADbl(objValue)
-                                    If Value < ADbl(RLCL) Or Value > ADbl(RUCL) And ChartType <> "0" Then
-                                        .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
-                                        Dim rgb As String = .Cells(iRow, iCol - 1).Style.Fill.BackgroundColor.Rgb
-                                        If rgb = "FFFFFF00" Or rgb = "FFFFC0CB" Then
-                                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
-                                        ElseIf LastNG = 1 Then
-                                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
-                                            AlreadyNG = True
-                                        ElseIf AlreadyNG = False Then
-                                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Yellow)
-                                        End If
-                                    End If
-                                    LastNG = 0
-                            End Select
-                        Else
-                            .Cells(iRow, iCol).Value = dt.Rows(j)(Fn)
-                        End If
-                    Next
-                End If
-                iRow = iRow + 1
-            Next
+            '        For Each Fn In FieldNames
+            '            iCol = iCol + 1
+            '            Dim objValue As Object = dt.Rows(j)(Fn)
+            '            Dim Value As Double
+            '            If iCol > 1 And objValue & "" <> "" Then
+            '                Select Case .Cells(iRow, 1).Value
+            '                    Case "1", "2", "3", "4", "5", "6", "Min", "Max", "Avg", "R"
+            '                        Value = ADbl(objValue)
+            '                        .Cells(iRow, iCol).Value = Value
+            '                        .Cells(iRow, iCol).Style.Numberformat.Format = "0.000"
+            '                    Case Else
+            '                        .Cells(iRow, iCol).Value = objValue & ""
+            '                End Select
+            '                Select Case .Cells(iRow, 1).Value
+            '                    Case "1", "2", "3", "4", "5", "6"
+            '                        Value = ADbl(objValue)
+            '                        If Value < ADbl(LSL) Or Value > ADbl(USL) Then
+            '                            .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+            '                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Red)
+            '                        ElseIf Value < ADbl(LCL) Or Value > ADbl(UCL) Then
+            '                            .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+            '                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+            '                        End If
+            '                    Case "Min", "Max", "Avg"
+            '                        Value = ADbl(objValue)
+            '                        If Value < ADbl(LSL) Or Value > ADbl(USL) Then
+            '                            .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+            '                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Red)
+            '                        ElseIf Value < ADbl(LCL) Or Value > ADbl(UCL) Then
+            '                            .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+            '                            .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(LightYellow)
+            '                        End If
+            '                    Case "R"
+            '                        Value = ADbl(objValue)
+            '                        If Value < ADbl(RLCL) Or Value > ADbl(RUCL) And ChartType <> "0" Then
+            '                            .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+            '                            Dim rgb As String = .Cells(iRow, iCol - 1).Style.Fill.BackgroundColor.Rgb
+            '                            If rgb = "FFFFFF00" Or rgb = "FFFFC0CB" Then
+            '                                .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+            '                            ElseIf LastNG = 1 Then
+            '                                .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+            '                                AlreadyNG = True
+            '                            ElseIf AlreadyNG = False Then
+            '                                .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Yellow)
+            '                            End If
+            '                        End If
+            '                        LastNG = 0
+            '                End Select
+            '            Else
+            '                .Cells(iRow, iCol).Value = dt.Rows(j)(Fn)
+            '            End If
+            '        Next
+            '    End If
+            '    iRow = iRow + 1
+            'Next
 
-            ExcelHeader(pExl, StartRow, 1, StartRow + 2, EndCol)
-            ExcelBorder(pExl, StartRow, 1, iRow - 1, EndCol)
-            ExcelFont(pExl, StartRow, 1, iRow - 1, EndCol, 8)
+            'ExcelHeader(pExl, StartRow, 1, StartRow + 2, EndCol)
+            'ExcelBorder(pExl, StartRow, 1, iRow - 1, EndCol)
+            'ExcelFont(pExl, StartRow, 1, iRow - 1, EndCol, 8)
 
-            LastRow = iRow + 1
+            'LastRow = iRow + 1
         End With
     End Sub
 
@@ -1394,66 +1630,45 @@ Public Class ProdSampleInput
         Dim USL As Double
         Dim RUCL As Double
         Dim RLCL As Double
-        Dim SetupFound As Boolean = False
         Dim LightYellow As Color = Color.FromArgb(255, 255, 153)
 
-        If Not IsDBNull(e.CellValue) AndAlso (e.DataColumn.FieldName.StartsWith("1") Or e.DataColumn.FieldName.StartsWith("2")) _
-        And (e.GetValue("Seq") = "1" Or e.GetValue("Seq") = "3" Or e.GetValue("Seq") = "4" Or e.GetValue("Seq") = "5" Or e.GetValue("Seq") = "6") Then
-            If (e.DataColumn.FieldName.StartsWith("1")) Then
-                If Not IsDBNull(e.GetValue("CPLCL1")) Then
-                    SetupFound = True
-                    LCL = e.GetValue("CPLCL1")
-                    UCL = e.GetValue("CPUCL1")
-                    LSL = e.GetValue("SpecLSL1")
-                    USL = e.GetValue("SpecUSL1")
-                    RLCL = e.GetValue("RLCL1")
-                    RUCL = e.GetValue("RUCL1")
-                End If
-            ElseIf (e.DataColumn.FieldName.StartsWith("2")) Then
-                If Not IsDBNull(e.GetValue("CPLCL2")) Then
-                    SetupFound = True
-                    LCL = e.GetValue("CPLCL2")
-                    UCL = e.GetValue("CPUCL2")
-                    LSL = e.GetValue("SpecLSL2")
-                    USL = e.GetValue("SpecUSL2")
-                    RLCL = e.GetValue("RLCL2")
-                    RUCL = e.GetValue("RUCL2")
-                End If
-            End If
-            If SetupFound Then
-                Dim Value As Double = clsSPCResultDB.ADecimal(e.CellValue)
-                If e.GetValue("Seq") = "6" Then
-                    If ChartType <> "0" Then
-                        If Value < RLCL Or Value > RUCL Then
-                            If PrevYellow = 1 Then
-                                e.Cell.BackColor = Color.Pink
-                            Else
-                                If LastNG > 0 Then
-                                    e.Cell.BackColor = Color.Pink
-                                Else
-                                    e.Cell.BackColor = Color.Yellow
-                                End If
-                                PrevYellow = 1
-                            End If
-                        Else
-                            PrevYellow = 0
-                        End If
-                    End If
-                    LastNG = 0
+        Dim ColName As String = e.DataColumn.FieldName
+        If Not IsDBNull(e.CellValue) AndAlso ColName <> "Seq" AndAlso ColName <> "Des" AndAlso (e.GetValue("Seq") = "1" Or e.GetValue("Seq") = "3" Or e.GetValue("Seq") = "4" Or e.GetValue("Seq") = "5") Then
+            LSL = dtLSL.Rows(0)(ColName)
+            USL = dtUSL.Rows(0)(ColName)
+            LCL = dtLCL.Rows(0)(ColName)
+            UCL = dtUCL.Rows(0)(ColName)
+            Dim Value As Double = clsSPCResultDB.ADecimal(e.CellValue)
+            If Value < LSL Or Value > USL Then
+                e.Cell.BackColor = Color.Red
+            ElseIf Value < LCL Or Value > UCL Then
+                If e.GetValue("Seq") = "1" Or ChartType = "0" Then
+                    e.Cell.BackColor = Color.Pink
                 Else
-                    If Value < LSL Or Value > USL Then
-                        e.Cell.BackColor = Color.Red
-                    ElseIf Value < LCL Or Value > UCL Then
-                        If e.GetValue("Seq") = "1" Or ChartType = "0" Then
-                            e.Cell.BackColor = Color.Pink
-                        Else
-                            e.Cell.BackColor = LightYellow
-                        End If
-                    End If
+                    e.Cell.BackColor = LightYellow
                 End If
             End If
         End If
-
+        If Not IsDBNull(e.CellValue) AndAlso ColName <> "Seq" And ColName <> "Des" And e.GetValue("Seq") = "6" And ChartType <> "0" Then
+            RUCL = dtRUCL.Rows(0)(ColName)
+            RLCL = dtRLCL.Rows(0)(ColName)
+            Dim Value As Double = clsSPCResultDB.ADecimal(e.CellValue)
+            If Value < RLCL Or Value > RUCL Then
+                If PrevYellow = 1 Then
+                    e.Cell.BackColor = Color.Pink
+                Else
+                    If LastNG = 1 Then
+                        e.Cell.BackColor = Color.Pink
+                    Else
+                        e.Cell.BackColor = Color.Yellow
+                    End If
+                    PrevYellow = 1
+                End If
+            Else
+                PrevYellow = 0
+            End If
+            LastNG = 0
+        End If
         Dim cs As New clsSPCColor
         If e.DataColumn.FieldName = "Des" Then
             If e.CellValue = "1" Then
@@ -1468,9 +1683,83 @@ Public Class ProdSampleInput
                 e.Cell.BackColor = cs.Color5
             End If
         End If
+
         If e.KeyValue = "-" Or e.KeyValue = "--" Then
             e.Cell.Text = ""
         End If
+
+        Return
+
+        'If Not IsDBNull(e.CellValue) AndAlso (e.DataColumn.FieldName.StartsWith("1") Or e.DataColumn.FieldName.StartsWith("2")) _
+        'And (e.GetValue("Seq") = "1" Or e.GetValue("Seq") = "3" Or e.GetValue("Seq") = "4" Or e.GetValue("Seq") = "5" Or e.GetValue("Seq") = "6") Then
+        '    If (e.DataColumn.FieldName.StartsWith("1")) Then
+        '        If Not IsDBNull(e.GetValue("CPLCL1")) Then
+        '            SetupFound = True
+        '            LCL = e.GetValue("CPLCL1")
+        '            UCL = e.GetValue("CPUCL1")
+        '            LSL = e.GetValue("SpecLSL1")
+        '            USL = e.GetValue("SpecUSL1")
+        '            RLCL = e.GetValue("RLCL1")
+        '            RUCL = e.GetValue("RUCL1")
+        '        End If
+        '    ElseIf (e.DataColumn.FieldName.StartsWith("2")) Then
+        '        If Not IsDBNull(e.GetValue("CPLCL2")) Then
+        '            SetupFound = True
+        '            LCL = e.GetValue("CPLCL2")
+        '            UCL = e.GetValue("CPUCL2")
+        '            LSL = e.GetValue("SpecLSL2")
+        '            USL = e.GetValue("SpecUSL2")
+        '            RLCL = e.GetValue("RLCL2")
+        '            RUCL = e.GetValue("RUCL2")
+        '        End If
+        '    End If
+        '    If SetupFound Then
+        '        Dim Value As Double = clsSPCResultDB.ADecimal(e.CellValue)
+        '        If e.GetValue("Seq") = "6" Then
+        '            If ChartType <> "0" Then
+        '                If Value < RLCL Or Value > RUCL Then
+        '                    If PrevYellow = 1 Then
+        '                        e.Cell.BackColor = Color.Pink
+        '                    Else
+        '                        If LastNG > 0 Then
+        '                            e.Cell.BackColor = Color.Pink
+        '                        Else
+        '                            e.Cell.BackColor = Color.Yellow
+        '                        End If
+        '                        PrevYellow = 1
+        '                    End If
+        '                Else
+        '                    PrevYellow = 0
+        '                End If
+        '            End If
+        '            LastNG = 0
+        '        Else
+        '            If Value < LSL Or Value > USL Then
+        '                e.Cell.BackColor = Color.Red
+        '            ElseIf Value < LCL Or Value > UCL Then
+        '                If e.GetValue("Seq") = "1" Or ChartType = "0" Then
+        '                    e.Cell.BackColor = Color.Pink
+        '                Else
+        '                    e.Cell.BackColor = LightYellow
+        '                End If
+        '            End If
+        '        End If
+        '    End If
+        'End If
+
+        'If e.DataColumn.FieldName = "Des" Then
+        '    If e.CellValue = "1" Then
+        '        e.Cell.BackColor = cs.Color1
+        '    ElseIf e.CellValue = "2" Then
+        '        e.Cell.BackColor = cs.Color2
+        '    ElseIf e.CellValue = "3" Then
+        '        e.Cell.BackColor = cs.Color3
+        '    ElseIf e.CellValue = "4" Then
+        '        e.Cell.BackColor = cs.Color4
+        '    ElseIf e.CellValue = "5" Then
+        '        e.Cell.BackColor = cs.Color5
+        '    End If
+        'End If
     End Sub
 
     Private Sub chartR_CustomCallback(sender As Object, e As CustomCallbackEventArgs) Handles chartR.CustomCallback

@@ -534,7 +534,7 @@
             <td style="width:100px; padding:3px 0px 0px 0px">
                 
                 <dx:ASPxComboBox ID="cboShift" runat="server" Theme="Office2010Black" 
-                    ClientInstanceName="cboShift" ValueField="ShiftCode" TextField="ShiftName" Font-Names="Segoe UI" 
+                    ClientInstanceName="cboShift" ValueField="ShiftCode" TextField="ShiftCode" Font-Names="Segoe UI" 
                     Font-Size="9pt" Height="25px" 
                     Width="100px" TabIndex="3">
                     <ClientSideEvents SelectedIndexChanged="cboShiftChanged" 

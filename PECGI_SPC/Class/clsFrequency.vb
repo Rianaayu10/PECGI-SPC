@@ -20,12 +20,12 @@ Public Class clsFrequencyDB
             Cn.Open()
             Dim q As String
             If ProdDate = "" Then
-                q = "select distinct F.ShiftCode, case when F.ShiftCode = 'SH001' then '1' else '2' end ShiftName " & vbCrLf &
+                q = "select distinct F.ShiftCode, right(F.ShiftCode, 1) ShiftName " & vbCrLf &
                     "From spc_ItemCheckByType T inner Join spc_MS_Frequency F on T.FrequencyCode = F.FrequencyCode " & vbCrLf &
                     "where FactoryCode = @FactoryCode and ItemTypeCode = @ItemTypeCode and LineCode = @LineCode and ItemCheckCode = @ItemCheckCode  " & vbCrLf &
                     "and T.ActiveStatus = 1 and F.ActiveStatus = 1  " & vbCrLf
             Else
-                q = "select distinct F.ShiftCode, case when F.ShiftCode = 'SH001' then '1' else '2' end ShiftName " & vbCrLf &
+                q = "select distinct F.ShiftCode, right(F.ShiftCode, 1) ShiftName " & vbCrLf &
                     "From spc_ItemCheckByType T inner Join spc_MS_Frequency F on T.FrequencyCode = F.FrequencyCode " & vbCrLf &
                     "inner join spc_Result R on R.FactoryCode = T.FactoryCode and R.ItemTypeCode = T.ItemTypeCode and R.LineCode = T.LineCode and R.ItemCheckCode = T.ItemCheckCode and F.ShiftCode = R.ShiftCode and R.ProdDate = @ProdDate " & vbCrLf &
                     "inner join vw_spcResultDetailOK D on R.SPCResultID = D.SPCResultID " & vbCrLf &

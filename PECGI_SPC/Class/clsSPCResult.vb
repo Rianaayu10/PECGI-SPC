@@ -86,7 +86,7 @@ Public Class clsSPCResultDB
         End Using
     End Function
 
-    Public Shared Function GetPrevDate(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, ProdDate As String) As Object
+    Public Shared Function GetPrevDate(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, ProdDate As String) As String
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String = "sp_SPCResult_GetPrevDate"

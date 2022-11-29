@@ -107,7 +107,7 @@ Public Class clsSPCResultDetailDB
         End Using
     End Function
 
-    Public Shared Function GetSampleByPeriod(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, VerifiedOnly As Integer) As DataSet
+    Public Shared Function GetSampleByPeriod(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, VerifiedOnly As Integer, Optional ShowVerifier As Boolean = False) As DataSet
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String = "sp_SPC_SampleControl"
@@ -117,9 +117,14 @@ Public Class clsSPCResultDetailDB
             cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
             cmd.Parameters.AddWithValue("Line", Line)
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
-            cmd.Parameters.AddWithValue("ProdDate", ProdDate)
+            If ProdDate <> "" Then
+                cmd.Parameters.AddWithValue("ProdDate", ProdDate)
+            End If
             cmd.Parameters.AddWithValue("ProdDate2", ProdDate2)
             cmd.Parameters.AddWithValue("VerifiedOnly", VerifiedOnly)
+            If ShowVerifier Then
+                cmd.Parameters.AddWithValue("ShowVerifier", 1)
+            End If
             Dim da As New SqlDataAdapter(cmd)
             Dim ds As New DataSet
             da.Fill(ds)
