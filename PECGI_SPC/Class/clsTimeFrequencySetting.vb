@@ -13,13 +13,14 @@ Public Class clsTimeFrequencySetting
 End Class
 
 Public Class clsTimeFrequencySettingDB
-    Public Shared Function FillCombo() As DataTable
+    Public Shared Function FillCombo(Type As String) As DataTable
         Using cn As New SqlConnection(Sconn.Stringkoneksi)
             cn.Open()
             Dim sql As String
             sql = "sp_SPC_MS_FrequencySetting_FillCombo"
             Dim cmd As New SqlCommand(sql, cn)
             cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.AddWithValue("Type", Type)
             Dim da As New SqlDataAdapter(cmd)
             Dim dt As New DataTable
             da.Fill(dt)

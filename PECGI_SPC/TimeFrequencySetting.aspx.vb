@@ -272,7 +272,7 @@ Public Class TimeFrequencySetting
     Private Sub up_Fillcombo()
         Dim a As String = ""
         Try
-            dt = clsTimeFrequencySettingDB.FillCombo()
+            dt = clsTimeFrequencySettingDB.FillCombo(0)
 
             With cboFreq
                 .DataSource = dt

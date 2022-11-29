@@ -139,7 +139,11 @@
     <div style="padding: 20px 0px 0px 0px">
         <asp:SqlDataSource ID="dsMS_Frequency" runat="server"
             ConnectionString="<%$ ConnectionStrings:ApplicationServices %>"
-            SelectCommand="Exec sp_SPC_MS_FrequencySetting_FillCombo"></asp:SqlDataSource>
+            SelectCommand="Exec sp_SPC_MS_FrequencySetting_FillCombo '0'"></asp:SqlDataSource>
+
+        <asp:SqlDataSource ID="dsMs_Shift" runat="server"
+            ConnectionString="<%$ ConnectionStrings:ApplicationServices %>"
+            SelectCommand="Exec sp_SPC_MS_FrequencySetting_FillCombo '1'"></asp:SqlDataSource>
 
         <dx:ASPxGridView ID="Grid" runat="server" AutoGenerateColumns="False" ClientInstanceName="Grid"
             EnableTheming="True" KeyFieldName="No;Frequency" Theme="Office2010Black" Width="100%"
@@ -170,13 +174,9 @@
 
                 <dx:GridViewDataComboBoxColumn Caption="Shift" FieldName="Shift" VisibleIndex="2"
                     Width="100px" Settings-AutoFilterCondition="Contains">
-                    <PropertiesComboBox DropDownStyle="DropDownList" Width="100%" TextFormatString="{0}"
-                        IncrementalFilteringMode="StartsWith" DisplayFormatInEditMode="true">
-                        <Items>
-                            <dx:ListEditItem Text="SH001" Value="SH001" />
-                            <dx:ListEditItem Text="SH002" Value="SH002" />
-                            <dx:ListEditItem Text="SH003" Value="SH003" />
-                        </Items>
+                    <PropertiesComboBox DataSourceID="dsMs_Shift" DropDownStyle="DropDownList" TextFormatString="{0}"
+                        IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="100%"
+                        TextField="Description" ValueField="Code" ClientInstanceName="FrequencyCode">
                         <ItemStyle Height="10px" Paddings-Padding="4px">
                             <Paddings Padding="4px"></Paddings>
                         </ItemStyle>
@@ -185,10 +185,13 @@
                         </ButtonStyle>
                     </PropertiesComboBox>
                     <Settings AutoFilterCondition="Contains"></Settings>
-                    <HeaderStyle Paddings-PaddingLeft="2px" HorizontalAlign="Center" VerticalAlign="Middle" Wrap="True">
-                        <Paddings PaddingLeft="2px"></Paddings>
+                    <FilterCellStyle Paddings-PaddingRight="4px">
+                        <Paddings PaddingRight="4px"></Paddings>
+                    </FilterCellStyle>
+                    <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                        <Paddings PaddingLeft="5px"></Paddings>
                     </HeaderStyle>
-                    <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
+                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
                 </dx:GridViewDataComboBoxColumn>
 
                 <dx:GridViewDataTimeEditColumn Caption="Start" FieldName="Start" VisibleIndex="3"

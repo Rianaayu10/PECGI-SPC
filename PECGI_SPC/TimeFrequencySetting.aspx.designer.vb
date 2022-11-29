@@ -59,6 +59,15 @@ Partial Public Class TimeFrequencySetting
     Protected WithEvents dsMS_Frequency As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
+    '''dsMs_Shift control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dsMs_Shift As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
     '''Grid control.
     '''</summary>
     '''<remarks>
