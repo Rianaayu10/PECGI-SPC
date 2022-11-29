@@ -228,7 +228,7 @@ Public Class SampleControlQuality
 
                 iCol = iDay + 2
                 .Cells(iRow, iCol).Value = Format(SelDay, "dd MMM yy")
-                ShiftCode = "S-" & dtDay.Rows(iDay)("ShiftCode")
+                ShiftCode = dtDay.Rows(iDay)("ShiftCode2")
                 .Cells(iRow + 1, iCol).Value = ShiftCode
                 .Cells(iRow + 2, iCol).Value = dtDay.Rows(iDay)("RegisterDate")
 
@@ -276,7 +276,7 @@ Public Class SampleControlQuality
                         RLCL = dtRLCL.Rows(0)(iCol)
                         RUCL = dtRUCL.Rows(0)(iCol)
                         If Not IsDBNull(dt.Rows(j)(k)) Then
-                            If dt.Rows(j)(0) = "6" AndAlso (dt.Rows(j)(k) < RLCL Or dt.Rows(j)(k) > RUCL) Then
+                            If ChartType <> "0" AndAlso dt.Rows(j)(0) = "6" AndAlso (dt.Rows(j)(k) < RLCL Or dt.Rows(j)(k) > RUCL) Then
                                 .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
                                 If k > 2 AndAlso (dt.Rows(j)(k - 1) < RLCL Or dt.Rows(j)(k - 1) > RUCL) Then
                                     .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
@@ -489,10 +489,10 @@ Public Class SampleControlQuality
 
                 End If
 
-                Dim SelShift As String = dtDay.Rows(iDay)("ShiftCode")
+                Dim SelShift As String = dtDay.Rows(iDay)("ShiftCode2")
                 If SelShift <> PrevShift Or dDay <> PrevDay Then
                     BandShift = New GridViewBandColumn
-                    BandShift.Caption = "S-" & SelShift
+                    BandShift.Caption = SelShift
                     BandDay.Columns.Add(BandShift)
                 End If
 
@@ -1010,4 +1010,5 @@ Public Class SampleControlQuality
         Dim VerifiedOnly As String = Split(Prm, "|")(6)
         LoadHistogram(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, ProdDate2, VerifiedOnly)
     End Sub
+
 End Class
