@@ -507,7 +507,7 @@
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
                 </dx:GridViewDataTextColumn>
 
-                <dx:GridViewDataComboBoxColumn Caption="Special Characteristic" FieldName="CharacteristicStatus" VisibleIndex="9"
+                <dx:GridViewDataComboBoxColumn Caption="Special Characteristics" FieldName="CharacteristicStatus" VisibleIndex="9"
                     Width="200px" Settings-AutoFilterCondition="Contains">
                     <PropertiesComboBox DataSourceID="dsCharStatus" DropDownStyle="DropDownList" TextFormatString="{0}"
                         IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="195px"
