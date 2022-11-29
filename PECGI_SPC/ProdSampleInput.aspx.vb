@@ -111,8 +111,10 @@ Public Class ProdSampleInput
 
                 End If
 
-                Dim SelShift As String = dtDay.Rows(iDay)("ShiftCode")
-                If SelShift <> PrevShift Or dDay <> PrevDay Then
+                Dim SelShift As String = dtDay.Rows(iDay)("ShiftCode2")
+                If SelDay = Hdr.ProdDate And SelShift > Hdr.ShiftCode Then
+                    Exit For
+                ElseIf SelShift <> PrevShift Or dDay <> PrevDay Then
                     BandShift = New GridViewBandColumn
                     BandShift.Caption = SelShift
                     BandDay.Columns.Add(BandShift)
@@ -460,7 +462,9 @@ Public Class ProdSampleInput
                 grid.JSProperties("cpMax") = AFormat(.Item("MaxValue"))
                 grid.JSProperties("cpAve") = AFormat(.Item("AvgValue"))
                 grid.JSProperties("cpR") = AFormat(.Item("RValue"))
-                If LastNG = 1 And .Item("RValue") & "" <> "" And .Item("RValueNG") = "1" Then
+                If ChartType = "0" Then
+                    grid.JSProperties("cpRNG") = ""
+                ElseIf LastNG = 1 And .Item("RValue") & "" <> "" And .Item("RValueNG") = "1" Then
                     grid.JSProperties("cpRNG") = "2"
                 Else
                     grid.JSProperties("cpRNG") = .Item("RValueNG")
@@ -888,7 +892,7 @@ Public Class ProdSampleInput
                             If k > 2 Then
                                 PrevValue = ADbl(dt.Rows(j)(k - 1))
                             End If
-                            If dt.Rows(j)(0) = "6" AndAlso (Value < RLCL Or Value > RUCL) Then
+                            If ChartType <> "0" AndAlso dt.Rows(j)(0) = "6" AndAlso (Value < RLCL Or Value > RUCL) Then
                                 .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
                                 If k > 2 AndAlso (PrevValue < RLCL Or PrevValue > RUCL) Then
                                     .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
