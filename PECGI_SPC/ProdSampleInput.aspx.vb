@@ -899,6 +899,8 @@ Public Class ProdSampleInput
                             Dim PrevValue As Double
                             If k > 2 Then
                                 PrevValue = ADbl(dt.Rows(j)(k - 1))
+                            Else
+                                PrevValue = ADbl(dt.Rows(j)(k))
                             End If
                             If ChartType <> "0" AndAlso dt.Rows(j)(0) = "6" AndAlso (Value < RLCL Or Value > RUCL) Then
                                 .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
@@ -928,7 +930,7 @@ Public Class ProdSampleInput
                                     End If
                                 End If
                             End If
-
+                            LastNG = 0
                         End If
                     End If
                     iCol = iCol + 1

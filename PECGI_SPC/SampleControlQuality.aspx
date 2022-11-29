@@ -641,7 +641,7 @@
                 <ViewSerializable>
                     <cc1:LineSeriesView>
                         <LineStyle Thickness="1" />
-                        <LineMarkerOptions Size="5">
+                        <LineMarkerOptions Size="3">
                     </LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>
@@ -703,7 +703,7 @@
                         <ResolveOverlappingOptions AllowHide="False" />
                     </Label>
                     <WholeRange AutoSideMargins="False" EndSideMargin="3" StartSideMargin="3" />
-                    <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Count" IntervalOptions-GridLayoutMode="GridShiftedLabelCentered" IntervalOptions-Count="8" IntervalOptions-Pattern="{A1:0.000}-{A2:0.000}" IntervalOptions-OverflowValuePattern="{OS}" IntervalOptions-UnderflowValuePattern="{US}" />
+                    <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Count" IntervalOptions-GridLayoutMode="GridShiftedLabelCentered" IntervalOptions-Count="8" IntervalOptions-Pattern="{A1:0.000} - {A2:0.000}" IntervalOptions-OverflowValuePattern="{OS}" IntervalOptions-UnderflowValuePattern="{US}" />
                     </AxisX>
 
                 <AxisY VisibleInPanesSerializable="-1" MinorCount="1">

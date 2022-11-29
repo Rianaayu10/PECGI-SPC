@@ -1091,7 +1091,7 @@
                 <ViewSerializable>
                     <cc1:LineSeriesView>
                         <LineStyle Thickness="1" />
-                    <LineMarkerOptions BorderColor="White" Size="8">
+                    <LineMarkerOptions BorderColor="White" Size="5">
                     </LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>

@@ -276,16 +276,22 @@ Public Class SampleControlQuality
                         RLCL = dtRLCL.Rows(0)(iCol)
                         RUCL = dtRUCL.Rows(0)(iCol)
                         If Not IsDBNull(dt.Rows(j)(k)) Then
-                            If ChartType <> "0" AndAlso dt.Rows(j)(0) = "6" AndAlso (dt.Rows(j)(k) < RLCL Or dt.Rows(j)(k) > RUCL) Then
+                            Dim Value As Double = ADbl(dt.Rows(j)(k))
+                            Dim PrevValue As Double
+                            If k > 2 Then
+                                PrevValue = ADbl(dt.Rows(j)(k - 1))
+                            Else
+                                PrevValue = ADbl(dt.Rows(j)(k))
+                            End If
+                            If ChartType <> "0" AndAlso dt.Rows(j)(0) = "6" AndAlso (Value < RLCL Or Value > RUCL) Then
                                 .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
-                                If k > 2 AndAlso (dt.Rows(j)(k - 1) < RLCL Or dt.Rows(j)(k - 1) > RUCL) Then
+                                If k > 2 AndAlso (PrevValue < RLCL Or PrevValue > RUCL) Then
                                     .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
                                 ElseIf LastNG = 1 Then
                                     .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
                                 Else
                                     .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Yellow)
                                 End If
-                                LastNG = 0
                             ElseIf (dt.Rows(j)(k) < LSL Or dt.Rows(j)(k) > USL) Then
                                 If dt.Rows(j)(0) = "1" Or dt.Rows(j)(0) = "3" Or dt.Rows(j)(0) = "4" Or dt.Rows(j)(0) = "5" Then
                                     .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
@@ -304,7 +310,7 @@ Public Class SampleControlQuality
                                     End If
                                 End If
                             End If
-
+                            LastNG = 0
                         End If
                     End If
                     iCol = iCol + 1
@@ -1017,5 +1023,17 @@ Public Class SampleControlQuality
         Dim VerifiedOnly As String = Split(Prm, "|")(6)
         LoadHistogram(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, ProdDate2, VerifiedOnly)
     End Sub
+
+    Private Function ADbl(v As Object) As Object
+        Dim decimalSeparator As String = Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator
+
+        If v Is Nothing OrElse IsDBNull(v) Then
+            Return Nothing
+        Else
+            v = Replace(v, ".", decimalSeparator)
+            Return CDbl(v)
+        End If
+    End Function
+
 
 End Class
