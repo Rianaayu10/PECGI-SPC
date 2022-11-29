@@ -112,7 +112,8 @@ Public Class ProdSampleInput
                 End If
 
                 Dim SelShift As String = dtDay.Rows(iDay)("ShiftCode2")
-                If SelDay = Hdr.ProdDate And SelShift > Hdr.ShiftCode Then
+                Dim SelSeq As Integer = dtDay.Rows(iDay)("SeqNo")
+                If SelDay = Hdr.ProdDate And SelSeq > Hdr.Seq Then
                     Exit For
                 ElseIf SelShift <> PrevShift Or dDay <> PrevDay Then
                     BandShift = New GridViewBandColumn
