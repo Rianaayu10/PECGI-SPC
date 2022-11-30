@@ -208,7 +208,7 @@
                                 <dx:ASPxLabel ID="ASPxLabel2" runat="server" Text="Time :" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
                                 &nbsp
                                 <%--<dx:ASPxLabel ID="lblTimeNow" runat="server" Text="" CssClass="text" />--%>
-                                <label id="lblTimeNow"></label>
+                                <label id="lblTimeNow" style="font-family: 'Segoe UI'; font-size: 9pt"></label>
                             </td>
                         </tr>
                     </table>
@@ -710,7 +710,7 @@
 
             setTimer1 = setInterval(function () {
                 var today = new Date();
-                document.getElementById('lblTimeNow').innerHTML = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                document.getElementById('lblTimeNow').innerHTML = ("0" + today.getHours()).slice(-2) + ":" + ("0" + today.getMinutes()).slice(-2) + ":" + ("0" + today.getSeconds()).slice(-2);
             }, 1000, (1));
         }
     </script>
