@@ -807,7 +807,7 @@ Public Class ProdSampleInput
             If PrevDate = "" Then
                 PrevDate = Hdr.ProdDate
             End If
-            Dim ds As DataSet = clsSPCResultDetailDB.GetSampleByPeriod(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, PrevDate, Hdr.ProdDate, Hdr.VerifiedOnly)
+            Dim ds As DataSet = clsSPCResultDetailDB.GetSampleByPeriod(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, PrevDate, Hdr.ProdDate, Hdr.VerifiedOnly, True)
 
             Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, 1, Hdr.VerifiedOnly)
             If dt2.Rows.Count > 0 Then
