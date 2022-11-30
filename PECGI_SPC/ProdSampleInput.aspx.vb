@@ -1478,6 +1478,15 @@ Public Class ProdSampleInput
                 diagram.AxisY.ConstantLines.Add(RUCL)
                 RUCL.AxisValue = Setup.RUCL
 
+                CType(.Diagram, XYDiagram).SecondaryAxesY.Clear()
+                Dim myAxisY As New SecondaryAxisY("my Y-Axis")
+                myAxisY.Visibility = DevExpress.Utils.DefaultBoolean.False
+                myAxisY.WholeRange.EndSideMargin = 0
+                myAxisY.WholeRange.StartSideMargin = 0
+                CType(.Diagram, XYDiagram).SecondaryAxesY.Add(myAxisY)
+                CType(.Series("RuleYellow").View, XYDiagramSeriesViewBase).AxisY = myAxisY
+                CType(.Series("RuleRed").View, XYDiagramSeriesViewBase).AxisY = myAxisY
+
                 Dim MaxValue As Double
                 If xr.Count > 0 Then
                     If xr(0).MaxValue > Setup.RUCL Then

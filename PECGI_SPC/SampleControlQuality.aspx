@@ -659,6 +659,18 @@
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
+            <cc1:Series ArgumentDataMember="Seq" Name="RuleYellow" ShowInLegend="False" ValueDataMembersSerializable="RuleYellow">
+                <ViewSerializable>
+                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="Yellow" Transparency="200">
+                    </cc1:FullStackedBarSeriesView>
+                </ViewSerializable>
+            </cc1:Series>
+            <cc1:Series ArgumentDataMember="Seq" Name="RuleRed" ShowInLegend="False" ValueDataMembersSerializable="RuleRed">
+                <ViewSerializable>
+                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="Red" Transparency="200">
+                    </cc1:FullStackedBarSeriesView>
+                </ViewSerializable>
+            </cc1:Series>
         </SeriesSerializable>
         <seriestemplate ValueDataMembersSerializable="Value">            
             <viewserializable>

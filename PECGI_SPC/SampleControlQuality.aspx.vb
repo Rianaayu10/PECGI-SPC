@@ -933,6 +933,15 @@ Public Class SampleControlQuality
                 diagram.AxisY.WholeRange.MaxValue = MaxValue
                 diagram.AxisY.VisualRange.MaxValue = MaxValue
 
+                CType(.Diagram, XYDiagram).SecondaryAxesY.Clear()
+                Dim myAxisY As New SecondaryAxisY("my Y-Axis")
+                myAxisY.Visibility = DevExpress.Utils.DefaultBoolean.False
+                myAxisY.WholeRange.EndSideMargin = 0
+                myAxisY.WholeRange.StartSideMargin = 0
+                CType(.Diagram, XYDiagram).SecondaryAxesY.Add(myAxisY)
+                CType(.Series("RuleYellow").View, XYDiagramSeriesViewBase).AxisY = myAxisY
+                CType(.Series("RuleRed").View, XYDiagramSeriesViewBase).AxisY = myAxisY
+
                 Dim EndSideMargin As Single = Math.Round(MaxValue / 10, 3)
                 diagram.AxisY.WholeRange.EndSideMargin = EndSideMargin
                 If MaxValue > 0 Then

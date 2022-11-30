@@ -15,6 +15,7 @@ Public Class clsXRChart
     Public Property LSL As Double
     Public Property RuleValue As Double?
     Public Property RuleYellow As Double?
+    Public Property RuleRed As Double?
     Public Property RuleColor As String
     Public Property CountSeq As Integer
 End Class
@@ -272,6 +273,10 @@ Public Class clsXRChartDB
                     value = .Item("MaxValue")
                     xr.MaxValue = value
                     xr.CountSeq = .Item("SeqCount")
+                    value = .Item("RuleYellow")
+                    xr.RuleYellow = value
+                    value = .Item("RuleRed")
+                    xr.RuleRed = value
                 End With
                 XRList.Add(xr)
             Next
