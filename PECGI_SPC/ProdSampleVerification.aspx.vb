@@ -126,10 +126,10 @@ Public Class ProdSampleVerification
         End If
 
         If Not Page.IsPostBack Then
-            commandColumn.Width = 0 'supaya button new/edit/delete tidak muncul
             If Request.QueryString("menu") IsNot Nothing Then
                 LoadForm_ByAnotherform() 'jika dipanggil dari menu lain
             Else
+                commandColumn.Width = 0 'supaya button new/edit/delete tidak muncul
                 LoadForm() 'jika dipanggil dari form itu sendiri=
             End If
         End If
