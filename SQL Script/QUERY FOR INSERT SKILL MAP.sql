@@ -1,15 +1,16 @@
 ---====== Required to fill (Mandatory) ====---
 DECLARE @FactoryCode AS VARCHAR(25) = 'F001', --> Mandatory to change (Get FactoryID from MS Factory)
 		@LineCode AS VARCHAR(5) = '015', --> Mandatory to change (Get Line from MS Line)
-		@EmployeeID AS CHAR(5) = '021', --> Mandatory to change (Get EmployeeID from SPC_UserSetup)
-		@StartDate AS DATE = '2022-10-24', --> Mandatory to change
-		@EndDate AS DATE = '2022-12-01' -->Mandatory andatory to change
+		@EmployeeID AS CHAR(5) = '007', --> Mandatory to change (Get EmployeeID from SPC_UserSetup)
+		@StartDate AS DATE = '2022-11-30', --> Mandatory to change
+		@EndDate AS DATE = '2023-01-01' -->Mandatory andatory to change
 ---========================================----
 
 ---====== No need to change (HardCode) ====---
 DECLARE	@ProcessCode AS VARCHAR(25) = '', --> No need to change (Automotic fill by query)
 		@SequenceNO AS CHAR(1) = '0', --> No need to change (hardcode SequenceNO => 1)
 		@SkillCode AS VARCHAR(15) = 'SPC001', --> No need to change (Skil Code for SPC => SPC001 )
+		@SkillDesc AS VARCHAR(15) = 'SPC Skill', --> No need to change (Skil Code for SPC => SPC001 )
 		@ManPower AS VARCHAR(15) = '1', --> No need to change (hardcode ManPower => 1)
 		@RegisterUser AS VARCHAR(50) = 'AdminTos', --> Optional to Change
 		@RegisterDate AS DATE = GETDATE() --> Optional to Change
@@ -17,6 +18,13 @@ DECLARE	@ProcessCode AS VARCHAR(25) = '', --> No need to change (Automotic fill 
 		
 SELECT @ProcessCode = ProcessCode FROM MS_Line 
 WHERE FactoryCode = @FactoryCode AND LineCode = @LineCode
+
+--INSERT MASTER SKILL
+	IF NOT EXISTS(SELECT * FROM MS_Skill WHERE SkillCode = @SkillCode)
+	BEGIN
+		INSERT INTO MS_Skill (SkillCode,Description,RegisterBy,RegisterDate,UpdateBy,UpdateDate)
+		VALUES(@SkillCode,@SkillDesc,@RegisterUser,@RegisterDate,@RegisterUser,@RegisterDate)
+	END
 
 --INSERT MACHINE SKILL MAP
   IF NOT EXISTS (SELECT * FROM MS_MachineSkillSetting WHERE FactoryCode = @FactoryCode AND LineCode = @LineCode AND SkillCode = @SkillCode AND ProcessCode = @ProcessCode) 
