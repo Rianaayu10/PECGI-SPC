@@ -304,7 +304,8 @@ Public Class clsSPCAlertDashboardDB
                 Cn.Open()
                 Dim q As String
                 'q = "SP_SPC_SendEmailAlert"
-                q = LinkedServer + "SP_SPC_SendEmailAlert"
+                'q = LinkedServer + "SP_SPC_SendEmailAlert"
+                q = "SP_SPC_SendEmailAlert"
                 Dim cmd As New SqlCommand(q, Cn)
                 'Dim des As New clsDESEncryption("TOS")
                 cmd.CommandType = CommandType.StoredProcedure

@@ -275,6 +275,13 @@ Public Class ItemCheckByBattery
             Return
         End If
 
+        GridColumn = Grid.DataColumns("CharacteristicStatus")
+        If IsNothing(e.NewValues("CharacteristicStatus")) OrElse e.NewValues("CharacteristicStatus").ToString.Trim = "" Then
+            e.Errors(GridColumn) = "Characteristic Status Must Be Filled !"
+            show_error(MsgTypeEnum.ErrorMsg, "Characteristic Status Must Be Filled !", 1)
+            Return
+        End If
+
         GridColumn = Grid.DataColumns("ProcessTableLineCode")
         If IsNothing(e.NewValues("ProcessTableLineCode")) OrElse e.NewValues("ProcessTableLineCode").ToString.Trim = "" Then
             e.Errors(GridColumn) = "Process Table Line Code  Must Be Filled !"
