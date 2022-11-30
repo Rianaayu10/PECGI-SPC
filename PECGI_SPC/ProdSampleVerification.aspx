@@ -932,13 +932,30 @@
     <dx:WebChartControl ID="chartR" runat="server" ClientInstanceName="chartR"
         Height="230px" Width="1080px" CrosshairEnabled="True">
         <SeriesSerializable>
-            <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue">
+           <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue">
                 <ViewSerializable>
                     <cc1:LineSeriesView>
                         <LineStyle Thickness="1" />
                     <LineMarkerOptions BorderColor="White" Size="5">
                     </LineMarkerOptions>
                     </cc1:LineSeriesView>
+                </ViewSerializable>
+            </cc1:Series>
+            <cc1:Series Name="RuleYellow" ArgumentDataMember="Seq" ShowInLegend="False" ToolTipEnabled="False" ValueDataMembersSerializable="RuleYellow">
+                <ViewSerializable>
+                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="255, 255, 0" Transparency="200" AxisYName="Secondary AxisY 1">
+                        <Border Visibility="False" />
+                        <FillStyle FillMode="Solid">
+                        </FillStyle>
+                    </cc1:FullStackedBarSeriesView>
+                </ViewSerializable>
+            </cc1:Series>
+            <cc1:Series ArgumentDataMember="Seq" Name="RuleRed" ShowInLegend="False" ValueDataMembersSerializable="RuleRed">
+                <ViewSerializable>
+                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="240, 0, 0" Transparency="200">
+                        <FillStyle FillMode="Solid">
+                        </FillStyle>
+                    </cc1:FullStackedBarSeriesView>
                 </ViewSerializable>
             </cc1:Series>
         </SeriesSerializable>
@@ -971,6 +988,11 @@
                     </GridLines>
                     <NumericScaleOptions AutoGrid="False" CustomGridAlignment="0.001" GridAlignment="Custom" GridOffset="1" />
                 </AxisY>
+                 <SecondaryAxesY>
+                    <cc1:SecondaryAxisY AxisID="0" Name="Secondary AxisY 1" Visibility="False" VisibleInPanesSerializable="-1">
+                        <Tickmarks MinorVisible="False" Visible="False" />
+                    </cc1:SecondaryAxisY>
+                </SecondaryAxesY>
             </cc1:XYDiagram>
         </DiagramSerializable>
         <titles>
