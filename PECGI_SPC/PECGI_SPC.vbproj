@@ -202,6 +202,7 @@
     <Content Include="Styles\images\main2.png" />
     <Content Include="Styles\images\mybg.png" />
     <Content Include="TimeFrequencySetting.aspx" />
+    <Content Include="TroubleHistoryByLine.aspx" />
     <Content Include="UserLine.aspx" />
     <Content Include="css\bootstrap-theme.css" />
     <Content Include="css\bootstrap-theme.min.css" />
@@ -927,6 +928,7 @@
       <DependentUpon>AlertDelayInput.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Class\clsTroubleHistoryByLine.vb" />
     <Compile Include="SPCDashboardTest.aspx.designer.vb">
       <DependentUpon>SPCDashboardTest.aspx</DependentUpon>
     </Compile>
@@ -1082,6 +1084,13 @@
     </Compile>
     <Compile Include="TimeFrequencySetting.aspx.vb">
       <DependentUpon>TimeFrequencySetting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TroubleHistoryByLine.aspx.designer.vb">
+      <DependentUpon>TroubleHistoryByLine.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TroubleHistoryByLine.aspx.vb">
+      <DependentUpon>TroubleHistoryByLine.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="UserLine.aspx.designer.vb">
