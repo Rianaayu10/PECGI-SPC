@@ -88,7 +88,6 @@ Public Class TimeFrequencySetting
                 StTime.ToString("HH:mm"), _
                 EnTime.ToString("HH:mm"), _
                 verifTime.ToString("HH:mm"), _
-                IIf(e.NewValues("Status") Is Nothing, "0", e.NewValues("Status")), _
                 pUser)
             Grid.CancelEdit()
             up_GridLoad()
@@ -113,7 +112,6 @@ Public Class TimeFrequencySetting
                 StTime.ToString("HH:mm"), _
                 EnTime.ToString("HH:mm"), _
                 verifTime.ToString("HH:mm"), _
-                e.NewValues("Status"), _
                 pUser)
             Grid.CancelEdit()
             up_GridLoad()
@@ -152,10 +150,6 @@ Public Class TimeFrequencySetting
             If e.Column.FieldName = "No" Or e.Column.FieldName = "Frequency" Then
                 e.Editor.ReadOnly = True
                 e.Editor.ForeColor = Color.Silver
-            End If
-        ElseIf Grid.IsNewRowEditing Then
-            If e.Column.FieldName = "Status" Then
-                TryCast(e.Editor, ASPxCheckBox).Checked = True
             End If
         End If
 
@@ -303,7 +297,7 @@ Public Class TimeFrequencySetting
         End Try
     End Sub
 
-    Private Function up_InsUpd(Type As String, Frequency As String, Nomor As String, Shift As String, Start As String, EndTime As String, verifTime As String, Status As String, User As String) As Boolean
+    Private Function up_InsUpd(Type As String, Frequency As String, Nomor As String, Shift As String, Start As String, EndTime As String, verifTime As String, User As String) As Boolean
         Dim message As String = IIf(Type = "0", "Save data successfully!", "Update data successfully!") '0 Save | 1 Update
         Try
             Dim cls As New clsTimeFrequencySetting With
@@ -314,7 +308,6 @@ Public Class TimeFrequencySetting
                 .StartTime = Start,
                 .EndTime = EndTime,
                 .VerifTime = verifTime,
-                .Status = Status,
                 .User = User
             }
             clsTimeFrequencySettingDB.InsertUpdate(cls, Type)
