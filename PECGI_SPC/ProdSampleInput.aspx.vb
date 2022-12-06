@@ -145,6 +145,11 @@ Public Class ProdSampleInput
                 dtRUCL = ds.Tables(7)
                 dtRLCL = ds.Tables(8)
             End If
+            If ChartType = "0" Then
+                .JSProperties("cpShow") = "0"
+            Else
+                .JSProperties("cpShow") = "1"
+            End If
 
             'Dim SelDay As Object = clsSPCResultDB.GetPrevDate(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate)
 
