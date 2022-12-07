@@ -8,7 +8,6 @@ Public Class clsTimeFrequencySetting
     Public Property StartTime As String
     Public Property EndTime As String
     Public Property VerifTime As String
-    Public Property Status As String
     Public Property User As String
 End Class
 
@@ -58,7 +57,6 @@ Public Class clsTimeFrequencySettingDB
                 cmd.Parameters.AddWithValue("Start", cls.StartTime)
                 cmd.Parameters.AddWithValue("End", cls.EndTime)
                 cmd.Parameters.AddWithValue("Verif", cls.VerifTime)
-                cmd.Parameters.AddWithValue("Status", cls.Status)
                 cmd.Parameters.AddWithValue("User", cls.User)
                 cmd.Parameters.AddWithValue("Type", Type)
 

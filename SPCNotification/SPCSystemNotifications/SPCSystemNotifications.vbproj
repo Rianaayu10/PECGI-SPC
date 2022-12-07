@@ -48,6 +48,9 @@
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon_pecgi.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="C1.Win.C1FlexGrid.4, Version=4.6.20112.624, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -163,6 +166,7 @@
     <Content Include="bin\Debug\SPCNotification.vshost.exe" />
     <Content Include="bin\Debug\SPCNotification.xml" />
     <Content Include="bin\Debug\Tulpep.NotificationWindow.dll" />
+    <Content Include="favicon_pecgi.ico" />
     <Content Include="img\ajax-loader.gif" />
     <Content Include="img\alpha.png" />
     <Content Include="img\background.jpg" />

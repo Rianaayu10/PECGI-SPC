@@ -248,14 +248,6 @@
                     <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
                 </dx:GridViewDataTimeEditColumn>
 
-                <dx:GridViewDataCheckColumn Caption="Active Status" FieldName="Status" VisibleIndex="6" Width="100px">
-                    <PropertiesCheckEdit 
-                        ValueChecked="1" ValueType="System.Char"  ValueUnchecked="0">
-                    </PropertiesCheckEdit>
-                    <Settings AllowSort="False" />
-                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
-                </dx:GridViewDataCheckColumn>
-
                 <dx:GridViewDataTextColumn Caption="Last User" FieldName="LastUser" VisibleIndex="7"
                     Width="100px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="15" Width="100px">
@@ -380,13 +372,6 @@
                                     <td>
                                         <dx:ASPxGridViewTemplateReplacement ID="ASPxGridViewTemplateReplacement1" ReplacementType="EditFormCellEditor"
                                             runat="server" ColumnID="Verif"></dx:ASPxGridViewTemplateReplacement>
-                                    </td>
-                                </tr>
-                                <tr style="height: 30px">
-                                    <td>Active Status</td>
-                                    <td>
-                                        <dx:ASPxGridViewTemplateReplacement ID="editAdminStatus" ReplacementType="EditFormCellEditor"
-                                            runat="server" ColumnID="Status"></dx:ASPxGridViewTemplateReplacement>
                                     </td>
                                 </tr>
                             </table>

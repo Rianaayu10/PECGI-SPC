@@ -85,6 +85,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bin\" />
     <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <ItemGroup>
@@ -142,41 +143,6 @@
     <Content Include="CustomFile\popper.min.js" />
     <Content Include="SPCDashboardTest.aspx" />
     <Content Include="SPCDashboard.aspx" />
-    <Content Include="bin\DevExpress.Charts.v14.1.Core.dll" />
-    <Content Include="bin\DevExpress.Data.v14.1.dll" />
-    <Content Include="bin\DevExpress.Data.v14.1.xml" />
-    <Content Include="bin\DevExpress.Office.v14.1.Core.dll" />
-    <Content Include="bin\DevExpress.Office.v14.1.Core.xml" />
-    <Content Include="bin\DevExpress.Printing.v14.1.Core.dll" />
-    <Content Include="bin\DevExpress.Printing.v14.1.Core.xml" />
-    <Content Include="bin\DevExpress.RichEdit.v14.1.Core.dll" />
-    <Content Include="bin\DevExpress.RichEdit.v14.1.Core.xml" />
-    <Content Include="bin\DevExpress.Sparkline.v14.1.Core.dll" />
-    <Content Include="bin\DevExpress.Sparkline.v14.1.Core.xml" />
-    <Content Include="bin\DevExpress.Utils.v14.1.dll" />
-    <Content Include="bin\DevExpress.Utils.v14.1.xml" />
-    <Content Include="bin\DevExpress.Web.ASPxThemes.v14.1.dll" />
-    <Content Include="bin\DevExpress.Web.v14.1.dll" />
-    <Content Include="bin\DevExpress.Web.v14.1.xml" />
-    <Content Include="bin\DevExpress.XtraBars.v14.1.dll" />
-    <Content Include="bin\DevExpress.XtraBars.v14.1.xml" />
-    <Content Include="bin\DevExpress.XtraCharts.v14.1.dll" />
-    <Content Include="bin\DevExpress.XtraCharts.v14.1.Web.dll" />
-    <Content Include="bin\DevExpress.XtraCharts.v14.1.Web.xml" />
-    <Content Include="bin\DevExpress.XtraCharts.v14.1.xml" />
-    <Content Include="bin\DevExpress.XtraEditors.v14.1.dll" />
-    <Content Include="bin\DevExpress.XtraEditors.v14.1.xml" />
-    <Content Include="bin\DevExpress.XtraPrinting.v14.1.dll" />
-    <Content Include="bin\DevExpress.XtraPrinting.v14.1.xml" />
-    <Content Include="bin\DevExpress.XtraTreeList.v14.1.dll" />
-    <Content Include="bin\DevExpress.XtraTreeList.v14.1.xml" />
-    <Content Include="bin\EPPlus.dll" />
-    <Content Include="bin\PECGI_SPC.dll" />
-    <Content Include="bin\PECGI_SPC.pdb" />
-    <Content Include="bin\PECGI_SPC.xml" />
-    <Content Include="bin\QualityCheckSheetSystem.dll" />
-    <Content Include="bin\QualityCheckSheetSystem.pdb" />
-    <Content Include="bin\QualityCheckSheetSystem.xml" />
     <Content Include="ChangePassword.aspx" />
     <Content Include="content\toastr.css" />
     <Content Include="content\toastr.min.css" />
@@ -202,6 +168,7 @@
     <Content Include="Styles\images\main2.png" />
     <Content Include="Styles\images\mybg.png" />
     <Content Include="TimeFrequencySetting.aspx" />
+    <Content Include="TroubleHistoryByLine.aspx" />
     <Content Include="UserLine.aspx" />
     <Content Include="css\bootstrap-theme.css" />
     <Content Include="css\bootstrap-theme.min.css" />
@@ -853,8 +820,6 @@
     <Content Include="js\smartwidgets\jarvis.widget.min.js" />
     <Content Include="js\speech\voicecommand.min.js" />
     <Content Include="Main.aspx" />
-    <Content Include="bin\PECGI_SPC.dll.config" />
-    <Content Include="bin\QualityCheckSheetSystem.dll.config" />
     <Content Include="CustomFile\js\bootstrap.bundle.js.map" />
     <Content Include="CustomFile\js\bootstrap.bundle.min.js.map" />
     <Content Include="CustomFile\js\bootstrap.esm.js.map" />
@@ -927,6 +892,7 @@
       <DependentUpon>AlertDelayInput.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Class\clsTroubleHistoryByLine.vb" />
     <Compile Include="SPCDashboardTest.aspx.designer.vb">
       <DependentUpon>SPCDashboardTest.aspx</DependentUpon>
     </Compile>
@@ -1084,6 +1050,13 @@
       <DependentUpon>TimeFrequencySetting.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="TroubleHistoryByLine.aspx.designer.vb">
+      <DependentUpon>TroubleHistoryByLine.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TroubleHistoryByLine.aspx.vb">
+      <DependentUpon>TroubleHistoryByLine.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="UserLine.aspx.designer.vb">
       <DependentUpon>UserLine.aspx</DependentUpon>
     </Compile>
@@ -1191,9 +1164,6 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <Content Include="Site.Master" />
-    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
-    <Content Include="obj\Debug\QualityCheckSheetSystem.vbproj.CoreCompileInputs.cache" />
-    <Content Include="obj\Debug\QualityCheckSheetSystem.vbprojAssemblyReference.cache" />
     <Content Include="SiteHome.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
