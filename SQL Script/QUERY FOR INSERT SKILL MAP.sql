@@ -1,7 +1,7 @@
 ---====== Required to fill (Mandatory) ====---
 DECLARE @FactoryCode AS VARCHAR(25) = 'F001', --> Mandatory to change (Get FactoryID from MS Factory)
 		@LineCode AS VARCHAR(5) = '015', --> Mandatory to change (Get Line from MS Line)
-		@EmployeeID AS CHAR(5) = '007', --> Mandatory to change (Get EmployeeID from SPC_UserSetup)
+		@EmployeeID AS CHAR(10) = '007', --> Mandatory to change (Get EmployeeID from SPC_UserSetup)
 		@StartDate AS DATE = '2022-11-30', --> Mandatory to change
 		@EndDate AS DATE = '2023-01-01' -->Mandatory andatory to change
 ---========================================----
