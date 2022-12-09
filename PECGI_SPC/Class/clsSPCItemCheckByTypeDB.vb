@@ -300,7 +300,7 @@ Public Class ClsSPCItemCheckByTypeDB
         Using cn As New SqlConnection(Sconn.Stringkoneksi)
             cn.Open()
             Dim sql As String
-            sql = "select ItemTypeCode, Description from MS_ItemType"
+            sql = "select ItemTypeCode, Description from MS_ItemType order by Description ASC"
             Dim cmd As New SqlCommand(sql, cn)
             cmd.CommandType = CommandType.Text
 
