@@ -95,7 +95,7 @@ Public Class clsSPCResultDB
             cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
             cmd.Parameters.AddWithValue("LineCode", LineCode)
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
-            cmd.Parameters.AddWithValue("ProdDate", ProdDate)
+            cmd.Parameters.AddWithValue("ProdDate", CDate(ProdDate))
             cmd.CommandType = CommandType.StoredProcedure
             Dim PrevDate As Object = cmd.ExecuteScalar
             Return PrevDate
@@ -132,7 +132,7 @@ Public Class clsSPCResultDB
             cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
             cmd.Parameters.AddWithValue("LineCode", LineCode)
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
-            cmd.Parameters.AddWithValue("ProdDate", ProdDate)
+            cmd.Parameters.AddWithValue("ProdDate", CDate(ProdDate))
             cmd.Parameters.AddWithValue("SequenceNo", SequenceNo)
             cmd.CommandType = CommandType.StoredProcedure
             Dim da As New SqlDataAdapter(cmd)
