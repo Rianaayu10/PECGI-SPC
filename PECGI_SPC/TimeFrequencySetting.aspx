@@ -304,7 +304,7 @@
 
             <SettingsBehavior ConfirmDelete="True" ColumnResizeMode="Control" />
             <SettingsEditing EditFormColumnCount="1" Mode="PopupEditForm" />
-            <SettingsPager Mode="ShowPager" PageSize="20" AlwaysShowPager="true">
+            <SettingsPager Mode="ShowPager" PageSize="50" AlwaysShowPager="true">
                 <PageSizeItemSettings Visible="True" />
             </SettingsPager>
             <Settings HorizontalScrollBarMode="Auto" VerticalScrollBarMode="Auto" VerticalScrollableHeight="300" />
