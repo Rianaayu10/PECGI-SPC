@@ -75,7 +75,7 @@ Public Class ChangePassword
             txtNewPassword.Focus()
             up_GridLoad(UserID)
         End If
-        lb_AuthUpdate = sGlobal.Auth_UserUpdate(Session("user"), "Z030")
+        lb_AuthUpdate = sGlobal.Auth_UserUpdate(Session("user"), "Z040")
         If lb_AuthUpdate = False Then
             btnClear.Enabled = False
             btnSubmit.Enabled = False
