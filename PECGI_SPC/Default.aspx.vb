@@ -87,7 +87,7 @@
 
             If DataUser.Password <> Password Then
                 lblInfo.Visible = True
-                lblInfo.Text = "Invalid Password!"
+                lblInfo.Text = "Invalid Password (User will be locked after 3 failed login)!"
                 clsUserSetupDB.AddFailedLogin(DataUser.UserID)
                 txtusername.Focus()
                 Return False
