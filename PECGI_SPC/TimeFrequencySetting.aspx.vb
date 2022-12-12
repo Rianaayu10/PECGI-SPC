@@ -156,6 +156,12 @@ Public Class TimeFrequencySetting
         If e.Column.FieldName = "Frequency" Or e.Column.FieldName = "Shift" Or e.Column.FieldName = "No" Then
             e.Editor.Width = "75"
         End If
+
+        If e.Column.FieldName = "Frequency" Then
+            e.Editor.Value = cboFreq.Value
+            e.Editor.ReadOnly = True
+            e.Editor.ForeColor = Color.Silver
+        End If
     End Sub
 
     Protected Sub Grid_RowValidating(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataValidationEventArgs) Handles Grid.RowValidating
