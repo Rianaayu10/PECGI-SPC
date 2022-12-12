@@ -38,7 +38,7 @@ Public Class clsSPCResultDetailDB
             cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
             cmd.Parameters.AddWithValue("Line", Line)
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
-            cmd.Parameters.AddWithValue("ProdDate", ProdDate)
+            cmd.Parameters.AddWithValue("ProdDate", CDate(ProdDate))
             cmd.Parameters.AddWithValue("ShiftCode", Shift)
             cmd.Parameters.AddWithValue("SequenceNo", Sequence)
             cmd.Parameters.AddWithValue("VerifiedOnly", VerifiedOnly)
@@ -97,7 +97,7 @@ Public Class clsSPCResultDetailDB
             cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
             cmd.Parameters.AddWithValue("Line", Line)
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
-            cmd.Parameters.AddWithValue("ProdDate", ProdDate)
+            cmd.Parameters.AddWithValue("ProdDate", CDate(ProdDate))
             cmd.Parameters.AddWithValue("SequenceNo", SequenceNo)
             cmd.Parameters.AddWithValue("VerifiedOnly", VerifiedOnly)
             Dim da As New SqlDataAdapter(cmd)
@@ -118,9 +118,9 @@ Public Class clsSPCResultDetailDB
             cmd.Parameters.AddWithValue("Line", Line)
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
             If ProdDate <> "" Then
-                cmd.Parameters.AddWithValue("ProdDate", ProdDate)
+                cmd.Parameters.AddWithValue("ProdDate", CDate(ProdDate))
             End If
-            cmd.Parameters.AddWithValue("ProdDate2", ProdDate2)
+            cmd.Parameters.AddWithValue("ProdDate2", CDate(ProdDate2))
             cmd.Parameters.AddWithValue("VerifiedOnly", VerifiedOnly)
             If ShowVerifier Then
                 cmd.Parameters.AddWithValue("ShowVerifier", 1)

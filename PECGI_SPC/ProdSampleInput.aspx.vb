@@ -124,7 +124,7 @@ Public Class ProdSampleInput
                 Dim colTime As New GridViewDataTextColumn
                 colTime.Caption = dtDay.Rows(iDay)("RegisterDate")
                 colTime.FieldName = dtDay.Rows(iDay)("ColName")
-                colTime.Width = 60
+                colTime.Width = 80
                 colTime.CellStyle.HorizontalAlign = HorizontalAlign.Center
                 BandShift.Columns.Add(colTime)
 

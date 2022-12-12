@@ -61,8 +61,8 @@ Public Class clsXRChartDB
             cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
             cmd.Parameters.AddWithValue("Line", Line)
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
-            cmd.Parameters.AddWithValue("ProdDate", ProdDate)
-            cmd.Parameters.AddWithValue("ProdDate2", ProdDate2)
+            cmd.Parameters.AddWithValue("ProdDate", CDate(ProdDate))
+            cmd.Parameters.AddWithValue("ProdDate2", CDate(ProdDate2))
             cmd.Parameters.AddWithValue("VerifiedOnly", VerifiedOnly)
 
             Dim da As New SqlDataAdapter(cmd)
@@ -95,7 +95,7 @@ Public Class clsXRChartDB
             cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
             cmd.Parameters.AddWithValue("Line", Line)
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
-            cmd.Parameters.AddWithValue("ProdDate2", ProdDate2)
+            cmd.Parameters.AddWithValue("ProdDate2", CDate(ProdDate2))
             cmd.Parameters.AddWithValue("VerifiedOnly", VerifiedOnly)
             cmd.Parameters.AddWithValue("SeqNo", SeqNo)
             Dim da As New SqlDataAdapter(cmd)
@@ -172,8 +172,12 @@ Public Class clsXRChartDB
             cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
             cmd.Parameters.AddWithValue("Line", Line)
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
-            cmd.Parameters.AddWithValue("ProdDate", ProdDate)
-            cmd.Parameters.AddWithValue("ProdDate2", ProdDate2)
+            If ProdDate <> "" Then
+                cmd.Parameters.AddWithValue("ProdDate", CDate(ProdDate))
+            Else
+                cmd.Parameters.AddWithValue("ProdDate", ProdDate)
+            End If
+            cmd.Parameters.AddWithValue("ProdDate2", CDate(ProdDate2))
             cmd.Parameters.AddWithValue("VerifiedOnly", VerifiedOnly)
             Dim da As New SqlDataAdapter(cmd)
             Dim ds As New DataSet
@@ -251,9 +255,9 @@ Public Class clsXRChartDB
             cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
             cmd.Parameters.AddWithValue("Line", Line)
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
-            cmd.Parameters.AddWithValue("ProdDate", ProdDate)
+            cmd.Parameters.AddWithValue("ProdDate", CDate(ProdDate))
             If PrevDate <> "" Then
-                cmd.Parameters.AddWithValue("PrevDate", PrevDate)
+                cmd.Parameters.AddWithValue("PrevDate", CDate(PrevDate))
             End If
             cmd.Parameters.AddWithValue("VerifiedOnly", VerifiedOnly)
             cmd.Parameters.AddWithValue("SeqNo", SeqNo)

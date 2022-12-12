@@ -350,12 +350,12 @@ Public Class ControlChartSetup
             AdaError = True
         End If
 
-        tmpdataCol = Grid.DataColumns("RCL")
-        If IsNothing(e.NewValues("RCL")) OrElse e.NewValues("RCL").ToString.Trim = "" Then
-            e.Errors(tmpdataCol) = "please Input a Number!"
-            show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
-            AdaError = True
-        End If
+        'tmpdataCol = Grid.DataColumns("RCL")
+        'If IsNothing(e.NewValues("RCL")) OrElse e.NewValues("RCL").ToString.Trim = "" Then
+        '    e.Errors(tmpdataCol) = "please Input a Number!"
+        '    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+        '    AdaError = True
+        'End If
 
         tmpdataCol = Grid.DataColumns("RUCL")
         If IsNothing(e.NewValues("RUCL")) OrElse e.NewValues("RUCL").ToString.Trim = "" Then
@@ -364,12 +364,12 @@ Public Class ControlChartSetup
             AdaError = True
         End If
 
-        tmpdataCol = Grid.DataColumns("RLCL")
-        If IsNothing(e.NewValues("RLCL")) OrElse e.NewValues("RLCL").ToString.Trim = "" Then
-            e.Errors(tmpdataCol) = "please Input a Number!"
-            show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
-            AdaError = True
-        End If
+        'tmpdataCol = Grid.DataColumns("RLCL")
+        'If IsNothing(e.NewValues("RLCL")) OrElse e.NewValues("RLCL").ToString.Trim = "" Then
+        '    e.Errors(tmpdataCol) = "please Input a Number!"
+        '    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+        '    AdaError = True
+        'End If
 
         If e.IsNewRow And Not AdaError Then
             Dim pErr As String = ""
@@ -580,8 +580,8 @@ Public Class ControlChartSetup
                 .CPCL = CPCL, .CPCLOld = CPCLOld,
                 .CPUCL = CPUCL, .CPUCLOld = CPUCLOld,
                 .CPLCL = CPLCL, .CPLCLOld = CPLCLOld,
-                .RCL = RCL, .RCLOld = RCLOld,
-                .RLCL = RLCL, .RLCLOld = RLCLOld,
+                .RCL = IIf(RCL Is Nothing, 0, RCL), .RCLOld = IIf(RCLOld Is Nothing, 0, RCLOld),
+                .RLCL = IIf(RLCL Is Nothing, 0, RLCL), .RLCLOld = IIf(RLCLOld Is Nothing, 0, RLCLOld),
                 .RUCL = RUCL, .RUCLOld = RUCLOld,
                 .User = User
             }
@@ -654,6 +654,24 @@ Public Class ControlChartSetup
         With combo3
             .PropertiesComboBox.ValueType = GetType(String)
             .PropertiesComboBox.DataSource = ds3
+            .PropertiesComboBox.TextField = "Description"
+            .PropertiesComboBox.ValueField = "Code"
+            .PropertiesComboBox.TextFormatString = "{0}"
+        End With
+
+        'Characteristic Status
+        Dim ds4 As New SqlDataSource
+        With ds4
+            .ConnectionString = Sconn.Stringkoneksi
+            .SelectCommandType = SqlDataSourceCommandType.StoredProcedure
+            .SelectCommand = "sp_SPC_ChartSetup_FillCombo"
+            .SelectParameters.Add("Type", "8")
+        End With
+
+        Dim combo4 As GridViewDataComboBoxColumn = TryCast(Grid.Columns("Characteristic"), GridViewDataComboBoxColumn)
+        With combo4
+            .PropertiesComboBox.ValueType = GetType(String)
+            .PropertiesComboBox.DataSource = ds4
             .PropertiesComboBox.TextField = "Description"
             .PropertiesComboBox.ValueField = "Code"
             .PropertiesComboBox.TextFormatString = "{0}"

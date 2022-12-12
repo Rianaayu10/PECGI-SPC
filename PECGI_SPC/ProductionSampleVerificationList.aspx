@@ -608,7 +608,7 @@
                 </dx:GridViewBandColumn>
             </Columns>
             <SettingsBehavior ColumnResizeMode="control"/>
-            <SettingsPager Mode="ShowPager" PageSize="20" AlwaysShowPager="true">
+            <SettingsPager Mode="ShowPager" PageSize="50" AlwaysShowPager="true">
                 <PageSizeItemSettings Visible="True"></PageSizeItemSettings>
             </SettingsPager>
             <Settings HorizontalScrollBarMode="Auto" VerticalScrollBarMode="Auto" VerticalScrollableHeight="300" />     
