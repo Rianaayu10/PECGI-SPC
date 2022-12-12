@@ -126,6 +126,7 @@ Public Class clsControlChartSetupDB
                 cmd.Parameters.AddWithValue("RLCL", CDbl(cls.RLCL)) : cmd.Parameters.AddWithValue("RLCLOld", CDbl(cls.RLCLOld))
                 cmd.Parameters.AddWithValue("RUCL", CDbl(cls.RUCL)) : cmd.Parameters.AddWithValue("RUCLOld", CDbl(cls.RUCLOld))
                 cmd.Parameters.AddWithValue("User", cls.User)
+                cmd.Parameters.AddWithValue("To", clsSPCAlertDashboardDB.GetUserLine(cls.Factory, cls.Machine, "1"))
                 cmd.Parameters.AddWithValue("Type", Type)
 
                 cmd.ExecuteNonQuery()
