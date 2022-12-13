@@ -1096,7 +1096,7 @@
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
-            <cc1:Series Name="RuleYellow" ArgumentDataMember="Seq" ShowInLegend="False" ToolTipEnabled="False" ValueDataMembersSerializable="RuleYellow">
+            <cc1:Series Name="RuleYellow" ArgumentDataMember="Seq" ShowInLegend="False" ToolTipEnabled="False" ValueDataMembersSerializable="RuleYellow" CrosshairEnabled="False">
                 <ViewSerializable>
                     <cc1:FullStackedBarSeriesView BarWidth="1" Color="255, 255, 0" Transparency="200" AxisYName="Secondary AxisY 1">
                         <Border Visibility="False" />
@@ -1105,7 +1105,7 @@
                     </cc1:FullStackedBarSeriesView>
                 </ViewSerializable>
             </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="RuleRed" ShowInLegend="False" ValueDataMembersSerializable="RuleRed">
+            <cc1:Series ArgumentDataMember="Seq" Name="RuleRed" ShowInLegend="False" ValueDataMembersSerializable="RuleRed" CrosshairEnabled="False" ToolTipEnabled="False">
                 <ViewSerializable>
                     <cc1:FullStackedBarSeriesView BarWidth="1" Color="240, 0, 0" Transparency="200">
                         <FillStyle FillMode="Solid">
