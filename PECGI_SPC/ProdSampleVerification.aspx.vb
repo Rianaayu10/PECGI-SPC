@@ -405,6 +405,7 @@ Public Class ProdSampleVerification
         cls.ProdDate = Convert.ToDateTime(HideValue.Get("ProdDate")).ToString("yyyy-MM-dd")
         cls.ShiftCode = HideValue.Get("ShiftCode")
         cls.Seq = HideValue.Get("Seq")
+        cls.ShowVerify = HideValue.Get("ShowVerify")
         cls.User = pUser
 
         Dim dt = clsProdSampleVerificationDB.Validation(GetVerifyChartSetup, cls)
@@ -426,6 +427,7 @@ Public Class ProdSampleVerification
         cls.ProdDate = Convert.ToDateTime(HideValue.Get("ProdDate")).ToString("yyyy-MM-dd")
         cls.ShiftCode = HideValue.Get("ShiftCode")
         cls.Seq = HideValue.Get("Seq")
+        cls.ShowVerify = HideValue.Get("ShowVerify")
         cls.User = pUser
 
         Dim dt = clsProdSampleVerificationDB.Validation(GetVerifyChartSetup, cls)
