@@ -1075,8 +1075,8 @@
 
                 <dx:GridViewDataComboBoxColumn Caption="PIC" FieldName="PIC" VisibleIndex="3">
                     <PropertiesComboBox DropDownStyle="DropDownList" IncrementalFilteringMode="Contains"
-                        DisplayFormatInEditMode="true" Width="170px" TextField="CODE" DataSourceID="dsUserSetup"
-                        ValueField="CODENAME" ClientInstanceName="PIC">
+                        DisplayFormatInEditMode="true" Width="170px" TextField="CODE" 
+                        ValueField="CODENAME" ClientInstanceName="PIC" >
                         <ItemStyle Height="10px" Paddings-Padding="4px">
                             <Paddings Padding="4px"></Paddings>
                         </ItemStyle>

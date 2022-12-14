@@ -40,6 +40,7 @@ Public Class ProdSampleVerification
     Dim Shift_Sel As String = "5"
     Dim Seq_Sel As String = "6"
     Dim User_Sel As String = "7"
+    Dim PIC_Sel As String = "8"
 
     ' FILL GRID
     Dim GetHeader_ProdDate As String = "1"
@@ -480,7 +481,7 @@ Public Class ProdSampleVerification
 
 #Region "INSERT - UPDATE - DELETE ACTIVITY MONITORING CELL EDITOR"
     Private Sub Grid_CellEditorInitialize(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewEditorEventArgs) Handles GridActivity.CellEditorInitialize
-        If e.Column.FieldName = "FactoryName" Or e.Column.FieldName = "ItemTypeName" Or e.Column.FieldName = "LineName" Or e.Column.FieldName = "ItemCheckName" Or e.Column.FieldName = "ShiftName" Then
+        If e.Column.FieldName = "FactoryName" Or e.Column.FieldName = "ItemTypeName" Or e.Column.FieldName = "LineName" Or e.Column.FieldName = "ItemCheckName" Or e.Column.FieldName = "ShiftName" Or e.Column.FieldName = "[IC" Then
             e.Editor.ReadOnly = True
             e.Editor.ForeColor = Color.Silver
         End If
@@ -515,7 +516,26 @@ Public Class ProdSampleVerification
                 e.Editor.ForeColor = Color.Silver
             End If
         End If
+        If e.Column.FieldName = "PIC" Then
+            Dim combo As ASPxComboBox = TryCast(e.Editor, ASPxComboBox)
+            If GridActivity.IsEditing Then Call up_FillcomboGrid(combo, HideValue.Get("LineCode")) : combo.Value = e.Value
+
+        End If
     End Sub
+
+    Private Sub up_FillcomboGrid(ByVal cmb As ASPxComboBox, Line As String)
+        Dim data As New clsProdSampleVerification()
+        data.LineCode = Line
+        dt = clsProdSampleVerificationDB.FillCombo(PIC_Sel, data)
+
+        With cmb
+            .Items.Clear() : .Columns.Clear()
+            .DataSource = dt
+            .DataBind()
+            .SelectedIndex = -1
+        End With
+    End Sub
+
     Protected Sub GridActivity_Validating(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataValidationEventArgs) Handles GridActivity.RowValidating
         Dim dataCol As New GridViewDataColumn
         For Each column As GridViewColumn In GridActivity.Columns
@@ -1550,19 +1570,19 @@ Public Class ProdSampleVerification
                 .Cells(irow, icolbd).Value = MIN
                 .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
                 .Cells(irow, icolbd).Style.Fill.PatternType = ExcelFillStyle.Solid
-                .Cells(irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(MINclr))
+                .Cells(irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(MINClr))
                 icolbd = icolbd + 1
 
                 .Cells(irow, icolbd).Value = MAX
                 .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
                 .Cells(irow, icolbd).Style.Fill.PatternType = ExcelFillStyle.Solid
-                .Cells(irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(MAXclr))
+                .Cells(irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(MAXClr))
                 icolbd = icolbd + 1
 
                 .Cells(irow, icolbd).Value = AVG
                 .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
                 .Cells(irow, icolbd).Style.Fill.PatternType = ExcelFillStyle.Solid
-                .Cells(irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(AVGclr))
+                .Cells(irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(AVGClr))
                 icolbd = icolbd + 1
 
                 .Cells(irow, icolbd).Value = R
