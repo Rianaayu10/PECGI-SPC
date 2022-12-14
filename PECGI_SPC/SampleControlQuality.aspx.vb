@@ -166,6 +166,8 @@ Public Class SampleControlQuality
                 Dim Picture3 As OfficeOpenXml.Drawing.ExcelPicture
                 Picture3 = .Drawings.AddPicture("histogram", Image.FromStream(streamImg3))
                 Picture3.SetPosition(RowHistogram, 0, 0, 0)
+
+                ExcelCPK(ws, RowHistogram + 1)
             End With
 
             Dim stream As MemoryStream = New MemoryStream(Pck.GetAsByteArray())
@@ -175,6 +177,61 @@ Public Class SampleControlQuality
             Response.End()
 
         End Using
+    End Sub
+
+
+    Private Sub ExcelCPK(pExl As ExcelWorksheet, StartRow As Integer)
+        With pExl
+            Dim Row As Integer = StartRow
+            Dim Col As Integer = 10
+            .Cells(Row, Col).Value = "Factory"
+            .Cells(Row + 1, Col).Value = "Type"
+            .Cells(Row + 2, Col).Value = "Machine Process"
+            .Cells(Row + 3, Col).Value = "Item Check"
+            .Cells(Row + 4, Col).Value = "Prod Date"
+            .Cells(Row + 5, Col).Value = "Unit Measurement"
+            .Cells(Row + 6, Col).Value = "Min"
+            .Cells(Row + 7, Col).Value = "Max"
+            .Cells(Row + 8, Col).Value = "X Bar Bar"
+            .Cells(Row + 9, Col).Value = "R Bar"
+            .Cells(Row, Col, Row + 9, Col + 2).Style.Fill.PatternType = ExcelFillStyle.Solid
+            .Cells(Row, Col, Row + 9, Col + 2).Style.Fill.BackgroundColor.SetColor(Color.FromArgb(242, 242, 242))
+            For iRow = Row To Row + 9
+                .Cells(iRow, Col, iRow, Col + 2).Merge = True
+            Next
+            For irow = Row To Row + 5
+                .Cells(irow, Col + 3, irow, Col + 6).Merge = True
+            Next
+
+            Col = 14
+            .Cells(Row + 6, Col).Value = "CP"
+            .Cells(Row + 7, Col).Value = "CPK1"
+            .Cells(Row + 8, Col).Value = "CPK2"
+            .Cells(Row + 9, Col).Value = "CPK Min"
+            .Cells(Row + 6, Col, Row + 9, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
+            .Cells(Row + 6, Col, Row + 9, Col).Style.Fill.BackgroundColor.SetColor(Color.FromArgb(242, 242, 242))
+            For iRow = Row + 6 To Row + 9
+                .Cells(iRow, 15, iRow, 16).Merge = True
+            Next
+            If dtCP.Rows.Count > 0 Then
+                Col = 13
+                .Cells(Row, Col).Value = dtCP.Rows(0)("FactoryName") & ""
+                .Cells(Row + 1, Col).Value = dtCP.Rows(0)("ItemTypeName") & ""
+                .Cells(Row + 2, Col).Value = dtCP.Rows(0)("LineName") & ""
+                .Cells(Row + 3, Col).Value = dtCP.Rows(0)("ItemCheckName") & ""
+                .Cells(Row + 4, Col).Value = ""
+                .Cells(Row + 5, Col).Value = dtCP.Rows(0)("Unit") & ""
+
+                .Cells(Row + 6, Col).Value = dtCP.Rows(0)("Min")
+                .Cells(Row + 7, Col).Value = dtCP.Rows(0)("Max")
+                .Cells(Row + 8, Col).Value = dtCP.Rows(0)("XBarBar")
+                .Cells(Row + 9, Col).Value = dtCP.Rows(0)("RBar")
+            End If
+
+            Dim rg As ExcelRange = .Cells(Row, 10, Row + 9, 16)
+            ExcelBorder(pExl, rg)
+            rg.Style.HorizontalAlignment = HorzAlignment.Near
+        End With
     End Sub
 
     Private Sub GridExcel(pExl As ExcelWorksheet, Hdr As clsHeader)
