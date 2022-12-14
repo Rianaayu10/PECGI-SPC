@@ -61,7 +61,15 @@
 	        } else if(cboSeq.GetText() == '') {
                 cboSeq.Focus();
                 errmsg = 'Please select Sequence!';
-	        }
+	        } else {
+                var date1 = dtDate.GetValue();
+                var d = new Date();
+                var date2 = new Date(d.getFullYear(), d.getMonth(), d.getDate());   
+                
+                if(date1 > date2) {
+                    errmsg = 'Selected date is newer than current date!'; 
+                }
+            }
 
             if(errmsg != '') {
                 toastr.warning(errmsg, 'Warning');
@@ -717,7 +725,7 @@
                 <CellStyle HorizontalAlign="Center">
                 </CellStyle>
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn Caption="Operator" VisibleIndex="4" FieldName="RegisterUser">
+            <dx:GridViewDataTextColumn Caption="Operator" VisibleIndex="4" FieldName="RegisterUser" Width="160px">
                 <EditFormSettings Visible="False" />
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn Caption="Sample Time" VisibleIndex="5" Width="70px" FieldName="RegisterDate">
@@ -732,7 +740,7 @@
                 </PropertiesTextEdit>
                 <EditFormSettings Visible="True" />
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn Caption="Last User" VisibleIndex="9" FieldName="RegisterUser">
+            <dx:GridViewDataTextColumn Caption="Last User" VisibleIndex="9" FieldName="RegisterUser" Width="160px">
                 <EditFormSettings Visible="False" />
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn Caption="Last Update" VisibleIndex="10" FieldName="RegisterDate" Width="160px">
