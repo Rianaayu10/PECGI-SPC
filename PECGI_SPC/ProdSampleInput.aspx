@@ -61,7 +61,15 @@
 	        } else if(cboSeq.GetText() == '') {
                 cboSeq.Focus();
                 errmsg = 'Please select Sequence!';
-	        }
+	        } else {
+                var date1 = dtDate.GetValue();
+                var d = new Date();
+                var date2 = new Date(d.getFullYear(), d.getMonth(), d.getDate());   
+                
+                if(date1 > date2) {
+                    errmsg = 'Selected date is newer than current date!'; 
+                }
+            }
 
             if(errmsg != '') {
                 toastr.warning(errmsg, 'Warning');

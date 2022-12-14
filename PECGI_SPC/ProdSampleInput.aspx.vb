@@ -498,7 +498,7 @@ Public Class ProdSampleInput
         Else
             grid.JSProperties("cpAllowInsert") = "0"
         End If
-        If AllowSkill = 0 Then
+        If AllowSkill = False Then
             show_error(MsgTypeEnum.Warning, "You don't have skill for this item", 1)
         ElseIf LastVerification = 0 Then
             ProdDate = Format(dtVer.Rows(0)(1), "dd MMM yyyy")
