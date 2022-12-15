@@ -12,6 +12,7 @@ Public Class clsPocessGroupDB
             Cn.Open()
             Dim cmd As New SqlCommand("sp_SPC_FillCombo", Cn)
             cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.AddWithValue("ComboType", 0)
             cmd.Parameters.AddWithValue("UserID", UserID)
             cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
             Dim rd As SqlDataReader = cmd.ExecuteReader
