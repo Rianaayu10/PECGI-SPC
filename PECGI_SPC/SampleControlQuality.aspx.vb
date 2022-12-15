@@ -219,13 +219,19 @@ Public Class SampleControlQuality
                 .Cells(Row + 1, Col).Value = dtCP.Rows(0)("ItemTypeName") & ""
                 .Cells(Row + 2, Col).Value = dtCP.Rows(0)("LineName") & ""
                 .Cells(Row + 3, Col).Value = dtCP.Rows(0)("ItemCheckName") & ""
-                .Cells(Row + 4, Col).Value = ""
+                .Cells(Row + 4, Col).Value = Format(dtDate.Value, "dd MMM yyyy") & " - " & Format(dtTo.Value, "dd MMM yyyy")
                 .Cells(Row + 5, Col).Value = dtCP.Rows(0)("Unit") & ""
 
                 .Cells(Row + 6, Col).Value = dtCP.Rows(0)("Min")
                 .Cells(Row + 7, Col).Value = dtCP.Rows(0)("Max")
                 .Cells(Row + 8, Col).Value = dtCP.Rows(0)("XBarBar")
                 .Cells(Row + 9, Col).Value = dtCP.Rows(0)("RBar")
+
+                Col = 15
+                .Cells(Row + 6, Col).Value = dtCP.Rows(0)("CP")
+                .Cells(Row + 7, Col).Value = dtCP.Rows(0)("CPK1")
+                .Cells(Row + 8, Col).Value = dtCP.Rows(0)("CPK2")
+                .Cells(Row + 9, Col).Value = dtCP.Rows(0)("CPKMin")
             End If
 
             Dim rg As ExcelRange = .Cells(Row, 10, Row + 9, 16)
