@@ -892,6 +892,9 @@
       <DependentUpon>AlertDelayInput.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Class\clsLineGroup.vb" />
+    <Compile Include="Class\clsProcess.vb" />
+    <Compile Include="Class\clsProcessGroup.vb" />
     <Compile Include="Class\clsTroubleHistoryByLine.vb" />
     <Compile Include="SPCDashboardTest.aspx.designer.vb">
       <DependentUpon>SPCDashboardTest.aspx</DependentUpon>
