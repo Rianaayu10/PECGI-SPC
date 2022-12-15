@@ -1048,7 +1048,7 @@ Public Class ProdSampleInput
             End If
 
             iRow = iRow + 2
-            .Cells(iRow, 1).Value = "Sub Lot No"
+            .Cells(iRow, 1).Value = "Lot No"
             .Cells(iRow, 2).Value = SubLotNo
             .Cells(iRow + 1, 1).Value = "Remarks"
             .Cells(iRow + 1, 2).Value = Remarks

@@ -843,7 +843,7 @@
             <table style="width:100%">
                 <tr style="height:26px">
                     <td style="width:100px">
-                        <dx:ASPxLabel ID="ASPxLabel20" runat="server" Text="Sub Lot No" Font-Names="Segoe UI" Font-Size="9pt" Width="80px"></dx:ASPxLabel>
+                        <dx:ASPxLabel ID="ASPxLabel20" runat="server" Text="Lot No" Font-Names="Segoe UI" Font-Size="9pt" Width="80px"></dx:ASPxLabel>
                     </td>
                     <td>
 
