@@ -1,0 +1,1 @@
+Alter Table spc_ChartSetup add Remark varchar(50)

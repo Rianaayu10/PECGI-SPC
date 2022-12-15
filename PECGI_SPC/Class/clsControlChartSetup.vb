@@ -20,6 +20,7 @@ Public Class clsControlChartSetup
     Public Property RCL As String : Public Property RCLOld As String
     Public Property RLCL As String : Public Property RLCLOld As String
     Public Property RUCL As String : Public Property RUCLOld As String
+    Public Property Remark As String : Public Property RemarkOld As String
     Public Property User As String
 End Class
 
@@ -90,6 +91,7 @@ Public Class clsControlChartSetupDB
                 cmd.Parameters.AddWithValue("RCL", CDbl(cls.RCL))
                 cmd.Parameters.AddWithValue("RLCL", CDbl(cls.RLCL))
                 cmd.Parameters.AddWithValue("RUCL", CDbl(cls.RUCL))
+                cmd.Parameters.AddWithValue("Remark", cls.Remark)
                 cmd.Parameters.AddWithValue("User", cls.User)
                 cmd.Parameters.AddWithValue("Type", Type)
 
@@ -125,6 +127,7 @@ Public Class clsControlChartSetupDB
                 cmd.Parameters.AddWithValue("RCL", CDbl(cls.RCL)) : cmd.Parameters.AddWithValue("RCLOld", CDbl(cls.RCLOld))
                 cmd.Parameters.AddWithValue("RLCL", CDbl(cls.RLCL)) : cmd.Parameters.AddWithValue("RLCLOld", CDbl(cls.RLCLOld))
                 cmd.Parameters.AddWithValue("RUCL", CDbl(cls.RUCL)) : cmd.Parameters.AddWithValue("RUCLOld", CDbl(cls.RUCLOld))
+                cmd.Parameters.AddWithValue("Remark", cls.Remark) : cmd.Parameters.AddWithValue("RemarkOld", cls.RemarkOld)
                 cmd.Parameters.AddWithValue("User", cls.User)
                 cmd.Parameters.AddWithValue("To", clsSPCAlertDashboardDB.GetUserLine(cls.Factory, cls.Machine, "1"))
                 cmd.Parameters.AddWithValue("Type", Type)

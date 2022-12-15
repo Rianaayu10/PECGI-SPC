@@ -669,6 +669,21 @@
                     <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
                 </dx:GridViewDataTextColumn>
 
+                <dx:GridViewDataTextColumn Caption="Remark" FieldName="Remark" VisibleIndex="13"
+                    Width="135px" Settings-AutoFilterCondition="Contains">
+                    <PropertiesTextEdit MaxLength="50" Width="100px">
+                        <Style HorizontalAlign="Left"></Style>
+                    </PropertiesTextEdit>
+                    <Settings AutoFilterCondition="Contains"></Settings>
+                    <FilterCellStyle Paddings-PaddingRight="4px">
+                        <Paddings PaddingRight="4px"></Paddings>
+                    </FilterCellStyle>
+                    <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                        <Paddings PaddingLeft="5px"></Paddings>
+                    </HeaderStyle>
+                    <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
+                </dx:GridViewDataTextColumn>
+
                 <dx:GridViewDataComboBoxColumn Caption="Factory" FieldName="Factory" VisibleIndex="17"
                     Width="100px" Settings-AutoFilterCondition="Contains" Visible="false">
                     <PropertiesComboBox DropDownStyle="DropDownList" TextFormatString="{0}"
@@ -909,6 +924,13 @@
                                             runat="server" ColumnID="RLCL"></dx:ASPxGridViewTemplateReplacement>
                                     </td>
                                 </tr>--%>
+                                <tr style="height: 30px">
+                                    <td>Remark</td>
+                                    <td>
+                                        <dx:ASPxGridViewTemplateReplacement ID="ASPxGridViewTemplateReplacement5" ReplacementType="EditFormCellEditor"
+                                            runat="server" ColumnID="Remark"></dx:ASPxGridViewTemplateReplacement>
+                                    </td>
+                                </tr>
                             </table>
                         </dx:ContentControl>
                     </div>
