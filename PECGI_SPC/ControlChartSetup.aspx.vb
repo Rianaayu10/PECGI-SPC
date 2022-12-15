@@ -99,7 +99,7 @@ Public Class ControlChartSetup
 
         If e.Column.FieldName = "Factory" Or e.Column.FieldName = "TypeEditGrid" Or e.Column.FieldName = "Start" Or e.Column.FieldName = "End" Then
             e.Editor.Width = "125"
-        ElseIf e.Column.FieldName = "MachineEditGrid" Or e.Column.FieldName = "ItemCheckEditGrid" Then
+        ElseIf e.Column.FieldName = "MachineEditGrid" Or e.Column.FieldName = "ItemCheckEditGrid" Or e.Column.FieldName = "Remark" Then
             e.Editor.Width = "200"
         ElseIf e.Column.FieldName = "SpecUSL" Or e.Column.FieldName = "SpecLSL" _
             Or e.Column.FieldName = "XUCL" Or e.Column.FieldName = "XLCL" _
@@ -163,6 +163,7 @@ Public Class ControlChartSetup
                 e.NewValues("RCL"), e.NewValues("RCL"), _
                 e.NewValues("RLCL"), e.NewValues("RLCL"), _
                 e.NewValues("RUCL"), e.NewValues("RUCL"), _
+                e.NewValues("Remark"), e.NewValues("Remark"), _
                 pUser)
             'e.NewValues("XCL"), e.NewValues("XCL"), _ di Hapus
 
@@ -197,6 +198,7 @@ Public Class ControlChartSetup
                 e.NewValues("RCL"), e.OldValues("RCL"), _
                 e.NewValues("RLCL"), e.OldValues("RLCL"), _
                 e.NewValues("RUCL"), e.OldValues("RUCL"), _
+                e.NewValues("Remark"), e.OldValues("Remark"), _
                 pUser)
             'e.NewValues("XCL"), e.OldValues("XCL"), _ di Hapus
 
@@ -559,6 +561,7 @@ Public Class ControlChartSetup
                                RCL As String, RCLOld As String, _
                                RLCL As String, RLCLOld As String, _
                                RUCL As String, RUCLOld As String, _
+                               Remark As String, RemarkOld As String, _
                                User As String)
         'XBarCL As String, XBarCLOld As String, _ di Hapus Parameter nya
 
@@ -583,6 +586,7 @@ Public Class ControlChartSetup
                 .RCL = IIf(RCL Is Nothing, 0, RCL), .RCLOld = IIf(RCLOld Is Nothing, 0, RCLOld),
                 .RLCL = IIf(RLCL Is Nothing, 0, RLCL), .RLCLOld = IIf(RLCLOld Is Nothing, 0, RLCLOld),
                 .RUCL = RUCL, .RUCLOld = RUCLOld,
+                .Remark = Remark, .RemarkOld = RemarkOld,
                 .User = User
             }
             clsControlChartSetupDB.InsertUpdate(cls, Type)
