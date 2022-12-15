@@ -235,7 +235,7 @@ Public Class frmSPCNotification
             Dim infoUser As String = UserIDLogin & "|" & PasswordLogin
             Dim Direct As String
 
-            Dim Link As String = gridNGResult.Item(i, DelayInput.Link)
+            Dim Link As String = gridNGResult.Item(i, NGResult.Link)
             Direct = "SPCNotification" & "|" & infoUser & "|" & Link
 
             Dim pDirect As String = NewEnryption.EncryptData(Direct)
