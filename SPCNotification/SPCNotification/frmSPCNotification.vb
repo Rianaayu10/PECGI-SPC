@@ -228,56 +228,74 @@ Public Class frmSPCNotification
     'End Sub
 
     Private Sub gridNGResult_Click(sender As System.Object, e As System.EventArgs) Handles gridNGResult.Click
-        If gridNGResult.Col = NGResult.pType Then
-            Dim i As Integer
-            i = gridNGResult.Row
+        Try
+            If gridNGResult.Col = NGResult.pType Then
+                If gridNGResult.Rows.Count > 1 Then
+                    Dim i As Integer
+                    i = gridNGResult.Row
 
-            Dim infoUser As String = UserIDLogin & "|" & PasswordLogin
-            Dim Direct As String
+                    Dim infoUser As String = UserIDLogin & "|" & PasswordLogin
+                    Dim Direct As String
 
-            Dim Link As String = gridNGResult.Item(i, NGResult.Link)
-            Direct = "SPCNotification" & "|" & infoUser & "|" & Link
+                    Dim Link As String = gridNGResult.Item(i, NGResult.Link)
+                    Direct = "SPCNotification" & "|" & infoUser & "|" & Link
 
-            Dim pDirect As String = NewEnryption.EncryptData(Direct)
+                    Dim pDirect As String = NewEnryption.EncryptData(Direct)
 
-            Dim directLink As String = pLink & "Default.aspx?link=" & pDirect
-            Process.Start(directLink)
-        End If
+                    Dim directLink As String = pLink & "Default.aspx?link=" & pDirect
+                    Process.Start(directLink)
+                End If
+            End If
+        Catch ex As Exception
+
+        End Try
     End Sub
 
     Private Sub gridDelayInput_Click(sender As System.Object, e As System.EventArgs) Handles gridDelayInput.Click
-        If gridDelayInput.Col = DelayInput.pType Then
-            Dim i As Integer
-            i = gridDelayInput.Row
+        Try
+            If gridDelayInput.Col = DelayInput.pType Then
+                If gridDelayInput.Rows.Count > 1 Then
+                    Dim i As Integer
+                    i = gridDelayInput.Row
 
-            Dim infoUser As String = UserIDLogin & "|" & PasswordLogin
-            Dim Direct As String
+                    Dim infoUser As String = UserIDLogin & "|" & PasswordLogin
+                    Dim Direct As String
 
-            Dim Link As String = gridDelayInput.Item(i, DelayInput.Link)
-            Direct = "SPCNotification" & "|" & infoUser & "|" & Link
+                    Dim Link As String = gridDelayInput.Item(i, DelayInput.Link)
+                    Direct = "SPCNotification" & "|" & infoUser & "|" & Link
 
-            Dim pDirect As String = NewEnryption.EncryptData(Direct)
+                    Dim pDirect As String = NewEnryption.EncryptData(Direct)
 
-            Dim directLink As String = pLink & "Default.aspx?link=" & pDirect
-            Process.Start(directLink)
-        End If
+                    Dim directLink As String = pLink & "Default.aspx?link=" & pDirect
+                    Process.Start(directLink)
+                End If
+            End If
+        Catch ex As Exception
+
+        End Try
     End Sub
 
     Private Sub gridDelayVerification_Click(sender As System.Object, e As System.EventArgs) Handles gridDelayVerification.Click
-        If gridDelayVerification.Col = DelayVerification.pType Then
-            Dim i As Integer
-            i = gridDelayVerification.Row
+        Try
+            If gridDelayVerification.Col = DelayVerification.pType Then
+                If gridDelayVerification.Rows.Count > 1 Then
+                    Dim i As Integer
+                    i = gridDelayVerification.Row
 
-            Dim infoUser As String = UserIDLogin & "|" & PasswordLogin
-            Dim Direct As String
-            Dim Link As String = gridDelayVerification.Item(i, DelayVerification.Link)
-            Direct = "SPCNotification" & "|" & infoUser & "|" & Link
+                    Dim infoUser As String = UserIDLogin & "|" & PasswordLogin
+                    Dim Direct As String
+                    Dim Link As String = gridDelayVerification.Item(i, DelayVerification.Link)
+                    Direct = "SPCNotification" & "|" & infoUser & "|" & Link
 
-            Dim pDirect As String = NewEnryption.EncryptData(Direct)
+                    Dim pDirect As String = NewEnryption.EncryptData(Direct)
 
-            Dim directLink As String = pLink & "Default.aspx?link=" & pDirect
-            Process.Start(directLink)
-        End If
+                    Dim directLink As String = pLink & "Default.aspx?link=" & pDirect
+                    Process.Start(directLink)
+                End If
+            End If
+        Catch ex As Exception
+
+        End Try
     End Sub
 
 
