@@ -142,7 +142,7 @@ Public Class SampleControlQuality
                 Hdr.ItemCheckName = cboItemCheck.Value
                 Hdr.ProdDate = Convert.ToDateTime(dtDate.Value).ToString("yyyy-MM-dd")
                 Hdr.ProdDate2 = Convert.ToDateTime(dtTo.Value).ToString("yyyy-MM-dd")
-
+                Hdr.VerifiedOnly = cboShow.Value
                 GridTitle(ws, Hdr)
                 GridExcel(ws, Hdr)
                 .InsertRow(LastRow, 22)
@@ -226,12 +226,14 @@ Public Class SampleControlQuality
                 .Cells(Row + 7, Col).Value = dtCP.Rows(0)("Max")
                 .Cells(Row + 8, Col).Value = dtCP.Rows(0)("XBarBar")
                 .Cells(Row + 9, Col).Value = dtCP.Rows(0)("RBar")
+                .Cells(Row + 6, Col, Row + 9, Col).Style.Numberformat.Format = "0.000"
 
                 Col = 15
                 .Cells(Row + 6, Col).Value = dtCP.Rows(0)("CP")
                 .Cells(Row + 7, Col).Value = dtCP.Rows(0)("CPK1")
                 .Cells(Row + 8, Col).Value = dtCP.Rows(0)("CPK2")
                 .Cells(Row + 9, Col).Value = dtCP.Rows(0)("CPKMin")
+                .Cells(Row + 6, Col, Row + 9, Col).Style.Numberformat.Format = "0.000"
             End If
 
             Dim rg As ExcelRange = .Cells(Row, 10, Row + 9, 16)
