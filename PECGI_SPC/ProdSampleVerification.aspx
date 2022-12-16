@@ -27,12 +27,11 @@
             HideValue.Set('IOT_ProcessCode', s.cp_ProcessCode);
             HideValue.Set('IOT_ProcessTableLineCode', s.cp_ProcessTableLineCode);
             HideValue.Set('IOT_ItemCode', s.cp_ItemCode);
-
-            HideValue.Set('IOT_ItemCode_Traceability', s.cp_ItemCode_Traceability);
+            HideValue.Set('IOT_InstructionNo', s.cp_InstructionNo);
             HideValue.Set('IOT_LotNo', s.cp_LotNo);
 
             var USL = s.cpUSL, LSL = s.cpLSL, UCL = s.cpUCL, LCL = s.cpLCL;
-            var RUCL = s.cpRUCL, RLCL = s.cpRLCL, MIN = s.cpMIN, MAX = s.cpMAX;
+            var MIN = s.cpMIN, MAX = s.cpMAX;
             var AVG = s.cpAVG, R = s.cpR, C = s.cpC, NG = s.cpNG, XBarUCL = s.cpXBarUCL, XBarLCL = s.cpXBarLCL;
             var MINClr = s.cpMINClr, MAXClr = s.cpMAXClr, AVClr = s.cpAVGClr, RClr = s.cpRClr, C_Clr = s.cpC_Clr, NG_Clr = s.cpNG_Clr;
 
@@ -225,12 +224,11 @@
             HideValue.Set('IOT_ProcessCode', s.cp_ProcessCode);
             HideValue.Set('IOT_ProcessTableLineCode', s.cp_ProcessTableLineCode);
             HideValue.Set('IOT_ItemCode', s.cp_ItemCode);
-
-            HideValue.Set('IOT_ItemCode_Traceability', s.cp_ItemCode_Traceability);
+            HideValue.Set('IOT_InstructionNo', s.cp_InstructionNo);
             HideValue.Set('IOT_LotNo', s.cp_LotNo);
 
             var USL = s.cpUSL, LSL = s.cpLSL, UCL = s.cpUCL, LCL = s.cpLCL;
-            var RUCL = s.cpRUCL, RLCL = s.cpRLCL, MIN = s.cpMIN, MAX = s.cpMAX;
+            var MIN = s.cpMIN, MAX = s.cpMAX;
             var AVG = s.cpAVG, R = s.cpR, C = s.cpC, NG = s.cpNG, XBarUCL = s.cpXBarUCL, XBarLCL = s.cpXBarLCL;
             var MINClr = s.cpMINClr, MAXClr = s.cpMAXClr, AVClr = s.cpAVGClr, RClr = s.cpRClr, C_Clr = s.cpC_Clr, NG_Clr = s.cpNG_Clr;
 
@@ -438,7 +436,6 @@
             var Seq = HideValue.Get('Seq');
 
             /*console.log(ProdDate);*/
-
             window.open('ProdSampleInput.aspx?menu=prodSampleVerification.aspx' + '&FactoryCode=' + Factory + '&ItemTypeCode=' + ItemType
                 + '&Line=' + Line + '&ItemCheckCode=' + ItemCheck + '&ProdDate=' + ProdDate + '&Shift=' + Shift + '&Sequence=' + Seq
                 + '', '_blank');
@@ -454,6 +451,7 @@
             var Line = HideValue.Get('IOT_ProcessTableLineCode')
             var Shift = HideValue.Get('ShiftCode')
             var Item = HideValue.Get('IOT_ItemCode')
+            var InstructionNo = HideValue.Get('IOT_InstructionNo')
             var months = {
                 Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
                 Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
@@ -461,40 +459,18 @@
             var p = HideValue.Get('ProdDate').split(' ');
             var Date = p[2] + "-" + months[p[1]] + "-" + p[0];
 
-            //console.log(Date);
-
-            //TEST
-            //var FactoryCode = "F001" ;
-            //var ProcessGroup = "PG003";
-            //var LineGroup = "ASS01";
-            //var Process = "P002";
-            //var Line = "018";
-            //var Date = "2022-09-15";
-            //var InstructionNo = "F001.P002.018.2209.0099";
-            //var Shift = "SH001";
-            //var Item = "BBRSRUSA0PAD";
-
-            var IOT_URL = URL + 'AssyReport/Index?ReportType=018&Factory=' + FactoryCode + '&ProcessGroup=' + ProcessGroup + '&LineGroup=' + LineGroup + '&Process=' + Process + '&Line=' + Line + '&Date=' + Date + '&InstructionNo=' + '-' + '&Shift=' + Shift + '&Item=' + Item + '&UserID=SPC';
+            var IOT_URL = URL + 'AssyReport/Index?ReportType=018&Factory=' + FactoryCode + '&ProcessGroup=' + ProcessGroup + '&LineGroup=' + LineGroup + '&Process=' + Process + '&Line=' + Line + '&Date=' + Date + '&InstructionNo=' + InstructionNo + '&Shift=' + Shift + '&Item=' + Item + '&UserID=SPC';
             window.open(IOT_URL, '_blank');
-            //console.log(IOT_URL);
-            //window.open('http://192.168.0.3:8091/AssyReport/Index?ReportType=018&Factory=F001&ProcessGroup=PG003&LineGroup=ASS01&Process=P002&Line=018&Date=2022-09-15&InstructionNo=F001.P002.018.2209.0099&Shift=SH001&Item=BBRSRUSA0PAD&UserID=SPC', '_blank');
-
         }
 
         function IOTTraceability() {
 
             var URL = HideValue.Get('IOT_URL')
-            var ItemDesc = HideValue.Get('IOT_ItemCode_Traceability') 
+            var Item = HideValue.Get('IOT_ItemCode')
             var LotNo = HideValue.Get('IOT_LotNo')
 
-            // TEST
-            //var ItemDesc = "BBRSRUSA0PAD";
-            //var LotNo = "220916.018.1.0001";
-
-            var IOT_URL = URL + 'TraceabilityReport/Index?ItemCls=02&Item=' + ItemDesc + '&LotNo=' + LotNo + '&isExplosion=1&UserID=SPC';
+            var IOT_URL = URL + 'TraceabilityReport/Index?ItemCls=02&Item=' + Item + '&LotNo=' + LotNo + '&isExplosion=1&UserID=SPC';
             window.open(IOT_URL, '_blank');
-            /*console.log(IOT_URL);*/   
-            //window.open('http://192.168.0.3:8091/TraceabilityReport/Index?ItemCls=02&Item=BBRSRUSA0PAD&LotNo=220916.018.1.0001&isExplosion=1&UserID=SPC', '_blank');           
         }
 
 
