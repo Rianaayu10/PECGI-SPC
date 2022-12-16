@@ -221,6 +221,11 @@ Public Class ItemCheckByBattery
             Dim combo As ASPxComboBox = TryCast(e.Editor, ASPxComboBox)
             up_FillcomboGrid(combo, "1", pUser)
             If Grid.IsEditing Then combo.Value = e.Value : HF.Set("FactoryGrid", e.Value)
+            e.Editor.Value = cboFactory.Value
+        ElseIf e.Column.FieldName = "ItemTypeCode" Then
+            e.Editor.Value = cboType.Value
+        ElseIf e.Column.FieldName = "LineName" Then
+            e.Editor.Value = cboLine.Text
         End If
     End Sub
     Protected Sub Grid_RowValidating(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataValidationEventArgs) Handles Grid.RowValidating
