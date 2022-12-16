@@ -246,13 +246,13 @@ Public Class frmSPCAlertNotifications
                     AddHandler NotifyIcon1.BalloonTipClicked, AddressOf Me.NotifyIcon1_Click
 
                     If NGInputRowsCount > 0 Then
-                        NGInputLastUpdate = dtNG.Rows(dtNG.Rows.Count - 1)("UpdateDate")
+                        NGInputLastUpdate = Format(CDate(dtNG.Rows(dtNG.Rows.Count - 1)("UpdateDate")), "yyyy-MM-dd HH:mm:ss")
                     End If
                     If DelayInputRowsCount > 0 Then
-                        DelayInputLastUpdate = dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("UpdateTime")
+                        DelayInputLastUpdate = dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("UpdateTime") 'Format(CDate(dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("UpdateTime")), "yyyy-MM-dd HH:mm:ss")
                     End If
                     If DelayVerificationRowsCount > 0 Then
-                        DelayVerificationLastUpdate = dtDelayVerification.Rows(dtDelayVerification.Rows.Count - 1)("UpdateDate")
+                        DelayVerificationLastUpdate = Format(CDate(dtDelayVerification.Rows(dtDelayVerification.Rows.Count - 1)("UpdateDate")), "yyyy-MM-dd HH:mm:ss")
                     End If
 
                     firstLoad = 1
@@ -270,7 +270,7 @@ Public Class frmSPCAlertNotifications
                         NGInputRowsCount = dtNG.Rows.Count
                         DelayInputRowsCount = 0
                         DelayVerificationRowsCount = 0
-                        currentNGLastUpdate = dtNG.Rows(dtNG.Rows.Count - 1)("LastUpdate")
+                        currentNGLastUpdate = Format(dtNG.Rows(dtNG.Rows.Count - 1)("LastUpdate"), "yyyy-MM-dd HH:mm:ss")
                     Else
                         NGInputRowsCount = 0
                         DelayInputRowsCount = 0
@@ -281,7 +281,7 @@ Public Class frmSPCAlertNotifications
                         NGInputRowsCount = NGInputRowsCount
                         DelayInputRowsCount = dtDelayInput.Rows.Count
                         DelayVerificationRowsCount = 0
-                        currentDelayInput = dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("LastUpdate")
+                        currentDelayInput = dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("UpdateTime") 'Format(CDate(dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("LastUpdate")), "yyyy-MM-dd HH:mm:ss")
                     Else
                         NGInputRowsCount = NGInputRowsCount
                         DelayInputRowsCount = 0
@@ -292,7 +292,7 @@ Public Class frmSPCAlertNotifications
                         NGInputRowsCount = NGInputRowsCount
                         DelayInputRowsCount = DelayInputRowsCount
                         DelayVerificationRowsCount = dtDelayVerification.Rows.Count
-                        currentDelayVerification = dtDelayVerification.Rows(dtDelayVerification.Rows.Count - 1)("LastUpdate")
+                        currentDelayVerification = Format(dtDelayVerification.Rows(dtDelayVerification.Rows.Count - 1)("LastUpdate"), "yyyy-MM-dd HH:mm:ss")
                     Else
                         NGInputRowsCount = NGInputRowsCount
                         DelayInputRowsCount = DelayInputRowsCount
@@ -301,46 +301,55 @@ Public Class frmSPCAlertNotifications
                     End If
 
                     Try
-                        If CDate(currentNGLastUpdate) >= CDate(NGInputLastUpdate) Then
-                            Dim drRemoved As DataRow() = dtNG.Select("LastUpdate <= '" & CDate(NGInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
-                            For i = 0 To drRemoved.Length - 1
-                                dtNG.Rows.Remove(drRemoved(i))
-                            Next
-                        Else
-                            Dim drRemoved As DataRow() = dtNG.Select("LastUpdate <= '" & CDate(NGInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
-                            For i = 0 To drRemoved.Length - 1
-                                dtNG.Rows.Remove(drRemoved(i))
-                            Next
+                        If Not IsNothing(NGInputLastUpdate) OrElse NGInputLastUpdate <> "" Then
+                            If currentNGLastUpdate >= NGInputLastUpdate Then
+                                Dim drRemoved As DataRow() = dtNG.Select("LastUpdate <= '" & CDate(NGInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
+                                For i = 0 To drRemoved.Length - 1
+                                    dtNG.Rows.Remove(drRemoved(i))
+                                Next
+                            Else
+                                Dim drRemoved As DataRow() = dtNG.Select("LastUpdate <= '" & CDate(NGInputLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
+                                For i = 0 To drRemoved.Length - 1
+                                    dtNG.Rows.Remove(drRemoved(i))
+                                Next
+                            End If
+
                         End If
                     Catch ex As Exception
 
                     End Try
                     Try
-                        If CDate(currentDelayInput) >= CDate(DelayInputLastUpdate) Then
-                            Dim drRemoved1 As DataRow() = dtDelayInput.Select("LastUpdate <= '" & CDate(DelayInputLastUpdate).AddSeconds(1).ToString("yyyy-MM-dd HH:mm:ss") & "'") '.ToString("yyyy-MM-dd HH:mm:ss")
-                            For i = 0 To drRemoved1.Length - 1
-                                dtDelayInput.Rows.Remove(drRemoved1(i))
-                            Next
-                        Else
-                            Dim drRemoved1 As DataRow() = dtDelayInput.Select("LastUpdate <= '" & CDate(DelayInputLastUpdate).AddSeconds(1).ToString("yyyy-MM-dd HH:mm:ss") & "'") '.ToString("yyyy-MM-dd HH:mm:ss")
-                            For i = 0 To drRemoved1.Length - 1
-                                dtDelayInput.Rows.Remove(drRemoved1(i))
-                            Next
+                        If Not IsNothing(DelayInputLastUpdate) OrElse DelayInputLastUpdate <> "" Then
+                            If currentDelayInput >= DelayInputLastUpdate Then
+                                Dim drRemoved1 As DataRow() = dtDelayInput.Select("LastUpdate <= '" & CDate(DelayInputLastUpdate).AddSeconds(1).ToString("yyyy-MM-dd HH:mm:ss") & "'") '.ToString("yyyy-MM-dd HH:mm:ss")
+                                For i = 0 To drRemoved1.Length - 1
+                                    dtDelayInput.Rows.Remove(drRemoved1(i))
+                                Next
+                            Else
+                                Dim drRemoved1 As DataRow() = dtDelayInput.Select("LastUpdate <= '" & CDate(DelayInputLastUpdate).AddSeconds(1).ToString("yyyy-MM-dd HH:mm:ss") & "'") '.ToString("yyyy-MM-dd HH:mm:ss")
+                                For i = 0 To drRemoved1.Length - 1
+                                    dtDelayInput.Rows.Remove(drRemoved1(i))
+                                Next
+                            End If
+
                         End If
                     Catch ex As Exception
 
                     End Try
                     Try
-                        If CDate(currentDelayVerification) >= CDate(DelayVerificationLastUpdate) Then
-                            Dim drRemoved2 As DataRow() = dtDelayVerification.Select("LastUpdate <= '" & CDate(DelayVerificationLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
-                            For i = 0 To drRemoved2.Length - 1
-                                dtDelayVerification.Rows.Remove(drRemoved2(i))
-                            Next
-                        Else
-                            Dim drRemoved2 As DataRow() = dtDelayVerification.Select("LastUpdate <= '" & CDate(DelayVerificationLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
-                            For i = 0 To drRemoved2.Length - 1
-                                dtDelayVerification.Rows.Remove(drRemoved2(i))
-                            Next
+                        If Not IsNothing(DelayVerificationLastUpdate) OrElse DelayVerificationLastUpdate <> "" Then
+                            If currentDelayVerification >= DelayVerificationLastUpdate Then
+                                Dim drRemoved2 As DataRow() = dtDelayVerification.Select("LastUpdate <= '" & CDate(DelayVerificationLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
+                                For i = 0 To drRemoved2.Length - 1
+                                    dtDelayVerification.Rows.Remove(drRemoved2(i))
+                                Next
+                            Else
+                                Dim drRemoved2 As DataRow() = dtDelayVerification.Select("LastUpdate <= '" & CDate(DelayVerificationLastUpdate).ToString("yyyy-MM-dd HH:mm:ss") & "'")
+                                For i = 0 To drRemoved2.Length - 1
+                                    dtDelayVerification.Rows.Remove(drRemoved2(i))
+                                Next
+                            End If
+
                         End If
                     Catch ex As Exception
 
