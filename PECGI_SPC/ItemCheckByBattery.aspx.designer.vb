@@ -149,6 +149,15 @@ Partial Public Class ItemCheckByBattery
     Protected WithEvents dsCharStatus As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
+    '''dsEvaluation control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dsEvaluation As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
     '''Grid control.
     '''</summary>
     '''<remarks>

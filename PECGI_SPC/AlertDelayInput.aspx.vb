@@ -315,9 +315,10 @@ Public Class AlertDashboardInput
             Dim UserTo As String
 
             Dim FactoryCode = cboFactory.Value
-            Dim ItemTypeName = Grid.GetRowValues(e.VisibleIndex, "ItemTypeName")
+            Dim ItemTypeName = Split(Grid.GetRowValues(e.VisibleIndex, "ItemTypeName"), "||")(0)
             'Dim ItemTypeCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemTypeCode")
             Dim LineCode = Grid.GetRowValues(e.VisibleIndex, "LineCode")
+            Dim LineName = Grid.GetRowValues(e.VisibleIndex, "LineName")
             Dim ItemCheck = Grid.GetRowValues(e.VisibleIndex, "ItemCheck")
             Dim LinkDate = Grid.GetRowValues(e.VisibleIndex, "LinkDate")
             Dim ShiftCode = Grid.GetRowValues(e.VisibleIndex, "ShiftCode")
@@ -325,11 +326,10 @@ Public Class AlertDashboardInput
             Dim ScheduleStart = Grid.GetRowValues(e.VisibleIndex, "StartTime")
             Dim ScheduleEnd = Grid.GetRowValues(e.VisibleIndex, "EndTime")
             Dim DelayTime = Grid.GetRowValues(e.VisibleIndex, "Delay")
-            ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
 
             UserTo = clsSPCAlertDashboardDB.GetUserLine(FactoryCode, LineCode, "1")
 
-            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo, "2", "", "", "", "", "", "", "", "", ScheduleStart, ScheduleEnd, "", DelayTime, UserTo)
+            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineName, ItemCheck, LinkDate, ShiftCode, SequenceNo, "2", "", "", "", "", "", "", "", "", ScheduleStart, ScheduleEnd, "", DelayTime, UserTo)
 
             If CountSendEmail > 0 Then
                 show_error(MsgTypeEnum.Success, "Send Email Success", 1)

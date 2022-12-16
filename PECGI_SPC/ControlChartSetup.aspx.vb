@@ -411,7 +411,7 @@ Public Class ControlChartSetup
                 .SelectedIndex = IIf(dt.Rows.Count > 0, 0, -1)
             End With
         Catch ex As Exception
-            show_error(MsgTypeEnum.Info, "", 0)
+            show_error(MsgTypeEnum.ErrorMsg, "", 0)
         End Try
     End Sub
 
@@ -505,7 +505,7 @@ Public Class ControlChartSetup
             HF.Set("MachineCode", a)
 
         Catch ex As Exception
-            show_error(MsgTypeEnum.Info, "", 0)
+            show_error(MsgTypeEnum.ErrorMsg, "", 0)
         End Try
     End Sub
 

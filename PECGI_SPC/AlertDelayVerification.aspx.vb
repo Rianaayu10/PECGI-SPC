@@ -346,9 +346,10 @@ Public Class AlertDelayVerification
             Dim UserTo As String
 
             Dim FactoryCode = cboFactory.Value
-            Dim ItemTypeName = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemTypeName")
+            Dim ItemTypeName = Split(GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemTypeName"), "||")(0)
             'Dim ItemTypeCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemTypeCode")
             Dim LineCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "LineCode")
+            Dim LineName = GridDelayVerif.GetRowValues(e.VisibleIndex, "LineName")
             Dim ItemCheck = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemCheck")
             Dim LinkDate = GridDelayVerif.GetRowValues(e.VisibleIndex, "LinkDate")
             Dim ShiftCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "ShiftCode")
@@ -376,7 +377,7 @@ Public Class AlertDelayVerification
                 UserTo = clsSPCAlertDashboardDB.GetUserLine(FactoryCode, LineCode, "2")
             End If
 
-            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo, "3", LSL, USL, LCL, UCL, MinValue, MaxValue, Average, Status, "", "", VerifTime, DelayTime, UserTo)
+            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineName, ItemCheck, LinkDate, ShiftCode, SequenceNo, "3", LSL, USL, LCL, UCL, MinValue, MaxValue, Average, Status, "", "", VerifTime, DelayTime, UserTo)
 
             If CountSendEmail > 0 Then
                 show_error(MsgTypeEnum.Success, "Send Email Success", 1)

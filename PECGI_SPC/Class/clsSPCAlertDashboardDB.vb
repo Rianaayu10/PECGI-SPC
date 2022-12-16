@@ -295,7 +295,7 @@ Public Class clsSPCAlertDashboardDB
             Return Nothing
         End Try
     End Function
-    Public Shared Function SendEmail(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, LinkDate As String, ShiftCode As String, SequenceNo As String, NotificationCategory As String,
+    Public Shared Function SendEmail(FactoryCode As String, ItemTypeCode As String, LineName As String, ItemCheckCode As String, LinkDate As String, ShiftCode As String, SequenceNo As String, NotificationCategory As String,
                                      LSL As String, USL As String, LCL As String, UCL As String, MinValue As String, MaxValue As String, Average As String, Status As String,
                                      ScheduleStart As String, ScheduleEnd As String, VerifTime As String, DelayTime As String, UserTo As String, Optional ByRef pErr As String = "") As Integer
         Try
@@ -311,7 +311,7 @@ Public Class clsSPCAlertDashboardDB
                 cmd.CommandType = CommandType.StoredProcedure
                 cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
                 cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
-                cmd.Parameters.AddWithValue("LineCode", LineCode)
+                cmd.Parameters.AddWithValue("LineCode", LineName)
                 cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
                 cmd.Parameters.AddWithValue("ProdDate", LinkDate)
                 cmd.Parameters.AddWithValue("ShiftCode", ShiftCode)
@@ -331,7 +331,12 @@ Public Class clsSPCAlertDashboardDB
                 cmd.Parameters.AddWithValue("NotificationCategory", NotificationCategory)
                 cmd.Parameters.AddWithValue("LastUser", "spc")
                 cmd.Parameters.AddWithValue("To", UserTo)
-                Dim i As Integer = cmd.ExecuteNonQuery
+                Try
+                    cmd.ExecuteNonQuery()
+                    Dim i As Integer = 1
+                Catch ex As Exception
+                    pErr = ex.Message
+                End Try
                 Return 1
             End Using
         Catch ex As Exception

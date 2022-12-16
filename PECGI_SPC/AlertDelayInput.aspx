@@ -252,7 +252,7 @@
             </div>
 
             <dx:ASPxGridView ID="Grid" runat="server" AutoGenerateColumns="False" ClientInstanceName="Grid"
-                EnableTheming="True" KeyFieldName="ItemTypeName;LineCode;ItemCheck" Theme="Office2010Black" Width="100%"
+                EnableTheming="True" KeyFieldName="ItemTypeName;LineName;ItemCheck" Theme="Office2010Black" Width="100%"
                 Font-Names="Segoe UI" Font-Size="9pt"
                 OnRowValidating="Grid_RowValidating" OnStartRowEditing="Grid_StartRowEditing"
                 OnRowInserting="Grid_RowInserting" OnRowDeleting="Grid_RowDeleting"
@@ -336,11 +336,11 @@
                         <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
                     </dx:GridViewDataComboBoxColumn>
 
-                    <dx:GridViewDataComboBoxColumn Caption="Machine Process" FieldName="LineCode" VisibleIndex="2"
+                    <dx:GridViewDataComboBoxColumn Caption="Machine Process" FieldName="LineName" VisibleIndex="2"
                         Width="200px" Settings-AutoFilterCondition="Contains">
                         <PropertiesComboBox DataSourceID="dsMachine" DropDownStyle="DropDownList" TextFormatString="{0}"
                             IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="195px"
-                            TextField="LineName" ValueField="LineCode" ClientInstanceName="LineCode">
+                            TextField="LineName" ValueField="LineName" ClientInstanceName="LineName">
                             <ItemStyle Height="10px" Paddings-Padding="4px">
                                 <Paddings Padding="4px"></Paddings>
                             </ItemStyle>

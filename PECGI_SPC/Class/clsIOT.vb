@@ -2,10 +2,10 @@
 
 Public Class clsIOT
 
-    Public Shared Function GetIOT_ProcessTable(FactoryCode As String, ProcessTableLineCode As String, ItemTypeCode As String, ProdDate As String, Shift As String) As DataTable
+    Public Shared Function GetIOT_DailyProd(FactoryCode As String, ProcessTableLineCode As String, ItemTypeCode As String, ProdDate As String, Shift As String) As DataTable
         Using Cn As New SqlConnection(Sconn.IOTConnectionString)
             Cn.Open()
-            Dim q As String = "SELECT C.ProcessGroup, C.LineGroup, ProcessCode = A.process_Code, InstructionNo = A.Instruction_No, ItemCode = A.Item_code" & vbCrLf &
+            Dim q As String = "SELECT C.ProcessGroup, C.LineGroup, ProcessCode = A.process_Code, ItemCode = A.Item_code, InstructionNo = A.Instruction_No, LotNo = A.Lot_No" & vbCrLf &
                 "FROM Daily_Production A" & vbCrLf &
                 "LEFT JOIN dbo.MS_Item IT ON IT.Item_Code = A.Item_code " & vbCrLf &
                 "LEFT JOIN MS_ItemType B ON A.Item_code = IT.Item_Code " & vbCrLf &
@@ -16,30 +16,6 @@ Public Class clsIOT
             cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
             cmd.Parameters.AddWithValue("LineCode", ProcessTableLineCode)
             cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
-            cmd.Parameters.AddWithValue("ProdDate", ProdDate)
-            cmd.Parameters.AddWithValue("Shift", Shift)
-            Dim da As New SqlDataAdapter(cmd)
-            Dim dt As New DataTable
-            da.Fill(dt)
-            Return dt
-        End Using
-    End Function
-
-    Public Shared Function GetIOT_Traceability(FactoryCode As String, LineCode As String, ItemTypeCode As String, LotNo As String, ProdDate As String, Shift As String) As DataTable
-        Using Cn As New SqlConnection(Sconn.IOTConnectionString)
-            Cn.Open()
-            Dim q As String = "SELECT C.ProcessGroup, C.LineGroup, ProcessCode = A.process_Code, InstructionNo = A.Instruction_No, ItemCode = A.Item_code" & vbCrLf &
-                "FROM Daily_Production A" & vbCrLf &
-                "LEFT JOIN dbo.MS_Item IT ON IT.Item_Code = A.Item_code " & vbCrLf &
-                "LEFT JOIN MS_ItemType B ON A.Item_code = IT.Item_Code " & vbCrLf &
-                "LEFT JOIN MS_Process C ON A.Factory_code = C.FactoryCode And A.process_Code = C.ProcessCode " & vbCrLf &
-                "WHERE TRIM(Factory_code) = @FactoryCode And TRIM(Line_Code) = @LineCode And TRIM(ItemTypeCode) = @ItemTypeCode " & vbCrLf &
-                "And COALESCE(TRIM(Lot_No),'') = @LotNo AND CAST(Schedule_Date AS DATE) = @ProdDate AND Shift = @shift"
-            Dim cmd As New SqlCommand(q, Cn)
-            cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
-            cmd.Parameters.AddWithValue("LineCode", LineCode)
-            cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
-            cmd.Parameters.AddWithValue("LotNo", LotNo)
             cmd.Parameters.AddWithValue("ProdDate", ProdDate)
             cmd.Parameters.AddWithValue("Shift", Shift)
             Dim da As New SqlDataAdapter(cmd)

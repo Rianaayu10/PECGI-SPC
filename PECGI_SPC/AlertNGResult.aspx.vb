@@ -349,9 +349,10 @@ Public Class AlertDashboard
             Dim UserTo As String
 
             Dim FactoryCode = cboFactory.Value
-            Dim ItemTypeName = GridNG.GetRowValues(e.VisibleIndex, "ItemTypeName")
+            Dim ItemTypeName = Split(GridNG.GetRowValues(e.VisibleIndex, "ItemTypeName"), "||")(0)
             'Dim ItemTypeCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemTypeCode")
             Dim LineCode = GridNG.GetRowValues(e.VisibleIndex, "LineCode")
+            Dim LineName = GridNG.GetRowValues(e.VisibleIndex, "LineName")
             Dim ItemCheck = GridNG.GetRowValues(e.VisibleIndex, "ItemCheck")
             Dim LinkDate = GridNG.GetRowValues(e.VisibleIndex, "LinkDate")
             Dim ShiftCode = GridNG.GetRowValues(e.VisibleIndex, "ShiftCode")
@@ -364,14 +365,13 @@ Public Class AlertDashboard
             Dim MinValue = GridNG.GetRowValues(e.VisibleIndex, "MinValue")
             Dim MaxValue = GridNG.GetRowValues(e.VisibleIndex, "MaxValue")
             Dim Average = GridNG.GetRowValues(e.VisibleIndex, "Average")
-            ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
 
             'Dim Test = GridDelayVerif.GetRowValues(e.VisibleIndex, GridDelayVerif.KeyFieldName, "LinkDate")
             'Dim Test = DirectCast(GridDelayVerif.GetRowValues(e.VisibleIndex, GridDelayVerif.KeyFieldName, "LinkDate"), Object())(1)
 
             UserTo = clsSPCAlertDashboardDB.GetUserLine(FactoryCode, LineCode, "1")
 
-            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo, "1", LSL, USL, LCL, UCL, MinValue, MaxValue, Average, "NG", "", "", "", "", UserTo)
+            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineName, ItemCheck, LinkDate, ShiftCode, SequenceNo, "1", LSL, USL, LCL, UCL, MinValue, MaxValue, Average, "NG", "", "", "", "", UserTo)
 
             If CountSendEmail > 0 Then
                 show_error(MsgTypeEnum.Success, "Send Email Success", 1)
