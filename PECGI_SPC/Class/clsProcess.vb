@@ -25,7 +25,7 @@ Public Class clsProcessDB
                 Dim Process As New clsProcess
                 Process.FactoryCode = rd("FactoryCode")
                 Process.ProcessCode = rd("ProcessCode")
-                Process.ProcessName = rd("ProcessGroupName")
+                Process.ProcessName = rd("ProcessName")
                 Process.LineGroup = rd("LineGroup")
                 Process.ProcessGroup = rd("ProcessGroup")
                 ProcessList.Add(Process)

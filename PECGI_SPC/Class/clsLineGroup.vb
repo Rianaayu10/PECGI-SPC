@@ -21,10 +21,10 @@ Public Class clsLineGroupDB
             Dim LineGroupList As New List(Of clsLineGroup)
             Do While rd.Read
                 Dim LineGroup As New clsLineGroup
-                LineGroup.FactoryCode = rd("FactoryCode")
-                LineGroup.ProcessGroup = rd("ProcessGroup")
-                LineGroup.LineGroup = rd("LineGroup")
-                LineGroup.LineGroupName = rd("ProcessGroupName")
+                LineGroup.FactoryCode = rd("FactoryCode") & ""
+                LineGroup.ProcessGroup = rd("ProcessGroup") & ""
+                LineGroup.LineGroup = rd("LineGroup") & ""
+                LineGroup.LineGroupName = rd("LineGroupName") & ""
                 LineGroupList.Add(LineGroup)
             Loop
             rd.Close()
