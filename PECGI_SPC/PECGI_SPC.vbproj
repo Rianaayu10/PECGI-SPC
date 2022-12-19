@@ -13,7 +13,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>PECGI_SPC</RootNamespace>
     <AssemblyName>PECGI_SPC</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MyType>Custom</MyType>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -22,6 +22,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +32,7 @@
     <OutputPath>bin\</OutputPath>
     <DocumentationFile>PECGI_SPC.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -40,31 +42,37 @@
     <OutputPath>bin\</OutputPath>
     <DocumentationFile>PECGI_SPC.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Charts.v14.1.Core, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Data.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Printing.v14.1.Core, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.RichEdit.v14.1.Core, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Utils.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Web.ASPxThemes.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Web.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraCharts.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraCharts.v14.1.Web, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Charts.v20.2.Core, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v20.2, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Pdf.v20.2.Core, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v20.2.Export, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v20.2.Core, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Office.v20.2.Core, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v20.2.Core, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.Desktop.v20.2, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v20.2, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.ASPxThemes.v20.2, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.v20.2, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v20.2, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.Resources.v20.2, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraEditors.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraPrinting.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v20.2.Web, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v20.2, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPrinting.v20.2, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="EPPlus">
       <HintPath>..\..\..\..\..\@PGMEATS\PGMEATS\PGMEATS\bin\EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -74,8 +82,10 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bin\" />
     <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <ItemGroup>
@@ -103,61 +113,62 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
-    <Content Include="ApprovalSetting.aspx" />
-    <Content Include="bin\DevExpress.Charts.v14.1.Core.dll" />
-    <Content Include="bin\DevExpress.Data.v14.1.dll" />
-    <Content Include="bin\DevExpress.Data.v14.1.xml" />
-    <Content Include="bin\DevExpress.Office.v14.1.Core.dll" />
-    <Content Include="bin\DevExpress.Office.v14.1.Core.xml" />
-    <Content Include="bin\DevExpress.Printing.v14.1.Core.dll" />
-    <Content Include="bin\DevExpress.Printing.v14.1.Core.xml" />
-    <Content Include="bin\DevExpress.RichEdit.v14.1.Core.dll" />
-    <Content Include="bin\DevExpress.RichEdit.v14.1.Core.xml" />
-    <Content Include="bin\DevExpress.Sparkline.v14.1.Core.dll" />
-    <Content Include="bin\DevExpress.Sparkline.v14.1.Core.xml" />
-    <Content Include="bin\DevExpress.Utils.v14.1.dll" />
-    <Content Include="bin\DevExpress.Utils.v14.1.xml" />
-    <Content Include="bin\DevExpress.Web.ASPxThemes.v14.1.dll" />
-    <Content Include="bin\DevExpress.Web.v14.1.dll" />
-    <Content Include="bin\DevExpress.Web.v14.1.xml" />
-    <Content Include="bin\DevExpress.XtraBars.v14.1.dll" />
-    <Content Include="bin\DevExpress.XtraBars.v14.1.xml" />
-    <Content Include="bin\DevExpress.XtraCharts.v14.1.dll" />
-    <Content Include="bin\DevExpress.XtraCharts.v14.1.Web.dll" />
-    <Content Include="bin\DevExpress.XtraCharts.v14.1.Web.xml" />
-    <Content Include="bin\DevExpress.XtraCharts.v14.1.xml" />
-    <Content Include="bin\DevExpress.XtraEditors.v14.1.dll" />
-    <Content Include="bin\DevExpress.XtraEditors.v14.1.xml" />
-    <Content Include="bin\DevExpress.XtraPrinting.v14.1.dll" />
-    <Content Include="bin\DevExpress.XtraPrinting.v14.1.xml" />
-    <Content Include="bin\DevExpress.XtraTreeList.v14.1.dll" />
-    <Content Include="bin\DevExpress.XtraTreeList.v14.1.xml" />
-    <Content Include="bin\EPPlus.dll" />
-    <Content Include="bin\PECGI_SPC.dll" />
-    <Content Include="bin\PECGI_SPC.pdb" />
-    <Content Include="bin\PECGI_SPC.xml" />
-    <Content Include="bin\QualityCheckSheetSystem.dll" />
-    <Content Include="bin\QualityCheckSheetSystem.pdb" />
-    <Content Include="bin\QualityCheckSheetSystem.xml" />
+    <Content Include="AlertDelayVerification.aspx" />
+    <Content Include="AlertDelayInput.aspx" />
+    <Content Include="CustomFile\css\bootstrap-grid.css" />
+    <Content Include="CustomFile\css\bootstrap-grid.min.css" />
+    <Content Include="CustomFile\css\bootstrap-grid.rtl.css" />
+    <Content Include="CustomFile\css\bootstrap-grid.rtl.min.css" />
+    <Content Include="CustomFile\css\bootstrap-reboot.css" />
+    <Content Include="CustomFile\css\bootstrap-reboot.min.css" />
+    <Content Include="CustomFile\css\bootstrap-reboot.rtl.css" />
+    <Content Include="CustomFile\css\bootstrap-reboot.rtl.min.css" />
+    <Content Include="CustomFile\css\bootstrap-utilities.css" />
+    <Content Include="CustomFile\css\bootstrap-utilities.min.css" />
+    <Content Include="CustomFile\css\bootstrap-utilities.rtl.css" />
+    <Content Include="CustomFile\css\bootstrap-utilities.rtl.min.css" />
+    <Content Include="CustomFile\css\bootstrap.css" />
+    <Content Include="CustomFile\css\bootstrap.min.css" />
+    <Content Include="CustomFile\css\bootstrap.rtl.css" />
+    <Content Include="CustomFile\css\bootstrap.rtl.min.css" />
+    <Content Include="CustomFile\jquery-3.5.1.js" />
+    <Content Include="CustomFile\jquery.dataTables.min.css" />
+    <Content Include="CustomFile\jquery.dataTables.min.js" />
+    <Content Include="CustomFile\js\bootstrap.bundle.js" />
+    <Content Include="CustomFile\js\bootstrap.bundle.min.js" />
+    <Content Include="CustomFile\js\bootstrap.esm.js" />
+    <Content Include="CustomFile\js\bootstrap.esm.min.js" />
+    <Content Include="CustomFile\js\bootstrap.js" />
+    <Content Include="CustomFile\js\bootstrap.min.js" />
+    <Content Include="CustomFile\popper.min.js" />
+    <Content Include="SPCDashboardTest.aspx" />
+    <Content Include="SPCDashboard.aspx" />
     <Content Include="ChangePassword.aspx" />
     <Content Include="content\toastr.css" />
     <Content Include="content\toastr.min.css" />
+    <Content Include="ControlChartSetup.aspx" />
+    <Content Include="img\dashboard.png" />
     <Content Include="img\musashi\ImagePreview1.gif" />
-    <Content Include="Machine.aspx" />
-    <Content Include="PreviewAttachment.aspx" />
-    <Content Include="PreviewPDF.aspx" />
-    <Content Include="QCSMaster.aspx" />
-    <Content Include="QCSResultInquiry.aspx" />
-    <Content Include="QCSResultMonitoring.aspx" />
-    <Content Include="QCSXRChart.aspx" />
-    <Content Include="QCSXRData.aspx" />
+    <Content Include="img\panasonic-login.png" />
+    <Content Include="ItemCheck.aspx" />
+    <Content Include="AlertNGResult.aspx" />
+    <Content Include="ItemCheckByBattery.aspx" />
+    <Content Include="MeasurementDevice.aspx" />
+    <Content Include="ProdSampleInput.aspx" />
+    <Content Include="ProdSampleQCSummary.aspx" />
+    <Content Include="ProdSampleQCSummaryDetail.aspx" />
+    <Content Include="ProdSampleVerification.aspx" />
+    <Content Include="ProductionSampleVerificationList.aspx" />
+    <Content Include="SampleControlQuality.aspx" />
     <Content Include="StretchSession.aspx" />
+    <Content Include="Styles\images\dashboard.png" />
+    <Content Include="Styles\images\favicon_pecgi.ico" />
+    <Content Include="Styles\images\logo-panasonic.svg" />
+    <Content Include="Styles\images\main.png" />
     <Content Include="Styles\images\main2.png" />
-    <Content Include="SubLine.aspx" />
-    <Content Include="TCCSMaster.aspx" />
-    <Content Include="TCCSMasterApproval.aspx" />
-    <Content Include="TCCSResultApproval.aspx" />
-    <Content Include="TCCSResultInput.aspx" />
+    <Content Include="Styles\images\mybg.png" />
+    <Content Include="TimeFrequencySetting.aspx" />
+    <Content Include="TroubleHistoryByLine.aspx" />
     <Content Include="UserLine.aspx" />
     <Content Include="css\bootstrap-theme.css" />
     <Content Include="css\bootstrap-theme.min.css" />
@@ -808,18 +819,32 @@
     <Content Include="js\smart-chat-ui\smart.chat.ui.min.js" />
     <Content Include="js\smartwidgets\jarvis.widget.min.js" />
     <Content Include="js\speech\voicecommand.min.js" />
-    <Content Include="Line.aspx" />
     <Content Include="Main.aspx" />
-    <Content Include="Part.aspx" />
-    <Content Include="Process.aspx" />
-    <Content Include="QCSResultInput.aspx" />
-    <Content Include="bin\PECGI_SPC.dll.config" />
-    <Content Include="bin\QualityCheckSheetSystem.dll.config" />
+    <Content Include="CustomFile\js\bootstrap.bundle.js.map" />
+    <Content Include="CustomFile\js\bootstrap.bundle.min.js.map" />
+    <Content Include="CustomFile\js\bootstrap.esm.js.map" />
+    <Content Include="CustomFile\js\bootstrap.esm.min.js.map" />
+    <Content Include="CustomFile\js\bootstrap.js.map" />
+    <Content Include="CustomFile\js\bootstrap.min.js.map" />
+    <Content Include="CustomFile\css\bootstrap-grid.css.map" />
+    <Content Include="CustomFile\css\bootstrap-grid.min.css.map" />
+    <Content Include="CustomFile\css\bootstrap-grid.rtl.css.map" />
+    <Content Include="CustomFile\css\bootstrap-grid.rtl.min.css.map" />
+    <Content Include="CustomFile\css\bootstrap-reboot.css.map" />
+    <Content Include="CustomFile\css\bootstrap-reboot.min.css.map" />
+    <Content Include="CustomFile\css\bootstrap-reboot.rtl.css.map" />
+    <Content Include="CustomFile\css\bootstrap-reboot.rtl.min.css.map" />
+    <Content Include="CustomFile\css\bootstrap-utilities.css.map" />
+    <Content Include="CustomFile\css\bootstrap-utilities.min.css.map" />
+    <Content Include="CustomFile\css\bootstrap-utilities.rtl.css.map" />
+    <Content Include="CustomFile\css\bootstrap-utilities.rtl.min.css.map" />
+    <Content Include="CustomFile\css\bootstrap.css.map" />
+    <Content Include="CustomFile\css\bootstrap.min.css.map" />
+    <Content Include="CustomFile\css\bootstrap.rtl.css.map" />
+    <Content Include="CustomFile\css\bootstrap.rtl.min.css.map" />
     <None Include="Download\Quality Check Sheet.xlsx" />
     <None Include="My Project\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.4.1-vsdoc.js" />
-    <Content Include="QCSMasterApproval.aspx" />
-    <Content Include="QCSTimeSetting.aspx" />
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
     <None Include="Scripts\jquery-1.6.3-vsdoc.js" />
@@ -853,11 +878,36 @@
       <DependentUpon>About.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ApprovalSetting.aspx.designer.vb">
-      <DependentUpon>ApprovalSetting.aspx</DependentUpon>
+    <Compile Include="AlertDelayVerification.aspx.designer.vb">
+      <DependentUpon>AlertDelayVerification.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ApprovalSetting.aspx.vb">
-      <DependentUpon>ApprovalSetting.aspx</DependentUpon>
+    <Compile Include="AlertDelayVerification.aspx.vb">
+      <DependentUpon>AlertDelayVerification.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AlertDelayInput.aspx.designer.vb">
+      <DependentUpon>AlertDelayInput.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AlertDelayInput.aspx.vb">
+      <DependentUpon>AlertDelayInput.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Class\clsLineGroup.vb" />
+    <Compile Include="Class\clsProcess.vb" />
+    <Compile Include="Class\clsProcessGroup.vb" />
+    <Compile Include="Class\clsTroubleHistoryByLine.vb" />
+    <Compile Include="SPCDashboardTest.aspx.designer.vb">
+      <DependentUpon>SPCDashboardTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SPCDashboardTest.aspx.vb">
+      <DependentUpon>SPCDashboardTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SPCDashboard.aspx.designer.vb">
+      <DependentUpon>SPCDashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SPCDashboard.aspx.vb">
+      <DependentUpon>SPCDashboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="App_GlobalResources\DataAccess.vb" />
@@ -871,114 +921,116 @@
       <DependentUpon>ChangePassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Class\ClsApprovalSetting.vb" />
-    <Compile Include="Class\ClsApprovalSettingDB.vb" />
+    <Compile Include="Class\clsChartSetup.vb" />
+    <Compile Include="Class\clsControlChartSetup.vb" />
     <Compile Include="Class\clsDESEncryption.vb" />
+    <Compile Include="Class\clsFactory.vb" />
+    <Compile Include="Class\clsFrequency.vb" />
+    <Compile Include="Class\clsIOT.vb" />
+    <Compile Include="Class\clsItemCheck.vb" />
+    <Compile Include="Class\clsItemType.vb" />
     <Compile Include="Class\ClsLine.vb" />
-    <Compile Include="Class\ClsLineDB.vb" />
-    <Compile Include="Class\ClsMachine.vb" />
-    <Compile Include="Class\ClsMachineDB.vb" />
-    <Compile Include="Class\ClsPart.vb" />
-    <Compile Include="Class\ClsPartDB.vb" />
-    <Compile Include="Class\ClsProcess.vb" />
-    <Compile Include="Class\ClsProcessDB.vb" />
-    <Compile Include="Class\ClsQCSApproval.vb" />
-    <Compile Include="Class\ClsQCSApprovalDB.vb" />
-    <Compile Include="Class\clsQCSItem.vb" />
-    <Compile Include="Class\ClsQCSMaster.vb" />
-    <Compile Include="Class\ClsQCSMasterDB.vb" />
-    <Compile Include="Class\ClsQCSMasterDetail.vb" />
-    <Compile Include="Class\ClsQCSMasterDetailDB.vb" />
-    <Compile Include="Class\clsQCSResult.vb" />
-    <Compile Include="Class\ClsQCSResultMonitoring.vb" />
-    <Compile Include="Class\ClsQCSResultMonitoringDB.vb" />
-    <Compile Include="Class\clsQCSResultShift.vb" />
-    <Compile Include="Class\clsQCSResultShiftCycle.vb" />
-    <Compile Include="Class\clsQCSResultShiftCycleItem.vb" />
-    <Compile Include="Class\ClsQCSXRData.vb" />
-    <Compile Include="Class\ClsQCSXRDataDB.vb" />
-    <Compile Include="Class\clsQCSXRHistory.vb" />
-    <Compile Include="Class\clsSetting.vb" />
-    <Compile Include="Class\ClsSubLine.vb" />
-    <Compile Include="Class\ClsSubLineDB.vb" />
-    <Compile Include="Class\ClsTCCSMaster.vb" />
-    <Compile Include="Class\ClsTCCSMasterDB.vb" />
-    <Compile Include="Class\ClsTCCSMasterDetail.vb" />
-    <Compile Include="Class\ClsTCCSMasterDetailDB.vb" />
-    <Compile Include="Class\ClsTCCSResultApproval.vb" />
-    <Compile Include="Class\ClsTCCSResultApprovalDB.vb" />
-    <Compile Include="Class\clsTCCSResultItem.vb" />
-    <Compile Include="Class\ClsTimeSetting.vb" />
-    <Compile Include="Class\ClsTimeSettingDB.vb" />
+    <Compile Include="Class\clsMeasurementDevice.vb" />
+    <Compile Include="Class\clsProdSampleQCSummary.vb" />
+    <Compile Include="Class\clsProdSampleVerification.vb" />
+    <Compile Include="Class\clsProdSampleVerificationDB.vb" />
+    <Compile Include="Class\clsProductionSampleVerificationList.vb" />
+    <Compile Include="Class\clsProductionSampleVerificationListDB.vb" />
+    <Compile Include="Class\clsSPCAlertDashboard.vb" />
+    <Compile Include="Class\clsSPCItemCheckByType.vb" />
+    <Compile Include="Class\clsSPCAlertDashboardDB.vb" />
+    <Compile Include="Class\clsSPCItemCheckByTypeDB.vb" />
+    <Compile Include="Class\clsSPCItemCheckMaster.vb" />
+    <Compile Include="Class\clsSPCItemCheckMasterDB.vb" />
+    <Compile Include="Class\clsSPCResult.vb" />
+    <Compile Include="Class\clsSPCResultDetail.vb" />
+    <Compile Include="Class\clsTimeFrequencySetting.vb" />
     <Compile Include="Class\clsUserLine.vb" />
     <Compile Include="Class\clsUserLineDB.vb" />
     <Compile Include="Class\clsUserSetupDB.vb" />
     <Compile Include="Class\clsXRChart.vb" />
+    <Compile Include="Class\clsSiteMasterDB.vb" />
     <Compile Include="Class\Cls_ss_UserMenu.vb" />
     <Compile Include="Class\Cls_ss_UserPrivilege.vb" />
     <Compile Include="Class\Cls_ss_UserPrivilegeDB.vb" />
     <Compile Include="Class\Cls_ss_UserSetup.vb" />
     <Compile Include="Class\clsUserSetup.vb" />
-    <Compile Include="Class\clsQCSTime.vb" />
-    <Compile Include="Class\clsQCSXRAction.vb" />
-    <Compile Include="Class\ClsTCCSApproval.vb" />
-    <Compile Include="Class\ClsTCCSApprovalDB.vb" />
-    <Compile Include="Class\clsTCCSResult.vb" />
-    <Compile Include="Machine.aspx.designer.vb">
-      <DependentUpon>Machine.aspx</DependentUpon>
+    <Compile Include="ControlChartSetup.aspx.designer.vb">
+      <DependentUpon>ControlChartSetup.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Machine.aspx.vb">
-      <DependentUpon>Machine.aspx</DependentUpon>
+    <Compile Include="ControlChartSetup.aspx.vb">
+      <DependentUpon>ControlChartSetup.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="PreviewAttachment.aspx.designer.vb">
-      <DependentUpon>PreviewAttachment.aspx</DependentUpon>
+    <Compile Include="ItemCheck.aspx.designer.vb">
+      <DependentUpon>ItemCheck.aspx</DependentUpon>
     </Compile>
-    <Compile Include="PreviewAttachment.aspx.vb">
-      <DependentUpon>PreviewAttachment.aspx</DependentUpon>
+    <Compile Include="ItemCheck.aspx.vb">
+      <DependentUpon>ItemCheck.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="PreviewPDF.aspx.designer.vb">
-      <DependentUpon>PreviewPDF.aspx</DependentUpon>
+    <Compile Include="AlertNGResult.aspx.designer.vb">
+      <DependentUpon>AlertNGResult.aspx</DependentUpon>
     </Compile>
-    <Compile Include="PreviewPDF.aspx.vb">
-      <DependentUpon>PreviewPDF.aspx</DependentUpon>
+    <Compile Include="AlertNGResult.aspx.vb">
+      <DependentUpon>AlertNGResult.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="QCSMaster.aspx.designer.vb">
-      <DependentUpon>QCSMaster.aspx</DependentUpon>
+    <Compile Include="ItemCheckByBattery.aspx.designer.vb">
+      <DependentUpon>ItemCheckByBattery.aspx</DependentUpon>
     </Compile>
-    <Compile Include="QCSMaster.aspx.vb">
-      <DependentUpon>QCSMaster.aspx</DependentUpon>
+    <Compile Include="ItemCheckByBattery.aspx.vb">
+      <DependentUpon>ItemCheckByBattery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="QCSResultInquiry.aspx.designer.vb">
-      <DependentUpon>QCSResultInquiry.aspx</DependentUpon>
+    <Compile Include="MeasurementDevice.aspx.designer.vb">
+      <DependentUpon>MeasurementDevice.aspx</DependentUpon>
     </Compile>
-    <Compile Include="QCSResultInquiry.aspx.vb">
-      <DependentUpon>QCSResultInquiry.aspx</DependentUpon>
+    <Compile Include="MeasurementDevice.aspx.vb">
+      <DependentUpon>MeasurementDevice.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="QCSResultMonitoring.aspx.designer.vb">
-      <DependentUpon>QCSResultMonitoring.aspx</DependentUpon>
+    <Compile Include="ProdSampleInput.aspx.designer.vb">
+      <DependentUpon>ProdSampleInput.aspx</DependentUpon>
     </Compile>
-    <Compile Include="QCSResultMonitoring.aspx.vb">
-      <DependentUpon>QCSResultMonitoring.aspx</DependentUpon>
+    <Compile Include="ProdSampleInput.aspx.vb">
+      <DependentUpon>ProdSampleInput.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="QCSXRChart.aspx.designer.vb">
-      <DependentUpon>QCSXRChart.aspx</DependentUpon>
+    <Compile Include="ProdSampleQCSummary.aspx.designer.vb">
+      <DependentUpon>ProdSampleQCSummary.aspx</DependentUpon>
     </Compile>
-    <Compile Include="QCSXRChart.aspx.vb">
-      <DependentUpon>QCSXRChart.aspx</DependentUpon>
+    <Compile Include="ProdSampleQCSummary.aspx.vb">
+      <DependentUpon>ProdSampleQCSummary.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="QCSXRData.aspx.designer.vb">
-      <DependentUpon>QCSXRData.aspx</DependentUpon>
+    <Compile Include="ProdSampleQCSummaryDetail.aspx.designer.vb">
+      <DependentUpon>ProdSampleQCSummaryDetail.aspx</DependentUpon>
     </Compile>
-    <Compile Include="QCSXRData.aspx.vb">
-      <DependentUpon>QCSXRData.aspx</DependentUpon>
+    <Compile Include="ProdSampleQCSummaryDetail.aspx.vb">
+      <DependentUpon>ProdSampleQCSummaryDetail.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ProdSampleVerification.aspx.designer.vb">
+      <DependentUpon>ProdSampleVerification.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ProdSampleVerification.aspx.vb">
+      <DependentUpon>ProdSampleVerification.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ProductionSampleVerificationList.aspx.designer.vb">
+      <DependentUpon>ProductionSampleVerificationList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ProductionSampleVerificationList.aspx.vb">
+      <DependentUpon>ProductionSampleVerificationList.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="SampleControlQuality.aspx.designer.vb">
+      <DependentUpon>SampleControlQuality.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SampleControlQuality.aspx.vb">
+      <DependentUpon>SampleControlQuality.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="SiteHome.Master.designer.vb">
       <DependentUpon>SiteHome.Master</DependentUpon>
@@ -992,41 +1044,20 @@
     </Compile>
     <Compile Include="StretchSession.aspx.vb">
       <DependentUpon>StretchSession.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="SubLine.aspx.designer.vb">
-      <DependentUpon>SubLine.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="SubLine.aspx.vb">
-      <DependentUpon>SubLine.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="TCCSMaster.aspx.designer.vb">
-      <DependentUpon>TCCSMaster.aspx</DependentUpon>
+    <Compile Include="TimeFrequencySetting.aspx.designer.vb">
+      <DependentUpon>TimeFrequencySetting.aspx</DependentUpon>
     </Compile>
-    <Compile Include="TCCSMaster.aspx.vb">
-      <DependentUpon>TCCSMaster.aspx</DependentUpon>
+    <Compile Include="TimeFrequencySetting.aspx.vb">
+      <DependentUpon>TimeFrequencySetting.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="TCCSMasterApproval.aspx.designer.vb">
-      <DependentUpon>TCCSMasterApproval.aspx</DependentUpon>
+    <Compile Include="TroubleHistoryByLine.aspx.designer.vb">
+      <DependentUpon>TroubleHistoryByLine.aspx</DependentUpon>
     </Compile>
-    <Compile Include="TCCSMasterApproval.aspx.vb">
-      <DependentUpon>TCCSMasterApproval.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TCCSResultApproval.aspx.designer.vb">
-      <DependentUpon>TCCSResultApproval.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="TCCSResultApproval.aspx.vb">
-      <DependentUpon>TCCSResultApproval.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TCCSResultInput.aspx.designer.vb">
-      <DependentUpon>TCCSResultInput.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="TCCSResultInput.aspx.vb">
-      <DependentUpon>TCCSResultInput.aspx</DependentUpon>
+    <Compile Include="TroubleHistoryByLine.aspx.vb">
+      <DependentUpon>TroubleHistoryByLine.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="UserLine.aspx.designer.vb">
@@ -1044,13 +1075,6 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Global.asax.vb" />
-    <Compile Include="Line.aspx.designer.vb">
-      <DependentUpon>Line.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Line.aspx.vb">
-      <DependentUpon>Line.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="Main.aspx.designer.vb">
       <DependentUpon>Main.aspx</DependentUpon>
     </Compile>
@@ -1077,41 +1101,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Part.aspx.designer.vb">
-      <DependentUpon>Part.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Part.aspx.vb">
-      <DependentUpon>Part.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Process.aspx.designer.vb">
-      <DependentUpon>Process.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Process.aspx.vb">
-      <DependentUpon>Process.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="QCSResultInput.aspx.designer.vb">
-      <DependentUpon>QCSResultInput.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="QCSResultInput.aspx.vb">
-      <DependentUpon>QCSResultInput.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="QCSMasterApproval.aspx.designer.vb">
-      <DependentUpon>QCSMasterApproval.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="QCSMasterApproval.aspx.vb">
-      <DependentUpon>QCSMasterApproval.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="QCSTimeSetting.aspx.designer.vb">
-      <DependentUpon>QCSTimeSetting.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="QCSTimeSetting.aspx.vb">
-      <DependentUpon>QCSTimeSetting.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Site.Master.designer.vb">
       <DependentUpon>Site.Master</DependentUpon>
@@ -1178,9 +1167,6 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <Content Include="Site.Master" />
-    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
-    <Content Include="obj\Debug\QualityCheckSheetSystem.vbproj.CoreCompileInputs.cache" />
-    <Content Include="obj\Debug\QualityCheckSheetSystem.vbprojAssemblyReference.cache" />
     <Content Include="SiteHome.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

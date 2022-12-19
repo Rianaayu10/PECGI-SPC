@@ -5,8 +5,7 @@ Imports System.Drawing
 Imports System.Collections.Generic
 Imports System.Data.SqlClient
 Imports System.IO
-Imports DevExpress.Web.ASPxGridView
-Imports DevExpress.Web.ASPxEditors
+Imports DevExpress.Web
 Imports DevExpress.Web.Data
 
 Public Class UserSetup
@@ -14,9 +13,13 @@ Public Class UserSetup
 
 #Region "Declaration"
     Dim pUser As String = ""
-    Public AuthInsert As Boolean = False
+    Dim MenuID As String = ""
+    Dim MenuID_UserPrivilege As String = ""
+    Dim MenuID_UserLine As String = ""
+
     Public AuthUpdate As Boolean = False
     Public AuthDelete As Boolean = False
+    Public AuthAccess As Boolean = False
 #End Region
 
 #Region "Procedure"
@@ -46,24 +49,64 @@ Public Class UserSetup
     End Sub
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        sGlobal.getMenu("Z010")
-        Master.SiteTitle = sGlobal.menuName
-        pUser = Session("user")
-        AuthUpdate = sGlobal.Auth_UserUpdate(pUser, "A010")
+        MenuID = "Z010"
+        MenuID_UserPrivilege = "Z020"
+        MenuID_UserLine = "Z030"
+
+        sGlobal.getMenu(MenuID)
+        Master.SiteTitle = MenuID & " - " & sGlobal.menuName
         show_error(MsgTypeEnum.Info, "", 0)
+
+        pUser = Session("user")
+        AuthAccess = sGlobal.Auth_UserAccess(pUser, MenuID)
+        If AuthAccess = False Then
+            Response.Redirect("~/Main.aspx")
+        End If
+
+        Dim commandColumn = TryCast(Grid.Columns(0), GridViewCommandColumn)
+
+        AuthUpdate = sGlobal.Auth_UserUpdate(pUser, MenuID)
         If AuthUpdate = False Then
-            Dim commandColumn = TryCast(Grid.Columns(0), GridViewCommandColumn)
+            commandColumn.ShowEditButton = False
+            commandColumn.ShowNewButtonInHeader = False
+        End If
+
+        AuthDelete = sGlobal.Auth_UserDelete(pUser, MenuID)
+        If AuthDelete = False Then
+            commandColumn.ShowDeleteButton = False
+        End If
+
+        If AuthUpdate = False And AuthDelete = False Then
             commandColumn.Visible = False
+        End If
+
+        AuthAccess = sGlobal.Auth_UserAccess(pUser, MenuID_UserPrivilege)
+        If AuthAccess = False Then
+            Dim LinkPrivilege = TryCast(Grid.Columns(1), GridViewDataTextColumn)
+            LinkPrivilege.Visible = False
+        End If
+
+        AuthAccess = sGlobal.Auth_UserAccess(pUser, MenuID_UserLine)
+        If AuthAccess = False Then
+            Dim LinkLine = TryCast(Grid.Columns(2), GridViewDataTextColumn)
+            LinkLine.Visible = False
         End If
     End Sub
 #End Region
 
 #Region "Control Event"
-    Protected Sub Grid_AfterPerformCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridView.ASPxGridViewAfterPerformCallbackEventArgs) Handles Grid.AfterPerformCallback
+    Protected Sub Grid_AfterPerformCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles Grid.AfterPerformCallback
         If e.CallbackName <> "CANCELEDIT" Then
             up_GridLoad()
         End If
     End Sub
+
+    'Protected Sub Grid_RowDataBound(sender As Object, e As GridViewRowEventArgs)
+    '    If e.Row.RowType = DataControlRowType.DataRow Then
+    '        Dim lb As LinkButton = e.Row.Cells(0).Controls(0)
+    '        lb.Visible = False
+    '    End If
+    'End Sub
 
     Protected Sub Grid_RowInserting(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataInsertingEventArgs) Handles Grid.RowInserting
         e.Cancel = True
@@ -72,13 +115,12 @@ Public Class UserSetup
             .UserID = e.NewValues("UserID") & "",
             .FullName = e.NewValues("FullName") & "",
             .Password = e.NewValues("Password") & "",
-            .AdminStatus = e.NewValues("AdminStatus"),
+            .AdminStatus = If(e.NewValues("AdminStatus") = "Yes", "1", "0"),
             .Description = e.NewValues("Description") & "",
-            .LineLeaderStatus = e.NewValues("LineLeaderStatus"),
-            .LineForemanStatus = e.NewValues("LineForemanStatus"),
-            .ProdSectionHeadStatus = e.NewValues("ProdSectionHeadStatus"),
-            .QELeaderStatus = e.NewValues("QELeaderStatus"),
-            .QESectionHeadStatus = e.NewValues("QESectionHeadStatus"),
+            .FactoryCode = e.NewValues("FactoryCode"),
+            .JobPosition = e.NewValues("JobPosition"),
+            .EmployeeID = e.NewValues("EmployeeID"),
+            .Email = e.NewValues("Email"),
             .LockStatus = e.NewValues("LockStatus"),
             .CreateUser = pUser
         }
@@ -88,10 +130,14 @@ Public Class UserSetup
                 show_error(MsgTypeEnum.ErrorMsg, "User already exists!", 1)
                 Return
             End If
-            clsUserSetupDB.Insert(User)
-            Grid.CancelEdit()
-            up_GridLoad()
-            show_error(MsgTypeEnum.Success, "Save data successfully!", 1)
+            pErr = clsUserSetupDB.Insert(User)
+            If pErr = "" Then
+                show_error(MsgTypeEnum.Success, "Save data successfully!", 1)
+                Grid.CancelEdit()
+                up_GridLoad()
+            Else
+                show_error(MsgTypeEnum.ErrorMsg, pErr, 1)
+            End If
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
         End Try
@@ -102,14 +148,13 @@ Public Class UserSetup
         Dim User As New clsUserSetup With {
             .UserID = e.OldValues("UserID"),
             .FullName = e.NewValues("FullName") & "",
-            .Password = e.NewValues("Password"),
-            .AdminStatus = e.NewValues("AdminStatus"),
+            .Password = e.NewValues("Password") & "",
+            .AdminStatus = If(e.NewValues("AdminStatus") = "Yes", "1", "0"),
             .Description = e.NewValues("Description") & "",
-            .LineLeaderStatus = e.NewValues("LineLeaderStatus"),
-            .LineForemanStatus = e.NewValues("LineForemanStatus"),
-            .ProdSectionHeadStatus = e.NewValues("ProdSectionHeadStatus"),
-            .QELeaderStatus = e.NewValues("QELeaderStatus"),
-            .QESectionHeadStatus = e.NewValues("QESectionHeadStatus"),
+            .FactoryCode = e.NewValues("FactoryCode"),
+            .JobPosition = e.NewValues("JobPosition") & "",
+            .EmployeeID = e.NewValues("EmployeeID") & "",
+            .Email = e.NewValues("Email"),
             .LockStatus = e.NewValues("LockStatus"),
             .UpdateUser = pUser
         }
@@ -142,7 +187,7 @@ Public Class UserSetup
         End If
     End Sub
 
-    Private Sub Grid_CellEditorInitialize(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridView.ASPxGridViewEditorEventArgs) Handles Grid.CellEditorInitialize
+    Private Sub Grid_CellEditorInitialize(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewEditorEventArgs) Handles Grid.CellEditorInitialize
         If Not Grid.IsNewRowEditing Then
             If e.Column.FieldName = "UserID" Then
                 e.Editor.ReadOnly = True
@@ -152,7 +197,7 @@ Public Class UserSetup
     End Sub
 
     Protected Sub Grid_RowValidating(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataValidationEventArgs) Handles Grid.RowValidating
-        Dim GridData As DevExpress.Web.ASPxGridView.ASPxGridView = TryCast(sender, DevExpress.Web.ASPxGridView.ASPxGridView)
+        Dim GridData As DevExpress.Web.ASPxGridView = TryCast(sender, DevExpress.Web.ASPxGridView)
         Dim AdaError As Boolean = False
         Dim Password As String = ""
         Dim ConfirmPassword As String = ""
@@ -179,27 +224,99 @@ Public Class UserSetup
                 End If
             End If
 
+            If dataColumn.FieldName = "FullName" Then
+                If IsNothing(e.NewValues("FullName")) OrElse e.NewValues("FullName").ToString.Trim = "" Then
+                    e.Errors(dataColumn) = "Please input FullName!"
+                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                    AdaError = True
+                End If
+            End If
+
             If dataColumn.FieldName = "Password" Then
                 If IsNothing(e.NewValues("Password")) OrElse e.NewValues("Password").ToString.Trim = "" Then
                     e.Errors(dataColumn) = "Please input Password!"
                     show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
                     AdaError = True
                 End If
+                'Password = e.NewValues("Password")
             End If
-            Password = e.NewValues("Password")
-            If dataColumn.FieldName = "ConfirmPassword" Then
-                If IsNothing(e.NewValues("ConfirmPassword")) OrElse e.NewValues("ConfirmPassword").ToString.Trim = "" Then
-                    e.Errors(dataColumn) = "Please input Confirm Password!"
+
+            If dataColumn.FieldName = "AdminStatus" Then
+                If IsNothing(e.NewValues("AdminStatus")) OrElse e.NewValues("AdminStatus").ToString.Trim = "" Then
+                    e.Errors(dataColumn) = "Please input Admin Status!"
                     show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
                     AdaError = True
                 End If
             End If
-            ConfirmPassword = e.NewValues("Password")
+
+            If dataColumn.FieldName = "FactoryCode" Then
+                If IsNothing(e.NewValues("FactoryCode")) OrElse e.NewValues("FactoryCode").ToString.Trim = "" Then
+                    e.Errors(dataColumn) = "Please input Factory!"
+                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                    AdaError = True
+                End If
+            End If
+
+            If dataColumn.FieldName = "JobPosition" Then
+                If IsNothing(e.NewValues("JobPosition")) OrElse e.NewValues("JobPosition").ToString.Trim = "" Then
+                    e.Errors(dataColumn) = "Please input Job Position!"
+                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                    AdaError = True
+                End If
+            End If
+
+            If dataColumn.FieldName = "EmployeeID" Then
+                If IsNothing(e.NewValues("EmployeeID")) OrElse e.NewValues("EmployeeID").ToString.Trim = "" Then
+                    e.Errors(dataColumn) = "Please input Employee ID!"
+                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                    AdaError = True
+                ElseIf Not e.IsNewRow Then
+                    Dim dt As DataTable = clsUserSetupDB.GetEmployee(e.NewValues("EmployeeID"))
+                    If e.IsNewRow Then
+                        If dt.Rows.Count > 0 Then
+                            e.Errors(dataColumn) = "Employee ID already exists!"
+                            show_error(MsgTypeEnum.Warning, e.Errors(dataColumn), 1)
+                            AdaError = True
+                        End If
+                    Else
+                        Dim nrow = e.NewValues.Values.Count
+                        If nrow = 10 Then
+                            Dim a = e.NewValues.Values(7)
+                            Dim b = e.OldValues.Values(7)
+                            If a <> b Then
+                                If dt.Rows.Count > 0 Then
+                                    e.Errors(dataColumn) = "Employee ID already exists!"
+                                    show_error(MsgTypeEnum.Warning, e.Errors(dataColumn), 1)
+                                    AdaError = True
+                                End If
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+
+            If dataColumn.FieldName = "Email" Then
+                If IsNothing(e.NewValues("Email")) OrElse e.NewValues("Email").ToString.Trim = "" Then
+                    e.Errors(dataColumn) = "Please input Email!"
+                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                    AdaError = True
+                End If
+            End If
+
+            'If dataColumn.FieldName = "ConfirmPassword" Then
+            '    If IsNothing(e.NewValues("ConfirmPassword")) OrElse e.NewValues("ConfirmPassword").ToString.Trim = "" Then
+            '        e.Errors(dataColumn) = "Please input Confirm Password!"
+            '        show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+            '        AdaError = True
+            '    End If
+            '    ConfirmPassword = e.NewValues("Password")
+            'End If
+
         Next column
 
-        If Not AdaError And Password <> ConfirmPassword Then
-            show_error(MsgTypeEnum.Warning, "Password does not match!", 1)
-        End If
+        'If Not AdaError And Password <> ConfirmPassword Then
+        '    show_error(MsgTypeEnum.Warning, "Password does not match!", 1)
+        'End If
     End Sub
 
     Protected Sub Grid_StartRowEditing(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxStartRowEditingEventArgs) Handles Grid.StartRowEditing
@@ -210,7 +327,7 @@ Public Class UserSetup
     End Sub
 
     Protected Sub PrivilegesLink_Init(ByVal sender As Object, ByVal e As EventArgs)
-        Dim link As DevExpress.Web.ASPxEditors.ASPxHyperLink = CType(sender, DevExpress.Web.ASPxEditors.ASPxHyperLink)
+        Dim link As DevExpress.Web.ASPxHyperLink = CType(sender, DevExpress.Web.ASPxHyperLink)
         Dim templatecontainer As GridViewDataItemTemplateContainer = CType(link.NamingContainer, GridViewDataItemTemplateContainer)
         link.NavigateUrl = "javascript:void(0)"
         link.ForeColor = Color.SteelBlue
@@ -218,12 +335,12 @@ Public Class UserSetup
         Dim UserID As String = ""
         UserID = templatecontainer.Grid.GetRowValues(templatecontainer.VisibleIndex, "UserID") & ""
         If UserID <> "" Then
-            link.ClientSideEvents.Click = "function (s,e) {window.open('UserPrivilege.aspx?prm=" + UserID + "', 'ModalPopUp', 'height=600,width=960,left=200,top=10'); }"
+            link.ClientSideEvents.Click = "function (s,e) {window.open('UserPrivilege.aspx?prm=" + UserID + "','_self'); }"
         End If
     End Sub
 
     Protected Sub LinePrivilegesLink_Init(ByVal sender As Object, ByVal e As EventArgs)
-        Dim link As DevExpress.Web.ASPxEditors.ASPxHyperLink = CType(sender, DevExpress.Web.ASPxEditors.ASPxHyperLink)
+        Dim link As DevExpress.Web.ASPxHyperLink = CType(sender, DevExpress.Web.ASPxHyperLink)
         Dim templatecontainer As GridViewDataItemTemplateContainer = CType(link.NamingContainer, GridViewDataItemTemplateContainer)
         link.NavigateUrl = "javascript:void(0)"
         link.ForeColor = Color.SteelBlue
@@ -231,7 +348,7 @@ Public Class UserSetup
         Dim UserID As String = ""
         UserID = templatecontainer.Grid.GetRowValues(templatecontainer.VisibleIndex, "UserID") & ""
         If UserID <> "" Then
-            link.ClientSideEvents.Click = "function (s,e) {window.open('UserLine.aspx?prm=" + UserID + "', 'ModalPopUp', 'height=600,width=960,left=200,top=10'); }"
+            link.ClientSideEvents.Click = "function (s,e) {window.open('UserLine.aspx?prm=" + UserID + "','_self'); }"
         End If
     End Sub
 #End Region

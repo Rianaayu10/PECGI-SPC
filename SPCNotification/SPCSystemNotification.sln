@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2010
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SPCSystemNotifications", "SPCSystemNotifications\SPCSystemNotifications.vbproj", "{A2B20F1D-38C0-4CBC-8CC3-7A591C49C4E1}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SPCNotification", "SPCNotification\SPCNotification.vbproj", "{E2501BE2-E6D6-415A-B48F-1A8AAD4309F6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2B20F1D-38C0-4CBC-8CC3-7A591C49C4E1}.Debug|x86.ActiveCfg = Debug|x86
+		{A2B20F1D-38C0-4CBC-8CC3-7A591C49C4E1}.Debug|x86.Build.0 = Debug|x86
+		{A2B20F1D-38C0-4CBC-8CC3-7A591C49C4E1}.Release|x86.ActiveCfg = Release|x86
+		{A2B20F1D-38C0-4CBC-8CC3-7A591C49C4E1}.Release|x86.Build.0 = Release|x86
+		{E2501BE2-E6D6-415A-B48F-1A8AAD4309F6}.Debug|x86.ActiveCfg = Debug|x86
+		{E2501BE2-E6D6-415A-B48F-1A8AAD4309F6}.Debug|x86.Build.0 = Debug|x86
+		{E2501BE2-E6D6-415A-B48F-1A8AAD4309F6}.Release|x86.ActiveCfg = Release|x86
+		{E2501BE2-E6D6-415A-B48F-1A8AAD4309F6}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BF1C9929-D045-4B25-8C64-D729E1EE171A}
+	EndGlobalSection
+EndGlobal

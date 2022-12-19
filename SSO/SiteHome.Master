@@ -1,0 +1,142 @@
+﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="SiteHome.master.vb" Inherits="SSO.SiteHome" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title id="PageTitle" runat="server">Statistic Process Control System</title>
+    <link href="Styles/images/favicon_pecgi.ico" rel="SHORTCUT ICON" type="image/icon" />
+
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="css/global-circuit-store.css">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-skins.min.css">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-rtl.min.css">
+
+    <script src="Scripts/toastr.js"></script>
+    <link rel="Stylesheet" type="text/css" href="content/toastr.css" />
+    <link rel="Stylesheet" href="content/toastr.min.css" />
+
+</head>
+<body class="smart-style fixed-header desktop-detected pace-done minified">
+    <header id="header">
+        <div class="project-context hidden-xs">
+            <span></span>
+            <span class="project-selector dropdown-toggle" style="font-family: Tahoma; font-weight: bold; font-size: 12pt; margin-top: 10px; padding: 8px 0px 0px 18px;">SSO SPC SYSTEM</span>
+        </div>
+        <div class="pull-right">
+            <div id="hide-menu" class="btn-header pull-right">
+                <span><a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a></span>
+            </div>
+            <div id="logout" class="btn-header transparent pull-right">
+                <span><a href="Default.aspx" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a></span>
+            </div>
+            <div id="fullscreen" class="btn-header transparent pull-right">
+                <span><a href="javascript:void(0);" data-action="launchFullscreen" title="Full Screen"><i class="fa fa-arrows-alt"></i></a></span>
+            </div>
+        </div>
+        <iframe src="<%=Page.ResolveClientUrl("~/StretchSession.aspx")%>" width="0" height="0" style="display: none;"></iframe>
+    </header>
+
+    <aside id="left-panel">
+        <div class="login-info">
+            <span>
+                <a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    &nbsp
+                    <asp:Label ID="lblUser" runat="server" Text="lblUser" Font-Names="Tahoma" Font-Size="14pt" Font-Bold="true"></asp:Label>
+                </a>
+
+            </span>
+        </div>
+
+        <nav>
+            <ul>
+                <li>
+                    <a href="Main.aspx" title="Home"><i class="fa fa-lg fa-fw fa-home"></i><span class="menu-item-parent">Home</span></a>
+                </li>              
+                <li>
+                    <span class="minifyme" data-action="minifyMenu"><i class="fa fa-arrow-circle-left hit"></i></span>
+                </li>
+            </ul>
+        </nav>
+
+    </aside>
+
+    <div id="main" role="main">
+        <div id="content">
+            <section id="widget-grid" class="">
+                <div class="row">
+                    <article class="col-sm-12 col-md-12 col-lg-12">
+                        <div>
+                            <div>
+                                <div>
+                                    <asp:ContentPlaceHolder ID="Content" runat="server" />
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="page-footer">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <span class="txt-color-white">© 2022 - PT. Panasonic Gobel Energy Indonesia</span>
+            </div>
+            <div class="col-xs-6 col-sm-6 text-right hidden-xs">
+                <div class="txt-color-white inline-block">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        if (!window.jQuery) {
+            document.write('<script src="js/libs/jquery-2.1.1.min.js"><\/script>');
+        }
+    </script>
+    <script>
+        if (!window.jQuery.ui) {
+            document.write('<script src="js/libs/jquery-ui-1.10.3.min.js"><\/script>');
+        }
+    </script>
+    <script src="js/app.config.js"></script>
+    <script src="js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script>
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="js/notification/SmartNotification.min.js"></script>
+    <script src="js/smartwidgets/jarvis.widget.min.js"></script>
+    <script src="js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js"></script>
+    <script src="js/plugin/sparkline/jquery.sparkline.min.js"></script>
+    <script src="js/plugin/jquery-validate/jquery.validate.min.js"></script>
+    <script src="js/plugin/masked-input/jquery.maskedinput.min.js"></script>
+    <script src="js/plugin/select2/select2.min.js"></script>
+    <script src="js/plugin/bootstrap-slider/bootstrap-slider.min.js"></script>
+    <script src="js/plugin/msie-fix/jquery.mb.browser.min.js"></script>
+    <script src="js/plugin/fastclick/fastclick.min.js"></script>
+    <script src="js/app.min.js"></script>
+    <script src="js/speech/voicecommand.min.js"></script>
+    <script src="js/smart-chat-ui/smart.chat.ui.min.js"></script>
+    <script src="js/smart-chat-ui/smart.chat.manager.min.js"></script>  
+    <script src="js/plugin/vectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="js/plugin/vectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="js/plugin/moment/moment.min.js"></script>
+    <script src="js/plugin/fullcalendar/jquery.fullcalendar.min.js"></script>
+    <script src="Scripts/toastr.js"></script>
+  
+</body>
+</html>

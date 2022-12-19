@@ -4,7 +4,7 @@ Public Class Cls_ss_UserPrivilegeDB
     Public Shared Function GetList(Optional ByRef pErr As String = "") As List(Of Cls_ss_UserPrivilege)
         Try
             Using cn As New SqlConnection(Sconn.Stringkoneksi)
-                Dim sql As String = "SELECT * FROM dbo.UserPrivilege"
+                Dim sql As String = "SELECT * FROM dbo.spc_UserPrivilege"
                 Dim Cmd As New SqlCommand(sql, cn)
                 Dim da As New SqlDataAdapter(Cmd)
                 Dim dt As New DataTable
@@ -12,13 +12,14 @@ Public Class Cls_ss_UserPrivilegeDB
                 Dim UPs As New List(Of Cls_ss_UserPrivilege)
                 For i = 0 To dt.Rows.Count - 1
                     Dim UP As New Cls_ss_UserPrivilege With {.AppID = "P01", .UserID = dt.Rows(i)("UserID"),
-                            .MenuID = Trim(dt.Rows(i)("MenuID") & ""), .AllowAccess = dt.Rows(i)("AllowAccess"), .AllowUpdate = dt.Rows(i)("AllowUpdate"), .AllowPrint = dt.Rows(i)("AllowPrint")}
+                            .MenuID = Trim(dt.Rows(i)("MenuID") & ""), .AllowAccess = dt.Rows(i)("AllowAccess"), .AllowUpdate = dt.Rows(i)("AllowUpdate"), .AllowDelete = dt.Rows(i)("AllowDelete")}
                     UPs.Add(UP)
                 Next
                 Return UPs
             End Using
         Catch ex As Exception
             pErr = ex.Message
+            Throw ex
             Return Nothing
         End Try
 
@@ -31,8 +32,7 @@ Public Class Cls_ss_UserPrivilegeDB
                 cn.Open()
                 Dim sql As String = ""
 
-                sql = "SELECT * FROM dbo.UserSetup WHERE AppID='P01' AND UserID='" & pUserID & "' "
-
+                sql = "SELECT * FROM dbo.spc_UserSetup WHERE AppID='spc' AND UserID='" & pUserID & "' "
 
                 Dim ds As New DataSet
                 Dim cmd As New SqlCommand(sql, cn)
@@ -43,85 +43,107 @@ Public Class Cls_ss_UserPrivilegeDB
             End Using
         Catch ex As Exception
             pErr = ex.Message
+            Throw ex
             Return Nothing
         End Try
     End Function
 
-    Public Shared Function Copy(FromUserID As String, ToUserID As String, CreateUser As String) As Integer
-        Using Cn As New SqlConnection(Sconn.Stringkoneksi)
-            Cn.Open()
-            Dim q As String = "delete from UserPrivilege where UserID = @ToUserID"
-            Dim cmd As New SqlCommand(q, Cn)
-            cmd.Parameters.AddWithValue("ToUserID", ToUserID)
+    Public Shared Function Copy(FromUserID As String, ToUserID As String, CreateUser As String) As String
+        Dim pErr = ""
+        Try
+            Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+                Cn.Open()
+                Dim q As String = "delete from dbo.spc_UserPrivilege where UserID = @ToUserID"
+                Dim cmd As New SqlCommand(q, Cn)
+                cmd.Parameters.AddWithValue("ToUserID", ToUserID)
+                cmd.ExecuteNonQuery()
 
-            Dim i As Integer = cmd.ExecuteNonQuery
-            q = "Insert into UserPrivilege (" & vbCrLf & _
-                "AppID, UserID, MenuID, AllowAccess, AllowUpdate, AllowSpecial, CreateDate, CreateUser ) " & vbCrLf & _
-                "select AppID, @ToUserID, MenuID, AllowAccess, AllowUpdate, AllowSpecial, GetDate(), @CreateUser " & vbCrLf & _
-                "from UserPrivilege where UserID = @FromUserID"
-            cmd = New SqlCommand(q, Cn)
-            cmd.Parameters.AddWithValue("FromUserID", FromUserID)
-            cmd.Parameters.AddWithValue("ToUserID", ToUserID)
-            cmd.Parameters.AddWithValue("CreateUser", CreateUser)
-            i = cmd.ExecuteNonQuery()
-            Return i
-        End Using
+                q = "Insert into spc_UserPrivilege (" & vbCrLf &
+                    "AppID, UserID, MenuID, AllowAccess, AllowUpdate, AllowSpecial, AllowDelete, RegisterDate, RegisterUser ,UpdateDate, UpdateUser ) " & vbCrLf &
+                    "select AppID, @ToUserID, MenuID, AllowAccess, AllowUpdate, AllowSpecial, AllowDelete, GetDate(), @CreateUser, GetDate(), @CreateUser " & vbCrLf &
+                    "from spc_UserPrivilege where UserID = @FromUserID"
+                cmd = New SqlCommand(q, Cn)
+                cmd.Parameters.AddWithValue("FromUserID", FromUserID)
+                cmd.Parameters.AddWithValue("ToUserID", ToUserID)
+                cmd.Parameters.AddWithValue("CreateUser", CreateUser)
+                cmd.ExecuteNonQuery()
+                Return pErr
+            End Using
+        Catch ex As Exception
+            pErr = ex.Message
+            Throw ex
+            Return pErr
+        End Try
     End Function
 
-    Public Shared Function Save(ByVal pUserP As Cls_ss_UserPrivilege, Optional ByRef pErr As String = "") As Integer
+    Public Shared Function Save(ByVal pUserP As Cls_ss_UserPrivilege, Optional ByRef pErr As String = "") As String
+        pErr = ""
         Try
-            pErr = ""
             Using cn As New SqlConnection(Sconn.Stringkoneksi)
                 cn.Open()
-                Dim sql As String = " IF NOT EXISTS (SELECT * FROM dbo.UserPrivilege WHERE UserID =@UserID AND MenuID=@MenuID)" & vbCrLf & _
-                      " BEGIN " & vbCrLf & _
-                    " INSERT INTO dbo.UserPrivilege ( AppID ,UserID ,MenuID ,AllowAccess ,AllowUpdate) " & vbCrLf & _
-                    " VALUES( @AppID ," & vbCrLf & _
-                    " @UserID ," & vbCrLf & _
-                    " @MenuID ," & vbCrLf & _
-                    " @AllowAccess ," & vbCrLf & _
-                    " @AllowUpdate )" & vbCrLf & _
-                    " END " & vbCrLf & _
-                    " ELSE " & vbCrLf & _
+                Dim sql As String = " IF NOT EXISTS (SELECT * FROM dbo.SPC_UserPrivilege WHERE UserID =@UserID AND MenuID=@MenuID)" & vbCrLf &
+                      " BEGIN " & vbCrLf &
+                    " INSERT INTO dbo.SPC_UserPrivilege (AppID ,UserID ,MenuID ,AllowAccess ,AllowUpdate, AllowDelete, RegisterDate, RegisterUser, UpdateDate, UpdateUser) " & vbCrLf &
+                    " VALUES( @AppID ," & vbCrLf &
+                    " @UserID ," & vbCrLf &
+                    " @MenuID ," & vbCrLf &
+                    " @AllowAccess ," & vbCrLf &
+                    " @AllowUpdate ," & vbCrLf &
+                    " @AllowDelete ," & vbCrLf &
+                    " GetDate() ," & vbCrLf &
+                    " @RegisterUser ," & vbCrLf &
+                    " GetDate() ," & vbCrLf &
+                    " @RegisterUser" & vbCrLf &
+                    ")" & vbCrLf &
+                    " END " & vbCrLf &
+                    " ELSE " & vbCrLf &
                     " BEGIN "
-                sql = sql + " UPDATE dbo.UserPrivilege " & vbCrLf & _
-                      " SET AllowAccess=@AllowAccess, " & vbCrLf & _
-                      " AllowUpdate=@AllowUpdate " & vbCrLf & _
-                      " WHERE AppID=@AppID AND UserID =@UserID AND MenuID=@MenuID " & vbCrLf & _
+                sql = sql + " UPDATE dbo.SPC_UserPrivilege " & vbCrLf &
+                      " SET AllowAccess=@AllowAccess, " & vbCrLf &
+                      " AllowUpdate=@AllowUpdate ," & vbCrLf &
+                      " AllowDelete=@AllowDelete ," & vbCrLf &
+                      " UpdateDate=GetDate()," & vbCrLf &
+                      " UpdateUser=@RegisterUser " & vbCrLf &
+                      " WHERE AppID=@AppID AND UserID =@UserID AND MenuID=@MenuID " & vbCrLf &
                       " END "
                 Dim Cmd As New SqlCommand(sql, cn)
+
                 With Cmd.Parameters
                     .AddWithValue("AppID", pUserP.AppID)
                     .AddWithValue("UserID", pUserP.UserID)
                     .AddWithValue("MenuID", pUserP.MenuID)
                     .AddWithValue("AllowAccess", pUserP.AllowAccess)
                     .AddWithValue("AllowUpdate", pUserP.AllowUpdate)
+                    .AddWithValue("AllowDelete", pUserP.AllowDelete)
+                    .AddWithValue("RegisterUser", pUserP.RegisterUser)
                 End With
-                Return Cmd.ExecuteNonQuery
+                Cmd.ExecuteNonQuery()
+                Return pErr
             End Using
         Catch ex As Exception
             pErr = ex.Message
-            Return 0
+            Throw ex
+            Return pErr
         End Try
-
     End Function
 
-    Public Shared Function Delete(ByVal pUserP As Cls_ss_UserPrivilege, Optional ByRef pErr As String = "") As Integer
+    Public Shared Function Delete(ByVal pUserP As Cls_ss_UserPrivilege, Optional ByRef pErr As String = "") As String
         pErr = ""
         Try
             Using cn As New SqlConnection(Sconn.Stringkoneksi)
                 cn.Open()
-                Dim sql As String = "DELETE UserPrivilege WHERE UserID=@UserID"
+                Dim sql As String = "DELETE spc_UserPrivilege WHERE UserID=@UserID"
                 Dim Cmd As New SqlCommand(sql, cn)
                 With Cmd.Parameters
                     .AddWithValue("UserID", pUserP.UserID)
                 End With
-                Return Cmd.ExecuteNonQuery
+                Cmd.ExecuteNonQuery()
+                Return pErr
             End Using
         Catch ex As Exception
             pErr = ex.Message
-            Return 0
+            Throw ex
+            Return pErr
         End Try
-
     End Function
 End Class

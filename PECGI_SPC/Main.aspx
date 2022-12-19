@@ -5,7 +5,7 @@
 <%-- <table width="100%">
         <tr>
             <td>--%>
-                <img src="Styles/images/main2.png" alt="Dashboard" style="width:100%"/>
+                <img src="Styles/images/dashboard.png" alt="Dashboard" style="width:50%"/>
                <%-- </td>
         </tr>
     </table>--%>

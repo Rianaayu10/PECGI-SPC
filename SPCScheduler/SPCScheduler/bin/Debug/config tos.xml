@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Connection>
+  <EZDB>
+    <ServerName>WcdKx8fm6FNGAe+yDltqswI+5hAOZ7sv</ServerName>
+    <Database>HE7H7omV51GD7/ze1LTotBt9gczJsonFhd0u+J9h6v9Oxd0EQaOwxA==</Database>
+    <WinMode>5yraA9blD1aRYDqb7lSwpw==</WinMode>
+    <UserID>ZMq8XX9SHe4=</UserID>
+    <Password>VVLNYP5gxp6KtBfUxb5Pte/wSNyEg1F+</Password>
+    <DatabaseTimeOut>U0m+CuWBDCo=</DatabaseTimeOut>
+    <CommandTimeOut>QBbO2C0ZixU=</CommandTimeOut>
+    <MaxRetry>7FgLFbzklBc=</MaxRetry>
+    <RetryInterval>7FgLFbzklBc=</RetryInterval>
+  </EZDB>
+  <Scheduler>
+    <SLtoEZRFolder>yRyYhVVS8x0Kb34ARJpUWlcDh7O6dAoaudD/dqP1o1VLaR0h9JSu6Gg8H1xXc36W</SLtoEZRFolder>
+    <SLtoEZRBackUpFolder>yRyYhVVS8x0Kb34ARJpUWlcDh7O6dAoaudD/dqP1o1VLaR0h9JSu6AL9HcdT8wkpOAN5Zv4Ok7kfSnuFlesOng==</SLtoEZRBackUpFolder>
+    <EZRtoSLFolder>yRyYhVVS8x0Kb34ARJpUWlcDh7O6dAoa7abqRn8BlhBmYierE3Bx6eSofNkL4xw9</EZRtoSLFolder>
+    <EZRtoSLBackUpFolder>yRyYhVVS8x0Kb34ARJpUWlcDh7O6dAoa7abqRn8BlhBmYierE3Bx6RN3yihX7f4tFmX1mo4WskEpVd48NIdcoQ==</EZRtoSLBackUpFolder>
+    <Interval>2ojLctAsj54=</Interval>
+  </Scheduler>
+</Connection>

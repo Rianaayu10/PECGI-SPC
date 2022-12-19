@@ -5,4 +5,6 @@
     Public Property AllowAccess As String
     Public Property AllowUpdate As String
     Public Property AllowPrint As String
+    Public Property AllowDelete As String
+    Public Property RegisterUser As String
 End Class

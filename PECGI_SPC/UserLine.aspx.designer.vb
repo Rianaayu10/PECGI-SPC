@@ -14,40 +14,22 @@ Option Explicit On
 Partial Public Class UserLine
 
     '''<summary>
-    '''Label1 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Form1 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents Form1 As Global.System.Web.UI.HtmlControls.HtmlForm
-
-    '''<summary>
     '''ASPxLabel1 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents ASPxLabel1 As Global.DevExpress.Web.ASPxEditors.ASPxLabel
+    Protected WithEvents ASPxLabel1 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
-    '''txtUser control.
+    '''cboUserID control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtUser As Global.DevExpress.Web.ASPxEditors.ASPxTextBox
+    Protected WithEvents cboUserID As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
     '''ASPxLabel2 control.
@@ -56,16 +38,16 @@ Partial Public Class UserLine
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents ASPxLabel2 As Global.DevExpress.Web.ASPxEditors.ASPxLabel
+    Protected WithEvents ASPxLabel2 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
-    '''cboUser control.
+    '''cboUserReplace control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents cboUser As Global.DevExpress.Web.ASPxEditors.ASPxComboBox
+    Protected WithEvents cboUserReplace As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
     '''dsUser control.
@@ -83,7 +65,16 @@ Partial Public Class UserLine
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents gridMenu As Global.DevExpress.Web.ASPxGridView.ASPxGridView
+    Protected WithEvents gridMenu As Global.DevExpress.Web.ASPxGridView
+
+    '''<summary>
+    '''btnCancel control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnCancel As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
     '''btnSave control.
@@ -92,7 +83,7 @@ Partial Public Class UserLine
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnSave As Global.DevExpress.Web.ASPxEditors.ASPxButton
+    Protected WithEvents btnSave As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
     '''cbkValid control.
@@ -101,5 +92,26 @@ Partial Public Class UserLine
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents cbkValid As Global.DevExpress.Web.ASPxCallback.ASPxCallback
+    Protected WithEvents cbkValid As Global.DevExpress.Web.ASPxCallback
+
+    '''<summary>
+    '''HideValue control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents HideValue As Global.DevExpress.Web.ASPxHiddenField
+
+    '''<summary>
+    '''Master property.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated property.
+    '''</remarks>
+    Public Shadows ReadOnly Property Master() As PECGI_SPC.Site
+        Get
+            Return CType(MyBase.Master, PECGI_SPC.Site)
+        End Get
+    End Property
 End Class
