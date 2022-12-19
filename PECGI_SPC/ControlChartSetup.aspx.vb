@@ -72,10 +72,13 @@ Public Class ControlChartSetup
                 e.Editor.ForeColor = Color.Silver
             End If
         ElseIf Grid.IsNewRowEditing Then
-            If e.Column.FieldName = "End" Then
-                Dim endTime As DateTime
-                endTime = Convert.ToDateTime("9999-12-31")
-                e.Editor.Value = endTime
+            Dim Time As DateTime
+            If e.Column.FieldName = "Start" Then
+                Time = Now
+                e.Editor.Value = Time
+            ElseIf e.Column.FieldName = "End" Then
+                Time = Convert.ToDateTime("9999-12-31")
+                e.Editor.Value = Time
             End If
         End If
 
@@ -83,18 +86,22 @@ Public Class ControlChartSetup
             Dim combo As ASPxComboBox = TryCast(e.Editor, ASPxComboBox)
             up_FillcomboGrid(combo, "0", pUser)
             If Grid.IsEditing Then combo.Value = e.Value : HF.Set("FactoryEdit", e.Value)
+            If Grid.IsNewRowEditing Then combo.Value = cboFactory.Value
         ElseIf e.Column.FieldName = "TypeEditGrid" Then
             Dim combo As ASPxComboBox = TryCast(e.Editor, ASPxComboBox)
             up_FillcomboGrid(combo, "1")
             If Grid.IsEditing Then combo.Value = e.Value : HF.Set("TypeEditGrid", e.Value)
+            If Grid.IsNewRowEditing Then combo.Value = cboType.Value
         ElseIf e.Column.FieldName = "MachineEditGrid" Then
             Dim combo As ASPxComboBox = TryCast(e.Editor, ASPxComboBox)
             AddHandler combo.Callback, AddressOf cmbGridMachine_OnCallback
             If Grid.IsEditing Then Call up_FillcomboGrid(combo, "3", HF.Get("FactoryEdit"), HF.Get("TypeEditGrid")) : combo.Value = e.Value : HF.Set("MachineEditGrid", e.Value)
+            If Grid.IsNewRowEditing Then Call up_FillcomboGrid(combo, "3", cboFactory.Value, cboType.Value) : combo.Value = IIf(cboMachine.Text <> "ALL", cboMachine.Value, "")
         ElseIf e.Column.FieldName = "ItemCheckEditGrid" Then
             Dim combo As ASPxComboBox = TryCast(e.Editor, ASPxComboBox)
             AddHandler combo.Callback, AddressOf cmbGridItemCheck_OnCallback
             If Grid.IsEditing Then Call up_FillcomboGrid(combo, "5", HF.Get("FactoryEdit"), HF.Get("TypeEditGrid"), HF.Get("MachineEditGrid")) : combo.Value = e.Value
+            If Grid.IsNewRowEditing Then Call up_FillcomboGrid(combo, "5", cboFactory.Value, cboType.Value, cboMachine.Value)
         End If
 
         If e.Column.FieldName = "Factory" Or e.Column.FieldName = "TypeEditGrid" Or e.Column.FieldName = "Start" Or e.Column.FieldName = "End" Then
