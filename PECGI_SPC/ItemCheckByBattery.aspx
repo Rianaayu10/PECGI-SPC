@@ -103,6 +103,11 @@
             Grid.CancelEdit();
             Grid.PerformCallback('Load');
         }
+        function Clear() {
+            cboFactory.SetValue('');
+            cboLine.SetValue('');
+            cboType.SetValue('');
+        }
     </script>
 </asp:Content>
 
@@ -206,11 +211,12 @@
                     &nbsp;&nbsp;
                     <dx:ASPxButton ID="btnReset" runat="server" AutoPostBack="False" ClientInstanceName="btnReset" Theme="Office2010Silver" Height="28px"
                         Text="Clear">
-                        <ClientSideEvents Click="function(s, e) {
+                        <%--<ClientSideEvents Click="function(s, e) {
                                 cboFactory.SetSelectedIndex(0);
                                 cboMachineProccess.SetSelectedIndex(0);
                                 cboTypeCode.SetSelectedIndex(0);
-                            }" />
+                            }" />--%>
+                        <ClientSideEvents Click="Clear" />
                     </dx:ASPxButton>
                 </td>
             </tr>

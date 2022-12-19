@@ -131,29 +131,37 @@ Public Class frmScheduler
         End If
         If chkDelayVerification.Checked = True Then
             Try
+                Dim pErr As String
                 Dim FactoryCode As String = cboFactory.SelectedValue
-                Dim Alertlist As List(Of clsAlertDashboard) = clsAlertDashboardDB.GetListDelayVerification(FactoryCode, ConStr)
+                Dim Alertlist As List(Of clsAlertDashboard) = clsAlertDashboardDB.GetListDelayVerification(FactoryCode, ConStr, pErr)
 
-                For Each AlertData In Alertlist
+                If pErr <> "" Then
+                    ShowLog(pErr)
+                Else
 
-                    ' Send Email
-                    Dim CheckDataEmail As DataTable = clsAlertDashboardDB.CheckDataSendEmailAlert(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, ConStr)
+                    For Each AlertData In Alertlist
 
-                    If CheckDataEmail.Rows.Count <= 0 Then
-                        Dim CountSendEmail As Integer = clsAlertDashboardDB.SendEmail(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, "3", AlertData.LSL, AlertData.USL, AlertData.LCL, AlertData.UCL, AlertData.MinValue, AlertData.MaxValue, AlertData.Average, AlertData.Status, "", "", AlertData.VerifTime, AlertData.DelayTime, ConStr)
-                    Else
-                        'Nothing Happens Here, Go Back To Your WorkTable
-                    End If
+                        ' Send Email
+                        Dim CheckDataEmail As DataTable = clsAlertDashboardDB.CheckDataSendEmailAlert(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, ConStr)
 
-                    ' Send Notification
-                    Dim CheckDataNotification As DataTable = clsAlertDashboardDB.CheckDataSendNotificationAlert(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, "DV", ConStr)
+                        If CheckDataEmail.Rows.Count <= 0 Then
+                            Dim CountSendEmail As Integer = clsAlertDashboardDB.SendEmail(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, "3", AlertData.LSL, AlertData.USL, AlertData.LCL, AlertData.UCL, AlertData.MinValue, AlertData.MaxValue, AlertData.Average, AlertData.Status, "", "", AlertData.VerifTime, AlertData.DelayTime, ConStr)
+                        Else
+                            'Nothing Happens Here, Go Back To Your WorkTable
+                        End If
 
-                    If CheckDataNotification.Rows.Count <= 0 Then
-                        clsAlertDashboardDB.SendNotification(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, "DV", ConStr)
-                    Else
-                        'Nothing again here, Go Back 
-                    End If
-                Next
+                        ' Send Notification
+                        Dim CheckDataNotification As DataTable = clsAlertDashboardDB.CheckDataSendNotificationAlert(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, "DV", ConStr)
+
+                        If CheckDataNotification.Rows.Count <= 0 Then
+                            clsAlertDashboardDB.SendNotification(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, "DV", ConStr)
+                        Else
+                            'Nothing again here, Go Back 
+                        End If
+                    Next
+
+                End If
+                
 
 
             Catch ex As Exception

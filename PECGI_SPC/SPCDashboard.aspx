@@ -188,7 +188,7 @@
                                     <ItemTemplate>
                                                 <tr>
                                                     <td style="width: 100px">
-                                                        <asp:Label ID="lblType" runat="server" Text='<%# Eval("ItemTypeName") %>' />
+                                                        <asp:Label ID="lblTypeNGInput" runat="server" Text='<%# Eval("ItemTypeName") %>' />
                                                     </td>
                                                     <td style="width: 200px">
                                                         <asp:Label ID="lblMachineProcess" runat="server" Text='<%# Eval("LineName") %>' />
@@ -276,8 +276,10 @@
                                             <thead >
                                                 <tr>
                                                     <%--<th scope="col">Action</th>--%>
-                                                    <th style="width: 15%">Machine Process</th>
-                                                    <th style="width: 20%">Item Check</th>
+                                                    <%--<th>Type</th>--%>
+                                                    <th style="width: 10%" >Type</th>
+                                                    <th style="width: 20%">Machine Process</th>
+                                                    <th style="width: 15%">Item Check</th>
                                                     <th>Date</th>
                                                     <th>Shift</th>
                                                     <th>Seq</th>
@@ -291,10 +293,16 @@
                                     </HeaderTemplate>
                                     <ItemTemplate>
                                             <tr>
-                                                <td style="width: 15%">
-                                                    <asp:Label ID="lblMachineProcess" runat="server" Text='<%# Eval("LineName") %>' />
+                                                <%--<td >
+                                                    <asp:LinkButton runat="server" ID="linkType" CommandText="click" Text='<%# Eval("TypeHeader") %>'/>
+                                                </td>--%>
+                                                <td style="width: 10%">
+                                                    <asp:Label ID="lblTypeDelayInput" runat="server" Text='<%# Eval("TypeHeader") %>' />
                                                 </td>
                                                 <td style="width: 20%">
+                                                    <asp:Label ID="lblMachineProcess" runat="server" Text='<%# Eval("LineName") %>' />
+                                                </td>
+                                                <td style="width: 15%">
                                                     <asp:Label ID="lblItemCheck" runat="server" Text='<%# Eval("ItemCheck") %>' />
                                                 </td>
                                                 <td>
@@ -379,7 +387,7 @@
                                     <ItemTemplate>
                                                 <tr>
                                                     <td style="width: 100px">
-                                                        <asp:Label ID="lblType" runat="server" Text='<%# Eval("ItemTypeName") %>' />
+                                                        <asp:Label ID="lblTypeDelayVerification" runat="server" Text='<%# Eval("ItemTypeName") %>' />
                                                     </td>
                                                     <td style="width: 200px">
                                                         <asp:Label ID="lblMachineProcess" runat="server" Text='<%# Eval("LineName") %>' />
@@ -450,12 +458,6 @@
             <asp:AsyncPostBackTrigger ControlID="TimerNGResult" EventName="Tick" />
         </Triggers>
     </asp:UpdatePanel>
-        <script>
-            $(document).ready(function () {
-
-            });
-            
-        </script>
         <script>
             window.onload = function () {
 

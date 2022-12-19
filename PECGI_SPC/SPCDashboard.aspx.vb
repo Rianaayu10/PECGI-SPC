@@ -26,6 +26,7 @@ Public Class SPCDashboard
     Dim MaxValue As String = ""
     Dim Average As String = ""
     Dim pCharacteristicStatus As Integer
+    Dim LinkDelayType As String
 #End Region
 
 #Region "Events"
@@ -144,7 +145,7 @@ Public Class SPCDashboard
             Dim item As RepeaterItem = e.Item
 
             'Declare Label Repeater
-            Dim lblType As Label = TryCast(item.FindControl("lblType"), Label)
+            'Dim lblType As Label = TryCast(item.FindControl("lblType"), Label)
             Dim lblMin As Label = TryCast(item.FindControl("lblMin"), Label)
             Dim lblMax As Label = TryCast(item.FindControl("lblMax"), Label)
             Dim lblAve As Label = TryCast(item.FindControl("lblAve"), Label)
@@ -153,10 +154,21 @@ Public Class SPCDashboard
             Dim lblUCL As Label = TryCast(item.FindControl("lblUCL"), Label)
             Dim lblLCL As Label = TryCast(item.FindControl("lblLCL"), Label)
 
-            Dim SplitType = Split(lblType.Text, "||")(0)
-            pCharacteristicStatus = Split(lblType.Text, "||")(1)
 
-            lblType.Text = SplitType
+            Dim lblTypeNGInput As Label = TryCast(item.FindControl("lblTypeNGInput"), Label)
+
+            pCharacteristicStatus = Split(lblTypeNGInput.Text, "||")(1)
+
+            Dim SplitType = Split(lblTypeNGInput.Text, "||")(0)
+            lblTypeNGInput.Text = "<a href='" + Split(lblTypeNGInput.Text, "||")(2) + "' target='_blank'>" + Split(lblTypeNGInput.Text, "||")(0) + "</a>"
+
+
+            'Dim lblType As LinkButton = TryCast(item.FindControl("linkType"), LinkButton)
+            'lblType.Text = Split(lblType.Text, "||")(0)
+
+            'LinkDelayType = Split(lblType.Text, "||")(1)
+
+
 
             'Check If MinValue Is Out Of Spec Or Out Of Control
             If lblMin.Text < lblLSL.Text Then
@@ -260,7 +272,7 @@ Public Class SPCDashboard
             Dim item As RepeaterItem = e.Item
 
             'Declare Label Repeater
-            Dim lblType As Label = TryCast(item.FindControl("lblType"), Label)
+            'Dim lblType As Label = TryCast(item.FindControl("lblType"), Label)
             Dim lblMin As Label = TryCast(item.FindControl("lblMin"), Label)
             Dim lblMax As Label = TryCast(item.FindControl("lblMax"), Label)
             Dim lblAve As Label = TryCast(item.FindControl("lblAve"), Label)
@@ -271,10 +283,13 @@ Public Class SPCDashboard
             Dim lblDelayVerif As Label = TryCast(item.FindControl("lblDelayVerif"), Label)
             Dim TimeSpanDV = TimeSpan.FromMinutes(lblDelayVerif.Text)
 
-            Dim SplitType = Split(lblType.Text, "||")(0)
-            pCharacteristicStatus = Split(lblType.Text, "||")(1)
+            Dim lblTypeDelayVerification As Label = TryCast(item.FindControl("lblTypeDelayVerification"), Label)
 
-            lblType.Text = SplitType
+
+            Dim SplitType = Split(lblTypeDelayVerification.Text, "||")(0)
+            pCharacteristicStatus = Split(lblTypeDelayVerification.Text, "||")(1)
+            lblTypeDelayVerification.Text = "<a href='" + Split(lblTypeDelayVerification.Text, "||")(2) + "' target='_blank'>" + Split(lblTypeDelayVerification.Text, "||")(0) + "</a>"
+
 
             'Check If Delay Higher Than 60 Minute Or Not 
             If lblDelayVerif.Text < 60 Then
@@ -431,11 +446,27 @@ Public Class SPCDashboard
     Protected Sub rptDelayInput_OnItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs)
         If e.Item.ItemType = ListItemType.Item OrElse e.Item.ItemType = ListItemType.AlternatingItem Then
 
+
             Dim item As RepeaterItem = e.Item
+            Dim Link As New HyperLink()
 
             'Declare Label Repeater
             Dim lblDelay As Label = TryCast(item.FindControl("lblDelay"), Label)
             Dim TimeSpanDI = TimeSpan.FromMinutes(lblDelay.Text)
+            Dim lblTypeDelayInput As Label = TryCast(item.FindControl("lblTypeDelayInput"), Label)
+
+            lblTypeDelayInput.Text = "<a href='" + Split(lblTypeDelayInput.Text, "||")(1) + "' target='_blank'>" + Split(lblTypeDelayInput.Text, "||")(0) + "</a>"
+            'Link.Text = Split(lblType.Text, "||")(0)
+            ''lblDelay.Text = Split(lblType.Text, "||")(0)
+            'Link.NavigateUrl = Split(lblType.Text, "||")(1)
+            'Link.Target = "_blank"
+
+            'Dim lblType As LinkButton = TryCast(item.FindControl("linkType"), LinkButton)
+            'lblType.Text = Split(lblType.Text, "||")(0)
+
+            'LinkDelayType = Split(lblType.Text, "||")(1)
+
+            'e.Item.Controls.Add(Link)
 
             'Check If Delay Higher Than 60 Minute Or Not 
             If lblDelay.Text < 60 Then
@@ -490,6 +521,9 @@ Public Class SPCDashboard
             End If
 
         End If
+    End Sub
+    Private Sub linkType_ItemCommand()
+        Response.Redirect(LinkDelayType)
     End Sub
 #End Region
 

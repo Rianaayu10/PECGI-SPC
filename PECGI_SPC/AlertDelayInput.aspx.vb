@@ -313,6 +313,7 @@ Public Class AlertDashboardInput
             Dim CountSendEmail As Integer
             Dim CheckAvailableData As DataTable
             Dim UserTo As String
+            Dim pErr As String
 
             Dim FactoryCode = cboFactory.Value
             Dim ItemTypeName = Split(Grid.GetRowValues(e.VisibleIndex, "ItemTypeName"), "||")(0)
@@ -329,12 +330,12 @@ Public Class AlertDashboardInput
 
             UserTo = clsSPCAlertDashboardDB.GetUserLine(FactoryCode, LineCode, "1")
 
-            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineName, ItemCheck, LinkDate, ShiftCode, SequenceNo, "2", "", "", "", "", "", "", "", "", ScheduleStart, ScheduleEnd, "", DelayTime, UserTo)
+            CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineName, ItemCheck, LinkDate, ShiftCode, SequenceNo, "2", "", "", "", "", "", "", "", "", ScheduleStart, ScheduleEnd, "", DelayTime, UserTo, pErr)
 
             If CountSendEmail > 0 Then
                 show_error(MsgTypeEnum.Success, "Send Email Success", 1)
             Else
-                show_error(MsgTypeEnum.ErrorMsg, "Send Email Failed", 1)
+                show_error(MsgTypeEnum.ErrorMsg, pErr, 1)
             End If
 
             'CheckAvailableData = clsSPCAlertDashboardDB.CheckDataSendNotification(FactoryCode, ItemTypeName, LineCode, ItemCheck, LinkDate, ShiftCode, SequenceNo)

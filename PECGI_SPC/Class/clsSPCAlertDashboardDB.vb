@@ -299,7 +299,7 @@ Public Class clsSPCAlertDashboardDB
                                      LSL As String, USL As String, LCL As String, UCL As String, MinValue As String, MaxValue As String, Average As String, Status As String,
                                      ScheduleStart As String, ScheduleEnd As String, VerifTime As String, DelayTime As String, UserTo As String, Optional ByRef pErr As String = "") As Integer
         Try
-            Dim LinkedServer As String = Sconn.LinkedServerPECGI
+            'Dim LinkedServer As String = Sconn.LinkedServerPECGI
             Using Cn As New SqlConnection(Sconn.Stringkoneksi)
                 Cn.Open()
                 Dim q As String

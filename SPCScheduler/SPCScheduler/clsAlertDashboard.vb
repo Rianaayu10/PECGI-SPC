@@ -118,6 +118,7 @@ Public Class clsAlertDashboardDB
     End Function
 
     Public Shared Function GetListDelayVerification(FactoryCode As String, ConStr As String, Optional ByRef pErr As String = "") As List(Of clsAlertDashboard)
+        Dim AlertList As New List(Of clsAlertDashboard)
         Try
             Using conn As New SqlConnection(ConStr)
                 conn.Open()
@@ -131,7 +132,6 @@ Public Class clsAlertDashboardDB
                 cmd.Parameters.AddWithValue("TypeReport", 2)
 
                 Dim rd As SqlDataReader = cmd.ExecuteReader
-                Dim AlertList As New List(Of clsAlertDashboard)
                 Do While rd.Read
                     Dim Alert As New clsAlertDashboard
                     Alert.FactoryCode = rd("FactoryCode")
@@ -158,7 +158,7 @@ Public Class clsAlertDashboardDB
             End Using
         Catch ex As Exception
             pErr = ex.Message
-            Return Nothing
+            Return AlertList
         End Try
     End Function
 
