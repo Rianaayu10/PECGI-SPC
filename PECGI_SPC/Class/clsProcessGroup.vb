@@ -6,7 +6,7 @@ Public Class clsProcessGroup
     Public Property ProcessGroupName As String
 End Class
 
-Public Class clsPocessGroupDB
+Public Class clsProcessGroupDB
     Public Shared Function GetList(UserID As String, FactoryCode As String) As List(Of clsProcessGroup)
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
