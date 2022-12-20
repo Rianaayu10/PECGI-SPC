@@ -289,6 +289,16 @@ Public Class ProdSampleInput
                 Dim FactoryCode As String = Request.QueryString("FactoryCode")
                 Dim ItemTypeCode As String = Request.QueryString("ItemTypeCode")
                 Dim Line As String = Request.QueryString("Line")
+                Dim ProcessGroup As String = ""
+                Dim LineGroup As String = ""
+                Dim ProcessCode As String = ""
+
+                Dim Ln As ClsLine = ClsLineDB.GetData(FactoryCode, Line)
+                If Ln IsNot Nothing Then
+                    ProcessCode = Ln.ProcessCode
+                    LineGroup = Ln.LineGroup
+                    ProcessGroup = Ln.ProcessGroup
+                End If
                 Dim ItemCheckCode As String = Request.QueryString("ItemCheckCode")
                 Dim ProdDate As String = Request.QueryString("ProdDate")
                 Dim Shift As String = Request.QueryString("Shift")
@@ -306,6 +316,9 @@ Public Class ProdSampleInput
                         cboFactory.Value = User.FactoryCode
                         cboType.DataSource = clsItemTypeDB.GetList(cboFactory.Value, pUser)
                         cboType.DataBind()
+
+                        cboProcessGroup.DataSource = clsProcessGroupDB.GetList(pUser, User.FactoryCode)
+                        cboProcessGroup.DataBind()
                     End If
                 End If
                 'InitCombo(User.FactoryCode, "TPMSBR011", "015", "IC021", "2022-08-04", "SH001", 1)
@@ -317,6 +330,9 @@ Public Class ProdSampleInput
         pUser = Session("user") & ""
         dtDate.Value = CDate(ProdDate)
         cboFactory.Value = FactoryCode
+
+        cboProcessGroup.DataSource = clsProcessGroupDB.GetList(pUser, FactoryCode)
+        cboProcessGroup.DataBind()
 
         cboType.DataSource = clsItemTypeDB.GetList(cboFactory.Value, pUser)
         cboType.DataBind()
@@ -499,7 +515,7 @@ Public Class ProdSampleInput
             grid.JSProperties("cpAllowInsert") = "0"
         End If
         If AllowSkill = False Then
-            show_error(MsgTypeEnum.Warning, "You don't have skill for this item", 1)
+            show_error(MsgTypeEnum.Warning, "You don't have skill to input result for this item. Please set SPC skill in IOT System", 1)
         ElseIf LastVerification = 0 Then
             ProdDate = Format(dtVer.Rows(0)(1), "dd MMM yyyy")
             Dim ShiftCode As String = dtVer.Rows(0)(2) & ""
@@ -606,16 +622,17 @@ Public Class ProdSampleInput
 
     Private Sub cboType_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboType.Callback
         Dim FactoryCode As String = Split(e.Parameter, "|")(0)
+        Dim LineCode As String = Split(e.Parameter, "|")(1)
         Dim UserID As String = Session("user")
-        cboType.DataSource = clsItemTypeDB.GetList(FactoryCode, UserID)
+        cboType.DataSource = clsItemTypeDB.GetList(FactoryCode, LineCode, UserID)
         cboType.DataBind()
     End Sub
 
     Private Sub cboLine_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboLine.Callback
         Dim FactoryCode As String = Split(e.Parameter, "|")(0)
-        Dim ItemTypeCode As String = Split(e.Parameter, "|")(1)
+        Dim ProcessCode As String = Split(e.Parameter, "|")(1)
         Dim UserID As String = Session("user") & ""
-        cboLine.DataSource = ClsLineDB.GetList(UserID, FactoryCode, ItemTypeCode)
+        cboLine.DataSource = ClsLineDB.GetListByProcess(UserID, FactoryCode, ProcessCode)
         cboLine.DataBind()
     End Sub
 
@@ -1863,5 +1880,29 @@ Public Class ProdSampleInput
             Return
         End If
         errors(column) = errorText
+    End Sub
+
+    Private Sub cboProcessGroup_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboProcessGroup.Callback
+        Dim FactoryCode As String = Split(e.Parameter, "|")(0)
+        Dim UserID As String = Session("user") & ""
+        cboProcessGroup.DataSource = clsProcessGroupDB.GetList(UserID, FactoryCode)
+        cboProcessGroup.DataBind()
+    End Sub
+
+    Private Sub cboLineGroup_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboLineGroup.Callback
+        Dim FactoryCode As String = Split(e.Parameter, "|")(0)
+        Dim ProcessGroup As String = Split(e.Parameter, "|")(1)
+        Dim UserID As String = Session("user") & ""
+        cboLineGroup.DataSource = clsLineGroupDB.GetList(UserID, FactoryCode, ProcessGroup)
+        cboLineGroup.DataBind()
+    End Sub
+
+    Private Sub cboProcess_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboProcess.Callback
+        Dim FactoryCode As String = Split(e.Parameter, "|")(0)
+        Dim ProcessGroup As String = Split(e.Parameter, "|")(1)
+        Dim LineGroup As String = Split(e.Parameter, "|")(2)
+        Dim UserID As String = Session("user") & ""
+        cboProcess.DataSource = clsProcessDB.GetList(UserID, FactoryCode, ProcessGroup, LineGroup)
+        cboProcess.DataBind()
     End Sub
 End Class
