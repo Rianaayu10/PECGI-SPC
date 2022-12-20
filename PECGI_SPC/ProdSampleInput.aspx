@@ -500,7 +500,7 @@
                     
                 </td>                        
         </tr>
-            <tr style="padding:5px 0px 0px 0px">
+            <tr>
                 <td class="auto-style5">
 
                 <dx:ASPxLabel ID="ASPxLabel25" runat="server" Text="Process Group" Font-Names="Segoe UI" 
@@ -610,7 +610,7 @@
             </tr>
 
         <tr>
-            <td style=" padding:3px 0px 0px 0px" class="auto-style3">
+            <td style=" padding:5px 0px 0px 0px" class="auto-style3">
                 <dx:ASPxLabel ID="ASPxLabel2" runat="server" Text="Line Group" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel>
@@ -696,7 +696,7 @@
             <td>
 
             </td>
-            <td style="padding:10px 0px 0px 15px">
+            <td style="padding:5px 0px 0px 15px">
 
                 
                 <dx:ASPxButton ID="btnSearch" runat="server" AutoPostBack="False" 
