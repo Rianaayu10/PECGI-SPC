@@ -306,7 +306,6 @@ Public Class ProdSampleInput
 
                 InitCombo(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence, ProcessGroup, LineGroup, ProcessCode)
                 ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "GridLoad();", True)
-                'GridLoad(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence, 0)
             Else
                 pUser = Session("user") & ""
                 dtDate.Value = Now.Date

@@ -94,6 +94,27 @@
                 width: 67px;
             }
         
+            .auto-style15 {
+                width: 60px;
+                height: 30px;
+            }
+            .auto-style16 {
+                width: 130px;
+                height: 30px;
+            }
+            .auto-style18 {
+                width: 200px;
+                height: 30px;
+            }
+            .auto-style19 {
+                width: 100px;
+                height: 30px;
+            }
+        
+            .auto-style20 {
+                height: 30px;
+            }
+        
             </style>
     <script type="text/javascript" >
         var rowIndex, columnIndex;
@@ -150,20 +171,34 @@
         }
 
         function cboFactoryChanged(s, e) { 
+            cboProcessGroup.SetEnabled(false);
+            cboProcessGroup.PerformCallback(cboFactory.GetValue());
+        }
+
+        function cboProcessGroupChanged(s, e) {
+            cboLineGroup.SetEnabled(false);
+            cboLineGroup.PerformCallback(cboFactory.GetValue() + '|' + cboProcessGroup.GetValue());
+        }    
+
+        function cboLineGroupChanged(s, e) {
+            cboProcess.SetEnabled(false);
+            cboProcess.PerformCallback(cboFactory.GetValue() + '|' + cboProcessGroup.GetValue() + '|' + cboLineGroup.GetValue());
+        } 
+
+        function cboProcessChanged(s, e) {
+            cboLine.SetEnabled(false);
+            cboLine.PerformCallback(cboFactory.GetValue()  + '|' + cboProcess.GetValue());
+        } 
+
+        function cboLineChanged(s, e) {    
             cboType.SetEnabled(false);
-            cboType.PerformCallback(cboFactory.GetValue());
+            cboType.PerformCallback(cboFactory.GetValue() + '|' + cboLine.GetValue());
         }
 
         function cboTypeChanged(s, e) {
-            cboLine.SetEnabled(false);   
-            cboLine.PerformCallback(cboFactory.GetValue()  + '|' + cboType.GetValue());
-        }
-
-        function cboLineChanged(s, e) {    
             cboItemCheck.SetEnabled(false);
             cboItemCheck.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue());
         }
-
 
         function OnBatchEditStartEditing(s, e) {
             if(cboSeq.GetValue() == '') {
@@ -275,17 +310,17 @@
     <div style="padding: 0px 5px 5px 5px">
         <table class="nav-justified">
         <tr >
-            <td style="padding:5px 0px 0px 0px" >
+            <td style="padding:5px 0px 0px 0px" class="auto-style20">
                 <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="Factory" Font-Names="Segoe UI" 
                     Font-Size="9pt">
                 </dx:ASPxLabel>
             </td>
-            <td style=" padding:5px 0px 0px 0px" >
+            <td style=" padding:5px 0px 0px 0px" class="auto-style20">
                 <dx:ASPxComboBox ID="cboFactory" runat="server" Theme="Office2010Black" TextField="FactoryName"
                     ClientInstanceName="cboFactory" ValueField="FactoryCode" Font-Names="Segoe UI" 
                     Font-Size="9pt" Height="25px" 
                     IncrementalFilteringMode="Contains" 
-                    Width="100px" TabIndex="6" EnableCallbackMode="True">
+                    Width="150px" TabIndex="6" EnableCallbackMode="True">
                     <ClientSideEvents SelectedIndexChanged="cboFactoryChanged" />
 
                     <ItemStyle Height="10px" Paddings-Padding="4px" >
@@ -296,12 +331,95 @@
                     </ButtonStyle>
                 </dx:ASPxComboBox>
             </td>
-            <td style=" padding:5px 0px 0px 0px; width:120px" >
-                <dx:ASPxLabel ID="ASPxLabel4" runat="server" Text="Machine Process" 
+            <td style=" padding:5px 0px 0px 10px;" class="auto-style20">
+                <dx:ASPxLabel ID="ASPxLabel28" runat="server" Text="Machine" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel>
             </td>
-            <td style="padding:5px 0px 0px 0px" >
+            <td style="padding:5px 0px 0px 0px" class="auto-style20">
+
+                <dx:ASPxComboBox ID="cboProcess" runat="server" Theme="Office2010Black" TextField="ProcessName"
+                    ClientInstanceName="cboProcess" ValueField="ProcessCode" Font-Names="Segoe UI" 
+                    Font-Size="9pt" Height="25px" 
+                    Width="190px" TabIndex="4" NullValueItemDisplayText="{1}">
+                    <ClientSideEvents SelectedIndexChanged="cboProcessChanged" EndCallback="function(s, e) {cboProcess.SetEnabled(true);}"/>
+                    <ItemStyle Height="10px" Paddings-Padding="4px">
+<Paddings Padding="4px"></Paddings>
+                    </ItemStyle>
+                    <ButtonStyle Paddings-Padding="4px" Width="5px">
+<Paddings Padding="4px"></Paddings>
+                    </ButtonStyle>
+                </dx:ASPxComboBox>
+
+            </td>
+            <td style=" padding: 5px 0px 0px 10px;" class="auto-style20">
+                <dx:ASPxLabel ID="ASPxLabel6" runat="server" Text="Item Check" 
+                    Font-Names="Segoe UI" Font-Size="9pt">
+                </dx:ASPxLabel>
+            </td>            
+            <td style="padding:5px 0px 0px 10px;" colspan="3" class="auto-style20">                
+
+                
+                <dx:ASPxComboBox ID="cboItemCheck" runat="server" Theme="Office2010Black" 
+                    ClientInstanceName="cboItemCheck" ValueField="ItemCheckCode" TextField="ItemCheck" Font-Names="Segoe UI" 
+                    Font-Size="9pt" Height="25px" 
+                    Width="240px" TabIndex="5" >
+                    <ClientSideEvents EndCallback="function(s, e) {
+                            cboItemCheck.SetEnabled(true);                            
+                       }"/>
+
+                    <ItemStyle Height="10px" Paddings-Padding="4px">
+<Paddings Padding="4px"></Paddings>
+                    </ItemStyle>
+                    <ButtonStyle Paddings-Padding="4px" Width="5px">
+<Paddings Padding="4px"></Paddings>
+                    </ButtonStyle>
+                </dx:ASPxComboBox>
+                
+                    
+                </td>            
+           
+           
+           
+            <td style="padding: 5px 0px 0px 0px" class="auto-style20">
+
+                </td>
+            <td class="auto-style20"></td>
+        </tr>
+
+        <tr>
+            <td style=" padding:5px 0px 0px 0px" class="auto-style15">
+
+                <dx:ASPxLabel ID="ASPxLabel25" runat="server" Text="Process Group" Font-Names="Segoe UI" 
+                    Font-Size="9pt" Width="90px">
+                </dx:ASPxLabel>
+
+            </td>
+            <td style=" padding:5px 0px 0px 0px" class="auto-style16">
+                
+                <dx:ASPxComboBox ID="cboProcessGroup" runat="server" Theme="Office2010Black" TextField="ProcessGroupName"
+                    ClientInstanceName="cboProcessGroup" ValueField="ProcessGroup" Font-Names="Segoe UI" 
+                    Font-Size="9pt" Height="25px" 
+                    Width="150px" TabIndex="6" EnableCallbackMode="True">
+                    <ClientSideEvents SelectedIndexChanged="cboProcessGroupChanged" EndCallback="function(s, e) {cboProcessGroup.SetEnabled(true);}"/>
+
+                    <ItemStyle Height="10px" Paddings-Padding="4px" >
+<Paddings Padding="4px"></Paddings>
+                    </ItemStyle>
+                    <ButtonStyle Paddings-Padding="4px" Width="5px">
+<Paddings Padding="4px"></Paddings>
+                    </ButtonStyle>
+                </dx:ASPxComboBox>
+
+            </td>
+            <td style=" padding:5px 0px 0px 10px">
+                <dx:ASPxLabel ID="ASPxLabel4" runat="server" Text="Machine Process" 
+                    Font-Names="Segoe UI" Font-Size="9pt" Width="100px">
+                </dx:ASPxLabel>
+            </td>
+            <td style="padding:5px 0px 0px 0px" class="auto-style18">
+                
+                    
                 <dx:ASPxComboBox ID="cboLine" runat="server" Theme="Office2010Black" TextField="LineName"
                     ClientInstanceName="cboLine" ValueField="LineCode" Font-Names="Segoe UI" 
                     Font-Size="9pt" Height="25px" 
@@ -315,12 +433,12 @@
                     </ButtonStyle>
                 </dx:ASPxComboBox>
             </td>
-            <td style=" padding: 5px 0px 0px 10px; width:100px" >
-                <dx:ASPxLabel ID="ASPxLabel8" runat="server" Text="Prod Date" 
+            <td style=" padding:5px 0px 0px 10px;">
+                <dx:ASPxLabel ID="ASPxLabel27" runat="server" Text="Prod Date" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel>
-            </td>            
-            <td style="padding: 5px 0px 0px 0px; width:110px">                
+            </td>
+            <td style=" padding:5px 0px 0px 10px;">
                                 <dx:ASPxDateEdit ID="dtDate" runat="server" Theme="Office2010Black" 
                     Width="100px"
                         ClientInstanceName="dtDate" EditFormatString="dd MMM yyyy" DisplayFormatString="dd MMM yyyy"
@@ -344,16 +462,12 @@
                     </dx:ASPxDateEdit>
 
                 
-                </td>            
-           
-           
-           
-            <td style="padding: 2px 0px 0px 0px; width:20px">  
+                </td>
+            <td style=" padding:5px 0px 0px 8px; width:30px">
                                 <dx:ASPxLabel ID="ASPxLabel10" runat="server" Text="To" 
                     Font-Names="Segoe UI" Font-Size="9pt">
-                </dx:ASPxLabel></td>            
-           
-            <td style="padding: 5px 0px 0px 0px; width:100px">  
+                </dx:ASPxLabel></td>
+            <td style="padding:5px 0px 0px 0px;" align="right">
                                 <dx:ASPxDateEdit ID="dtTo" runat="server" ClientInstanceName="dtTo" DisplayFormatString="dd MMM yyyy" EditFormat="Custom" EditFormatString="dd MMM yyyy" Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="2" Theme="Office2010Black" Width="100px">
                                     <CalendarProperties ShowWeekNumbers="False">
                                         <HeaderStyle Font-Size="12pt" Paddings-Padding="5px">
@@ -376,21 +490,50 @@
                                         <Paddings Padding="4px" />
                                     </ButtonStyle>
                                 </dx:ASPxDateEdit>
-            </td>            
-            <td style="padding: 5px 0px 0px 0px">
+                                
+                
+                
+            
+
+            </td>
+            <td style="padding:5px 0px 0px 20px">
 
                 &nbsp;</td>
-            <td></td>
-        </tr>
+            <td style="padding:5px 0px 0px 5px" class="auto-style19">
 
-        <tr>
-            <td style=" width:60px; padding:3px 0px 0px 0px">
+                                &nbsp;</td>
+            <td style="width: 200px">
+
+            </td>
+        </tr>
+            <tr>
+                <td style="padding:5px 0px 0px 0px">
+                <dx:ASPxLabel ID="ASPxLabel13" runat="server" Text="Line Group" 
+                    Font-Names="Segoe UI" Font-Size="9pt">
+                </dx:ASPxLabel>
+                </td>
+                <td style="padding:5px 0px 0px 0px">
+
+                    <dx:ASPxComboBox ID="cboLineGroup" runat="server" ClientInstanceName="cboLineGroup" EnableCallbackMode="True" Font-Names="Segoe UI" Font-Size="9pt" Height="25px" IncrementalFilteringMode="Contains" TabIndex="6" TextField="LineGroupName" Theme="Office2010Black" ValueField="LineGroup" Width="150px">
+                        <ClientSideEvents EndCallback="function(s, e) {cboLineGroup.SetEnabled(true);}" SelectedIndexChanged="cboLineGroupChanged" />
+                        <ItemStyle Height="10px" Paddings-Padding="4px">
+                        <Paddings Padding="4px" />
+                        </ItemStyle>
+                        <ButtonStyle Paddings-Padding="4px" Width="5px">
+                            <Paddings Padding="4px" />
+                        </ButtonStyle>
+                    </dx:ASPxComboBox>
+
+                </td>
+                <td style="padding:5px 0px 0px 10px">
+
                 <dx:ASPxLabel ID="ASPxLabel2" runat="server" Text="Type" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel>
-            </td>
-            <td style=" width:130px; padding:3px 0px 0px 0px">
-                
+
+                </td>
+                <td style="padding:5px 0px 0px 0px">
+
                 <dx:ASPxComboBox ID="cboType" runat="server" Theme="Office2010Black" TextField="Description"
                     ClientInstanceName="cboType" ValueField="ItemTypeCode" Font-Names="Segoe UI" 
                     Font-Size="9pt" Height="25px" 
@@ -403,39 +546,17 @@
 <Paddings Padding="4px"></Paddings>
                     </ButtonStyle>
                 </dx:ASPxComboBox>
-            </td>
-            <td style=" padding:3px 0px 0px 0px">
-                <dx:ASPxLabel ID="ASPxLabel6" runat="server" Text="Item Check" 
-                    Font-Names="Segoe UI" Font-Size="9pt">
-                </dx:ASPxLabel>
-            </td>
-            <td style="width:200px; padding:3px 0px 0px 0px">
-                
-                    
-                <dx:ASPxComboBox ID="cboItemCheck" runat="server" Theme="Office2010Black" 
-                    ClientInstanceName="cboItemCheck" ValueField="ItemCheckCode" TextField="ItemCheck" Font-Names="Segoe UI" 
-                    Font-Size="9pt" Height="25px" 
-                    Width="190px" TabIndex="5" >
-                    <ClientSideEvents EndCallback="function(s, e) {
-                            cboItemCheck.SetEnabled(true);                            
-                       }"/>
 
-                    <ItemStyle Height="10px" Paddings-Padding="4px">
-<Paddings Padding="4px"></Paddings>
-                    </ItemStyle>
-                    <ButtonStyle Paddings-Padding="4px" Width="5px">
-<Paddings Padding="4px"></Paddings>
-                    </ButtonStyle>
-                </dx:ASPxComboBox>
-                
-                    
-            </td>
-            <td style=" padding: 3px 0px 0px 10px; ">
+                </td>
+                <td style=" padding:3px 0px 0px 10px;">
+
                 <dx:ASPxLabel ID="ASPxLabel9" runat="server" Text="Show Verified Only" 
                         Font-Names="Segoe UI" Font-Size="9pt" Width="109px">
             </dx:ASPxLabel>                                
+
                 </td>
-            <td>
+                <td style="padding:5px 0px 0px 10px">
+
                 <dx:ASPxComboBox ID="cboShow" runat="server" Theme="Office2010Black" 
                     ClientInstanceName="cboShow" Font-Names="Segoe UI" 
                     Font-Size="9pt" Height="25px" 
@@ -449,16 +570,14 @@
                     <ButtonStyle Paddings-Padding="4px" Width="5px"><Paddings Padding="4px"></Paddings>
                     </ButtonStyle>
                 </dx:ASPxComboBox>                                    
-            </td>
-            <td></td>
-            <td>
-                                
-                
-                
-            
+                </td>
+                <td>
 
-            </td>
-            <td style="width:100px; padding-left:20px">
+                </td>
+                <td>
+
+                </td>
+                <td style="padding:5px 0px 0px 20px">
 
 <dx:ASPxButton ID="btnSearch" runat="server" AutoPostBack="False" 
                     ClientInstanceName="btnSearch" Font-Names="Segoe UI" Font-Size="9pt" 
@@ -509,8 +628,8 @@
                     <Paddings Padding="2px" />
                 </dx:ASPxButton>
                 
-            </td>
-            <td style="width:100px; padding-left:2px">
+                </td>
+                <td style="padding:5px 0px 0px 6px">
 
                                 <dx:ASPxButton ID="btnExcel" runat="server" AutoPostBack="False" 
                                     ClientInstanceName="btnExcel" Font-Names="Segoe UI" Font-Size="9pt" 
@@ -519,11 +638,8 @@
                                     <Paddings Padding="2px" />
                                 </dx:ASPxButton>                            
 
-            </td>
-            <td>
-
-            </td>
-        </tr>
+                </td>
+            </tr>
     </table>
     </div>
 <div style="height:10px">

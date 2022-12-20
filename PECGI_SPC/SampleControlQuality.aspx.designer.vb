@@ -32,6 +32,60 @@ Partial Public Class SampleControlQuality
     Protected WithEvents cboFactory As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
+    '''ASPxLabel28 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel28 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''cboProcess control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cboProcess As Global.DevExpress.Web.ASPxComboBox
+
+    '''<summary>
+    '''ASPxLabel6 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel6 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''cboItemCheck control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cboItemCheck As Global.DevExpress.Web.ASPxComboBox
+
+    '''<summary>
+    '''ASPxLabel25 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel25 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''cboProcessGroup control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cboProcessGroup As Global.DevExpress.Web.ASPxComboBox
+
+    '''<summary>
     '''ASPxLabel4 control.
     '''</summary>
     '''<remarks>
@@ -50,13 +104,13 @@ Partial Public Class SampleControlQuality
     Protected WithEvents cboLine As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
-    '''ASPxLabel8 control.
+    '''ASPxLabel27 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents ASPxLabel8 As Global.DevExpress.Web.ASPxLabel
+    Protected WithEvents ASPxLabel27 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
     '''dtDate control.
@@ -86,6 +140,24 @@ Partial Public Class SampleControlQuality
     Protected WithEvents dtTo As Global.DevExpress.Web.ASPxDateEdit
 
     '''<summary>
+    '''ASPxLabel13 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel13 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''cboLineGroup control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cboLineGroup As Global.DevExpress.Web.ASPxComboBox
+
+    '''<summary>
     '''ASPxLabel2 control.
     '''</summary>
     '''<remarks>
@@ -102,24 +174,6 @@ Partial Public Class SampleControlQuality
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents cboType As Global.DevExpress.Web.ASPxComboBox
-
-    '''<summary>
-    '''ASPxLabel6 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ASPxLabel6 As Global.DevExpress.Web.ASPxLabel
-
-    '''<summary>
-    '''cboItemCheck control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents cboItemCheck As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
     '''ASPxLabel9 control.

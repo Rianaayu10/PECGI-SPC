@@ -54,9 +54,6 @@
         .auto-style19 {
             width: 130px;
         }
-        .auto-style20 {
-            width: 115px;
-        }
         </style>
     <script type="text/javascript" >
          var prevOnLoad = window.onload;
@@ -435,7 +432,7 @@
     <div style="padding: 0px 5px 5px 5px">
         <table class="auto-style3" style="width: 100%">
         <tr >
-            <td style="padding:0px" class="auto-style10">
+            <td style="padding:5px 0px 0px 0px" class="auto-style10">
                 <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="Factory" Font-Names="Segoe UI" 
                     Font-Size="9pt">
                 </dx:ASPxLabel>
@@ -489,7 +486,7 @@
                 <dx:ASPxComboBox ID="cboItemCheck" runat="server" Theme="Office2010Black" 
                     ClientInstanceName="cboItemCheck" ValueField="ItemCheckCode" TextField="ItemCheck" Font-Names="Segoe UI" 
                     Font-Size="9pt" Height="25px" 
-                    Width="220px" TabIndex="5" >
+                    Width="240px" TabIndex="5" >
                     <ClientSideEvents EndCallback="function(s, e) {
                             cboItemCheck.SetEnabled(true);}"
                         SelectedIndexChanged="cboItemCheckChanged"/>
@@ -503,11 +500,11 @@
                     
                 </td>                        
         </tr>
-            <tr style="padding:3px 0px 0px 0px">
+            <tr style="padding:5px 0px 0px 0px">
                 <td class="auto-style5">
 
                 <dx:ASPxLabel ID="ASPxLabel25" runat="server" Text="Process Group" Font-Names="Segoe UI" 
-                    Font-Size="9pt" Width="90px">
+                    Font-Size="9pt" Width="90px" Height="16px">
                 </dx:ASPxLabel>
 
                 </td>

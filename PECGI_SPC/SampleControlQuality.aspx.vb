@@ -454,13 +454,23 @@ Public Class SampleControlQuality
                 Dim FactoryCode As String = Request.QueryString("FactoryCode")
                 Dim ItemTypeCode As String = Request.QueryString("ItemTypeCode")
                 Dim Line As String = Request.QueryString("Line")
+                Dim ProcessGroup As String = ""
+                Dim LineGroup As String = ""
+                Dim ProcessCode As String = ""
+
+                Dim Ln As ClsLine = ClsLineDB.GetData(FactoryCode, Line)
+                If Ln IsNot Nothing Then
+                    ProcessCode = Ln.ProcessCode
+                    LineGroup = Ln.LineGroup
+                    ProcessGroup = Ln.ProcessGroup
+                End If
                 Dim ItemCheckCode As String = Request.QueryString("ItemCheckCode")
                 Dim ProdDate As String = Request.QueryString("ProdDate")
                 Dim ProdDate2 As String = Request.QueryString("ProdDate2")
                 Dim Shift As String = Request.QueryString("Shift")
                 Dim Sequence As String = Request.QueryString("Sequence")
 
-                InitCombo(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence, ProdDate2)
+                InitCombo(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence, ProdDate2, ProcessGroup, LineGroup, ProcessCode)
                 ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "GridLoad();", True)
             Else
                 dtDate.Value = Now.Date
@@ -471,8 +481,8 @@ Public Class SampleControlQuality
                     Dim User As clsUserSetup = clsUserSetupDB.GetData(pUser)
                     If User IsNot Nothing Then
                         cboFactory.Value = User.FactoryCode
-                        cboType.DataSource = clsItemTypeDB.GetList(cboFactory.Value, pUser)
-                        cboType.DataBind()
+                        cboProcessGroup.DataSource = clsProcessGroupDB.GetList(pUser, User.FactoryCode)
+                        cboProcessGroup.DataBind()
                     End If
                 End If
                 'InitCombo("F001", "TPMSBR011", "015", "IC021", "2022-08-03", "SH001", 1, "2022-09-01")
@@ -480,11 +490,23 @@ Public Class SampleControlQuality
         End If
     End Sub
 
-    Private Sub InitCombo(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ShiftCode As String, Sequence As String, ProdDate2 As String)
+    Private Sub InitCombo(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ShiftCode As String, Sequence As String, ProdDate2 As String, ProcessGroup As String, LineGroup As String, ProcessCode As String)
         pUser = Session("user") & ""
         dtDate.Value = CDate(ProdDate)
         dtTo.Value = CDate(ProdDate2)
         cboFactory.Value = FactoryCode
+
+        cboProcessGroup.DataSource = clsProcessGroupDB.GetList(pUser, FactoryCode)
+        cboProcessGroup.DataBind()
+        cboProcessGroup.Value = ProcessGroup
+
+        cboLineGroup.DataSource = clsLineGroupDB.GetList(pUser, FactoryCode, ProcessGroup)
+        cboLineGroup.DataBind()
+        cboLineGroup.Value = LineGroup
+
+        cboProcess.DataSource = clsProcessDB.GetList(pUser, FactoryCode, ProcessGroup, LineGroup)
+        cboProcess.DataBind()
+        cboProcess.Value = ProcessCode
 
         cboType.DataSource = clsItemTypeDB.GetList(cboFactory.Value, pUser)
         cboType.DataBind()
@@ -1068,9 +1090,9 @@ Public Class SampleControlQuality
 
     Private Sub cboLine_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboLine.Callback
         Dim FactoryCode As String = Split(e.Parameter, "|")(0)
-        Dim ItemTypeCode As String = Split(e.Parameter, "|")(1)
+        Dim ProcessCode As String = Split(e.Parameter, "|")(1)
         Dim UserID As String = Session("user") & ""
-        cboLine.DataSource = ClsLineDB.GetList(UserID, FactoryCode, ItemTypeCode)
+        cboLine.DataSource = ClsLineDB.GetListByProcess(UserID, FactoryCode, ProcessCode)
         cboLine.DataBind()
     End Sub
 
@@ -1109,5 +1131,27 @@ Public Class SampleControlQuality
         End If
     End Function
 
+    Private Sub cboProcessGroup_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboProcessGroup.Callback
+        Dim FactoryCode As String = Split(e.Parameter, "|")(0)
+        Dim UserID As String = Session("user") & ""
+        cboProcessGroup.DataSource = clsProcessGroupDB.GetList(UserID, FactoryCode)
+        cboProcessGroup.DataBind()
+    End Sub
 
+    Private Sub cboLineGroup_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboLineGroup.Callback
+        Dim FactoryCode As String = Split(e.Parameter, "|")(0)
+        Dim ProcessGroup As String = Split(e.Parameter, "|")(1)
+        Dim UserID As String = Session("user") & ""
+        cboLineGroup.DataSource = clsLineGroupDB.GetList(UserID, FactoryCode, ProcessGroup)
+        cboLineGroup.DataBind()
+    End Sub
+
+    Private Sub cboProcess_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboProcess.Callback
+        Dim FactoryCode As String = Split(e.Parameter, "|")(0)
+        Dim ProcessGroup As String = Split(e.Parameter, "|")(1)
+        Dim LineGroup As String = Split(e.Parameter, "|")(2)
+        Dim UserID As String = Session("user") & ""
+        cboProcess.DataSource = clsProcessDB.GetList(UserID, FactoryCode, ProcessGroup, LineGroup)
+        cboProcess.DataBind()
+    End Sub
 End Class
