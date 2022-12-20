@@ -173,7 +173,7 @@ Public Class ClsSPCItemCheckByTypeDB
             Return Nothing
         End Try
     End Function
-    Public Shared Function GetMachineProccess(UserID As String, FactoryCode As String, ItemTypeCode As String, Optional ByRef pErr As String = "") As List(Of ClsSPCItemCheckByType)
+    Public Shared Function GetMachineProccess(UserID As String, FactoryCode As String, Optional ByRef pErr As String = "") As List(Of ClsSPCItemCheckByType)
         Try
             Using Cn As New SqlConnection(Sconn.Stringkoneksi)
                 Cn.Open()
@@ -192,7 +192,7 @@ Public Class ClsSPCItemCheckByTypeDB
                 Dim cmd As New SqlCommand(q, Cn)
                 cmd.Parameters.AddWithValue("UserID", UserID)
                 cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
-                cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
+                'cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
                 Dim rd As SqlDataReader = cmd.ExecuteReader
                 Dim FactoryList As New List(Of ClsSPCItemCheckByType)
                 Do While rd.Read
