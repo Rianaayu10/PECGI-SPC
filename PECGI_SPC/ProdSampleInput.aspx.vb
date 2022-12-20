@@ -304,7 +304,7 @@ Public Class ProdSampleInput
                 Dim Shift As String = Request.QueryString("Shift")
                 Dim Sequence As String = Request.QueryString("Sequence")
 
-                InitCombo(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence)
+                InitCombo(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence, ProcessGroup, LineGroup, ProcessCode)
                 ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "GridLoad();", True)
                 'GridLoad(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence, 0)
             Else
@@ -326,13 +326,22 @@ Public Class ProdSampleInput
         End If
     End Sub
 
-    Private Sub InitCombo(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ShiftCode As String, Sequence As String)
+    Private Sub InitCombo(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ShiftCode As String, Sequence As String, ProcessGroup As String, LineGroup As String, ProcessCode As String)
         pUser = Session("user") & ""
         dtDate.Value = CDate(ProdDate)
         cboFactory.Value = FactoryCode
 
         cboProcessGroup.DataSource = clsProcessGroupDB.GetList(pUser, FactoryCode)
         cboProcessGroup.DataBind()
+        cboProcessGroup.Value = ProcessGroup
+
+        cboLineGroup.DataSource = clsLineGroupDB.GetList(pUser, FactoryCode, ProcessGroup)
+        cboLineGroup.DataBind()
+        cboLineGroup.Value = LineGroup
+
+        cboProcess.DataSource = clsProcessDB.GetList(pUser, FactoryCode, ProcessGroup, LineGroup)
+        cboProcess.DataBind()
+        cboProcess.Value = ProcessCode
 
         cboType.DataSource = clsItemTypeDB.GetList(cboFactory.Value, pUser)
         cboType.DataBind()

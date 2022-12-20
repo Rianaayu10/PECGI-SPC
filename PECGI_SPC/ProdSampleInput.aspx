@@ -699,7 +699,7 @@
             <td>
 
             </td>
-            <td style="padding:5px 0px 0px 15px">
+            <td style="padding:10px 0px 0px 15px">
 
                 
                 <dx:ASPxButton ID="btnSearch" runat="server" AutoPostBack="False" 

@@ -7,7 +7,7 @@ Public Class clsProcessGroup
 End Class
 
 Public Class clsProcessGroupDB
-    Public Shared Function GetList(UserID As String, FactoryCode As String) As List(Of clsProcessGroup)
+    Public Shared Function GetList(UserID As String, FactoryCode As String, Optional ShowAll As Boolean = False) As List(Of clsProcessGroup)
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim cmd As New SqlCommand("sp_SPC_FillCombo", Cn)
@@ -15,6 +15,9 @@ Public Class clsProcessGroupDB
             cmd.Parameters.AddWithValue("ComboType", 0)
             cmd.Parameters.AddWithValue("UserID", UserID)
             cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
+            If ShowAll Then
+                cmd.Parameters.AddWithValue("All", 1)
+            End If
             Dim rd As SqlDataReader = cmd.ExecuteReader
             Dim ProcessGroupList As New List(Of clsProcessGroup)
             Do While rd.Read

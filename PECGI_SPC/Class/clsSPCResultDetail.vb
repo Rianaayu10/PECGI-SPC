@@ -108,7 +108,8 @@ Public Class clsSPCResultDetailDB
     End Function
 
     Public Shared Function GetSampleByPeriod(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, VerifiedOnly As Integer, Optional ShowVerifier As Boolean = False) As DataSet
-        Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+        Dim ConStr As String = Sconn.Stringkoneksi
+        Using Cn As New SqlConnection(ConStr)
             Cn.Open()
             Dim q As String = "sp_SPC_SampleControl"
             Dim cmd As New SqlCommand(q, Cn)

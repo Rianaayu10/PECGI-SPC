@@ -18,11 +18,13 @@ Public Class ClsLineDB
     Public Shared Function GetData(FactoryCode As String, LineCode As String) As ClsLine
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
-            Dim q As String = "select L.FactoryCode, L.ProcessCode, L.LineCode, P.ProcessGroup, G.LineGroup " & vbCrLf &
+            Dim q As String = "select L.FactoryCode, L.ProcessCode, L.LineCode, P.ProcessGroup, G.LineGroup, L.LineName " & vbCrLf &
                 "from MS_Line L left join MS_Process P on L.FactoryCode = P.FactoryCode and L.ProcessCode = P.ProcessCode " & vbCrLf &
                 "left join MS_LineGroup G on P.FactoryCode = G.FactoryCode and P.ProcessGroup = G.ProcessGroup and P.LineGroup = G.LineGroup " & vbCrLf &
                 "where L.FactoryCode = @FactoryCode And L.LineCode = @LineCode "
             Dim cmd As New SqlCommand(q, Cn)
+            cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
+            cmd.Parameters.AddWithValue("LineCode", LineCode)
             Dim da As New SqlDataAdapter(cmd)
             Dim dt As New DataTable
             da.Fill(dt)

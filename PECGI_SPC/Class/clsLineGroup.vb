@@ -8,7 +8,7 @@ Public Class clsLineGroup
 End Class
 
 Public Class clsLineGroupDB
-    Public Shared Function GetList(UserID As String, FactoryCode As String, ProcessGroup As String) As List(Of clsLineGroup)
+    Public Shared Function GetList(UserID As String, FactoryCode As String, ProcessGroup As String, Optional ShowAll As Boolean = False) As List(Of clsLineGroup)
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim cmd As New SqlCommand("sp_SPC_FillCombo", Cn)
@@ -17,6 +17,9 @@ Public Class clsLineGroupDB
             cmd.Parameters.AddWithValue("UserID", UserID)
             cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
             cmd.Parameters.AddWithValue("ProcessGroup", ProcessGroup)
+            If ShowAll Then
+                cmd.Parameters.AddWithValue("All", 1)
+            End If
             Dim rd As SqlDataReader = cmd.ExecuteReader
             Dim LineGroupList As New List(Of clsLineGroup)
             Do While rd.Read
