@@ -289,6 +289,16 @@ Public Class ProdSampleInput
                 Dim FactoryCode As String = Request.QueryString("FactoryCode")
                 Dim ItemTypeCode As String = Request.QueryString("ItemTypeCode")
                 Dim Line As String = Request.QueryString("Line")
+                Dim ProcessGroup As String = ""
+                Dim LineGroup As String = ""
+                Dim ProcessCode As String = ""
+
+                Dim Ln As ClsLine = ClsLineDB.GetData(FactoryCode, Line)
+                If Ln IsNot Nothing Then
+                    ProcessCode = Ln.ProcessCode
+                    LineGroup = Ln.LineGroup
+                    ProcessGroup = Ln.ProcessGroup
+                End If
                 Dim ItemCheckCode As String = Request.QueryString("ItemCheckCode")
                 Dim ProdDate As String = Request.QueryString("ProdDate")
                 Dim Shift As String = Request.QueryString("Shift")

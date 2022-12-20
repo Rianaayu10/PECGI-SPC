@@ -4,6 +4,8 @@ Public Class ClsLine
     Public Property FactoryCode As String
     Public Property ProcessCode As String
     Public Property LineCode As String
+    Public Property ProcessGroup As String
+    Public Property LineGroup As String
     Public Property VisualProcessCode As String
     Public Property LineName As String
     Public Property AllowShow As Integer
@@ -13,6 +15,33 @@ End Class
 
 
 Public Class ClsLineDB
+    Public Shared Function GetData(FactoryCode As String, LineCode As String) As ClsLine
+        Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+            Cn.Open()
+            Dim q As String = "select L.FactoryCode, L.ProcessCode, L.LineCode, P.ProcessGroup, G.LineGroup " & vbCrLf &
+                "from MS_Line L left join MS_Process P on L.FactoryCode = P.FactoryCode and L.ProcessCode = P.ProcessCode " & vbCrLf &
+                "left join MS_LineGroup G on P.FactoryCode = G.FactoryCode and P.ProcessGroup = G.ProcessGroup and P.LineGroup = G.LineGroup " & vbCrLf &
+                "where L.FactoryCode = @FactoryCode And L.LineCode = @LineCode "
+            Dim cmd As New SqlCommand(q, Cn)
+            Dim da As New SqlDataAdapter(cmd)
+            Dim dt As New DataTable
+            da.Fill(dt)
+            If dt.Rows.Count = 0 Then
+                Return Nothing
+            Else
+                With dt.Rows(0)
+                    Dim Line As New ClsLine
+                    Line.LineCode = .Item("LineCode")
+                    Line.FactoryCode = .Item("FactoryCode")
+                    Line.ProcessCode = .Item("ProcessCode") & ""
+                    Line.ProcessGroup = .Item("ProcessGroup") & ""
+                    Line.LineGroup = .Item("LineGroup") & ""
+                    Line.LineName = .Item("LineName")
+                    Return Line
+                End With
+            End If
+        End Using
+    End Function
     Public Shared Function GetList(UserID As String, FactoryCode As String, ItemTypeCode As String) As List(Of ClsLine)
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()

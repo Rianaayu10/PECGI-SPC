@@ -54,6 +54,9 @@
         .auto-style19 {
             width: 130px;
         }
+        .auto-style20 {
+            width: 115px;
+        }
         </style>
     <script type="text/javascript" >
          var prevOnLoad = window.onload;
@@ -480,13 +483,13 @@
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel>
             </td>
-            <td style="padding: 5px 0px 0px 0px" colspan="5">
+            <td style="padding: 5px 0px 0px 0px" colspan="4">
                 
                     
                 <dx:ASPxComboBox ID="cboItemCheck" runat="server" Theme="Office2010Black" 
                     ClientInstanceName="cboItemCheck" ValueField="ItemCheckCode" TextField="ItemCheck" Font-Names="Segoe UI" 
                     Font-Size="9pt" Height="25px" 
-                    Width="190px" TabIndex="5" >
+                    Width="220px" TabIndex="5" >
                     <ClientSideEvents EndCallback="function(s, e) {
                             cboItemCheck.SetEnabled(true);}"
                         SelectedIndexChanged="cboItemCheckChanged"/>
@@ -555,7 +558,7 @@
                 </dx:ASPxLabel>
 
                 </td>
-                <td style="padding: 5px 0px 0px 0px" class="auto-style5">
+                <td style="padding: 5px 0px 0px 0px; width: 110px;">
 
                                 <dx:ASPxDateEdit ID="dtDate" runat="server" Theme="Office2010Black" 
                     Width="100px"
@@ -581,13 +584,13 @@
 
                 
                 </td>
-                <td colspan="2" style="padding:0px 0px 0px 10px">
+                <td colspan="2" style="padding:5px 0px 0px 10px; width:100px">
                     <dx:ASPxLabel ID="ASPxLabel9" runat="server" Text="Show Verified Only" 
-                        Font-Names="Segoe UI" Font-Size="9pt" Width="120px">
+                        Font-Names="Segoe UI" Font-Size="9pt" Width="110px">
                     </dx:ASPxLabel>                
 
                 </td>
-                <td>
+                <td style="padding:5px 0px 0px 0px;">
                 <dx:ASPxComboBox ID="cboShow" runat="server" Theme="Office2010Black" 
                     ClientInstanceName="cboShow" Font-Names="Segoe UI" 
                     Font-Size="9pt" Height="25px" 
@@ -603,11 +606,10 @@
 <Paddings Padding="4px"></Paddings>
                     </ButtonStyle>
                 </dx:ASPxComboBox>
-                </td>
-                <td>
+                </td>  
+                <td style="width: 100%">
 
                 </td>
-
             </tr>
 
         <tr>
@@ -656,7 +658,7 @@
                 
                 </td>
 
-<td style=" padding: 3px 0px 0px 10px; ">
+<td style=" padding: 5px 0px 0px 10px; ">
                 <dx:ASPxLabel ID="ASPxLabel6" runat="server" Text="Shift" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel>
@@ -694,8 +696,10 @@
                 </dx:ASPxComboBox>
                 
             </td>
+            <td>
 
-            <td style="padding:0px 0px 0px 10px">
+            </td>
+            <td style="padding:5px 0px 0px 15px">
 
                 
                 <dx:ASPxButton ID="btnSearch" runat="server" AutoPostBack="False" 
