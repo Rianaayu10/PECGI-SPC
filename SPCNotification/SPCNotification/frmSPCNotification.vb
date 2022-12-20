@@ -827,7 +827,7 @@ Public Class frmSPCNotification
                     .Redraw = False
                     For i = 0 To dtNG.Rows.Count - 1
                         .AddItem("")
-                        .Item(i + 1, NGResult.pType) = dtNG.Rows(i)("ItemTypeName").ToString()
+                        .Item(i + 1, NGResult.pType) = Split(dtNG.Rows(i)("ItemTypeName").ToString(), "|")(0)
                         .Item(i + 1, NGResult.pMachineProcess) = dtNG.Rows(i)("LineName").ToString()
                         .Item(i + 1, NGResult.pItemCheck) = dtNG.Rows(i)("ItemCheck").ToString()
                         .Item(i + 1, NGResult.pDate) = dtNG.Rows(i)("Date").ToString()
@@ -953,7 +953,7 @@ Public Class frmSPCNotification
                     .Redraw = False
                     For i = 0 To dtDelayInput.Rows.Count - 1
                         .AddItem("")
-                        .Item(i + 1, DelayInput.pType) = dtDelayInput.Rows(i)("ItemTypeName").ToString()
+                        .Item(i + 1, DelayInput.pType) = Split(dtDelayInput.Rows(i)("ItemTypeName").ToString(), "|")(0)
                         .Item(i + 1, DelayInput.pMachineProcess) = dtDelayInput.Rows(i)("LineName").ToString()
                         .Item(i + 1, DelayInput.pItemCheck) = dtDelayInput.Rows(i)("ItemCheck").ToString()
                         .Item(i + 1, DelayInput.pDate) = dtDelayInput.Rows(i)("Date").ToString()
@@ -1082,7 +1082,7 @@ Public Class frmSPCNotification
                     For i = 0 To dtDelayVerification.Rows.Count - 1
 
                         .AddItem("")
-                        .Item(i + 1, DelayVerification.pType) = dtDelayVerification.Rows(i)("ItemTypeName").ToString()
+                        .Item(i + 1, DelayVerification.pType) = Split(dtDelayVerification.Rows(i)("ItemTypeName").ToString(), "|")(0)
                         .Item(i + 1, DelayVerification.pMachineProcess) = dtDelayVerification.Rows(i)("LineName").ToString()
                         .Item(i + 1, DelayVerification.pItemCheck) = dtDelayVerification.Rows(i)("ItemCheck").ToString()
                         .Item(i + 1, DelayVerification.pDate) = dtDelayVerification.Rows(i)("Date").ToString()
