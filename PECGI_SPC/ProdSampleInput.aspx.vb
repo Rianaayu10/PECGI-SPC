@@ -36,6 +36,9 @@ Public Class ProdSampleInput
     Private Class clsHeader
         Public Property FactoryCode As String
         Public Property FactoryName As String
+        Public Property ProcessGroup As String
+        Public Property LineGroup As String
+        Public Property ProcessCode As String
         Public Property ItemTypeCode As String
         Public Property ItemTypeName As String
         Public Property LineCode As String
@@ -659,33 +662,45 @@ Public Class ProdSampleInput
                 .Cells(3, 1, 3, 2).Merge = True
                 .Cells(3, 3).Value = ": " & cls.FactoryName
 
-                .Cells(4, 1, 4, 2).Value = "Item Type"
+                .Cells(4, 1, 4, 2).Value = "Process Group"
                 .Cells(4, 1, 4, 2).Merge = True
-                .Cells(4, 3).Value = ": " & cls.ItemTypeName
+                .Cells(4, 3).Value = ": " & cls.ProcessGroup
 
-                .Cells(5, 1, 5, 2).Value = "Machine Process"
+                .Cells(5, 1, 5, 2).Value = "Line Group"
                 .Cells(5, 1, 5, 2).Merge = True
-                .Cells(5, 3).Value = ": " & cls.LineName
+                .Cells(5, 3).Value = ": " & cls.LineGroup
 
-                .Cells(6, 1, 6, 2).Value = "Item Check"
-                .Cells(6, 1, 6, 2).Merge = True
-                .Cells(6, 3).Value = ": " & cls.ItemCheckName
-
-                .Cells(3, 6, 3, 6).Value = "Prod Date"
+                .Cells(3, 6, 3, 6).Value = "Machine"
                 .Cells(3, 6, 3, 7).Merge = True
-                .Cells(3, 8).Value = ": " & dtDate.Text
+                .Cells(3, 8).Value = ": " & cls.ProcessCode
 
-                .Cells(4, 6, 4, 6).Value = "Shift"
+                .Cells(4, 6, 4, 6).Value = "Machine Process"
                 .Cells(4, 6, 4, 7).Merge = True
-                .Cells(4, 8).Value = ": " & cls.ShiftCode
+                .Cells(4, 8).Value = ": " & cls.LineName
 
-                .Cells(5, 6, 5, 6).Value = "Sequence"
+                .Cells(5, 6, 5, 6).Value = "Type"
                 .Cells(5, 6, 5, 7).Merge = True
-                .Cells(5, 8).Value = ": " & cls.Seq
+                .Cells(5, 8).Value = ": " & cls.ItemTypeName
 
                 .Cells(6, 6, 6, 6).Value = "Verified Only"
                 .Cells(6, 6, 6, 7).Merge = True
                 .Cells(6, 8).Value = ": " & cboShow.Text
+
+                .Cells(3, 12, 3, 12).Value = "Item Check"
+                .Cells(3, 12, 3, 13).Merge = True
+                .Cells(3, 14).Value = ": " & cls.ItemCheckName
+
+                .Cells(4, 12, 4, 12).Value = "Prod Date"
+                .Cells(4, 12, 4, 13).Merge = True
+                .Cells(4, 14).Value = ": " & cls.ProdDate
+
+                .Cells(5, 12, 5, 12).Value = "Shift"
+                .Cells(5, 12, 5, 13).Merge = True
+                .Cells(5, 14).Value = ": " & cls.ShiftCode
+
+                .Cells(6, 12, 6, 12).Value = "Sequence"
+                .Cells(6, 12, 6, 13).Merge = True
+                .Cells(6, 14).Value = ": " & cls.Seq
 
                 Dim rgHdr As ExcelRange = .Cells(3, 3, 9, 4)
                 rgHdr.Style.HorizontalAlignment = HorzAlignment.Near
@@ -784,6 +799,9 @@ Public Class ProdSampleInput
                 Hdr.Shiftname = cboShift.Text
                 Hdr.Seq = cboSeq.Value
                 Hdr.VerifiedOnly = cboShow.Value
+                Hdr.ProcessGroup = cboProcessGroup.Text
+                Hdr.LineGroup = cboLineGroup.Text
+                Hdr.ProcessCode = cboProcess.Text
 
                 GridTitle(ws, Hdr)
                 GridExcelInput(ws, Hdr)
