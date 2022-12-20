@@ -33,6 +33,9 @@ Public Class ProductionSampleVerificationList
     Dim ItemCheck_Sel As String = "4"
     Dim MK_Sel As String = "5"
     Dim QC_Sel As String = "6"
+    Dim ProcessGroup_Sel As String = "7"
+    Dim LineGroup_Sel As String = "8"
+    Dim ProcessCode_Sel As String = "9"
 
     ' PARAMETER GRID COLOR
     Dim nMinColor As String = ""
@@ -43,16 +46,6 @@ Public Class ProductionSampleVerificationList
     Dim CorStsColor As String = ""
     Dim MKColor As String = ""
     Dim QCColor As String = ""
-
-    ' PARAMETER SESSION
-    Dim sFactoryCode = ""
-    Dim sItemType = ""
-    Dim sLineCode = ""
-    Dim sItemCheck = ""
-    Dim sMKVerification = ""
-    Dim sQCVerification = ""
-    Dim sProdDateTo = ""
-    Dim sProdDateFrom = ""
 
     ' PARAMETE EXCEL
     Dim totRowHdr = 0
@@ -74,18 +67,63 @@ Public Class ProductionSampleVerificationList
         End If
 
         If Not Page.IsPostBack Then
-            If Request.QueryString("menu") IsNot Nothing Then
-                LoadForm_ByAnotherform()
-            Else
-                LoadForm()
-            End If
+            LoadForm()
         End If
+    End Sub
+
+    Private Sub cboProcessGroup_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboProcessGroup.Callback
+        Try
+            Dim data As New clsProductionSampleVerificationList()
+            data.FactoryCode = e.Parameter
+
+            Dim ErrMsg As String = ""
+            dt = clsProductionSampleVerificationListDB.FillCombo(ProcessGroup_Sel, data)
+            With cboProcessGroup
+                .DataSource = dt
+                .DataBind()
+            End With
+        Catch ex As Exception
+            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 0)
+        End Try
+    End Sub
+    Private Sub cboLineGroup_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboLineGroup.Callback
+        Try
+            Dim data As New clsProductionSampleVerificationList()
+            data.FactoryCode = Split(e.Parameter, "|")(0)
+            data.ProcessGroup = Split(e.Parameter, "|")(1)
+
+            Dim ErrMsg As String = ""
+            dt = clsProductionSampleVerificationListDB.FillCombo(LineGroup_Sel, data)
+            With cboLineGroup
+                .DataSource = dt
+                .DataBind()
+            End With
+        Catch ex As Exception
+            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 0)
+        End Try
+    End Sub
+    Private Sub cboProcessCode_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboProcessCode.Callback
+        Try
+            Dim data As New clsProductionSampleVerificationList()
+            data.FactoryCode = Split(e.Parameter, "|")(0)
+            data.ProcessGroup = Split(e.Parameter, "|")(1)
+            data.LineGroup = Split(e.Parameter, "|")(2)
+
+            Dim ErrMsg As String = ""
+            dt = clsProductionSampleVerificationListDB.FillCombo(ProcessCode_Sel, data)
+            With cboProcessCode
+                .DataSource = dt
+                .DataBind()
+            End With
+        Catch ex As Exception
+            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 0)
+        End Try
     End Sub
     Private Sub cboLineID_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboLineID.Callback
         Try
             Dim data As New clsProductionSampleVerificationList()
             data.FactoryCode = e.Parameter.Split("|")(0)
-            data.ItemType_Code = e.Parameter.Split("|")(1)
+            data.ProcessCode = e.Parameter.Split("|")(1)
             data.UserID = pUser
 
             Dim ErrMsg As String = ""
@@ -93,7 +131,25 @@ Public Class ProductionSampleVerificationList
             With cboLineID
                 .DataSource = dt
                 .DataBind()
-                .SelectedIndex = IIf(dt.Rows.Count > 0, 0, -1)
+            End With
+
+        Catch ex As Exception
+            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 0)
+        End Try
+    End Sub
+    Private Sub cboItemType_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboItemType.Callback
+        Try
+            Dim data As New clsProductionSampleVerificationList()
+            data.FactoryCode = e.Parameter.Split("|")(0)
+            data.ProcessCode = e.Parameter.Split("|")(1)
+            data.LineCode = e.Parameter.Split("|")(2)
+            data.UserID = pUser
+
+            Dim ErrMsg As String = ""
+            dt = clsProductionSampleVerificationListDB.FillCombo(ItemType_Sel, data)
+            With cboItemType
+                .DataSource = dt
+                .DataBind()
             End With
 
         Catch ex As Exception
@@ -104,8 +160,8 @@ Public Class ProductionSampleVerificationList
         Try
             Dim data As New clsProductionSampleVerificationList()
             data.FactoryCode = Split(e.Parameter, "|")(0)
-            data.ItemType_Code = Split(e.Parameter, "|")(1)
-            data.LineCode = Split(e.Parameter, "|")(2)
+            data.LineCode = Split(e.Parameter, "|")(1)
+            data.ItemType_Code = Split(e.Parameter, "|")(2)
             data.UserID = pUser
 
             Dim ErrMsg As String = ""
@@ -121,37 +177,27 @@ Public Class ProductionSampleVerificationList
     End Sub
     Protected Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
         Dim cls As New clsProductionSampleVerificationList
-        Dim Factory As String = cboFactory.Value
-        Dim FactoryName As String = cboFactory.Text
-        Dim Itemtype As String = cboItemType.Value
-        Dim Itemtype_Name As String = cboItemType.Text
-        Dim Line As String = cboLineID.Value
-        Dim LineName As String = cboLineID.Text
-        Dim ItemCheck As String = cboItemCheck.Value
-        Dim ItemCheck_Name As String = cboItemCheck.Text
-        Dim ProdDateFrom As String = Convert.ToDateTime(dtFromDate.Value).ToString("yyyy-MM-dd")
-        Dim ProdDateTo As String = Convert.ToDateTime(dtToDate.Value).ToString("yyyy-MM-dd")
-        Dim Period As String = Convert.ToDateTime(dtFromDate.Value).ToString("dd MMM yyyy") & " - " & Convert.ToDateTime(dtToDate.Value).ToString("dd MMM yyyy")
-        Dim MKVerification As String = cboMK.Value
-        Dim QCVerification As String = cboQC.Value
-        Dim MKVerification_Name As String = cboMK.Text
-        Dim QCVerification_Name As String = cboQC.Text
-
-        cls.FactoryCode = Factory
-        cls.FactoryName = FactoryName
-        cls.ItemType_Code = Itemtype
-        cls.ItemType_Name = Itemtype_Name
-        cls.LineCode = Line
-        cls.LineName = LineName
-        cls.ItemCheck_Code = ItemCheck
-        cls.ItemCheck_Name = ItemCheck_Name
-        cls.ProdDateFrom = ProdDateFrom
-        cls.ProdDateTo = ProdDateTo
-        cls.Period = Period
-        cls.MKVerification = MKVerification
-        cls.MKVerification_Name = MKVerification_Name
-        cls.QCVerification = QCVerification
-        cls.QCVerification_Name = QCVerification_Name
+        cls.FactoryCode = cboFactory.Value
+        cls.FactoryName = cboFactory.Text
+        cls.ProcessGroup = cboProcessGroup.Value
+        cls.ProcessGroupName = cboProcessGroup.Text
+        cls.LineGroup = cboLineGroup.Value
+        cls.LineGroupName = cboLineGroup.Text
+        cls.ProcessCode = cboProcessCode.Value
+        cls.ProcessName = cboProcessCode.Text
+        cls.ItemType_Code = cboItemType.Value
+        cls.ItemType_Name = cboItemType.Text
+        cls.LineCode = cboLineID.Value
+        cls.LineName = cboLineID.Text
+        cls.ItemCheck_Code = cboItemCheck.Value
+        cls.ItemCheck_Name = cboItemCheck.Text
+        cls.ProdDateFrom = Convert.ToDateTime(dtFromDate.Value).ToString("yyyy-MM-dd")
+        cls.ProdDateTo = Convert.ToDateTime(dtToDate.Value).ToString("yyyy-MM-dd")
+        cls.Period = Convert.ToDateTime(dtFromDate.Value).ToString("dd MMM yyyy") & " - " & Convert.ToDateTime(dtToDate.Value).ToString("dd MMM yyyy")
+        cls.MKVerification = cboMK.Value
+        cls.QCVerification = cboQC.Value
+        cls.MKVerification_Name = cboMK.Text
+        cls.QCVerification_Name = cboQC.Text
 
         up_Excel(cls)
     End Sub
@@ -265,96 +311,18 @@ Public Class ProductionSampleVerificationList
             With cboFactory
                 .DataSource = dt
                 .DataBind()
+                .SelectedIndex = IIf(dt.Rows.Count > 0, 0, -1)
             End With
-            If sFactoryCode <> "" Then
-                For i = 0 To dt.Rows.Count - 1
-                    If dt.Rows(i)("CODE") = sFactoryCode Then
-                        cboFactory.SelectedIndex = i
-                        Exit For
-                    End If
-                Next
-            Else
-                cboFactory.SelectedIndex = 0
-            End If
-            If cboFactory.SelectedIndex < 0 Then
-                a = ""
-            Else
-                a = cboFactory.SelectedItem.GetFieldValue("CODE")
-            End If
+            a = cboFactory.SelectedItem.GetFieldValue("CODE")
             data.FactoryCode = a
-            '======================================================'
 
-
-            '============== FILL COMBO ITEM TYPE =================='
-            dt = clsProductionSampleVerificationListDB.FillCombo(ItemType_Sel, data)
-            With cboItemType
+            '============ FILL COMBO PROCESS GROUP ================'
+            dt = clsProductionSampleVerificationListDB.FillCombo(ProcessGroup_Sel, data)
+            With cboProcessGroup
                 .DataSource = dt
                 .DataBind()
             End With
-            If sItemType <> "" Then
-                For i = 0 To dt.Rows.Count - 1
-                    If dt.Rows(i)("CODE") = sItemType Then
-                        cboItemType.SelectedIndex = i
-                        Exit For
-                    End If
-                Next
-            End If
-            If cboItemType.SelectedIndex < 0 Then
-                a = ""
-            Else
-                a = cboItemType.SelectedItem.GetFieldValue("CODE")
-            End If
-            data.ItemType_Code = a
-            '======================================================'
 
-
-            '============== FILL COMBO LINE CODE =================='         
-
-            dt = clsProductionSampleVerificationListDB.FillCombo(Line_Sel, data)
-            With cboLineID
-                .DataSource = dt
-                .DataBind()
-            End With
-            If sLineCode <> "" Then
-                For i = 0 To dt.Rows.Count - 1
-                    If dt.Rows(i)("CODE") = sLineCode Then
-                        cboLineID.SelectedIndex = i
-                        Exit For
-                    End If
-                Next
-
-                If cboLineID.SelectedIndex < 0 Then
-                    a = ""
-                Else
-                    a = cboLineID.SelectedItem.GetFieldValue("CODE")
-                End If
-            End If
-            data.LineCode = a
-            '======================================================'
-
-
-            '============== FILL COMBO ITEM CHECK =================='         
-
-            dt = clsProductionSampleVerificationListDB.FillCombo(ItemCheck_Sel, data)
-            With cboItemCheck
-                .DataSource = dt
-                .DataBind()
-            End With
-            If sItemCheck <> "" Then
-                For i = 0 To dt.Rows.Count - 1
-                    If dt.Rows(i)("CODE") = sItemCheck Then
-                        cboItemCheck.SelectedIndex = i
-                        Exit For
-                    End If
-                Next
-
-                If cboItemCheck.SelectedIndex < 0 Then
-                    a = ""
-                Else
-                    a = cboItemCheck.SelectedItem.GetFieldValue("CODE")
-                End If
-            End If
-            data.ItemCheck_Code = a
             '======================================================'
 
             '============== FILL MK VERIFICATION =================='
@@ -362,54 +330,24 @@ Public Class ProductionSampleVerificationList
             With cboMK
                 .DataSource = dt
                 .DataBind()
+                .SelectedIndex = IIf(dt.Rows.Count > 0, 0, -1)
             End With
-            If sMKVerification <> "" Then
-                For i = 0 To dt.Rows.Count - 1
-                    If dt.Rows(i)("CODE") = sMKVerification Then
-                        cboMK.SelectedIndex = i
-                        Exit For
-                    End If
-                Next
-            Else
-                cboMK.SelectedIndex = IIf(dt.Rows.Count > 0, 0, -1)
-            End If
-            If cboMK.SelectedIndex < 0 Then
-                a = ""
-            Else
-                a = cboMK.SelectedItem.GetFieldValue("CODE")
-            End If
-            data.MKVerification = a
-            '======================================================'
-
 
             '============== FILL QC VERIFICATION =================='
             dt = clsProductionSampleVerificationListDB.FillCombo(QC_Sel, data)
             With cboQC
                 .DataSource = dt
                 .DataBind()
+                .SelectedIndex = IIf(dt.Rows.Count > 0, 0, -1)
             End With
-            If sQCVerification <> "" Then
-                For i = 0 To dt.Rows.Count - 1
-                    If dt.Rows(i)("CODE") = sQCVerification Then
-                        cboQC.SelectedIndex = i
-                        Exit For
-                    End If
-                Next
-            Else
-                cboQC.SelectedIndex = IIf(dt.Rows.Count > 0, 0, -1)
-            End If
-            If cboQC.SelectedIndex < 0 Then
-                a = ""
-            Else
-                a = cboQC.SelectedItem.GetFieldValue("CODE")
-            End If
-            data.QCVerification = a
+
             '======================================================''
 
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 0)
         End Try
     End Sub
+
     Private Sub UpGridLoad(cls As clsProductionSampleVerificationList)
         Try
             dt = clsProductionSampleVerificationListDB.LoadGrid(pUser, cls)
@@ -425,33 +363,6 @@ Public Class ProductionSampleVerificationList
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
         End Try
-    End Sub
-    Private Sub LoadForm_ByAnotherform()
-        sFactoryCode = Request.QueryString("FactoryCode")
-        sItemType = Request.QueryString("ItemTypeCode")
-        sLineCode = Request.QueryString("Line")
-        sItemCheck = Request.QueryString("ItemCheckCode")
-        sMKVerification = Request.QueryString("MK")
-        sQCVerification = Request.QueryString("QC")
-        sProdDateFrom = Request.QueryString("FromDate")
-        sProdDateTo = Request.QueryString("ToDate")
-
-        Dim cls As New clsProductionSampleVerificationList
-        cls.FactoryCode = sFactoryCode
-        cls.ItemType_Code = sItemType
-        cls.LineCode = sLineCode
-        cls.ItemCheck_Code = sItemCheck
-        cls.ProdDateFrom = Convert.ToDateTime(sProdDateFrom).ToString("yyyy-MM-dd")
-        cls.ProdDateTo = Convert.ToDateTime(sProdDateTo).ToString("yyyy-MM-dd")
-        cls.MKVerification = sMKVerification
-        cls.QCVerification = sQCVerification
-        cls.UserID = pUser
-
-        up_Fillcombo()
-        UpGridLoad(cls)
-
-        dtFromDate.Value = Convert.ToDateTime(sProdDateFrom)
-        dtToDate.Value = Convert.ToDateTime(sProdDateTo)
     End Sub
     Private Sub LoadForm()
         up_Fillcombo()
@@ -682,26 +593,31 @@ Public Class ProductionSampleVerificationList
 
             .Cells(irow, 1).Value = "Factory"
             .Cells(irow, 3).Value = ": " & cls.FactoryName
-            .Cells(irow, 5).Value = "Prod. Date"
-            .Cells(irow, 7).Value = ": " & cls.Period
+            .Cells(irow, 5).Value = "Machine"
+            .Cells(irow, 7).Value = ": " & cls.ProcessName
+            .Cells(irow, 11).Value = "Item Check"
+            .Cells(irow, 12).Value = ": " & cls.ItemCheck_Name
             irow = irow + 1
 
-            .Cells(irow, 1).Value = "Type"
-            .Cells(irow, 3).Value = ": " & cls.ItemType_Name
-            .Cells(irow, 5).Value = "MK Verification"
-            .Cells(irow, 7).Value = ": " & cls.MKVerification_Name
+            .Cells(irow, 1).Value = "Process Group"
+            .Cells(irow, 3).Value = ": " & cls.ProcessGroupName
+            .Cells(irow, 5).Value = "Machine Process"
+            .Cells(irow, 7).Value = ": " & cls.LineName
+            .Cells(irow, 11).Value = "Prod. Date"
+            .Cells(irow, 12).Value = ": " & cls.Period
             irow = irow + 1
 
-            .Cells(irow, 1).Value = "Machine Process"
-            .Cells(irow, 3).Value = ": " & cls.LineName
-            .Cells(irow, 5).Value = "QC Verification"
-            .Cells(irow, 7).Value = ": " & cls.QCVerification_Name
+            .Cells(irow, 1).Value = "Line Group"
+            .Cells(irow, 3).Value = ": " & cls.LineGroupName
+            .Cells(irow, 5).Value = "Type"
+            .Cells(irow, 7).Value = ": " & cls.ItemType_Name
+            .Cells(irow, 11).Value = "QC Verification"
+            .Cells(irow, 12).Value = ": " & cls.QCVerification_Name
+            .Cells(irow, 13).Value = "MK Verification"
+            .Cells(irow, 14).Value = ": " & cls.MKVerification_Name
             irow = irow + 1
 
-            .Cells(irow, 1).Value = "Item Check"
-            .Cells(irow, 3).Value = ": " & cls.ItemCheck_Name
-
-            Dim rgHeader As ExcelRange = .Cells(3, 1, 6, 7)
+            Dim rgHeader As ExcelRange = .Cells(3, 1, 6, 15)
             rgHeader.Style.HorizontalAlignment = HorzAlignment.Near
             rgHeader.Style.VerticalAlignment = VertAlignment.Center
             rgHeader.Style.Font.Bold = True

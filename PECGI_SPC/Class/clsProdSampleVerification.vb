@@ -28,4 +28,10 @@
     Public Property ShowVerify As String
     Public Property ShowVerify_Desc As String
     Public Property Time As String
+    Public Property ProcessGroup As String
+    Public Property ProcessGroupName As String
+    Public Property LineGroup As String
+    Public Property LineGroupName As String
+    Public Property ProcessCode As String
+    Public Property ProcessName As String
 End Class

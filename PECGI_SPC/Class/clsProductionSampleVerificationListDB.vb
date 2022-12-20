@@ -10,6 +10,9 @@ Public Class clsProductionSampleVerificationListDB
                 cmd.CommandType = CommandType.StoredProcedure
                 cmd.Parameters.AddWithValue("Status", Status)
                 cmd.Parameters.AddWithValue("FactoryCode", If(data.FactoryCode, ""))
+                cmd.Parameters.AddWithValue("ProcessGroup", If(data.ProcessGroup, ""))
+                cmd.Parameters.AddWithValue("LineGroup", If(data.LineGroup, ""))
+                cmd.Parameters.AddWithValue("ProcessCode", If(data.ProcessCode, ""))
                 cmd.Parameters.AddWithValue("LineCode", If(data.LineCode, ""))
                 cmd.Parameters.AddWithValue("ItemTypeCode", If(data.ItemType_Code, ""))
                 cmd.Parameters.AddWithValue("UserID", If(data.UserID, ""))
@@ -40,7 +43,6 @@ Public Class clsProductionSampleVerificationListDB
                 cmd.Parameters.AddWithValue("MKVerification", If(data.MKVerification, ""))
                 cmd.Parameters.AddWithValue("QCVerification", If(data.QCVerification, ""))
                 cmd.Parameters.AddWithValue("User", If(UserID, ""))
-
                 Dim da As New SqlDataAdapter(cmd)
                 Dim dt As New DataTable
                 da.Fill(dt)

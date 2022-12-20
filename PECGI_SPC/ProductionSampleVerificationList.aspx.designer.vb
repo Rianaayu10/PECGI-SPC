@@ -32,6 +32,60 @@ Partial Public Class ProductionSampleVerificationList
     Protected WithEvents cboFactory As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
+    '''lblProcessCode control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblProcessCode As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''cboProcessCode control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cboProcessCode As Global.DevExpress.Web.ASPxComboBox
+
+    '''<summary>
+    '''lblItemCheck control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblItemCheck As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''cboItemCheck control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cboItemCheck As Global.DevExpress.Web.ASPxComboBox
+
+    '''<summary>
+    '''lblProcessGroup control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblProcessGroup As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''cboProcessGroup control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cboProcessGroup As Global.DevExpress.Web.ASPxComboBox
+
+    '''<summary>
     '''lblLineID control.
     '''</summary>
     '''<remarks>
@@ -86,6 +140,24 @@ Partial Public Class ProductionSampleVerificationList
     Protected WithEvents dtToDate As Global.DevExpress.Web.ASPxDateEdit
 
     '''<summary>
+    '''lblLineGroup control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblLineGroup As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''cboLineGroup control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cboLineGroup As Global.DevExpress.Web.ASPxComboBox
+
+    '''<summary>
     '''lblItemType control.
     '''</summary>
     '''<remarks>
@@ -102,24 +174,6 @@ Partial Public Class ProductionSampleVerificationList
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents cboItemType As Global.DevExpress.Web.ASPxComboBox
-
-    '''<summary>
-    '''lblItemCheck control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblItemCheck As Global.DevExpress.Web.ASPxLabel
-
-    '''<summary>
-    '''cboItemCheck control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents cboItemCheck As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
     '''lblMK control.

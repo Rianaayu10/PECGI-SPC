@@ -14,6 +14,12 @@
     Public Property QCVerification As String
     Public Property QCVerification_Name As String
     Public Property Period As String
+    Public Property ProcessGroup As String
+    Public Property ProcessGroupName As String
+    Public Property LineGroup As String
+    Public Property LineGroupName As String
+    Public Property ProcessCode As String
+    Public Property ProcessName As String
 
     Public Property CODE As String
     Public Property CODENAME As String
