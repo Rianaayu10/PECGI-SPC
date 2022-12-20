@@ -41,6 +41,60 @@ Partial Public Class ProdSampleQCSummary
     Protected WithEvents cboFactory As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
+    '''ASPxLabel23 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel23 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''cboMachineIOT control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cboMachineIOT As Global.DevExpress.Web.ASPxComboBox
+
+    '''<summary>
+    '''ASPxLabel4 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel4 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''dtPeriod control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dtPeriod As Global.DevExpress.Web.ASPxDateEdit
+
+    '''<summary>
+    '''ASPxLabel22 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel22 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''cboProcess control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cboProcess As Global.DevExpress.Web.ASPxComboBox
+
+    '''<summary>
     '''ASPxLabel2 control.
     '''</summary>
     '''<remarks>
@@ -77,6 +131,42 @@ Partial Public Class ProdSampleQCSummary
     Protected WithEvents cboFrequency As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
+    '''ASPxButton1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxButton1 As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
+    '''ASPxButton2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxButton2 As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
+    '''ASPxLabel21 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel21 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''cboLine control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cboLine As Global.DevExpress.Web.ASPxComboBox
+
+    '''<summary>
     '''ASPxLabel3 control.
     '''</summary>
     '''<remarks>
@@ -95,24 +185,6 @@ Partial Public Class ProdSampleQCSummary
     Protected WithEvents cboType As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
-    '''ASPxLabel4 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ASPxLabel4 As Global.DevExpress.Web.ASPxLabel
-
-    '''<summary>
-    '''dtPeriod control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents dtPeriod As Global.DevExpress.Web.ASPxDateEdit
-
-    '''<summary>
     '''ASPxLabel6 control.
     '''</summary>
     '''<remarks>
@@ -129,24 +201,6 @@ Partial Public Class ProdSampleQCSummary
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents cboSequence As Global.DevExpress.Web.ASPxComboBox
-
-    '''<summary>
-    '''ASPxButton1 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ASPxButton1 As Global.DevExpress.Web.ASPxButton
-
-    '''<summary>
-    '''ASPxButton2 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ASPxButton2 As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
     '''ASPxLabel10 control.

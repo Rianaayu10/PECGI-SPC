@@ -401,11 +401,8 @@ Public Class ControlChartSetup
     End Sub
 
     Private Sub cboMachine_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboMachine.Callback
-        Dim FactoryCode As String = Split(e.Parameter, "|")(0)
-        Dim ItemType As String = Split(e.Parameter, "|")(1)
-
         Try
-            dt = clsControlChartSetupDB.FillCombo("2", FactoryCode, ItemType)
+            dt = clsControlChartSetupDB.FillCombo("2", cboFactory.Value, cboMachineIOT.Value)
             With cboMachine
                 .Items.Clear() : .Columns.Clear()
                 .DataSource = dt
@@ -460,6 +457,24 @@ Public Class ControlChartSetup
             .SelectedIndex = -1
         End With
     End Sub
+
+    Private Sub cboLine_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboLine.Callback
+        cboLine.DataSource = clsLineGroupDB.GetList(pUser, cboFactory.Value, IIf(cboProcess.Value = "ALL", "", cboProcess.Value), True)
+        cboLine.DataBind()
+        cboLine.SelectedIndex = 0
+    End Sub
+
+    Private Sub cboMachineIOT_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboMachineIOT.Callback
+        cboMachineIOT.DataSource = clsProcessDB.GetList(pUser, cboFactory.Value, IIf(cboProcess.Value = "ALL", "", cboProcess.Value), IIf(cboLine.Value = "ALL", "", cboLine.Value), True)
+        cboMachineIOT.DataBind()
+        cboMachineIOT.SelectedIndex = 0
+    End Sub
+
+    Private Sub cboProcess_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboProcess.Callback
+        cboProcess.DataSource = clsProcessGroupDB.GetList(pUser, cboFactory.Value, True)
+        cboProcess.DataBind()
+        cboProcess.SelectedIndex = 0
+    End Sub
 #End Region
 
 #Region "Functions"
@@ -485,6 +500,31 @@ Public Class ControlChartSetup
             End If
             HF.Set("FactoryCode", a)
 
+            cboProcess.DataSource = clsProcessGroupDB.GetList(pUser, cboFactory.Value, True)
+            cboProcess.DataBind()
+            cboProcess.SelectedIndex = 0
+
+            cboLine.DataSource = clsLineGroupDB.GetList(pUser, cboFactory.Value, cboProcess.Value, True)
+            cboLine.DataBind()
+            cboLine.SelectedIndex = 0
+
+            cboMachineIOT.DataSource = clsProcessDB.GetList(pUser, cboFactory.Value, cboProcess.Value, cboLine.Value, True)
+            cboMachineIOT.DataBind()
+            cboMachineIOT.SelectedIndex = 0
+
+            dt = clsControlChartSetupDB.FillCombo("2", cboFactory.Value, cboMachineIOT.Value)
+            With cboMachine
+                .DataSource = dt
+                .DataBind()
+                .SelectedIndex = IIf(dt.Rows.Count > 0, 0, -1)
+            End With
+            If cboMachine.SelectedIndex < 0 Then
+                a = ""
+            Else
+                a = cboMachine.SelectedItem.GetFieldValue("Code")
+            End If
+            HF.Set("MachineCode", a)
+
             dt = clsControlChartSetupDB.FillCombo("1")
             With cboType
                 .DataSource = dt
@@ -497,19 +537,6 @@ Public Class ControlChartSetup
                 a = cboType.SelectedItem.GetFieldValue("Code")
             End If
             HF.Set("Type", a)
-
-            dt = clsControlChartSetupDB.FillCombo("2", HF.Get("FactoryCode"))
-            With cboMachine
-                .DataSource = dt
-                .DataBind()
-                .SelectedIndex = IIf(dt.Rows.Count > 0, 0, -1)
-            End With
-            If cboMachine.SelectedIndex < 0 Then
-                a = ""
-            Else
-                a = cboMachine.SelectedItem.GetFieldValue("Code")
-            End If
-            HF.Set("MachineCode", a)
 
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, "", 0)
@@ -690,5 +717,5 @@ Public Class ControlChartSetup
 
     End Sub
 #End Region
-
+    
 End Class
