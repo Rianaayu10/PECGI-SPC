@@ -315,7 +315,7 @@ Public Class AlertDashboardInput
             Dim UserTo As String
             Dim pErr As String
 
-            Dim FactoryCode = cboFactory.Value
+            Dim FactoryCode = cboFactory.Value + " - " + cboFactory.Text
             Dim ItemTypeName = Split(Grid.GetRowValues(e.VisibleIndex, "ItemTypeName"), "||")(0)
             'Dim ItemTypeCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemTypeCode")
             Dim LineCode = Grid.GetRowValues(e.VisibleIndex, "LineCode")

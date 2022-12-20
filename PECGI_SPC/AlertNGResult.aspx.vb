@@ -348,7 +348,7 @@ Public Class AlertDashboard
             Dim CheckAvailableData As DataTable
             Dim UserTo As String
 
-            Dim FactoryCode = cboFactory.Value
+            Dim FactoryCode = cboFactory.Value + " - " + cboFactory.Text
             Dim ItemTypeName = Split(GridNG.GetRowValues(e.VisibleIndex, "ItemTypeName"), "||")(0)
             'Dim ItemTypeCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemTypeCode")
             Dim LineCode = GridNG.GetRowValues(e.VisibleIndex, "LineCode")

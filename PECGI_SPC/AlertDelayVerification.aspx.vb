@@ -345,7 +345,7 @@ Public Class AlertDelayVerification
             Dim CheckAvailableData As DataTable
             Dim UserTo As String
 
-            Dim FactoryCode = cboFactory.Value
+            Dim FactoryCode = cboFactory.Value + " - " + cboFactory.Text
             Dim ItemTypeName = Split(GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemTypeName"), "||")(0)
             'Dim ItemTypeCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "ItemTypeCode")
             Dim LineCode = GridDelayVerif.GetRowValues(e.VisibleIndex, "LineCode")
@@ -367,7 +367,7 @@ Public Class AlertDelayVerification
             Dim Status = GridDelayVerif.GetRowValues(e.VisibleIndex, "Status")
             Dim MK = GridDelayVerif.GetRowValues(e.VisibleIndex, "MK")
             Dim QC = GridDelayVerif.GetRowValues(e.VisibleIndex, "QC")
-            ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
+            'ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
 
             Dim Test = DirectCast(GridDelayVerif.GetRowValues(e.VisibleIndex, GridDelayVerif.KeyFieldName, "LinkDate"), Object())(1)
 
