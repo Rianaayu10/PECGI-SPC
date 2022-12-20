@@ -173,17 +173,17 @@ Public Class ClsSPCItemCheckByTypeDB
             Return Nothing
         End Try
     End Function
-    Public Shared Function GetMachineProccess(UserID As String, FactoryCode As String, Optional ByRef pErr As String = "") As List(Of ClsSPCItemCheckByType)
+    Public Shared Function GetMachineProccess(UserID As String, FactoryCode As String, Machine As String, Optional ByRef pErr As String = "") As List(Of ClsSPCItemCheckByType)
         Try
             Using Cn As New SqlConnection(Sconn.Stringkoneksi)
                 Cn.Open()
-                Dim q As String = "SELECT Number = 1, 'ALL' FactoryCode, 'ALL' ProcessCode, 'ALL' LineCode, 'ALL' LineName UNION" & vbCrLf &
-                "select distinct Number = 2, L.FactoryCode, L.ProcessCode, L.LineCode, L.LineCode + ' - ' + L.LineName as LineName from MS_Line L " & vbCrLf
+                'Dim q As String = "SELECT Number = 1, 'ALL' FactoryCode, 'ALL' ProcessCode, 'ALL' LineCode, 'ALL' LineName UNION" & vbCrLf &
                 '"from MS_Line L inner join spc_ItemCheckByType I " & vbCrLf &
                 '"on L.FactoryCode = I.FactoryCode and L.LineCode = I.LineCode " & vbCrLf &
                 '" where 1 = 1 " & vbCrLf
+                Dim q As String = "select distinct Number = 2, L.FactoryCode, L.ProcessCode, L.LineCode, L.LineCode + ' - ' + L.LineName as LineName from MS_Line L " & vbCrLf
                 If FactoryCode <> "" Then
-                    q = q & "where L.FactoryCode = @FactoryCode "
+                    q = q & "where L.FactoryCode = @FactoryCode AND L.ProcessCode = @Machine "
                 End If
                 'If ItemTypeCode <> "" Then
                 '    q = q & "and I.ItemTypeCode = @ItemTypeCode "
@@ -192,6 +192,7 @@ Public Class ClsSPCItemCheckByTypeDB
                 Dim cmd As New SqlCommand(q, Cn)
                 cmd.Parameters.AddWithValue("UserID", UserID)
                 cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
+                cmd.Parameters.AddWithValue("Machine", Machine)
                 'cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
                 Dim rd As SqlDataReader = cmd.ExecuteReader
                 Dim FactoryList As New List(Of ClsSPCItemCheckByType)

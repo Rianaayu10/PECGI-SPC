@@ -364,9 +364,9 @@ Public Class ItemCheckByBattery
     End Sub
     Private Sub cboLine_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboLine.Callback
         Dim FactoryCode As String = Split(e.Parameter, "|")(0)
-        'Dim ItemTypeCode As String = Split(e.Parameter, "|")(1)
+        Dim Machine As String = cboMachine.Value
         Dim UserID As String = Session("user") & ""
-        cboLine.DataSource = ClsSPCItemCheckByTypeDB.GetMachineProccess(UserID, FactoryCode)
+        cboLine.DataSource = ClsSPCItemCheckByTypeDB.GetMachineProccess(UserID, FactoryCode, Machine)
         cboLine.DataBind()
     End Sub
     Private Sub up_FillcomboGrid(ByVal cmb As ASPxComboBox, Type As String, Optional Param As String = "")
