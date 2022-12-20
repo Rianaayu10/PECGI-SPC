@@ -281,7 +281,7 @@ Public Class frmSPCAlertNotifications
                         NGInputRowsCount = NGInputRowsCount
                         DelayInputRowsCount = dtDelayInput.Rows.Count
                         DelayVerificationRowsCount = 0
-                        currentDelayInput = dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("UpdateTime") 'Format(CDate(dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("LastUpdate")), "yyyy-MM-dd HH:mm:ss")
+                        currentDelayInput = Format(CDate(dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("LastUpdate")), "yyyy-MM-dd HH:mm:ss") 'dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("UpdateTime") 'Format(CDate(dtDelayInput.Rows(dtDelayInput.Rows.Count - 1)("LastUpdate")), "yyyy-MM-dd HH:mm:ss")
                     Else
                         NGInputRowsCount = NGInputRowsCount
                         DelayInputRowsCount = 0
