@@ -75,6 +75,7 @@ Public Class ProductionSampleVerificationList
         Try
             Dim data As New clsProductionSampleVerificationList()
             data.FactoryCode = e.Parameter
+            data.UserID = pUser
 
             Dim ErrMsg As String = ""
             dt = clsProductionSampleVerificationListDB.FillCombo(ProcessGroup_Sel, data)
@@ -91,6 +92,7 @@ Public Class ProductionSampleVerificationList
             Dim data As New clsProductionSampleVerificationList()
             data.FactoryCode = Split(e.Parameter, "|")(0)
             data.ProcessGroup = Split(e.Parameter, "|")(1)
+            data.UserID = pUser
 
             Dim ErrMsg As String = ""
             dt = clsProductionSampleVerificationListDB.FillCombo(LineGroup_Sel, data)
@@ -108,6 +110,7 @@ Public Class ProductionSampleVerificationList
             data.FactoryCode = Split(e.Parameter, "|")(0)
             data.ProcessGroup = Split(e.Parameter, "|")(1)
             data.LineGroup = Split(e.Parameter, "|")(2)
+            data.UserID = pUser
 
             Dim ErrMsg As String = ""
             dt = clsProductionSampleVerificationListDB.FillCombo(ProcessCode_Sel, data)

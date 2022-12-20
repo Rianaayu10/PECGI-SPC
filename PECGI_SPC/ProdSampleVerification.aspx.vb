@@ -150,6 +150,7 @@ Public Class ProdSampleVerification
         Try
             Dim data As New clsProdSampleVerification()
             data.FactoryCode = e.Parameter
+            data.User = pUser
 
             Dim ErrMsg As String = ""
             dt = clsProdSampleVerificationDB.FillCombo(ProcessGroup_Sel, data)
@@ -166,6 +167,7 @@ Public Class ProdSampleVerification
             Dim data As New clsProdSampleVerification()
             data.FactoryCode = Split(e.Parameter, "|")(0)
             data.ProcessGroup = Split(e.Parameter, "|")(1)
+            data.User = pUser
 
             Dim ErrMsg As String = ""
             dt = clsProdSampleVerificationDB.FillCombo(LineGroup_Sel, data)
@@ -183,6 +185,7 @@ Public Class ProdSampleVerification
             data.FactoryCode = Split(e.Parameter, "|")(0)
             data.ProcessGroup = Split(e.Parameter, "|")(1)
             data.LineGroup = Split(e.Parameter, "|")(2)
+            data.User = pUser
 
             Dim ErrMsg As String = ""
             dt = clsProdSampleVerificationDB.FillCombo(ProcessCode_Sel, data)
