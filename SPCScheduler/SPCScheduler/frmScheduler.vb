@@ -106,13 +106,13 @@ Public Class frmScheduler
 
                 For Each AlertData In Alertlist
 
+                    Dim Factory As String = AlertData.FactoryCode + " - " + AlertData.FactoryName
                     ' Send Email
-                    Dim CheckDataEmail As DataTable = clsAlertDashboardDB.CheckDataSendEmailAlert(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, ConStr)
+                    Dim CheckDataEmail As DataTable = clsAlertDashboardDB.CheckDataSendEmailAlert(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineName, AlertData.ItemCheckName, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, ConStr)
 
                     UserTo = clsAlertDashboardDB.GetUserLine(ConStr, FactoryCode, AlertData.LineCode, "1")
 
                     If CheckDataEmail.Rows.Count <= 0 Then
-                        Dim Factory As String = AlertData.FactoryCode + " - " + AlertData.FactoryName
                         Dim CountSendEmail As Integer = clsAlertDashboardDB.SendEmail(Factory, AlertData.ItemTypeCode, AlertData.LineName, AlertData.ItemCheckName, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, "1", AlertData.LSL, AlertData.USL, AlertData.LCL, AlertData.UCL, AlertData.MinValue, AlertData.MaxValue, AlertData.Average, "NG", AlertData.ScheduleStart, AlertData.ScheduleEnd, "", AlertData.DelayTime, ConStr, UserTo)
                     Else
                         'Nothing Happens Here, Go Back To Your WorkTable
@@ -145,17 +145,17 @@ Public Class frmScheduler
 
                     For Each AlertData In Alertlist
 
-                        If IsNothing(AlertData.MK) AndAlso IsNothing(AlertData.QC) Then
+                        If AlertData.MK = "" AndAlso AlertData.QC = "" Then
                             UserTo = clsAlertDashboardDB.GetUserLine(ConStr, FactoryCode, AlertData.LineCode, "3")
-                        ElseIf IsNothing(AlertData.MK) Then
+                        ElseIf AlertData.MK = "" Then
                             UserTo = clsAlertDashboardDB.GetUserLine(ConStr, FactoryCode, AlertData.LineCode, "2")
                         End If
 
+                        Dim Factory As String = AlertData.FactoryCode + " - " + AlertData.FactoryName
                         ' Send Email
-                        Dim CheckDataEmail As DataTable = clsAlertDashboardDB.CheckDataSendEmailAlert(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, ConStr)
+                        Dim CheckDataEmail As DataTable = clsAlertDashboardDB.CheckDataSendEmailAlert(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineName, AlertData.ItemCheckName, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, ConStr)
 
                         If CheckDataEmail.Rows.Count <= 0 Then
-                            Dim Factory As String = AlertData.FactoryCode + " - " + AlertData.FactoryName
                             Dim CountSendEmail As Integer = clsAlertDashboardDB.SendEmail(Factory, AlertData.ItemTypeCode, AlertData.LineName, AlertData.ItemCheckName, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, "3", AlertData.LSL, AlertData.USL, AlertData.LCL, AlertData.UCL, AlertData.MinValue, AlertData.MaxValue, AlertData.Average, AlertData.Status, "", "", AlertData.VerifTime, AlertData.DelayTime, ConStr, UserTo)
                         Else
                             'Nothing Happens Here, Go Back To Your WorkTable
@@ -187,13 +187,13 @@ Public Class frmScheduler
 
                 For Each AlertData In Alertlist
 
+                    Dim Factory As String = AlertData.FactoryCode + " - " + AlertData.FactoryName
                     ' Send Email
-                    Dim CheckDataEmail As DataTable = clsAlertDashboardDB.CheckDataSendEmailAlert(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, ConStr)
+                    Dim CheckDataEmail As DataTable = clsAlertDashboardDB.CheckDataSendEmailAlert(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineName, AlertData.ItemCheckName, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, ConStr)
 
                     UserTo = clsAlertDashboardDB.GetUserLine(ConStr, FactoryCode, AlertData.LineCode, "1")
 
                     If CheckDataEmail.Rows.Count <= 0 Then
-                        Dim Factory As String = AlertData.FactoryCode + " - " + AlertData.FactoryName
                         Dim CountSendEmail As Integer = clsAlertDashboardDB.SendEmail(Factory, AlertData.ItemTypeCode, AlertData.LineName, AlertData.ItemCheckName, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, "2", "", "", "", "", "", "", "", "", AlertData.ScheduleStart, AlertData.ScheduleEnd, "", AlertData.DelayTime, ConStr, UserTo)
                     Else
                         'Nothing Happens Here, Go Back To Your WorkTable
