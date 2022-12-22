@@ -4,6 +4,7 @@ Imports System.Data.SqlClient
 
 Public Class clsAlertDashboard
     Public Property FactoryCode As String
+    Public Property FactoryName As String
     Public Property ItemTypeCode As String
     Public Property LineCode As String
     Public Property ItemCheckCode As String
@@ -55,9 +56,10 @@ Public Class clsAlertDashboardDB
                 Do While rd.Read
                     Dim Alert As New clsAlertDashboard
                     Alert.FactoryCode = rd("FactoryCode")
+                    Alert.FactoryName = rd("FactoryName")
                     Alert.ItemTypeCode = rd("ItemTypeName")
-                    Alert.LineCode = rd("LineCode")
-                    Alert.ItemCheckCode = rd("ItemCheckCode")
+                    Alert.LineCode = rd("LineName")
+                    Alert.ItemCheckCode = rd("ItemCheck")
                     Alert.ProdDate = rd("Date")
                     Alert.ShiftCode = rd("ShiftCode")
                     Alert.SequenceNo = rd("SequenceNo")
@@ -97,9 +99,10 @@ Public Class clsAlertDashboardDB
                 Do While rd.Read
                     Dim Alert As New clsAlertDashboard
                     Alert.FactoryCode = rd("FactoryCode")
+                    Alert.FactoryName = rd("FactoryName")
                     Alert.ItemTypeCode = rd("ItemTypeName")
-                    Alert.LineCode = rd("LineCode")
-                    Alert.ItemCheckCode = rd("ItemCheckCode")
+                    Alert.LineCode = rd("LineName")
+                    Alert.ItemCheckCode = rd("ItemCheck")
                     Alert.ShiftCode = rd("ShiftCode")
                     Alert.SequenceNo = rd("SequenceNo")
                     Alert.ScheduleStart = rd("StartTime")
@@ -135,9 +138,10 @@ Public Class clsAlertDashboardDB
                 Do While rd.Read
                     Dim Alert As New clsAlertDashboard
                     Alert.FactoryCode = rd("FactoryCode")
+                    Alert.FactoryName = rd("FactoryName")
                     Alert.ItemTypeCode = rd("ItemTypeName")
-                    Alert.LineCode = rd("LineCode")
-                    Alert.ItemCheckCode = rd("ItemCheckCode")
+                    Alert.LineCode = rd("LineName")
+                    Alert.ItemCheckCode = rd("ItemCheck")
                     Alert.ProdDate = rd("Date")
                     Alert.ShiftCode = rd("ShiftCode")
                     Alert.SequenceNo = rd("SequenceNo")

@@ -109,7 +109,8 @@ Public Class frmScheduler
                     Dim CheckDataEmail As DataTable = clsAlertDashboardDB.CheckDataSendEmailAlert(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, ConStr)
 
                     If CheckDataEmail.Rows.Count <= 0 Then
-                        Dim CountSendEmail As Integer = clsAlertDashboardDB.SendEmail(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, "1", AlertData.LSL, AlertData.USL, AlertData.LCL, AlertData.UCL, AlertData.MinValue, AlertData.MaxValue, AlertData.Average, "NG", AlertData.ScheduleStart, AlertData.ScheduleEnd, "", AlertData.DelayTime, ConStr)
+                        Dim Factory As String = AlertData.FactoryCode + " - " + AlertData.FactoryName
+                        Dim CountSendEmail As Integer = clsAlertDashboardDB.SendEmail(Factory, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, "1", AlertData.LSL, AlertData.USL, AlertData.LCL, AlertData.UCL, AlertData.MinValue, AlertData.MaxValue, AlertData.Average, "NG", AlertData.ScheduleStart, AlertData.ScheduleEnd, "", AlertData.DelayTime, ConStr)
                     Else
                         'Nothing Happens Here, Go Back To Your WorkTable
                     End If
@@ -145,7 +146,8 @@ Public Class frmScheduler
                         Dim CheckDataEmail As DataTable = clsAlertDashboardDB.CheckDataSendEmailAlert(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, ConStr)
 
                         If CheckDataEmail.Rows.Count <= 0 Then
-                            Dim CountSendEmail As Integer = clsAlertDashboardDB.SendEmail(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, "3", AlertData.LSL, AlertData.USL, AlertData.LCL, AlertData.UCL, AlertData.MinValue, AlertData.MaxValue, AlertData.Average, AlertData.Status, "", "", AlertData.VerifTime, AlertData.DelayTime, ConStr)
+                            Dim Factory As String = AlertData.FactoryCode + " - " + AlertData.FactoryName
+                            Dim CountSendEmail As Integer = clsAlertDashboardDB.SendEmail(Factory, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, "3", AlertData.LSL, AlertData.USL, AlertData.LCL, AlertData.UCL, AlertData.MinValue, AlertData.MaxValue, AlertData.Average, AlertData.Status, "", "", AlertData.VerifTime, AlertData.DelayTime, ConStr)
                         Else
                             'Nothing Happens Here, Go Back To Your WorkTable
                         End If
@@ -179,7 +181,8 @@ Public Class frmScheduler
                     Dim CheckDataEmail As DataTable = clsAlertDashboardDB.CheckDataSendEmailAlert(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, ConStr)
 
                     If CheckDataEmail.Rows.Count <= 0 Then
-                        Dim CountSendEmail As Integer = clsAlertDashboardDB.SendEmail(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, "2", "", "", "", "", "", "", "", "", AlertData.ScheduleStart, AlertData.ScheduleEnd, "", AlertData.DelayTime, ConStr)
+                        Dim Factory As String = AlertData.FactoryCode + " - " + AlertData.FactoryName
+                        Dim CountSendEmail As Integer = clsAlertDashboardDB.SendEmail(Factory, AlertData.ItemTypeCode, AlertData.LineCode, AlertData.ItemCheckCode, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, "2", "", "", "", "", "", "", "", "", AlertData.ScheduleStart, AlertData.ScheduleEnd, "", AlertData.DelayTime, ConStr)
                     Else
                         'Nothing Happens Here, Go Back To Your WorkTable
                     End If
