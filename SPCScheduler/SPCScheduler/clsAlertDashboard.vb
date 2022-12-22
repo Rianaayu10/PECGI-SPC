@@ -7,7 +7,9 @@ Public Class clsAlertDashboard
     Public Property FactoryName As String
     Public Property ItemTypeCode As String
     Public Property LineCode As String
+    Public Property LineName As String
     Public Property ItemCheckCode As String
+    Public Property ItemCheckName As String
     Public Property ProdDate As String
     Public Property ShiftCode As String
     Public Property SequenceNo As String
@@ -29,6 +31,8 @@ Public Class clsAlertDashboard
     Public Property VerifTime As String
     Public Property DelayTime As String
     Public Property LastUser As String
+    Public Property MK As String
+    Public Property QC As String
 End Class
 
 Public Class clsAlertDashboardDB
@@ -56,10 +60,12 @@ Public Class clsAlertDashboardDB
                 Do While rd.Read
                     Dim Alert As New clsAlertDashboard
                     Alert.FactoryCode = rd("FactoryCode")
-                    Alert.FactoryName = rd("FactoryName")
+                    Alert.FactoryName  = rd("FactoryName")
                     Alert.ItemTypeCode = rd("ItemTypeName")
-                    Alert.LineCode = rd("LineName")
-                    Alert.ItemCheckCode = rd("ItemCheck")
+                    Alert.LineCode = rd("LineCode")
+                    Alert.LineName = rd("LineName")
+                    Alert.ItemCheckCode = rd("ItemCheckCode")
+                    Alert.ItemCheckName = rd("ItemCheck")
                     Alert.ProdDate = rd("Date")
                     Alert.ShiftCode = rd("ShiftCode")
                     Alert.SequenceNo = rd("SequenceNo")
@@ -101,8 +107,10 @@ Public Class clsAlertDashboardDB
                     Alert.FactoryCode = rd("FactoryCode")
                     Alert.FactoryName = rd("FactoryName")
                     Alert.ItemTypeCode = rd("ItemTypeName")
-                    Alert.LineCode = rd("LineName")
-                    Alert.ItemCheckCode = rd("ItemCheck")
+                    Alert.LineCode = rd("LineCode")
+                    Alert.LineName = rd("LineName")
+                    Alert.ItemCheckCode = rd("ItemCheckCode")
+                    Alert.ItemCheckName = rd("ItemCheck")
                     Alert.ShiftCode = rd("ShiftCode")
                     Alert.SequenceNo = rd("SequenceNo")
                     Alert.ScheduleStart = rd("StartTime")
@@ -140,8 +148,10 @@ Public Class clsAlertDashboardDB
                     Alert.FactoryCode = rd("FactoryCode")
                     Alert.FactoryName = rd("FactoryName")
                     Alert.ItemTypeCode = rd("ItemTypeName")
-                    Alert.LineCode = rd("LineName")
-                    Alert.ItemCheckCode = rd("ItemCheck")
+                    Alert.LineCode = rd("LineCode")
+                    Alert.LineName = rd("LineName")
+                    Alert.ItemCheckCode = rd("ItemCheckCode")
+                    Alert.ItemCheckName = rd("ItemCheck")
                     Alert.ProdDate = rd("Date")
                     Alert.ShiftCode = rd("ShiftCode")
                     Alert.SequenceNo = rd("SequenceNo")
@@ -155,6 +165,8 @@ Public Class clsAlertDashboardDB
                     Alert.Status = rd("Status")
                     Alert.VerifTime = rd("VerifTime")
                     Alert.DelayTime = rd("DelayVerif")
+                    Alert.MK = rd("MK")
+                    Alert.QC = rd("QC")
                     AlertList.Add(Alert)
                 Loop
                 rd.Close()
@@ -168,7 +180,7 @@ Public Class clsAlertDashboardDB
 
     Public Shared Function SendEmail(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, LinkDate As String, ShiftCode As String, SequenceNo As String, NotificationCategory As String,
                                      LSL As String, USL As String, LCL As String, UCL As String, MinValue As String, MaxValue As String, Average As String, Status As String,
-                                     ScheduleStart As String, ScheduleEnd As String, VerifTime As String, DelayTime As String, ConStr As String, Optional ByRef pErr As String = "") As Integer
+                                     ScheduleStart As String, ScheduleEnd As String, VerifTime As String, DelayTime As String, ConStr As String, UserTo As String, Optional ByRef pErr As String = "") As Integer
         Try
             Using Cn As New SqlConnection(ConStr)
                 Cn.Open()
@@ -198,6 +210,7 @@ Public Class clsAlertDashboardDB
                 cmd.Parameters.AddWithValue("DelayTime", DelayTime)
                 cmd.Parameters.AddWithValue("NotificationCategory", NotificationCategory)
                 cmd.Parameters.AddWithValue("LastUser", "spc")
+                cmd.Parameters.AddWithValue("To", UserTo)
                 Dim i As Integer = cmd.ExecuteNonQuery
                 Return 1
             End Using
@@ -312,6 +325,42 @@ Public Class clsAlertDashboardDB
             da.Fill(dt)
             Return dt
         End Using
+    End Function
+
+    Public Shared Function GetUserLine(ConStr As String, FactoryCode As String, LineCode As String, pType As String, Optional ByRef pErr As String = "") As String
+        Try
+            Dim ListDataUserLine As String = ""
+            Using cn As New SqlConnection(ConStr)
+                cn.Open()
+                Dim q As String
+                If pType = "1" Then
+                    q = "select distinct US.Email from spc_UserLine UL INNER JOIN spc_UserSetup US ON UL.AppID = US.AppID AND UL.UserID = US.UserID WHERE UL.FactoryCode = @FactoryCode AND UL.LineCode = LineCode "
+                ElseIf pType = "2" Then
+                    q = "select distinct US.Email from spc_UserLine UL INNER JOIN spc_UserSetup US ON UL.AppID = US.AppID AND UL.UserID = US.UserID WHERE US.JobPosition = 'MK' "
+                ElseIf pType = "3" Then
+                    q = "select distinct US.Email from spc_UserLine UL INNER JOIN spc_UserSetup US ON UL.AppID = US.AppID AND UL.UserID = US.UserID WHERE US.JobPosition IN ('MK','QC') "
+                End If
+                Dim cmd As New SqlCommand(q, cn)
+                'Dim des As New clsDESEncryption("TOS")
+                cmd.CommandType = CommandType.Text
+                cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
+                cmd.Parameters.AddWithValue("LineCode", LineCode)
+
+                Dim da As New SqlDataAdapter(cmd)
+                Dim dt As New DataTable
+                da.Fill(dt)
+
+                For Each dr As DataRow In dt.Rows
+                    ListDataUserLine = dr.Item("Email") + ";" + ListDataUserLine
+                Next
+
+                Return ListDataUserLine
+            End Using
+        Catch ex As Exception
+            pErr = ex.Message
+            Return Nothing
+        End Try
+
     End Function
 End Class
 
