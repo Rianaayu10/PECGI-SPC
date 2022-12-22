@@ -145,9 +145,9 @@ Public Class frmScheduler
 
                     For Each AlertData In Alertlist
 
-                        If AlertData.MK.ToString() = "" AndAlso AlertData.QC.ToString() = "" Then
+                        If IsNothing(AlertData.MK) AndAlso IsNothing(AlertData.QC) Then
                             UserTo = clsAlertDashboardDB.GetUserLine(ConStr, FactoryCode, AlertData.LineCode, "3")
-                        ElseIf AlertData.MK.ToString() = "" Then
+                        ElseIf IsNothing(AlertData.MK) Then
                             UserTo = clsAlertDashboardDB.GetUserLine(ConStr, FactoryCode, AlertData.LineCode, "2")
                         End If
 
