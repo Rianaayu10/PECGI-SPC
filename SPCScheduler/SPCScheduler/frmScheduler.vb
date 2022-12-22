@@ -108,7 +108,7 @@ Public Class frmScheduler
 
                     Dim Factory As String = AlertData.FactoryCode + " - " + AlertData.FactoryName
                     ' Send Email
-                    Dim CheckDataEmail As DataTable = clsAlertDashboardDB.CheckDataSendEmailAlert(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineName, AlertData.ItemCheckName, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, ConStr)
+                    Dim CheckDataEmail As DataTable = clsAlertDashboardDB.CheckDataSendEmailAlert(Factory, AlertData.ItemTypeCode, AlertData.LineName, AlertData.ItemCheckName, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, ConStr)
 
                     UserTo = clsAlertDashboardDB.GetUserLine(ConStr, FactoryCode, AlertData.LineCode, "1")
 
@@ -153,7 +153,7 @@ Public Class frmScheduler
 
                         Dim Factory As String = AlertData.FactoryCode + " - " + AlertData.FactoryName
                         ' Send Email
-                        Dim CheckDataEmail As DataTable = clsAlertDashboardDB.CheckDataSendEmailAlert(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineName, AlertData.ItemCheckName, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, ConStr)
+                        Dim CheckDataEmail As DataTable = clsAlertDashboardDB.CheckDataSendEmailAlert(Factory, AlertData.ItemTypeCode, AlertData.LineName, AlertData.ItemCheckName, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, ConStr)
 
                         If CheckDataEmail.Rows.Count <= 0 Then
                             Dim CountSendEmail As Integer = clsAlertDashboardDB.SendEmail(Factory, AlertData.ItemTypeCode, AlertData.LineName, AlertData.ItemCheckName, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, "3", AlertData.LSL, AlertData.USL, AlertData.LCL, AlertData.UCL, AlertData.MinValue, AlertData.MaxValue, AlertData.Average, AlertData.Status, "", "", AlertData.VerifTime, AlertData.DelayTime, ConStr, UserTo)
@@ -189,7 +189,7 @@ Public Class frmScheduler
 
                     Dim Factory As String = AlertData.FactoryCode + " - " + AlertData.FactoryName
                     ' Send Email
-                    Dim CheckDataEmail As DataTable = clsAlertDashboardDB.CheckDataSendEmailAlert(AlertData.FactoryCode, AlertData.ItemTypeCode, AlertData.LineName, AlertData.ItemCheckName, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, ConStr)
+                    Dim CheckDataEmail As DataTable = clsAlertDashboardDB.CheckDataSendEmailAlert(Factory, AlertData.ItemTypeCode, AlertData.LineName, AlertData.ItemCheckName, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, ConStr)
 
                     UserTo = clsAlertDashboardDB.GetUserLine(ConStr, FactoryCode, AlertData.LineCode, "1")
 
