@@ -165,8 +165,8 @@ Public Class clsAlertDashboardDB
                     Alert.Status = rd("Status")
                     Alert.VerifTime = rd("VerifTime")
                     Alert.DelayTime = rd("DelayVerif")
-                    Alert.MK = rd("MK")
-                    Alert.QC = rd("QC")
+                    Alert.MK = rd("MK").ToString()
+                    Alert.QC = rd("QC").ToString()
                     AlertList.Add(Alert)
                 Loop
                 rd.Close()
