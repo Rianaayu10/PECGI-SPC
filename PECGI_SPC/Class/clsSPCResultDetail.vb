@@ -107,7 +107,7 @@ Public Class clsSPCResultDetailDB
         End Using
     End Function
 
-    Public Shared Function GetSampleByPeriod(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, VerifiedOnly As Integer, Optional ShowVerifier As Boolean = False) As DataSet
+    Public Shared Function GetSampleByPeriod(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, VerifiedOnly As Integer, Optional ShowVerifier As Boolean = False, Optional CompleteOnly As Boolean = False) As DataSet
         Dim ConStr As String = Sconn.Stringkoneksi
         Using Cn As New SqlConnection(ConStr)
             Cn.Open()
@@ -125,6 +125,9 @@ Public Class clsSPCResultDetailDB
             cmd.Parameters.AddWithValue("VerifiedOnly", VerifiedOnly)
             If ShowVerifier Then
                 cmd.Parameters.AddWithValue("ShowVerifier", 1)
+            End If
+            If CompleteOnly Then
+                cmd.Parameters.AddWithValue("CompleteStatus", 1)
             End If
             Dim da As New SqlDataAdapter(cmd)
             Dim ds As New DataSet

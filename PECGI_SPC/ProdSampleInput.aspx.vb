@@ -450,11 +450,22 @@ Public Class ProdSampleInput
         End If
     End Sub
 
+    Private Function ValidateChartSetup(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String) As Boolean
+        Dim SetupFound As Boolean = True
+        Dim cs As clsChartSetup = clsChartSetupDB.GetData(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate)
+        If cs Is Nothing Then
+            SetupFound = False
+        End If
+        Return SetupFound
+    End Function
+
     Private Sub GridLoad(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer, VerifiedOnly As Integer)
         Dim ErrMsg As String = ""
         Dim dt As DataTable = clsSPCResultDetailDB.GetTable(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence, VerifiedOnly)
         grid.DataSource = dt
         grid.DataBind()
+
+        Dim setupfound As Boolean = ValidateChartSetup(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate)
 
         Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Sequence, VerifiedOnly)
         If dt2.Rows.Count > 0 Then
@@ -525,7 +536,9 @@ Public Class ProdSampleInput
         Else
             grid.JSProperties("cpAllowInsert") = "0"
         End If
-        If AllowSkill = False Then
+        If SetupFound = False Then
+            show_error(MsgTypeEnum.Warning, "Chart Setup has not been set for this item", 1)
+        ElseIf AllowSkill = False Then
             show_error(MsgTypeEnum.Warning, "You don't have skill to input result for this item. Please set SPC skill in IOT System", 1)
         ElseIf LastVerification = 0 Then
             ProdDate = Format(dtVer.Rows(0)(1), "dd MMM yyyy")
@@ -583,6 +596,7 @@ Public Class ProdSampleInput
 
     Private Sub grid_RowUpdating(sender As Object, e As ASPxDataUpdatingEventArgs) Handles grid.RowUpdating
         e.Cancel = True
+
         Dim Result As New clsSPCResult
         Result.FactoryCode = cboFactory.Value
         Result.ItemCheckCode = cboItemCheck.Value
@@ -594,6 +608,13 @@ Public Class ProdSampleInput
         Result.SubLotNo = txtSubLotNo.Text
         Result.Remark = txtRemarks.Text
         Result.RegisterUser = Session("user") & ""
+
+        Dim SetupFound As Boolean = ValidateChartSetup(Result.FactoryCode, Result.ItemTypeCode, Result.LineCode, Result.ItemCheckCode, Format(Result.ProdDate, "yyyy-MM-dd"))
+        If SetupFound = False Then
+            grid.CancelEdit()
+            show_error(MsgTypeEnum.Warning, "Chart Setup has not been set for this item", 1)
+            Return
+        End If
         clsSPCResultDB.Insert(Result)
 
         Dim SeqNo As Integer = e.Keys("SeqNo")
@@ -793,7 +814,7 @@ Public Class ProdSampleInput
                 Hdr.LineCode = cboLine.Value
                 Hdr.LineName = cboLine.Text
                 Hdr.ItemCheckCode = cboItemCheck.Value
-                Hdr.ItemCheckName = cboItemCheck.Value
+                Hdr.ItemCheckName = cboItemCheck.Text
                 Hdr.ProdDate = Convert.ToDateTime(dtDate.Value).ToString("yyyy-MM-dd")
                 Hdr.ShiftCode = cboShift.Value
                 Hdr.Shiftname = cboShift.Text

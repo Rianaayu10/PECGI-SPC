@@ -179,6 +179,7 @@ Public Class clsXRChartDB
             End If
             cmd.Parameters.AddWithValue("ProdDate2", CDate(ProdDate2))
             cmd.Parameters.AddWithValue("VerifiedOnly", VerifiedOnly)
+            cmd.Parameters.AddWithValue("CompleteStatus", 1)
             Dim da As New SqlDataAdapter(cmd)
             Dim ds As New DataSet
             Dim dt As New DataTable
@@ -245,7 +246,7 @@ Public Class clsXRChartDB
 
 
 
-    Public Shared Function GetChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Optional PrevDate As String = "", Optional VerifiedOnly As String = "0", Optional SeqNo As Integer = 99) As List(Of clsXRChart)
+    Public Shared Function GetChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Optional PrevDate As String = "", Optional VerifiedOnly As String = "0", Optional SeqNo As Integer = 99, Optional CompleteOnly As Boolean = False) As List(Of clsXRChart)
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String = "sp_SPC_RChart"
@@ -261,6 +262,9 @@ Public Class clsXRChartDB
             End If
             cmd.Parameters.AddWithValue("VerifiedOnly", VerifiedOnly)
             cmd.Parameters.AddWithValue("SeqNo", SeqNo)
+            If CompleteOnly Then
+                cmd.Parameters.AddWithValue("CompleteStatus", 1)
+            End If
             Dim da As New SqlDataAdapter(cmd)
             Dim dt As New DataTable
             da.Fill(dt)

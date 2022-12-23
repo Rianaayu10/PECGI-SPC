@@ -24,6 +24,9 @@ Public Class SampleControlQuality
     Private Class clsHeader
         Public Property FactoryCode As String
         Public Property FactoryName As String
+        Public Property ProcessGroup As String
+        Public Property LineGroup As String
+        Public Property ProcessCode As String
         Public Property ItemTypeCode As String
         Public Property ItemTypeName As String
         Public Property LineCode As String
@@ -139,10 +142,14 @@ Public Class SampleControlQuality
                 Hdr.LineCode = cboLine.Value
                 Hdr.LineName = cboLine.Text
                 Hdr.ItemCheckCode = cboItemCheck.Value
-                Hdr.ItemCheckName = cboItemCheck.Value
+                Hdr.ItemCheckName = cboItemCheck.Text
                 Hdr.ProdDate = Convert.ToDateTime(dtDate.Value).ToString("yyyy-MM-dd")
                 Hdr.ProdDate2 = Convert.ToDateTime(dtTo.Value).ToString("yyyy-MM-dd")
                 Hdr.VerifiedOnly = cboShow.Value
+                Hdr.ProcessGroup = cboProcessGroup.Text
+                Hdr.LineGroup = cboLineGroup.Text
+                Hdr.ProcessCode = cboProcess.Text
+
                 GridTitle(ws, Hdr)
                 GridExcel(ws, Hdr)
                 .InsertRow(LastRow, 22)
@@ -264,7 +271,7 @@ Public Class SampleControlQuality
         Dim cs As New clsSPCColor
 
         With pExl
-            Dim ds As DataSet = clsSPCResultDetailDB.GetSampleByPeriod(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, Hdr.ProdDate2, Hdr.VerifiedOnly)
+            Dim ds As DataSet = clsSPCResultDetailDB.GetSampleByPeriod(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, Hdr.ProdDate2, Hdr.VerifiedOnly, False, True)
 
             Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, 1, Hdr.VerifiedOnly)
             If dt2.Rows.Count > 0 Then
@@ -407,30 +414,42 @@ Public Class SampleControlQuality
                 .Cells(3, 1, 3, 2).Merge = True
                 .Cells(3, 3).Value = ": " & cls.FactoryName
 
-                .Cells(4, 1, 4, 2).Value = "Type"
+                .Cells(4, 1, 4, 2).Value = "Process Group"
                 .Cells(4, 1, 4, 2).Merge = True
-                .Cells(4, 3).Value = ": " & cls.ItemTypeName
+                .Cells(4, 3).Value = ": " & cls.ProcessGroup
 
-                .Cells(5, 1, 5, 2).Value = "Machine Process"
+                .Cells(5, 1, 5, 2).Value = "Line Group"
                 .Cells(5, 1, 5, 2).Merge = True
-                .Cells(5, 3).Value = ": " & cls.LineName
+                .Cells(5, 3).Value = ": " & cls.LineGroup
 
-                .Cells(3, 7, 3, 8).Value = "Item Check"
+                .Cells(3, 7, 3, 7).Value = "Machine"
                 .Cells(3, 7, 3, 8).Merge = True
-                .Cells(3, 9).Value = ": " & cls.ItemCheckName
+                .Cells(3, 9).Value = ": " & cls.ProcessCode
 
-                .Cells(4, 7, 4, 8).Value = "Prod Date"
+                .Cells(4, 7, 4, 7).Value = "Machine Process"
                 .Cells(4, 7, 4, 8).Merge = True
-                .Cells(4, 9).Value = ": " & dtDate.Text & " to " & dtTo.Text
+                .Cells(4, 9).Value = ": " & cls.LineName
 
-                .Cells(5, 7, 5, 8).Value = "Verified Only"
+                .Cells(5, 7, 5, 7).Value = "Type"
                 .Cells(5, 7, 5, 8).Merge = True
-                .Cells(5, 9).Value = ": " & cboShow.Text
+                .Cells(5, 9).Value = ": " & cls.ItemTypeName
 
-                Dim rgHdr As ExcelRange = .Cells(3, 3, 9, 4)
+                .Cells(3, 13, 3, 13).Value = "Item Check"
+                .Cells(3, 13, 3, 14).Merge = True
+                .Cells(3, 15).Value = ": " & cls.ItemCheckName
+
+                .Cells(4, 13, 4, 13).Value = "Prod Date"
+                .Cells(4, 13, 4, 14).Merge = True
+                .Cells(4, 15).Value = ": " & Format(dtDate.Value, "dd MMM yyyy") & " to " & Format(dtTo.Value, "dd MMM yyyy")
+
+                .Cells(5, 13, 5, 13).Value = "Verified Only"
+                .Cells(5, 13, 5, 14).Merge = True
+                .Cells(5, 15).Value = ": " & cboShow.Text
+
+                Dim rgHdr As ExcelRange = .Cells(3, 1, 5, 15)
                 rgHdr.Style.HorizontalAlignment = HorzAlignment.Near
                 rgHdr.Style.VerticalAlignment = VertAlignment.Center
-                rgHdr.Style.Font.Size = 10
+                rgHdr.Style.Font.Size = 9
                 rgHdr.Style.Font.Name = "Segoe UI"
             Catch ex As Exception
                 Throw New Exception(ex.Message)
@@ -556,7 +575,7 @@ Public Class SampleControlQuality
             Col1.CellStyle.HorizontalAlign = HorizontalAlign.Center
             Band2.Columns.Add(Col1)
 
-            Dim ds As DataSet = clsSPCResultDetailDB.GetSampleByPeriod(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, ProdDate2, VerifiedOnly)
+            Dim ds As DataSet = clsSPCResultDetailDB.GetSampleByPeriod(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, ProdDate2, VerifiedOnly, False, True)
             Dim dtDay As DataTable = ds.Tables(0)
 
             Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, 1, VerifiedOnly)
@@ -974,7 +993,7 @@ Public Class SampleControlQuality
     End Sub
 
     Private Sub LoadChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, PrevDate As String, ProdDate As String, VerifiedOnly As String)
-        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, PrevDate, VerifiedOnly)
+        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, PrevDate, VerifiedOnly,, True)
         If xr.Count = 0 Then
             chartR.JSProperties("cpShow") = "0"
         Else
