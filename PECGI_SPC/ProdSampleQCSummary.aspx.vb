@@ -70,7 +70,7 @@ Public Class ProdSampleQCSummary
                 .FactoryCode = HF.Get("FactoryCode")
                 .ItemTypeCode = HF.Get("TypeCode")
                 .MachineCode = HF.Get("MachineCode")
-                .MachineIOT = HF.Get("MachineIOT")
+                .MachineIOT = cboMachineIOT.Value
                 .Frequency = HF.Get("FrequencyCode")
                 .Sequence = cboSequence.Value
                 .Period = dTime.ToString("yyyy-MM-dd")
@@ -90,7 +90,7 @@ Public Class ProdSampleQCSummary
                     .FactoryCode = HF.Get("FactoryCode")
                     .ItemTypeCode = HF.Get("TypeCode")
                     .MachineCode = HF.Get("MachineCode")
-                    .MachineIOT = HF.Get("MachineIOT")
+                    .MachineIOT = cboMachineIOT.Value
                     .Frequency = HF.Get("FrequencyCode")
                     .Sequence = cboSequence.Value
                     .Period = dTime.ToString("yyyy-MM-dd")
