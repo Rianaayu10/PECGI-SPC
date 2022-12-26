@@ -70,6 +70,7 @@ Public Class ProdSampleQCSummary
                 .FactoryCode = HF.Get("FactoryCode")
                 .ItemTypeCode = HF.Get("TypeCode")
                 .MachineCode = HF.Get("MachineCode")
+                .MachineIOT = HF.Get("MachineIOT")
                 .Frequency = HF.Get("FrequencyCode")
                 .Sequence = cboSequence.Value
                 .Period = dTime.ToString("yyyy-MM-dd")
@@ -89,6 +90,7 @@ Public Class ProdSampleQCSummary
                     .FactoryCode = HF.Get("FactoryCode")
                     .ItemTypeCode = HF.Get("TypeCode")
                     .MachineCode = HF.Get("MachineCode")
+                    .MachineIOT = HF.Get("MachineIOT")
                     .Frequency = HF.Get("FrequencyCode")
                     .Sequence = cboSequence.Value
                     .Period = dTime.ToString("yyyy-MM-dd")
@@ -101,6 +103,7 @@ Public Class ProdSampleQCSummary
                     .FactoryCode = ""
                     .ItemTypeCode = ""
                     .MachineCode = ""
+                    .MachineIOT = ""
                     .Frequency = ""
                     .Sequence = "0"
                     .Period = dTime.ToString("yyyy-MM-dd")
@@ -229,6 +232,7 @@ Public Class ProdSampleQCSummary
         cboMachineIOT.DataSource = clsProcessDB.GetList(pUser, cboFactory.Value, IIf(cboProcess.Value = "ALL", "", cboProcess.Value), IIf(cboLine.Value = "ALL", "", cboLine.Value), True)
         cboMachineIOT.DataBind()
         cboMachineIOT.SelectedIndex = 0
+        HF.Set("MachineIOT", cboMachineIOT.SelectedItem.GetFieldValue("ProcessCode"))
     End Sub
 
     Private Sub cboProcess_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboProcess.Callback
@@ -260,6 +264,7 @@ Public Class ProdSampleQCSummary
             cboMachineIOT.DataSource = clsProcessDB.GetList(pUser, cboFactory.Value, cboProcess.Value, cboLine.Value, True)
             cboMachineIOT.DataBind()
             cboMachineIOT.SelectedIndex = 0
+            HF.Set("MachineIOT", cboMachineIOT.SelectedItem.GetFieldValue("ProcessCode"))
 
             up_FillcomboType()
             up_FillcomboMachine()

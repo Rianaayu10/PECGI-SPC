@@ -5,6 +5,7 @@ Public Class clsProdSampleQCSummary
     Public Property ItemTypeCode As String
     Public Property ItemCheckCode As String
     Public Property MachineCode As String
+    Public Property MachineIOT As String
     Public Property Frequency As String
     Public Property Sequence As String
     Public Property Period As String
@@ -44,6 +45,7 @@ Public Class clsProdSampleQCSummaryDB
             cmd.Parameters.AddWithValue("Factory", cls.FactoryCode)
             cmd.Parameters.AddWithValue("ItemType", cls.ItemTypeCode)
             cmd.Parameters.AddWithValue("LineCode", cls.MachineCode)
+            cmd.Parameters.AddWithValue("LineIOT", cls.MachineIOT)
             cmd.Parameters.AddWithValue("Frequency", cls.Frequency)
             cmd.Parameters.AddWithValue("Sequence", cls.Sequence)
             cmd.Parameters.AddWithValue("Period", cls.Period)
