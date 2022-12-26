@@ -217,7 +217,11 @@ Public Class ControlChartSetup
             up_GridLoad()
         Catch ex As Exception
 			Grid.CancelEdit()
-            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
+            If ex.Message.ToString().Contains("Overlapping") Or ex.Message.ToString().Contains("Not Registered") Then
+                show_error(MsgTypeEnum.Warning, ex.Message, 1)
+            Else
+                show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
+            End If
         End Try
     End Sub
 
