@@ -50,6 +50,15 @@ Partial Public Class ControlChartSetup
     Protected WithEvents cboMachineIOT As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
+    '''chkPeriod control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chkPeriod As Global.DevExpress.Web.ASPxCheckBox
+
+    '''<summary>
     '''ASPxLabel4 control.
     '''</summary>
     '''<remarks>

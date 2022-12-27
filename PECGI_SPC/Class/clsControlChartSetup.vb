@@ -3,6 +3,7 @@
 Public Class clsControlChartSetup
     Public Property Factory As String
     Public Property Machine As String
+    Public Property MachineIOT As String
     Public Property Type As String
     Public Property Period As String
     Public Property ItemType As String
@@ -53,6 +54,7 @@ Public Class clsControlChartSetupDB
             Dim cmd As New SqlCommand(sql, cn)
             cmd.Parameters.AddWithValue("Factory", cls.Factory)
             cmd.Parameters.AddWithValue("Machine", cls.Machine)
+            cmd.Parameters.AddWithValue("MachineIOT", cls.MachineIOT)
             cmd.Parameters.AddWithValue("Type", cls.Type)
             cmd.Parameters.AddWithValue("Period", cls.Period)
             cmd.CommandType = CommandType.StoredProcedure

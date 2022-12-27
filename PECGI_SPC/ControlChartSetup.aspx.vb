@@ -50,6 +50,7 @@ Public Class ControlChartSetup
             commandColumn.ShowDeleteButton = False
         End If
 
+        ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "chkPeriod.SetChecked(false);dtPeriod.SetEnabled(false);", True)
         show_error(MsgTypeEnum.Info, "", 0)
     End Sub
 
@@ -127,6 +128,7 @@ Public Class ControlChartSetup
                 Dim cls As New clsControlChartSetup With {
                     .Factory = "",
                     .Machine = "",
+                    .MachineIOT = "",
                     .Type = "",
                     .Period = ""
                 }
@@ -309,6 +311,18 @@ Public Class ControlChartSetup
             e.Errors(tmpdataCol) = "Please Choose Period End!"
             show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
             AdaError = True
+        End If
+
+        tmpdataCol = Grid.DataColumns("Start")
+        If (IsNothing(e.NewValues("Start")) <> False OrElse e.NewValues("Start").ToString.Trim <> "") And (IsNothing(e.NewValues("End")) <> False OrElse e.NewValues("End").ToString.Trim <> "") Then
+            Dim dtimeStart As DateTime = e.NewValues("Start")
+            Dim dtimeEnd As DateTime = e.NewValues("End")
+
+            If dtimeStart > dtimeEnd Then
+                e.Errors(tmpdataCol) = "Please Choose Period Start Correct!"
+                show_error(MsgTypeEnum.Warning, "Please fill this fields Correct!", 1)
+                AdaError = True
+            End If
         End If
 
         tmpdataCol = Grid.DataColumns("SpecUSL")
@@ -570,12 +584,14 @@ Public Class ControlChartSetup
         Try
             Dim Factory As String = HF.Get("FactoryCode")
             Dim Machine As String = HF.Get("MachineCode")
+            Dim MachineIOT As String = IIf(cboMachineIOT.Text = "ALL", cboMachineIOT.Text, cboMachineIOT.Value)
             Dim Type As String = HF.Get("Type")
-            Dim Period As String = Convert.ToDateTime(dtPeriod.Value).ToString("yyyy-MM-dd")
+            Dim Period As String = IIf(chkPeriod.Checked, Convert.ToDateTime(dtPeriod.Value).ToString("yyyy-MM-dd"), "ALL")
 
             Dim cls As New clsControlChartSetup With {
                 .Factory = Factory,
                 .Machine = Machine,
+                .MachineIOT = MachineIOT,
                 .Type = Type,
                 .Period = Period
             }

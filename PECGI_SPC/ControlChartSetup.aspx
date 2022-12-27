@@ -90,6 +90,17 @@
             var c = Grid.GetEditor("MachineEditGrid").GetValue().toString();
             Grid.GetEditor("ItemCheckEditGrid").PerformCallback(a + '|' + b + '|' + c);
         }
+
+        function chkPeriodChanged(s, e) {
+            if (s.GetChecked() == true)
+            {
+                dtPeriod.SetEnabled(true);
+            }
+            else {
+                dtPeriod.SetEnabled(false);
+            }
+            Grid.PerformCallback('Kosong');
+        }
     </script>
 </asp:Content>
 
@@ -165,6 +176,7 @@
                 </td>
 
                 <td style="padding-right: 1em; padding-top: 0.5em">
+                    <dx:ASPxCheckBox ID="chkPeriod" runat="server" ClientInstanceName="chkPeriod" ClientSideEvents-CheckedChanged="chkPeriodChanged" />
                     <dx:ASPxLabel ID="ASPxLabel4" runat="server" Text="Period" Theme="Office2010Black" Font-Names="Segoe UI" Font-Size="10pt">
                     </dx:ASPxLabel>
                 </td>
