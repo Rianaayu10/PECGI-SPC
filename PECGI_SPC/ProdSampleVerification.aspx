@@ -787,7 +787,7 @@
                                 <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="Specification" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                             </td>
                             <td colspan="2" class="header">
-                                <dx:ASPxLabel ID="ASPxLabel2" runat="server" Text="Control Plant" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                                <dx:ASPxLabel ID="ASPxLabel2" runat="server" Text="Control Plan" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                             </td>
                             <td colspan="2" class="header" id="lblXBarControl">
                                 <dx:ASPxLabel ID="ASPxLabel3" runat="server" Text="X Bar Control" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
