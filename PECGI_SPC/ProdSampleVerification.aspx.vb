@@ -1365,6 +1365,30 @@ Public Class ProdSampleVerification
         Else
             show_errorGrid(MsgTypeEnum.Warning, RespDesc, 1)
         End If
+
+        btnBack.Visible = False
+        dtProdDate.Value = Convert.ToDateTime(prmProdDate)
+        HideValue.Set("ProdDate", prmProdDate)
+        btnBack.Visible = False
+
+        If Request.QueryString("menu") = "ProductionSampleVerificationList.aspx" Then
+            HideValue.Set("prm_menu", Request.QueryString("menu"))
+            HideValue.Set("prm_factory", prmFactoryCode)
+            HideValue.Set("prm_ItemType", prmItemType)
+            HideValue.Set("prm_Line", Request.QueryString("cboLine"))
+            HideValue.Set("prm_ItemCheck", Request.QueryString("cboItemCheck"))
+            HideValue.Set("prm_FromDate", Request.QueryString("FromDate"))
+            HideValue.Set("prm_ToDate", Request.QueryString("ToDate"))
+            HideValue.Set("prm_MK", Request.QueryString("MK"))
+            HideValue.Set("prm_QC", Request.QueryString("QC"))
+            btnBack.Visible = True
+        End If
+
+        If Request.QueryString("menu") = "SPCDashboard.aspx" Then
+            HideValue.Set("prm_menu", Request.QueryString("menu"))
+            btnBack.Visible = True
+        End If
+
     End Sub
     Private Sub LoadForm()
         UpFillCombo()
@@ -1373,7 +1397,7 @@ Public Class ProdSampleVerification
         dtProdDate.Value = ToDay
         HideValue.Set("ProdDate", ToDay.ToString("dd MMM yyyy"))
         HideValue.Set("ShowVerify", cboShow.Value)
-
+        btnBack.Visible = False
         GridX.JSProperties("cp_GridTot") = 0  'for disabled button Verify and Download Excel
         GridX.JSProperties("cp_Verify") = VerifyStatus 'for authorization verify
         GridX.JSProperties("cpChartSetup") = 0

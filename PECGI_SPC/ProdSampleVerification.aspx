@@ -428,7 +428,27 @@
         function Verify() {
             GridX.PerformCallback('Verify');
         }
-     
+
+        function Back() {
+            var menu = HideValue.Get("prm_menu");
+            if (menu == "ProductionSampleVerificationList.aspx") {
+                var Factory = HideValue.Get("prm_factory");
+                var ItemType = HideValue.Get("prm_ItemType");
+                var Line = HideValue.Get("prm_Line");
+                var ItemCheck = HideValue.Get("prm_ItemCheck");
+                var FromDate = HideValue.Get("prm_FromDate");
+                var ToDate = HideValue.Get("prm_ToDate");
+                var MK = HideValue.Get("prm_MK");
+                var QC = HideValue.Get("prm_QC");
+
+                window.open('ProductionSampleVerificationList.aspx?menu=prodSampleVerification.aspx' + '&FactoryCode=' + Factory + '&ItemTypeCode=' + ItemType
+                    + '&Line=' + Line + '&ItemCheckCode=' + ItemCheck + '&FromDate=' + FromDate + '&ToDate=' + ToDate + '&MK=' + MK + '&QC=' + QC + '', '_self');
+            }
+            else if (menu == "SPCDashboard.aspx" ) {
+                window.open('SPCDashboard.aspx', '_self');
+            }
+        }
+
         function SPCSample() {
 
             var Factory = HideValue.Get('FactoryCode');
@@ -645,6 +665,13 @@
                     <dx:ASPxButton ID="btnClear" runat="server" AutoPostBack="False" ClientInstanceName="btnClear"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="Clear" Theme="Office2010Silver" Width="80px">
                         <ClientSideEvents Click="Clear" />
+                    </dx:ASPxButton>
+                </td>
+                 <td style="width: 10px">&nbsp;</td>
+                <td>
+                    <dx:ASPxButton ID="btnBack" runat="server" AutoPostBack="False" ClientInstanceName="btnBack" Height="25px"
+                        Font-Names="Segoe UI" Font-Size="9pt" Text="Back" Theme="Office2010Silver" Width="80px">
+                        <ClientSideEvents Click="Back" />
                     </dx:ASPxButton>
                 </td>
             </tr>

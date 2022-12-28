@@ -196,8 +196,16 @@
             var Seq = myArray[7];
             var ShowVerify = myArray[8];
 
+            var prmLine = cboLineID.GetValue();
+            var prmItemCheck = cboItemCheck.GetValue();
+            var prmFromDate = dtFromDate.GetText();
+            var prmToDate = dtToDate.GetText();
+            var prmMK = cboMK.GetValue();
+            var prmQC = cboMK.GetValue();
+
             window.open('ProdSampleVerification.aspx?menu=ProductionSampleVerificationList.aspx' + '&FactoryCode=' + Factory + '&ItemTypeCode=' + ItemType
-                + '&Line=' + Line + '&ItemCheckCode=' + ItemCheck + '&ProdDate=' + ProdDate + '&Shift=' + Shift + '&Sequence=' + Seq + '&ShowVerify=' + ShowVerify + '', '_blank');
+                + '&Line=' + Line + '&ItemCheckCode=' + ItemCheck + '&ProdDate=' + ProdDate + '&Shift=' + Shift + '&Sequence=' + Seq + '&ShowVerify=' + ShowVerify
+                + '&cboLine=' + prmLine + '&cboItemCheck=' + prmItemCheck + '&FromDate=' + prmFromDate + '&ToDate=' + prmToDate + '&MK=' + prmMK + '&QC=' + prmQC + '', '_self');
         }
 
         function ViewSampleInput() {

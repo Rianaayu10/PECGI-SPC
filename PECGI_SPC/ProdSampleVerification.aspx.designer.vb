@@ -158,6 +158,15 @@ Partial Public Class ProdSampleVerification
     Protected WithEvents btnClear As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
+    '''btnBack control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnBack As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
     '''lblLineGroup control.
     '''</summary>
     '''<remarks>
