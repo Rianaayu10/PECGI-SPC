@@ -129,6 +129,7 @@
             var y2 = document.getElementById("colXBarUCL2");
             var z2 = document.getElementById("colXBarLCL2");
             var w = document.getElementById("headerXBar");
+            var v = document.getElementById("colSpecial");
             
             x.style.display = "";
             y.style.display = "";            
@@ -136,6 +137,7 @@
             z.style.display = "";
             z2.style.display = "";
             w.style.display = "";
+            v.style.display = "none";
             btnNew.SetEnabled(false);
             btnSave.SetEnabled(false);
         }
@@ -231,19 +233,22 @@
             var y2 = document.getElementById("colXBarUCL2");
             var z2 = document.getElementById("colXBarLCL2");
             var w = document.getElementById("headerXBar");
+            var v = document.getElementById("colSpecial");
             if (i=='1') {
                 y.style.display = "";
                 y2.style.display = "";
                 z.style.display = "";
                 z2.style.display = "";
                 w.style.display = "";
+                v.style.display = "";
             } else {
                 y.style.display = "none";
                 y2.style.display = "none";
                 z.style.display = "none";
                 z2.style.display = "none";
-                w.style.display = "none";
-            }
+                w.style.display = "none";                
+                v.style.display = "none";
+            }            
         }
 
         function ChartREndCallBack(s, e) {
@@ -328,7 +333,9 @@
             lblLSL.SetText(s.cpLSL);
             
             lblUCL.SetText(s.cpUCL);
+            lblCL.SetText(s.cpCL);
             lblLCL.SetText(s.cpLCL);
+            lblRUCL.SetText(s.cpRUCL);
 
             lblXBarUCL.SetText(s.cpXBarUCL);
             lblXBarLCL.SetText(s.cpXBarLCL);
@@ -1041,7 +1048,7 @@
         <td style="width:600px">
             <table style="width:100%">
                 <tr>
-                    <td rowspan="3" class="body" style="width:40px" align="center" id="colSpecial"><dx:ASPxLabel ID="ASPxLabel28" runat="server" Text="@" Font-Names="Segoe UI" Font-Size="12pt" Font-Bold="true"></dx:ASPxLabel></td>
+                    <td rowspan="3" class="body" style="width:45px" align="center" id="colSpecial"><dx:ASPxLabel ID="ASPxLabel28" runat="server" Text="@" Font-Names="Segoe UI" Font-Size="Medium" Font-Bold="true"></dx:ASPxLabel></td>
                     <td colspan="2" class="header"><dx:ASPxLabel ID="ASPxLabel22" runat="server" Text="Specification" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                     <td colspan="3" class="header"><dx:ASPxLabel ID="ASPxLabel23" runat="server" Text="Control Plan" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                     <td colspan="2" class="header" id="headerXBar"><dx:ASPxLabel runat="server" Text="X Bar Control" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
@@ -1072,7 +1079,7 @@
                     <td class="body" align="center"><dx:ASPxLabel ID="lblLCL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLCL" ForeColor="Black"></dx:ASPxLabel></td>
                     <td class="body" align="center" id="colXBarUCL2"><dx:ASPxLabel runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXBarUCL" ForeColor="Black"></dx:ASPxLabel></td>
                     <td class="body" align="center" id="colXBarLCL2"><dx:ASPxLabel runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXBarLCL" ForeColor="Black"></dx:ASPxLabel></td>
-                    <td class="body" align="center"><dx:ASPxLabel runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblRCL" ForeColor="Black"></dx:ASPxLabel></td>
+                    <td class="body" align="center"><dx:ASPxLabel ID="lblRUCL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblRUCL" ForeColor="Black"></dx:ASPxLabel></td>
                     <td class="body" align="center" id="Min"><dx:ASPxLabel ID="lblMin" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblMin" ForeColor="Black"></dx:ASPxLabel></td>
                     <td class="body" align="center" id="Max"><dx:ASPxLabel ID="lblMax" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblMax" ForeColor="Black"></dx:ASPxLabel></td>
                     <td class="body" align="center" id="Ave"><dx:ASPxLabel ID="lblAve" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblAve" ForeColor="Black"></dx:ASPxLabel></td>
@@ -1100,7 +1107,7 @@
                     </SettingsPager>
 
 
-                    <Settings HorizontalScrollBarMode="Auto" VerticalScrollableHeight="380" VerticalScrollBarMode="Auto" />
+                    <Settings HorizontalScrollBarMode="Auto" VerticalScrollableHeight="420" VerticalScrollBarMode="Auto" />
                     <SettingsBehavior AllowSort="False" />
                     <SettingsResizing ColumnResizeMode="Control" />
                     <SettingsDataSecurity AllowDelete="False" AllowEdit="False" AllowInsert="False" />
@@ -1304,6 +1311,7 @@
 	            lblUSL.SetText(s.cpUSL);
                 lblLSL.SetText(s.cpLSL);
                 lblUCL.SetText(s.cpUCL);
+                lblCL.SetText(s.cpCL);
                 lblLCL.SetText(s.cpLCL);
             }" 
             />

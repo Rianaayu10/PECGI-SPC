@@ -422,7 +422,9 @@ Public Class ProdSampleInput
         grid.JSProperties("cpUSL") = " "
         grid.JSProperties("cpLSL") = " "
         grid.JSProperties("cpUCL") = " "
+        grid.JSProperties("cpCL") = " "
         grid.JSProperties("cpLCL") = " "
+        grid.JSProperties("cpRUCL") = " "
         grid.JSProperties("cpMin") = ""
         grid.JSProperties("cpMax") = ""
         grid.JSProperties("cpAve") = ""
@@ -503,7 +505,9 @@ Public Class ProdSampleInput
                 grid.JSProperties("cpUSL") = AFormat(Setup.SpecUSL)
                 grid.JSProperties("cpLSL") = AFormat(Setup.SpecLSL)
                 grid.JSProperties("cpUCL") = AFormat(Setup.CPUCL)
+                grid.JSProperties("cpCL") = AFormat(Setup.CPCL)
                 grid.JSProperties("cpLCL") = AFormat(Setup.CPLCL)
+                grid.JSProperties("cpRUCL") = AFormat(Setup.RUCL)
                 grid.JSProperties("cpXBarUCL") = AFormat(Setup.XBarUCL)
                 grid.JSProperties("cpXBarLCL") = AFormat(Setup.XBarLCL)
                 grid.JSProperties("cpRNG") = ""
@@ -513,7 +517,9 @@ Public Class ProdSampleInput
                 grid.JSProperties("cpUSL") = AFormat(.Item("SpecUSL"))
                 grid.JSProperties("cpLSL") = AFormat(.Item("SpecLSL"))
                 grid.JSProperties("cpUCL") = AFormat(.Item("CPUCL"))
+                grid.JSProperties("cpCL") = AFormat(.Item("CPCL"))
                 grid.JSProperties("cpLCL") = AFormat(.Item("CPLCL"))
+                grid.JSProperties("cpRUCL") = AFormat(.Item("RUCL"))
                 grid.JSProperties("cpXBarUCL") = AFormat(.Item("XBarUCL"))
                 grid.JSProperties("cpXBarLCL") = AFormat(.Item("XBarLCL"))
                 grid.JSProperties("cpMin") = AFormat(.Item("MinValue"))
@@ -668,12 +674,16 @@ Public Class ProdSampleInput
             cbkRefresh.JSProperties("cpUSL") = " "
             cbkRefresh.JSProperties("cpLSL") = " "
             cbkRefresh.JSProperties("cpUCL") = " "
+            cbkRefresh.JSProperties("cpCL") = " "
             cbkRefresh.JSProperties("cpLCL") = " "
+            cbkRefresh.JSProperties("cpRUCL") = " "
         Else
             cbkRefresh.JSProperties("cpUSL") = Setup.SpecUSL
             cbkRefresh.JSProperties("cpLSL") = Setup.SpecLSL
             cbkRefresh.JSProperties("cpUCL") = Setup.CPUCL
+            cbkRefresh.JSProperties("cpCL") = Setup.CPCL
             cbkRefresh.JSProperties("cpLCL") = Setup.CPLCL
+            cbkRefresh.JSProperties("cpRUCL") = Setup.RUCL
         End If
     End Sub
 
@@ -1558,13 +1568,6 @@ Public Class ProdSampleInput
             Dim Setup As clsChartSetup = clsChartSetupDB.GetData(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate)
             diagram.AxisY.ConstantLines.Clear()
             If Setup IsNot Nothing Then
-                Dim RCL As New ConstantLine("CL R")
-                RCL.Color = System.Drawing.Color.Red
-                RCL.LineStyle.Thickness = 1
-                RCL.LineStyle.DashStyle = DashStyle.Dash
-                diagram.AxisY.ConstantLines.Add(RCL)
-                RCL.AxisValue = Setup.RCL
-
                 Dim RUCL As New ConstantLine("UCL R")
                 RUCL.Color = System.Drawing.Color.Red
                 RUCL.LineStyle.Thickness = 1

@@ -608,6 +608,15 @@ Partial Public Class ProdSampleInput
     Protected WithEvents lblLCL As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
+    '''lblRUCL control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblRUCL As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
     '''lblMin control.
     '''</summary>
     '''<remarks>
