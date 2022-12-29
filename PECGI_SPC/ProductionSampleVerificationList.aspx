@@ -62,7 +62,7 @@
                 console.log(s.cp_GridTot);
                 btnExcel.SetEnabled(true);
             } else {
-                btnExcel.SetEnabled(false);                
+                btnExcel.SetEnabled(false);
             }
             btnVerification.SetEnabled(false);
             btnViewSampleInput.SetEnabled(false);
@@ -159,10 +159,10 @@
         function GetSelectedFieldValuesCallback(values) {
             var result = ''
             var n = values.length;
-            for (var j = 0; j < values[n-1].length; j++) {
-                result += values[n-1][j] + '|';
+            for (var j = 0; j < values[n - 1].length; j++) {
+                result += values[n - 1][j] + '|';
             }
-         
+
             Content_SelectData = result;
             if (values.length == 0) {
                 btnVerification.SetEnabled(false);
@@ -178,7 +178,7 @@
             if (e.isSelected) {
                 if (s.GetSelectedRowCount() > 1 && previuosRowIndex != null) {
                     s.UnselectRowsByKey(previuosRowIndex);
-                } 
+                }
                 previuosRowIndex = s.GetRowKey(e.visibleIndex);
                 s.GetSelectedFieldValues("SPCResultID;FactoryCode;ItemTypeCode;LineCode;ItemCheckCode;ProdDate;ShiftCode;SequenceNo;ShowVerify", GetSelectedFieldValuesCallback);
             }
@@ -291,7 +291,7 @@
                     <dx:ASPxComboBox ID="cboProcessCode" runat="server" Font-Names="Segoe UI" DropDownStyle="DropDownList" IncrementalFilteringMode="Contains"
                         Theme="Office2010Black" EnableTheming="True" Height="25px" EnableIncrementalFiltering="True"
                         TextField="CODENAME" ValueField="CODE" ClientInstanceName="cboProcessCode">
-                         <ClientSideEvents SelectedIndexChanged="ChangeProcessCode" />
+                        <ClientSideEvents SelectedIndexChanged="ChangeProcessCode" />
                         <ItemStyle Height="10px" Paddings-Padding="4px" />
                         <ButtonStyle Paddings-Padding="4px" Width="5px">
                         </ButtonStyle>
@@ -311,7 +311,7 @@
                         <ButtonStyle Paddings-Padding="4px" Width="5px">
                         </ButtonStyle>
                     </dx:ASPxComboBox>
-                </td>            
+                </td>
             </tr>
             <tr style="height: 35px">
                 <td>
@@ -323,7 +323,7 @@
                     <dx:ASPxComboBox ID="cboProcessGroup" runat="server" Font-Names="Segoe UI" DropDownStyle="DropDownList" IncrementalFilteringMode="Contains"
                         Theme="Office2010Black" EnableTheming="True" Height="25px" EnableIncrementalFiltering="True"
                         TextField="CODENAME" ValueField="CODE" ClientInstanceName="cboProcessGroup">
-                         <ClientSideEvents SelectedIndexChanged="ChangeProcessGroup" />
+                        <ClientSideEvents SelectedIndexChanged="ChangeProcessGroup" />
                         <ItemStyle Height="10px" Paddings-Padding="4px" />
                         <ButtonStyle Paddings-Padding="4px" Width="5px">
                         </ButtonStyle>
@@ -346,7 +346,7 @@
                         </ButtonStyle>
                     </dx:ASPxComboBox>
                 </td>
-                    <td style="width: 10px">&nbsp;</td>
+                <td style="width: 10px">&nbsp;</td>
                 <td>
                     <dx:ASPxLabel ID="lblFromDate" runat="server" Font-Names="Segoe UI" Font-Size="9pt" Text="Prod. Date">
                     </dx:ASPxLabel>
@@ -372,7 +372,7 @@
                     <dx:ASPxLabel ID="lblToDate" runat="server" Font-Names="Segoe UI" Font-Size="9pt" Text="To">
                     </dx:ASPxLabel>
                 </td>
-                    <td style="width: 10px">&nbsp;</td>
+                <td style="width: 10px">&nbsp;</td>
                 <td>
                     <dx:ASPxDateEdit ID="dtToDate" runat="server" Theme="Office2010Black" AutoPostBack="false"
                         ClientInstanceName="dtToDate" EditFormatString="dd MMM yyyy" DisplayFormatString="dd MMM yyyy"
@@ -399,7 +399,7 @@
                     <dx:ASPxComboBox ID="cboLineGroup" runat="server" Font-Names="Segoe UI" DropDownStyle="DropDownList" IncrementalFilteringMode="Contains"
                         Theme="Office2010Black" EnableTheming="True" Height="25px" EnableIncrementalFiltering="True"
                         TextField="CODENAME" ValueField="CODE" ClientInstanceName="cboLineGroup">
-                         <ClientSideEvents SelectedIndexChanged="ChangeLineGroup" />
+                        <ClientSideEvents SelectedIndexChanged="ChangeLineGroup" />
                         <ItemStyle Height="10px" Paddings-Padding="4px" />
                         <ButtonStyle Paddings-Padding="4px" Width="5px">
                         </ButtonStyle>
@@ -423,8 +423,8 @@
                     </dx:ASPxComboBox>
                 </td>
 
-                
-                   <td style="width: 10px">&nbsp;</td>
+
+                <td style="width: 10px">&nbsp;</td>
                 <td>
                     <dx:ASPxLabel ID="lblMK" runat="server" Font-Names="Segoe UI" Font-Size="9pt" Text="MK Verification">
                     </dx:ASPxLabel>
@@ -444,7 +444,7 @@
                     <dx:ASPxLabel ID="lblQC" runat="server" Font-Names="Segoe UI" Font-Size="9pt" Text="QC Verification">
                     </dx:ASPxLabel>
                 </td>
-                    <td style="width: 5px"></td>
+                <td style="width: 5px"></td>
                 <td>
                     <dx:ASPxComboBox ID="cboQC" runat="server" Font-Names="Segoe UI" DropDownStyle="DropDownList" IncrementalFilteringMode="Contains"
                         Theme="Office2010Black" EnableTheming="True" Height="25px" EnableIncrementalFiltering="True" Width="100px"
@@ -454,7 +454,7 @@
                         </ButtonStyle>
                     </dx:ASPxComboBox>
                 </td>
-                  <td style="width: 10px">&nbsp;</td>
+                <td style="width: 10px">&nbsp;</td>
                 <td>
                     <dx:ASPxButton ID="btnBrowse" runat="server" AutoPostBack="False" ClientInstanceName="btnBrowse" Height="25px"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="Browse" Theme="Office2010Silver" Width="80px">
@@ -484,7 +484,7 @@
                 <td>
                     <dx:ASPxButton ID="btnViewSampleInput" runat="server" AutoPostBack="False" ClientInstanceName="btnViewSampleInput" Height="25px"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="View Sample Input" Theme="Office2010Silver" Width="100px">
-                         <ClientSideEvents Click="ViewSampleInput" />
+                        <ClientSideEvents Click="ViewSampleInput" />
                     </dx:ASPxButton>
                 </td>
                 <td style="width: 10px">&nbsp;</td>
@@ -661,12 +661,27 @@
                         </dx:GridViewDataTextColumn>
                     </Columns>
                 </dx:GridViewBandColumn>
+
+                 <dx:GridViewDataTextColumn Caption="Lot No" VisibleIndex="16" Width="150px"
+                    FieldName="LotNo">
+                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle">
+                    </CellStyle>
+                </dx:GridViewDataTextColumn>
+
+                 <dx:GridViewDataTextColumn Caption="Remark" VisibleIndex="17" Width="200px"
+                    FieldName="Remark">
+                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle">
+                    </CellStyle>
+                </dx:GridViewDataTextColumn>
+
             </Columns>
-            <SettingsBehavior ColumnResizeMode="control"/>
+            <SettingsBehavior ColumnResizeMode="control" />
             <SettingsPager Mode="ShowPager" PageSize="50" AlwaysShowPager="true">
                 <PageSizeItemSettings Visible="True"></PageSizeItemSettings>
             </SettingsPager>
-            <Settings HorizontalScrollBarMode="Auto" VerticalScrollBarMode="Auto" VerticalScrollableHeight="300" />     
+            <Settings HorizontalScrollBarMode="Auto" VerticalScrollBarMode="Auto" VerticalScrollableHeight="300" />
         </dx:ASPxGridView>
     </div>
 
