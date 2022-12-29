@@ -1106,6 +1106,7 @@ Public Class ProdSampleVerification
             GridX.JSProperties("cpLSL") = AFormat(dtChartSetup.Rows(0)("LSL"))
             GridX.JSProperties("cpUCL") = AFormat(dtChartSetup.Rows(0)("UCL"))
             GridX.JSProperties("cpLCL") = AFormat(dtChartSetup.Rows(0)("LCL"))
+            GridX.JSProperties("cpCL") = AFormat(dtChartSetup.Rows(0)("CL"))
             GridX.JSProperties("cpXBarUCL") = AFormat(dtChartSetup.Rows(0)("XBarUCL"))
             GridX.JSProperties("cpXBarLCL") = AFormat(dtChartSetup.Rows(0)("XBarUCL"))
             GridX.JSProperties("cpRUCL") = AFormat(dtChartSetup.Rows(0)("RUCL"))
@@ -1117,6 +1118,7 @@ Public Class ProdSampleVerification
             GridX.JSProperties("cpC") = dtChartSetup.Rows(0)("C").ToString
             GridX.JSProperties("cpNG") = dtChartSetup.Rows(0)("NG").ToString
             GridX.JSProperties("cpCS") = dtChartSetup.Rows(0)("CS").ToString
+            GridX.JSProperties("cpCSCode") = dtChartSetup.Rows(0)("CSCode").ToString
 
             GridX.JSProperties("cpMINClr") = dtChartSetup.Rows(0)("nMINClr")
             GridX.JSProperties("cpMAXClr") = dtChartSetup.Rows(0)("nMAXClr")
@@ -1124,6 +1126,31 @@ Public Class ProdSampleVerification
             GridX.JSProperties("cpRClr") = dtChartSetup.Rows(0)("nRClr")
             GridX.JSProperties("cpC_Clr") = dtChartSetup.Rows(0)("C_Clr")
             GridX.JSProperties("cpNG_Clr") = dtChartSetup.Rows(0)("NG_Clr")
+        Else
+            GridX.JSProperties("cpUSL") = ""
+            GridX.JSProperties("cpLSL") = ""
+            GridX.JSProperties("cpUCL") = ""
+            GridX.JSProperties("cpLCL") = ""
+            GridX.JSProperties("cpCL") = ""
+            GridX.JSProperties("cpXBarUCL") = ""
+            GridX.JSProperties("cpXBarLCL") = ""
+            GridX.JSProperties("cpRUCL") = ""
+            GridX.JSProperties("cpRLCL") = ""
+            GridX.JSProperties("cpMIN") = ""
+            GridX.JSProperties("cpMAX") = ""
+            GridX.JSProperties("cpAVG") = ""
+            GridX.JSProperties("cpR") = ""
+            GridX.JSProperties("cpC") = ""
+            GridX.JSProperties("cpNG") = ""
+            GridX.JSProperties("cpCS") = ""
+            GridX.JSProperties("cpCSCode") = ""
+
+            GridX.JSProperties("cpMINClr") = ""
+            GridX.JSProperties("cpMAXClr") = ""
+            GridX.JSProperties("cpAVGClr") = ""
+            GridX.JSProperties("cpRClr") = ""
+            GridX.JSProperties("cpC_Clr") = ""
+            GridX.JSProperties("cpNG_Clr") = ""
         End If
     End Sub
     Private Sub Up_GridLoadActivities(cls As clsProdSampleVerification)

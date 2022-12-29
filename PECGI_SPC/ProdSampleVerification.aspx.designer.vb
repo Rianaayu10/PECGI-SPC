@@ -284,6 +284,15 @@ Partial Public Class ProdSampleVerification
     Protected WithEvents btnExcel As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
+    '''lblSpecChar control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblSpecChar As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
     '''ASPxLabel1 control.
     '''</summary>
     '''<remarks>
@@ -345,6 +354,15 @@ Partial Public Class ProdSampleVerification
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ASPxLabel7 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''ASPxLabel17 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel17 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
     '''ASPxLabel8 control.
@@ -453,6 +471,15 @@ Partial Public Class ProdSampleVerification
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblUCL As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''lblCL control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblCL As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
     '''lblLCL control.
