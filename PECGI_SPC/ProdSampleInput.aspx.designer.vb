@@ -401,6 +401,15 @@ Partial Public Class ProdSampleInput
     Protected WithEvents lblQCDate As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
+    '''ASPxLabel28 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel28 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
     '''ASPxLabel22 control.
     '''</summary>
     '''<remarks>
@@ -455,6 +464,15 @@ Partial Public Class ProdSampleInput
     Protected WithEvents ASPxLabel14 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
+    '''ASPxLabel29 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel29 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
     '''ASPxLabel15 control.
     '''</summary>
     '''<remarks>
@@ -480,6 +498,15 @@ Partial Public Class ProdSampleInput
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents label17 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''ASPxLabel30 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel30 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
     '''ASPxLabel16 control.
@@ -563,6 +590,15 @@ Partial Public Class ProdSampleInput
     Protected WithEvents lblUCL As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
+    '''lblCL control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblCL As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
     '''lblLCL control.
     '''</summary>
     '''<remarks>
@@ -570,6 +606,15 @@ Partial Public Class ProdSampleInput
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblLCL As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''lblRUCL control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblRUCL As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
     '''lblMin control.
