@@ -19,6 +19,7 @@
         End Try
     End Sub
     Private Sub _Default_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        Session("B02ProcessGroup") = ""
         If Request.QueryString("Link") IsNot Nothing Then
             Dim clsDESEncryption As New clsDESEncryption("TOS")
             Dim prm = Request.QueryString("Link")
@@ -29,10 +30,10 @@
             End If
 
             Dim link = clsDESEncryption.DecryptData(prm)
-            Dim ActionForm = Link.Split("|")(0)
-            Dim User = Link.Split("|")(1)
-            Dim Password = Link.Split("|")(2)
-            Dim ActionLink = Link.Split("|")(3)
+            Dim ActionForm = link.Split("|")(0)
+            Dim User = link.Split("|")(1)
+            Dim Password = link.Split("|")(2)
+            Dim ActionLink = link.Split("|")(3)
 
             If validation(User, Password) Then
                 Session("user") = User

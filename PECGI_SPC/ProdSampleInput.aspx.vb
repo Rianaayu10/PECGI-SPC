@@ -359,23 +359,23 @@ Public Class ProdSampleInput
         cboProcess.DataBind()
         cboProcess.Value = ProcessCode
 
-        cboType.DataSource = clsItemTypeDB.GetList(cboFactory.Value, pUser)
-        cboType.DataBind()
-        cboType.Value = ItemTypeCode
-
-        cboLine.DataSource = ClsLineDB.GetList(pUser, cboFactory.Value, cboType.Value)
+        cboLine.DataSource = ClsLineDB.GetListByProcess(pUser, FactoryCode, ProcessCode)
         cboLine.DataBind()
         cboLine.Value = Line
 
-        cboItemCheck.DataSource = clsItemCheckDB.GetList(cboFactory.Value, cboType.Value, cboLine.Value)
+        cboType.DataSource = clsItemTypeDB.GetList(FactoryCode, Line, pUser)
+        cboType.DataBind()
+        cboType.Value = ItemTypeCode
+
+        cboItemCheck.DataSource = clsItemCheckDB.GetList(FactoryCode, ItemTypeCode, Line)
         cboItemCheck.DataBind()
         cboItemCheck.Value = ItemCheckCode
 
-        cboShift.DataSource = clsFrequencyDB.GetShift(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value)
+        cboShift.DataSource = clsFrequencyDB.GetShift(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
         cboShift.DataBind()
         cboShift.Value = ShiftCode
 
-        cboSeq.DataSource = clsFrequencyDB.GetSequence(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value)
+        cboSeq.DataSource = clsFrequencyDB.GetSequence(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
         cboSeq.DataBind()
         cboSeq.Value = Sequence
     End Sub
@@ -550,6 +550,17 @@ Public Class ProdSampleInput
         Else
             grid.JSProperties("cpAllowInsert") = "0"
         End If
+
+        Session("B02ProdDate") = ProdDate
+        Session("B02ProcessGroup") = cboProcessGroup.Value
+        Session("B02LineGroup") = cboLineGroup.Value
+        Session("B02ProcessCode") = cboProcess.Value
+        Session("B02ItemTypeCode") = ItemTypeCode
+        Session("B02LineCode") = Line
+        Session("B02ItemCheckCode") = ItemCheckCode
+        Session("B02ShiftCode") = Shift
+        Session("B02Sequence") = Sequence
+
         If SetupFound = False Then
             show_error(MsgTypeEnum.Warning, "Chart Setup has not been set for this item", 1)
         ElseIf AllowSkill = False Then
