@@ -248,7 +248,7 @@ Public Class ControlChartSetup
         Catch ex As Exception
             Grid.CancelEdit()
             If ex.Message.ToString().Contains("Cannot Delete Setup") Then
-                show_error(MsgTypeEnum.Info, ex.Message, 1)
+                show_error(MsgTypeEnum.Warning, ex.Message, 1)
             Else
                 show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
             End If
