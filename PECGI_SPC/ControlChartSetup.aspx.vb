@@ -246,8 +246,12 @@ Public Class ControlChartSetup
             up_GridLoad()
             show_error(MsgTypeEnum.Success, "Delete data successfully!", 1)
         Catch ex As Exception
-			Grid.CancelEdit()
-            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
+            Grid.CancelEdit()
+            If ex.Message.ToString().Contains("Cannot Delete Setup") Then
+                show_error(MsgTypeEnum.Info, ex.Message, 1)
+            Else
+                show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
+            End If
         End Try
     End Sub
 
