@@ -88,7 +88,7 @@ Public Class ProdSampleInput
             If PrevDate = "" Then
                 PrevDate = Hdr.ProdDate
             End If
-            Dim ds As DataSet = clsSPCResultDetailDB.GetSampleByPeriod(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, PrevDate, Hdr.ProdDate, Hdr.VerifiedOnly, True)
+            Dim ds As DataSet = clsSPCResultDetailDB.GetSampleByPeriod(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, PrevDate, Hdr.ProdDate, Hdr.VerifiedOnly, True, True)
             Dim dtDay As DataTable = ds.Tables(0)
 
             Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, PrevDate, 1, Hdr.VerifiedOnly)
@@ -315,12 +315,26 @@ Public Class ProdSampleInput
                 If pUser <> "" Then
                     Dim User As clsUserSetup = clsUserSetupDB.GetData(pUser)
                     If User IsNot Nothing Then
-                        cboFactory.Value = User.FactoryCode
-                        cboType.DataSource = clsItemTypeDB.GetList(cboFactory.Value, pUser)
-                        cboType.DataBind()
+                        Dim FactoryCode As String = User.FactoryCode
+                        Dim ProdDate As String = Session("B02ProdDate") & ""
+                        Dim ProcessGroup As String = Session("B02ProcessGroup") & ""
+                        Dim LineGroup As String = Session("B02LineGroup") & ""
+                        Dim ProcessCode As String = Session("B02ProcessCode") & ""
+                        Dim ItemTypeCode As String = Session("B02ItemTypeCode") & ""
+                        Dim LineCode As String = Session("B02LineCode") & ""
+                        Dim ItemCheckCode As String = Session("B02ItemCheckCode") & ""
+                        Dim ShiftCode As String = Session("B02ShiftCode") & ""
+                        Dim Sequence As String = Session("B02Sequence") & ""
+                        If ProcessGroup <> "" Then
+                            InitCombo(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, ShiftCode, Sequence, ProcessGroup, LineGroup, ProcessCode)
+                        Else
+                            cboFactory.Value = User.FactoryCode
+                            cboType.DataSource = clsItemTypeDB.GetList(cboFactory.Value, pUser)
+                            cboType.DataBind()
 
-                        cboProcessGroup.DataSource = clsProcessGroupDB.GetList(pUser, User.FactoryCode)
-                        cboProcessGroup.DataBind()
+                            cboProcessGroup.DataSource = clsProcessGroupDB.GetList(pUser, User.FactoryCode)
+                            cboProcessGroup.DataBind()
+                        End If
                     End If
                 End If
                 'InitCombo(User.FactoryCode, "TPMSBR011", "015", "IC021", "2022-08-04", "SH001", 1)

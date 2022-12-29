@@ -36,6 +36,7 @@ Public Class clsItemTypeDB
             Dim q As String = "select distinct I.ItemTypeCode, M.Description " & vbCrLf &
                 "From spc_ItemCheckByType I inner Join MS_ItemType M on I.ItemTypeCode = M.ItemTypeCode  " & vbCrLf &
                 "inner join spc_UserLine UL on I.LineCode = UL.LineCode and UL.AllowUpdate = 1 " & vbCrLf &
+                "inner join MS_ItemDetail D on M.Description = D.Item_Code and I.LineCode = D.LineCode and I.FactoryCode = D.FactoryCode " & vbCrLf &
                 "Where I.FactoryCode = @FactoryCode and ActiveStatus = 1 " & vbCrLf &
                 "and UL.UserID = @UserID and I.LineCode = @LineCode "
             Dim cmd As New SqlCommand(q, Cn)

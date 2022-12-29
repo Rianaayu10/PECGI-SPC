@@ -1102,8 +1102,9 @@ Public Class SampleControlQuality
 
     Private Sub cboType_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboType.Callback
         Dim FactoryCode As String = Split(e.Parameter, "|")(0)
+        Dim LineCode As String = Split(e.Parameter, "|")(1)
         Dim pUser As String = Session("user")
-        cboType.DataSource = clsItemTypeDB.GetList(FactoryCode, pUser)
+        cboType.DataSource = clsItemTypeDB.GetList(FactoryCode, LineCode, pUser)
         cboType.DataBind()
     End Sub
 
