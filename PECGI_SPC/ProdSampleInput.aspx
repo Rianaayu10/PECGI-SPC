@@ -433,6 +433,24 @@
                 chartR.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShow.GetValue() + '|' + cboSeq.GetValue() + '|' + cboShift.GetValue());                
             }            
         }
+
+        function ClosePopupRule1(s, e) {
+            pcRule1.Hide();
+            e.processOnServer = false;
+        }
+
+        function ClosePopupRule2(s, e) {
+            pcRule2.Hide();
+            e.processOnServer = false;
+        }
+
+        function ShowPopUpRule1(s, e) {
+            pcRule1.Show();
+        }
+
+        function ShowPopUpRule2(s, e) {
+            pcRule2.Show();
+        }
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
@@ -1139,7 +1157,92 @@
         </tr>
         <tr>
             <td>
-                <div style="height:10px"></div>
+                <div>
+                    <table>
+                        <tr>
+                            <td style="padding:10px 5px 10px 0px">
+
+                
+                <dx:ASPxButton ID="btnRule" runat="server" AutoPostBack="False" 
+                    ClientInstanceName="btnRule" Font-Names="Segoe UI" Font-Size="9pt" 
+                    Height="25px" Text="View Table Rule" Theme="Office2010Silver" UseSubmitBehavior="False" 
+                    Width="120px" TabIndex="10">                    
+                    <Paddings Padding="2px" />
+                    <ClientSideEvents Click="ShowPopUpRule1"/>
+                </dx:ASPxButton>
+
+                
+                            </td>
+                            <td style="padding:10px 0px 10px 5px">
+                <dx:ASPxButton ID="btnRule2" runat="server" AutoPostBack="False" 
+                    ClientInstanceName="btnRule2" Font-Names="Segoe UI" Font-Size="9pt" 
+                    Height="25px" Text="View Break SPC Rule" Theme="Office2010Silver" UseSubmitBehavior="False" 
+                    Width="150px" TabIndex="10">                    
+                    <Paddings Padding="2px" />
+                    <ClientSideEvents Click="ShowPopUpRule2"/>
+                </dx:ASPxButton>
+                            </td>
+                        <td>
+<dx:ASPxPopupControl ID="pcRule1" runat="server" ClientInstanceName="pcRule1" Height="250px" Width="600px" HeaderText="Table Rule" Modal="True"
+                        CloseAction="CloseButton" CloseOnEscape="true" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False">
+                        <ContentCollection>
+<dx:PopupControlContentControl runat="server">
+    <div style="height:100%; text-align: center; padding-top: 30px;">
+        <asp:Image ID="Image1" runat="server" ImageUrl="~/img/rule1.png" />
+    </div>
+    <table style="width:100%">
+        <tr>
+            <td style="text-align:center; padding-top: 10px;">
+                <dx:ASPxButton ID="btnHide" runat="server" AutoPostBack="False" 
+                    ClientInstanceName="btnHide" Font-Names="Segoe UI" Font-Size="9pt" 
+                    Height="25px" Text="Close" Theme="Office2010Silver" UseSubmitBehavior="False" 
+                    Width="90px" TabIndex="10">                    
+                    <Paddings Padding="2px" />
+                    <ClientSideEvents Click="ClosePopupRule1"/>
+                </dx:ASPxButton>
+            </td>
+        </tr>
+    </table>
+    
+                            </dx:PopupControlContentControl>
+</ContentCollection>
+                    </dx:ASPxPopupControl>
+                            
+                        </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+<dx:ASPxPopupControl ID="pcRule2" runat="server" ClientInstanceName="pcRule2" Height="250px" Width="600px" HeaderText="Break SPC Rule" Modal="True"
+                        CloseAction="CloseButton" CloseOnEscape="true" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False">
+                        <ContentCollection>
+<dx:PopupControlContentControl runat="server">
+    <div style="height:100%; text-align: center; padding-top: 30px;">
+        <asp:Image ID="Image2" runat="server" ImageUrl="~/img/rule2.png" />
+    </div>
+    <table style="width:100%">
+        <tr>
+            <td style="text-align:center; padding-top: 10px;">
+                <dx:ASPxButton ID="btnHide2" runat="server" AutoPostBack="False" 
+                    ClientInstanceName="btnHide2" Font-Names="Segoe UI" Font-Size="9pt" 
+                    Height="25px" Text="Close" Theme="Office2010Silver" UseSubmitBehavior="False" 
+                    Width="90px" TabIndex="10">                    
+                    <Paddings Padding="2px" />
+                    <ClientSideEvents Click="ClosePopupRule2"/>
+                </dx:ASPxButton>
+            </td>
+        </tr>
+    </table>
+    
+                            </dx:PopupControlContentControl>
+</ContentCollection>
+                    </dx:ASPxPopupControl>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                </div>
                 
 <div id="chartXdiv" style="overflow-x:auto; width:100%; border:1px solid black"">
 <dx:WebChartControl ID="chartX" runat="server" ClientInstanceName="chartX"

@@ -141,6 +141,8 @@
     <Content Include="CustomFile\js\bootstrap.js" />
     <Content Include="CustomFile\js\bootstrap.min.js" />
     <Content Include="CustomFile\popper.min.js" />
+    <Content Include="img\rule1.png" />
+    <Content Include="img\rule2.png" />
     <Content Include="SPCDashboardTest.aspx" />
     <Content Include="SPCDashboard.aspx" />
     <Content Include="ChangePassword.aspx" />
@@ -285,7 +287,6 @@
     <Content Include="img\minus.png" />
     <Content Include="img\musashi\logo.png" />
     <Content Include="img\mybg.png" />
-    <Content Include="img\noimage.png" />
     <Content Include="img\pattern\divider.jpg" />
     <Content Include="img\pattern\graphy-xs.png" />
     <Content Include="img\pattern\graphy.png" />
