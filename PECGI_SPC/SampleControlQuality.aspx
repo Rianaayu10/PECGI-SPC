@@ -954,7 +954,7 @@
                             <dx:ASPxLabel ID="lblMin" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblMin"></dx:ASPxLabel>
                         </td>
                         <td  class="auto-style2" style="padding-left:5px">
-                            <dx:ASPxLabel ID="ASPxLabel16" runat="server" Text="CP" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="ASPxLabel16" runat="server" Text="Cp" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                         </td>
                         <td  class="auto-style12" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblCP" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblCP"></dx:ASPxLabel>
@@ -996,7 +996,7 @@
                             <dx:ASPxLabel ID="lblRBar" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblRBar"></dx:ASPxLabel>
                         </td>
                         <td class="vheader" style="padding-left:5px">
-                            <dx:ASPxLabel ID="ASPxLabel26" runat="server" Text="CPK Min" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="ASPxLabel26" runat="server" Text="Cpk" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                         </td>
                         <td class="auto-style13" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblCPKMin" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblCPKMin"></dx:ASPxLabel>
