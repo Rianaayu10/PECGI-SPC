@@ -320,6 +320,15 @@ Partial Public Class ProdSampleVerification
     Protected WithEvents ASPxLabel3 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
+    '''ASPxLabel18 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel18 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
     '''ASPxLabel4 control.
     '''</summary>
     '''<remarks>
@@ -390,6 +399,15 @@ Partial Public Class ProdSampleVerification
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ASPxLabel10 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''ASPxLabel19 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel19 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
     '''ASPxLabel11 control.
@@ -509,6 +527,15 @@ Partial Public Class ProdSampleVerification
     Protected WithEvents lblXBarLCL As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
+    '''lblRUCL control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblRUCL As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
     '''lblMin control.
     '''</summary>
     '''<remarks>
@@ -554,6 +581,78 @@ Partial Public Class ProdSampleVerification
     Protected WithEvents GridX As Global.DevExpress.Web.ASPxGridView
 
     '''<summary>
+    '''btnRule control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnRule As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
+    '''btnRule2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnRule2 As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
+    '''pcRule1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pcRule1 As Global.DevExpress.Web.ASPxPopupControl
+
+    '''<summary>
+    '''Image1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents Image1 As Global.System.Web.UI.WebControls.Image
+
+    '''<summary>
+    '''btnHide control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnHide As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
+    '''pcRule2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pcRule2 As Global.DevExpress.Web.ASPxPopupControl
+
+    '''<summary>
+    '''Image2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents Image2 As Global.System.Web.UI.WebControls.Image
+
+    '''<summary>
+    '''btnHide2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnHide2 As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
     '''chartX control.
     '''</summary>
     '''<remarks>
@@ -590,13 +689,13 @@ Partial Public Class ProdSampleVerification
     Protected WithEvents dsUserSetup As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''GridActivity control.
+    '''Grid control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents GridActivity As Global.DevExpress.Web.ASPxGridView
+    Protected WithEvents Grid As Global.DevExpress.Web.ASPxGridView
 
     '''<summary>
     '''HideValue control.
