@@ -32,7 +32,9 @@ Public Class AlertDelayVerification
         If Not Page.IsPostBack Then
             'up_GridLoad()
             GetComboBoxData()
+
             hdInterval.Value = 60000
+
         End If
     End Sub
 
@@ -60,6 +62,28 @@ Public Class AlertDelayVerification
         If Not IsPostBack And Not IsCallback Then
             dtDate.Value = DateTime.Now
             rbAuto.Checked = True
+            'dtDate.Enabled = False
+            Dim FactoryCode As String = Request.QueryString("FactoryCode")
+            Dim FilterDate As String = Request.QueryString("FilterDate")
+
+            If FactoryCode <> "" AndAlso FilterDate <> "" Then
+                cboFactory.Value = FactoryCode
+                dtDate.Value = CDate(Request.QueryString("FilterDate"))
+
+                Dim dt As Date = Date.Parse(FilterDate)
+                Dim dateString = dt.ToShortDateString()
+                'cboFactory.SelectedIndex = 0
+
+                'Dim test = FilterDate.Date
+
+                If dateString <> Date.Parse(Date.Now).ToShortDateString() Then
+
+                    rbManual.Checked = True
+                Else
+                    rbAuto.Checked = True
+                End If
+
+            End If
         End If
     End Sub
     Private Sub GetComboBoxData()
@@ -95,11 +119,11 @@ Public Class AlertDelayVerification
         Dim pProdDate As DateTime = Convert.ToDateTime(dtDate.Date)
         Dim pProdDate2 = dtDate.Date.ToString()
 
-        LoadGridDelayVerif(FactoryCode, pProdDateType, pProdDate)
+        LoadGridDelayVerif(FactoryCode, pProdDateType, pProdDate, dtDate.Text)
     End Sub
-    Private Sub LoadGridDelayVerif(FactoryCode As String, pProdDateType As Integer, pProdDate As DateTime)
+    Private Sub LoadGridDelayVerif(FactoryCode As String, pProdDateType As Integer, pProdDate As DateTime, pFilterDate As String)
         Try
-            GridDelayVerif.DataSource = clsSPCAlertDashboardDB.GetDelayVerificationGrid(pUser, FactoryCode, pProdDateType, pProdDate)
+            GridDelayVerif.DataSource = clsSPCAlertDashboardDB.GetDelayVerificationGrid(pUser, FactoryCode, pProdDateType, pProdDate, "X030", pFilterDate)
             GridDelayVerif.DataBind()
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)

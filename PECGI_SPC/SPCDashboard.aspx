@@ -35,7 +35,7 @@
     <link rel="Stylesheet" href="content/toastr.min.css">
 
     <style>
-        tbody {
+        /*tbody {
             display:block;
             height:20vh;
             overflow:auto;
@@ -44,23 +44,21 @@
             display:table;
             width:100%;
             table-layout:fixed;
-        }
-        thead {
+        }*/
+        /*thead {
             width: calc( 100% - 1em )
-        }
-        table {
+        }*/
+        /*table {
             width:400px;
         }
         .tableNav {
             height: 10px
-        }
+        }*/
         th {background-color:rgb(69, 132, 224);color: white;}
         
         @media screen and (min-width: 800px) and (max-width: 1366px) {
-            .navTable {width: 142%}
-            .height-table {height : 85px}
-            .paragraphNavTitle {margin-left: -100%}
-            .paragraphNavTitle2 {margin-left: -85%}
+        .tableFixHead          { overflow: auto; height: 20%; }
+        .tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
             /*.margin-div1 {height: 100px;}
             .margin-div2 {height: 100px; margin-top: 15%}
             .margin-div3 {height: 100px; margin-top: 15%}*/
@@ -70,6 +68,8 @@
         @media screen and (min-width: 1900px) {
             /*.margin-div2 {height: 25vh; margin-top: 15vh}
             .margin-div3 {height:20vh; margin-top: 5vh}*/
+        .tableFixHead          { overflow: auto; height: 25%; }
+        .tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
         }
     </style>
 
@@ -77,29 +77,6 @@
 <body>
 
     <form id="form1" runat="server">
-        
-    <%--<nav class="navbar" style="background-color:#4584e0">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-4">
-                <img src="img/logo-panasonic.svg" alt="" width="100" height="50" class="d-inline-block align-text-top" style="">
-                </div>
-                <div class="col-lg-4">
-                    <center>
-                        <h1><b>SPC MONITORING</b></h1>
-                    </center>
-                </div>
-                <div class="col-lg-4" style="color: white">
-                    <div class="col-lg-8"></div>
-                    <div class="col-lg-4">
-                        <p style="text-align : left;color: black">Date : <dx:ASPxLabel ID="lblDateNow" ClientInstanceName="lblOK" runat="server" Text="" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
-                            <br /> Time : <label id="lblTimeNow"></label> </p>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </nav>--%>
 
             <header>
                 <table style="width:100%; background-color:#4584e0; " >
@@ -132,322 +109,327 @@
         <ContentTemplate>
 
             <asp:Timer runat="server" ID="TimerNGResult" Interval="60000" OnTick="TimerNGResult_Tick" />
+                
+                
+                <!-- NG Result -->
+                <div style="border: 2px solid black; border-collapse: collapse;margin-left: 30px; margin-right: 30px">
+                    
+                    <div>
+                    
+                        <table width="100%">
+                            <tr>
+                                <th>
+                                    <center>
+                                        <b><small><p class="paragraphNavTitle" style="margin-top: 5px">NG RESULT ( <asp:Label runat="server" ID="lblCountNGresult" Text="0" /> )</p></small></b>
+                                    </center>
+                                </th>
+                            </tr>
+                        </table>
 
-                <div style="margin-left: 30px; margin-right: 30px">
+                    </div>
 
-                    <div class="row">
+                    <div class="tableFixHead">
 
-                        <!-- NG Result -->
-                        <div class="col-lg-12">
-
-                            <div class="table-responsive" style="border: 2px solid black; border-collapse: collapse;overflow-x: hidden; overflow-y: hidden;">
+                        <table width="100%">
+                            <tr height="1px">
+                                <td style="background-color: transparent"></td>
+                            </tr>
+                            <tr>
                             
-                            <nav class="navTable" style="background-color:rgb(69, 132, 224);color: white;height: 25px;">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                        &nbsp;
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <center>
-                                                <b><p class="paragraphNavTitle">NG RESULT ( <asp:Label runat="server" ID="lblCountNGresult" Text="0" /> )</p></b>
-                                            </center>
-                                        </div>
-                                        <div class="col-lg-4" style="color: white">
-                                            &nbsp;
-                                        </div>
-                                    </div>
-                                </div>
-                            </nav>
-
                                 <asp:Repeater runat="server" ID="rptNGInput" OnItemDataBound="rptNGInput_OnItemDataBound">
                                     <HeaderTemplate>
-                                        <table id="tblNG" class="table table-bordered table-responsive" style=" font-size: 13px;">
+                                        <table width="100%" class="table table-bordered table-responsive" style=" font-size: 13px;">
                                             <thead>
                                                 <tr>
-                                                    <th style="width: 100px">Type</th>
-                                                    <th style="width: 200px">Machine Process</th>
-                                                    <th style="width: 250px">Item Check</th>
-                                                    <th style="width: 100px">Date</th>
-                                                    <th style="width: 50px">Shift</th>
-                                                    <th style="width: 50px">Seq</th>
-                                                    <th style="width: 100px">USL</th>
-                                                    <th style="width: 100px">LSL</th>
-                                                    <th style="width: 100px">UCL</th>
-                                                    <th style="width: 100px">LCL</th>
-                                                    <th style="width: 100px">Min</th>
-                                                    <th style="width: 100px">Max</th>
-                                                    <th style="width: 100px">Average</th>
-                                                    <th style="width: 150px">Operator</th>
-                                                    <th style="width: 120px">MK</th>
-                                                    <th style="width: 135px">QC</th>
+                                                    <th width="5%">Type</th>
+                                                    <th width="10%">Machine Process</th>
+                                                    <th width="15%">Item Check</th>
+                                                    <th width="5%">Date</th>
+                                                    <th width="5%">Shift</th>
+                                                    <th width="5%">Seq</th>
+                                                    <th>USL</th>
+                                                    <th>LSL</th>
+                                                    <th>UCL</th>
+                                                    <th>LCL</th>
+                                                    <th>Min</th>
+                                                    <th>Max</th>
+                                                    <th>Average</th>
+                                                    <th>Operator</th>
+                                                    <th>MK</th>
+                                                    <th>QC</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="height-table">
-                                    </HeaderTemplate>
-                                    <ItemTemplate>
+                                            <tbody>
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
                                                 <tr>
-                                                    <td style="width: 100px">
+                                                    <td width="5%">
                                                         <asp:Label ID="lblTypeNGInput" runat="server" Text='<%# Eval("ItemTypeName") %>' />
                                                     </td>
-                                                    <td style="width: 200px">
+                                                    <td width="10%">
                                                         <asp:Label ID="lblMachineProcess" runat="server" Text='<%# Eval("LineName") %>' />
                                                     </td>
-                                                    <td style="width: 250px">
+                                                    <td width="15%">
                                                         <asp:Label ID="lblItemCheck" runat="server" Text='<%# Eval("ItemCheck") %>' />
                                                     </td>
-                                                    <td style="width: 100px">
+                                                    <td width="5%">
                                                         <asp:Label ID="lblDate" runat="server" Text='<%# Eval("Date") %>' />
                                                     </td>
-                                                    <td style="width: 50px">
+                                                    <td width="5%">
                                                         <asp:Label ID="lblShift" runat="server" Text='<%# Eval("ShiftCode") %>' />
                                                     </td>
-                                                    <td style="width: 50px">
+                                                    <td width="5%">
                                                         <asp:Label ID="lblSeq" runat="server" Text='<%# Eval("SequenceNo") %>' />
                                                     </td>
-                                                    <td style="width: 100px">
+                                                    <td>
                                                         <asp:Label ID="lblUSL" runat="server" Text='<%# Eval("USL") %>' />
                                                     </td>
-                                                    <td style="width: 100px">
+                                                    <td>
                                                         <asp:Label ID="lblLSL" runat="server" Text='<%# Eval("LSL") %>' />
                                                     </td>
-                                                    <td style="width: 100px">
+                                                    <td>
                                                         <asp:Label ID="lblUCL" runat="server" Text='<%# Eval("UCL") %>' />
                                                     </td>
-                                                    <td style="width: 100px">
+                                                    <td>
                                                         <asp:Label ID="lblLCL" runat="server" Text='<%# Eval("LCL") %>' />
                                                     </td>
-                                                    <td style="width: 100px" runat="server" id="MinValueNG">
+                                                    <td runat="server" id="MinValueNG">
                                                         <asp:Label ID="lblMin" runat="server" Text='<%# Eval("MinValue") %>' />
                                                     </td>
-                                                    <td style="width: 100px" runat="server" id="MaxValueNG">
+                                                    <td runat="server" id="MaxValueNG">
                                                         <asp:Label ID="lblMax" runat="server" Text='<%# Eval("MaxValue") %>' />
                                                     </td>
-                                                    <td style="width: 100px" runat="server" id="AveValueNG">
+                                                    <td runat="server" id="AveValueNG">
                                                         <asp:Label ID="lblAve" runat="server" Text='<%# Eval("Average") %>' />
                                                     </td>
-                                                    <td style="width: 150px">
+                                                    <td>
                                                         <asp:Label ID="lblOperator" runat="server" Text='<%# Eval("Operator") %>' />
                                                     </td>
-                                                    <td style="width: 120px">
+                                                    <td>
                                                         <asp:Label ID="lblMK" runat="server" Text='<%# Eval("MK") %>' />
                                                     </td>
-                                                    <td style="width: 135px">
+                                                    <td >
                                                         <asp:Label ID="lblQC" runat="server" Text='<%# Eval("QC") %>' />
                                                     </td>
                                                 </tr>
-                                    </ItemTemplate>
-                                    <FooterTemplate>
-                                            </tbody>
-                                        </table>
-                                    </FooterTemplate>
-                                </asp:Repeater>
+                                        </ItemTemplate>
+                                        <FooterTemplate>
+                                                </tbody>
+                                            </table>
+                                        </FooterTemplate>
+                                    </asp:Repeater>
 
-                            </div>
+                            </tr>
+                        </table>
 
-                        </div>   
+                    </div>
 
-                        <!-- Delay Input -->
-                        <div class="col-lg-12">
-                        
-                            <div class="table-responsive" style="border: 2px solid black; border-collapse: collapse;margin-top: 10px">
+                </div>
+                
+                <br />
 
-                                <nav style="background-color:rgb(69, 132, 224);color: white;height: 25px;width: 100%">
-                                    <div class="container-fluid">
-                                        <div class="row">
-                                            <div class="col-lg-4">
-                                            &nbsp;
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <center>
-                                                    <b><p>DELAY INPUT ( <asp:Label runat="server" ID="lblCountDelayInput" Text="0" /> )</p></b>
-                                                </center>
-                                            </div>
-                                            <div class="col-lg-4" style="color: white">
-                                                &nbsp;
-                                            </div>
-                                        </div>
-                                    </div>
-                                </nav>
+                <!-- Delay Input -->
+                <div style="border: 2px solid black; border-collapse: collapse;margin-left: 30px; margin-right: 30px">
 
+                    <div>
+                    
+                        <table width="100%">
+                            <tr>
+                                <th>
+                                    <center>
+                                        <b><small><p class="paragraphNavTitle" style="margin-top: 5px">DELAY INPUT ( <asp:Label runat="server" ID="lblCountDelayInput" Text="0" /> )</p></small></b>
+                                    </center>
+                                </th>
+                            </tr>
+                        </table>
+
+                    </div>
+                    
+                    <div class="tableFixHead">
+
+                        <table width="100%">
+                            <tr height="1px">
+                                <td style="background-color: transparent"></td>
+                            </tr>
+                            <tr>
+                            
                                 <asp:Repeater runat="server" ID="rptDdelayInput" OnItemDataBound="rptDelayInput_OnItemDataBound">
                                     <HeaderTemplate>
-                                        <table id="tblDelayInput" class="table table-bordered table-responsive" style="font-size: 13px;">
-                                            <thead >
-                                                <tr>
-                                                    <%--<th scope="col">Action</th>--%>
-                                                    <%--<th>Type</th>--%>
-                                                    <th style="width: 10%" >Type</th>
-                                                    <th style="width: 20%">Machine Process</th>
-                                                    <th style="width: 15%">Item Check</th>
-                                                    <th>Date</th>
-                                                    <th>Shift</th>
-                                                    <th>Seq</th>
-                                                    <th>Schedule Start</th>
-                                                    <th>Schedule End</th>
-                                                    <th style="width: 25%">Delay</th>
-                                                    <%--<th scope="col">#</th>--%>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="height-table">
-                                    </HeaderTemplate>
-                                    <ItemTemplate>
-                                            <tr>
-                                                <%--<td >
-                                                    <asp:LinkButton runat="server" ID="linkType" CommandText="click" Text='<%# Eval("TypeHeader") %>'/>
-                                                </td>--%>
-                                                <td style="width: 10%">
-                                                    <asp:Label ID="lblTypeDelayInput" runat="server" Text='<%# Eval("TypeHeader") %>' />
-                                                </td>
-                                                <td style="width: 20%">
-                                                    <asp:Label ID="lblMachineProcess" runat="server" Text='<%# Eval("LineName") %>' />
-                                                </td>
-                                                <td style="width: 15%">
-                                                    <asp:Label ID="lblItemCheck" runat="server" Text='<%# Eval("ItemCheck") %>' />
-                                                </td>
-                                                <td>
-                                                    <asp:Label ID="lblDate" runat="server" Text='<%# Eval("Date") %>' />
-                                                </td>
-                                                <td>
-                                                    <asp:Label ID="lblShift" runat="server" Text='<%# Eval("ShiftCode") %>' />
-                                                </td>
-                                                <td>
-                                                    <asp:Label ID="lblSeq" runat="server" Text='<%# Eval("SequenceNo") %>' />
-                                                </td>
-                                                <td>
-                                                    <asp:Label ID="lblScheduleStart" runat="server" Text='<%# Eval("StartTime") %>' />
-                                                </td>
-                                                <td >
-                                                    <asp:Label ID="lblScheduleEnd" runat="server" Text='<%# Eval("EndTime") %>' />
-                                                </td>
-                                                <td style="width: 25%" runat="server" id="DelayInput">
-                                                    <asp:Label ID="lblDelay" runat="server" Text='<%# Eval("Delay") %>' />
-                                                </td>
-                                            </tr>
-                                    </ItemTemplate>
-                                    <FooterTemplate>
-                                            </tbody>
-                                        </table>
-                                    </FooterTemplate>
-
-                                </asp:Repeater>
-                            </div>
-
-                        </div>
-
-                        <!-- Delay Verification -->
-                        <div class="col-lg-12">
-                                                
-                            <div class="table-responsive" style="border: 2px solid black; border-collapse: collapse;overflow-x: hidden; overflow-y: hidden;margin-top: 10px">
-
-                                <nav class="navTable" style="background-color:rgb(69, 132, 224);color: white;height: 25px;">
-                                    <div class="container-fluid">
-                                        <div class="row">
-                                            <div class="col-lg-4">
-                                            &nbsp;
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <center>
-                                                    <b><p class="paragraphNavTitle2">DELAY VERIFICATION ( <asp:Label runat="server" ID="lblCountDelayVerif" Text="0" /> ) </p></b>
-                                                </center>
-                                            </div>
-                                            <div class="col-lg-4" style="color: white">
-                                                &nbsp;
-                                            </div>
-                                        </div>
-                                    </div>
-                                </nav>
-
-                                <asp:Repeater runat="server" ID="rptDelayVerification" OnItemDataBound="rptDelayVerification_OnItemDataBound">
-                                    <HeaderTemplate>
-                                        <table id="tblDelayVerification" class="table table-bordered table-responsive" style="width:100%; font-size: 13px">
+                                        <table width="100%" class="table table-bordered table-responsive" style=" font-size: 13px;">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col" style="width: 100px">Type</th>
-                                                    <th scope="col" style="width: 200px">Machine Process</th>
-                                                    <th scope="col" style="width: 250px">Item Check</th>
-                                                    <th scope="col" style="width: 150px">Date</th>
-                                                    <th scope="col" style="width: 50px">Shift</th>
-                                                    <th scope="col" style="width: 50px">Seq</th>
-                                                    <th scope="col" style="width: 80px">USL</th>
-                                                    <th scope="col" style="width: 100px">LSL</th>
-                                                    <th scope="col" style="width: 100px">UCL</th>
-                                                    <th scope="col" style="width: 100px">LCL</th>
-                                                    <th scope="col" style="width: 100px">Min</th>
-                                                    <th scope="col" style="width: 100px">Max</th>
-                                                    <th scope="col" style="width: 100px">Average</th>
-                                                    <th scope="col" style="width: 80px">Operator</th>
-                                                    <th scope="col" style="width: 80px">MK</th>
-                                                    <th scope="col" style="width: 80px">QC</th>
-                                                    <th scope="col" style="width: 135px">Delay Verification</th>
+                                                    <th width="5%">Type</th>
+                                                    <th width="10%">Machine Process</th>
+                                                    <th width="15%">Item Check</th>
+                                                    <th width="5%">Date</th>
+                                                    <th width="5%">Shift</th>
+                                                    <th width="5%">Seq</th>
+                                                    <th width="10%">Schedule Start</th>
+                                                    <th width="10%">Schedule End</th>
+                                                    <th>Delay</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="height-table">
-                                    </HeaderTemplate>
-                                    <ItemTemplate>
+                                            <tbody>
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
                                                 <tr>
-                                                    <td style="width: 100px">
-                                                        <asp:Label ID="lblTypeDelayVerification" runat="server" Text='<%# Eval("ItemTypeName") %>' />
+                                                    <td width="5%">
+                                                        <asp:Label ID="lblTypeDelayInput" runat="server" Text='<%# Eval("TypeHeader") %>' />
                                                     </td>
-                                                    <td style="width: 200px">
+                                                    <td width="10%">
                                                         <asp:Label ID="lblMachineProcess" runat="server" Text='<%# Eval("LineName") %>' />
                                                     </td>
-                                                    <td style="width: 250px">
+                                                    <td width="15%">
                                                         <asp:Label ID="lblItemCheck" runat="server" Text='<%# Eval("ItemCheck") %>' />
                                                     </td>
-                                                    <td style="width: 150px">
+                                                    <td width="5%">
                                                         <asp:Label ID="lblDate" runat="server" Text='<%# Eval("Date") %>' />
                                                     </td>
-                                                    <td style="width: 50px">
+                                                    <td width="5%">
                                                         <asp:Label ID="lblShift" runat="server" Text='<%# Eval("ShiftCode") %>' />
                                                     </td>
-                                                    <td style="width: 50px">
+                                                    <td width="5%">
                                                         <asp:Label ID="lblSeq" runat="server" Text='<%# Eval("SequenceNo") %>' />
                                                     </td>
-                                                    <td style="width: 80px">
+                                                    <td width="10%">
+                                                        <asp:Label ID="lblScheduleStart" runat="server" Text='<%# Eval("StartTime") %>' />
+                                                    </td>
+                                                    <td width="10%">
+                                                        <asp:Label ID="lblScheduleEnd" runat="server" Text='<%# Eval("EndTime") %>' />
+                                                    </td>
+                                                    <td runat="server" id="DelayInput">
+                                                        <asp:Label ID="lblDelay" runat="server" Text='<%# Eval("Delay") %>' />
+                                                    </td>
+                                                </tr>
+                                        </ItemTemplate>
+                                        <FooterTemplate>
+                                                </tbody>
+                                            </table>
+                                        </FooterTemplate>
+                                    </asp:Repeater>
+
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+                
+                <br />
+
+                <!-- Delay Verification -->
+                <div style="border: 2px solid black; border-collapse: collapse;margin-left: 30px; margin-right: 30px">
+
+                    <div>
+                    
+                        <table width="100%">
+                            <tr>
+                                <th>
+                                    <center>
+                                        <b><small><p class="paragraphNavTitle" style="margin-top: 5px">DELAY VERIFICATION ( <asp:Label runat="server" ID="lblCountDelayVerif" Text="0" /> ) </p></small></b>
+                                    </center>
+                                </th>
+                            </tr>
+                        </table>
+
+                    </div>
+                    
+                    <div class="tableFixHead">
+
+                        <table width="100%">
+                            <tr height="1px">
+                                <td style="background-color: transparent"></td>
+                            </tr>
+                            <tr>
+                            
+                                <asp:Repeater runat="server" ID="rptDelayVerification" OnItemDataBound="rptDelayVerification_OnItemDataBound">
+                                    <HeaderTemplate>
+                                        <table width="100%" class="table table-bordered table-responsive" style=" font-size: 13px;">
+                                            <thead>
+                                                <tr>
+                                                    <th width="5%">Type</th>
+                                                    <th width="10%">Machine Process</th>
+                                                    <th width="15%">Item Check</th>
+                                                    <th width="5%">Date</th>
+                                                    <th width="5%">Shift</th>
+                                                    <th width="5%">Seq</th>
+                                                    <th>USL</th>
+                                                    <th>LSL</th>
+                                                    <th>UCL</th>
+                                                    <th>LCL</th>
+                                                    <th>Min</th>
+                                                    <th>Max</th>
+                                                    <th>Average</th>
+                                                    <th>Operator</th>
+                                                    <th>MK</th>
+                                                    <th>QC</th>
+                                                    <th>Delay Verification</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                                <tr>
+                                                    <td width="5%">
+                                                        <asp:Label ID="lblTypeDelayVerification" runat="server" Text='<%# Eval("ItemTypeName") %>' />
+                                                    </td>
+                                                    <td width="10%">
+                                                        <asp:Label ID="lblMachineProcess" runat="server" Text='<%# Eval("LineName") %>' />
+                                                    </td>
+                                                    <td width="15%">
+                                                        <asp:Label ID="lblItemCheck" runat="server" Text='<%# Eval("ItemCheck") %>' />
+                                                    </td>
+                                                    <td width="5%">
+                                                        <asp:Label ID="lblDate" runat="server" Text='<%# Eval("Date") %>' />
+                                                    </td>
+                                                    <td width="5%">
+                                                        <asp:Label ID="lblShift" runat="server" Text='<%# Eval("ShiftCode") %>' />
+                                                    </td>
+                                                    <td width="5%">
+                                                        <asp:Label ID="lblSeq" runat="server" Text='<%# Eval("SequenceNo") %>' />
+                                                    </td>
+                                                    <td>
                                                         <asp:Label ID="lblUSL" runat="server" Text='<%# Eval("USL") %>' />
                                                     </td>
-                                                    <td style="width: 100px">
+                                                    <td>
                                                         <asp:Label ID="lblLSL" runat="server" Text='<%# Eval("LSL") %>' />
                                                     </td>
-                                                    <td style="width: 100px">
+                                                    <td>
                                                         <asp:Label ID="lblUCL" runat="server" Text='<%# Eval("UCL") %>' />
                                                     </td>
-                                                    <td style="width: 100px">
+                                                    <td>
                                                         <asp:Label ID="lblLCL" runat="server" Text='<%# Eval("LCL") %>' />
                                                     </td>
-                                                    <td style="width: 100px" runat="server" id="MinValueDV">
+                                                    <td runat="server" id="MinValueDV">
                                                         <asp:Label ID="lblMin" runat="server" Text='<%# Eval("MinValue") %>' />
                                                     </td>
-                                                    <td style="width: 100px" runat="server" id="MaxValueDV">
+                                                    <td runat="server" id="MaxValueDV">
                                                         <asp:Label ID="lblMax" runat="server" Text='<%# Eval("MaxValue") %>' />
                                                     </td>
-                                                    <td style="width: 100px" runat="server" id="AveValueDV">
+                                                    <td runat="server" id="AveValueDV">
                                                         <asp:Label ID="lblAve" runat="server" Text='<%# Eval("Average") %>' />
                                                     </td>
-                                                    <td style="width: 80px">
+                                                    <td>
                                                         <asp:Label ID="lblOperator" runat="server" Text='<%# Eval("Operator") %>' />
                                                     </td>
-                                                    <td style="width: 80px">
+                                                    <td>
                                                         <asp:Label ID="lblMK" runat="server" Text='<%# Eval("MK") %>' />
                                                     </td>
-                                                    <td style="width: 80px">
+                                                    <td>
                                                         <asp:Label ID="lblQC" runat="server" Text='<%# Eval("QC") %>' />
                                                     </td>
-                                                    <td style="width: 135px" runat="server" id="DelayVerification">
+                                                    <td runat="server" id="DelayVerification">
                                                         <asp:Label ID="lblDelayVerif" runat="server" Text='<%# Eval("DelayVerif") %>' />
                                                     </td>
                                                 </tr>
-                                    </ItemTemplate>
-                                    <FooterTemplate>
-                                            </tbody>
-                                        </table>
-                                    </FooterTemplate>
-                                </asp:Repeater>
-                    
-                            </div>
+                                        </ItemTemplate>
+                                        <FooterTemplate>
+                                                </tbody>
+                                            </table>
+                                        </FooterTemplate>
+                                    </asp:Repeater>
 
-                        </div>
+                            </tr>
+                        </table>
 
                     </div>
 
@@ -463,7 +445,8 @@
 
                 setTimer1 = setInterval(function () {
                     var today = new Date();
-                    document.getElementById('lblTimeNow').innerHTML = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                    //document.getElementById('lblTimeNow').innerHTML = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                    document.getElementById('lblTimeNow').innerHTML = ("0" + today.getHours()).slice(-2) + ":" + ("0" + today.getMinutes()).slice(-2) + ":" + ("0" + today.getSeconds()).slice(-2);
                 }, 1000, (1));
 
             }

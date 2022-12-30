@@ -42,7 +42,7 @@ Public Class clsSPCAlertDashboardDB
             Return Nothing
         End Try
     End Function
-    Public Shared Function GetDelayVerificationGrid(User As String, FactoryCode As String, pProdDateType As Integer, pProdDate As DateTime, Optional ByRef pErr As String = "") As DataTable
+    Public Shared Function GetDelayVerificationGrid(User As String, FactoryCode As String, pProdDateType As Integer, pProdDate As DateTime, pMenuID As String, Optional FilterDate As String = "", Optional ByRef pErr As String = "") As DataTable
         Try
             Using conn As New SqlConnection(Sconn.Stringkoneksi)
                 conn.Open()
@@ -57,6 +57,8 @@ Public Class clsSPCAlertDashboardDB
                     .AddWithValue("ProdDateType", pProdDateType)
                     .AddWithValue("ProdDate", pProdDate)
                     .AddWithValue("TypeForm", "2")
+                    .AddWithValue("MenuID", pMenuID)
+                    .AddWithValue("FilterDate", FilterDate)
                 End With
                 Dim da As New SqlDataAdapter(cmd)
                 Dim dt As New DataTable

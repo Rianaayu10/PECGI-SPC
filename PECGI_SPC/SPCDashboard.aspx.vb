@@ -117,7 +117,7 @@ Public Class SPCDashboard
     Private Sub LoadGridDelayVerif(VarDateTime As String)
         Try
             Dim dtLoadGridDelayVerif As DataTable
-            dtLoadGridDelayVerif = clsSPCAlertDashboardDB.GetDelayVerificationGrid(pUser, "F001", "1", VarDateTime)
+            dtLoadGridDelayVerif = clsSPCAlertDashboardDB.GetDelayVerificationGrid(pUser, "F001", "1", VarDateTime, "B010")
 
             If dtLoadGridDelayVerif.Rows.Count > 0 Then
                 lblCountDelayVerif.Text = dtLoadGridDelayVerif.Rows.Count

@@ -11,6 +11,10 @@
         }
     </style>
     <script type="text/javascript">
+        window.onload = function () {
+
+            dtDate.SetEnabled(true);
+        }
         function OnEndCallback(s, e) {
             if (s.cp_message != "" && s.cp_val == 1) {
 
@@ -62,6 +66,17 @@
 
         function up_Browse() {
             GridDelayVerif.PerformCallback('Load');
+        }
+
+        function rbProdDate(obj) {
+            if (obj.value == "auto") {
+                //$('#dtDate').datepicker('enable');
+                dtDate.SetEnabled(false);
+            }
+            else {
+                //$('#dtDate').datepicker('disable');
+                dtDate.SetEnabled(true);
+            }
         }
 
         <%--window.onload=function(){
@@ -141,7 +156,7 @@
                                 <table>
                                     <tr>
                                         <td style=" width:60px; padding:1px 0px 0px 0px">
-                                            <asp:RadioButton ID="rbAuto" runat="server" GroupName="ProdDateSelection"/>  
+                                            <asp:RadioButton ID="rbAuto" runat="server" GroupName="ProdDateSelection" onclick="rbProdDate(this)" value="auto"/>  
                                         </td>
                                         <td style=" width:150px; padding:1px 0px 0px 0px">
                                             <p style="font-family: Segoe UI; Font-Size: 9pt">Today</p>
@@ -153,7 +168,7 @@
                                 <table>
                                     <tr>
                                         <td style=" width:60px; padding:1px 0px 0px 0px">
-                                            <asp:RadioButton ID="rbManual" runat="server" Text="" GroupName="ProdDateSelection" />  
+                                            <asp:RadioButton ID="rbManual" runat="server" Text="" GroupName="ProdDateSelection" onclick="rbProdDate(this)" value="manual"/>  
                                         </td>
                                         <td style=" width:100px; padding:1px 0px 0px 0px">
                                             <dx:ASPxDateEdit ID="dtDate" runat="server" Theme="Office2010Black" Width="100px" ClientInstanceName="dtDate" EditFormatString="dd MMM yyyy" DisplayFormatString="dd MMM yyyy"
