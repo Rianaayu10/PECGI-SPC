@@ -197,6 +197,7 @@ Public Class SampleControlQuality
             .Cells(Row + 3, Col).Value = "Item Check"
             .Cells(Row + 4, Col).Value = "Prod Date"
             .Cells(Row + 5, Col).Value = "Unit Measurement"
+
             .Cells(Row + 6, Col).Value = "Min"
             .Cells(Row + 7, Col).Value = "Max"
             .Cells(Row + 8, Col).Value = "X Bar Bar"
@@ -243,6 +244,8 @@ Public Class SampleControlQuality
                 .Cells(Row + 6, Col, Row + 9, Col).Style.Numberformat.Format = "0.000"
             End If
 
+
+
             Dim rg As ExcelRange = .Cells(Row, 10, Row + 9, 16)
             ExcelBorder(pExl, rg)
             rg.Style.HorizontalAlignment = HorzAlignment.Near
@@ -271,7 +274,7 @@ Public Class SampleControlQuality
         Dim cs As New clsSPCColor
 
         With pExl
-            Dim ds As DataSet = clsSPCResultDetailDB.GetSampleByPeriod(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, Hdr.ProdDate2, Hdr.VerifiedOnly, False, True)
+            Dim ds As DataSet = clsSPCResultDetailDB.GetSampleByPeriod(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, Hdr.ProdDate2, Hdr.VerifiedOnly, True, True)
 
             Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate, 1, Hdr.VerifiedOnly)
             If dt2.Rows.Count > 0 Then
@@ -575,7 +578,7 @@ Public Class SampleControlQuality
             Col1.CellStyle.HorizontalAlign = HorizontalAlign.Center
             Band2.Columns.Add(Col1)
 
-            Dim ds As DataSet = clsSPCResultDetailDB.GetSampleByPeriod(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, ProdDate2, VerifiedOnly, False, True)
+            Dim ds As DataSet = clsSPCResultDetailDB.GetSampleByPeriod(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, ProdDate2, VerifiedOnly, True, True)
             Dim dtDay As DataTable = ds.Tables(0)
 
             Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, 1, VerifiedOnly)
@@ -661,6 +664,16 @@ Public Class SampleControlQuality
                     .JSProperties("cpXBarBar") = dtCP.Rows(0)("XBarBar") & ""
                     .JSProperties("cpRBar") = dtCP.Rows(0)("RBar") & ""
                     .JSProperties("cpCPKMin") = dtCP.Rows(0)("CPKMin") & ""
+                    If Not IsDBNull(dtCP.Rows(0)("XBarBar")) AndAlso Not IsDBNull(dtCP.Rows(0)("LCL")) AndAlso Not IsDBNull(dtCP.Rows(0)("UCL")) Then
+                        Dim XBarBar As Double = dtCP.Rows(0)("XBarBar")
+                        Dim LCL As Double = dtCP.Rows(0)("LCL")
+                        Dim UCL As Double = dtCP.Rows(0)("UCL")
+                        If XBarBar < LCL Or XBarBar > UCL Then
+                            .JSProperties("cpXBarColor") = "1"
+                        Else
+                            .JSProperties("cpXBarColor") = "0"
+                        End If
+                    End If
                 End If
             End If
         End With
@@ -982,7 +995,7 @@ Public Class SampleControlQuality
             ElseIf ChartWidth > 1080 Then
                 ChartWidth = 1080
             End If
-            .Width = ChartWidth
+            '.Width = ChartWidth
         End With
     End Sub
 
@@ -1064,7 +1077,7 @@ Public Class SampleControlQuality
             ElseIf ChartWidth > 1080 Then
                 ChartWidth = 1080
             End If
-            .Width = ChartWidth
+            '.Width = ChartWidth
         End With
     End Sub
 
