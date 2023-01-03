@@ -869,7 +869,7 @@
                     <table style="width: 100%">
                         <tr>
                             <td rowspan="3" class="body" align="center" style="width: 50px">
-                                <dx:ASPxLabel ID="lblSpecChar" runat="server" Font-Names="Segoe UI" Font-Size="12pt" ClientInstanceName="lblSpecChar" ForeColor="Black"></dx:ASPxLabel>
+                                <dx:ASPxLabel ID="lblSpecChar" runat="server" Font-Names="Segoe UI" Font-Size="16pt" ClientInstanceName="lblSpecChar"></dx:ASPxLabel>
                             </td>
                             <td colspan="2" class="header">
                                 <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="Specification" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
