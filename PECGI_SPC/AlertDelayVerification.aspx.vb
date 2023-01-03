@@ -118,8 +118,16 @@ Public Class AlertDelayVerification
 
         Dim pProdDate As DateTime = Convert.ToDateTime(dtDate.Date)
         Dim pProdDate2 = dtDate.Date.ToString()
+        Dim pDate As String = ""
+        Dim Test = dtDate.Text
 
-        LoadGridDelayVerif(FactoryCode, pProdDateType, pProdDate, dtDate.Text)
+        If rbAuto.Checked Then
+            pDate = DateTime.Now.ToString("dd MMM yyyy")
+        ElseIf rbManual.Checked Then
+            pDate = dtDate.Text
+        End If
+
+        LoadGridDelayVerif(FactoryCode, pProdDateType, pProdDate, pDate)
     End Sub
     Private Sub LoadGridDelayVerif(FactoryCode As String, pProdDateType As Integer, pProdDate As DateTime, pFilterDate As String)
         Try
