@@ -143,7 +143,6 @@
     <Content Include="CustomFile\popper.min.js" />
     <Content Include="img\rule1.png" />
     <Content Include="img\rule2.png" />
-    <Content Include="SPCDashboardTest.aspx" />
     <Content Include="SPCDashboard.aspx" />
     <Content Include="ChangePassword.aspx" />
     <Content Include="content\toastr.css" />
@@ -897,13 +896,6 @@
     <Compile Include="Class\clsProcess.vb" />
     <Compile Include="Class\clsProcessGroup.vb" />
     <Compile Include="Class\clsTroubleHistoryByLine.vb" />
-    <Compile Include="SPCDashboardTest.aspx.designer.vb">
-      <DependentUpon>SPCDashboardTest.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="SPCDashboardTest.aspx.vb">
-      <DependentUpon>SPCDashboardTest.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="SPCDashboard.aspx.designer.vb">
       <DependentUpon>SPCDashboard.aspx</DependentUpon>
     </Compile>
