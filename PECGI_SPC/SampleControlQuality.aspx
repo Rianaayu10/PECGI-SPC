@@ -692,7 +692,7 @@
                     </SettingsPager>
 
 
-                    <Settings HorizontalScrollBarMode="Auto" VerticalScrollableHeight="560" VerticalScrollBarMode="Auto" />
+                    <Settings HorizontalScrollBarMode="Auto" VerticalScrollableHeight="420" VerticalScrollBarMode="Auto" />
                     <SettingsBehavior AllowSort="False" />
                     <SettingsResizing ColumnResizeMode="Control" />
                     <SettingsDataSecurity AllowDelete="False" AllowEdit="False" AllowInsert="False" />
