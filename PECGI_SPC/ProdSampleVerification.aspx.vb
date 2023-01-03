@@ -1109,7 +1109,7 @@ Public Class ProdSampleVerification
             GridX.JSProperties("cpLCL") = AFormat(dtChartSetup.Rows(0)("LCL"))
             GridX.JSProperties("cpCL") = AFormat(dtChartSetup.Rows(0)("CL"))
             GridX.JSProperties("cpXBarUCL") = AFormat(dtChartSetup.Rows(0)("XBarUCL"))
-            GridX.JSProperties("cpXBarLCL") = AFormat(dtChartSetup.Rows(0)("XBarUCL"))
+            GridX.JSProperties("cpXBarLCL") = AFormat(dtChartSetup.Rows(0)("XBarLCL"))
             GridX.JSProperties("cpRUCL") = AFormat(dtChartSetup.Rows(0)("RUCL"))
             GridX.JSProperties("cpRLCL") = AFormat(dtChartSetup.Rows(0)("RLCL"))
             GridX.JSProperties("cpMIN") = AFormat(dtChartSetup.Rows(0)("nMIN"))
