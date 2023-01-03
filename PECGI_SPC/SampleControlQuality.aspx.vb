@@ -640,6 +640,15 @@ Public Class SampleControlQuality
                     .JSProperties("cpProdDate") = ProdDate & " - " & ProdDate2
                     .JSProperties("cpUnit") = dtCP.Rows(0)("Unit") & ""
 
+                    .JSProperties("cpLSL") = dtCP.Rows(0)("LSL") & ""
+                    .JSProperties("cpUSL") = dtCP.Rows(0)("USL") & ""
+                    .JSProperties("cpLCL") = dtCP.Rows(0)("LCL") & ""
+                    .JSProperties("cpCL") = dtCP.Rows(0)("CL") & ""
+                    .JSProperties("cpUCL") = dtCP.Rows(0)("UCL") & ""
+                    .JSProperties("cpRUCL") = dtCP.Rows(0)("RUCL") & ""
+                    .JSProperties("cpXLCL") = dtCP.Rows(0)("XBarLCL") & ""
+                    .JSProperties("cpXUCL") = dtCP.Rows(0)("XBarUCL") & ""
+
                     .JSProperties("cpMin") = dtCP.Rows(0)("Min") & ""
                     .JSProperties("cpMax") = dtCP.Rows(0)("Max") & ""
                     .JSProperties("cpAvg") = dtCP.Rows(0)("Avg") & ""

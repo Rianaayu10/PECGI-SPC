@@ -366,10 +366,19 @@
             } else {
                 document.getElementById('C').style.backgroundColor = 'White';
             }      
+
+            var vMin = Number(s.cpMin);
+            var vMax = Number(s.cpMax);
+            var vLSL = Number(s.cpLSL);
+            var vUSL = Number(s.cpUSL);
+            var vLCL = Number(s.cpLCL);
+            var vUCL = Number(s.cpUCL);
+            var vAve = Number(s.cpAve); 
+
             if(s.cpMin != '') {
-                if (s.cpMin < s.cpLSL | s.cpMin > s.cpUSL) {
+                if (vMin < vLSL | vMin > vUSL) {
                     document.getElementById('Min').style.backgroundColor = 'Red';
-                } else if (s.cpMin < s.cpLCL | s.cpMin > s.cpUCL) {
+                } else if (vMin < vLCL | vMin > vUCL) {
                     if (s.cpChartType == '1') {
                         document.getElementById('Min').style.backgroundColor = '#FFFF99';
                     } else {
@@ -382,9 +391,9 @@
                 document.getElementById('Min').style.backgroundColor = 'White';
             }
             if(s.cpMax != '') {
-                if (s.cpMax > s.cpUSL | s.cpMax < s.cpLSL) {
+                if (vMax > vUSL | vMax < vLSL) {
                     document.getElementById('Max').style.backgroundColor = 'Red';
-                } else if (s.cpMax > s.cpUCL | s.cpMax < s.cpLCL) {                    
+                } else if (vMax > vUCL | vMax < vLCL) {                    
                     if (s.cpChartType == '1') {
                         document.getElementById('Max').style.backgroundColor = '#FFFF99';
                     } else {
@@ -397,10 +406,10 @@
                 document.getElementById('Max').style.backgroundColor = 'White';
             }
 
-            if(s.cpAve != '') {
-                if (s.cpAve > s.cpUSL | s.cpAve < s.cpLSL) {
+            if(vAve != '') {
+                if (vAve > vUSL | vAve < vLSL) {
                     document.getElementById('Ave').style.backgroundColor = 'Red';
-                } else if (s.cpAve > s.cpUCL | s.cpAve < s.cpLCL) {
+                } else if (vAve > vUCL | vAve < vLCL) {
                     if (s.cpChartType == '1') {
                         document.getElementById('Ave').style.backgroundColor = '#FFFF99';
                     } else {
@@ -1066,7 +1075,7 @@
         <td style="width:600px">
             <table style="width:100%">
                 <tr>
-                    <td rowspan="3" class="body" style="width:45px" align="center" id="colSpecial"><dx:ASPxLabel ID="ASPxLabel28" runat="server" Text="@" Font-Names="Segoe UI" Font-Size="Medium" Font-Bold="true"></dx:ASPxLabel></td>
+                    <td rowspan="3" class="body" style="width:45px" align="center" id="colSpecial"><dx:ASPxLabel ID="ASPxLabel28" runat="server" Text="@" Font-Names="Segoe UI" Font-Size="16pt" Font-Bold="false"></dx:ASPxLabel></td>
                     <td colspan="2" class="header"><dx:ASPxLabel ID="ASPxLabel22" runat="server" Text="Specification" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                     <td colspan="3" class="header"><dx:ASPxLabel ID="ASPxLabel23" runat="server" Text="Control Plan" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                     <td colspan="2" class="header" id="headerXBar"><dx:ASPxLabel runat="server" Text="X Bar Control" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>

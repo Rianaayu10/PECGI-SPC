@@ -115,6 +115,10 @@
                 height: 30px;
             }
         
+            .auto-style21 {
+                height: 2px;
+            }
+        
             </style>
     <script type="text/javascript" >
         var rowIndex, columnIndex;
@@ -277,6 +281,16 @@
                 toastr.options.preventDuplicates = true;
                 toastr.options.onclick = null;
             }
+
+            lblUSL.SetText(s.cpUSL);
+            lblLSL.SetText(s.cpLSL);
+            lblUCL.SetText(s.cpUCL);
+            lblCL.SetText(s.cpCL);
+            lblLCL.SetText(s.cpLCL);
+            lblXLCL.SetText(s.cpXLCL);
+            lblXUCL.SetText(s.cpXUCL);
+            lblRUCL.SetText(s.cpRUCL);
+
             lblMin.SetText(s.cpMin);
             lblMax.SetText(s.cpMax);
             lblCP.SetText(s.cpCP);
@@ -942,9 +956,75 @@
                         </td>
                     </tr>
                     <tr>
+                        <td colspan="4" class="auto-style21">
+                        </td>
+                    </tr>
+
+                    <tr >
+                        <td class="auto-style8" style="padding-left:5px">
+                            <dx:ASPxLabel ID="ASPxLabel8" runat="server" Text="Spec USL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td  class="auto-style11" style="padding-left:5px">
+                            <dx:ASPxLabel ID="lblSpecUSL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblUSL"></dx:ASPxLabel>
+                        </td>                        
+                    </tr>
+                    <tr >
+                        <td class="auto-style8" style="padding-left:5px">
+                            <dx:ASPxLabel ID="ASPxLabel19" runat="server" Text="Spec LSL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td  class="auto-style11" style="padding-left:5px">
+                            <dx:ASPxLabel ID="lblSpecLSL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLSL"></dx:ASPxLabel>
+                        </td>                        
+                    </tr>
+                    <tr >
+                        <td class="auto-style7" style="padding-left:5px">
+                            <dx:ASPxLabel ID="ASPxLabel29" runat="server" Text="CP UCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td  class="auto-style10" style="padding-left:5px">
+                            <dx:ASPxLabel ID="lblUCL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblUCL"></dx:ASPxLabel>
+                        </td>                   
+
+                        <td class="auto-style8" style="padding-left:5px">
+                            <dx:ASPxLabel ID="ASPxLabel35" runat="server" Text="X Bar UCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td  class="auto-style11" style="padding-left:5px">
+                            <dx:ASPxLabel ID="lblXUCL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXUCL"></dx:ASPxLabel>
+                        </td>                         
+                    </tr>
+                    <tr >
+                        <td class="auto-style8" style="padding-left:5px">
+                            <dx:ASPxLabel ID="ASPxLabel31" runat="server" Text="CP CL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td  class="auto-style11" style="padding-left:5px">
+                            <dx:ASPxLabel ID="lblCL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblCL"></dx:ASPxLabel>
+                        </td>           
+                        <td class="auto-style8" style="padding-left:5px">
+                            <dx:ASPxLabel ID="ASPxLabel37" runat="server" Text="X Bar LCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td  class="auto-style11" style="padding-left:5px">
+                            <dx:ASPxLabel ID="lblXLCL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXLCL"></dx:ASPxLabel>
+                        </td>                        
+                    </tr>
+                    <tr >
+                        <td class="auto-style8" style="padding-left:5px">
+                            <dx:ASPxLabel ID="ASPxLabel33" runat="server" Text="CP LCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td  class="auto-style11" style="padding-left:5px">
+                            <dx:ASPxLabel ID="lblLCL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLCL"></dx:ASPxLabel>
+                        </td>  
+                        <td class="auto-style8" style="padding-left:5px">
+                            <dx:ASPxLabel ID="ASPxLabel39" runat="server" Text="R UCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td  class="auto-style11" style="padding-left:5px">
+                            <dx:ASPxLabel ID="lblRUCL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblRUCL"></dx:ASPxLabel>
+                        </td>                                                 
+                    </tr>
+
+                    <tr>
                         <td colspan="4" style="height:2px">
                         </td>
                     </tr>
+
 
                     <tr >
                         <td class="auto-style8" style="padding-left:5px">
