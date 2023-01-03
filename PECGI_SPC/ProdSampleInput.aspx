@@ -431,9 +431,12 @@
             }
             if (s.cpAllowInsert == '1') {
                 btnNew.SetEnabled(true);
-                btnSave.SetEnabled(true);
             } else {
                 btnNew.SetEnabled(false);
+            }
+            if (s.cpAllowUpdate == '1') {
+                btnSave.SetEnabled(true);
+            } else {
                 btnSave.SetEnabled(false);
             }
             if (s.cpRefresh == '1') {
