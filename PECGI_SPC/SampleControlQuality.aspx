@@ -692,7 +692,7 @@
                     </SettingsPager>
 
 
-                    <Settings HorizontalScrollBarMode="Auto" VerticalScrollableHeight="260" VerticalScrollBarMode="Auto" />
+                    <Settings HorizontalScrollBarMode="Auto" VerticalScrollableHeight="560" VerticalScrollBarMode="Auto" />
                     <SettingsBehavior AllowSort="False" />
                     <SettingsResizing ColumnResizeMode="Control" />
                     <SettingsDataSecurity AllowDelete="False" AllowEdit="False" AllowInsert="False" />
@@ -784,7 +784,7 @@
         </table>
 <div style="width:100%; border:1px solid black">
 <dx:WebChartControl ID="chartX" runat="server" ClientInstanceName="chartX"
-        Height="434px" Width="400px" CrosshairEnabled="True" SeriesDataMember="Description" ToolTipEnabled="False">
+        Height="434px" Width="1080px" CrosshairEnabled="True" SeriesDataMember="Description" ToolTipEnabled="False">
         <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" CrosshairLabelPattern="{S}: {V:0.000}">
             <viewserializable>
                 <cc1:PointSeriesView>                    
@@ -1039,7 +1039,7 @@
 
                     <tr >
                         <td class="auto-style8" style="padding-left:5px">
-                            <dx:ASPxLabel ID="ASPxLabel8" runat="server" Text="Spec USL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="ASPxLabel8" runat="server" Text="Specification USL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                         </td>
                         <td  class="auto-style11" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblSpecUSL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblUSL"></dx:ASPxLabel>
@@ -1047,7 +1047,7 @@
                     </tr>
                     <tr >
                         <td class="auto-style8" style="padding-left:5px">
-                            <dx:ASPxLabel ID="ASPxLabel19" runat="server" Text="Spec LSL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="ASPxLabel19" runat="server" Text="Specification LSL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                         </td>
                         <td  class="auto-style11" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblSpecLSL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLSL"></dx:ASPxLabel>
@@ -1055,7 +1055,7 @@
                     </tr>
                     <tr >
                         <td class="auto-style7" style="padding-left:5px">
-                            <dx:ASPxLabel ID="ASPxLabel29" runat="server" Text="CP UCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="ASPxLabel29" runat="server" Text="Control Plan UCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                         </td>
                         <td  class="auto-style10" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblUCL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblUCL"></dx:ASPxLabel>
@@ -1070,7 +1070,7 @@
                     </tr>
                     <tr >
                         <td class="auto-style8" style="padding-left:5px">
-                            <dx:ASPxLabel ID="ASPxLabel31" runat="server" Text="CP CL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="ASPxLabel31" runat="server" Text="Control Plan CL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                         </td>
                         <td  class="auto-style11" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblCL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblCL"></dx:ASPxLabel>
@@ -1084,7 +1084,7 @@
                     </tr>
                     <tr >
                         <td class="auto-style8" style="padding-left:5px">
-                            <dx:ASPxLabel ID="ASPxLabel33" runat="server" Text="CP LCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="ASPxLabel33" runat="server" Text="Control Plan LCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                         </td>
                         <td  class="auto-style11" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblLCL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLCL"></dx:ASPxLabel>
