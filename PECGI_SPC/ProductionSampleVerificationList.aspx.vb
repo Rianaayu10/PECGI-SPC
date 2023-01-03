@@ -671,7 +671,13 @@ Public Class ProductionSampleVerificationList
                     .Cells(irow + 1, 15).Value = "PIC"
                     .Cells(irow + 1, 16).Value = "Time"
 
-                    Dim Hdr As ExcelRange = .Cells(irow, 1, irow + 1, 16)
+                    .Cells(irow, 17, irow + 1, 17).Value = "Lot No"
+                    .Cells(irow, 17, irow + 1, 17).Merge = True
+
+                    .Cells(irow, 18, irow + 1, 18).Value = "Remark"
+                    .Cells(irow, 18, irow + 1, 18).Merge = True
+
+                    Dim Hdr As ExcelRange = .Cells(irow, 1, irow + 1, 18)
                     Hdr.Style.HorizontalAlignment = HorzAlignment.Far
                     Hdr.Style.VerticalAlignment = VertAlignment.Center
                     Hdr.Style.Font.Size = 10
@@ -699,6 +705,10 @@ Public Class ProductionSampleVerificationList
                     .Column(14).Width = 18
                     .Column(15).Width = 18
                     .Column(16).Width = 18
+
+                    .Column(17).Width = 25
+                    .Column(18).Width = 30
+
                     irow = irow + 2
 
                     For i = 0 To dt.Rows.Count - 1
@@ -775,19 +785,25 @@ Public Class ProductionSampleVerificationList
                             .Cells(irow, 16).Style.Fill.PatternType = ExcelFillStyle.Solid
                             .Cells(irow, 16).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(dt.Rows(i)("QCColor")))
 
+                            .Cells(irow, 17).Value = dt.Rows(i)("LotNo")
+                            .Cells(irow, 17).Style.HorizontalAlignment = HorizontalAlign.Left
+
+                            .Cells(irow, 18).Value = dt.Rows(i)("Remark")
+                            .Cells(irow, 18).Style.HorizontalAlignment = HorizontalAlign.Left
+
                             irow = irow + 1
                         Catch ex As Exception
                             Throw New Exception(ex.Message)
                         End Try
                     Next
 
-                    Dim Dtl As ExcelRange = .Cells(irow, 1, irow - 1, 16)
+                    Dim Dtl As ExcelRange = .Cells(irow, 1, irow - 1, 18)
                     Hdr.Style.VerticalAlignment = VertAlignment.Center
                     Hdr.Style.Font.Size = 10
                     Hdr.Style.Font.Name = "Segoe UI"
 
 
-                    Dim Border As ExcelRange = .Cells(rowStart, 1, irow - 1, 16)
+                    Dim Border As ExcelRange = .Cells(rowStart, 1, irow - 1, 18)
                     Border.Style.Border.Top.Style = ExcelBorderStyle.Thin
                     Border.Style.Border.Bottom.Style = ExcelBorderStyle.Thin
                     Border.Style.Border.Right.Style = ExcelBorderStyle.Thin
