@@ -514,7 +514,7 @@
             } else if (menu == "AlertDelayVerification.aspx") {
                 var Factory = HideValue.Get("prm_factory");
                 var FilterDate = HideValue.Get("prm_FilterDate");
-                window.open('AlertDelayVerification.aspx? FactoryCode=' + Factory + '&FilterDate=' + FilterDate + '', '_self');
+                window.open('AlertDelayVerification.aspx?FactoryCode=' + Factory + '&FilterDate=' + FilterDate + '', '_self');
             }
         }
 
