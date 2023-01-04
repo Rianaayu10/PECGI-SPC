@@ -1623,6 +1623,7 @@ Public Class ProdSampleVerification
                 Dim LSL = dtChartSetup.Rows(0)("LSL")
                 Dim UCL = dtChartSetup.Rows(0)("UCL")
                 Dim LCL = dtChartSetup.Rows(0)("LCL")
+                Dim CL = dtChartSetup.Rows(0)("CL")
                 Dim XBarUCL = dtChartSetup.Rows(0)("XBarUCL")
                 Dim XBarLCL = dtChartSetup.Rows(0)("XBarLCL")
                 Dim RUCL = dtChartSetup.Rows(0)("RUCL")
@@ -1667,14 +1668,17 @@ Public Class ProdSampleVerification
                 icolhdr1 = icolhdr1 + 2
 
                 .Cells(irow, icolhdr1).Value = "Control Plan"
-                .Cells(irow, icolhdr1, irow, icolhdr1 + 1).Merge = True
-                icolhdr1 = icolhdr1 + 2
+                .Cells(irow, icolhdr1, irow, icolhdr1 + 2).Merge = True
+                icolhdr1 = icolhdr1 + 3
 
                 If CS = "1" Then
                     .Cells(irow, icolhdr1).Value = "X Bar Control"
                     .Cells(irow, icolhdr1, irow, icolhdr1 + 1).Merge = True
                     icolhdr1 = icolhdr1 + 2
                 End If
+
+                .Cells(irow, icolhdr1).Value = "R"
+                icolhdr1 = icolhdr1 + 1
 
                 .Cells(irow, icolhdr1).Value = "Result"
                 .Cells(irow, icolhdr1, irow, icolhdr1 + 5).Merge = True
@@ -1700,6 +1704,9 @@ Public Class ProdSampleVerification
                 .Cells(irow, icolhdr2).Value = "UCL"
                 icolhdr2 = icolhdr2 + 1
 
+                .Cells(irow, icolhdr2).Value = "CL"
+                icolhdr2 = icolhdr2 + 1
+
                 .Cells(irow, icolhdr2).Value = "LCL"
                 icolhdr2 = icolhdr2 + 1
 
@@ -1710,6 +1717,9 @@ Public Class ProdSampleVerification
                     .Cells(irow, icolhdr2).Value = "XBarLCL"
                     icolhdr2 = icolhdr2 + 1
                 End If
+
+                .Cells(irow, icolhdr2).Value = "UCL"
+                icolhdr2 = icolhdr2 + 1
 
                 .Cells(irow, icolhdr2).Value = "Min"
                 icolhdr2 = icolhdr2 + 1
@@ -1746,6 +1756,10 @@ Public Class ProdSampleVerification
                 .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
                 icolbd = icolbd + 1
 
+                .Cells(irow, icolbd).Value = CL
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                icolbd = icolbd + 1
+
                 .Cells(irow, icolbd).Value = LCL
                 .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
                 icolbd = icolbd + 1
@@ -1759,6 +1773,10 @@ Public Class ProdSampleVerification
                     .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
                     icolbd = icolbd + 1
                 End If
+
+                .Cells(irow, icolbd).Value = R
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                icolbd = icolbd + 1
 
                 .Cells(irow, icolbd).Value = MIN
                 .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
