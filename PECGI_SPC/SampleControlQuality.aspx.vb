@@ -352,8 +352,15 @@ Public Class SampleControlQuality
                 If dt.Rows(j)(1) = "-" Or dt.Rows(j)(1) = "--" Then
                     .Row(iRow).Height = 2
                 End If
+                Dim Seq As String = dt.Rows(j)(0)
                 For k = 1 To dt.Columns.Count - 1
-                    .Cells(iRow, iCol).Value = dt.Rows(j)(k)
+                    '.Cells(iRow, iCol).Value = dt.Rows(j)(k)
+                    Dim IsNum As Boolean = Seq < 7 And Seq <> 2 And k > 1
+                    If IsNum Then
+                        .Cells(iRow, iCol).Value = ADbl(dt.Rows(j)(k))
+                    Else
+                        .Cells(iRow, iCol).Value = dt.Rows(j)(k)
+                    End If
                     If k = 1 Then
                         Select Case .Cells(iRow, 1).Value
                             Case "1", "2", "3", "4", "5", "6"
