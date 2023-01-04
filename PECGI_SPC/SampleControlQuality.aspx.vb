@@ -198,27 +198,37 @@ Public Class SampleControlQuality
             .Cells(Row + 4, Col).Value = "Prod Date"
             .Cells(Row + 5, Col).Value = "Unit Measurement"
 
-            .Cells(Row + 10, Col).Value = "Min"
-            .Cells(Row + 11, Col).Value = "Max"
-            .Cells(Row + 12, Col).Value = "X Bar Bar"
-            .Cells(Row + 13, Col).Value = "R Bar"
-            .Cells(Row, Col, Row + 13, Col + 2).Style.Fill.PatternType = ExcelFillStyle.Solid
-            .Cells(Row, Col, Row + 13, Col + 2).Style.Fill.BackgroundColor.SetColor(Color.FromArgb(242, 242, 242))
-            For iRow = Row To Row + 13
+            .Cells(Row + 6, Col).Value = "Specification USL"
+            .Cells(Row + 7, Col).Value = "Specification LSL"
+            .Cells(Row + 8, Col).Value = "Control Plan UCL"
+            .Cells(Row + 9, Col).Value = "Control Plan CL"
+            .Cells(Row + 10, Col).Value = "Control Plan LCL"
+
+            .Cells(Row + 11, Col).Value = "Min"
+            .Cells(Row + 12, Col).Value = "Max"
+            .Cells(Row + 13, Col).Value = "X Bar Bar"
+            .Cells(Row + 14, Col).Value = "R Bar"
+            .Cells(Row, Col, Row + 14, Col + 2).Style.Fill.PatternType = ExcelFillStyle.Solid
+            .Cells(Row, Col, Row + 14, Col + 2).Style.Fill.BackgroundColor.SetColor(Color.FromArgb(242, 242, 242))
+            For iRow = Row To Row + 14
                 .Cells(iRow, Col, iRow, Col + 2).Merge = True
             Next
-            For irow = Row To Row + 5
+            For irow = Row To Row + 7
                 .Cells(irow, Col + 3, irow, Col + 6).Merge = True
             Next
 
             Col = 14
-            .Cells(Row + 10, Col).Value = "CP"
-            .Cells(Row + 11, Col).Value = "CPK1"
-            .Cells(Row + 12, Col).Value = "CPK2"
-            .Cells(Row + 13, Col).Value = "CPK Min"
-            .Cells(Row + 10, Col, Row + 13, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
-            .Cells(Row + 10, Col, Row + 13, Col).Style.Fill.BackgroundColor.SetColor(Color.FromArgb(242, 242, 242))
-            For iRow = Row + 10 To Row + 13
+            .Cells(Row + 8, Col).Value = "XBar UCL"
+            .Cells(Row + 9, Col).Value = "XBar LCL"
+            .Cells(Row + 10, Col).Value = "R UCL"
+
+            .Cells(Row + 11, Col).Value = "CP"
+            .Cells(Row + 12, Col).Value = "CPK1"
+            .Cells(Row + 13, Col).Value = "CPK2"
+            .Cells(Row + 14, Col).Value = "CPK Min"
+            .Cells(Row + 7, Col, Row + 14, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
+            .Cells(Row + 7, Col, Row + 14, Col).Style.Fill.BackgroundColor.SetColor(Color.FromArgb(242, 242, 242))
+            For iRow = Row + 8 To Row + 14
                 .Cells(iRow, 15, iRow, 16).Merge = True
             Next
             If dtCP.Rows.Count > 0 Then
@@ -230,23 +240,31 @@ Public Class SampleControlQuality
                 .Cells(Row + 4, Col).Value = Format(dtDate.Value, "dd MMM yyyy") & " - " & Format(dtTo.Value, "dd MMM yyyy")
                 .Cells(Row + 5, Col).Value = dtCP.Rows(0)("Unit") & ""
 
-                .Cells(Row + 10, Col).Value = dtCP.Rows(0)("Min")
-                .Cells(Row + 11, Col).Value = dtCP.Rows(0)("Max")
-                .Cells(Row + 12, Col).Value = dtCP.Rows(0)("XBarBar")
-                .Cells(Row + 13, Col).Value = dtCP.Rows(0)("RBar")
-                .Cells(Row + 10, Col, Row + 13, Col).Style.Numberformat.Format = "0.000"
+                .Cells(Row + 6, Col).Value = dtCP.Rows(0)("USL")
+                .Cells(Row + 7, Col).Value = dtCP.Rows(0)("LSL")
+                .Cells(Row + 8, Col).Value = dtCP.Rows(0)("UCL")
+                .Cells(Row + 9, Col).Value = dtCP.Rows(0)("CL")
+                .Cells(Row + 10, Col).Value = dtCP.Rows(0)("LCL")
+
+                .Cells(Row + 11, Col).Value = dtCP.Rows(0)("Min")
+                .Cells(Row + 12, Col).Value = dtCP.Rows(0)("Max")
+                .Cells(Row + 13, Col).Value = dtCP.Rows(0)("XBarBar")
+                .Cells(Row + 14, Col).Value = dtCP.Rows(0)("RBar")
+                .Cells(Row + 6, Col, Row + 14, Col).Style.Numberformat.Format = "0.000"
 
                 Col = 15
-                .Cells(Row + 10, Col).Value = dtCP.Rows(0)("CP")
-                .Cells(Row + 11, Col).Value = dtCP.Rows(0)("CPK1")
-                .Cells(Row + 12, Col).Value = dtCP.Rows(0)("CPK2")
-                .Cells(Row + 13, Col).Value = dtCP.Rows(0)("CPKMin")
-                .Cells(Row + 10, Col, Row + 13, Col).Style.Numberformat.Format = "0.000"
+                .Cells(Row + 8, Col).Value = dtCP.Rows(0)("XBarLCL")
+                .Cells(Row + 9, Col).Value = dtCP.Rows(0)("XBarUCL")
+                .Cells(Row + 10, Col).Value = dtCP.Rows(0)("RUCL")
+
+                .Cells(Row + 11, Col).Value = dtCP.Rows(0)("CP")
+                .Cells(Row + 12, Col).Value = dtCP.Rows(0)("CPK1")
+                .Cells(Row + 13, Col).Value = dtCP.Rows(0)("CPK2")
+                .Cells(Row + 14, Col).Value = dtCP.Rows(0)("CPKMin")
+                .Cells(Row + 6, Col, Row + 13, Col).Style.Numberformat.Format = "0.000"
             End If
 
-
-
-            Dim rg As ExcelRange = .Cells(Row, 10, Row + 13, 16)
+            Dim rg As ExcelRange = .Cells(Row, 6, Row + 14, 16)
             ExcelBorder(pExl, rg)
             rg.Style.HorizontalAlignment = HorzAlignment.Near
         End With

@@ -561,6 +561,7 @@ Public Class ProdSampleInput
         Else
             grid.JSProperties("cpAllowUpdate") = "0"
         End If
+        Session("B02User") = UserID
         Session("B02ProdDate") = ProdDate
         Session("B02ProcessGroup") = cboProcessGroup.Value
         Session("B02LineGroup") = cboLineGroup.Value
