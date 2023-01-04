@@ -222,10 +222,10 @@ Public Class SampleControlQuality
             .Cells(Row + 9, Col).Value = "XBar LCL"
             .Cells(Row + 10, Col).Value = "R UCL"
 
-            .Cells(Row + 11, Col).Value = "CP"
-            .Cells(Row + 12, Col).Value = "CPK1"
-            .Cells(Row + 13, Col).Value = "CPK2"
-            .Cells(Row + 14, Col).Value = "CPK Min"
+            .Cells(Row + 11, Col).Value = "Cp"
+            .Cells(Row + 12, Col).Value = "Cpu"
+            .Cells(Row + 13, Col).Value = "Cpl"
+            .Cells(Row + 14, Col).Value = "Cpk"
             .Cells(Row + 7, Col, Row + 14, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
             .Cells(Row + 7, Col, Row + 14, Col).Style.Fill.BackgroundColor.SetColor(Color.FromArgb(242, 242, 242))
             For iRow = Row + 8 To Row + 14
@@ -252,6 +252,15 @@ Public Class SampleControlQuality
                 .Cells(Row + 14, Col).Value = dtCP.Rows(0)("RBar")
                 .Cells(Row + 6, Col, Row + 14, Col).Style.Numberformat.Format = "0.000"
 
+                If Not IsDBNull(dtCP.Rows(0)("XBarBar")) And (dtCP.Rows(0)("XBarBar") < dtCP.Rows(0)("LCL") Or dtCP.Rows(0)("XBarBar") > dtCP.Rows(0)("UCL")) Then
+                    .Cells(Row + 13, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(Row + 13, Col).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                End If
+                If Not IsDBNull(dtCP.Rows(0)("RBar")) And dtCP.Rows(0)("RBar") > dtCP.Rows(0)("RUCL") Then
+                    .Cells(Row + 14, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(Row + 14, Col).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                End If
+
                 Col = 15
                 .Cells(Row + 8, Col).Value = dtCP.Rows(0)("XBarLCL")
                 .Cells(Row + 9, Col).Value = dtCP.Rows(0)("XBarUCL")
@@ -264,7 +273,7 @@ Public Class SampleControlQuality
                 .Cells(Row + 6, Col, Row + 13, Col).Style.Numberformat.Format = "0.000"
             End If
 
-            Dim rg As ExcelRange = .Cells(Row, 6, Row + 14, 16)
+            Dim rg As ExcelRange = .Cells(Row, 10, Row + 14, 16)
             ExcelBorder(pExl, rg)
             rg.Style.HorizontalAlignment = HorzAlignment.Near
         End With
@@ -697,6 +706,15 @@ Public Class SampleControlQuality
                             .JSProperties("cpXBarColor") = "1"
                         Else
                             .JSProperties("cpXBarColor") = "0"
+                        End If
+                    End If
+                    If Not IsDBNull(dtCP.Rows(0)("RUCL")) AndAlso Not IsDBNull(dtCP.Rows(0)("RBar")) Then
+                        Dim RBar As Double = dtCP.Rows(0)("RBar")
+                        Dim RUCL As Double = dtCP.Rows(0)("RUCL")
+                        If RBar > RUCL Then
+                            .JSProperties("cpRBarColor") = "1"
+                        Else
+                            .JSProperties("cpRBarColor") = "0"
                         End If
                     End If
                 End If

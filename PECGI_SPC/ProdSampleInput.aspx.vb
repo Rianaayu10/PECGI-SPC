@@ -1292,8 +1292,8 @@ Public Class ProdSampleInput
 
             .Cells(iRow + 1, 11 + AddCol).Value = C
             If C <> "" Then
-                .Cells(iRow + 1, 11).Style.Fill.PatternType = ExcelFillStyle.Solid
-                .Cells(iRow + 1, 11).Style.Fill.BackgroundColor.SetColor(Color.Orange)
+                .Cells(iRow + 1, 11 + AddCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+                .Cells(iRow + 1, 11 + AddCol).Style.Fill.BackgroundColor.SetColor(Color.Orange)
             End If
 
             If ChartType = "1" Then

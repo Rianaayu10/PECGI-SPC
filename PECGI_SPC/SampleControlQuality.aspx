@@ -317,6 +317,11 @@
             } else {
                 document.getElementById('tdXBarBar').style.backgroundColor = 'White';
             }
+            if (s.cpRBarColor == '1') {                
+                document.getElementById('tdRBar').style.backgroundColor = 'Pink';
+            } else {
+                document.getElementById('tdRBar').style.backgroundColor = 'White';
+            }
 
             chartX.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + dtTo.GetText() + '|' + cboShow.GetValue());
             chartR.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + dtTo.GetText() + '|' + cboShow.GetValue());                
