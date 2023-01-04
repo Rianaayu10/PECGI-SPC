@@ -1116,10 +1116,10 @@ Public Class ProdSampleVerification
             GridX.JSProperties("cpMAX") = AFormat(dtChartSetup.Rows(0)("nMAX"))
             GridX.JSProperties("cpAVG") = AFormat(dtChartSetup.Rows(0)("nAVG"))
             GridX.JSProperties("cpR") = AFormat(dtChartSetup.Rows(0)("nR"))
-            GridX.JSProperties("cpC") = dtChartSetup.Rows(0)("C").ToString
-            GridX.JSProperties("cpNG") = dtChartSetup.Rows(0)("NG").ToString
-            GridX.JSProperties("cpCS") = dtChartSetup.Rows(0)("CS").ToString
-            GridX.JSProperties("cpCSCode") = dtChartSetup.Rows(0)("CSCode").ToString
+            GridX.JSProperties("cpC") = dtChartSetup.Rows(0)("C")
+            GridX.JSProperties("cpNG") = dtChartSetup.Rows(0)("NG")
+            GridX.JSProperties("cpCS") = dtChartSetup.Rows(0)("CS")
+            GridX.JSProperties("cpCSCode") = dtChartSetup.Rows(0)("CSCode")
 
             GridX.JSProperties("cpMINClr") = dtChartSetup.Rows(0)("nMINClr")
             GridX.JSProperties("cpMAXClr") = dtChartSetup.Rows(0)("nMAXClr")
@@ -1634,6 +1634,7 @@ Public Class ProdSampleVerification
                 Dim R = dtChartSetup.Rows(0)("nR")
                 Dim C = dtChartSetup.Rows(0)("C")
                 Dim NG = dtChartSetup.Rows(0)("NG")
+                Dim CSCode = dtChartSetup.Rows(0)("CSCode")
 
                 Dim MAXClr = dtChartSetup.Rows(0)("nMAXClr")
                 Dim MINClr = dtChartSetup.Rows(0)("nMINClr")
@@ -1643,11 +1644,24 @@ Public Class ProdSampleVerification
                 Dim NG_Clr = dtChartSetup.Rows(0)("NG_Clr")
 
                 Dim irow = row_GridTitle + 2
-                Dim icolhdr1 = 1
-                Dim icolhdr2 = 1
-                Dim icolbd = 1
+                Dim icolhdr1 = 2
+                Dim icolhdr2 = 2
+                Dim icolbd = 2
 
                 '-----ADD HEADER 1-------
+                .Cells(irow, 1).Value = CSCode
+                Dim CScode_Rg As ExcelRange = .Cells(irow, 1, irow + 2, 1)
+                CScode_Rg.Merge = True
+                CScode_Rg.Style.HorizontalAlignment = HorzAlignment.Center
+                CScode_Rg.Style.VerticalAlignment = ExcelVerticalAlignment.Center
+                CScode_Rg.Style.Font.Bold = True
+                CScode_Rg.Style.Font.Size = 16
+                CScode_Rg.Style.Font.Name = "Segoe UI"
+                CScode_Rg.Style.Border.Top.Style = ExcelBorderStyle.Thin
+                CScode_Rg.Style.Border.Bottom.Style = ExcelBorderStyle.Thin
+                CScode_Rg.Style.Border.Right.Style = ExcelBorderStyle.Thin
+                CScode_Rg.Style.Border.Left.Style = ExcelBorderStyle.Thin
+
                 .Cells(irow, icolhdr1).Value = "Specification"
                 .Cells(irow, icolhdr1, irow, icolhdr1 + 1).Merge = True
                 icolhdr1 = icolhdr1 + 2
@@ -1665,13 +1679,14 @@ Public Class ProdSampleVerification
                 .Cells(irow, icolhdr1).Value = "Result"
                 .Cells(irow, icolhdr1, irow, icolhdr1 + 5).Merge = True
 
-                Dim rgCellhdr1 As ExcelRange = .Cells(irow, 1, irow, icolhdr1 + 5)
+                Dim rgCellhdr1 As ExcelRange = .Cells(irow, 2, irow, icolhdr1 + 5)
                 rgCellhdr1.Style.Font.Size = 10
                 rgCellhdr1.Style.Font.Name = "Segoe UI"
                 rgCellhdr1.Style.HorizontalAlignment = HorzAlignment.Center
                 rgCellhdr1.Style.Font.Color.SetColor(Color.White)
                 rgCellhdr1.Style.Fill.PatternType = ExcelFillStyle.Solid
                 rgCellhdr1.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.DimGray)
+                rgCellhdr1.Style.VerticalAlignment = ExcelVerticalAlignment.Center
                 '-------------------------
 
                 '-----ADD HEADER 2-------
@@ -1707,16 +1722,17 @@ Public Class ProdSampleVerification
 
                 .Cells(irow, icolhdr2).Value = "R"
 
-                Dim rgCellhdr2 As ExcelRange = .Cells(irow, 1, irow, icolhdr2)
+                Dim rgCellhdr2 As ExcelRange = .Cells(irow, 2, irow, icolhdr2)
                 rgCellhdr2.Style.Font.Size = 10
                 rgCellhdr2.Style.Font.Name = "Segoe UI"
                 rgCellhdr2.Style.HorizontalAlignment = HorzAlignment.Center
                 rgCellhdr2.Style.Font.Color.SetColor(Color.White)
                 rgCellhdr2.Style.Fill.PatternType = ExcelFillStyle.Solid
                 rgCellhdr2.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.DimGray)
+                rgCellhdr2.Style.VerticalAlignment = ExcelVerticalAlignment.Center
                 '-------------------------
 
-                '-----ADD HEADER 2-------
+                '-----ADD DATA CELL-------
                 irow = irow + 1
                 .Cells(irow, icolbd).Value = USL
                 .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
@@ -1784,13 +1800,14 @@ Public Class ProdSampleVerification
                 .Cells(irow - 1, icolbd, irow, icolbd).Style.Fill.PatternType = ExcelFillStyle.Solid
                 .Cells(irow - 1, icolbd, irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(NG_Clr))
 
-                Dim Border As ExcelRange = .Cells(irow - 2, 1, irow, icolbd)
+                Dim Border As ExcelRange = .Cells(irow - 2, 2, irow, icolbd)
                 Border.Style.Border.Top.Style = ExcelBorderStyle.Thin
                 Border.Style.Border.Bottom.Style = ExcelBorderStyle.Thin
                 Border.Style.Border.Right.Style = ExcelBorderStyle.Thin
                 Border.Style.Border.Left.Style = ExcelBorderStyle.Thin
                 Border.Style.Font.Size = 10
                 Border.Style.Font.Name = "Segoe UI"
+                Border.Style.VerticalAlignment = ExcelVerticalAlignment.Center
 
                 row_ChartSetup = irow
 
@@ -1947,6 +1964,9 @@ Public Class ProdSampleVerification
                 Border.Style.Font.Size = 10
                 Border.Style.Font.Name = "Segoe UI"
                 Border.Style.HorizontalAlignment = HorzAlignment.Center
+                Border.Style.WrapText = True
+                Border.Style.VerticalAlignment = ExcelVerticalAlignment.Center
+
             Catch ex As Exception
                 Throw New Exception(ex.Message)
             End Try
@@ -2065,6 +2085,8 @@ Public Class ProdSampleVerification
                 Border.Style.Border.Left.Style = ExcelBorderStyle.Thin
                 Border.Style.Font.Size = 10
                 Border.Style.Font.Name = "Segoe UI"
+                Border.Style.WrapText = True
+                Border.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center
 
             End With
         Catch ex As Exception

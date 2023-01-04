@@ -808,6 +808,8 @@ Public Class ProductionSampleVerificationList
                     Border.Style.Border.Bottom.Style = ExcelBorderStyle.Thin
                     Border.Style.Border.Right.Style = ExcelBorderStyle.Thin
                     Border.Style.Border.Left.Style = ExcelBorderStyle.Thin
+                    Border.Style.WrapText = True
+                    Border.Style.VerticalAlignment = ExcelVerticalAlignment.Center
 
                 End With
                 Response.Clear()
