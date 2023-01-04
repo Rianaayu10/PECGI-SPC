@@ -12,6 +12,11 @@
         Try
             If validation(txtusername.Text, txtpassword.Text) Then
                 Session("user") = txtusername.Text
+
+                Dim B02User As String = Session("B02User") & ""
+                If B02User.Trim.ToUpper <> txtusername.Text.Trim.ToUpper Then
+                    Session("B02ProcessGroup") = ""
+                End If
                 Response.Redirect("Main.aspx")
             End If
         Catch ex As Exception
@@ -19,7 +24,6 @@
         End Try
     End Sub
     Private Sub _Default_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Session("B02ProcessGroup") = ""
         If Request.QueryString("Link") IsNot Nothing Then
             Dim clsDESEncryption As New clsDESEncryption("TOS")
             Dim prm = Request.QueryString("Link")
