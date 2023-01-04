@@ -106,17 +106,21 @@
                 width: 200px;
                 height: 30px;
             }
-            .auto-style19 {
-                width: 100px;
-                height: 30px;
-            }
-        
+                    
             .auto-style20 {
                 height: 30px;
             }
         
             .auto-style21 {
                 height: 2px;
+            }
+        
+            .auto-style23 {
+                width: 96px;
+            }
+        
+            .auto-style24 {
+                width: 40%;
             }
         
             </style>
@@ -389,7 +393,7 @@
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel>
             </td>            
-            <td style="padding:5px 0px 0px 10px;" colspan="3" class="auto-style20">                
+            <td style="padding:5px 0px 0px 10px; width:250px" colspan="3" class="auto-style20">                
 
                 
                 <dx:ASPxComboBox ID="cboItemCheck" runat="server" Theme="Office2010Black" 
@@ -413,10 +417,9 @@
            
            
            
-            <td style="padding: 5px 0px 0px 0px" class="auto-style20">
+            <td style="padding: 5px 0px 0px 0px; width:100%" colspan="3">
 
                 </td>
-            <td class="auto-style20"></td>
         </tr>
 
         <tr>
@@ -528,15 +531,9 @@
             
 
             </td>
-            <td style="padding:5px 0px 0px 20px">
+            <td style="padding:5px 0px 0px 20px" colspan="3">
 
-                &nbsp;</td>
-            <td style="padding:5px 0px 0px 5px" class="auto-style19">
-
-                                &nbsp;</td>
-            <td style="width: 200px">
-
-            </td>
+                </td>
         </tr>
             <tr>
                 <td style="padding:5px 0px 0px 0px">
@@ -603,7 +600,7 @@
                     </ButtonStyle>
                 </dx:ASPxComboBox>                                    
                 </td>
-                <td>
+                <td style="width:30px">
 
                 </td>
                 <td>
@@ -661,7 +658,7 @@
                 </dx:ASPxButton>
                 
                 </td>
-                <td style="padding:5px 0px 0px 6px">
+                <td style="padding:5px 0px 0px 6px" class="auto-style23">
 
                                 <dx:ASPxButton ID="btnExcel" runat="server" AutoPostBack="False" 
                                     ClientInstanceName="btnExcel" Font-Names="Segoe UI" Font-Size="9pt" 
@@ -669,6 +666,9 @@
                                     Width="90px" TabIndex="10">
                                     <Paddings Padding="2px" />
                                 </dx:ASPxButton>                            
+
+                </td>
+                <td style="width:100%">
 
                 </td>
             </tr>

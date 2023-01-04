@@ -1098,6 +1098,7 @@ Public Class ProdSampleInput
                 USL = dt.Rows(0)("SpecUSL") & ""
                 LSL = dt.Rows(0)("SpecLSL") & ""
                 UCL = dt.Rows(0)("CPUCL") & ""
+                CL = dt.Rows(0)("CPCL") & ""
                 LCL = dt.Rows(0)("CPLCL") & ""
                 XBarUCL = dt.Rows(0)("XBarUCL") & ""
                 XBarLCL = dt.Rows(0)("XBarLCL") & ""
