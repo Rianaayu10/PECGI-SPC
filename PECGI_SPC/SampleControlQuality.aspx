@@ -119,10 +119,6 @@
                 width: 96px;
             }
         
-            .auto-style24 {
-                width: 40%;
-            }
-        
             </style>
     <script type="text/javascript" >
         var rowIndex, columnIndex;
@@ -294,6 +290,7 @@
             lblXLCL.SetText(s.cpXLCL);
             lblXUCL.SetText(s.cpXUCL);
             lblRUCL.SetText(s.cpRUCL);
+            lblD2.SetText(s.cpD2);
 
             lblMin.SetText(s.cpMin);
             lblMax.SetText(s.cpMax);
@@ -1056,7 +1053,13 @@
                         </td>
                         <td  class="auto-style11" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblSpecLSL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLSL"></dx:ASPxLabel>
-                        </td>                        
+                        </td>      
+                        <td class="auto-style8" style="padding-left:5px">
+                            <dx:ASPxLabel ID="ASPxLabel15" runat="server" Text="d2" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                        </td>
+                        <td  class="auto-style11" style="padding-left:5px">
+                            <dx:ASPxLabel ID="lblD2" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblD2"></dx:ASPxLabel>
+                        </td>
                     </tr>
                     <tr >
                         <td class="auto-style7" style="padding-left:5px">
@@ -1066,10 +1069,10 @@
                             <dx:ASPxLabel ID="lblUCL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblUCL"></dx:ASPxLabel>
                         </td>                   
 
-                        <td class="auto-style8" style="padding-left:5px">
+                        <td class="auto-style7" style="padding-left:5px">
                             <dx:ASPxLabel ID="ASPxLabel35" runat="server" Text="X Bar UCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                         </td>
-                        <td  class="auto-style11" style="padding-left:5px">
+                        <td  class="auto-style10" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblXUCL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXUCL"></dx:ASPxLabel>
                         </td>                         
                     </tr>

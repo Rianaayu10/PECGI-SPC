@@ -218,6 +218,7 @@ Public Class SampleControlQuality
             Next
 
             Col = 14
+            .Cells(Row + 7, Col).Value = "d2"
             .Cells(Row + 8, Col).Value = "XBar UCL"
             .Cells(Row + 9, Col).Value = "XBar LCL"
             .Cells(Row + 10, Col).Value = "R UCL"
@@ -262,6 +263,7 @@ Public Class SampleControlQuality
                 End If
 
                 Col = 15
+                .Cells(Row + 7, Col).Value = dtCP.Rows(0)("D2")
                 .Cells(Row + 8, Col).Value = dtCP.Rows(0)("XBarLCL")
                 .Cells(Row + 9, Col).Value = dtCP.Rows(0)("XBarUCL")
                 .Cells(Row + 10, Col).Value = dtCP.Rows(0)("RUCL")
@@ -582,6 +584,14 @@ Public Class SampleControlQuality
         cboFactory.DataBind()
     End Sub
 
+    Private Function AFormat(v As Object) As String
+        If v Is Nothing OrElse IsDBNull(v) Then
+            Return ""
+        Else
+            Return Format(v, "0.000")
+        End If
+    End Function
+
     Dim dtXR As DataTable
     Dim dtLSL As DataTable
     Dim dtUSL As DataTable
@@ -677,21 +687,22 @@ Public Class SampleControlQuality
                     .JSProperties("cpProdDate") = ProdDate & " - " & ProdDate2
                     .JSProperties("cpUnit") = dtCP.Rows(0)("Unit") & ""
 
-                    .JSProperties("cpLSL") = dtCP.Rows(0)("LSL") & ""
-                    .JSProperties("cpUSL") = dtCP.Rows(0)("USL") & ""
-                    .JSProperties("cpLCL") = dtCP.Rows(0)("LCL") & ""
-                    .JSProperties("cpCL") = dtCP.Rows(0)("CL") & ""
-                    .JSProperties("cpUCL") = dtCP.Rows(0)("UCL") & ""
-                    .JSProperties("cpRUCL") = dtCP.Rows(0)("RUCL") & ""
-                    .JSProperties("cpXLCL") = dtCP.Rows(0)("XBarLCL") & ""
-                    .JSProperties("cpXUCL") = dtCP.Rows(0)("XBarUCL") & ""
+                    .JSProperties("cpLSL") = AFormat(dtCP.Rows(0)("LSL"))
+                    .JSProperties("cpUSL") = AFormat(dtCP.Rows(0)("USL"))
 
-                    .JSProperties("cpMin") = dtCP.Rows(0)("Min") & ""
-                    .JSProperties("cpMax") = dtCP.Rows(0)("Max") & ""
-                    .JSProperties("cpAvg") = dtCP.Rows(0)("Avg") & ""
+                    .JSProperties("cpLCL") = AFormat(dtCP.Rows(0)("LCL"))
+                    .JSProperties("cpCL") = AFormat(dtCP.Rows(0)("CL"))
+                    .JSProperties("cpUCL") = AFormat(dtCP.Rows(0)("UCL"))
+
+                    .JSProperties("cpD2") = AFormat(dtCP.Rows(0)("D2"))
+                    .JSProperties("cpRUCL") = AFormat(dtCP.Rows(0)("RUCL"))
+                    .JSProperties("cpXLCL") = AFormat(dtCP.Rows(0)("XBarLCL"))
+                    .JSProperties("cpXUCL") = AFormat(dtCP.Rows(0)("XBarUCL"))
+
+                    .JSProperties("cpMin") = AFormat(dtCP.Rows(0)("Min"))
+                    .JSProperties("cpMax") = AFormat(dtCP.Rows(0)("Max"))
+                    .JSProperties("cpAvg") = AFormat(dtCP.Rows(0)("Avg"))
                     .JSProperties("cpSTD") = dtCP.Rows(0)("STD") & ""
-                    .JSProperties("cpLSL") = dtCP.Rows(0)("LSL") & ""
-                    .JSProperties("cpUSL") = dtCP.Rows(0)("USL") & ""
                     .JSProperties("cpCP") = dtCP.Rows(0)("CP") & ""
                     .JSProperties("cpCPK1") = dtCP.Rows(0)("CPK1") & ""
                     .JSProperties("cpCPK2") = dtCP.Rows(0)("CPK2") & ""
