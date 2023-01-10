@@ -1055,7 +1055,7 @@
                             <dx:ASPxLabel ID="lblSpecLSL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLSL"></dx:ASPxLabel>
                         </td>      
                         <td class="auto-style8" style="padding-left:5px">
-                            <dx:ASPxLabel ID="ASPxLabel15" runat="server" Text="d2" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="ASPxLabel15" runat="server" Text="d<sub>2</sub>" Font-Names="Segoe UI" Font-Size="9pt" EncodeHtml="False"></dx:ASPxLabel>                            
                         </td>
                         <td  class="auto-style11" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblD2" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblD2"></dx:ASPxLabel>
