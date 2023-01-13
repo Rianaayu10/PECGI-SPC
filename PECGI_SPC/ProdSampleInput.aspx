@@ -1186,13 +1186,7 @@
                 
                             </td>
                             <td style="padding:10px 0px 10px 5px">
-                <dx:ASPxButton ID="btnRule2" runat="server" AutoPostBack="False" 
-                    ClientInstanceName="btnRule2" Font-Names="Segoe UI" Font-Size="9pt" 
-                    Height="25px" Text="View Break SPC Rule" Theme="Office2010Silver" UseSubmitBehavior="False" 
-                    Width="150px" TabIndex="10">                    
-                    <Paddings Padding="2px" />
-                    <ClientSideEvents Click="ShowPopUpRule2"/>
-                </dx:ASPxButton>
+                
                             </td>
                         <td>
 <dx:ASPxPopupControl ID="pcRule1" runat="server" ClientInstanceName="pcRule1" Height="250px" Width="600px" HeaderText="Table Rule" Modal="True"
