@@ -648,7 +648,8 @@ Public Class ControlChartSetup
                 .RCL = IIf(RCL Is Nothing, 0, RCL), .RCLOld = IIf(RCLOld Is Nothing, 0, RCLOld),
                 .RLCL = IIf(RLCL Is Nothing, 0, RLCL), .RLCLOld = IIf(RLCLOld Is Nothing, 0, RLCLOld),
                 .RUCL = RUCL, .RUCLOld = RUCLOld,
-                .Remark = Remark, .RemarkOld = RemarkOld,
+                .Remark = IIf(Remark Is Nothing, "", Remark),
+				.RemarkOld = IIf(RemarkOld Is Nothing, "", RemarkOld),
                 .User = User
             }
             clsControlChartSetupDB.InsertUpdate(cls, Type)
