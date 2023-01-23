@@ -89,7 +89,6 @@
             var prodDate = dtDate.GetText();
 
             var cmdLine = url + "," + userID  + "," + factoryCode  + "," + processGroup  + "," + lineGroup  + "," + processCode  + "," + lineCode + "," + itemType + "," + itemCheck + "," + shiftCode + "," + seqNo + "," + prodDate;
-alert(cmdLine);
             window.open(cmdLine);self.focus();
         }
 
@@ -158,6 +157,7 @@ alert(cmdLine);
             w.style.display = "";
             v.style.display = "none";
             btnNew.SetEnabled(false);
+            btnRead.SetEnabled(false);
             btnSave.SetEnabled(false);
         }
 
@@ -450,8 +450,10 @@ alert(cmdLine);
             }
             if (s.cpAllowInsert == '1') {
                 btnNew.SetEnabled(true);
+                btnRead.SetEnabled(true);
             } else {
                 btnNew.SetEnabled(false);
+                btnRead.SetEnabled(false);
             }
             if (s.cpAllowUpdate == '1') {
                 btnSave.SetEnabled(true);
@@ -1369,7 +1371,7 @@ alert(cmdLine);
             </cc1:Series>
             <cc1:Series Name="RuleYellow" ArgumentDataMember="Seq" ShowInLegend="False" ToolTipEnabled="False" ValueDataMembersSerializable="RuleYellow" CrosshairEnabled="False">
                 <ViewSerializable>
-                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="255, 255, 0" Transparency="200" AxisYName="Secondary AxisY 1">
+                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="255, 255, 0" Transparency="100" AxisYName="Secondary AxisY 1">
                         <Border Visibility="False" />
                         <FillStyle FillMode="Solid">
                         </FillStyle>
@@ -1378,7 +1380,7 @@ alert(cmdLine);
             </cc1:Series>
             <cc1:Series ArgumentDataMember="Seq" Name="RuleRed" ShowInLegend="False" ValueDataMembersSerializable="RuleRed" CrosshairEnabled="False" ToolTipEnabled="False">
                 <ViewSerializable>
-                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="240, 0, 0" Transparency="200">
+                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="Pink" Transparency="100">
                         <FillStyle FillMode="Solid">
                         </FillStyle>
                     </cc1:FullStackedBarSeriesView>

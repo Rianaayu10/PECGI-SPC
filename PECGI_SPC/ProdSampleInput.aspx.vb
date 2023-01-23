@@ -1587,7 +1587,7 @@ Public Class ProdSampleInput
             diagram.AxisY.ConstantLines.Clear()
             If Setup IsNot Nothing Then
                 Dim RUCL As New ConstantLine("UCL R")
-                RUCL.Color = System.Drawing.Color.Red
+                RUCL.Color = System.Drawing.Color.Orange
                 RUCL.LineStyle.Thickness = 1
                 RUCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(RUCL)
@@ -1672,14 +1672,14 @@ Public Class ProdSampleInput
 
                 If ChartType = "1" Or ChartType = "2" Then
                     Dim XBarLCL As New ConstantLine("XBarLCL")
-                    XBarLCL.Color = System.Drawing.Color.Yellow
+                    XBarLCL.Color = System.Drawing.Color.Orange
                     XBarLCL.LineStyle.Thickness = 1
                     XBarLCL.LineStyle.DashStyle = DashStyle.Dash
                     diagram.AxisY.ConstantLines.Add(XBarLCL)
                     XBarLCL.AxisValue = Setup.XBarLCL
 
                     Dim XBarUCL As New ConstantLine("XBarUCL")
-                    XBarUCL.Color = System.Drawing.Color.Yellow
+                    XBarUCL.Color = System.Drawing.Color.Orange
                     XBarUCL.LineStyle.Thickness = 1
                     XBarUCL.LineStyle.DashStyle = DashStyle.Dash
                     diagram.AxisY.ConstantLines.Add(XBarUCL)
