@@ -230,7 +230,7 @@ Public Class SampleControlQuality
             .Cells(Row + 7, Col, Row + 14, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
             .Cells(Row + 7, Col, Row + 14, Col).Style.Fill.BackgroundColor.SetColor(Color.FromArgb(242, 242, 242))
             For iRow = Row + 8 To Row + 14
-                .Cells(iRow, 15, iRow, 16).Merge = True
+                .Cells(iRow, 14, iRow, 15).Merge = True
             Next
             If dtCP.Rows.Count > 0 Then
                 Col = 13
@@ -253,7 +253,7 @@ Public Class SampleControlQuality
                 .Cells(Row + 14, Col).Value = dtCP.Rows(0)("RBar")
                 .Cells(Row + 6, Col, Row + 14, Col).Style.Numberformat.Format = "0.000"
 
-                If Not IsDBNull(dtCP.Rows(0)("XBarBar")) And (dtCP.Rows(0)("XBarBar") < dtCP.Rows(0)("LCL") Or dtCP.Rows(0)("XBarBar") > dtCP.Rows(0)("UCL")) Then
+                If Not IsDBNull(dtCP.Rows(0)("XBarBar")) And (dtCP.Rows(0)("XBarBar") < dtCP.Rows(0)("XbarLCL") Or dtCP.Rows(0)("XBarBar") > dtCP.Rows(0)("XBarUCL")) Then
                     .Cells(Row + 13, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
                     .Cells(Row + 13, Col).Style.Fill.BackgroundColor.SetColor(Color.Pink)
                 End If
@@ -262,10 +262,10 @@ Public Class SampleControlQuality
                     .Cells(Row + 14, Col).Style.Fill.BackgroundColor.SetColor(Color.Pink)
                 End If
 
-                Col = 15
+                Col = 16
                 .Cells(Row + 7, Col).Value = dtCP.Rows(0)("D2")
-                .Cells(Row + 8, Col).Value = dtCP.Rows(0)("XBarLCL")
-                .Cells(Row + 9, Col).Value = dtCP.Rows(0)("XBarUCL")
+                .Cells(Row + 8, Col).Value = dtCP.Rows(0)("XBarUCL")
+                .Cells(Row + 9, Col).Value = dtCP.Rows(0)("XBarLCL")
                 .Cells(Row + 10, Col).Value = dtCP.Rows(0)("RUCL")
 
                 .Cells(Row + 11, Col).Value = dtCP.Rows(0)("CP")
@@ -711,8 +711,8 @@ Public Class SampleControlQuality
                     .JSProperties("cpCPKMin") = dtCP.Rows(0)("CPKMin") & ""
                     If Not IsDBNull(dtCP.Rows(0)("XBarBar")) AndAlso Not IsDBNull(dtCP.Rows(0)("LCL")) AndAlso Not IsDBNull(dtCP.Rows(0)("UCL")) Then
                         Dim XBarBar As Double = dtCP.Rows(0)("XBarBar")
-                        Dim LCL As Double = dtCP.Rows(0)("LCL")
-                        Dim UCL As Double = dtCP.Rows(0)("UCL")
+                        Dim LCL As Double = dtCP.Rows(0)("XBarLCL")
+                        Dim UCL As Double = dtCP.Rows(0)("XBarUCL")
                         If XBarBar < LCL Or XBarBar > UCL Then
                             .JSProperties("cpXBarColor") = "1"
                         Else
@@ -976,14 +976,14 @@ Public Class SampleControlQuality
 
                 If ChartType = "1" Or ChartType = "2" Then
                     Dim XBarLCL As New ConstantLine("XBarLCL")
-                    XBarLCL.Color = System.Drawing.Color.Yellow
+                    XBarLCL.Color = System.Drawing.Color.Orange
                     XBarLCL.LineStyle.Thickness = 1
                     XBarLCL.LineStyle.DashStyle = DashStyle.Dash
                     diagram.AxisY.ConstantLines.Add(XBarLCL)
                     XBarLCL.AxisValue = Setup.XBarLCL
 
                     Dim XBarUCL As New ConstantLine("XBarUCL")
-                    XBarUCL.Color = System.Drawing.Color.Yellow
+                    XBarUCL.Color = System.Drawing.Color.Orange
                     XBarUCL.LineStyle.Thickness = 1
                     XBarUCL.LineStyle.DashStyle = DashStyle.Dash
                     diagram.AxisY.ConstantLines.Add(XBarUCL)
@@ -1091,7 +1091,7 @@ Public Class SampleControlQuality
             diagram.AxisY.ConstantLines.Clear()
             If Setup IsNot Nothing Then
                 Dim RUCL As New ConstantLine("UCL R")
-                RUCL.Color = System.Drawing.Color.Red
+                RUCL.Color = System.Drawing.Color.Orange
                 RUCL.LineStyle.Thickness = 1
                 RUCL.LineStyle.DashStyle = DashStyle.Dash
                 diagram.AxisY.ConstantLines.Add(RUCL)

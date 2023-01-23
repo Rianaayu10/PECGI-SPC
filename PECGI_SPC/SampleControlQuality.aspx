@@ -859,20 +859,22 @@
                 <ViewSerializable>
                     <cc1:LineSeriesView>
                         <LineStyle Thickness="1" />
-                        <LineMarkerOptions Size="3">
+                        <LineMarkerOptions Size="3" Color="Blue" Kind="Diamond">
                     </LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
             <cc1:Series ArgumentDataMember="Seq" Name="RuleYellow" ShowInLegend="False" ValueDataMembersSerializable="RuleYellow">
                 <ViewSerializable>
-                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="Yellow" Transparency="200">
+                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="Yellow" Transparency="130">
+                        <FillStyle FillMode="Solid">
+                        </FillStyle>
                     </cc1:FullStackedBarSeriesView>
                 </ViewSerializable>
             </cc1:Series>
             <cc1:Series ArgumentDataMember="Seq" Name="RuleRed" ShowInLegend="False" ValueDataMembersSerializable="RuleRed">
                 <ViewSerializable>
-                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="Red" Transparency="200">
+                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="Pink" Transparency="100">
                     </cc1:FullStackedBarSeriesView>
                 </ViewSerializable>
             </cc1:Series>
