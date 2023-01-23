@@ -281,6 +281,7 @@ Public Class ProdSampleInput
         sGlobal.getMenu("B020 ")
         Master.SiteTitle = sGlobal.idMenu & " - " & sGlobal.menuName
         pUser = Session("user") & ""
+        hfUserID.Set("UserID", pUser)
         AuthUpdate = sGlobal.Auth_UserUpdate(pUser, "B020 ")
         grid.SettingsDataSecurity.AllowInsert = True
         grid.SettingsDataSecurity.AllowEdit = True

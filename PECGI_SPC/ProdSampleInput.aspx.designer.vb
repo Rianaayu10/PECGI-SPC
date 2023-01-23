@@ -221,13 +221,13 @@ Partial Public Class ProdSampleInput
     Protected WithEvents btnSearch As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
-    '''hfRevNo control.
+    '''hfUserID control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents hfRevNo As Global.DevExpress.Web.ASPxHiddenField
+    Protected WithEvents hfUserID As Global.DevExpress.Web.ASPxHiddenField
 
     '''<summary>
     '''btnNew control.

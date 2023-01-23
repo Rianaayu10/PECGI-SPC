@@ -74,6 +74,25 @@
               AddNewRow(); 
         }
 
+        function OpenMeasurement() {
+            var url = "SPCMeasurement:";            
+            var userID = hfUserID.Get("UserID");
+            var factoryCode = cboFactory.GetValue();
+            var processGroup = cboProcessGroup.GetValue();
+            var lineGroup = cboLineGroup.GetValue();
+            var processCode = cboProcess.GetValue();
+            var lineCode = cboLine.GetValue();
+            var itemType = cboType.GetValue();
+            var itemCheck = cboItemCheck.GetValue();
+            var shiftCode = cboShift.GetValue();
+            var seqNo = cboSeq.GetValue();
+            var prodDate = dtDate.GetText();
+
+            var cmdLine = url + "," + userID  + "," + factoryCode  + "," + processGroup  + "," + lineGroup  + "," + processCode  + "," + lineCode + "," + itemType + "," + itemCheck + "," + shiftCode + "," + seqNo + "," + prodDate;
+alert(cmdLine);
+            window.open(cmdLine);self.focus();
+        }
+
         function AddNewRow(s, e) {
             var errmsg = '';
             if(cboFactory.GetText() == '') {
@@ -784,7 +803,7 @@
     </table>
     </div>
 <div style="height:10px">
-    <dx:ASPxHiddenField ID="hfRevNo" runat="server" ClientInstanceName="hfRevNo">
+    <dx:ASPxHiddenField ID="hfUserID" runat="server" ClientInstanceName="hfUserID">
     </dx:ASPxHiddenField>
 </div>
 <hr style="border-color:darkgray; " class="auto-style1"/>
@@ -819,7 +838,8 @@
                                     ClientInstanceName="btnRead" Font-Names="Segoe UI" Font-Size="9pt" 
                                     Height="25px" Text="Read from Device" Theme="Office2010Silver" UseSubmitBehavior="False" 
                                     Width="90px" TabIndex="10">
-                                    <Paddings Padding="2px" />
+                                    <Paddings Padding="2px" />    
+                                    <ClientSideEvents Click="OpenMeasurement" />
                                 </dx:ASPxButton>                             
                         </td>
                         <td style="padding-right:5px">
@@ -1274,7 +1294,7 @@
                     </cc1:FullStackedBarSeriesView>
                 </ViewSerializable>
             </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="Average" ValueDataMembersSerializable="AvgValue" CrosshairLabelPattern="{S}: {V:0.000}">
+            <cc1:Series ArgumentDataMember="Seq" Name="XBar" ValueDataMembersSerializable="AvgValue" CrosshairLabelPattern="{S}: {V:0.000}">
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="Blue">
                         <LineStyle Thickness="1" />
@@ -1342,7 +1362,7 @@
                 <ViewSerializable>
                     <cc1:LineSeriesView>
                         <LineStyle Thickness="1" />
-                    <LineMarkerOptions BorderColor="White" Size="5">
+                    <LineMarkerOptions BorderColor="White" Size="5" Color="Blue" Kind="Diamond">
                     </LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>
