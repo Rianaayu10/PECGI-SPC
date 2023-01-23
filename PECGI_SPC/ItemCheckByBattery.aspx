@@ -506,10 +506,10 @@
                 </dx:GridViewDataComboBoxColumn>
 
                 <dx:GridViewDataComboBoxColumn Caption="Registration Alat Ukur" FieldName="RegistrationNo" VisibleIndex="5"
-                    Width="70px" Settings-AutoFilterCondition="Contains">
+                    Width="200px" Settings-AutoFilterCondition="Contains">
                     <PropertiesComboBox DataSourceID="dsRegNo" DropDownStyle="DropDownList" TextFormatString="{0}"
-                        IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="70px"
-                        TextField="RegistrationNo" ValueField="RegistrationNo" ClientInstanceName="RegistrationNo">
+                        IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="190px"
+                        TextField="RegistrationName" ValueField="RegistrationNo" ClientInstanceName="RegistrationNo">
                         <ItemStyle Height="10px" Paddings-Padding="4px">
                             <Paddings Padding="4px"></Paddings>
                         </ItemStyle>
