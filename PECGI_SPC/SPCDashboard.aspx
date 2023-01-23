@@ -154,6 +154,7 @@
                                                     <th>Min</th>
                                                     <th>Max</th>
                                                     <th>Average</th>
+                                                    <th>R</th>
                                                     <th>Operator</th>
                                                     <th>MK</th>
                                                     <th>QC</th>
@@ -201,6 +202,9 @@
                                                     </td>
                                                     <td runat="server" id="AveValueNG">
                                                         <asp:Label ID="lblAve" runat="server" Text='<%# Eval("Average") %>' />
+                                                    </td>
+                                                    <td runat="server" id="RValue">
+                                                        <asp:Label ID="lblRValue" runat="server" Text='<%# Eval("RValueSPCDashboard") %>' />
                                                     </td>
                                                     <td>
                                                         <asp:Label ID="lblOperator" runat="server" Text='<%# Eval("Operator") %>' />
@@ -359,6 +363,7 @@
                                                     <th>Min</th>
                                                     <th>Max</th>
                                                     <th>Average</th>
+                                                    <th>R</th>
                                                     <th>Operator</th>
                                                     <th>MK</th>
                                                     <th>QC</th>
@@ -407,6 +412,9 @@
                                                     </td>
                                                     <td runat="server" id="AveValueDV">
                                                         <asp:Label ID="lblAve" runat="server" Text='<%# Eval("Average") %>' />
+                                                    </td>
+                                                    <td runat="server" id="RValue">
+                                                        <asp:Label ID="lblRValue" runat="server" Text='<%# Eval("RValueSPCDashboard") %>' />
                                                     </td>
                                                     <td>
                                                         <asp:Label ID="lblOperator" runat="server" Text='<%# Eval("Operator") %>' />

@@ -25,6 +25,8 @@ Public Class AlertDashboard
     Dim MaxValue As String = ""
     Dim Average As String = ""
     Dim CharacterStatus As Integer
+    Dim RColorBefore As Integer = 0
+    Dim Color As Color
 #End Region
 
 #Region "Events"
@@ -175,6 +177,34 @@ Public Class AlertDashboard
         '    CharacterStatus = (e.CellValue)
         '    e.DataColumn.Visible = False
         'End If
+
+        If e.DataColumn.FieldName = "RColor" Then
+
+            If e.CellValue > 0 Then
+
+                If e.CellValue >= RColorBefore AndAlso RColorBefore <> 0 Then
+                    Color = System.Drawing.Color.Pink
+                Else
+                    Color = System.Drawing.Color.Yellow
+                End If
+
+            Else
+
+                Color = System.Drawing.Color.White
+
+            End If
+
+            RColorBefore = e.CellValue
+
+        End If
+
+
+        If e.DataColumn.FieldName = "RValue" Then
+
+            e.Cell.BackColor = Color
+
+        End If
+
         If e.DataColumn.FieldName = "ItemTypeName" Then
             e.Cell.Text = Split(e.CellValue, "||")(0)
             CharacterStatus = Split(e.CellValue, "||")(1)

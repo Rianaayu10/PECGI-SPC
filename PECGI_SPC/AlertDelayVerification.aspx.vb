@@ -25,6 +25,8 @@ Public Class AlertDelayVerification
     Dim MaxValue As String = ""
     Dim Average As String = ""
     Dim CharacteristicStatus As Integer
+    Dim RColorBefore As Integer = 0
+    Dim Color As Color
 #End Region
 
 #Region "Events"
@@ -82,6 +84,8 @@ Public Class AlertDelayVerification
                 Else
                     rbAuto.Checked = True
                 End If
+
+                up_GridLoad(FactoryCode)
 
             End If
         End If
@@ -261,6 +265,26 @@ Public Class AlertDelayVerification
             End If
         End If
 
+        If e.DataColumn.FieldName = "RColor" Then
+
+            If e.CellValue > 0 Then
+
+                If e.CellValue >= RColorBefore AndAlso RColorBefore <> 0 Then
+                    Color = System.Drawing.Color.Pink
+                Else
+                    Color = System.Drawing.Color.Yellow
+                End If
+
+            Else
+
+                Color = System.Drawing.Color.White
+
+            End If
+
+            RColorBefore = e.CellValue
+
+        End If
+
         If e.DataColumn.FieldName = "ItemTypeName" Then
             e.Cell.Text = Split(e.CellValue, "||")(0)
             CharacteristicStatus = Split(e.CellValue, "||")(1)
@@ -356,12 +380,19 @@ Public Class AlertDelayVerification
 
             End If
         End If
+
+        If e.DataColumn.FieldName = "RValue" Then
+
+            e.Cell.BackColor = Color
+
+        End If
     End Sub
     Private Sub GridDelayVerif_CustomCallback(sender As Object, e As ASPxGridViewCustomCallbackEventArgs) Handles GridDelayVerif.CustomCallback
         Try
             Dim pAction As String = Split(e.Parameters, "|")(0)
 
             If pAction = "Load" Then
+                RColorBefore = 0
                 up_GridLoad(cboFactory.Value)
             End If
 

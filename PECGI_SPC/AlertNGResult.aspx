@@ -260,6 +260,22 @@
                 <ClientSideEvents EndCallback="OnEndCallback" />
                 <Columns>               
                     
+                    <dx:GridViewDataTextColumn Caption="RColor" FieldName="RColor"
+                        VisibleIndex="0" Width="0px" Settings-AutoFilterCondition="Contains" 
+                        FixedStyle="Left" >
+                        <PropertiesTextEdit MaxLength="15" Width="50px">
+                            <Style HorizontalAlign="Left"></Style>
+                        </PropertiesTextEdit>
+                        <Settings AllowAutoFilter="False" AllowFilterBySearchPanel="False" ShowInFilterControl="False" AllowHeaderFilter="False" />
+                        <FilterCellStyle Paddings-PaddingRight="4px">
+                        <Paddings PaddingRight="4px"></Paddings>
+                        </FilterCellStyle>
+                        <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                        <Paddings PaddingLeft="5px"></Paddings>
+                        </HeaderStyle>
+                        <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"></CellStyle>
+                    </dx:GridViewDataTextColumn>
+
                     <dx:GridViewDataTextColumn Caption="Action" FieldName="Edit"
                         VisibleIndex="0" Width="50px" Settings-AutoFilterCondition="Contains" 
                         FixedStyle="Left" >
@@ -559,22 +575,22 @@
                         <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataTextColumn>
 
-                    <dx:GridViewDataTextColumn Caption="Operator" FieldName="Operator"
-                        VisibleIndex="13" Width="70px" Settings-AutoFilterCondition="Contains">
-                        <PropertiesTextEdit MaxLength="25" Width="70px">
-                            <Style HorizontalAlign="Left"></Style>
-                        </PropertiesTextEdit>
-                        <Settings AutoFilterCondition="Contains"></Settings>
-                        <FilterCellStyle Paddings-PaddingRight="4px">
-                        <Paddings PaddingRight="4px"></Paddings>
-                        </FilterCellStyle>
-                        <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
-                        <Paddings PaddingLeft="5px"></Paddings>
-                        </HeaderStyle>
-                        <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
-                    </dx:GridViewDataTextColumn>
+                    <dx:GridViewDataTextColumn Caption="R" FieldName="RValue"
+                            VisibleIndex="13" Width="60px" Settings-AutoFilterCondition="Contains">
+                            <PropertiesTextEdit MaxLength="25" Width="100px">
+                                <Style HorizontalAlign="Left"></Style>
+                            </PropertiesTextEdit>
+                            <Settings AutoFilterCondition="Contains"></Settings>
+                            <FilterCellStyle Paddings-PaddingRight="4px">
+                            <Paddings PaddingRight="4px"></Paddings>
+                            </FilterCellStyle>
+                            <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                            <Paddings PaddingLeft="5px"></Paddings>
+                            </HeaderStyle>
+                            <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"></CellStyle>
+                        </dx:GridViewDataTextColumn>
 
-                    <dx:GridViewDataTextColumn Caption="MK" FieldName="MK"
+                    <dx:GridViewDataTextColumn Caption="Operator" FieldName="Operator"
                         VisibleIndex="14" Width="70px" Settings-AutoFilterCondition="Contains">
                         <PropertiesTextEdit MaxLength="25" Width="70px">
                             <Style HorizontalAlign="Left"></Style>
@@ -589,7 +605,7 @@
                         <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataTextColumn>
 
-                    <dx:GridViewDataTextColumn Caption="QC" FieldName="QC"
+                    <dx:GridViewDataTextColumn Caption="MK" FieldName="MK"
                         VisibleIndex="15" Width="70px" Settings-AutoFilterCondition="Contains">
                         <PropertiesTextEdit MaxLength="25" Width="70px">
                             <Style HorizontalAlign="Left"></Style>
@@ -604,8 +620,23 @@
                         <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataTextColumn>
 
+                    <dx:GridViewDataTextColumn Caption="QC" FieldName="QC"
+                        VisibleIndex="16" Width="70px" Settings-AutoFilterCondition="Contains">
+                        <PropertiesTextEdit MaxLength="25" Width="70px">
+                            <Style HorizontalAlign="Left"></Style>
+                        </PropertiesTextEdit>
+                        <Settings AutoFilterCondition="Contains"></Settings>
+                        <FilterCellStyle Paddings-PaddingRight="4px">
+                        <Paddings PaddingRight="4px"></Paddings>
+                        </FilterCellStyle>
+                        <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                        <Paddings PaddingLeft="5px"></Paddings>
+                        </HeaderStyle>
+                        <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
+                    </dx:GridViewDataTextColumn>
+
                     <dx:GridViewCommandColumn 
-                            VisibleIndex="16" ShowClearFilterButton="true" Width="80px">
+                            VisibleIndex="17" ShowClearFilterButton="true" Width="80px">
                             <HeaderStyle Paddings-PaddingLeft="3px" HorizontalAlign="Center" 
                                 VerticalAlign="Middle" >
                                 <Paddings PaddingLeft="3px"></Paddings>
@@ -618,7 +649,7 @@
                         </dx:GridViewCommandColumn>
 
                     <dx:GridViewDataTextColumn Caption="LinkDate" FieldName="LinkDate"
-                            VisibleIndex="17" Width="100px" Settings-AutoFilterCondition="Contains" Visible="false">
+                            VisibleIndex="18" Width="100px" Settings-AutoFilterCondition="Contains" Visible="false">
                             <PropertiesTextEdit MaxLength="25" Width="0px">
                                 <Style HorizontalAlign="Left"></Style>
                             </PropertiesTextEdit>

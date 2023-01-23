@@ -27,6 +27,9 @@ Public Class SPCDashboard
     Dim Average As String = ""
     Dim pCharacteristicStatus As Integer
     Dim LinkDelayType As String
+    Dim RColorBeforeNG As Integer
+    Dim RColorBeforeDV As Integer
+    Dim Color As Color
 #End Region
 
 #Region "Events"
@@ -46,6 +49,8 @@ Public Class SPCDashboard
         End If
 
         lblDateNow.Text = DateTime.Now.ToString("dd-MMM-yyyy") 'HH:mm:ss
+        RColorBeforeNG = 0
+        RColorBeforeDV = 0
     End Sub
 
 #End Region
@@ -263,6 +268,34 @@ Public Class SPCDashboard
                 lblAve.ForeColor = Color.Black
             End If
 
+            Dim lblRValue As Label = TryCast(item.FindControl("lblRValue"), Label)
+            Dim RCellValue = Split(lblRValue.Text, "||")(1)
+
+            If RCellValue > 0 Then
+
+                If RCellValue >= RColorBeforeNG AndAlso RColorBeforeNG <> 0 Then
+                    'Color = System.Drawing.Color.Pink
+                    Dim CellMin As HtmlTableCell = TryCast(item.FindControl("RValue"), HtmlTableCell)
+
+                    CellMin.BgColor = "Pink"
+                Else
+                    'Color = System.Drawing.Color.Yellow
+                    Dim CellMin As HtmlTableCell = TryCast(item.FindControl("RValue"), HtmlTableCell)
+
+                    CellMin.BgColor = "Yellow"
+                End If
+
+            Else
+
+                'Dim CellMin As HtmlTableCell = TryCast(item.FindControl("RValue"), HtmlTableCell)
+
+                'CellMin.BgColor = "White"
+
+            End If
+
+            RColorBeforeNG = RCellValue
+            lblRValue.Text = Split(lblRValue.Text, "||")(0)
+
         End If
     End Sub
 
@@ -439,6 +472,35 @@ Public Class SPCDashboard
                 End If
                 lblAve.ForeColor = Color.Black
             End If
+
+
+            Dim lblRValue As Label = TryCast(item.FindControl("lblRValue"), Label)
+            Dim RCellValue = Split(lblRValue.Text, "||")(1)
+
+            If RCellValue > 0 Then
+
+                If RCellValue >= RColorBeforeDV AndAlso RColorBeforeDV <> 0 Then
+                    'Color = System.Drawing.Color.Pink
+                    Dim CellMin As HtmlTableCell = TryCast(item.FindControl("RValue"), HtmlTableCell)
+
+                    CellMin.BgColor = "Pink"
+                Else
+                    'Color = System.Drawing.Color.Yellow
+                    Dim CellMin As HtmlTableCell = TryCast(item.FindControl("RValue"), HtmlTableCell)
+
+                    CellMin.BgColor = "Yellow"
+                End If
+
+            Else
+
+                'Dim CellMin As HtmlTableCell = TryCast(item.FindControl("RValue"), HtmlTableCell)
+
+                'CellMin.BgColor = "White"
+
+            End If
+
+            RColorBeforeDV = RCellValue
+            lblRValue.Text = Split(lblRValue.Text, "||")(0)
 
         End If
     End Sub
