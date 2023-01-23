@@ -5,10 +5,9 @@ Public Class ClsSPCItemCheckByTypeDB
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String
-            q = "INSERT INTO spc_ItemCheckByType " & vbCrLf &
-                " VALUES ( @FactoryCode, @ItemTypeCode, @LineCode, @ItemCheck, @FrequencyCode, @RegistrationNo," &
-                " @SampleSize, @Remark, @Evaluation, @CharacteristicItem, @ProcessTableLineCode, @ActiveStatus, @CreateUser, GETDATE(), @CreateUser, GETDATE() ) "
+            q = "sp_SPC_ItemCheckByTypeMaster"
             Dim cmd As New SqlCommand(q, Cn)
+            cmd.CommandType = CommandType.StoredProcedure
             Dim des As New clsDESEncryption("TOS")
             With cmd.Parameters
                 .AddWithValue("FactoryCode", pItemCheckByType.FactoryCode)
@@ -24,6 +23,7 @@ Public Class ClsSPCItemCheckByTypeDB
                 .AddWithValue("ProcessTableLineCode", pItemCheckByType.ProcessTableLineCode)
                 .AddWithValue("ActiveStatus", Val(pItemCheckByType.ActiveStatus & ""))
                 .AddWithValue("CreateUser", pItemCheckByType.CreateUser)
+                .AddWithValue("TypeProcess", 6)
 
             End With
             Dim i As Integer = cmd.ExecuteNonQuery
@@ -34,12 +34,14 @@ Public Class ClsSPCItemCheckByTypeDB
     Public Shared Function Delete(pFactoryCode As String, pItemTypeCode As String, pLineCode As String, pItemCheck As String) As Integer
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
-            Dim q As String = "Delete from spc_ItemCheckByType WHERE FactoryCode = @FactoryCode and ItemTypeCode = @ItemTypeCode and LineCode = @LineCode and ItemCheckCode = @ItemCheck"
+            Dim q As String = "sp_SPC_ItemCheckByTypeMaster"
             Dim cmd As New SqlCommand(q, Cn)
+            cmd.CommandType = CommandType.StoredProcedure
             cmd.Parameters.AddWithValue("FactoryCode", pFactoryCode)
             cmd.Parameters.AddWithValue("ItemTypeCode", pItemTypeCode)
             cmd.Parameters.AddWithValue("LineCode", pLineCode)
             cmd.Parameters.AddWithValue("ItemCheck", pItemCheck)
+            cmd.Parameters.AddWithValue("TypeProcess", 7)
             Dim i As Integer = cmd.ExecuteNonQuery
             Return i
         End Using
@@ -49,11 +51,14 @@ Public Class ClsSPCItemCheckByTypeDB
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String
-            q = "UPDATE spc_ItemCheckByType SET FrequencyCode = @FrequencyCode, RegistrationNo = @RegistrationNo, SampleSize = @SampleSize, Remark = @Remark, " &
-                " Evaluation = @Evaluation, CharacteristicStatus = @CharacteristicItem, ProcessTableLineCode = @ProcessTableLineCode, ActiveStatus = @ActiveStatus, UpdateUser = @UpdateUser, UpdateDate = GETDATE() " &
-                " WHERE FactoryCode = @FactoryCode and ItemTypeCode = @ItemTypeCode and LineCode = @LineCode and ItemCheckCode = @ItemCheck "
+            'q = "UPDATE spc_ItemCheckByType SET FrequencyCode = @FrequencyCode, RegistrationNo = @RegistrationNo, SampleSize = @SampleSize, Remark = @Remark, " &
+            '    " Evaluation = @Evaluation, CharacteristicStatus = @CharacteristicItem, ProcessTableLineCode = @ProcessTableLineCode, ActiveStatus = @ActiveStatus, UpdateUser = @UpdateUser, UpdateDate = GETDATE() " &
+            '    " WHERE FactoryCode = @FactoryCode and ItemTypeCode = @ItemTypeCode and LineCode = @LineCode and ItemCheckCode = @ItemCheck "
+
+            q = "sp_SPC_ItemCheckByTypeMaster"
             Dim des As New clsDESEncryption("TOS")
             Dim cmd As New SqlCommand(q, Cn)
+            cmd.CommandType = CommandType.StoredProcedure
             With cmd.Parameters
                 .AddWithValue("FrequencyCode", pItemCheckByType.FrequencyCode)
                 .AddWithValue("RegistrationNo", pItemCheckByType.RegistrationNo)
@@ -68,6 +73,7 @@ Public Class ClsSPCItemCheckByTypeDB
                 .AddWithValue("ItemTypeCode", pItemCheckByType.ItemTypeCode)
                 .AddWithValue("LineCode", pItemCheckByType.LineCode)
                 .AddWithValue("ItemCheck", pItemCheckByType.ItemCheck)
+                .AddWithValue("TypeProcess", 8)
             End With
             Dim i As Integer = cmd.ExecuteNonQuery
             Return i
@@ -104,14 +110,18 @@ Public Class ClsSPCItemCheckByTypeDB
         Using cn As New SqlConnection(Sconn.Stringkoneksi)
             Dim sql As String
             Dim clsDESEncryption As New clsDESEncryption("TOS")
-            sql = " select ICT.*, ItemTypeName = IT.Description from spc_ItemCheckByType ICT inner join MS_ItemType IT ON ICT.ItemTypeCode = IT.ItemTypeCode where 
-                    ICT.FactoryCode = @FactoryCode and ICT.ItemTypeCode = @ItemTypeCode and ICT.LineCode = @LineCode and ICT.ItemCheckCode = @ItemCheckCode " & vbCrLf
+            'sql = " select ICT.*, ItemTypeName = IT.Description from spc_ItemCheckByType ICT inner join MS_ItemType IT ON ICT.ItemTypeCode = IT.ItemTypeCode where 
+            '        ICT.FactoryCode = @FactoryCode and ICT.ItemTypeCode = @ItemTypeCode and ICT.LineCode = @LineCode and ICT.ItemCheckCode = @ItemCheckCode " & vbCrLf
+
+            sql = "sp_SPC_ItemCheckByTypeMaster"
             Dim cmd As New SqlCommand(sql, cn)
+            cmd.CommandType = CommandType.StoredProcedure
             Dim da As New SqlDataAdapter(cmd)
             cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
             cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
             cmd.Parameters.AddWithValue("LineCode", LineCode)
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
+            cmd.Parameters.AddWithValue("TypeProcess", 1)
             Dim dt As New DataTable
             da.Fill(dt)
             Dim Users As New List(Of ClsSPCItemCheckByType)
@@ -177,22 +187,19 @@ Public Class ClsSPCItemCheckByTypeDB
         Try
             Using Cn As New SqlConnection(Sconn.Stringkoneksi)
                 Cn.Open()
-                'Dim q As String = "SELECT Number = 1, 'ALL' FactoryCode, 'ALL' ProcessCode, 'ALL' LineCode, 'ALL' LineName UNION" & vbCrLf &
-                '"from MS_Line L inner join spc_ItemCheckByType I " & vbCrLf &
-                '"on L.FactoryCode = I.FactoryCode and L.LineCode = I.LineCode " & vbCrLf &
-                '" where 1 = 1 " & vbCrLf
-                Dim q As String = "select distinct Number = 2, L.FactoryCode, L.ProcessCode, L.LineCode, L.LineCode + ' - ' + L.LineName as LineName from MS_Line L " & vbCrLf
-                If FactoryCode <> "" Then
-                    q = q & "where L.FactoryCode = @FactoryCode AND L.ProcessCode = @Machine "
-                End If
-                'If ItemTypeCode <> "" Then
-                '    q = q & "and I.ItemTypeCode = @ItemTypeCode "
+                'Dim q As String = "select distinct Number = 2, L.FactoryCode, L.ProcessCode, L.LineCode, L.LineCode + ' - ' + L.LineName as LineName from MS_Line L " & vbCrLf
+                'If FactoryCode <> "" Then
+                '    q = q & "where L.FactoryCode = @FactoryCode AND L.ProcessCode = @Machine "
                 'End If
-                q = q & "order by Number ASC, LineCode"
-                Dim cmd As New SqlCommand(q, Cn)
-                cmd.Parameters.AddWithValue("UserID", UserID)
+                'q = q & "order by Number ASC, LineCode"
+                Dim Sql As String = "sp_SPC_ItemCheckByTypeMaster"
+                Dim cmd As New SqlCommand(Sql, Cn)
+                cmd.CommandType = CommandType.StoredProcedure
+                Dim da As New SqlDataAdapter(cmd)
+                'cmd.Parameters.AddWithValue("UserID", UserID)
                 cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
                 cmd.Parameters.AddWithValue("Machine", Machine)
+                cmd.Parameters.AddWithValue("TypeProcess", 2)
                 'cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
                 Dim rd As SqlDataReader = cmd.ExecuteReader
                 Dim FactoryList As New List(Of ClsSPCItemCheckByType)
@@ -216,10 +223,11 @@ Public Class ClsSPCItemCheckByTypeDB
             Using conn As New SqlConnection(Sconn.Stringkoneksi)
                 conn.Open()
                 Dim sql As String = ""
-                sql = "SELECT 'ALL' ItemCheckCode, 'ALL' ItemCheck UNION SELECT  ItemCheckCode, ItemCheck from spc_ItemCheckMaster"
+                sql = "sp_SPC_ItemCheckByTypeMaster"
 
                 Dim cmd As New SqlCommand(sql, conn)
-                cmd.CommandType = CommandType.Text
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Parameters.AddWithValue("TypeProcess", 3)
                 Dim da As New SqlDataAdapter(cmd)
                 Dim dt As New DataTable
                 da.Fill(dt)
@@ -235,13 +243,16 @@ Public Class ClsSPCItemCheckByTypeDB
         Using cn As New SqlConnection(Sconn.Stringkoneksi)
             Dim sql As String
             Dim clsDESEncryption As New clsDESEncryption("TOS")
-            sql = " select top 1 * from spc_Result where FactoryCode = @FactoryCode and ItemTypeCode = @ItemTypeCode and LineCode = @LineCode and ItemCheckCode = @ItemCheckCode " & vbCrLf
+            'sql = " select top 1 * from spc_Result where FactoryCode = @FactoryCode and ItemTypeCode = @ItemTypeCode and LineCode = @LineCode and ItemCheckCode = @ItemCheckCode " & vbCrLf
+            sql = "sp_SPC_ItemCheckByTypeMaster"
             Dim cmd As New SqlCommand(sql, cn)
+            cmd.CommandType = CommandType.StoredProcedure
             Dim da As New SqlDataAdapter(cmd)
             cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
             cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
             cmd.Parameters.AddWithValue("LineCode", LineCode)
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
+            cmd.Parameters.AddWithValue("TypeProcess", 4)
             Dim dt As New DataTable
             da.Fill(dt)
             Dim Users As New List(Of ClsSPCItemCheckByType)
@@ -301,9 +312,10 @@ Public Class ClsSPCItemCheckByTypeDB
         Using cn As New SqlConnection(Sconn.Stringkoneksi)
             cn.Open()
             Dim sql As String
-            sql = "select ItemTypeCode, Description from MS_ItemType order by Description ASC"
+            sql = "sp_SPC_ItemCheckByTypeMaster"
             Dim cmd As New SqlCommand(sql, cn)
-            cmd.CommandType = CommandType.Text
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.AddWithValue("TypeProcess", 5)
 
             Dim da As New SqlDataAdapter(cmd)
             Dim dt As New DataTable

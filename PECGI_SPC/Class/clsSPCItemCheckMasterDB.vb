@@ -5,12 +5,14 @@ Public Class ClsSPCItemCheckMasterDB
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String
-            q = "INSERT INTO spc_ItemCheckMaster (" & vbCrLf &
-                "   ItemCheckCode,ItemCheck,UnitMeasurement ,Description,ActiveStatus ," &
-                "   RegisterUser,RegisterDate,UpdateUser,UpdateDate" & vbCrLf &
-                ") VALUES ( " & vbCrLf &
-                "   @ItemCheckCode, @ItemCheck, @UnitMeasurement, @Description, @ActiveStatus, @CreateUser, GETDATE(), @UpdateUser, GETDATE())"
+            'q = "INSERT INTO spc_ItemCheckMaster (" & vbCrLf &
+            '    "   ItemCheckCode,ItemCheck,UnitMeasurement ,Description,ActiveStatus ," &
+            '    "   RegisterUser,RegisterDate,UpdateUser,UpdateDate" & vbCrLf &
+            '    ") VALUES ( " & vbCrLf &
+            '    "   @ItemCheckCode, @ItemCheck, @UnitMeasurement, @Description, @ActiveStatus, @CreateUser, GETDATE(), @UpdateUser, GETDATE())"
+            q = "sp_SPC_ItemCheckMaster"
             Dim cmd As New SqlCommand(q, Cn)
+            cmd.CommandType = CommandType.StoredProcedure
             Dim des As New clsDESEncryption("TOS")
             With cmd.Parameters
                 .AddWithValue("ItemCheckCode", pItemCheckMaster.ItemCheckCode)
@@ -20,6 +22,7 @@ Public Class ClsSPCItemCheckMasterDB
                 .AddWithValue("ActiveStatus", Val(pItemCheckMaster.ActiveStatus & ""))
                 .AddWithValue("UpdateUser", pItemCheckMaster.UpdateUser)
                 .AddWithValue("CreateUser", pItemCheckMaster.CreateUser)
+                .AddWithValue("TypeProcess", 4)
             End With
             Dim i As Integer = cmd.ExecuteNonQuery
             Return i
@@ -28,9 +31,12 @@ Public Class ClsSPCItemCheckMasterDB
     Public Shared Function Delete(pItemCheckCode As String) As Integer
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
-            Dim q As String = "Delete from spc_ItemCheckMaster where ItemCheckCode = @ItemCheckCode"
+            'Dim q As String = "Delete from spc_ItemCheckMaster where ItemCheckCode = @ItemCheckCode"
+            Dim q As String = "sp_SPC_ItemCheckMaster"
             Dim cmd As New SqlCommand(q, Cn)
+            cmd.CommandType = CommandType.StoredProcedure
             cmd.Parameters.AddWithValue("ItemCheckCode", pItemCheckCode)
+            cmd.Parameters.AddWithValue("TypeProcess", 5)
             Dim i As Integer = cmd.ExecuteNonQuery
             Return i
         End Using
@@ -40,14 +46,16 @@ Public Class ClsSPCItemCheckMasterDB
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String
-            q = "UPDATE spc_ItemCheckMaster SET ItemCheck=@ItemCheck, UnitMeasurement=@UnitMeasurement," &
-                "Description=@Description, " &
-                "ActiveStatus = @ActiveStatus, " &
-                "UpdateUser = @UpdateUser, " &
-                "UpdateDate = GETDATE() " &
-                "WHERE ItemCheckCode = @ItemCheckCode "
+            'q = "UPDATE spc_ItemCheckMaster SET ItemCheck=@ItemCheck, UnitMeasurement=@UnitMeasurement," &
+            '    "Description=@Description, " &
+            '    "ActiveStatus = @ActiveStatus, " &
+            '    "UpdateUser = @UpdateUser, " &
+            '    "UpdateDate = GETDATE() " &
+            '    "WHERE ItemCheckCode = @ItemCheckCode "
+            q = "sp_SPC_ItemCheckMaster"
             Dim des As New clsDESEncryption("TOS")
             Dim cmd As New SqlCommand(q, Cn)
+            cmd.CommandType = CommandType.StoredProcedure
             With cmd.Parameters
                 .AddWithValue("ItemCheck", pItemCheckMaster.ItemCheck)
                 .AddWithValue("UnitMeasurement", pItemCheckMaster.UnitMeasurement)
@@ -55,6 +63,7 @@ Public Class ClsSPCItemCheckMasterDB
                 .AddWithValue("ActiveStatus", Val(pItemCheckMaster.ActiveStatus & ""))
                 .AddWithValue("UpdateUser", pItemCheckMaster.UpdateUser)
                 .AddWithValue("ItemCheckCode", pItemCheckMaster.ItemCheckCode)
+                .AddWithValue("TypeProcess", 6)
             End With
             Dim i As Integer = cmd.ExecuteNonQuery
             Return i
@@ -65,8 +74,11 @@ Public Class ClsSPCItemCheckMasterDB
         Using cn As New SqlConnection(Sconn.Stringkoneksi)
             Dim sql As String
             Dim clsDESEncryption As New clsDESEncryption("TOS")
-            sql = " SELECT ItemCheckCode, ItemCheck, UnitMeasurement, Description, ActiveStatus, RegisterUser, FORMAT(RegisterDate, 'dd MMM yy hh:mm:ss') RegisterDate, UpdateUser, FORMAT(UpdateDate, 'dd MMM yy hh:mm:ss') UpdateDate FROM spc_ItemCheckMaster " & vbCrLf
+            'sql = " SELECT ItemCheckCode, ItemCheck, UnitMeasurement, Description, ActiveStatus, RegisterUser, FORMAT(RegisterDate, 'dd MMM yy hh:mm:ss') RegisterDate, UpdateUser, FORMAT(UpdateDate, 'dd MMM yy hh:mm:ss') UpdateDate FROM spc_ItemCheckMaster " & vbCrLf
+            sql = "sp_SPC_ItemCheckMaster"
             Dim cmd As New SqlCommand(sql, cn)
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.AddWithValue("TypeProcess", 1)
             Dim da As New SqlDataAdapter(cmd)
             Dim dt As New DataTable
             da.Fill(dt)
@@ -91,10 +103,13 @@ Public Class ClsSPCItemCheckMasterDB
         Using cn As New SqlConnection(Sconn.Stringkoneksi)
             Dim sql As String
             Dim clsDESEncryption As New clsDESEncryption("TOS")
-            sql = " SELECT ItemCheckCode, ItemCheck, UnitMeasurement, Description, ActiveStatus, RegisterUser, FORMAT(RegisterDate, 'dd MMM yy hh:mm:ss') RegisterDate, UpdateUser, FORMAT(UpdateDate, 'dd MMM yy hh:mm:ss') UpdateDate FROM spc_ItemCheckMaster where ItemCheckCode = @ItemCheckCode " & vbCrLf
+            'sql = " SELECT ItemCheckCode, ItemCheck, UnitMeasurement, Description, ActiveStatus, RegisterUser, FORMAT(RegisterDate, 'dd MMM yy hh:mm:ss') RegisterDate, UpdateUser, FORMAT(UpdateDate, 'dd MMM yy hh:mm:ss') UpdateDate FROM spc_ItemCheckMaster where ItemCheckCode = @ItemCheckCode " & vbCrLf
+            sql = "sp_SPC_ItemCheckMaster"
             Dim cmd As New SqlCommand(sql, cn)
+            cmd.CommandType = CommandType.StoredProcedure
             Dim da As New SqlDataAdapter(cmd)
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
+            cmd.Parameters.AddWithValue("TypeProcess", 2)
             Dim dt As New DataTable
             da.Fill(dt)
             Dim Users As New List(Of ClsSPCItemCheckMaster)
@@ -116,47 +131,50 @@ Public Class ClsSPCItemCheckMasterDB
         End Using
     End Function
 
-    Public Shared Function GetListMenu(ByVal pUserID As String, Optional ByRef pErr As String = "") As List(Of Cls_ss_UserMenu)
-        Try
-            Using cn As New SqlConnection(Sconn.Stringkoneksi)
-                Dim sql As String = "  SELECT GroupID, USM.MenuID,   " & vbCrLf &
-                  "  MenuDesc, " & vbCrLf &
-                  "  ISNULL(AllowAccess,'0') AS AllowAccess,  " & vbCrLf &
-                  "  ISNULL(AllowUpdate,'0') AS AllowUpdate  " & vbCrLf &
-                  "  FROM UserMenu USM " & vbCrLf &
-                  "  LEFT JOIN (SELECT * FROM UserPrivilege WHERE UserID='" & pUserID & "' ) UP   " & vbCrLf &
-                  "  ON USM.AppID = UP.AppID AND USM.MenuID=UP.MenuID    " & vbCrLf &
-                  "  WHERE USM.AppID='QCS' and USM.MenuID <> 'Z010' " & vbCrLf &
-                  "  ORDER BY USM.MenuID  "
-                Dim Cmd As New SqlCommand(sql, cn)
-                Dim da As New SqlDataAdapter(Cmd)
-                Dim dt As New DataTable
-                da.Fill(dt)
-                Dim Menus As New List(Of Cls_ss_UserMenu)
-                For i = 0 To dt.Rows.Count - 1
-                    Dim Menu As New Cls_ss_UserMenu
-                    Menu.GroupID = dt.Rows(i)("GroupID")
-                    Menu.MenuID = dt.Rows(i)("MenuID")
-                    Menu.MenuDesc = dt.Rows(i)("MenuDesc")
-                    Menu.AllowAccess = dt.Rows(i)("AllowAccess")
-                    Menu.AllowUpdate = dt.Rows(i)("AllowUpdate")
-                    Menus.Add(Menu)
-                Next
-                Return Menus
-            End Using
-        Catch ex As Exception
-            pErr = ex.Message
-            Return Nothing
-        End Try
-    End Function
+    'Public Shared Function GetListMenu(ByVal pUserID As String, Optional ByRef pErr As String = "") As List(Of Cls_ss_UserMenu)
+    '    Try
+    '        Using cn As New SqlConnection(Sconn.Stringkoneksi)
+    '            Dim sql As String = "  SELECT GroupID, USM.MenuID,   " & vbCrLf &
+    '              "  MenuDesc, " & vbCrLf &
+    '              "  ISNULL(AllowAccess,'0') AS AllowAccess,  " & vbCrLf &
+    '              "  ISNULL(AllowUpdate,'0') AS AllowUpdate  " & vbCrLf &
+    '              "  FROM UserMenu USM " & vbCrLf &
+    '              "  LEFT JOIN (SELECT * FROM UserPrivilege WHERE UserID='" & pUserID & "' ) UP   " & vbCrLf &
+    '              "  ON USM.AppID = UP.AppID AND USM.MenuID=UP.MenuID    " & vbCrLf &
+    '              "  WHERE USM.AppID='QCS' and USM.MenuID <> 'Z010' " & vbCrLf &
+    '              "  ORDER BY USM.MenuID  "
+    '            Dim Cmd As New SqlCommand(sql, cn)
+    '            Dim da As New SqlDataAdapter(Cmd)
+    '            Dim dt As New DataTable
+    '            da.Fill(dt)
+    '            Dim Menus As New List(Of Cls_ss_UserMenu)
+    '            For i = 0 To dt.Rows.Count - 1
+    '                Dim Menu As New Cls_ss_UserMenu
+    '                Menu.GroupID = dt.Rows(i)("GroupID")
+    '                Menu.MenuID = dt.Rows(i)("MenuID")
+    '                Menu.MenuDesc = dt.Rows(i)("MenuDesc")
+    '                Menu.AllowAccess = dt.Rows(i)("AllowAccess")
+    '                Menu.AllowUpdate = dt.Rows(i)("AllowUpdate")
+    '                Menus.Add(Menu)
+    '            Next
+    '            Return Menus
+    '        End Using
+    '    Catch ex As Exception
+    '        pErr = ex.Message
+    '        Return Nothing
+    '    End Try
+    'End Function
     Public Shared Function ValidationDelete(ItemCheckCode As String) As ClsSPCItemCheckMaster
         Using cn As New SqlConnection(Sconn.Stringkoneksi)
             Dim sql As String
             Dim clsDESEncryption As New clsDESEncryption("TOS")
-            sql = " SELECT * FROM dbo.spc_ItemCheckByType where ItemCheckCode = @ItemCheckCode " & vbCrLf
+            'sql = " SELECT * FROM dbo.spc_ItemCheckByType where ItemCheckCode = @ItemCheckCode " & vbCrLf
+            sql = "sp_SPC_ItemCheckMaster"
             Dim cmd As New SqlCommand(sql, cn)
+            cmd.CommandType = CommandType.StoredProcedure
             Dim da As New SqlDataAdapter(cmd)
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
+            cmd.Parameters.AddWithValue("TypeProcess", 3)
             Dim dt As New DataTable
             da.Fill(dt)
             Dim Users As New List(Of ClsSPCItemCheckMaster)
