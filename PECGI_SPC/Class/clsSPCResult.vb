@@ -175,6 +175,7 @@ Public Class clsSPCResultDB
             cmd.Parameters.AddWithValue("ShiftCode", Result.ShiftCode)
             cmd.Parameters.AddWithValue("SequenceNo", Result.SequenceNo)
             cmd.Parameters.AddWithValue("SubLotNo", Result.SubLotNo)
+            cmd.Parameters.AddWithValue("Remark", Result.Remark)
             cmd.Parameters.AddWithValue("RegisterUser", Result.RegisterUser)
 
             cmd.Parameters.Add("SPCResultID", SqlDbType.Int)

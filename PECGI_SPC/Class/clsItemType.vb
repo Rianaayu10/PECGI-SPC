@@ -39,6 +39,16 @@ Public Class clsItemTypeDB
                 "inner join MS_ItemDetail D on M.Description = D.Item_Code and I.LineCode = D.LineCode and I.FactoryCode = D.FactoryCode " & vbCrLf &
                 "Where I.FactoryCode = @FactoryCode and ActiveStatus = 1 " & vbCrLf &
                 "and UL.UserID = @UserID and I.LineCode = @LineCode "
+
+            q = "SELECT DISTINCT A.ItemTypeCode, A.Description " & vbCrLf &
+                "From MS_ItemType A " & vbCrLf &
+                "INNER JOIN MS_TypeDetail TD ON A.ItemTypeCode = TD.ItemTypeCode " & vbCrLf &
+                "INNER Join spc_ItemCheckByType B ON A.ItemTypeCode = B.ItemTypeCode And B.FactoryCode = TD.FactoryCode And B.ActiveStatus = '1' " & vbCrLf &
+                "INNER Join spc_UserLine C ON B.LineCode = C.LineCode And C.AppID = 'SPC' AND C.AllowShow = '1'  " & vbCrLf &
+                "AND C.UserID = @UserID " & vbCrLf &
+                "WHERE TD.FactoryCode = @FactoryCode AND TD.LineCode = @LineCode " & vbCrLf &
+                "GROUP BY A.ItemTypeCode, A.Description " & vbCrLf &
+                "ORDER BY Description "
             Dim cmd As New SqlCommand(q, Cn)
             cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
             cmd.Parameters.AddWithValue("UserID", UserID)
