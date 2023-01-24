@@ -58,6 +58,7 @@ Public Class Site
             Dim dt As New DataTable()
             .BindMenu()
             lblUser.Text = Session("user").ToString
+            lblFullName.Text = Session("FullName").ToString
             lblAdmin.Text = Session("AdminStatus").ToString
         End With
 

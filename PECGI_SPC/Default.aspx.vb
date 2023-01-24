@@ -24,6 +24,11 @@
         End Try
     End Sub
     Private Sub _Default_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+        If Request.QueryString("LogOut") IsNot Nothing Then
+            Session.Clear()
+        End If
+
         If Request.QueryString("Link") IsNot Nothing Then
             Dim clsDESEncryption As New clsDESEncryption("TOS")
             Dim prm = Request.QueryString("Link")
@@ -101,6 +106,7 @@
 
             clsUserSetupDB.ResetFailedLogin(DataUser.UserID)
             Session("AdminStatus") = DataUser.AdminStatus
+            Session("FullName") = DataUser.FullName
         Catch ex As Exception
             Response.Write("Validation Exception :<br>" & ex.ToString)
         End Try

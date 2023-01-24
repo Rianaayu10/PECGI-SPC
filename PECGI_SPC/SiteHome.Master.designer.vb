@@ -32,6 +32,15 @@ Partial Public Class SiteHome
     Protected WithEvents HeadContent As Global.System.Web.UI.WebControls.ContentPlaceHolder
 
     '''<summary>
+    '''lblFullName control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblFullName As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''lblUser control.
     '''</summary>
     '''<remarks>
