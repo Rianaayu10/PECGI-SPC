@@ -253,15 +253,16 @@ Public Class SampleControlQuality
                 .Cells(Row + 14, Col).Value = dtCP.Rows(0)("RBar")
                 .Cells(Row + 6, Col, Row + 14, Col).Style.Numberformat.Format = "0.000"
 
-                If Not IsDBNull(dtCP.Rows(0)("XBarBar")) And (dtCP.Rows(0)("XBarBar") < dtCP.Rows(0)("XbarLCL") Or dtCP.Rows(0)("XBarBar") > dtCP.Rows(0)("XBarUCL")) Then
-                    .Cells(Row + 13, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
-                    .Cells(Row + 13, Col).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                If ChartType = "1" Then
+                    If Not IsDBNull(dtCP.Rows(0)("XBarBar")) And (dtCP.Rows(0)("XBarBar") < dtCP.Rows(0)("XbarLCL") Or dtCP.Rows(0)("XBarBar") > dtCP.Rows(0)("XBarUCL")) Then
+                        .Cells(Row + 13, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
+                        .Cells(Row + 13, Col).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                    End If
+                    If Not IsDBNull(dtCP.Rows(0)("RBar")) And dtCP.Rows(0)("RBar") > dtCP.Rows(0)("RUCL") Then
+                        .Cells(Row + 14, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
+                        .Cells(Row + 14, Col).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                    End If
                 End If
-                If Not IsDBNull(dtCP.Rows(0)("RBar")) And dtCP.Rows(0)("RBar") > dtCP.Rows(0)("RUCL") Then
-                    .Cells(Row + 14, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
-                    .Cells(Row + 14, Col).Style.Fill.BackgroundColor.SetColor(Color.Pink)
-                End If
-
                 Col = 16
                 .Cells(Row + 7, Col).Value = dtCP.Rows(0)("D2")
                 .Cells(Row + 8, Col).Value = dtCP.Rows(0)("XBarUCL")
@@ -709,23 +710,25 @@ Public Class SampleControlQuality
                     .JSProperties("cpXBarBar") = dtCP.Rows(0)("XBarBar") & ""
                     .JSProperties("cpRBar") = dtCP.Rows(0)("RBar") & ""
                     .JSProperties("cpCPKMin") = dtCP.Rows(0)("CPKMin") & ""
-                    If Not IsDBNull(dtCP.Rows(0)("XBarBar")) AndAlso Not IsDBNull(dtCP.Rows(0)("LCL")) AndAlso Not IsDBNull(dtCP.Rows(0)("UCL")) Then
-                        Dim XBarBar As Double = dtCP.Rows(0)("XBarBar")
-                        Dim LCL As Double = dtCP.Rows(0)("XBarLCL")
-                        Dim UCL As Double = dtCP.Rows(0)("XBarUCL")
-                        If XBarBar < LCL Or XBarBar > UCL Then
-                            .JSProperties("cpXBarColor") = "1"
-                        Else
-                            .JSProperties("cpXBarColor") = "0"
+                    If ChartType = "1" Or ChartType = "2" Then
+                        If Not IsDBNull(dtCP.Rows(0)("XBarBar")) AndAlso Not IsDBNull(dtCP.Rows(0)("LCL")) AndAlso Not IsDBNull(dtCP.Rows(0)("UCL")) Then
+                            Dim XBarBar As Double = dtCP.Rows(0)("XBarBar")
+                            Dim LCL As Double = dtCP.Rows(0)("XBarLCL")
+                            Dim UCL As Double = dtCP.Rows(0)("XBarUCL")
+                            If XBarBar < LCL Or XBarBar > UCL Then
+                                .JSProperties("cpXBarColor") = "1"
+                            Else
+                                .JSProperties("cpXBarColor") = "0"
+                            End If
                         End If
-                    End If
-                    If Not IsDBNull(dtCP.Rows(0)("RUCL")) AndAlso Not IsDBNull(dtCP.Rows(0)("RBar")) Then
-                        Dim RBar As Double = dtCP.Rows(0)("RBar")
-                        Dim RUCL As Double = dtCP.Rows(0)("RUCL")
-                        If RBar > RUCL Then
-                            .JSProperties("cpRBarColor") = "1"
-                        Else
-                            .JSProperties("cpRBarColor") = "0"
+                        If Not IsDBNull(dtCP.Rows(0)("RUCL")) AndAlso Not IsDBNull(dtCP.Rows(0)("RBar")) Then
+                            Dim RBar As Double = dtCP.Rows(0)("RBar")
+                            Dim RUCL As Double = dtCP.Rows(0)("RUCL")
+                            If RBar > RUCL Then
+                                .JSProperties("cpRBarColor") = "1"
+                            Else
+                                .JSProperties("cpRBarColor") = "0"
+                            End If
                         End If
                     End If
                 End If
