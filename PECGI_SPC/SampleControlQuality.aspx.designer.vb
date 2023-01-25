@@ -338,6 +338,15 @@ Partial Public Class SampleControlQuality
     Protected WithEvents lblFactory As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
+    '''ASPxLabel40 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel40 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
     '''ASPxLabel11 control.
     '''</summary>
     '''<remarks>

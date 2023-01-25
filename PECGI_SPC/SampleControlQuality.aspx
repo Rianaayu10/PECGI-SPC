@@ -127,6 +127,8 @@
             var d2 = new Date(2022, 9, 11);
             var x = document.getElementById("chartRdiv");
             x.style.display = "none";
+            var v = document.getElementById("colSpecial");
+            x.style.display = "none";
         }
 
         function isNumeric(n) {
@@ -301,18 +303,21 @@
             lblXBarBar.SetText(s.cpXBarBar);
             lblRBar.SetText(s.cpRBar);          
 
+            var v = document.getElementById("colSpecial");
             if(s.cpChartType == '1') {
                 lblXBarBar2.SetText('X Bar Bar');
                 lblRBar2.SetText('R Bar');          
                 lblXUCL2.SetText('X Bar UCL');
                 lblXLCL2.SetText('X Bar LCL');
-                lblRUCL2.SetText('R Bar UCL');
+                lblRUCL2.SetText('R Bar UCL');      
+                v.style.display = "";          
             } else {
-                lblXBarBar2.SetText('X Bar Bar (no judgement)');
-                lblRBar2.SetText('R Bar (no judgement)');
-                lblXUCL2.SetText('X Bar UCL (no judgement)');
-                lblXLCL2.SetText('X Bar LCL (no judgement)');
-                lblRUCL2.SetText('R Bar UCL (no judgement)');
+                lblXBarBar2.SetText('X Bar Bar (No judgement)');
+                lblRBar2.SetText('R Bar (No judgement)');
+                lblXUCL2.SetText('X Bar UCL (No judgement)');
+                lblXLCL2.SetText('X Bar LCL (No judgement)');
+                lblRUCL2.SetText('R Bar UCL (No judgement)');
+                v.style.display = "none";
             }
             lblFactory.SetText(s.cpFactory);
             lblType.SetText(s.cpType);
@@ -1003,6 +1008,9 @@
                         </td>
                         <td  class="auto-style3" style="padding-left:5px" colspan="3">
                             <dx:ASPxLabel ID="lblFactory" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblFactory"></dx:ASPxLabel>
+                        </td>
+                        <td id="colSpecial" rowspan="17" style="width:45px; border: 1px solid silver;" align="center">
+                            <dx:ASPxLabel ID="ASPxLabel40" runat="server" Text="@" Font-Names="Segoe UI" Font-Size="20pt" Font-Bold="false"></dx:ASPxLabel>
                         </td>
                     </tr>
                     <tr>
