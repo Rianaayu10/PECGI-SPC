@@ -89,6 +89,7 @@ Public Class ClsSPCItemCheckMasterDB
                     .ItemCheck = Trim(dt.Rows(i)("ItemCheck")),
                     .UnitMeasurement = Trim(dt.Rows(i)("UnitMeasurement")),
                     .Description = Trim(dt.Rows(i)("Description") & ""),
+                    .Measure2Cls = Trim(dt.Rows(i)("Measure2Cls")),
                     .ActiveStatus = Trim(dt.Rows(i)("ActiveStatus")),
                     .UpdateUser = Trim(dt.Rows(i)("UpdateUser")),
                     .UpdateDate = Trim(dt.Rows(i)("UpdateDate"))

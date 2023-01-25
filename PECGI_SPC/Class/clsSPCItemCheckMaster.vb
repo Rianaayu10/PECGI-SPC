@@ -3,6 +3,7 @@
     Public Property ItemCheck As String
     Public Property UnitMeasurement As String
     Public Property Description As String
+    Public Property Measure2Cls As String
     Public Property ActiveStatus As String
     Public Property UpdateDate As String
     Public Property UpdateUser As String

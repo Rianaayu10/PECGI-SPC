@@ -180,7 +180,7 @@
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
                 </dx:GridViewDataTextColumn>
 
-                <dx:GridViewDataCheckColumn Caption="Active Status" FieldName="ActiveStatus" 
+                <dx:GridViewDataCheckColumn Caption="Second Measurement" FieldName="Measure2Cls" 
                     VisibleIndex="5" Width="60px">
                     <PropertiesCheckEdit ValueChecked="1" ValueType="System.Char" 
                         ValueUnchecked="0">
@@ -188,7 +188,15 @@
                     <Settings AllowSort="False" />
                 </dx:GridViewDataCheckColumn>
 
-                <dx:GridViewDataTextColumn Caption="Last User" FieldName="UpdateUser" VisibleIndex="6"
+                <dx:GridViewDataCheckColumn Caption="Active Status" FieldName="ActiveStatus" 
+                    VisibleIndex="6" Width="60px">
+                    <PropertiesCheckEdit ValueChecked="1" ValueType="System.Char" 
+                        ValueUnchecked="0">
+                    </PropertiesCheckEdit>
+                    <Settings AllowSort="False" />
+                </dx:GridViewDataCheckColumn>
+
+                <dx:GridViewDataTextColumn Caption="Last User" FieldName="UpdateUser" VisibleIndex="7"
                     Width="100px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="15" Width="100px">
                         <Style HorizontalAlign="Left"></Style>
@@ -203,7 +211,7 @@
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
                 </dx:GridViewDataTextColumn>
 
-                <dx:GridViewDataTextColumn Caption="Last Update" FieldName="UpdateDate" VisibleIndex="7"
+                <dx:GridViewDataTextColumn Caption="Last Update" FieldName="UpdateDate" VisibleIndex="8"
                     Width="125px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="15" Width="125px">
                         <Style HorizontalAlign="Left"></Style>
