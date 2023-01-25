@@ -1362,10 +1362,9 @@
         <SeriesSerializable>
             <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue">
                 <ViewSerializable>
-                    <cc1:LineSeriesView>
+                    <cc1:LineSeriesView Color="Blue">
                         <LineStyle Thickness="1" />
-                    <LineMarkerOptions BorderColor="White" Size="5" Color="Blue" Kind="Diamond">
-                    </LineMarkerOptions>
+                    <LineMarkerOptions Size="7" Color="Blue" Kind="Diamond"></LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>

@@ -662,13 +662,13 @@ Partial Public Class SampleControlQuality
     Protected WithEvents lblCPK1 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
-    '''ASPxLabel22 control.
+    '''lblXBarBar2 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents ASPxLabel22 As Global.DevExpress.Web.ASPxLabel
+    Protected WithEvents lblXBarBar2 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
     '''lblXBarBar control.
@@ -698,13 +698,13 @@ Partial Public Class SampleControlQuality
     Protected WithEvents lblCPK2 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
-    '''ASPxLabel24 control.
+    '''lblRBar2 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents ASPxLabel24 As Global.DevExpress.Web.ASPxLabel
+    Protected WithEvents lblRBar2 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
     '''lblRBar control.

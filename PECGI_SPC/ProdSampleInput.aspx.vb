@@ -1616,6 +1616,8 @@ Public Class ProdSampleInput
                     Dim GridAlignment As Double = Math.Round(MaxValue / 20, 4)
                     diagram.AxisY.NumericScaleOptions.CustomGridAlignment = GridAlignment
                 End If
+                Dim EndSideMargin As Single = Math.Round(MaxValue / 10, 3)
+                diagram.AxisY.WholeRange.EndSideMargin = EndSideMargin
             End If
             .DataBind()
         End With

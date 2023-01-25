@@ -206,8 +206,12 @@ Public Class SampleControlQuality
 
             .Cells(Row + 11, Col).Value = "Min"
             .Cells(Row + 12, Col).Value = "Max"
-            .Cells(Row + 13, Col).Value = "X Bar Bar"
-            .Cells(Row + 14, Col).Value = "R Bar"
+            Dim Noj As String = ""
+            If ChartType = "1" Then
+                Noj = " (No Judgement)"
+            End If
+            .Cells(Row + 13, Col).Value = "X Bar Bar" & Noj
+            .Cells(Row + 14, Col).Value = "R Bar" & Noj
             .Cells(Row, Col, Row + 14, Col + 2).Style.Fill.PatternType = ExcelFillStyle.Solid
             .Cells(Row, Col, Row + 14, Col + 2).Style.Fill.BackgroundColor.SetColor(Color.FromArgb(242, 242, 242))
             For iRow = Row To Row + 14
@@ -219,9 +223,9 @@ Public Class SampleControlQuality
 
             Col = 14
             .Cells(Row + 7, Col).Value = "d2"
-            .Cells(Row + 8, Col).Value = "XBar UCL"
-            .Cells(Row + 9, Col).Value = "XBar LCL"
-            .Cells(Row + 10, Col).Value = "R UCL"
+            .Cells(Row + 8, Col).Value = "XBar UCL" & Noj
+            .Cells(Row + 9, Col).Value = "XBar LCL" & Noj
+            .Cells(Row + 10, Col).Value = "R UCL" & Noj
 
             .Cells(Row + 11, Col).Value = "Cp"
             .Cells(Row + 12, Col).Value = "Cpu"
@@ -711,6 +715,7 @@ Public Class SampleControlQuality
                     .JSProperties("cpRBar") = dtCP.Rows(0)("RBar") & ""
                     .JSProperties("cpCPKMin") = dtCP.Rows(0)("CPKMin") & ""
                     If ChartType = "1" Or ChartType = "2" Then
+                        .JSProperties("cpChartType") = "1"
                         If Not IsDBNull(dtCP.Rows(0)("XBarBar")) AndAlso Not IsDBNull(dtCP.Rows(0)("LCL")) AndAlso Not IsDBNull(dtCP.Rows(0)("UCL")) Then
                             Dim XBarBar As Double = dtCP.Rows(0)("XBarBar")
                             Dim LCL As Double = dtCP.Rows(0)("XBarLCL")
@@ -730,7 +735,15 @@ Public Class SampleControlQuality
                                 .JSProperties("cpRBarColor") = "0"
                             End If
                         End If
+                    Else
+                        .JSProperties("cpChartType") = "0"
+                        .JSProperties("cpXBarColor") = "0"
+                        .JSProperties("cpRBarColor") = "0"
                     End If
+                Else
+                    .JSProperties("cpChartType") = "0"
+                    .JSProperties("cpXBarColor") = "0"
+                    .JSProperties("cpRBarColor") = "0"
                 End If
             End If
         End With

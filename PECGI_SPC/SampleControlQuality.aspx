@@ -62,7 +62,7 @@
                 border: 1px solid silver;
                 background-color: #F0F0F0;
                 text-align: left;                
-                width: 124px;
+                width: 160px;
                 height: 17px;
             }
             .auto-style9 {
@@ -299,8 +299,21 @@
             lblCPK2.SetText(s.cpCPK2);
             lblCPKMin.SetText(s.cpCPKMin);
             lblXBarBar.SetText(s.cpXBarBar);
-            lblRBar.SetText(s.cpRBar);
+            lblRBar.SetText(s.cpRBar);          
 
+            if(s.cpChartType == '1') {
+                lblXBarBar2.SetText('X Bar Bar');
+                lblRBar2.SetText('R Bar');          
+                lblXUCL2.SetText('X Bar UCL');
+                lblXLCL2.SetText('X Bar LCL');
+                lblRUCL2.SetText('R Bar UCL');
+            } else {
+                lblXBarBar2.SetText('X Bar Bar (no judgement)');
+                lblRBar2.SetText('R Bar (no judgement)');
+                lblXUCL2.SetText('X Bar UCL (no judgement)');
+                lblXLCL2.SetText('X Bar LCL (no judgement)');
+                lblRUCL2.SetText('R Bar UCL (no judgement)');
+            }
             lblFactory.SetText(s.cpFactory);
             lblType.SetText(s.cpType);
             lblLine.SetText(s.cpLine);
@@ -1068,7 +1081,7 @@
                         </td>                   
 
                         <td class="auto-style7" style="padding-left:5px">
-                            <dx:ASPxLabel ID="ASPxLabel35" runat="server" Text="X Bar UCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="ASPxLabel35" runat="server" Text="X Bar UCL" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXUCL2"></dx:ASPxLabel>
                         </td>
                         <td  class="auto-style10" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblXUCL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXUCL"></dx:ASPxLabel>
@@ -1076,13 +1089,13 @@
                     </tr>
                     <tr >
                         <td class="auto-style8" style="padding-left:5px">
-                            <dx:ASPxLabel ID="ASPxLabel31" runat="server" Text="Control Plan CL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="ASPxLabel31" runat="server" Text="Control Plan CL" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblCL2"></dx:ASPxLabel>
                         </td>
                         <td  class="auto-style11" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblCL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblCL"></dx:ASPxLabel>
                         </td>           
                         <td class="auto-style8" style="padding-left:5px">
-                            <dx:ASPxLabel ID="ASPxLabel37" runat="server" Text="X Bar LCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="ASPxLabel37" runat="server" Text="X Bar LCL" Font-Names="Segoe UI" Font-Size="9pt"  ClientInstanceName="lblXLCL2"></dx:ASPxLabel>
                         </td>
                         <td  class="auto-style11" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblXLCL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXLCL"></dx:ASPxLabel>
@@ -1096,7 +1109,7 @@
                             <dx:ASPxLabel ID="lblLCL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblLCL"></dx:ASPxLabel>
                         </td>  
                         <td class="auto-style8" style="padding-left:5px">
-                            <dx:ASPxLabel ID="ASPxLabel39" runat="server" Text="R UCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="ASPxLabel39" runat="server" Text="R UCL" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblRUCL2"></dx:ASPxLabel>
                         </td>
                         <td  class="auto-style11" style="padding-left:5px">
                             <dx:ASPxLabel ID="lblRUCL" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblRUCL"></dx:ASPxLabel>
@@ -1139,7 +1152,7 @@
                     </tr>
                     <tr>
                         <td class="auto-style7" style="padding-left:5px">
-                            <dx:ASPxLabel ID="ASPxLabel22" runat="server" Text="X Bar Bar" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="lblXBarBar2" runat="server" Text="X Bar Bar" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXBarBar2"></dx:ASPxLabel>
                         </td>
                         <td style="padding-left:5px" id="tdXBarBar" class="auto-style10">
                             <dx:ASPxLabel ID="lblXBarBar" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblXBarBar"></dx:ASPxLabel>
@@ -1153,7 +1166,7 @@
                     </tr>
                     <tr>
                         <td class="auto-style6" style="padding-left:5px">
-                            <dx:ASPxLabel ID="ASPxLabel24" runat="server" Text="R Bar" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="lblRBar2" runat="server" Text="R Bar" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblRBar2"></dx:ASPxLabel>
                         </td>
                         <td style="padding-left:5px" id="tdRBar" class="auto-style9">
                             <dx:ASPxLabel ID="lblRBar" runat="server" Text="" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblRBar"></dx:ASPxLabel>
