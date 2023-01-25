@@ -291,6 +291,18 @@
                                 </tr>
                                 <tr>
                                     <td>
+                                        Second Measurement
+                                    </td>
+                                    <td>
+                                        <dx:LayoutItemNestedControlContainer>
+                                            <dx:ASPxGridViewTemplateReplacement ID="editMeasure2Cls" ReplacementType="EditFormCellEditor"
+                                                runat="server" ColumnID="Measure2Cls">
+                                            </dx:ASPxGridViewTemplateReplacement>                                            
+                                        </dx:LayoutItemNestedControlContainer>                                    
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
                                         Active Status
                                     </td>
                                     <td>
