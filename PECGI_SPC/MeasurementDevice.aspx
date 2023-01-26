@@ -158,6 +158,10 @@
             ConnectionString="<%$ ConnectionStrings:ApplicationServices %>"
             SelectCommand="Exec sp_SPC_MSDevice_FillCombo '5'"></asp:SqlDataSource>
 
+        <asp:SqlDataSource ID="dsMS_Port" runat="server"
+            ConnectionString="<%$ ConnectionStrings:ApplicationServices %>"
+            SelectCommand="Exec sp_SPC_MSDevice_FillCombo '6'"></asp:SqlDataSource>
+
         <dx:ASPxGridView ID="Grid" runat="server" AutoGenerateColumns="False" ClientInstanceName="Grid"
             EnableTheming="True" KeyFieldName="RegNo" Theme="Office2010Black" Width="100%"
             Font-Names="Segoe UI" Font-Size="9pt"
@@ -234,7 +238,29 @@
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
                 </dx:GridViewDataTextColumn>
 
-                <dx:GridViewDataComboBoxColumn Caption="Baud Rate (Bit per Second)" FieldName="BaudRate" VisibleIndex="5"
+                <dx:GridViewDataComboBoxColumn Caption="Port" FieldName="Port" VisibleIndex="5"
+                    Width="75px" Settings-AutoFilterCondition="Contains">
+                    <PropertiesComboBox DataSourceID="dsMS_Port" DropDownStyle="DropDown" TextFormatString="{0}"
+                        IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="100%"
+                        TextField="Description" ValueField="Code" ClientInstanceName="Baud" Style-VerticalAlign="Middle" MaxLength="10">
+                        <ItemStyle Height="10px" Paddings-Padding="4px">
+                            <Paddings Padding="4px"></Paddings>
+                        </ItemStyle>
+                        <ButtonStyle Width="5px" Paddings-Padding="2px">
+                            <Paddings Padding="2px"></Paddings>
+                        </ButtonStyle>
+                    </PropertiesComboBox>
+                    <Settings AutoFilterCondition="Contains"></Settings>
+                    <FilterCellStyle Paddings-PaddingRight="4px">
+                        <Paddings PaddingRight="4px"></Paddings>
+                    </FilterCellStyle>
+                    <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                        <Paddings PaddingLeft="5px"></Paddings>
+                    </HeaderStyle>
+                    <CellStyle VerticalAlign="Middle"/>
+                </dx:GridViewDataComboBoxColumn>
+
+                <dx:GridViewDataComboBoxColumn Caption="Baud Rate (Bit per Second)" FieldName="BaudRate" VisibleIndex="6"
                     Width="100px" Settings-AutoFilterCondition="Contains">
                     <PropertiesComboBox DataSourceID="dsMS_Baudrate" DropDownStyle="DropDownList" TextFormatString="{0}"
                         IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="100%"
@@ -256,7 +282,7 @@
                     <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"/>
                 </dx:GridViewDataComboBoxColumn>
                 
-                <dx:GridViewDataComboBoxColumn Caption="Data Bits" FieldName="DataBits" VisibleIndex="6"
+                <dx:GridViewDataComboBoxColumn Caption="Data Bits" FieldName="DataBits" VisibleIndex="7"
                     Width="50px" Settings-AutoFilterCondition="Contains">
                     <PropertiesComboBox DataSourceID="dsMS_Databit" DropDownStyle="DropDownList" TextFormatString="{0}"
                         IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="100%"
@@ -278,7 +304,7 @@
                     <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"/>
                 </dx:GridViewDataComboBoxColumn>
 
-                <dx:GridViewDataComboBoxColumn Caption="Parity" FieldName="Parity" VisibleIndex="7"
+                <dx:GridViewDataComboBoxColumn Caption="Parity" FieldName="Parity" VisibleIndex="8"
                     Width="60px" Settings-AutoFilterCondition="Contains">
                     <PropertiesComboBox DataSourceID="dsMS_Parity" DropDownStyle="DropDownList" TextFormatString="{0}"
                         IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="100%"
@@ -300,7 +326,7 @@
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
                 </dx:GridViewDataComboBoxColumn>
 
-                <dx:GridViewDataComboBoxColumn Caption="Stop Bits" FieldName="StopBits" VisibleIndex="8"
+                <dx:GridViewDataComboBoxColumn Caption="Stop Bits" FieldName="StopBits" VisibleIndex="9"
                     Width="50px" Settings-AutoFilterCondition="Contains">
                     <PropertiesComboBox DataSourceID="dsMS_Stopbit" DropDownStyle="DropDownList" TextFormatString="{0}"
                         IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="100%"
@@ -322,7 +348,7 @@
                     <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"/>
                 </dx:GridViewDataComboBoxColumn>
 
-                <dx:GridViewDataSpinEditColumn Caption="Stable Condition (Seconds)" FieldName="Stable" VisibleIndex="9"
+                <dx:GridViewDataSpinEditColumn Caption="Stable Condition (Seconds)" FieldName="Stable" VisibleIndex="10"
                     Width="75px" Settings-AutoFilterCondition="Contains">
                     <PropertiesSpinEdit MaxValue="100" MinValue="0" Width="100%" Style-VerticalAlign="Middle" Style-HorizontalAlign="Right">
                         <ButtonStyle Width="5px" 
@@ -333,7 +359,7 @@
                     <CellStyle HorizontalAlign="Right" VerticalAlign="Middle" />
                 </dx:GridViewDataSpinEditColumn>
 
-                <dx:GridViewDataComboBoxColumn Caption="Passive / Active" FieldName="Passive" VisibleIndex="10"
+                <dx:GridViewDataComboBoxColumn Caption="Passive / Active" FieldName="Passive" VisibleIndex="11"
                     Width="75px" Settings-AutoFilterCondition="Contains">
                     <PropertiesComboBox DataSourceID="dsMS_Passive" DropDownStyle="DropDownList" TextFormatString="{0}"
                         IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="100%"
@@ -355,7 +381,7 @@
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
                 </dx:GridViewDataComboBoxColumn>
 
-                <dx:GridViewDataSpinEditColumn Caption="Get Result Data" FieldName="GetResult" VisibleIndex="11"
+                <dx:GridViewDataSpinEditColumn Caption="Get Result Data" FieldName="GetResult" VisibleIndex="12"
                     Width="75px" Settings-AutoFilterCondition="Contains">
                     <PropertiesSpinEdit MaxValue="10" MinValue="1" Width="100%" Style-VerticalAlign="Middle" Style-HorizontalAlign="Right">
                         <ButtonStyle Width="5px" 
@@ -366,13 +392,13 @@
                     <CellStyle HorizontalAlign="Right" VerticalAlign="Middle" />
                 </dx:GridViewDataSpinEditColumn>
 
-                <dx:GridViewDataCheckColumn Caption="Active Status" FieldName="ActiveStatus" VisibleIndex="12" Width="100px">
+                <dx:GridViewDataCheckColumn Caption="Active Status" FieldName="ActiveStatus" VisibleIndex="13" Width="75px">
                     <PropertiesCheckEdit ValueChecked="1" ValueUnchecked="0" ValueType="System.Char"/>
                     <Settings AllowSort="False" />
                     <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
                 </dx:GridViewDataCheckColumn>
 
-                <dx:GridViewDataTextColumn Caption="Last User" FieldName="LastUser" VisibleIndex="13"
+                <dx:GridViewDataTextColumn Caption="Last User" FieldName="LastUser" VisibleIndex="14"
                     Width="75px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="15" Width="100px">
                         <Style HorizontalAlign="Left"></Style>
@@ -387,7 +413,7 @@
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
                 </dx:GridViewDataTextColumn>
 
-                <dx:GridViewDataTextColumn Caption="Last Update" FieldName="LastUpdate" VisibleIndex="14"
+                <dx:GridViewDataTextColumn Caption="Last Update" FieldName="LastUpdate" VisibleIndex="15"
                     Width="135px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="15" Width="100px">
                         <Style HorizontalAlign="Left"></Style>
@@ -402,7 +428,7 @@
                     <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
                 </dx:GridViewDataTextColumn>
 
-                <dx:GridViewDataComboBoxColumn Caption="Factory" FieldName="FactoryCode" VisibleIndex="15"
+                <dx:GridViewDataComboBoxColumn Caption="Factory" FieldName="FactoryCode" VisibleIndex="99"
                     Width="100px" Settings-AutoFilterCondition="Contains" Visible="false">
                     <PropertiesComboBox DataSourceID="dsMS_Factory" DropDownStyle="DropDownList" TextFormatString="{0}"
                         IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="100%"
@@ -488,6 +514,13 @@
                                     <td>
                                         <dx:ASPxGridViewTemplateReplacement ID="editFunction" ReplacementType="EditFormCellEditor"
                                             runat="server" ColumnID="Function"></dx:ASPxGridViewTemplateReplacement>
+                                    </td>
+                                </tr>
+                                <tr style="height: 30px">
+                                    <td>Port</td>
+                                    <td>
+                                        <dx:ASPxGridViewTemplateReplacement ID="ASPxGridViewTemplateReplacement1" ReplacementType="EditFormCellEditor"
+                                            runat="server" ColumnID="Port"></dx:ASPxGridViewTemplateReplacement>
                                     </td>
                                 </tr>
                                 <tr style="height: 30px">

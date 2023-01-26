@@ -83,6 +83,7 @@ Public Class MeasurementDevice
                 e.NewValues("Description"), _
                 e.NewValues("ToolName"), _
                 e.NewValues("ToolFunction"), _
+                e.NewValues("Port"), _
                 e.NewValues("BaudRate"), _
                 e.NewValues("DataBits"), _
                 e.NewValues("Parity"), _
@@ -108,6 +109,7 @@ Public Class MeasurementDevice
                  e.NewValues("Description"), _
                  e.NewValues("ToolName"), _
                  e.NewValues("ToolFunction"), _
+                 e.NewValues("Port"), _
                  e.NewValues("BaudRate"), _
                  e.NewValues("DataBits"), _
                  e.NewValues("Parity"), _
@@ -171,6 +173,7 @@ Public Class MeasurementDevice
         Dim dataCol As New GridViewDataColumn
         Dim tmpdataCol As New GridViewDataColumn
         Dim AdaError As Boolean = False
+        Dim port = ""
 
         For Each column As GridViewColumn In Grid.Columns
             Dim dataColumn As GridViewDataColumn = TryCast(column, GridViewDataColumn)
@@ -218,43 +221,54 @@ Public Class MeasurementDevice
                 End If
             End If
 
-            If dataColumn.FieldName = "BaudRate" Then
-                If IsNothing(e.NewValues("BaudRate")) OrElse e.NewValues("BaudRate").ToString.Trim = "" Then
-                    e.Errors(dataColumn) = "Please Choose Baud Rate!"
+            If dataColumn.FieldName = "Port" Then
+                port = IIf(IsNothing(e.NewValues("Port")), "", e.NewValues("Port").ToString())
+                If IsNothing(e.NewValues("Port")) OrElse e.NewValues("Port").ToString.Trim = "" Then
+                    e.Errors(dataColumn) = "Please Input Port!"
                     show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
                     AdaError = True
                 End If
             End If
 
-            If dataColumn.FieldName = "DataBits" Then
-                If IsNothing(e.NewValues("DataBits")) OrElse e.NewValues("DataBits").ToString.Trim = "" Then
-                    e.Errors(dataColumn) = "Please Choose Data Bits!"
-                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
-                    AdaError = True
+            If port.Trim.ToUpper() <> "USB" Then
+                If dataColumn.FieldName = "BaudRate" Then
+                    If IsNothing(e.NewValues("BaudRate")) OrElse e.NewValues("BaudRate").ToString.Trim = "" Then
+                        e.Errors(dataColumn) = "Please Choose Baud Rate!"
+                        show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                        AdaError = True
+                    End If
                 End If
-            End If
 
-            If dataColumn.FieldName = "Parity" Then
-                If IsNothing(e.NewValues("Parity")) OrElse e.NewValues("Parity").ToString.Trim = "" Then
-                    e.Errors(dataColumn) = "Please Choose Parity!"
-                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
-                    AdaError = True
+                If dataColumn.FieldName = "DataBits" Then
+                    If IsNothing(e.NewValues("DataBits")) OrElse e.NewValues("DataBits").ToString.Trim = "" Then
+                        e.Errors(dataColumn) = "Please Choose Data Bits!"
+                        show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                        AdaError = True
+                    End If
                 End If
-            End If
 
-            If dataColumn.FieldName = "StopBits" Then
-                If IsNothing(e.NewValues("StopBits")) OrElse e.NewValues("StopBits").ToString.Trim = "" Then
-                    e.Errors(dataColumn) = "Please Choose Stop Bits!"
-                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
-                    AdaError = True
+                If dataColumn.FieldName = "Parity" Then
+                    If IsNothing(e.NewValues("Parity")) OrElse e.NewValues("Parity").ToString.Trim = "" Then
+                        e.Errors(dataColumn) = "Please Choose Parity!"
+                        show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                        AdaError = True
+                    End If
                 End If
-            End If
 
-            If dataColumn.FieldName = "Passive" Then
-                If IsNothing(e.NewValues("Passive")) OrElse e.NewValues("Passive").ToString.Trim = "" Then
-                    e.Errors(dataColumn) = "Please Choose Passive!"
-                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
-                    AdaError = True
+                If dataColumn.FieldName = "StopBits" Then
+                    If IsNothing(e.NewValues("StopBits")) OrElse e.NewValues("StopBits").ToString.Trim = "" Then
+                        e.Errors(dataColumn) = "Please Choose Stop Bits!"
+                        show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                        AdaError = True
+                    End If
+                End If
+
+                If dataColumn.FieldName = "Passive" Then
+                    If IsNothing(e.NewValues("Passive")) OrElse e.NewValues("Passive").ToString.Trim = "" Then
+                        e.Errors(dataColumn) = "Please Choose Passive!"
+                        show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                        AdaError = True
+                    End If
                 End If
             End If
 
@@ -263,18 +277,20 @@ Public Class MeasurementDevice
             End If
         Next column
 
-        tmpdataCol = Grid.DataColumns("Stable")
-        If IsNothing(e.NewValues("Stable")) OrElse e.NewValues("Stable").ToString.Trim = "" Then
-            e.Errors(tmpdataCol) = "Please Input a Number!"
-            show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
-            AdaError = True
-        End If
+        If port.Trim.ToUpper() <> "USB" Then
+            tmpdataCol = Grid.DataColumns("Stable")
+            If IsNothing(e.NewValues("Stable")) OrElse e.NewValues("Stable").ToString.Trim = "" Then
+                e.Errors(tmpdataCol) = "Please Input a Number!"
+                show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                AdaError = True
+            End If
 
-        tmpdataCol = Grid.DataColumns("GetResult")
-        If IsNothing(e.NewValues("GetResult")) OrElse e.NewValues("GetResult").ToString.Trim = "" Then
-            e.Errors(tmpdataCol) = "Please Input a Number!"
-            show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
-            AdaError = True
+            tmpdataCol = Grid.DataColumns("GetResult")
+            If IsNothing(e.NewValues("GetResult")) OrElse e.NewValues("GetResult").ToString.Trim = "" Then
+                e.Errors(tmpdataCol) = "Please Input a Number!"
+                show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                AdaError = True
+            End If
         End If
 
         If Not AdaError And e.IsNewRow Then
@@ -351,7 +367,7 @@ Public Class MeasurementDevice
         End Try
     End Sub
 
-    Private Function up_InsUpd(Type As String, Factory As String, regno As String, desc As String, toolname As String, toolfunc As String, baud As String, databit As String, parity As String, stopbit As String, stable As String, passive As String, getresult As String, active As String, User As String) As Boolean
+    Private Function up_InsUpd(Type As String, Factory As String, regno As String, desc As String, toolname As String, toolfunc As String, port As String, baud As String, databit As String, parity As String, stopbit As String, stable As String, passive As String, getresult As String, active As String, User As String) As Boolean
         Dim message As String = IIf(Type = "0", "Save data successfully!", "Update data successfully!") '0 Save | 1 Update
         Try
             Dim cls As New clsMeasurementDevice With
@@ -361,6 +377,7 @@ Public Class MeasurementDevice
                 .Description = desc,
                 .ToolName = toolname,
                 .ToolFunction = toolfunc,
+                .Port = port,
                 .BaudRate = baud,
                 .DataBit = databit,
                 .Parity = parity,

@@ -6,6 +6,7 @@ Public Class clsMeasurementDevice
     Public Property Description As String
     Public Property ToolName As String
     Public Property ToolFunction As String
+    Public Property Port As String
     Public Property BaudRate As String
     Public Property DataBit As String
     Public Property Parity As String
@@ -63,13 +64,14 @@ Public Class clsMeasurementDeviceDB
                 cmd.Parameters.AddWithValue("Description", cls.Description)
                 cmd.Parameters.AddWithValue("ToolName", cls.ToolName)
                 cmd.Parameters.AddWithValue("ToolFunction", cls.ToolFunction)
-                cmd.Parameters.AddWithValue("BaudRate", CInt(cls.BaudRate))
-                cmd.Parameters.AddWithValue("DataBits", CInt(cls.DataBit))
+                cmd.Parameters.AddWithValue("Port", cls.Port)
+                cmd.Parameters.AddWithValue("BaudRate", cls.BaudRate)
+                cmd.Parameters.AddWithValue("DataBits", cls.DataBit)
                 cmd.Parameters.AddWithValue("Parity", cls.Parity)
-                cmd.Parameters.AddWithValue("StopBits", CInt(cls.StopBit))
-                cmd.Parameters.AddWithValue("StableCondition", CInt(cls.Stable))
+                cmd.Parameters.AddWithValue("StopBits", cls.StopBit)
+                cmd.Parameters.AddWithValue("StableCondition", cls.Stable)
                 cmd.Parameters.AddWithValue("PassiveActiveCls", cls.Passive)
-                cmd.Parameters.AddWithValue("GetResultData", CInt(cls.GetResult))
+                cmd.Parameters.AddWithValue("GetResultData", cls.GetResult)
                 cmd.Parameters.AddWithValue("ActiveStatus", cls.Active)
                 cmd.Parameters.AddWithValue("User", cls.User)
 
