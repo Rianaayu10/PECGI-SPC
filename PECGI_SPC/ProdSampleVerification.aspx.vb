@@ -1931,10 +1931,10 @@ Public Class ProdSampleVerification
                 Dim dtGrid As DataTable = ds.Tables(0)
                 If dtGrid.Rows.Count > 0 Then
                     For i = 0 To dtGrid.Rows.Count - 1
-                        For n = 1 To dtGrid.Columns.Count - 1
+                        For n = 1 To dtGrid.Columns.Count - 2
                             Try
-                                Dim data = dtGrid.Rows(i)(n)
-                                Dim RowIndex = Trim(dtGrid.Rows(i)(0))
+                                Dim data = dtGrid.Rows(i)(n + 1)
+                                Dim RowIndex = Trim(dtGrid.Rows(i)(1))
                                 If n > 1 Then
                                     If RowIndex = "EachData" Or RowIndex = "XBar" Or RowIndex = "Judgement" Or RowIndex = "Correction" Or RowIndex = "Verification" Then
                                         If IsDBNull(data) Then
@@ -1976,7 +1976,7 @@ Public Class ProdSampleVerification
                 col_CellResult = dtGrid.Columns.Count
                 row_CellResult = irow + dtGrid.Rows.Count
 
-                Dim Border As ExcelRange = .Cells(row_ChartSetup + 4, 1, row_CellResult - 1, col_CellResult - 1)
+                Dim Border As ExcelRange = .Cells(row_ChartSetup + 4, 1, row_CellResult - 1, col_CellResult - 2)
                 Border.Style.Border.Top.Style = ExcelBorderStyle.Thin
                 Border.Style.Border.Bottom.Style = ExcelBorderStyle.Thin
                 Border.Style.Border.Right.Style = ExcelBorderStyle.Thin
