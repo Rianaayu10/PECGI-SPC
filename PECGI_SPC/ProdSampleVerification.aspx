@@ -831,35 +831,35 @@
         <table style="width: 100%">
             <tr>
                 <td style="width: 100px">
-                    <dx:ASPxButton ID="btnVerification" runat="server" AutoPostBack="False" ClientInstanceName="btnVerification"
-                        Font-Names="Segoe UI" Font-Size="9pt" Text="Verify" Theme="Office2010Silver" Width="100px">
+                    <dx:ASPxButton ID="btnVerification" runat="server" AutoPostBack="False" ClientInstanceName="btnVerification" Height="40px"
+                        Font-Names="Segoe UI" Font-Size="9pt" Text="Verification" Theme="Office2010Silver" Width="100px">
                         <ClientSideEvents Click="Verify" />
                     </dx:ASPxButton>
                 </td>
                 <td style="width: 5px"></td>
                 <td style="width: 100px">
-                    <dx:ASPxButton ID="btnSPCSample" runat="server" AutoPostBack="False" ClientInstanceName="btnSPCSample"
-                        Font-Names="Segoe UI" Font-Size="9pt" Text="SPC Sample" Theme="Office2010Silver" Width="100px">
+                    <dx:ASPxButton ID="btnSPCSample" runat="server" AutoPostBack="False" ClientInstanceName="btnSPCSample"  Height="40px"
+                        Font-Names="Segoe UI" Font-Size="9pt" Text="SPC Sample Open New Tab"  Wrap="True"  Theme="Office2010Silver" Width="120px">
                         <ClientSideEvents Click="SPCSample" />
                     </dx:ASPxButton>
                 </td>
                 <td style="width: 5px"></td>
                 <td style="width: 100px">
-                    <dx:ASPxButton ID="btnIOTProcess" runat="server" AutoPostBack="False" ClientInstanceName="btnIOTProcess"
+                    <dx:ASPxButton ID="btnIOTProcess" runat="server" AutoPostBack="False" ClientInstanceName="btnIOTProcess"  Height="40px"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="View IOT Process Table" Theme="Office2010Silver" Width="100px">
                         <ClientSideEvents Click="IOTProcess" />
                     </dx:ASPxButton>
                 </td>
                 <td style="width: 5px"></td>
                 <td style="width: 100px">
-                    <dx:ASPxButton ID="btnIOTTraceability" runat="server" AutoPostBack="False" ClientInstanceName="btnIOTTraceability"
+                    <dx:ASPxButton ID="btnIOTTraceability" runat="server" AutoPostBack="False" ClientInstanceName="btnIOTTraceability"  Height="40px"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="View IOT Traceability" Theme="Office2010Silver" Width="100px">
                         <ClientSideEvents Click="IOTTraceability" />
                     </dx:ASPxButton>
                 </td>
                 <td style="width: 5px"></td>
                 <td style="width: 100px">
-                    <dx:ASPxButton ID="btnExcel" runat="server" AutoPostBack="False" ClientInstanceName="btnExcel"
+                    <dx:ASPxButton ID="btnExcel" runat="server" AutoPostBack="False" ClientInstanceName="btnExcel"  Height="40px"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="Excel" Theme="Office2010Silver" Width="100px">
                     </dx:ASPxButton>
                 </td>

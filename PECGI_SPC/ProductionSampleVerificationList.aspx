@@ -475,21 +475,21 @@
         <table>
             <tr>
                 <td>
-                    <dx:ASPxButton ID="btnVerification" runat="server" AutoPostBack="False" ClientInstanceName="btnVerification" Height="25px"
+                    <dx:ASPxButton ID="btnVerification" runat="server" AutoPostBack="False" ClientInstanceName="btnVerification" Height="40px"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="Verification" Theme="Office2010Silver" Width="100px">
                         <ClientSideEvents Click="Verification" />
                     </dx:ASPxButton>
                 </td>
                 <td style="width: 10px">&nbsp;</td>
                 <td>
-                    <dx:ASPxButton ID="btnViewSampleInput" runat="server" AutoPostBack="False" ClientInstanceName="btnViewSampleInput" Height="25px"
-                        Font-Names="Segoe UI" Font-Size="9pt" Text="View Sample Input" Theme="Office2010Silver" Width="100px">
+                    <dx:ASPxButton ID="btnViewSampleInput" runat="server" AutoPostBack="False" ClientInstanceName="btnViewSampleInput" Height="40px"
+                        Font-Names="Segoe UI" Font-Size="9pt" Text="SPC Sample Open New Tab" Wrap="True" Theme="Office2010Silver" Width="120px">
                         <ClientSideEvents Click="ViewSampleInput" />
                     </dx:ASPxButton>
                 </td>
                 <td style="width: 10px">&nbsp;</td>
                 <td>
-                    <dx:ASPxButton ID="btnExcel" runat="server" AutoPostBack="False" ClientInstanceName="btnExcel" Height="25px"
+                    <dx:ASPxButton ID="btnExcel" runat="server" AutoPostBack="False" ClientInstanceName="btnExcel" Height="40px"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="Excel" Theme="Office2010Silver" Width="100px">
                     </dx:ASPxButton>
                 </td>
