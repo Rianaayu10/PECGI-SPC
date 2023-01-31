@@ -552,21 +552,6 @@
                     <CellStyle HorizontalAlign="Right" VerticalAlign="Middle" />
                 </dx:GridViewDataSpinEditColumn>
 
-                <dx:GridViewDataTextColumn Caption="Remark" FieldName="Remark"
-                    VisibleIndex="7" Width="150px" Settings-AutoFilterCondition="Contains">
-                    <PropertiesTextEdit MaxLength="35" Width="195px">
-                        <Style HorizontalAlign="Left"></Style>
-                    </PropertiesTextEdit>
-                    <Settings AutoFilterCondition="Contains"></Settings>
-                    <FilterCellStyle Paddings-PaddingRight="4px">
-                    <Paddings PaddingRight="4px"></Paddings>
-                    </FilterCellStyle>
-                    <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
-                    <Paddings PaddingLeft="5px"></Paddings>
-                    </HeaderStyle>
-                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
-                </dx:GridViewDataTextColumn>
-
                 <%--<dx:GridViewDataTextColumn Caption="Evaluation" FieldName="Evaluation"
                     VisibleIndex="8" Width="150px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="35" Width="195px">
@@ -582,7 +567,7 @@
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
                 </dx:GridViewDataTextColumn>--%>
 
-                <dx:GridViewDataComboBoxColumn Caption="Evaluation" FieldName="Evaluation" VisibleIndex="8"
+                <dx:GridViewDataComboBoxColumn Caption="Evaluation" FieldName="Evaluation" VisibleIndex="7"
                     Width="200px" Settings-AutoFilterCondition="Contains">
                     <PropertiesComboBox DataSourceID="dsEvaluation" DropDownStyle="DropDown" TextFormatString="{0}"
                         IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="195px"
@@ -604,7 +589,7 @@
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
                 </dx:GridViewDataComboBoxColumn>
 
-                <dx:GridViewDataComboBoxColumn Caption="Special Characteristics" FieldName="CharacteristicStatus" VisibleIndex="9"
+                <dx:GridViewDataComboBoxColumn Caption="Special Characteristics" FieldName="CharacteristicStatus" VisibleIndex="8"
                     Width="200px" Settings-AutoFilterCondition="Contains">
                     <PropertiesComboBox DataSourceID="dsCharStatus" DropDownStyle="DropDownList" TextFormatString="{0}"
                         IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="195px"
@@ -634,7 +619,7 @@
                     <Settings AllowSort="False" />
                 </dx:GridViewDataCheckColumn>--%>
                 
-                <dx:GridViewDataComboBoxColumn Caption="Process Table Line Code" FieldName="ProcessTableLineCode" VisibleIndex="10"
+                <dx:GridViewDataComboBoxColumn Caption="Process Table Line Code" FieldName="ProcessTableLineCode" VisibleIndex="9"
                     Width="200px" Settings-AutoFilterCondition="Contains">
                     <PropertiesComboBox DataSourceID="dsMachine" DropDownStyle="DropDownList" TextFormatString="{0}"
                         IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="195px"
@@ -657,7 +642,7 @@
                 </dx:GridViewDataComboBoxColumn>
                 
                 <dx:GridViewDataCheckColumn Caption="Active Status" FieldName="ActiveStatus" 
-                    VisibleIndex="11" Width="60px">
+                    VisibleIndex="10" Width="60px">
                     <PropertiesCheckEdit ValueChecked="1" ValueType="System.Char" 
                         ValueUnchecked="0">
                     </PropertiesCheckEdit>
@@ -665,7 +650,7 @@
                 </dx:GridViewDataCheckColumn>
 
                 <dx:GridViewDataTextColumn Caption="Last User" FieldName="UpdateUser"
-                    VisibleIndex="12" Width="70px" Settings-AutoFilterCondition="Contains">
+                    VisibleIndex="11" Width="70px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="50" Width="70px">
                         <Style HorizontalAlign="Left"></Style>
                     </PropertiesTextEdit>
@@ -680,8 +665,23 @@
                 </dx:GridViewDataTextColumn>
 
                 <dx:GridViewDataTextColumn Caption="Last Update" FieldName="UpdateDate"
-                    VisibleIndex="13" Width="150px" Settings-AutoFilterCondition="Contains">
+                    VisibleIndex="12" Width="150px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="50" Width="200px">
+                        <Style HorizontalAlign="Left"></Style>
+                    </PropertiesTextEdit>
+                    <Settings AutoFilterCondition="Contains"></Settings>
+                    <FilterCellStyle Paddings-PaddingRight="4px">
+                    <Paddings PaddingRight="4px"></Paddings>
+                    </FilterCellStyle>
+                    <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                    <Paddings PaddingLeft="5px"></Paddings>
+                    </HeaderStyle>
+                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
+                </dx:GridViewDataTextColumn>
+
+                <dx:GridViewDataTextColumn Caption="Remark" FieldName="Remark"
+                    VisibleIndex="13" Width="150px" Settings-AutoFilterCondition="Contains">
+                    <PropertiesTextEdit MaxLength="35" Width="195px">
                         <Style HorizontalAlign="Left"></Style>
                     </PropertiesTextEdit>
                     <Settings AutoFilterCondition="Contains"></Settings>
