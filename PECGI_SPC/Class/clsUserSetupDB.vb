@@ -10,10 +10,12 @@ Public Class clsUserSetupDB
                 sqL = "INSERT INTO dbo.spc_UserSetup (" & vbCrLf &
                         "   [AppID],[UserID],[FullName],[Password],[Description],[AdminStatus]," & vbCrLf &
                         "   [FactoryCode],[JobPosition], [EmployeeID],[Email],[LockStatus]," & vbCrLf &
+                        "   [NGResultEmailStatus],[DelayInputEmailStatus],[DelayVerificationEmailStatus],[ChartSetupEmailStatus]," & vbCrLf &
                         "   [RegisterDate],[RegisterUser],[UpdateDate],[UpdateUser]" & vbCrLf &
                         ") VALUES ( " & vbCrLf &
                         "   @AppID, @UserID, @FullName, @Password, @Description, @AdminStatus," & vbCrLf &
                         "   @FactoryCode, @JobPosition, @EmployeeID, @Email, @LockStatus, " & vbCrLf &
+                        "   @NGResultEmailStatus, @DelayInputEmailStatus, @DelayVerificationEmailStatus, @ChartSetupEmailStatus," & vbCrLf &
                         "   GETDATE(), @RegisterUser, GETDATE(), @RegisterUser )"
                 Dim cmd As New SqlCommand(sqL, Cn)
                 Dim des As New clsDESEncryption("TOS")
@@ -29,7 +31,11 @@ Public Class clsUserSetupDB
                     .AddWithValue("JobPosition", pUser.JobPosition)
                     .AddWithValue("EmployeeID", pUser.EmployeeID)
                     .AddWithValue("Email", pUser.Email)
-                    .AddWithValue("LockStatus", Val(pUser.LockStatus & ""))
+                    .AddWithValue("NGResultEmailStatus", If(pUser.NGResultEmailStatus, "0"))
+                    .AddWithValue("DelayInputEmailStatus", If(pUser.DelayInputEmailStatus, "0"))
+                    .AddWithValue("DelayVerificationEmailStatus", If(pUser.DelayVerificationEmailStatus, "0"))
+                    .AddWithValue("ChartSetupEmailStatus", If(pUser.ChartSetupEmailStatus, "0"))
+                    .AddWithValue("LockStatus", If(pUser.LockStatus, "0"))
                     .AddWithValue("RegisterUser", pUser.CreateUser)
                 End With
                 cmd.ExecuteNonQuery()
@@ -55,6 +61,10 @@ Public Class clsUserSetupDB
                     "JobPosition = @JobPosition, " &
                     "EmployeeID = @EmployeeID, " &
                     "Email = @Email, " &
+                    "NGResultEmailStatus = @NGResultEmailStatus, " &
+                    "DelayInputEmailStatus = @DelayInputEmailStatus, " &
+                    "DelayVerificationEmailStatus = @DelayVerificationEmailStatus, " &
+                    "ChartSetupEmailStatus = @ChartSetupEmailStatus, " &
                     "LockStatus = @LockStatus, " & vbCrLf &
                     "FailedLogin = 0, UpdateDate = GETDATE(), UpdateUser = @UpdateUser " &
                     "WHERE UserID = @UserID and AppID = @AppID "
@@ -72,7 +82,11 @@ Public Class clsUserSetupDB
                     .AddWithValue("JobPosition", pUser.JobPosition)
                     .AddWithValue("EmployeeID", pUser.EmployeeID)
                     .AddWithValue("Email", pUser.Email)
-                    .AddWithValue("LockStatus", pUser.LockStatus)
+                    .AddWithValue("NGResultEmailStatus", If(pUser.NGResultEmailStatus, "0"))
+                    .AddWithValue("DelayInputEmailStatus", If(pUser.DelayInputEmailStatus, "0"))
+                    .AddWithValue("DelayVerificationEmailStatus", If(pUser.DelayVerificationEmailStatus, "0"))
+                    .AddWithValue("ChartSetupEmailStatus", If(pUser.ChartSetupEmailStatus, "0"))
+                    .AddWithValue("LockStatus", If(pUser.LockStatus, "0"))
                     .AddWithValue("UpdateUser", pUser.UpdateUser)
                 End With
                 cmd.ExecuteNonQuery()
@@ -169,6 +183,10 @@ Public Class clsUserSetupDB
                     .JobPosition = dt.Rows(i)("JobPosition") & "",
                     .EmployeeID = dt.Rows(i)("EmployeeID").ToString.Trim & "",
                     .Email = dt.Rows(i)("Email") & "",
+                    .NGResultEmailStatus = dt.Rows(i)("NGResultEmailStatus") & "",
+                    .DelayInputEmailStatus = dt.Rows(i)("DelayInputEmailStatus") & "",
+                    .DelayVerificationEmailStatus = dt.Rows(i)("DelayVerificationEmailStatus") & "",
+                    .ChartSetupEmailStatus = dt.Rows(i)("ChartSetupEmailStatus") & "",
                     .LastUpdate = Date.Parse(dt.Rows(i)("UpdateDate").ToString()).ToString("yyyy MMM dd HH:mm:ss"),
                     .LastUser = dt.Rows(i)("UpdateUser") & ""
                 }

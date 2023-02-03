@@ -182,28 +182,6 @@
                         <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataComboBoxColumn>
 
-                    <%--    <dx:GridViewDataComboBoxColumn Caption="Admin Status" FieldName="AdminStatus"
-                        VisibleIndex="6" Width="90px" Settings-AutoFilterCondition="Contains">
-                        <PropertiesComboBox DataSourceID="dsAdminStatus" DropDownStyle="DropDownList"
-                            IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="120px"
-                            TextField="CODE" ValueField="CODEDESC" ClientInstanceName="AdminStatus">
-                            <ItemStyle Height="10px" Paddings-Padding="4px">
-                                <Paddings Padding="4px"></Paddings>
-                            </ItemStyle>
-                            <ButtonStyle Width="5px" Paddings-Padding="2px">
-                                <Paddings Padding="2px"></Paddings>
-                            </ButtonStyle>
-                        </PropertiesComboBox>
-                        <Settings AutoFilterCondition="Contains"></Settings>
-                        <FilterCellStyle Paddings-PaddingRight="4px">
-                            <Paddings PaddingRight="4px"></Paddings>
-                        </FilterCellStyle>
-                        <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
-                            <Paddings PaddingLeft="5px"></Paddings>
-                        </HeaderStyle>
-                        <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
-                    </dx:GridViewDataComboBoxColumn>--%>
-
                     <dx:GridViewDataComboBoxColumn Caption="FactoryCode" FieldName="FactoryCode"
                         VisibleIndex="7" Width="130px" Settings-AutoFilterCondition="Contains">
                         <PropertiesComboBox DataSourceID="dsFactory" DropDownStyle="DropDownList" TextFormatString="{0}"
@@ -235,7 +213,6 @@
                                 <dx:ListEditItem Text="OP" Value="OP" />
                                 <dx:ListEditItem Text="MK" Value="MK" />
                                 <dx:ListEditItem Text="QC" Value="QC" />
-                                <dx:ListEditItem Text="Advisor" Value="ADV" />
                             </Items>
                             <ItemStyle Height="10px" Paddings-Padding="4px">
                                 <Paddings Padding="4px"></Paddings>
@@ -280,6 +257,50 @@
                         </HeaderStyle>
                         <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataTextColumn>
+
+                    <dx:GridViewDataCheckColumn Caption="NG Result" FieldName="NGResultEmailStatus"
+                        VisibleIndex="13" Width="60px" Visible="true">
+                        <PropertiesCheckEdit ValueChecked="1" ValueType="System.Char"
+                            ValueUnchecked="0">
+                        </PropertiesCheckEdit>
+                        <Settings AllowSort="False" />
+                         <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                            <Paddings PaddingLeft="5px"></Paddings>
+                        </HeaderStyle>
+                    </dx:GridViewDataCheckColumn>
+
+                     <dx:GridViewDataCheckColumn Caption="Delay Input" FieldName="DelayInputEmailStatus"
+                        VisibleIndex="13" Width="60px" Visible="true">
+                        <PropertiesCheckEdit ValueChecked="1" ValueType="System.Char"
+                            ValueUnchecked="0">
+                        </PropertiesCheckEdit>
+                        <Settings AllowSort="False" />
+                          <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                            <Paddings PaddingLeft="5px"></Paddings>
+                        </HeaderStyle>
+                    </dx:GridViewDataCheckColumn>
+
+                     <dx:GridViewDataCheckColumn Caption="Delay Verification" FieldName="DelayVerificationEmailStatus"
+                        VisibleIndex="13" Width="80px" Visible="true">
+                        <PropertiesCheckEdit ValueChecked="1" ValueType="System.Char"
+                            ValueUnchecked="0">
+                        </PropertiesCheckEdit>
+                        <Settings AllowSort="False" />
+                          <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                            <Paddings PaddingLeft="5px"></Paddings>
+                        </HeaderStyle>
+                    </dx:GridViewDataCheckColumn>
+
+                     <dx:GridViewDataCheckColumn Caption="Chart Setup" FieldName="ChartSetupEmailStatus"
+                        VisibleIndex="13" Width="60px" Visible="true">
+                        <PropertiesCheckEdit ValueChecked="1" ValueType="System.Char"
+                            ValueUnchecked="0">
+                        </PropertiesCheckEdit>
+                        <Settings AllowSort="False" />
+                          <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                            <Paddings PaddingLeft="5px"></Paddings>
+                        </HeaderStyle>
+                    </dx:GridViewDataCheckColumn>
 
                     <dx:GridViewDataTextColumn Caption="Last User" FieldName="LastUser"
                         VisibleIndex="10" Width="120px" Settings-AutoFilterCondition="Contains">
@@ -358,7 +379,7 @@
                                 <table align="center">
                                     <tr style="height: 30px">
                                         <td>
-                                            <dx:ASPxLabel ID="ASPxLabel1" runat="server" Font-Names="Segoe UI" Text="User ID" Width="90px"></dx:ASPxLabel>
+                                            <dx:ASPxLabel ID="ASPxLabel1" runat="server" Font-Names="Segoe UI" Text="User ID" Width="100px"></dx:ASPxLabel>
                                         </td>
                                         <td>
                                             <dx:ASPxGridViewTemplateReplacement ID="editUserID" ReplacementType="EditFormCellEditor"
@@ -433,6 +454,46 @@
                                             <dx:LayoutItemNestedControlContainer>
                                                 <dx:ASPxGridViewTemplateReplacement ID="editEmail" ReplacementType="EditFormCellEditor"
                                                     runat="server" ColumnID="Email"></dx:ASPxGridViewTemplateReplacement>
+                                            </dx:LayoutItemNestedControlContainer>
+                                        </td>
+                                    </tr>
+                                     <tr style="height: 30px">
+                                        <td>NG Result 
+                                        </td>
+                                        <td>
+                                            <dx:LayoutItemNestedControlContainer>
+                                                <dx:ASPxGridViewTemplateReplacement ID="editNGResultEmailStatus" ReplacementType="EditFormCellEditor"
+                                                    runat="server" ColumnID="NGResultEmailStatus"></dx:ASPxGridViewTemplateReplacement>
+                                            </dx:LayoutItemNestedControlContainer>
+                                        </td>
+                                    </tr>
+                                     <tr style="height: 30px">
+                                        <td>Delay Input
+                                        </td>
+                                        <td>
+                                            <dx:LayoutItemNestedControlContainer>
+                                                <dx:ASPxGridViewTemplateReplacement ID="editDelayInputEmailStatus" ReplacementType="EditFormCellEditor"
+                                                    runat="server" ColumnID="DelayInputEmailStatus"></dx:ASPxGridViewTemplateReplacement>
+                                            </dx:LayoutItemNestedControlContainer>
+                                        </td>
+                                    </tr>
+                                     <tr style="height: 30px">
+                                        <td>Delay Verification
+                                        </td>
+                                        <td>
+                                            <dx:LayoutItemNestedControlContainer>
+                                                <dx:ASPxGridViewTemplateReplacement ID="editDelayVerificationEmailStatus" ReplacementType="EditFormCellEditor"
+                                                    runat="server" ColumnID="DelayVerificationEmailStatus"></dx:ASPxGridViewTemplateReplacement>
+                                            </dx:LayoutItemNestedControlContainer>
+                                        </td>
+                                    </tr>
+                                     <tr style="height: 30px">
+                                        <td>Chart Setup
+                                        </td>
+                                        <td>
+                                            <dx:LayoutItemNestedControlContainer>
+                                                <dx:ASPxGridViewTemplateReplacement ID="editChartSetupEmailStatus" ReplacementType="EditFormCellEditor"
+                                                    runat="server" ColumnID="ChartSetupEmailStatus"></dx:ASPxGridViewTemplateReplacement>
                                             </dx:LayoutItemNestedControlContainer>
                                         </td>
                                     </tr>

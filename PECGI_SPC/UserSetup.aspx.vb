@@ -121,6 +121,10 @@ Public Class UserSetup
             .JobPosition = e.NewValues("JobPosition"),
             .EmployeeID = e.NewValues("EmployeeID"),
             .Email = e.NewValues("Email"),
+            .NGResultEmailStatus = e.NewValues("NGResultEmailStatus"),
+            .DelayInputEmailStatus = e.NewValues("DelayInputEmailStatus"),
+            .DelayVerificationEmailStatus = e.NewValues("DelayVerificationEmailStatus"),
+            .ChartSetupEmailStatus = e.NewValues("ChartSetupEmailStatus"),
             .LockStatus = e.NewValues("LockStatus"),
             .CreateUser = pUser
         }
@@ -155,6 +159,10 @@ Public Class UserSetup
             .JobPosition = e.NewValues("JobPosition") & "",
             .EmployeeID = e.NewValues("EmployeeID") & "",
             .Email = e.NewValues("Email"),
+            .NGResultEmailStatus = e.NewValues("NGResultEmailStatus"),
+            .DelayInputEmailStatus = e.NewValues("DelayInputEmailStatus"),
+            .DelayVerificationEmailStatus = e.NewValues("DelayVerificationEmailStatus"),
+            .ChartSetupEmailStatus = e.NewValues("ChartSetupEmailStatus"),
             .LockStatus = e.NewValues("LockStatus"),
             .UpdateUser = pUser
         }
@@ -175,7 +183,7 @@ Public Class UserSetup
             clsUserSetupDB.Delete(UserID)
             Grid.CancelEdit()
             up_GridLoad()
-            show_error(MsgTypeEnum.Success, "Delete data successfully!", 1)            
+            show_error(MsgTypeEnum.Success, "Delete data successfully!", 1)
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
         End Try
@@ -322,7 +330,7 @@ Public Class UserSetup
     Protected Sub Grid_StartRowEditing(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxStartRowEditingEventArgs) Handles Grid.StartRowEditing
         If (Not Grid.IsNewRowEditing) Then
             Grid.DoRowValidation()
-        End If        
+        End If
         show_error(MsgTypeEnum.Info, "", 0)
     End Sub
 

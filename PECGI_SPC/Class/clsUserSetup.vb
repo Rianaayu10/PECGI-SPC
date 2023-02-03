@@ -16,6 +16,10 @@
     Public Property JobPosition As String
     Public Property EmployeeID As String
     Public Property Email As String
+    Public Property NGResultEmailStatus As String
+    Public Property DelayInputEmailStatus As String
+    Public Property DelayVerificationEmailStatus As String
+    Public Property ChartSetupEmailStatus As String
     Public Property LastUpdate As String
     Public Property LastUser As String
     Public Property UpdateDate As String
