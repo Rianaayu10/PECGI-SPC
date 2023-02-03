@@ -71,7 +71,7 @@
             <dx:ASPxGridView ID="Grid" runat="server" AutoGenerateColumns="False" ClientInstanceName="Grid"
                 EnableTheming="True" KeyFieldName="UserID; EmployeeID" Theme="Office2010Black"
                 OnRowValidating="Grid_RowValidating" OnStartRowEditing="Grid_StartRowEditing"
-                OnRowInserting="Grid_RowInserting" OnRowDeleting="Grid_RowDeleting" 
+                OnRowInserting="Grid_RowInserting" OnRowDeleting="Grid_RowDeleting"
                 OnAfterPerformCallback="Grid_AfterPerformCallback" Width="100%"
                 Font-Names="Segoe UI" Font-Size="9pt">
                 <ClientSideEvents EndCallback="OnEndCallback" />
@@ -160,7 +160,7 @@
                         <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataTextColumn>
 
-                    <dx:GridViewDataComboBoxColumn Caption="Admin Status" FieldName="AdminStatus" 
+                    <dx:GridViewDataComboBoxColumn Caption="Admin Status" FieldName="AdminStatus"
                         VisibleIndex="6" Width="90px" Settings-AutoFilterCondition="Contains">
                         <PropertiesComboBox DropDownStyle="DropDownList" Width="80px"
                             IncrementalFilteringMode="StartsWith" DisplayFormatInEditMode="true">
@@ -182,7 +182,7 @@
                         <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataComboBoxColumn>
 
-                 <%--    <dx:GridViewDataComboBoxColumn Caption="Admin Status" FieldName="AdminStatus"
+                    <%--    <dx:GridViewDataComboBoxColumn Caption="Admin Status" FieldName="AdminStatus"
                         VisibleIndex="6" Width="90px" Settings-AutoFilterCondition="Contains">
                         <PropertiesComboBox DataSourceID="dsAdminStatus" DropDownStyle="DropDownList"
                             IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="120px"
@@ -235,6 +235,7 @@
                                 <dx:ListEditItem Text="OP" Value="OP" />
                                 <dx:ListEditItem Text="MK" Value="MK" />
                                 <dx:ListEditItem Text="QC" Value="QC" />
+                                <dx:ListEditItem Text="Advisor" Value="Advisor" />
                             </Items>
                             <ItemStyle Height="10px" Paddings-Padding="4px">
                                 <Paddings Padding="4px"></Paddings>
