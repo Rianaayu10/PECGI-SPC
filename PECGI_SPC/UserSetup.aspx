@@ -235,7 +235,7 @@
                                 <dx:ListEditItem Text="OP" Value="OP" />
                                 <dx:ListEditItem Text="MK" Value="MK" />
                                 <dx:ListEditItem Text="QC" Value="QC" />
-                                <dx:ListEditItem Text="Advisor" Value="Advisor" />
+                                <dx:ListEditItem Text="Advisor" Value="ADV" />
                             </Items>
                             <ItemStyle Height="10px" Paddings-Padding="4px">
                                 <Paddings Padding="4px"></Paddings>
