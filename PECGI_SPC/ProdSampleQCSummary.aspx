@@ -569,6 +569,13 @@
                     <dx:ASPxLabel ID="ASPxLabel18" runat="server" Text="Result NG" CssClass="text" />
                 </td>
 
+                <td style="background-color:#EF6C00; width:0.2%; text-align:center; color:#fff">
+                    <dx:ASPxLabel ID="ASPxLabel24" runat="server" Text="" />
+                </td>
+                <td align="center" class="align" style="width:0.7%;padding-left:0.5%">
+                    <dx:ASPxLabel ID="ASPxLabel27" runat="server" Text="OK & No Data" CssClass="text" />
+                </td>
+
                 <td style="background-color:gray; width:0.2%; text-align:center">
                     <dx:ASPxLabel ID="ASPxLabel25" runat="server" Text=" " />
                 </td>
