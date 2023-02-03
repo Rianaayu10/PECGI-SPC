@@ -398,7 +398,13 @@
                     <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
                 </dx:GridViewDataCheckColumn>
 
-                <dx:GridViewDataTextColumn Caption="Last User" FieldName="LastUser" VisibleIndex="14"
+                <dx:GridViewDataCheckColumn Caption="Enable RTS" FieldName="EnableRTS" VisibleIndex="14" Width="75px">
+                    <PropertiesCheckEdit ValueChecked="1" ValueUnchecked="0" ValueType="System.Char"/>
+                    <Settings AllowSort="False" />
+                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
+                </dx:GridViewDataCheckColumn>
+
+                <dx:GridViewDataTextColumn Caption="Last User" FieldName="LastUser" VisibleIndex="15"
                     Width="75px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="15" Width="100px">
                         <Style HorizontalAlign="Left"></Style>
@@ -413,7 +419,7 @@
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
                 </dx:GridViewDataTextColumn>
 
-                <dx:GridViewDataTextColumn Caption="Last Update" FieldName="LastUpdate" VisibleIndex="15"
+                <dx:GridViewDataTextColumn Caption="Last Update" FieldName="LastUpdate" VisibleIndex="16"
                     Width="135px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="15" Width="100px">
                         <Style HorizontalAlign="Left"></Style>
@@ -577,6 +583,13 @@
                                     <td>
                                         <dx:ASPxGridViewTemplateReplacement ID="editActiveStatus" ReplacementType="EditFormCellEditor"
                                             runat="server" ColumnID="ActiveStatus"></dx:ASPxGridViewTemplateReplacement>
+                                    </td>
+                                </tr>
+                                <tr style="height: 30px">
+                                    <td>Enable RTS</td>
+                                    <td>
+                                        <dx:ASPxGridViewTemplateReplacement ID="editEnableRTS" ReplacementType="EditFormCellEditor"
+                                            runat="server" ColumnID="EnableRTS"></dx:ASPxGridViewTemplateReplacement>
                                     </td>
                                 </tr>
                             </table>

@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic
+﻿
+Imports Microsoft.VisualBasic
 Imports System
 Imports DevExpress.Utils
 Imports System.IO
@@ -92,6 +93,7 @@ Public Class MeasurementDevice
                 e.NewValues("Passive"), _
                 e.NewValues("GetResult"), _
                 IIf(e.NewValues("ActiveStatus") Is Nothing, "0", e.NewValues("ActiveStatus")),
+                IIf(e.NewValues("EnableRTS") Is Nothing, "0", e.NewValues("EnableRTS")),
                 pUser)
             Grid.CancelEdit()
             up_GridLoad()
@@ -118,6 +120,7 @@ Public Class MeasurementDevice
                  e.NewValues("Passive"), _
                  e.NewValues("GetResult"), _
                  IIf(e.NewValues("ActiveStatus") Is Nothing, "0", e.NewValues("ActiveStatus")),
+                 IIf(e.NewValues("EnableRTS") Is Nothing, "0", e.NewValues("EnableRTS")),
                  pUser)
             Grid.CancelEdit()
             up_GridLoad()
@@ -159,6 +162,9 @@ Public Class MeasurementDevice
         ElseIf Grid.IsNewRowEditing Then
             If e.Column.FieldName = "ActiveStatus" Then
                 TryCast(e.Editor, ASPxCheckBox).Checked = True
+            End If
+            If e.Column.FieldName = "EnableRTS" Then
+                TryCast(e.Editor, ASPxCheckBox).Checked = False
             End If
         End If
 
@@ -367,7 +373,7 @@ Public Class MeasurementDevice
         End Try
     End Sub
 
-    Private Function up_InsUpd(Type As String, Factory As String, regno As String, desc As String, toolname As String, toolfunc As String, port As String, baud As String, databit As String, parity As String, stopbit As String, stable As String, passive As String, getresult As String, active As String, User As String) As Boolean
+    Private Function up_InsUpd(Type As String, Factory As String, regno As String, desc As String, toolname As String, toolfunc As String, port As String, baud As String, databit As String, parity As String, stopbit As String, stable As String, passive As String, getresult As String, active As String, RTS As String, User As String) As Boolean
         Dim message As String = IIf(Type = "0", "Save data successfully!", "Update data successfully!") '0 Save | 1 Update
         Try
             Dim cls As New clsMeasurementDevice With
@@ -386,6 +392,7 @@ Public Class MeasurementDevice
                 .Passive = passive,
                 .GetResult = getresult,
                 .Active = active,
+                .EnableRTS = RTS,
                 .User = User
             }
             clsMeasurementDeviceDB.InsertUpdate(cls, Type)

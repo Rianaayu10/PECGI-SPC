@@ -1,0 +1,1 @@
+Alter Table spc_MS_Device add EnableRTS char(1)
