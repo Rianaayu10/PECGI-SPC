@@ -54,6 +54,10 @@
         .auto-style19 {
             width: 130px;
         }
+        .auto-style20 {
+            border: 1px solid silver;
+            width: 45px;
+        }
         </style>
     <script type="text/javascript" >
          var prevOnLoad = window.onload;
@@ -139,6 +143,7 @@
 
         var rowIndex, columnIndex;
         var prevShift;
+        var prevSeq;
 
         function OnInit(s, e) {
             var x = document.getElementById("chartRdiv");
@@ -172,7 +177,12 @@
         
         function cboShiftEndCallback(s, e) {
             cboShift.SetEnabled(true);            
-            cboShift.SetValue(prevShift);                
+            cboShift.SetValue(prevShift);    
+            cboSeq.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + cboShift.GetValue());            
+        }
+
+        function cboSeqEndCallback(s, e) {
+            cboSeq.SetEnabled(true);
         }
 
         function ValidateSave(s, e) {
@@ -743,7 +753,7 @@
                     ClientInstanceName="cboSeq" ValueField="SequenceNo" TextField="SequenceNo" Font-Names="Segoe UI" 
                     Font-Size="9pt" Height="25px" 
                     Width="60px" TabIndex="3">
-                    <ClientSideEvents EndCallback="function(s, e) {cboSeq.SetEnabled(true);}"/>
+                    <ClientSideEvents EndCallback="cboSeqEndCallback"/>
 
                     <ButtonStyle Paddings-Padding="4px" Width="5px">
 <Paddings Padding="4px"></Paddings>
@@ -1100,7 +1110,7 @@
         <td style="width:600px">
             <table style="width:100%">
                 <tr>
-                    <td rowspan="3" class="body" style="width:45px" align="center" id="colSpecial"><dx:ASPxLabel ID="ASPxLabel28" runat="server" Text="@" Font-Names="Segoe UI" Font-Size="16pt" Font-Bold="false"></dx:ASPxLabel></td>
+                    <td rowspan="3" class="auto-style20" align="center" id="colSpecial"><dx:ASPxLabel ID="ASPxLabel28" runat="server" Text="@" Font-Names="Segoe UI" Font-Size="16pt" Font-Bold="false"></dx:ASPxLabel></td>
                     <td colspan="2" class="header"><dx:ASPxLabel ID="ASPxLabel22" runat="server" Text="Specification" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                     <td colspan="3" class="header"><dx:ASPxLabel ID="ASPxLabel23" runat="server" Text="Control Plan" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                     <td colspan="2" class="header" id="headerXBar"><dx:ASPxLabel runat="server" Text="X Bar Control" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
