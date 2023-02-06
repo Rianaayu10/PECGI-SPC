@@ -110,7 +110,7 @@ Public Class frmScheduler
                     ' Send Email
                     Dim CheckDataEmail As DataTable = clsAlertDashboardDB.CheckDataSendEmailAlert(Factory, AlertData.ItemTypeCode, AlertData.LineName, AlertData.ItemCheckName, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, ConStr)
 
-                    UserTo = clsAlertDashboardDB.GetUserLine(ConStr, FactoryCode, AlertData.LineCode, "1")
+                    UserTo = clsAlertDashboardDB.GetUserLine(ConStr, FactoryCode, AlertData.LineCode, "4")
 
                     If CheckDataEmail.Rows.Count <= 0 Then
                         Dim CountSendEmail As Integer = clsAlertDashboardDB.SendEmail(Factory, AlertData.ItemTypeCode, AlertData.LineName, AlertData.ItemCheckName, AlertData.ProdDate, AlertData.ShiftCode, AlertData.SequenceNo, "1", AlertData.LSL, AlertData.USL, AlertData.LCL, AlertData.UCL, AlertData.MinValue, AlertData.MaxValue, AlertData.Average, "NG", AlertData.ScheduleStart, AlertData.ScheduleEnd, "", AlertData.DelayTime, ConStr, UserTo)
@@ -130,7 +130,7 @@ Public Class frmScheduler
 
 
             Catch ex As Exception
-                Throw New Exception(ex.ToString())
+                Throw New Exception("NG Result Error : " & ex.ToString())
             End Try
         End If
         If chkDelayVerification.Checked = True Then
@@ -176,7 +176,7 @@ Public Class frmScheduler
 
 
             Catch ex As Exception
-                Throw New Exception(ex.ToString())
+                Throw New Exception("Delay Verification Error : " & ex.ToString())
             End Try
         End If
         If chkDelayInput.Checked Then
@@ -211,7 +211,7 @@ Public Class frmScheduler
 
 
             Catch ex As Exception
-                Throw New Exception(ex.ToString())
+                Throw New Exception("Delay Input Error : " & ex.ToString())
             End Try
         End If
     End Sub
