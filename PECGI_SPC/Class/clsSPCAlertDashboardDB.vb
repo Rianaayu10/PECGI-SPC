@@ -434,7 +434,15 @@ Public Class clsSPCAlertDashboardDB
                 da.Fill(dt)
 
                 For Each dr As DataRow In dt.Rows
-                    ListDataUserLine = dr.Item("Email") + ";" + ListDataUserLine
+
+                    Dim ValidEmail As New System.Net.Mail.MailAddress(dr.Item("Email"))
+
+                    If Regex.IsMatch(dr.Item("Email"), "^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$") Then
+
+                        ListDataUserLine = dr.Item("Email") + ";" + ListDataUserLine
+
+                    End If
+
                 Next
 
                 Return ListDataUserLine
