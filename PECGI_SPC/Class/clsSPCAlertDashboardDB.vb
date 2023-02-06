@@ -411,12 +411,17 @@ Public Class clsSPCAlertDashboardDB
             Using Cn As New SqlConnection(Sconn.Stringkoneksi)
                 Cn.Open()
                 Dim q As String
+                '1 = Delay Input, 2 & 3 = Delay Verif, 4 = NG Result, 5 = Chart Setup 
                 If pType = "1" Then
-                    q = "select distinct US.Email from spc_UserLine UL INNER JOIN spc_UserSetup US ON UL.AppID = US.AppID AND UL.UserID = US.UserID WHERE UL.FactoryCode = @FactoryCode AND UL.LineCode = LineCode "
+                    q = "select distinct US.Email from spc_UserLine UL INNER JOIN spc_UserSetup US ON UL.AppID = US.AppID AND UL.UserID = US.UserID WHERE UL.FactoryCode = @FactoryCode AND UL.LineCode = LineCode and US.DelayInputEmailStatus = 1 "
                 ElseIf pType = "2" Then
-                    q = "select distinct US.Email from spc_UserLine UL INNER JOIN spc_UserSetup US ON UL.AppID = US.AppID AND UL.UserID = US.UserID WHERE US.JobPosition = 'MK' "
+                    q = "select distinct US.Email from spc_UserLine UL INNER JOIN spc_UserSetup US ON UL.AppID = US.AppID AND UL.UserID = US.UserID WHERE US.JobPosition = 'MK' and UL.FactoryCode = 'F001' AND UL.LineCode = '007' and US.DelayVerificationEmailStatus = 1 "
                 ElseIf pType = "3" Then
-                    q = "select distinct US.Email from spc_UserLine UL INNER JOIN spc_UserSetup US ON UL.AppID = US.AppID AND UL.UserID = US.UserID WHERE US.JobPosition IN ('MK','QC') "
+                    q = "select distinct US.Email from spc_UserLine UL INNER JOIN spc_UserSetup US ON UL.AppID = US.AppID AND UL.UserID = US.UserID WHERE US.JobPosition IN ('MK','QC') and UL.FactoryCode = 'F001' AND UL.LineCode = '007' and US.DelayVerificationEmailStatus = 1 "
+                ElseIf pType = "4" Then
+                    q = "select distinct US.Email from spc_UserLine UL INNER JOIN spc_UserSetup US ON UL.AppID = US.AppID AND UL.UserID = US.UserID WHERE UL.FactoryCode = @FactoryCode AND UL.LineCode = LineCode and US.NGResultEmailStatus = 1 "
+                ElseIf pType = "5" Then
+                    q = "select distinct US.Email from spc_UserLine UL INNER JOIN spc_UserSetup US ON UL.AppID = US.AppID AND UL.UserID = US.UserID WHERE UL.FactoryCode = @FactoryCode AND UL.LineCode = LineCode and US.ChartSetupEmailStatus = 1 "
                 End If
                 Dim cmd As New SqlCommand(q, Cn)
                 'Dim des As New clsDESEncryption("TOS")
