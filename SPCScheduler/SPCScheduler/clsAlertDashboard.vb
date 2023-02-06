@@ -1,6 +1,7 @@
 ﻿Imports System.Net.Mail
 Imports System.Net.Mime
 Imports System.Data.SqlClient
+Imports System.Text.RegularExpressions
 
 Public Class clsAlertDashboard
     Public Property FactoryCode As String
@@ -60,7 +61,7 @@ Public Class clsAlertDashboardDB
                 Do While rd.Read
                     Dim Alert As New clsAlertDashboard
                     Alert.FactoryCode = rd("FactoryCode")
-                    Alert.FactoryName  = rd("FactoryName")
+                    Alert.FactoryName = rd("FactoryName")
                     Alert.ItemTypeCode = rd("ItemTypeName")
                     Alert.LineCode = rd("LineCode")
                     Alert.LineName = rd("LineName")
@@ -354,7 +355,13 @@ Public Class clsAlertDashboardDB
                 da.Fill(dt)
 
                 For Each dr As DataRow In dt.Rows
-                    ListDataUserLine = dr.Item("Email") + ";" + ListDataUserLine
+
+                    If Regex.IsMatch(dr.Item("Email"), "^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$") Then
+
+                        ListDataUserLine = dr.Item("Email") + ";" + ListDataUserLine
+
+                    End If
+
                 Next
 
                 Return ListDataUserLine
