@@ -435,9 +435,9 @@ Public Class AlertDelayVerification
             Dim Test = DirectCast(GridDelayVerif.GetRowValues(e.VisibleIndex, GridDelayVerif.KeyFieldName, "LinkDate"), Object())(1)
 
             If MK.ToString() = "" AndAlso QC.ToString() = "" Then
-                UserTo = clsSPCAlertDashboardDB.GetUserLine(FactoryCode, LineCode, "3")
+                UserTo = clsSPCAlertDashboardDB.GetUserLine(Split(FactoryCode, " - ")(0), Split(LineName, " - ")(0), "3")
             ElseIf MK.ToString() = "" Then
-                UserTo = clsSPCAlertDashboardDB.GetUserLine(FactoryCode, LineCode, "2")
+                UserTo = clsSPCAlertDashboardDB.GetUserLine(Split(FactoryCode, " - ")(0), Split(LineName, " - ")(0), "2")
             End If
 
             CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineName, ItemCheck, LinkDate, ShiftCode, SequenceNo, "3", LSL, USL, LCL, UCL, MinValue, MaxValue, Average, Status, "", "", VerifTime, DelayTime, UserTo)

@@ -328,7 +328,7 @@ Public Class AlertDashboardInput
             Dim ScheduleEnd = Grid.GetRowValues(e.VisibleIndex, "EndTime")
             Dim DelayTime = Grid.GetRowValues(e.VisibleIndex, "Delay")
 
-            UserTo = clsSPCAlertDashboardDB.GetUserLine(FactoryCode, LineCode, "1")
+            UserTo = clsSPCAlertDashboardDB.GetUserLine(Split(FactoryCode, " - ")(0), Split(LineName, " - ")(0), "1")
 
             CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineName, ItemCheck, LinkDate, ShiftCode, SequenceNo, "2", "", "", "", "", "", "", "", "", ScheduleStart, ScheduleEnd, "", DelayTime, UserTo, pErr)
 

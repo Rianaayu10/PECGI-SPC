@@ -399,7 +399,7 @@ Public Class AlertDashboard
             'Dim Test = GridDelayVerif.GetRowValues(e.VisibleIndex, GridDelayVerif.KeyFieldName, "LinkDate")
             'Dim Test = DirectCast(GridDelayVerif.GetRowValues(e.VisibleIndex, GridDelayVerif.KeyFieldName, "LinkDate"), Object())(1)
 
-            UserTo = clsSPCAlertDashboardDB.GetUserLine(FactoryCode, LineCode, "4")
+            UserTo = clsSPCAlertDashboardDB.GetUserLine(Split(FactoryCode, " - ")(0), Split(LineName, " - ")(0), "4")
 
             CountSendEmail = clsSPCAlertDashboardDB.SendEmail(FactoryCode, ItemTypeName, LineName, ItemCheck, LinkDate, ShiftCode, SequenceNo, "1", LSL, USL, LCL, UCL, MinValue, MaxValue, Average, "NG", "", "", "", "", UserTo)
 
