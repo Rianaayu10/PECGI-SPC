@@ -320,6 +320,7 @@
                     toastr.options.onclick = null;
                     s.cp_val = 0;
                     s.cp_message = "";
+                    grid.AddNewRow();
                 }
                 else if (s.cp_type == "Warning" && s.cp_val == 1) {
 
