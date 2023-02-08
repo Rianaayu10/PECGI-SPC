@@ -657,7 +657,7 @@
                             var y2 = d2.getFullYear();
                             var m = (m2 + y2 * 12) - (m1 + y1 * 12);
 	    	                if (m &gt; 2) {
-			                    errmsg = 'Maximum search 3 months period!';
+			                    errmsg = '';
 		                    }
                         }
 
