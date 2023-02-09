@@ -745,7 +745,7 @@
 <table>
             <tr>
                 <td style="padding:10px 5px 10px 0px">
-                    <dx:ASPxButton ID="btnRule" runat="server" AutoPostBack="False" ClientInstanceName="btnRule" Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="10" Text="View Table Rule" Theme="Office2010Silver" UseSubmitBehavior="False" Width="120px">
+                    <dx:ASPxButton ID="btnRule" runat="server" AutoPostBack="False" ClientInstanceName="btnRule" Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="10" Text="View SPC Rule" Theme="Office2010Silver" UseSubmitBehavior="False" Width="120px">
                         <Paddings Padding="2px" />
                         <ClientSideEvents Click="ShowPopUpRule1" />
                     </dx:ASPxButton>
@@ -757,7 +757,7 @@
                         <ContentCollection>
                             <dx:PopupControlContentControl runat="server">
                                 <div style="height:100%; text-align: center; padding-top: 30px;">
-                                    <asp:Image ID="Image1" runat="server" ImageUrl="~/img/rule1.png" />
+                                    <asp:Image ID="Image1" runat="server" ImageUrl="~/img/SPCRule.png" />
                                 </div>
                                 <table style="width:100%">
                                     <tr>

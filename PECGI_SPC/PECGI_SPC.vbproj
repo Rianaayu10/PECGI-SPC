@@ -143,6 +143,7 @@
     <Content Include="CustomFile\popper.min.js" />
     <Content Include="img\rule1.png" />
     <Content Include="img\rule2.png" />
+    <Content Include="img\SPCRule.png" />
     <Content Include="SPCDashboard.aspx" />
     <Content Include="ChangePassword.aspx" />
     <Content Include="content\toastr.css" />
