@@ -329,12 +329,7 @@ Public Class ProdSampleInput
                         If ProcessGroup <> "" Then
                             InitCombo(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, ShiftCode, Sequence, ProcessGroup, LineGroup, ProcessCode)
                         Else
-                            cboFactory.Value = User.FactoryCode
-                            cboType.DataSource = clsItemTypeDB.GetList(cboFactory.Value, pUser)
-                            cboType.DataBind()
-
-                            cboProcessGroup.DataSource = clsProcessGroupDB.GetList(pUser, User.FactoryCode)
-                            cboProcessGroup.DataBind()
+                            DefaultCombo(User.FactoryCode)
                         End If
                     End If
                 End If
@@ -379,6 +374,59 @@ Public Class ProdSampleInput
         cboSeq.DataSource = clsFrequencyDB.GetSequence(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
         cboSeq.DataBind()
         cboSeq.Value = Sequence
+    End Sub
+
+    Private Sub DefaultCombo(FactoryCode As String)
+        Dim ProdDate As String = Format(Now.Date, "yyyy-MM-dd")
+        Dim ProcessGroup As String
+        Dim LineGroup As String
+        Dim ProcessCode As String
+        Dim Line As String
+        Dim ItemTypeCode As String
+        Dim ItemCheckCode As String
+        Dim ShiftCode As String
+
+        pUser = Session("user") & ""
+        dtDate.Value = Now.Date
+        cboFactory.Value = FactoryCode
+
+        cboProcessGroup.DataSource = clsProcessGroupDB.GetList(pUser, FactoryCode)
+        cboProcessGroup.DataBind()
+        cboProcessGroup.SelectedIndex = 0
+        ProcessGroup = cboProcessGroup.Value
+
+        cboLineGroup.DataSource = clsLineGroupDB.GetList(pUser, FactoryCode, ProcessGroup)
+        cboLineGroup.DataBind()
+        cboLineGroup.SelectedIndex = 0
+        LineGroup = cboLineGroup.Value
+
+        cboProcess.DataSource = clsProcessDB.GetList(pUser, FactoryCode, ProcessGroup, LineGroup)
+        cboProcess.DataBind()
+        cboProcess.SelectedIndex = 0
+        ProcessCode = cboProcess.Value
+
+        cboLine.DataSource = ClsLineDB.GetListByProcess(pUser, FactoryCode, ProcessCode)
+        cboLine.DataBind()
+        If cboLine.Items.Count > 0 Then
+            cboLine.SelectedIndex = 0
+            Line = cboLine.Value
+            cboType.DataSource = clsItemTypeDB.GetList(FactoryCode, Line, pUser)
+            cboType.DataBind()
+            If cboType.Items.Count > 0 Then
+                cboType.SelectedIndex = 0
+                ItemTypeCode = cboType.Value
+
+                cboItemCheck.DataSource = clsItemCheckDB.GetList(FactoryCode, ItemTypeCode, Line)
+                cboItemCheck.DataBind()
+                If cboItemCheck.Items.Count = 1 Then
+                    cboItemCheck.SelectedIndex = 0
+                    ItemCheckCode = cboItemCheck.Value
+
+                    cboShift.DataSource = clsFrequencyDB.GetShift(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
+                    cboShift.DataBind()
+                End If
+            End If
+        End If
     End Sub
 
     Private Sub up_FillCombo()
