@@ -14,6 +14,7 @@ Public Class clsMeasurementDevice
     Public Property Stable As String
     Public Property Passive As String
     Public Property GetResult As String
+    Public Property Command As String
     Public Property Active As String
     Public Property EnableRTS As String
     Public Property User As String
@@ -73,6 +74,7 @@ Public Class clsMeasurementDeviceDB
                 cmd.Parameters.AddWithValue("StableCondition", cls.Stable)
                 cmd.Parameters.AddWithValue("PassiveActiveCls", cls.Passive)
                 cmd.Parameters.AddWithValue("GetResultData", cls.GetResult)
+                cmd.Parameters.AddWithValue("Command", cls.Command)
                 cmd.Parameters.AddWithValue("ActiveStatus", cls.Active)
                 cmd.Parameters.AddWithValue("EnableRTS", cls.EnableRTS)
                 cmd.Parameters.AddWithValue("User", cls.User)

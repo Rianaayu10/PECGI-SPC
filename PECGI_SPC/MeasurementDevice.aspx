@@ -392,19 +392,34 @@
                     <CellStyle HorizontalAlign="Right" VerticalAlign="Middle" />
                 </dx:GridViewDataSpinEditColumn>
 
-                <dx:GridViewDataCheckColumn Caption="Active Status" FieldName="ActiveStatus" VisibleIndex="13" Width="75px">
+                <dx:GridViewDataTextColumn Caption="Command" FieldName="Command" VisibleIndex="13"
+                    Width="100px" Settings-AutoFilterCondition="Contains">
+                    <PropertiesTextEdit MaxLength="10" Width="100px">
+                        <Style HorizontalAlign="Left"></Style>
+                    </PropertiesTextEdit>
+                    <Settings AutoFilterCondition="Contains"></Settings>
+                    <FilterCellStyle Paddings-PaddingRight="4px">
+                        <Paddings PaddingRight="4px"></Paddings>
+                    </FilterCellStyle>
+                    <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                        <Paddings PaddingLeft="5px"></Paddings>
+                    </HeaderStyle>
+                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
+                </dx:GridViewDataTextColumn>
+
+                <dx:GridViewDataCheckColumn Caption="Active Status" FieldName="ActiveStatus" VisibleIndex="14" Width="75px">
                     <PropertiesCheckEdit ValueChecked="1" ValueUnchecked="0" ValueType="System.Char"/>
                     <Settings AllowSort="False" />
                     <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
                 </dx:GridViewDataCheckColumn>
 
-                <dx:GridViewDataCheckColumn Caption="Enable RTS" FieldName="EnableRTS" VisibleIndex="14" Width="75px">
+                <dx:GridViewDataCheckColumn Caption="Enable RTS" FieldName="EnableRTS" VisibleIndex="15" Width="75px">
                     <PropertiesCheckEdit ValueChecked="1" ValueUnchecked="0" ValueType="System.Char"/>
                     <Settings AllowSort="False" />
                     <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
                 </dx:GridViewDataCheckColumn>
 
-                <dx:GridViewDataTextColumn Caption="Last User" FieldName="LastUser" VisibleIndex="15"
+                <dx:GridViewDataTextColumn Caption="Last User" FieldName="LastUser" VisibleIndex="16"
                     Width="75px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="15" Width="100px">
                         <Style HorizontalAlign="Left"></Style>
@@ -419,7 +434,7 @@
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
                 </dx:GridViewDataTextColumn>
 
-                <dx:GridViewDataTextColumn Caption="Last Update" FieldName="LastUpdate" VisibleIndex="16"
+                <dx:GridViewDataTextColumn Caption="Last Update" FieldName="LastUpdate" VisibleIndex="17"
                     Width="135px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="15" Width="100px">
                         <Style HorizontalAlign="Left"></Style>
@@ -576,6 +591,13 @@
                                     <td>
                                         <dx:ASPxGridViewTemplateReplacement ID="editGetResult" ReplacementType="EditFormCellEditor"
                                             runat="server" ColumnID="GetResult"></dx:ASPxGridViewTemplateReplacement>
+                                    </td>
+                                </tr>
+                                <tr style="height: 30px">
+                                    <td>Command</td>
+                                    <td>
+                                        <dx:ASPxGridViewTemplateReplacement ID="ASPxGridViewTemplateReplacement2" ReplacementType="EditFormCellEditor"
+                                            runat="server" ColumnID="Command"></dx:ASPxGridViewTemplateReplacement>
                                     </td>
                                 </tr>
                                 <tr style="height: 30px">

@@ -92,6 +92,7 @@ Public Class MeasurementDevice
                 e.NewValues("Stable"), _
                 e.NewValues("Passive"), _
                 e.NewValues("GetResult"), _
+                e.NewValues("Command"), _
                 IIf(e.NewValues("ActiveStatus") Is Nothing, "0", e.NewValues("ActiveStatus")),
                 IIf(e.NewValues("EnableRTS") Is Nothing, "0", e.NewValues("EnableRTS")),
                 pUser)
@@ -119,6 +120,7 @@ Public Class MeasurementDevice
                  e.NewValues("Stable"), _
                  e.NewValues("Passive"), _
                  e.NewValues("GetResult"), _
+                 e.NewValues("Command"), _
                  IIf(e.NewValues("ActiveStatus") Is Nothing, "0", e.NewValues("ActiveStatus")),
                  IIf(e.NewValues("EnableRTS") Is Nothing, "0", e.NewValues("EnableRTS")),
                  pUser)
@@ -168,7 +170,7 @@ Public Class MeasurementDevice
             End If
         End If
 
-        If e.Column.FieldName = "RegNo" Or e.Column.FieldName = "Description" Or e.Column.FieldName = "ToolName" Or e.Column.FieldName = "ToolFunction" Then
+        If e.Column.FieldName = "RegNo" Or e.Column.FieldName = "Description" Or e.Column.FieldName = "ToolName" Or e.Column.FieldName = "ToolFunction" Or e.Column.FieldName = "Command" Then
             e.Editor.Width = "200"
         Else
             e.Editor.Width = "75"
@@ -373,7 +375,7 @@ Public Class MeasurementDevice
         End Try
     End Sub
 
-    Private Function up_InsUpd(Type As String, Factory As String, regno As String, desc As String, toolname As String, toolfunc As String, port As String, baud As String, databit As String, parity As String, stopbit As String, stable As String, passive As String, getresult As String, active As String, RTS As String, User As String) As Boolean
+    Private Function up_InsUpd(Type As String, Factory As String, regno As String, desc As String, toolname As String, toolfunc As String, port As String, baud As String, databit As String, parity As String, stopbit As String, stable As String, passive As String, getresult As String, command As String, active As String, RTS As String, User As String) As Boolean
         Dim message As String = IIf(Type = "0", "Save data successfully!", "Update data successfully!") '0 Save | 1 Update
         Try
             Dim cls As New clsMeasurementDevice With
@@ -391,6 +393,7 @@ Public Class MeasurementDevice
                 .Stable = stable,
                 .Passive = passive,
                 .GetResult = getresult,
+                .Command = command,
                 .Active = active,
                 .EnableRTS = RTS,
                 .User = User
