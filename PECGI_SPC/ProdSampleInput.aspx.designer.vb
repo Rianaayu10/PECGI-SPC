@@ -284,6 +284,24 @@ Partial Public Class ProdSampleInput
     Protected WithEvents grid As Global.DevExpress.Web.ASPxGridView
 
     '''<summary>
+    '''ASPxLabel31 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel31 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''lblAuto control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblAuto As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
     '''ASPxLabel20 control.
     '''</summary>
     '''<remarks>
@@ -669,6 +687,15 @@ Partial Public Class ProdSampleInput
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnRule As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
+    '''btnRule2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnRule2 As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
     '''pcRule1 control.

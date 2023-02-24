@@ -392,41 +392,44 @@ Public Class ProdSampleInput
 
         cboProcessGroup.DataSource = clsProcessGroupDB.GetList(pUser, FactoryCode)
         cboProcessGroup.DataBind()
-        cboProcessGroup.SelectedIndex = 0
-        ProcessGroup = cboProcessGroup.Value
+        If cboProcessGroup.Items.Count > 0 Then
+            cboProcessGroup.SelectedIndex = 0
+            ProcessGroup = cboProcessGroup.Value
 
-        cboLineGroup.DataSource = clsLineGroupDB.GetList(pUser, FactoryCode, ProcessGroup)
-        cboLineGroup.DataBind()
-        cboLineGroup.SelectedIndex = 0
-        LineGroup = cboLineGroup.Value
+            cboLineGroup.DataSource = clsLineGroupDB.GetList(pUser, FactoryCode, ProcessGroup)
+            cboLineGroup.DataBind()
+            cboLineGroup.SelectedIndex = 0
+            LineGroup = cboLineGroup.Value
 
-        cboProcess.DataSource = clsProcessDB.GetList(pUser, FactoryCode, ProcessGroup, LineGroup)
-        cboProcess.DataBind()
-        cboProcess.SelectedIndex = 0
-        ProcessCode = cboProcess.Value
+            cboProcess.DataSource = clsProcessDB.GetList(pUser, FactoryCode, ProcessGroup, LineGroup)
+            cboProcess.DataBind()
+            cboProcess.SelectedIndex = 0
+            ProcessCode = cboProcess.Value
 
-        cboLine.DataSource = ClsLineDB.GetListByProcess(pUser, FactoryCode, ProcessCode)
-        cboLine.DataBind()
-        If cboLine.Items.Count > 0 Then
-            cboLine.SelectedIndex = 0
-            Line = cboLine.Value
-            cboType.DataSource = clsItemTypeDB.GetList(FactoryCode, Line, pUser)
-            cboType.DataBind()
-            If cboType.Items.Count > 0 Then
-                cboType.SelectedIndex = 0
-                ItemTypeCode = cboType.Value
+            cboLine.DataSource = ClsLineDB.GetListByProcess(pUser, FactoryCode, ProcessCode)
+            cboLine.DataBind()
+            If cboLine.Items.Count > 0 Then
+                cboLine.SelectedIndex = 0
+                Line = cboLine.Value
+                cboType.DataSource = clsItemTypeDB.GetList(FactoryCode, Line, pUser)
+                cboType.DataBind()
+                If cboType.Items.Count > 0 Then
+                    cboType.SelectedIndex = 0
+                    ItemTypeCode = cboType.Value
 
-                cboItemCheck.DataSource = clsItemCheckDB.GetList(FactoryCode, ItemTypeCode, Line)
-                cboItemCheck.DataBind()
-                If cboItemCheck.Items.Count = 1 Then
-                    cboItemCheck.SelectedIndex = 0
-                    ItemCheckCode = cboItemCheck.Value
+                    cboItemCheck.DataSource = clsItemCheckDB.GetList(FactoryCode, ItemTypeCode, Line)
+                    cboItemCheck.DataBind()
+                    If cboItemCheck.Items.Count = 1 Then
+                        cboItemCheck.SelectedIndex = 0
+                        ItemCheckCode = cboItemCheck.Value
 
-                    cboShift.DataSource = clsFrequencyDB.GetShift(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
-                    cboShift.DataBind()
+                        cboShift.DataSource = clsFrequencyDB.GetShift(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
+                        cboShift.DataBind()
+                    End If
                 End If
             End If
         End If
+
     End Sub
 
     Private Sub up_FillCombo()
