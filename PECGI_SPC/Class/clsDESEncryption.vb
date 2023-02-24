@@ -12,9 +12,49 @@
 '########################################################################################################################################
 
 Imports System.Security.Cryptography
+Imports System.IO
 
 Public Class clsDESEncryption
     Private TripleDes As New TripleDESCryptoServiceProvider
+
+    Public Function EncryptData(clearText As String, EncryptionKey As String) As String
+        EncryptionKey = EncryptionKey + "WebPECGI2020"
+        Dim clearBytes() As Byte = Encoding.Unicode.GetBytes(clearText)
+        Using encryptor As Aes = Aes.Create
+            Dim pdb As New Rfc2898DeriveBytes(EncryptionKey, New Byte() {&H49, &H76, &H61, &H6E, &H20, &H4D, &H65, &H64, &H76, &H65, &H64, &H65, &H76})
+            encryptor.Key = pdb.GetBytes(32)
+            encryptor.IV = pdb.GetBytes(16)
+            Using Ms As New MemoryStream
+                Using cs As New CryptoStream(Ms, encryptor.CreateEncryptor, CryptoStreamMode.Write)
+                    cs.Write(clearBytes, 0, clearBytes.Length)
+                    cs.Close()
+                End Using
+                clearText = Convert.ToBase64String(Ms.ToArray)
+            End Using
+        End Using
+        Return clearText
+    End Function
+
+    Public Function Decrypt(cipherText As String, EncryptionKey As String) As String
+        If cipherText.Length < 5 Then
+            Return cipherText
+        End If
+        EncryptionKey = EncryptionKey + "WebPECGI2020"
+        Dim cipherBytes() As Byte = System.Convert.FromBase64String(cipherText)
+        Using encryptor As Aes = Aes.Create
+            Dim pdb As New Rfc2898DeriveBytes(EncryptionKey, New Byte() {&H49, &H76, &H61, &H6E, &H20, &H4D, &H65, &H64, &H76, &H65, &H64, &H65, &H76})
+            encryptor.Key = pdb.GetBytes(32)
+            encryptor.IV = pdb.GetBytes(16)
+            Using Ms As New MemoryStream
+                Using cs As New CryptoStream(Ms, encryptor.CreateDecryptor, CryptoStreamMode.Write)
+                    cs.Write(cipherBytes, 0, cipherBytes.Length)
+                    cs.Close()
+                End Using
+                cipherText = Encoding.Unicode.GetString(Ms.ToArray)
+            End Using
+        End Using
+        Return cipherText
+    End Function
 
     Sub New(ByVal key As String)
         ' Initialize the crypto provider.
