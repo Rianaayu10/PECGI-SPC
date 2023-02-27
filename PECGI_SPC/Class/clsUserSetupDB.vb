@@ -7,7 +7,7 @@ Public Class clsUserSetupDB
             Using Cn As New SqlConnection(Sconn.Stringkoneksi)
                 Cn.Open()
                 Dim sqL As String
-                sqL = "INSERT INTO dbo.spc_UserSetup (" & vbCrLf &
+                sqL = "INSERT INTO dbo.spc_UserInfo (" & vbCrLf &
                         "   [AppID],[UserID],[FullName],[Password],[Description],[AdminStatus]," & vbCrLf &
                         "   [FactoryCode],[JobPosition], [EmployeeID],[Email],[LockStatus]," & vbCrLf &
                         "   [NGResultEmailStatus],[DelayInputEmailStatus],[DelayVerificationEmailStatus],[ChartSetupEmailStatus]," & vbCrLf &
@@ -54,7 +54,7 @@ Public Class clsUserSetupDB
             Using Cn As New SqlConnection(Sconn.Stringkoneksi)
                 Cn.Open()
                 Dim q As String
-                q = "UPDATE dbo.spc_UserSetup SET FullName=@FullName, Password=@Password," &
+                q = "UPDATE dbo.spc_UserInfo SET FullName=@FullName, Password=@Password," &
                     "Description=@Description, " &
                     "AdminStatus = @AdminStatus, " &
                     "FactoryCode = @FactoryCode, " &
@@ -106,7 +106,7 @@ Public Class clsUserSetupDB
                 Cn.Open()
                 Dim q As String = "Delete from dbo.spc_UserPrivilege where AppID = 'SPC' AND UserID = @UserID" & vbCrLf &
                                   "Delete from dbo.spc_UserLine where AppID = 'SPC' AND UserID = @UserID" & vbCrLf &
-                                  "Delete from dbo.spc_UserSetup where AppID = 'SPC' AND UserID = @UserID"
+                                  "Delete from dbo.spc_UserInfo where AppID = 'SPC' AND UserID = @UserID"
                 Dim cmd As New SqlCommand(q, Cn)
                 cmd.Parameters.AddWithValue("UserID", pUserID)
                 cmd.ExecuteNonQuery()
@@ -138,11 +138,11 @@ Public Class clsUserSetupDB
     Public Shared Function AddFailedLogin(pUser As String) As Integer
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
-            Dim q As String = "Update dbo.spc_UserSetup set FailedLogin = isnull(FailedLogin, 0) + 1 where UserID = @UserID and isnull(AdminStatus, 0) = 0 "
+            Dim q As String = "Update dbo.spc_UserInfo set FailedLogin = isnull(FailedLogin, 0) + 1 where UserID = @UserID and isnull(AdminStatus, 0) = 0 "
             Dim cmd As New SqlCommand(q, Cn)
             cmd.Parameters.AddWithValue("UserID", pUser)
             Dim i As Integer = cmd.ExecuteNonQuery
-            q = "Update dbo.spc_UserSetup set LockStatus = 1 where UserID = @UserID and isnull(AdminStatus, 0) = 0 and isnull(FailedLogin, 0) >= 3 "
+            q = "Update dbo.spc_UserInfo set LockStatus = 1 where UserID = @UserID and isnull(AdminStatus, 0) = 0 and isnull(FailedLogin, 0) >= 3 "
             cmd.CommandText = q
             cmd.ExecuteNonQuery()
             Return i
@@ -152,7 +152,7 @@ Public Class clsUserSetupDB
     Public Shared Function ResetFailedLogin(pUser As String) As Integer
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
-            Dim q As String = "Update dbo.spc_UserSetup set FailedLogin = 0 where UserID = @UserID "
+            Dim q As String = "Update dbo.spc_UserInfo set FailedLogin = 0 where UserID = @UserID "
             Dim cmd As New SqlCommand(q, Cn)
             cmd.Parameters.AddWithValue("UserID", pUser)
             Dim i As Integer = cmd.ExecuteNonQuery
@@ -175,7 +175,7 @@ Public Class clsUserSetupDB
                     .AppID = dt.Rows(i)("AppID"),
                     .UserID = Trim(dt.Rows(i)("UserID")),
                     .FullName = Trim(dt.Rows(i)("FullName")),
-                    .Password = clsDESEncryption.DecryptData(dt.Rows(i)("Password")),
+                    .Password = clsDESEncryption.Decrypt(dt.Rows(i)("Password"), dt.Rows(i)("UserID").ToString.ToUpper.Trim),
                     .AdminStatus = If(dt.Rows(i)("AdminStatus") = "1", "Yes", "No"),
                     .Description = Trim(dt.Rows(i)("Description") & ""),
                     .LockStatus = dt.Rows(i)("LockStatus"),
@@ -210,11 +210,12 @@ Public Class clsUserSetupDB
                 Dim Users As New List(Of clsUserSetup)
                 If dt.Rows.Count > 0 Then
                     Dim i As Integer = 0
+                    Dim AdminStatus As String = dt.Rows(i)("AdminStatus")
                     Dim User As New clsUserSetup With {
                             .AppID = dt.Rows(i)("AppID"),
                             .UserID = Trim(dt.Rows(i)("UserID")),
                             .FullName = Trim(dt.Rows(i)("FullName")),
-                            .Password = clsDESEncryption.DecryptData(dt.Rows(i)("Password")),
+                            .Password = clsDESEncryption.Decrypt(dt.Rows(i)("Password"), dt.Rows(i)("UserID").ToString.ToUpper.Trim),
                             .Description = Trim(dt.Rows(i)("Description") & ""),
                             .LockStatus = Val(dt.Rows(i)("LockStatus") & ""),
                             .FactoryCode = dt.Rows(i)("FactoryCode") & "",
