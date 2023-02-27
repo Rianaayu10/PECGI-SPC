@@ -81,6 +81,7 @@
 
         function EnableButton() {
             btnSearch.SetEnabled(true);
+            lblAuto.SetText('ON');
         }
 
         function AutoRefresh() {
@@ -106,6 +107,7 @@
         function ExcelClicked() {
             lblAuto.SetText('OFF');
             DisableButton();
+            setTimeout(EnableButton, 3000)
         }
 
         function OpenMeasurement() {
@@ -368,7 +370,6 @@
                     toastr.options.onclick = null;
                     s.cp_val = 0;
                     s.cp_message = "";
-                    lblAuto.SetText('ON');
                     EnableButton();
                 }
                 else if (s.cp_type == "ErrorMsg" && s.cp_val == 1) {
@@ -381,7 +382,6 @@
                     toastr.options.onclick = null;
                     s.cp_val = 0;
                     s.cp_message = "";
-                    lblAuto.SetText('ON');
                     EnableButton();
                 }
             }
@@ -392,7 +392,6 @@
                 toastr.options.progressBar = false;
                 toastr.options.preventDuplicates = true;
                 toastr.options.onclick = null;
-                lblAuto.SetText('ON');
                 EnableButton();
             }            
             lblMKUser.SetText(s.cpMKUser);
@@ -1076,12 +1075,12 @@
         <tr>
             <td class="auto-style21">
                 <dx:ASPxLabel ID="ASPxLabel31" runat="server" Text="Auto Refresh: " ClientInstanceName="label31"
-                    Font-Names="Segoe UI" Font-Size="9pt" ClientVisible="False">
+                    Font-Names="Segoe UI" Font-Size="9pt" ClientVisible="True">
                 </dx:ASPxLabel>
             </td>
             <td style="text-align:left">
-                <dx:ASPxLabel ID="lblAuto" runat="server" Text="OFF" ClientInstanceName="lblAuto"
-                    Font-Names="Segoe UI" Font-Size="9pt" ClientVisible="False">
+                <dx:ASPxLabel ID="lblAuto" runat="server" Text="ON" ClientInstanceName="lblAuto"
+                    Font-Names="Segoe UI" Font-Size="9pt" ClientVisible="True">
                 </dx:ASPxLabel>
             </td>
         </tr>
@@ -1292,7 +1291,7 @@
                 </dx:ASPxButton>                
                             </td>
                         <td>
-<dx:ASPxPopupControl ID="pcRule1" runat="server" ClientInstanceName="pcRule1" Height="250px" Width="600px" HeaderText="SPC Rule" Modal="True"
+<dx:ASPxPopupControl ID="pcRule1" runat="server" ClientInstanceName="pcRule1" Height="200px" Width="600px" HeaderText="SPC Rule" Modal="True"
                         CloseAction="CloseButton" CloseOnEscape="true" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False">
                         <ContentCollection>
 <dx:PopupControlContentControl runat="server">
@@ -1322,7 +1321,7 @@
 
                         <tr>
                             <td class="auto-style22">
-<dx:ASPxPopupControl ID="pcRule2" runat="server" ClientInstanceName="pcRule2" Height="250px" Width="600px" HeaderText="SPC Rule" Modal="True"
+<dx:ASPxPopupControl ID="pcRule2" runat="server" ClientInstanceName="pcRule2" Height="200px" Width="600px" HeaderText="SPC Rule" Modal="True"
                         CloseAction="CloseButton" CloseOnEscape="true" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False">
                         <ContentCollection>
 <dx:PopupControlContentControl runat="server">
