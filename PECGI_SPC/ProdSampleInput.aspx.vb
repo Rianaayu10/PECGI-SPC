@@ -371,7 +371,7 @@ Public Class ProdSampleInput
         cboShift.DataBind()
         cboShift.Value = ShiftCode
 
-        cboSeq.DataSource = clsFrequencyDB.GetSequence(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
+        cboSeq.DataSource = clsFrequencyDB.GetSequence(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ShiftCode)
         cboSeq.DataBind()
         cboSeq.Value = Sequence
     End Sub

@@ -68,7 +68,30 @@
     <script type="text/javascript" >
         var prevOnLoad = window.onload;
         window.onload = myOnLoad;
-        setInterval(AutoRefresh, 5000);
+        //setInterval(AutoRefresh, 5000);
+        setupTimers();
+
+        var timeoutInMiliseconds = 5000;
+        var timeoutId; 
+ 
+        function startTimer() { 
+            timeoutId = window.setTimeout(AutoRefresh, timeoutInMiliseconds);
+        }
+
+        function resetTimer() { 
+            window.clearTimeout(timeoutId);
+            startTimer();
+        }
+
+        function setupTimers () {
+            document.addEventListener("mousemove", resetTimer, false);
+            document.addEventListener("mousedown", resetTimer, false);
+            document.addEventListener("keypress", resetTimer, false);
+            document.addEventListener("touchmove", resetTimer, false);
+     
+            startTimer();
+        }
+ 
         function myOnLoad(){
             if(prevOnLoad != null)
                 prevOnLoad();
@@ -81,11 +104,11 @@
 
         function EnableButton() {
             btnSearch.SetEnabled(true);
-            lblAuto.SetText('ON');
+            lblAuto.SetText('ON');  
+            resetTimer();
         }
 
         function AutoRefresh() {
-            return;
             if(lblAuto.GetText() == 'OFF' | cboFactory.GetText() == '' | cboProcessGroup.GetText() == '' | cboLineGroup.GetText() == '' | cboProcess.GetText() == '' | cboType.GetText() == '' | cboLine.GetText() == '' | cboItemCheck.GetText() == '' | cboShift.GetText() == '' | cboSeq.GetText() == '') {                
                 return;
 	        }
@@ -1530,5 +1553,5 @@
 
     </div>
 </div>
-
 </asp:Content>
+
