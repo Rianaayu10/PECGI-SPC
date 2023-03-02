@@ -745,19 +745,26 @@
 <table>
             <tr>
                 <td style="padding:10px 5px 10px 0px">
-                    <dx:ASPxButton ID="btnRule" runat="server" AutoPostBack="False" ClientInstanceName="btnRule" Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="10" Text="View SPC Rule" Theme="Office2010Silver" UseSubmitBehavior="False" Width="120px">
+                    <dx:ASPxButton ID="btnRule" runat="server" AutoPostBack="False" ClientInstanceName="btnRule" Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="10" Text="View SPC Rule (ENG)" Theme="Office2010Silver" UseSubmitBehavior="False" Width="120px">
                         <Paddings Padding="2px" />
                         <ClientSideEvents Click="ShowPopUpRule1" />
                     </dx:ASPxButton>
                 </td>
-                <td style="padding:10px 0px 10px 5px">
-                    &nbsp;</td>
+                            <td style="padding:10px 0px 10px 5px; width:130px">
+<dx:ASPxButton ID="btnRule2" runat="server" AutoPostBack="False" 
+                    ClientInstanceName="btnRule2" Font-Names="Segoe UI" Font-Size="9pt" 
+                    Height="25px" Text="View SPC Rule (IND)" Theme="Office2010Silver" UseSubmitBehavior="False" 
+                    Width="120px" TabIndex="10">                    
+                    <Paddings Padding="2px" />
+                    <ClientSideEvents Click="ShowPopUpRule2"/>
+                </dx:ASPxButton>                
+                            </td>
                 <td>
-                    <dx:ASPxPopupControl ID="pcRule1" runat="server" ClientInstanceName="pcRule1" CloseAction="CloseButton" CloseOnEscape="true" HeaderText="Table Rule" Height="250px" Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False" Width="600px">
+                    <dx:ASPxPopupControl ID="pcRule1" runat="server" ClientInstanceName="pcRule1" CloseAction="CloseButton" CloseOnEscape="true" HeaderText="Table Rule" Height="200px" Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False" Width="600px">
                         <ContentCollection>
                             <dx:PopupControlContentControl runat="server">
                                 <div style="height:100%; text-align: center; padding-top: 30px;">
-                                    <asp:Image ID="Image1" runat="server" ImageUrl="~/img/SPCRule.png" />
+                                    <asp:Image ID="Image1" runat="server" ImageUrl="~/img/SPCRuleEN.png" />
                                 </div>
                                 <table style="width:100%">
                                     <tr>
@@ -776,11 +783,11 @@
             </tr>
             <tr>
                 <td>
-                    <dx:ASPxPopupControl ID="pcRule2" runat="server" ClientInstanceName="pcRule2" CloseAction="CloseButton" CloseOnEscape="true" HeaderText="Break SPC Rule" Height="250px" Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False" Width="600px">
+                    <dx:ASPxPopupControl ID="pcRule2" runat="server" ClientInstanceName="pcRule2" CloseAction="CloseButton" CloseOnEscape="true" HeaderText="Break SPC Rule" Height="200px" Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False" Width="600px">
                         <ContentCollection>
                             <dx:PopupControlContentControl runat="server">
                                 <div style="height:100%; text-align: center; padding-top: 30px;">
-                                    <asp:Image ID="Image2" runat="server" ImageUrl="~/img/rule2.png" />
+                                    <asp:Image ID="Image2" runat="server" ImageUrl="~/img/SPCRuleIN.png" />
                                 </div>
                                 <table style="width:100%">
                                     <tr>

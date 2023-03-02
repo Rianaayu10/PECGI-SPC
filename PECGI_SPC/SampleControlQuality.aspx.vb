@@ -365,11 +365,12 @@ Public Class SampleControlQuality
             Next
             For j = 0 To dt.Rows.Count - 1
                 iCol = 1
-                If dt.Rows(j)(1) = "-" Or dt.Rows(j)(1) = "--" Then
+                Dim colDes As Integer = 2
+                If dt.Rows(j)(colDes) = "-" Or dt.Rows(j)(colDes) = "--" Then
                     .Row(iRow).Height = 2
                 End If
                 Dim Seq As String = dt.Rows(j)(0)
-                For k = 1 To dt.Columns.Count - 1
+                For k = colDes To dt.Columns.Count - 1
                     '.Cells(iRow, iCol).Value = dt.Rows(j)(k)
                     Dim IsNum As Boolean = Seq < 7 And Seq <> 2 And k > 1
                     If IsNum Then
@@ -377,13 +378,13 @@ Public Class SampleControlQuality
                     Else
                         .Cells(iRow, iCol).Value = dt.Rows(j)(k)
                     End If
-                    If k = 1 Then
+                    If k = colDes Then
                         Select Case .Cells(iRow, 1).Value
                             Case "1", "2", "3", "4", "5", "6"
                                 .Cells(iRow, 1).Style.Fill.PatternType = ExcelFillStyle.Solid
                                 .Cells(iRow, 1).Style.Fill.BackgroundColor.SetColor(cs.Color(.Cells(iRow, 1).Value))
                         End Select
-                    ElseIf k > 1 Then
+                    ElseIf k > colDes Then
                         .Cells(iRow, iCol).Style.Numberformat.Format = "0.000"
                         LSL = dtLSL.Rows(0)(iCol)
                         USL = dtUSL.Rows(0)(iCol)
@@ -394,14 +395,14 @@ Public Class SampleControlQuality
                         If Not IsDBNull(dt.Rows(j)(k)) Then
                             Dim Value As Double = ADbl(dt.Rows(j)(k))
                             Dim PrevValue As Double
-                            If k > 2 Then
+                            If k > colDes + 1 Then
                                 PrevValue = ADbl(dt.Rows(j)(k - 1))
                             Else
                                 PrevValue = ADbl(dt.Rows(j)(k))
                             End If
                             If ChartType <> "0" AndAlso dt.Rows(j)(0) = "6" AndAlso (Value < RLCL Or Value > RUCL) Then
                                 .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
-                                If k > 2 AndAlso (PrevValue < RLCL Or PrevValue > RUCL) Then
+                                If k > colDes + 1 AndAlso (PrevValue < RLCL Or PrevValue > RUCL) Then
                                     .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
                                 ElseIf LastNG = 1 Then
                                     .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
