@@ -970,7 +970,7 @@
             <dx:GridViewDataTextColumn Caption="Data#" VisibleIndex="1" FieldName="SeqNo" Width="50px">
                 <EditFormSettings Visible="False" />
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn Caption="Value" VisibleIndex="2" FieldName="Value" Width="80px">
+            <dx:GridViewDataTextColumn Caption="Value" VisibleIndex="4" FieldName="Value" Width="80px">
                 <PropertiesTextEdit SelectInputTextOnClick="True" DisplayFormatString="0.000" Width="70px">
                     <MaskSettings UseInvariantCultureDecimalSymbolOnClient="True" />
                     <ValidationSettings>
@@ -981,30 +981,30 @@
                 </PropertiesTextEdit>
                 <EditFormSettings Visible="True" />
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn Caption="Judgement" VisibleIndex="3" Width="80px" FieldName="Judgement">
+            <dx:GridViewDataTextColumn Caption="Judgement" VisibleIndex="5" Width="80px" FieldName="Judgement">
                 <EditFormSettings Visible="False" />
                 <CellStyle HorizontalAlign="Center">
                 </CellStyle>
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn Caption="Operator" VisibleIndex="4" FieldName="RegisterUser" Width="160px">
+            <dx:GridViewDataTextColumn Caption="Operator" VisibleIndex="6" FieldName="RegisterUser" Width="160px">
                 <EditFormSettings Visible="False" />
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn Caption="Sample Time" VisibleIndex="5" Width="70px" FieldName="RegisterDate">
+            <dx:GridViewDataTextColumn Caption="Sample Time" VisibleIndex="7" Width="70px" FieldName="RegisterDate">
                 <PropertiesTextEdit DisplayFormatString="HH:mm">
                 </PropertiesTextEdit>
                 <EditFormSettings Visible="False" />
                 <CellStyle HorizontalAlign="Center">
                 </CellStyle>
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn Caption="Remarks" VisibleIndex="8" FieldName="Remark">
+            <dx:GridViewDataTextColumn Caption="Remarks" VisibleIndex="10" FieldName="Remark">
                 <PropertiesTextEdit Width="120px">
                 </PropertiesTextEdit>
                 <EditFormSettings Visible="True" />
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn Caption="Last User" VisibleIndex="9" FieldName="RegisterUser" Width="160px">
+            <dx:GridViewDataTextColumn Caption="Last User" VisibleIndex="11" FieldName="RegisterUser" Width="160px">
                 <EditFormSettings Visible="False" />
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn Caption="Last Update" VisibleIndex="10" FieldName="RegisterDate" Width="160px">
+            <dx:GridViewDataTextColumn Caption="Last Update" VisibleIndex="12" FieldName="RegisterDate" Width="160px">
                 <PropertiesTextEdit DisplayFormatString="d MMM yyyy HH:mm:ss">
                 </PropertiesTextEdit>
                 <EditFormSettings Visible="False" />
@@ -1012,15 +1012,20 @@
                 </CellStyle>
             </dx:GridViewDataTextColumn>
 
-            <dx:GridViewDataCheckColumn Caption="Delete Status" FieldName="DeleteStatus" VisibleIndex="6" Width="70px" Visible="False">
+            <dx:GridViewDataCheckColumn Caption="Delete Status" FieldName="DeleteStatus" VisibleIndex="8" Width="70px" Visible="False">
                 <PropertiesCheckEdit ValueChecked="1" ValueType="System.Int32" ValueUnchecked="0">
                 </PropertiesCheckEdit>
                 <EditFormSettings Visible="True" />
             </dx:GridViewDataCheckColumn>
 
-            <dx:GridViewDataTextColumn Caption="Delete Status" FieldName="DelStatus" VisibleIndex="7" Width="70px">
+            <dx:GridViewDataTextColumn Caption="Delete Status" FieldName="DelStatus" VisibleIndex="9" Width="70px">
                 <CellStyle HorizontalAlign="Center">
                 </CellStyle>
+            </dx:GridViewDataTextColumn>
+
+            <dx:GridViewDataTextColumn Caption="Value 1" FieldName="Value1" VisibleIndex="2" Width="80px">
+            </dx:GridViewDataTextColumn>
+            <dx:GridViewDataTextColumn Caption="Value 2" FieldName="Value2" VisibleIndex="3" Width="80px">
             </dx:GridViewDataTextColumn>
 
         </Columns>        
@@ -1078,7 +1083,16 @@
                                             runat="server" ColumnID="Remark"></dx:ASPxGridViewTemplateReplacement>
                                     </td>
                                 </tr>
-
+                                <tr style="height: 26px; visibility: hidden;">
+                                    <td>
+                                         <dx:ASPxGridViewTemplateReplacement ID="editValue1" ReplacementType="EditFormCellEditor"
+                                         runat="server" ColumnID="Value1"></dx:ASPxGridViewTemplateReplacement>
+                                    </td>
+                                    <td>
+                                        <dx:ASPxGridViewTemplateReplacement ID="editValue2" ReplacementType="EditFormCellEditor"
+                                        runat="server" ColumnID="Value2"></dx:ASPxGridViewTemplateReplacement>
+                                    </td>
+                                </tr>
                             </table>
                         </dx:ContentControl>
                     </div>

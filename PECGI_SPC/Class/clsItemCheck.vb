@@ -3,9 +3,31 @@
 Public Class clsItemCheck
     Public Property ItemCheckCode As String
     Public Property ItemCheck As String
+    Public Property Measure2Cls As String
 End Class
 
 Public Class clsItemCheckDB
+    Public Shared Function GetData(ItemCheckCode As String) As clsItemCheck
+        Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+            Cn.Open()
+            Dim q As String = "Select * from spc_ItemCheckMaster where ItemCheckCode = @ItemCheckCode"
+            Dim cmd As New SqlCommand(q, Cn)
+            cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
+            Dim da As New SqlDataAdapter(cmd)
+            Dim dt As New DataTable
+            da.Fill(dt)
+            If dt.Rows.Count = 0 Then
+                Return Nothing
+            Else
+                Dim Item As New clsItemCheck
+                Item.ItemCheckCode = dt.Rows(0)("ItemCheckCode") & ""
+                Item.ItemCheck = dt.Rows(0)("ItemCheck") & ""
+                Item.Measure2Cls = dt.Rows(0)("Measure2Cls") & ""
+                Return Item
+            End If
+        End Using
+    End Function
+
     Public Shared Function GetList(Optional FactoryCode As String = "", Optional ItemTypeCode As String = "", Optional LineCode As String = "") As List(Of clsItemCheck)
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
