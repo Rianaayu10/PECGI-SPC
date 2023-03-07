@@ -19,6 +19,7 @@
             }
         }
 
+
         /*======== Initialitation Grid X ==========*/
         function InitGrid(s, e) {
             HideValue.Set('IOT_URL', s.cp_URL);
@@ -260,6 +261,7 @@
             var USL = s.cpUSL, LSL = s.cpLSL, UCL = s.cpUCL, LCL = s.cpLCL; CL = s.cpCL; CSCode = s.cpCSCode; RUCL = s.cpRUCL; ChartSetupCount = s.cpChartSetupCount;
             var MIN = s.cpMIN, MAX = s.cpMAX; AVG = s.cpAVG, R = s.cpR, C = s.cpC, NG = s.cpNG, XBarUCL = s.cpXBarUCL, XBarLCL = s.cpXBarLCL;
             var MINClr = s.cpMINClr, MAXClr = s.cpMAXClr, AVClr = s.cpAVGClr, RClr = s.cpRClr, C_Clr = s.cpC_Clr, NG_Clr = s.cpNG_Clr;
+
 
             if (ChartSetupCount > 0) {
                 lblUSL.SetText(USL);
