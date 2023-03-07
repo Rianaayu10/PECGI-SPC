@@ -93,7 +93,7 @@
                     &nbsp
                   <span>
                       <asp:Label ID="lblFullName" runat="server" Text="lblFullName" Font-Names="Tahoma" Font-Size="12pt" Font-Bold="true"></asp:Label>                    
-                      <asp:Label ID="lblAdmin" runat="server" Text="lblAdmin" Visible="False"></asp:Label>
+                      <asp:Label ID="lblAdmin" runat="server" Text="lblAdmin" ></asp:Label>
                   </span>
                 </a>
             </span>
@@ -103,7 +103,7 @@
             <ul>
                 <li>
                     <a href="Main.aspx" title="Home"><i class="fa fa-lg fa-fw fa-home"></i><span class="menu-item-parent">Home</span></a>
-                      <asp:Label ID="lblUser" runat="server" Text="lblUser" Width="0"></asp:Label>
+                      <asp:Label ID="lblUser" runat="server" Text="lblUser" Width="0" Visible="False"></asp:Label>
                 </li>
                 <asp:Repeater ID="rptMenu" runat="server">
                     <ItemTemplate>
