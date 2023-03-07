@@ -590,6 +590,15 @@ Partial Public Class ProdSampleVerification
     Protected WithEvents btnRule As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
+    '''btnRule2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnRule2 As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
     '''pcRule1 control.
     '''</summary>
     '''<remarks>
@@ -615,6 +624,33 @@ Partial Public Class ProdSampleVerification
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnHide As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
+    '''pcRule2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pcRule2 As Global.DevExpress.Web.ASPxPopupControl
+
+    '''<summary>
+    '''Image2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents Image2 As Global.System.Web.UI.WebControls.Image
+
+    '''<summary>
+    '''btnHide2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnHide2 As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
     '''chartX control.
