@@ -577,6 +577,7 @@
         }
 
         function ShowPopUpRule1(s, e) {
+            pcRule1.Show();
         }
 
         function ShowPopUpRule2(s, e) {
