@@ -1023,9 +1023,9 @@
                 </CellStyle>
             </dx:GridViewDataTextColumn>
 
-            <dx:GridViewDataTextColumn Caption="Value 1" FieldName="Value1" VisibleIndex="2" Width="80px">
+            <dx:GridViewDataTextColumn Caption="Value 1" FieldName="Value1" VisibleIndex="2" Width="80px" ShowInCustomizationForm="false">
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn Caption="Value 2" FieldName="Value2" VisibleIndex="3" Width="80px">
+            <dx:GridViewDataTextColumn Caption="Value 2" FieldName="Value2" VisibleIndex="3" Width="80px" ShowInCustomizationForm="false">
             </dx:GridViewDataTextColumn>
 
         </Columns>        
@@ -1081,16 +1081,6 @@
                                     <td>
                                         <dx:ASPxGridViewTemplateReplacement ID="editRemark" ReplacementType="EditFormCellEditor"
                                             runat="server" ColumnID="Remark"></dx:ASPxGridViewTemplateReplacement>
-                                    </td>
-                                </tr>
-                                <tr style="height: 26px; visibility: hidden;">
-                                    <td>
-                                         <dx:ASPxGridViewTemplateReplacement ID="editValue1" ReplacementType="EditFormCellEditor"
-                                         runat="server" ColumnID="Value1"></dx:ASPxGridViewTemplateReplacement>
-                                    </td>
-                                    <td>
-                                        <dx:ASPxGridViewTemplateReplacement ID="editValue2" ReplacementType="EditFormCellEditor"
-                                        runat="server" ColumnID="Value2"></dx:ASPxGridViewTemplateReplacement>
                                     </td>
                                 </tr>
                             </table>

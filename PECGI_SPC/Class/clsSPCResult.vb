@@ -86,6 +86,33 @@ Public Class clsSPCResultDB
         End Using
     End Function
 
+    Public Shared Function GetData() As clsSPCResult
+        Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+            Cn.Open()
+            Dim q As String = "sp_SPCResult"
+            Dim cmd As New SqlCommand(q, Cn)
+            cmd.CommandType = CommandType.StoredProcedure
+            Dim da As New SqlDataAdapter(cmd)
+            Dim dt As New DataTable
+            da.Fill(dt)
+            If dt.Rows.Count = 0 Then
+                Return Nothing
+            Else
+                Dim Result As New clsSPCResult
+                With dt.Rows(0)
+                    Result.SPCResultID = .Item("SPCResultID")
+                    Result.FactoryCode = .Item("FactoryCode")
+                    Result.ItemTypeCode = .Item("ItemTypeCode")
+                    Result.LineCode = .Item("LineCode")
+                    Result.ItemCheckCode = .Item("ItemCheckCode")
+                    Result.ProdDate = .Item("ProdDate")
+                    Result.ShiftCode = .Item("ShiftCode")
+                    Result.SequenceNo = .Item("SequenceNo")
+                End With
+            End If
+        End Using
+    End Function
+
     Public Shared Function GetPrevDate(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, ProdDate As String) As String
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()

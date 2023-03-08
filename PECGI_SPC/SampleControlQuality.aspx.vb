@@ -366,13 +366,12 @@ Public Class SampleControlQuality
             For j = 0 To dt.Rows.Count - 1
                 iCol = 1
                 Dim colDes As Integer = 2
-                If dt.Rows(j)(colDes) = "-" Or dt.Rows(j)(colDes) = "--" Then
+                If dt.Rows(j)(colDes) & "" = "-" Or dt.Rows(j)(colDes) & "" = "--" Then
                     .Row(iRow).Height = 2
                 End If
                 Dim Seq As String = dt.Rows(j)(0)
                 For k = colDes To dt.Columns.Count - 1
-                    '.Cells(iRow, iCol).Value = dt.Rows(j)(k)
-                    Dim IsNum As Boolean = Seq < 7 And Seq <> 2 And k > 1
+                    Dim IsNum As Boolean = Seq < 7 And Seq <> 2 And k > colDes
                     If IsNum Then
                         .Cells(iRow, iCol).Value = ADbl(dt.Rows(j)(k))
                     Else
@@ -392,7 +391,7 @@ Public Class SampleControlQuality
                         UCL = dtUCL.Rows(0)(iCol)
                         RLCL = dtRLCL.Rows(0)(iCol)
                         RUCL = dtRUCL.Rows(0)(iCol)
-                        If Not IsDBNull(dt.Rows(j)(k)) Then
+                        If Not IsDBNull(dt.Rows(j)(k)) And IsNum Then
                             Dim Value As Double = ADbl(dt.Rows(j)(k))
                             Dim PrevValue As Double
                             If k > colDes + 1 Then
@@ -409,12 +408,13 @@ Public Class SampleControlQuality
                                 Else
                                     .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Yellow)
                                 End If
-                            ElseIf dt.Rows(j)(k) <> "" AndAlso dt.Rows(j)(0) <= 6 AndAlso (dt.Rows(j)(k) < LSL Or dt.Rows(j)(k) > USL) Then
+                                LastNG = 0
+                            ElseIf (Value < LSL Or Value > USL) Then
                                 If dt.Rows(j)(0) = "1" Or dt.Rows(j)(0) = "3" Or dt.Rows(j)(0) = "4" Or dt.Rows(j)(0) = "5" Then
                                     .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
                                     .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Red)
                                 End If
-                            ElseIf dt.Rows(j)(k) <> "" AndAlso dt.Rows(j)(0) <= 6 AndAlso (dt.Rows(j)(k) < LCL Or dt.Rows(j)(k) > UCL) Then
+                            ElseIf Value < LCL Or Value > UCL Then
                                 If dt.Rows(j)(0) = "1" Then
                                     .Cells(iRow, iCol).Style.Fill.PatternType = ExcelFillStyle.Solid
                                     .Cells(iRow, iCol).Style.Fill.BackgroundColor.SetColor(Color.Pink)
@@ -434,7 +434,7 @@ Public Class SampleControlQuality
                 Next
                 iRow = iRow + 1
             Next
-            EndCol = dt.Columns.Count - 1
+            EndCol = dt.Columns.Count - 2
             EndRow = iRow - 1
 
             ExcelHeader(pExl, StartRow, 1, StartRow + 2, EndCol)

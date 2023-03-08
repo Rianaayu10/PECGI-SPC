@@ -36,6 +36,22 @@ Public Class clsSPCResultDetailDB
         End Using
     End Function
 
+    Public Shared Function Update(Detail As clsSPCResultDetail)
+        Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+            Cn.Open()
+            Dim q As String = "sp_SPCResultDetail_Upd"
+            Dim cmd As New SqlCommand(q, Cn)
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.AddWithValue("SPCResultID", Detail.SPCResultID)
+            cmd.Parameters.AddWithValue("SequenceNo", Detail.SequenceNo)
+            cmd.Parameters.AddWithValue("Remark", Detail.Remark)
+            cmd.Parameters.AddWithValue("DeleteStatus", Detail.DeleteStatus)
+            cmd.Parameters.AddWithValue("UpdateUser", Detail.RegisterUser)
+            Dim i As Integer = cmd.ExecuteNonQuery
+            Return i
+        End Using
+    End Function
+
     Public Shared Function GetTable(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer, VerifiedOnly As Integer) As DataTable
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()

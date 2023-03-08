@@ -285,6 +285,9 @@ Public Class ProdSampleInput
         AuthUpdate = sGlobal.Auth_UserUpdate(pUser, "B020 ")
         grid.SettingsDataSecurity.AllowInsert = True
         grid.SettingsDataSecurity.AllowEdit = True
+        grid.Columns.Item("Value1").Visible = False
+        grid.Columns.Item("Value2").Visible = False
+
         show_error(MsgTypeEnum.Info, "", 0)
         If Not IsPostBack And Not IsCallback Then
             up_FillCombo()
@@ -450,6 +453,13 @@ Public Class ProdSampleInput
         Result.SubLotNo = txtSubLotNo.Text
         Result.Remark = txtRemarks.Text
         Result.RegisterUser = Session("user") & ""
+
+        Dim SetupFound As Boolean = ValidateChartSetup(Result.FactoryCode, Result.ItemTypeCode, Result.LineCode, Result.ItemCheckCode, Format(Result.ProdDate, "yyyy-MM-dd"))
+        If SetupFound = False Then
+            grid.CancelEdit()
+            show_error(MsgTypeEnum.Warning, "Chart Setup has not been set for this item", 1)
+            Return
+        End If
         clsSPCResultDB.Insert(Result)
 
         Dim SeqNo As Integer = clsSPCResultDetailDB.GetSeqNo(Result.FactoryCode, Result.ItemTypeCode, Result.LineCode, Result.ItemCheckCode, Format(Result.ProdDate, "yyyy-MM-dd"), Result.ShiftCode, Result.SequenceNo)
@@ -499,7 +509,16 @@ Public Class ProdSampleInput
         up_ClearJS()
     End Sub
     Protected Sub grid_AfterPerformCallback(sender As Object, e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles grid.AfterPerformCallback
-        If e.CallbackName <> "CANCELEDIT" And e.CallbackName <> "CUSTOMCALLBACK" Then
+        If e.CallbackName = "CANCELEDIT" Then
+            Dim Item As clsItemCheck = clsItemCheckDB.GetData(cboItemCheck.Value)
+            If Item Is Nothing OrElse Item.Measure2Cls <> "1" Then
+                grid.Columns.Item("Value1").Visible = False
+                grid.Columns.Item("Value2").Visible = False
+            Else
+                grid.Columns.Item("Value1").Visible = True
+                grid.Columns.Item("Value2").Visible = True
+            End If
+        ElseIf e.CallbackName <> "CANCELEDIT" And e.CallbackName <> "CUSTOMCALLBACK" Then
             Dim Hdr As New clsHeader
             Hdr.FactoryCode = cboFactory.Value
             Hdr.FactoryName = cboFactory.Text
@@ -725,12 +744,9 @@ Public Class ProdSampleInput
         Detail.SPCResultID = Result.SPCResultID
         Detail.SequenceNo = SeqNo
         Detail.DeleteStatus = e.NewValues("DeleteStatus")
-        Detail.Value1 = e.OldValues("Value1")
-        Detail.Value2 = e.OldValues("Value2")
-        Detail.Value = e.NewValues("Value")
         Detail.Remark = e.NewValues("Remark")
         Detail.RegisterUser = Result.RegisterUser
-        clsSPCResultDetailDB.Insert(Detail)
+        clsSPCResultDetailDB.Update(Detail)
         grid.CancelEdit()
 
         show_error(MsgTypeEnum.Success, "Update data successfull!", 1)
