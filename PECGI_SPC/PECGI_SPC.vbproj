@@ -146,6 +146,7 @@
     <Content Include="img\SPCRule.png" />
     <Content Include="img\SPCRuleEN.png" />
     <Content Include="img\SPCRuleIN.png" />
+    <Content Include="FTAMaster.aspx" />
     <Content Include="SPCDashboard.aspx" />
     <Content Include="ChangePassword.aspx" />
     <Content Include="content\toastr.css" />
@@ -899,6 +900,13 @@
     <Compile Include="Class\clsProcess.vb" />
     <Compile Include="Class\clsProcessGroup.vb" />
     <Compile Include="Class\clsTroubleHistoryByLine.vb" />
+    <Compile Include="FTAMaster.aspx.designer.vb">
+      <DependentUpon>FTAMaster.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FTAMaster.aspx.vb">
+      <DependentUpon>FTAMaster.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="SPCDashboard.aspx.designer.vb">
       <DependentUpon>SPCDashboard.aspx</DependentUpon>
     </Compile>
