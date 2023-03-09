@@ -71,15 +71,13 @@
             <dx:ASPxGridView ID="Grid" runat="server" AutoGenerateColumns="False" ClientInstanceName="Grid"
                 EnableTheming="True" KeyFieldName="UserID; EmployeeID" Theme="Office2010Black"
                 OnRowValidating="Grid_RowValidating" OnStartRowEditing="Grid_StartRowEditing"
-                OnRowInserting="Grid_RowInserting" OnRowDeleting="Grid_RowDeleting"
                 OnAfterPerformCallback="Grid_AfterPerformCallback" Width="100%"
                 Font-Names="Segoe UI" Font-Size="9pt">
                 <ClientSideEvents EndCallback="OnEndCallback" />
 
                 <Columns>
-                    <dx:GridViewCommandColumn FixedStyle="Left"
-                        VisibleIndex="0" ShowEditButton="true" ShowDeleteButton="true"
-                        ShowNewButtonInHeader="true" ShowClearFilterButton="true" Width="80px">
+                    <dx:GridViewCommandColumn FixedStyle="Left" Caption=" "
+                        VisibleIndex="0" ShowEditButton="true" ShowClearFilterButton="true" Width="80px">
                         <HeaderStyle Paddings-PaddingLeft="3px" HorizontalAlign="Center"
                             VerticalAlign="Middle">
                             <Paddings PaddingLeft="3px"></Paddings>

@@ -838,28 +838,28 @@
                 </td>
                 <td style="width: 5px"></td>
                 <td style="width: 100px">
-                    <dx:ASPxButton ID="btnSPCSample" runat="server" AutoPostBack="False" ClientInstanceName="btnSPCSample"  Height="40px"
-                        Font-Names="Segoe UI" Font-Size="9pt" Text="SPC Sample Open New Tab"  Wrap="True"  Theme="Office2010Silver" Width="120px">
+                    <dx:ASPxButton ID="btnSPCSample" runat="server" AutoPostBack="False" ClientInstanceName="btnSPCSample" Height="40px"
+                        Font-Names="Segoe UI" Font-Size="9pt" Text="SPC Sample Open New Tab" Wrap="True" Theme="Office2010Silver" Width="120px">
                         <ClientSideEvents Click="SPCSample" />
                     </dx:ASPxButton>
                 </td>
                 <td style="width: 5px"></td>
                 <td style="width: 100px">
-                    <dx:ASPxButton ID="btnIOTProcess" runat="server" AutoPostBack="False" ClientInstanceName="btnIOTProcess"  Height="40px"
+                    <dx:ASPxButton ID="btnIOTProcess" runat="server" AutoPostBack="False" ClientInstanceName="btnIOTProcess" Height="40px"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="View IOT Process Table" Theme="Office2010Silver" Width="100px">
                         <ClientSideEvents Click="IOTProcess" />
                     </dx:ASPxButton>
                 </td>
                 <td style="width: 5px"></td>
                 <td style="width: 100px">
-                    <dx:ASPxButton ID="btnIOTTraceability" runat="server" AutoPostBack="False" ClientInstanceName="btnIOTTraceability"  Height="40px"
+                    <dx:ASPxButton ID="btnIOTTraceability" runat="server" AutoPostBack="False" ClientInstanceName="btnIOTTraceability" Height="40px"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="View IOT Traceability" Theme="Office2010Silver" Width="100px">
                         <ClientSideEvents Click="IOTTraceability" />
                     </dx:ASPxButton>
                 </td>
                 <td style="width: 5px"></td>
                 <td style="width: 100px">
-                    <dx:ASPxButton ID="btnExcel" runat="server" AutoPostBack="False" ClientInstanceName="btnExcel"  Height="40px"
+                    <dx:ASPxButton ID="btnExcel" runat="server" AutoPostBack="False" ClientInstanceName="btnExcel" Height="40px"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="Excel" Theme="Office2010Silver" Width="100px">
                     </dx:ASPxButton>
                 </td>
@@ -1012,34 +1012,34 @@
             </tr>
             <tr>
                 <td>
-                       <div>
+                    <div>
                         <table>
                             <tr>
-                                <td style="padding: 10px 5px 10px 0px">
+                                <td style="padding: 10px 5px 10px 0px; width: 130px">
                                     <dx:ASPxButton ID="btnRule" runat="server" AutoPostBack="False"
                                         ClientInstanceName="btnRule" Font-Names="Segoe UI" Font-Size="9pt"
-                                        Height="25px" Text="View Table Rule" Theme="Office2010Silver" UseSubmitBehavior="False"
+                                        Height="25px" Text="View SPC Rule (ENG)" Theme="Office2010Silver" UseSubmitBehavior="False"
                                         Width="120px" TabIndex="10">
                                         <Paddings Padding="2px" />
                                         <ClientSideEvents Click="ShowPopUpRule1" />
                                     </dx:ASPxButton>
                                 </td>
-                                <%--<td style="padding: 10px 0px 10px 5px">
+                                <td style="padding: 10px 0px 10px 5px; width: 130px">
                                     <dx:ASPxButton ID="btnRule2" runat="server" AutoPostBack="False"
                                         ClientInstanceName="btnRule2" Font-Names="Segoe UI" Font-Size="9pt"
-                                        Height="25px" Text="View Break SPC Rule" Theme="Office2010Silver" UseSubmitBehavior="False"
-                                        Width="150px" TabIndex="10">
+                                        Height="25px" Text="View SPC Rule (IND)" Theme="Office2010Silver" UseSubmitBehavior="False"
+                                        Width="120px" TabIndex="10">
                                         <Paddings Padding="2px" />
                                         <ClientSideEvents Click="ShowPopUpRule2" />
                                     </dx:ASPxButton>
-                                </td>--%>
+                                </td>
                                 <td>
-                                    <dx:ASPxPopupControl ID="pcRule1" runat="server" ClientInstanceName="pcRule1" Height="250px" Width="600px" HeaderText="Table Rule" Modal="True"
+                                    <dx:ASPxPopupControl ID="pcRule1" runat="server" ClientInstanceName="pcRule1" Height="250px" Width="600px" HeaderText="SPC Rule" Modal="True"
                                         CloseAction="CloseButton" CloseOnEscape="true" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False">
                                         <ContentCollection>
                                             <dx:PopupControlContentControl runat="server">
                                                 <div style="height: 100%; text-align: center; padding-top: 30px;">
-                                                    <asp:Image ID="Image1" runat="server" ImageUrl="~/img/rule1.png" />
+                                                    <asp:Image ID="Image1" runat="server" ImageUrl="~/img/SPCRuleEN.png" />
                                                 </div>
                                                 <table style="width: 100%">
                                                     <tr>
@@ -1059,14 +1059,14 @@
                                     </dx:ASPxPopupControl>
                                 </td>
                             </tr>
-                           <%-- <tr>
+                            <tr>
                                 <td>
-                                    <dx:ASPxPopupControl ID="pcRule2" runat="server" ClientInstanceName="pcRule2" Height="250px" Width="600px" HeaderText="Break SPC Rule" Modal="True"
+                                    <dx:ASPxPopupControl ID="pcRule2" runat="server" ClientInstanceName="pcRule2" Height="250px" Width="600px" HeaderText="SPC Rule" Modal="True"
                                         CloseAction="CloseButton" CloseOnEscape="true" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False">
                                         <ContentCollection>
                                             <dx:PopupControlContentControl runat="server">
                                                 <div style="height: 100%; text-align: center; padding-top: 30px;">
-                                                    <asp:Image ID="Image2" runat="server" ImageUrl="~/img/rule2.png" />
+                                                    <asp:Image ID="Image2" runat="server" ImageUrl="~/img/SPCRuleIN.png" />
                                                 </div>
                                                 <table style="width: 100%">
                                                     <tr>
@@ -1085,7 +1085,7 @@
                                         </ContentCollection>
                                     </dx:ASPxPopupControl>
                                 </td>
-                            </tr>--%>
+                            </tr>
                         </table>
                     </div>
                     <div style="padding: 5px 5px 5px 5px;">
@@ -1177,7 +1177,7 @@
                                         <ViewSerializable>
                                             <cc1:LineSeriesView Color="Blue">
                                                 <LineStyle Thickness="1" />
-                                                 <LineMarkerOptions Size="7" Color="Blue" Kind="Diamond">
+                                                <LineMarkerOptions Size="7" Color="Blue" Kind="Diamond">
                                                 </LineMarkerOptions>
                                             </cc1:LineSeriesView>
                                         </ViewSerializable>
@@ -1593,4 +1593,5 @@
     </div>
 
     <dx:ASPxHiddenField ID="HideValue" runat="server" ClientInstanceName="HideValue"></dx:ASPxHiddenField>
+
 </asp:Content>

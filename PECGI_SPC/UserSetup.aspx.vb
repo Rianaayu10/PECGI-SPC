@@ -108,54 +108,51 @@ Public Class UserSetup
     '    End If
     'End Sub
 
-    Protected Sub Grid_RowInserting(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataInsertingEventArgs) Handles Grid.RowInserting
-        e.Cancel = True
-        Dim pErr As String = ""
-        Dim User As New clsUserSetup With {
-            .UserID = e.NewValues("UserID") & "",
-            .FullName = e.NewValues("FullName") & "",
-            .Password = e.NewValues("Password") & "",
-            .AdminStatus = If(e.NewValues("AdminStatus") = "Yes", "1", "0"),
-            .Description = e.NewValues("Description") & "",
-            .FactoryCode = e.NewValues("FactoryCode"),
-            .JobPosition = e.NewValues("JobPosition"),
-            .EmployeeID = e.NewValues("EmployeeID"),
-            .Email = e.NewValues("Email"),
-            .NGResultEmailStatus = e.NewValues("NGResultEmailStatus"),
-            .DelayInputEmailStatus = e.NewValues("DelayInputEmailStatus"),
-            .DelayVerificationEmailStatus = e.NewValues("DelayVerificationEmailStatus"),
-            .ChartSetupEmailStatus = e.NewValues("ChartSetupEmailStatus"),
-            .LockStatus = e.NewValues("LockStatus"),
-            .CreateUser = pUser
-        }
-        Try
-            Dim CheckUser As clsUserSetup = clsUserSetupDB.GetData(User.UserID)
-            If CheckUser IsNot Nothing Then
-                show_error(MsgTypeEnum.ErrorMsg, "User already exists!", 1)
-                Return
-            End If
-            pErr = clsUserSetupDB.Insert(User)
-            If pErr = "" Then
-                show_error(MsgTypeEnum.Success, "Save data successfully!", 1)
-                Grid.CancelEdit()
-                up_GridLoad()
-            Else
-                show_error(MsgTypeEnum.ErrorMsg, pErr, 1)
-            End If
-        Catch ex As Exception
-            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
-        End Try
-    End Sub
+    'Protected Sub Grid_RowInserting(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataInsertingEventArgs) Handles Grid.RowInserting
+    '    e.Cancel = True
+    '    Dim pErr As String = ""
+    '    Dim User As New clsUserSetup With {
+    '        .UserID = e.NewValues("UserID") & "",
+    '        .FullName = e.NewValues("FullName") & "",
+    '        .Password = e.NewValues("Password") & "",
+    '        .AdminStatus = If(e.NewValues("AdminStatus") = "Yes", "1", "0"),
+    '        .Description = e.NewValues("Description") & "",
+    '        .FactoryCode = e.NewValues("FactoryCode"),
+    '        .JobPosition = e.NewValues("JobPosition"),
+    '        .EmployeeID = e.NewValues("EmployeeID"),
+    '        .Email = e.NewValues("Email"),
+    '        .NGResultEmailStatus = e.NewValues("NGResultEmailStatus"),
+    '        .DelayInputEmailStatus = e.NewValues("DelayInputEmailStatus"),
+    '        .DelayVerificationEmailStatus = e.NewValues("DelayVerificationEmailStatus"),
+    '        .ChartSetupEmailStatus = e.NewValues("ChartSetupEmailStatus"),
+    '        .LockStatus = e.NewValues("LockStatus"),
+    '        .CreateUser = pUser
+    '    }
+    '    Try
+    '        Dim CheckUser As clsUserSetup = clsUserSetupDB.GetData(User.UserID)
+    '        If CheckUser IsNot Nothing Then
+    '            show_error(MsgTypeEnum.ErrorMsg, "User already exists!", 1)
+    '            Return
+    '        End If
+    '        pErr = clsUserSetupDB.Insert(User)
+    '        If pErr = "" Then
+    '            show_error(MsgTypeEnum.Success, "Save data successfully!", 1)
+    '            Grid.CancelEdit()
+    '            up_GridLoad()
+    '        Else
+    '            show_error(MsgTypeEnum.ErrorMsg, pErr, 1)
+    '        End If
+    '    Catch ex As Exception
+    '        show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
+    '    End Try
+    'End Sub
 
     Protected Sub Grid_RowUpdating(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataUpdatingEventArgs) Handles Grid.RowUpdating
         e.Cancel = True
         Dim User As New clsUserSetup With {
             .UserID = e.OldValues("UserID"),
-            .FullName = e.NewValues("FullName") & "",
-            .Password = e.NewValues("Password") & "",
             .AdminStatus = If(e.NewValues("AdminStatus") = "Yes", "1", "0"),
             .Description = e.NewValues("Description") & "",
-            .FactoryCode = e.NewValues("FactoryCode"),
             .JobPosition = e.NewValues("JobPosition") & "",
             .EmployeeID = e.NewValues("EmployeeID") & "",
             .Email = e.NewValues("Email"),
@@ -176,18 +173,18 @@ Public Class UserSetup
         End Try
     End Sub
 
-    Protected Sub Grid_RowDeleting(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataDeletingEventArgs) Handles Grid.RowDeleting
-        e.Cancel = True
-        Try
-            Dim UserID As String = e.Values("UserID")
-            clsUserSetupDB.Delete(UserID)
-            Grid.CancelEdit()
-            up_GridLoad()
-            show_error(MsgTypeEnum.Success, "Delete data successfully!", 1)
-        Catch ex As Exception
-            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
-        End Try
-    End Sub
+    'Protected Sub Grid_RowDeleting(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataDeletingEventArgs) Handles Grid.RowDeleting
+    '    e.Cancel = True
+    '    Try
+    '        Dim UserID As String = e.Values("UserID")
+    '        clsUserSetupDB.Delete(UserID)
+    '        Grid.CancelEdit()
+    '        up_GridLoad()
+    '        show_error(MsgTypeEnum.Success, "Delete data successfully!", 1)
+    '    Catch ex As Exception
+    '        show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
+    '    End Try
+    'End Sub
 
     Private Sub Grid_BeforeGetCallbackResult(ByVal sender As Object, ByVal e As System.EventArgs) Handles Grid.BeforeGetCallbackResult
         If Grid.IsNewRowEditing Then
@@ -198,6 +195,15 @@ Public Class UserSetup
     Private Sub Grid_CellEditorInitialize(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewEditorEventArgs) Handles Grid.CellEditorInitialize
         If Not Grid.IsNewRowEditing Then
             If e.Column.FieldName = "UserID" Then
+                e.Editor.ReadOnly = True
+                e.Editor.ForeColor = Color.Silver
+            ElseIf e.Column.FieldName = "FullName" Then
+                e.Editor.ReadOnly = True
+                e.Editor.ForeColor = Color.Silver
+            ElseIf e.Column.FieldName = "Password" Then
+                e.Editor.ReadOnly = True
+                e.Editor.ForeColor = Color.Silver
+            ElseIf e.Column.FieldName = "FactoryCode" Then
                 e.Editor.ReadOnly = True
                 e.Editor.ForeColor = Color.Silver
             End If
@@ -215,39 +221,39 @@ Public Class UserSetup
                 Continue For
             End If
 
-            If dataColumn.FieldName = "UserID" Then
-                If IsNothing(e.NewValues("UserID")) OrElse e.NewValues("UserID").ToString.Trim = "" Then
-                    e.Errors(dataColumn) = "Please input User ID!"
-                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
-                    AdaError = True
-                Else
-                    If e.IsNewRow Then
-                        Dim User As clsUserSetup = clsUserSetupDB.GetData(e.NewValues("UserID"))
-                        If User IsNot Nothing Then
-                            e.Errors(dataColumn) = "User ID already exists!"
-                            show_error(MsgTypeEnum.Warning, e.Errors(dataColumn), 1)
-                            AdaError = True
-                        End If
-                    End If
-                End If
-            End If
+            'If dataColumn.FieldName = "UserID" Then
+            '    If IsNothing(e.NewValues("UserID")) OrElse e.NewValues("UserID").ToString.Trim = "" Then
+            '        e.Errors(dataColumn) = "Please input User ID!"
+            '        show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+            '        AdaError = True
+            '    Else
+            '        If e.IsNewRow Then
+            '            Dim User As clsUserSetup = clsUserSetupDB.GetData(e.NewValues("UserID"))
+            '            If User IsNot Nothing Then
+            '                e.Errors(dataColumn) = "User ID already exists!"
+            '                show_error(MsgTypeEnum.Warning, e.Errors(dataColumn), 1)
+            '                AdaError = True
+            '            End If
+            '        End If
+            '    End If
+            'End If
 
-            If dataColumn.FieldName = "FullName" Then
-                If IsNothing(e.NewValues("FullName")) OrElse e.NewValues("FullName").ToString.Trim = "" Then
-                    e.Errors(dataColumn) = "Please input FullName!"
-                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
-                    AdaError = True
-                End If
-            End If
+            'If dataColumn.FieldName = "FullName" Then
+            '    If IsNothing(e.NewValues("FullName")) OrElse e.NewValues("FullName").ToString.Trim = "" Then
+            '        e.Errors(dataColumn) = "Please input FullName!"
+            '        show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+            '        AdaError = True
+            '    End If
+            'End If
 
-            If dataColumn.FieldName = "Password" Then
-                If IsNothing(e.NewValues("Password")) OrElse e.NewValues("Password").ToString.Trim = "" Then
-                    e.Errors(dataColumn) = "Please input Password!"
-                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
-                    AdaError = True
-                End If
-                'Password = e.NewValues("Password")
-            End If
+            'If dataColumn.FieldName = "Password" Then
+            '    If IsNothing(e.NewValues("Password")) OrElse e.NewValues("Password").ToString.Trim = "" Then
+            '        e.Errors(dataColumn) = "Please input Password!"
+            '        show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+            '        AdaError = True
+            '    End If
+            '    'Password = e.NewValues("Password")
+            'End If
 
             If dataColumn.FieldName = "AdminStatus" Then
                 If IsNothing(e.NewValues("AdminStatus")) OrElse e.NewValues("AdminStatus").ToString.Trim = "" Then
@@ -257,21 +263,21 @@ Public Class UserSetup
                 End If
             End If
 
-            If dataColumn.FieldName = "FactoryCode" Then
-                If IsNothing(e.NewValues("FactoryCode")) OrElse e.NewValues("FactoryCode").ToString.Trim = "" Then
-                    e.Errors(dataColumn) = "Please input Factory!"
-                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
-                    AdaError = True
-                End If
-            End If
+            'If dataColumn.FieldName = "FactoryCode" Then
+            '    If IsNothing(e.NewValues("FactoryCode")) OrElse e.NewValues("FactoryCode").ToString.Trim = "" Then
+            '        e.Errors(dataColumn) = "Please input Factory!"
+            '        show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+            '        AdaError = True
+            '    End If
+            'End If
 
-            If dataColumn.FieldName = "JobPosition" Then
-                If IsNothing(e.NewValues("JobPosition")) OrElse e.NewValues("JobPosition").ToString.Trim = "" Then
-                    e.Errors(dataColumn) = "Please input Job Position!"
-                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
-                    AdaError = True
-                End If
-            End If
+            'If dataColumn.FieldName = "JobPosition" Then
+            '    If IsNothing(e.NewValues("JobPosition")) OrElse e.NewValues("JobPosition").ToString.Trim = "" Then
+            '        e.Errors(dataColumn) = "Please input Job Position!"
+            '        show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+            '        AdaError = True
+            '    End If
+            'End If
 
             If dataColumn.FieldName = "EmployeeID" Then
                 If IsNothing(e.NewValues("EmployeeID")) OrElse e.NewValues("EmployeeID").ToString.Trim = "" Then

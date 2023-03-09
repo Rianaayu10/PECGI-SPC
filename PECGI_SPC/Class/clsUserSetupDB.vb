@@ -54,10 +54,9 @@ Public Class clsUserSetupDB
             Using Cn As New SqlConnection(Sconn.Stringkoneksi)
                 Cn.Open()
                 Dim q As String
-                q = "UPDATE dbo.spc_UserInfo SET FullName=@FullName, Password=@Password," &
+                q = "UPDATE dbo.spc_UserInfo SET " &
                     "Description=@Description, " &
                     "AdminStatus = @AdminStatus, " &
-                    "FactoryCode = @FactoryCode, " &
                     "JobPosition = @JobPosition, " &
                     "EmployeeID = @EmployeeID, " &
                     "Email = @Email, " &
@@ -73,12 +72,8 @@ Public Class clsUserSetupDB
                 With cmd.Parameters
                     .AddWithValue("AppID", "SPC")
                     .AddWithValue("UserID", pUser.UserID)
-                    .AddWithValue("FullName", pUser.FullName)
                     .AddWithValue("AdminStatus", pUser.AdminStatus)
-                    Dim pwd As String = des.EncryptData(pUser.Password)
-                    .AddWithValue("Password", pwd)
                     .AddWithValue("Description", pUser.Description)
-                    .AddWithValue("FactoryCode", pUser.FactoryCode)
                     .AddWithValue("JobPosition", pUser.JobPosition)
                     .AddWithValue("EmployeeID", pUser.EmployeeID)
                     .AddWithValue("Email", pUser.Email)
