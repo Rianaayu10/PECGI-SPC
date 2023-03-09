@@ -21,6 +21,8 @@ Public Class ClsSPCItemCheckByTypeDB
                 .AddWithValue("Evaluation", pItemCheckByType.Evaluation)
                 .AddWithValue("CharacteristicItem", Val(pItemCheckByType.CharacteristicItem))
                 .AddWithValue("ProcessTableLineCode", pItemCheckByType.ProcessTableLineCode)
+                .AddWithValue("FTARatio", pItemCheckByType.FTARatio)
+                .AddWithValue("StationID", pItemCheckByType.StationID)
                 .AddWithValue("ActiveStatus", Val(pItemCheckByType.ActiveStatus & ""))
                 .AddWithValue("CreateUser", pItemCheckByType.CreateUser)
                 .AddWithValue("TypeProcess", 6)
@@ -67,6 +69,8 @@ Public Class ClsSPCItemCheckByTypeDB
                 .AddWithValue("Evaluation", pItemCheckByType.Evaluation)
                 .AddWithValue("CharacteristicItem", pItemCheckByType.CharacteristicItem)
                 .AddWithValue("ProcessTableLineCode", pItemCheckByType.ProcessTableLineCode)
+                .AddWithValue("FTARatio", pItemCheckByType.FTARatio)
+                .AddWithValue("StationID", pItemCheckByType.StationID)
                 .AddWithValue("ActiveStatus", pItemCheckByType.ActiveStatus)
                 .AddWithValue("UpdateUser", pItemCheckByType.UpdateUser)
                 .AddWithValue("FactoryCode", pItemCheckByType.FactoryCode)
@@ -130,8 +134,8 @@ Public Class ClsSPCItemCheckByTypeDB
                 Dim BatteryType As New ClsSPCItemCheckByType With {
                     .FactoryCode = dt.Rows(i)("FactoryCode"),
                     .ItemTypeCode = dt.Rows(i)("ItemTypeCode"),
-                    .LineCode = dt.Rows(i)("LineCode"),
-                    .ItemCheck = Trim(dt.Rows(i)("ItemCheckCode")),
+                    .LineCode = dt.Rows(i)("LineName"),
+                    .ItemCheck = Trim(dt.Rows(i)("ItemCheck")),
                     .FrequencyCode = Trim(dt.Rows(i)("FrequencyCode")),
                     .RegistrationNo = Trim(dt.Rows(i)("RegistrationNo")),
                     .SampleSize = Trim(dt.Rows(i)("SampleSize")),

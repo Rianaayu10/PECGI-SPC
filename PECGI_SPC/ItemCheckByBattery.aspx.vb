@@ -104,6 +104,8 @@ Public Class ItemCheckByBattery
             .Evaluation = e.NewValues("Evaluation"),
             .CharacteristicItem = SpecialChar.Substring(0, SpecialChar.IndexOf(" -")),
             .ProcessTableLineCode = ProcessTableLineCode.Substring(0, ProcessTableLineCode.IndexOf(" -")),
+            .FTARatio = e.NewValues("FTARatio"),
+            .StationID = e.NewValues("StationID"),
             .ActiveStatus = e.NewValues("ActiveStatus"),
             .UpdateUser = pUser,
             .CreateUser = pUser
@@ -117,7 +119,7 @@ Public Class ItemCheckByBattery
             End If
             Dim CheckDataBattery As ClsSPCItemCheckByType = ClsSPCItemCheckByTypeDB.GetData(BatteryType.FactoryCode, BatteryType.ItemTypeCode, BatteryType.LineCode, BatteryType.ItemCheck)
             If CheckDataBattery IsNot Nothing Then
-                show_error(MsgTypeEnum.ErrorMsg, "Can't insert data, Battery type '" + CheckDataBattery.ItemTypeName + "' for item check '" + BatteryType.ItemCheck + "' on machine '" + BatteryType.LineCode + "' in factory '" + BatteryType.FactoryName + "' is already registered", 1)
+                show_error(MsgTypeEnum.ErrorMsg, "Can't insert data, Battery type '" + CheckDataBattery.ItemTypeName + "' for item check '" + BatteryType.ItemCheck + "' on machine process '" + BatteryType.LineCode + "' in factory '" + BatteryType.FactoryName + "' is already registered", 1)
                 Return
             End If
             ClsSPCItemCheckByTypeDB.Insert(BatteryType)
@@ -151,6 +153,8 @@ Public Class ItemCheckByBattery
             .Evaluation = e.NewValues("Evaluation"),
             .CharacteristicItem = SpecialChar.Substring(0, SpecialChar.IndexOf(" -")),
             .ProcessTableLineCode = ProcessTableLineCode.Substring(0, ProcessTableLineCode.IndexOf(" -")),
+            .FTARatio = e.NewValues("FTARatio"),
+            .StationID = e.NewValues("StationID"),
             .ActiveStatus = e.NewValues("ActiveStatus"),
             .UpdateUser = pUser,
             .CreateUser = pUser

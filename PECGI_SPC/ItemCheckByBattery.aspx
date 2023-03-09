@@ -640,9 +640,50 @@
                     </HeaderStyle>
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
                 </dx:GridViewDataComboBoxColumn>
+
+                <%--<dx:GridViewDataTextColumn Caption="FTA Ratio %" FieldName="FTARatio"
+                    VisibleIndex="10" Width="70px" Settings-AutoFilterCondition="Contains">
+                    <PropertiesTextEdit MaxLength="50" Width="70px">
+                        <Style HorizontalAlign="Right"></Style>
+                    </PropertiesTextEdit>
+                    <Settings AutoFilterCondition="Contains"></Settings>
+                    <FilterCellStyle Paddings-PaddingRight="4px">
+                    <Paddings PaddingRight="4px"></Paddings>
+                    </FilterCellStyle>
+                    <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                    <Paddings PaddingLeft="5px"></Paddings>
+                    </HeaderStyle>
+                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
+                </dx:GridViewDataTextColumn>--%>
+
+                <dx:GridViewDataSpinEditColumn Caption="FTA Ratio %" FieldName="FTARatio"
+                    width="70px" Settings-AutoFilterCondition="Contains" VisibleIndex="10">
+                    <PropertiesSpinEdit MaxValue="10000" MinValue="0" DecimalPlaces="2" Increment="1" Style-VerticalAlign="Middle" Style-HorizontalAlign="Right" Width="195px">
+                        <ButtonStyle Width="5px" Paddings-Padding="2px">
+                            <Paddings Padding="2px" />
+                        </ButtonStyle>
+                    </PropertiesSpinEdit>
+                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
+                    <CellStyle HorizontalAlign="Right" VerticalAlign="Middle" />
+                </dx:GridViewDataSpinEditColumn>
+
+                <dx:GridViewDataTextColumn Caption="Station ID" FieldName="StationID"
+                    VisibleIndex="11" Width="70px" Settings-AutoFilterCondition="Contains">
+                    <PropertiesTextEdit MaxLength="50" Width="70px">
+                        <Style HorizontalAlign="Left"></Style>
+                    </PropertiesTextEdit>
+                    <Settings AutoFilterCondition="Contains"></Settings>
+                    <FilterCellStyle Paddings-PaddingRight="4px">
+                    <Paddings PaddingRight="4px"></Paddings>
+                    </FilterCellStyle>
+                    <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                    <Paddings PaddingLeft="5px"></Paddings>
+                    </HeaderStyle>
+                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
+                </dx:GridViewDataTextColumn>
                 
                 <dx:GridViewDataCheckColumn Caption="Active Status" FieldName="ActiveStatus" 
-                    VisibleIndex="10" Width="60px">
+                    VisibleIndex="12" Width="60px">
                     <PropertiesCheckEdit ValueChecked="1" ValueType="System.Char" 
                         ValueUnchecked="0">
                     </PropertiesCheckEdit>
@@ -650,7 +691,7 @@
                 </dx:GridViewDataCheckColumn>
 
                 <dx:GridViewDataTextColumn Caption="Last User" FieldName="UpdateUser"
-                    VisibleIndex="11" Width="70px" Settings-AutoFilterCondition="Contains">
+                    VisibleIndex="13" Width="70px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="50" Width="70px">
                         <Style HorizontalAlign="Left"></Style>
                     </PropertiesTextEdit>
@@ -665,7 +706,7 @@
                 </dx:GridViewDataTextColumn>
 
                 <dx:GridViewDataTextColumn Caption="Last Update" FieldName="UpdateDate"
-                    VisibleIndex="12" Width="150px" Settings-AutoFilterCondition="Contains">
+                    VisibleIndex="14" Width="150px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="50" Width="200px">
                         <Style HorizontalAlign="Left"></Style>
                     </PropertiesTextEdit>
@@ -680,7 +721,7 @@
                 </dx:GridViewDataTextColumn>
 
                 <dx:GridViewDataTextColumn Caption="Remark" FieldName="Remark"
-                    VisibleIndex="13" Width="150px" Settings-AutoFilterCondition="Contains">
+                    VisibleIndex="15" Width="150px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="35" Width="195px">
                         <Style HorizontalAlign="Left"></Style>
                     </PropertiesTextEdit>
@@ -821,6 +862,22 @@
                                     <td>
                                         <dx:ASPxGridViewTemplateReplacement ID="editProcessTableLineCode" ReplacementType="EditFormCellEditor"
                                             runat="server" ColumnID="ProcessTableLineCode">
+                                        </dx:ASPxGridViewTemplateReplacement>   
+                                    </td>
+                                </tr>
+                                <tr style="height:30px">
+                                    <td>FTA Ratio</td>                                
+                                    <td>
+                                        <dx:ASPxGridViewTemplateReplacement ID="editFTARatio" ReplacementType="EditFormCellEditor"
+                                            runat="server" ColumnID="FTARatio">
+                                        </dx:ASPxGridViewTemplateReplacement>   
+                                    </td>
+                                </tr>
+                                <tr style="height:30px">
+                                    <td>Station ID</td>                                
+                                    <td>
+                                        <dx:ASPxGridViewTemplateReplacement ID="editStationID" ReplacementType="EditFormCellEditor"
+                                            runat="server" ColumnID="StationID">
                                         </dx:ASPxGridViewTemplateReplacement>   
                                     </td>
                                 </tr>
