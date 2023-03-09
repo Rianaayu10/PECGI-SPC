@@ -285,6 +285,9 @@ Public Class ProdSampleInput
         AuthUpdate = sGlobal.Auth_UserUpdate(pUser, "B020 ")
         grid.SettingsDataSecurity.AllowInsert = True
         grid.SettingsDataSecurity.AllowEdit = True
+        grid.Columns.Item("Value1").Visible = False
+        grid.Columns.Item("Value2").Visible = False
+
         show_error(MsgTypeEnum.Info, "", 0)
         If Not IsPostBack And Not IsCallback Then
             up_FillCombo()
@@ -450,6 +453,13 @@ Public Class ProdSampleInput
         Result.SubLotNo = txtSubLotNo.Text
         Result.Remark = txtRemarks.Text
         Result.RegisterUser = Session("user") & ""
+
+        Dim SetupFound As Boolean = ValidateChartSetup(Result.FactoryCode, Result.ItemTypeCode, Result.LineCode, Result.ItemCheckCode, Format(Result.ProdDate, "yyyy-MM-dd"))
+        If SetupFound = False Then
+            grid.CancelEdit()
+            show_error(MsgTypeEnum.Warning, "Chart Setup has not been set for this item", 1)
+            Return
+        End If
         clsSPCResultDB.Insert(Result)
 
         Dim SeqNo As Integer = clsSPCResultDetailDB.GetSeqNo(Result.FactoryCode, Result.ItemTypeCode, Result.LineCode, Result.ItemCheckCode, Format(Result.ProdDate, "yyyy-MM-dd"), Result.ShiftCode, Result.SequenceNo)
@@ -499,7 +509,16 @@ Public Class ProdSampleInput
         up_ClearJS()
     End Sub
     Protected Sub grid_AfterPerformCallback(sender As Object, e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles grid.AfterPerformCallback
-        If e.CallbackName <> "CANCELEDIT" And e.CallbackName <> "CUSTOMCALLBACK" Then
+        If e.CallbackName = "CANCELEDIT" Then
+            Dim Item As clsItemCheck = clsItemCheckDB.GetData(cboItemCheck.Value)
+            If Item Is Nothing OrElse Item.Measure2Cls <> "1" Then
+                grid.Columns.Item("Value1").Visible = False
+                grid.Columns.Item("Value2").Visible = False
+            Else
+                grid.Columns.Item("Value1").Visible = True
+                grid.Columns.Item("Value2").Visible = True
+            End If
+        ElseIf e.CallbackName <> "CANCELEDIT" And e.CallbackName <> "CUSTOMCALLBACK" Then
             Dim Hdr As New clsHeader
             Hdr.FactoryCode = cboFactory.Value
             Hdr.FactoryName = cboFactory.Text
@@ -533,6 +552,15 @@ Public Class ProdSampleInput
         grid.DataSource = dt
         grid.DataBind()
 
+        Dim Item As clsItemCheck = clsItemCheckDB.GetData(ItemCheckCode)
+        If Item Is Nothing OrElse Item.Measure2Cls <> "1" Then
+            grid.Columns.Item("Value1").Visible = False
+            grid.Columns.Item("Value2").Visible = False
+        Else
+            grid.Columns.Item("Value1").Visible = True
+            grid.Columns.Item("Value2").Visible = True
+        End If
+
         Dim setupfound As Boolean = ValidateChartSetup(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate)
 
         Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Sequence, VerifiedOnly)
@@ -545,6 +573,9 @@ Public Class ProdSampleInput
         Dim UserID As String = Session("user")
         Dim pEmplooyeeID = clsIOT.GetEmployeeID(UserID)
         Dim AllowSkill As Boolean = clsIOT.AllowSkill(pEmplooyeeID, FactoryCode, Line, ItemTypeCode)
+        'If My.Computer.Name = "TOS56-ARI" Then
+        '    AllowSkill = True
+        'End If
         ChartType = clsXRChartDB.GetChartType(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
         grid.JSProperties("cpChartType") = ChartType
 
@@ -601,6 +632,9 @@ Public Class ProdSampleInput
         End If
         Dim dtVer As DataTable = clsSPCResultDB.GetLastVerification(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Sequence)
         Dim LastVerification As Integer = dtVer.Rows(0)(0)
+        'If My.Computer.Name = "TOS56-ARI" Then
+        '    LastVerification = 1
+        'End If
         grid.SettingsDataSecurity.AllowInsert = LastVerification = 1 And Not Verified And AuthUpdate And AllowSkill
         grid.SettingsDataSecurity.AllowEdit = LastVerification = 1 And Not Verified And AuthUpdate And AllowSkill
         If grid.SettingsDataSecurity.AllowInsert Then
@@ -710,10 +744,9 @@ Public Class ProdSampleInput
         Detail.SPCResultID = Result.SPCResultID
         Detail.SequenceNo = SeqNo
         Detail.DeleteStatus = e.NewValues("DeleteStatus")
-        Detail.Value = e.NewValues("Value")
         Detail.Remark = e.NewValues("Remark")
         Detail.RegisterUser = Result.RegisterUser
-        clsSPCResultDetailDB.Insert(Detail)
+        clsSPCResultDetailDB.Update(Detail)
         grid.CancelEdit()
 
         show_error(MsgTypeEnum.Success, "Update data successfull!", 1)
@@ -1122,27 +1155,55 @@ Public Class ProdSampleInput
         Dim LightYellow As Color = Color.FromArgb(255, 255, 153)
         Dim cs As New clsSPCColor
 
-        With pExl
-            .Cells(iRow, 1).Value = "Data"
-            .Cells(iRow, 2).Value = "Value"
-            .Cells(iRow, 3).Value = "Judgement"
-            .Cells(iRow, 4).Value = "Operator"
-            .Cells(iRow, 5).Value = "Sample Date"
-            .Cells(iRow, 6).Value = "Delete Status"
-            .Cells(iRow, 7).Value = "Remarks"
-            .Cells(iRow, 8).Value = "Last User"
-            .Cells(iRow, 9).Value = "Last Update"
-            .Cells(iRow, 9, iRow, 10).Merge = True
-            .Cells(iRow, 1, iRow, 10).Style.Fill.PatternType = ExcelFillStyle.Solid
-            .Cells(iRow, 1, iRow, 10).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml("#878787"))
-            .Cells(iRow, 1, iRow, 10).Style.Font.Color.SetColor(Color.White)
-            .Cells(iRow, 1, iRow, 10).Style.WrapText = True
-            .Cells(iRow, 1, iRow, 10).Style.VerticalAlignment = ExcelVerticalAlignment.Center
-            .Column(1).Width = 13
-            .Column(3).Width = 11
+        Dim Measure2Cls As String = ""
+        Dim Item As clsItemCheck = clsItemCheckDB.GetData(Hdr.ItemCheckCode)
+        If Item IsNot Nothing Then
+            Measure2Cls = Item.Measure2Cls
+        End If
 
-            .Column(5).Width = 11
-            .Column(7).Width = 11
+        Dim colNo As Integer = 1
+        Dim colValue1 As Integer = 2
+        Dim colValue2 As Integer = 3
+        Dim colValue As Integer
+        If Measure2Cls = "1" Then
+            colValue = 4
+        Else
+            colValue = 2
+        End If
+        Dim colJudgement As Integer = colValue + 1
+        Dim colOperator As Integer = colJudgement + 1
+        Dim colDate As Integer = colOperator + 1
+        Dim colDelete As Integer = colDate + 1
+        Dim colRemark As Integer = colDelete + 1
+        Dim colUser As Integer = colRemark + 1
+        Dim colLastUpdate As Integer = colUser + 1
+        Dim colCount As Integer = colLastUpdate + 1
+
+        With pExl
+            .Cells(iRow, colNo).Value = "Data"
+            If Measure2Cls = "1" Then
+                .Cells(iRow, colValue1).Value = "Value 1"
+                .Cells(iRow, colValue2).Value = "Value 2"
+            End If
+            .Cells(iRow, colValue).Value = "Value"
+            .Cells(iRow, colJudgement).Value = "Judgement"
+            .Cells(iRow, colOperator).Value = "Operator"
+            .Cells(iRow, colDate).Value = "Sample Date"
+            .Cells(iRow, colDelete).Value = "Delete Status"
+            .Cells(iRow, colRemark).Value = "Remarks"
+            .Cells(iRow, colUser).Value = "Last User"
+            .Cells(iRow, colLastUpdate).Value = "Last Update"
+            .Cells(iRow, colLastUpdate, iRow, colCount).Merge = True
+            .Cells(iRow, 1, iRow, colCount).Style.Fill.PatternType = ExcelFillStyle.Solid
+            .Cells(iRow, 1, iRow, colCount).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml("#878787"))
+            .Cells(iRow, 1, iRow, colCount).Style.Font.Color.SetColor(Color.White)
+            .Cells(iRow, 1, iRow, colCount).Style.WrapText = True
+            .Cells(iRow, 1, iRow, colCount).Style.VerticalAlignment = ExcelVerticalAlignment.Center
+            .Column(colNo).Width = 13
+            .Column(colJudgement).Width = 11
+
+            .Column(colDate).Width = 11
+            .Column(colRemark).Width = 11
             If dt.Rows.Count > 0 Then
                 MKDate = dt.Rows(0)("MKDate") & ""
                 MKUser = dt.Rows(0)("MKUser") & ""
@@ -1168,34 +1229,38 @@ Public Class ProdSampleInput
             End If
             For i = 0 To dt.Rows.Count - 1
                 iRow = iRow + 1
-                .Cells(iRow, 1).Value = dt.Rows(i)("SeqNo")
-                .Cells(iRow, 2).Style.Numberformat.Format = "0.000"
-                .Cells(iRow, 2).Value = dt.Rows(i)("Value")
-                .Cells(iRow, 3).Value = dt.Rows(i)("Judgement")
-                .Cells(iRow, 4).Value = dt.Rows(i)("RegisterUser")
-                .Cells(iRow, 5).Style.Numberformat.Format = "HH:mm"
-                .Cells(iRow, 5).Value = dt.Rows(i)("RegisterDate")
-                .Cells(iRow, 6).Value = dt.Rows(i)("DelStatus")
-                .Cells(iRow, 7).Value = dt.Rows(i)("Remark")
-                .Cells(iRow, 8).Value = dt.Rows(i)("RegisterUser")
-                .Cells(iRow, 9).Value = dt.Rows(i)("RegisterDate")
-                .Cells(iRow, 9).Style.Numberformat.Format = "dd MMM yyyy HH:mm"
+                .Cells(iRow, colNo).Value = dt.Rows(i)("SeqNo")
+
+                .Cells(iRow, colValue1, iRow, colValue).Style.Numberformat.Format = "0.000"
+                .Cells(iRow, colValue1).Value = dt.Rows(i)("Value1")
+                .Cells(iRow, colValue2).Value = dt.Rows(i)("Value2")
+                .Cells(iRow, colValue).Value = dt.Rows(i)("Value")
+
+                .Cells(iRow, colJudgement).Value = dt.Rows(i)("Judgement")
+                .Cells(iRow, colUser).Value = dt.Rows(i)("RegisterUser")
+                .Cells(iRow, colDate).Style.Numberformat.Format = "HH:mm"
+                .Cells(iRow, colDate).Value = dt.Rows(i)("RegisterDate")
+                .Cells(iRow, colDelete).Value = dt.Rows(i)("DelStatus")
+                .Cells(iRow, colRemark).Value = dt.Rows(i)("Remark")
+                .Cells(iRow, colUser).Value = dt.Rows(i)("RegisterUser")
+                .Cells(iRow, colLastUpdate).Value = dt.Rows(i)("RegisterDate")
+                .Cells(iRow, colLastUpdate).Style.Numberformat.Format = "dd MMM yyyy HH:mm"
                 If dt.Rows(i)("DeleteStatus") & "" = "1" Then
-                    .Cells(iRow, 1, iRow, 10).Style.Fill.PatternType = ExcelFillStyle.Solid
-                    .Cells(iRow, 1, iRow, 10).Style.Fill.BackgroundColor.SetColor(Color.Silver)
+                    .Cells(iRow, 1, iRow, colCount).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(iRow, 1, iRow, colCount).Style.Fill.BackgroundColor.SetColor(Color.Silver)
                 ElseIf dt.Rows(i)("JudgementColor") & "" = "1" Then
-                    .Cells(iRow, 1, iRow, 10).Style.Fill.PatternType = ExcelFillStyle.Solid
-                    .Cells(iRow, 1, iRow, 10).Style.Fill.BackgroundColor.SetColor(Color.Pink)
+                    .Cells(iRow, 1, iRow, colCount).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(iRow, 1, iRow, colCount).Style.Fill.BackgroundColor.SetColor(Color.Pink)
                 ElseIf dt.Rows(i)("JudgementColor") & "" = "2" Then
-                    .Cells(iRow, 1, iRow, 10).Style.Fill.PatternType = ExcelFillStyle.Solid
-                    .Cells(iRow, 1, iRow, 10).Style.Fill.BackgroundColor.SetColor(Color.Red)
+                    .Cells(iRow, 1, iRow, colCount).Style.Fill.PatternType = ExcelFillStyle.Solid
+                    .Cells(iRow, 1, iRow, colCount).Style.Fill.BackgroundColor.SetColor(Color.Red)
                 End If
-                .Cells(iRow, 9, iRow, 10).Merge = True
+                .Cells(iRow, colLastUpdate, iRow, colCount).Merge = True
                 EndRow = iRow
             Next
 
             If EndRow > StartRow Then
-                Dim Range1 As ExcelRange = .Cells(StartRow, 1, EndRow, 10)
+                Dim Range1 As ExcelRange = .Cells(StartRow, 1, EndRow, colCount)
                 Range1.Style.Border.Top.Style = ExcelBorderStyle.Thin
                 Range1.Style.Border.Bottom.Style = ExcelBorderStyle.Thin
                 Range1.Style.Border.Right.Style = ExcelBorderStyle.Thin

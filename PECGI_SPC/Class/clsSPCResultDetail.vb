@@ -3,6 +3,8 @@
 Public Class clsSPCResultDetail
     Public Property SPCResultID As Integer
     Public Property SequenceNo As Integer
+    Public Property Value1 As Double
+    Public Property Value2 As Double
     Public Property Value As Double
     Public Property Remark As String
     Public Property DeleteStatus As String
@@ -19,10 +21,32 @@ Public Class clsSPCResultDetailDB
             cmd.CommandType = CommandType.StoredProcedure
             cmd.Parameters.AddWithValue("SPCResultID", Detail.SPCResultID)
             cmd.Parameters.AddWithValue("SequenceNo", Detail.SequenceNo)
+            If Detail.Value1 <> 0 Then
+                cmd.Parameters.AddWithValue("Value1", Detail.Value1)
+            End If
+            If Detail.Value2 <> 0 Then
+                cmd.Parameters.AddWithValue("Value2", Detail.Value2)
+            End If
             cmd.Parameters.AddWithValue("Value", Detail.Value)
             cmd.Parameters.AddWithValue("Remark", Detail.Remark)
             cmd.Parameters.AddWithValue("DeleteStatus", Detail.DeleteStatus)
             cmd.Parameters.AddWithValue("RegisterUser", Detail.RegisterUser)
+            Dim i As Integer = cmd.ExecuteNonQuery
+            Return i
+        End Using
+    End Function
+
+    Public Shared Function Update(Detail As clsSPCResultDetail)
+        Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+            Cn.Open()
+            Dim q As String = "sp_SPCResultDetail_Upd"
+            Dim cmd As New SqlCommand(q, Cn)
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.AddWithValue("SPCResultID", Detail.SPCResultID)
+            cmd.Parameters.AddWithValue("SequenceNo", Detail.SequenceNo)
+            cmd.Parameters.AddWithValue("Remark", Detail.Remark)
+            cmd.Parameters.AddWithValue("DeleteStatus", Detail.DeleteStatus)
+            cmd.Parameters.AddWithValue("UpdateUser", Detail.RegisterUser)
             Dim i As Integer = cmd.ExecuteNonQuery
             Return i
         End Using
