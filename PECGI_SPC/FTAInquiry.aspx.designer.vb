@@ -122,6 +122,24 @@ Partial Public Class FTAInquiry
     Protected WithEvents dtDate As Global.DevExpress.Web.ASPxDateEdit
 
     '''<summary>
+    '''ASPxLabel28 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxLabel28 As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
+    '''dtTo control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dtTo As Global.DevExpress.Web.ASPxDateEdit
+
+    '''<summary>
     '''ASPxLabel2 control.
     '''</summary>
     '''<remarks>
@@ -167,13 +185,13 @@ Partial Public Class FTAInquiry
     Protected WithEvents ASPxLabel6 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
-    '''cboShift control.
+    '''cboMK control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents cboShift As Global.DevExpress.Web.ASPxComboBox
+    Protected WithEvents cboMK As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
     '''lblqeleader2 control.
@@ -185,13 +203,13 @@ Partial Public Class FTAInquiry
     Protected WithEvents lblqeleader2 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
-    '''cboSeq control.
+    '''cboQC control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents cboSeq As Global.DevExpress.Web.ASPxComboBox
+    Protected WithEvents cboQC As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
     '''btnSearch control.
@@ -212,22 +230,13 @@ Partial Public Class FTAInquiry
     Protected WithEvents hfUserID As Global.DevExpress.Web.ASPxHiddenField
 
     '''<summary>
-    '''btnView control.
+    '''btnFTA control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnView As Global.DevExpress.Web.ASPxButton
-
-    '''<summary>
-    '''btnIOT control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnIOT As Global.DevExpress.Web.ASPxButton
+    Protected WithEvents btnFTA As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
     '''btnSample control.
@@ -239,22 +248,13 @@ Partial Public Class FTAInquiry
     Protected WithEvents btnSample As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
-    '''btnMK control.
+    '''btnExcel control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnMK As Global.DevExpress.Web.ASPxButton
-
-    '''<summary>
-    '''btnQC control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnQC As Global.DevExpress.Web.ASPxButton
+    Protected WithEvents btnExcel As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
     '''Label2 control.
@@ -273,87 +273,6 @@ Partial Public Class FTAInquiry
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents grid As Global.DevExpress.Web.ASPxGridView
-
-    '''<summary>
-    '''ASPxLabel28 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ASPxLabel28 As Global.DevExpress.Web.ASPxLabel
-
-    '''<summary>
-    '''ASPxMemo1 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ASPxMemo1 As Global.DevExpress.Web.ASPxMemo
-
-    '''<summary>
-    '''btnSubmit control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnSubmit As Global.DevExpress.Web.ASPxButton
-
-    '''<summary>
-    '''pcDiagram control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents pcDiagram As Global.DevExpress.Web.ASPxPopupControl
-
-    '''<summary>
-    '''gridFTA control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents gridFTA As Global.DevExpress.Web.ASPxGridView
-
-    '''<summary>
-    '''btnHide control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnHide As Global.DevExpress.Web.ASPxButton
-
-    '''<summary>
-    '''pcIK control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents pcIK As Global.DevExpress.Web.ASPxPopupControl
-
-    '''<summary>
-    '''ASPxButton1 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ASPxButton1 As Global.DevExpress.Web.ASPxButton
-
-    '''<summary>
-    '''cbkRefresh control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents cbkRefresh As Global.DevExpress.Web.ASPxCallback
 
     '''<summary>
     '''Master property.

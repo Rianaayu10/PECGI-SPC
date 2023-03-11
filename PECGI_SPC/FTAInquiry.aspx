@@ -54,21 +54,17 @@
         .auto-style19 {
             width: 130px;
         }
+        .auto-style20 {
+            width: 125px;
+        }
+        .auto-style21 {
+            width: 30px;
+        }
         </style>
     <script type="text/javascript" >
         var rowIndex, columnIndex;
         var prevShift;
         var prevSeq;
-
-        function cboShiftEndCallback(s, e) {
-            cboShift.SetEnabled(true);            
-            cboShift.SetValue(prevShift);    
-            cboSeq.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + cboShift.GetValue());            
-        }
-
-        function cboSeqEndCallback(s, e) {
-            cboSeq.SetEnabled(true);
-        }
 
         function ClearGrid(s, e) {
             grid.CancelEdit();
@@ -105,19 +101,8 @@
             cboItemCheck.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue());
         }
 
-        function cboItemCheckChanged(s, e) {
-            cboShift.SetEnabled(false);
-            prevShift = cboShift.GetValue();
-            cboShift.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue());                        
-        }
-
-        function cboShiftChanged(s, e) {    
-            cboSeq.SetEnabled(false);        
-            cboSeq.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + cboShift.GetValue());
-        }
-
         function GridLoad(s, e) {
-            grid.PerformCallback('load' + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|0');
+            grid.PerformCallback('load' + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboMK.GetValue() + '|' + cboQC.GetValue() + '|0');
         }
 
         function OnEndCallback(s, e) {        
@@ -166,26 +151,6 @@
                 toastr.options.onclick = null;
             }            
         }
-
-        function ClosePopupDiagram(s, e) {
-            pcDiagram.Hide();
-            e.processOnServer = false;
-        }
-
-        function ClosePopupIK(s, e) {
-            pcIK.Hide();
-            e.processOnServer = false;
-        }
-
-        function ShowPopUpDiagram(s, e) {
-            gridFTA.PerformCallback('load' + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue());
-            pcDiagram.Show();
-        }
-
-        function ShowPopUpIK(s, e) {
-            pcIK.Show();
-        }
-
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
@@ -237,20 +202,16 @@
 
             <td style=" padding: 3px 0px 0px 10px; ">
                 <dx:ASPxLabel ID="lblqeleader0" runat="server" Text="Item Check" 
-                    Font-Names="Segoe UI" Font-Size="9pt">
+                    Font-Names="Segoe UI" Font-Size="9pt" Width="100px">
                 </dx:ASPxLabel>
             </td>
-            <td style="padding: 5px 0px 0px 0px" colspan="4">
+            <td style="padding: 5px 0px 0px 0px" colspan="5">
                 
                     
                 <dx:ASPxComboBox ID="cboItemCheck" runat="server" Theme="Office2010Black" 
                     ClientInstanceName="cboItemCheck" ValueField="ItemCheckCode" TextField="ItemCheck" Font-Names="Segoe UI" 
                     Font-Size="9pt" Height="25px" 
                     Width="240px" TabIndex="5" >
-                    <ClientSideEvents EndCallback="function(s, e) {
-                            cboItemCheck.SetEnabled(true);}"
-                        SelectedIndexChanged="cboItemCheckChanged"/>
-
                     <ItemStyle Height="10px" Paddings-Padding="4px"><Paddings Padding="4px"></Paddings>
                     </ItemStyle>
                     <ButtonStyle Paddings-Padding="4px" Width="5px"><Paddings Padding="4px"></Paddings>
@@ -341,8 +302,38 @@
 
                 
                 </td>
-                <td colspan="2" style="padding:5px 0px 0px 10px; width:100px">
-                    &nbsp;</td>
+                <td style="padding:5px 0px 0px 10px; width: 20px;">
+
+                <dx:ASPxLabel ID="ASPxLabel28" runat="server" Text="to" 
+                    Font-Names="Segoe UI" Font-Size="9pt" Width="10px">
+                </dx:ASPxLabel>
+
+                </td>
+                <td style="padding:5px 0px 0px 0px; " colspan="2">
+
+                                <dx:ASPxDateEdit ID="dtTo" runat="server" Theme="Office2010Black" 
+                    Width="100px"
+                        ClientInstanceName="dtTo" EditFormatString="dd MMM yyyy" DisplayFormatString="dd MMM yyyy"
+                        Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="2" 
+                    EditFormat="Custom">
+                        <CalendarProperties ShowWeekNumbers="False">
+                            <HeaderStyle Font-Size="12pt" Paddings-Padding="5px" ><Paddings Padding="5px"></Paddings>
+                            </HeaderStyle>
+                            <DayStyle Font-Size="9pt" Paddings-Padding="5px" ><Paddings Padding="5px"></Paddings>
+                            </DayStyle>
+                            <WeekNumberStyle Font-Size="9pt" Paddings-Padding="5px"><Paddings Padding="5px"></Paddings>
+                            </WeekNumberStyle>
+                            <FooterStyle Font-Size="9pt" Paddings-Padding="10px" ><Paddings Padding="10px"></Paddings>
+                            </FooterStyle>
+                            <ButtonStyle Font-Size="9pt" Paddings-Padding="10px"><Paddings Padding="10px"></Paddings>
+                            </ButtonStyle>
+                        </CalendarProperties>                        
+                        <ButtonStyle Width="5px" Paddings-Padding="4px" >
+                        </ButtonStyle>
+                    </dx:ASPxDateEdit>
+
+                
+                </td>
                 <td style="padding:5px 0px 0px 0px;">
                     &nbsp;</td>  
                 <td style="width: 100%">
@@ -397,36 +388,42 @@
                 </td>
 
 <td style=" padding: 5px 0px 0px 10px; ">
-                <dx:ASPxLabel ID="ASPxLabel6" runat="server" Text="Shift" 
+                <dx:ASPxLabel ID="ASPxLabel6" runat="server" Text="MK Verification" 
                     Font-Names="Segoe UI" Font-Size="9pt">
                 </dx:ASPxLabel>
             </td>
             <td style="padding:5px 0px 0px 0px">
                 
-                <dx:ASPxComboBox ID="cboShift" runat="server" Theme="Office2010Black" 
-                    ClientInstanceName="cboShift" ValueField="ShiftCode" TextField="ShiftCode" Font-Names="Segoe UI" 
+                <dx:ASPxComboBox ID="cboMK" runat="server" Theme="Office2010Black" 
+                    ClientInstanceName="cboMK" Font-Names="Segoe UI" 
                     Font-Size="9pt" Height="25px" 
                     Width="100px" TabIndex="3">
-                    <ClientSideEvents SelectedIndexChanged="cboShiftChanged" 
-                        EndCallback="cboShiftEndCallback"
-                        />
+                    <Items>
+                        <dx:ListEditItem Text="ALL" Value="0" Selected="true" />
+                        <dx:ListEditItem Text="Yes" Value="1" />
+                        <dx:ListEditItem Text="No" Value="2" />
+                    </Items>
                     <ButtonStyle Paddings-Padding="4px" Width="5px">
 <Paddings Padding="4px"></Paddings>
                     </ButtonStyle>
                 </dx:ASPxComboBox>                
             </td>
-            <td style="padding:5px 3px 0px 10px">
-                <dx:ASPxLabel ID="lblqeleader2" runat="server" Text="Seq" 
-                    Font-Names="Segoe UI" Font-Size="9pt">
+            <td style="padding:5px 3px 0px 10px" colspan="2">
+                <dx:ASPxLabel ID="lblqeleader2" runat="server" Text="QC Verification" 
+                    Font-Names="Segoe UI" Font-Size="9pt" Width="90px">
                 </dx:ASPxLabel>
             </td>            
-            <td style="padding:5px 0px 0px 0px">
+            <td style="padding:5px 0px 0px 0px" colspan="2">
                 
-                <dx:ASPxComboBox ID="cboSeq" runat="server" Theme="Office2010Black" 
-                    ClientInstanceName="cboSeq" ValueField="SequenceNo" TextField="SequenceNo" Font-Names="Segoe UI" 
+                <dx:ASPxComboBox ID="cboQC" runat="server" Theme="Office2010Black" 
+                    ClientInstanceName="cboQC" Font-Names="Segoe UI" 
                     Font-Size="9pt" Height="25px" 
-                    Width="60px" TabIndex="3">
-                    <ClientSideEvents EndCallback="cboSeqEndCallback"/>
+                    Width="100px" TabIndex="3">
+                    <Items>
+                        <dx:ListEditItem Text="ALL" Value="0"  Selected="true"/>
+                        <dx:ListEditItem Text="Yes" Value="1" />
+                        <dx:ListEditItem Text="No" Value="2" />
+                    </Items>
 
                     <ButtonStyle Paddings-Padding="4px" Width="5px">
 <Paddings Padding="4px"></Paddings>
@@ -460,11 +457,11 @@
 	                    } else if(cboItemCheck.GetText() == '') {
                             cboItemCheck.Focus();
                             errmsg = 'Please select Item Check!';
-	                    } else if(cboShift.GetText() == '') {
-                            cboShift.Focus();
+	                    } else if(cboMK.GetText() == '') {
+                            cboMK.Focus();
                             errmsg = 'Please select Shift!';
-	                    } else if(cboSeq.GetText() == '') {
-                            cboSeq.Focus();
+	                    } else if(cboQC.GetText() == '') {
+                            cboQC.Focus();
                             errmsg = 'Please select Sequence!';
 	                    }
 
@@ -479,7 +476,7 @@
 		                    e.processOnServer = false;
 		                    return;
                         }
- 	                    grid.PerformCallback('load' + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|0');
+ 	                    grid.PerformCallback('load' + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + dtTo.GetText() + '|' + cboMK.GetValue() + '|' + cboQC.GetValue());
                     }" />
                     <Paddings Padding="2px" />
                 </dx:ASPxButton>
@@ -501,43 +498,26 @@
                 <table>
                     <tr>
                         <td style="padding-right:5px; padding-left:5px">
-                                <dx:ASPxButton ID="btnView" runat="server" AutoPostBack="False" 
-                                    ClientInstanceName="btnView" Font-Names="Segoe UI" Font-Size="9pt" 
-                                    Height="25px" Text="View FTA Diagram" Theme="Office2010Silver" UseSubmitBehavior="False" 
-                                    Width="120px" TabIndex="10">
-                                    <ClientSideEvents Click="ShowPopUpDiagram"/>
+                                <dx:ASPxButton ID="btnFTA" runat="server" AutoPostBack="False" 
+                                    ClientInstanceName="btnFTA" Font-Names="Segoe UI" Font-Size="9pt" 
+                                    Height="25px" Text="Corrective Action SPC" Theme="Office2010Silver" UseSubmitBehavior="False" 
+                                    Width="160px" TabIndex="10">
                                     <Paddings Padding="2px" />                                    
-                                </dx:ASPxButton>
-                        </td>
-                        <td style="padding-right:5px">
-                                <dx:ASPxButton ID="btnIOT" runat="server" AutoPostBack="False" 
-                                    ClientInstanceName="btnSave" Font-Names="Segoe UI" Font-Size="9pt" 
-                                    Height="25px" Text="IOT Traceability" Theme="Office2010Silver" UseSubmitBehavior="False" 
-                                    Width="120px" TabIndex="10">
-                                    <Paddings Padding="2px" />
                                 </dx:ASPxButton>
                         </td>
                         <td style="padding-right:5px">
                                 <dx:ASPxButton ID="btnSample" runat="server" AutoPostBack="False" 
                                     ClientInstanceName="btnSample" Font-Names="Segoe UI" Font-Size="9pt" 
                                     Height="25px" Text="SPC Sample" Theme="Office2010Silver" UseSubmitBehavior="False" 
-                                    Width="120px" TabIndex="10">
+                                    Width="90px" TabIndex="10">
                                     <Paddings Padding="2px" />    
                                 </dx:ASPxButton>                             
                         </td>
-                        <td style="padding-right:5px">
-                                <dx:ASPxButton ID="btnMK" runat="server" AutoPostBack="False" 
-                                    ClientInstanceName="btnMK" Font-Names="Segoe UI" Font-Size="9pt" 
-                                    Height="25px" Text="Verification by MK" Theme="Office2010Silver" UseSubmitBehavior="False" 
-                                    Width="120px" TabIndex="10">
-                                    <Paddings Padding="2px" />
-                                </dx:ASPxButton>                            
-                        </td>
-                        <td style="padding-right:5px">
-                                <dx:ASPxButton ID="btnQC" runat="server" AutoPostBack="False" 
-                                    ClientInstanceName="btnQC" Font-Names="Segoe UI" Font-Size="9pt" 
-                                    Height="25px" Text="Verification by QC" Theme="Office2010Silver" UseSubmitBehavior="False" 
-                                    Width="120px" TabIndex="10">
+                        <td style="padding-right:5px" class="auto-style20">
+                                <dx:ASPxButton ID="btnExcel" runat="server" AutoPostBack="False" 
+                                    ClientInstanceName="btnExcel" Font-Names="Segoe UI" Font-Size="9pt" 
+                                    Height="25px" Text="Excel" Theme="Office2010Silver" UseSubmitBehavior="False" 
+                                    Width="90px" TabIndex="10">
                                     <Paddings Padding="2px" />
                                 </dx:ASPxButton>                            
                         </td>
@@ -555,7 +535,7 @@
 </div>
 <div style="padding: 10px 5px 5px 5px">
 <dx:ASPxGridView ID="grid" runat="server" AutoGenerateColumns="False" ClientInstanceName="grid"
-            EnableTheming="True" KeyFieldName="No" Theme="Office2010Black"            
+            EnableTheming="True" KeyFieldName="SeqNo" Theme="Office2010Black"            
             Width="100%" 
             Font-Names="Segoe UI" Font-Size="9pt" CssClass="auto-style2">
             <ClientSideEvents 
@@ -570,35 +550,45 @@
 </SettingsPopup>
         <Columns>
 
-            <dx:GridViewDataTextColumn FieldName="No" ShowInCustomizationForm="True" VisibleIndex="0" Width="40px">
-            </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn FieldName="Description" ShowInCustomizationForm="True" VisibleIndex="1" Width="300px">
-            </dx:GridViewDataTextColumn>
-            <dx:GridViewDataCheckColumn FieldName="NoCheck" ShowInCustomizationForm="True" VisibleIndex="5" Width="50px">
-            </dx:GridViewDataCheckColumn>
-            <dx:GridViewDataTextColumn FieldName="Action" ShowInCustomizationForm="True" VisibleIndex="7" Width="260px">
-            </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn FieldName="LastUser" ShowInCustomizationForm="True" VisibleIndex="8">
-            </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn FieldName="LastUpdate" ShowInCustomizationForm="True" VisibleIndex="9" Width="120px">
-                <PropertiesTextEdit DisplayFormatString="dd MMM yyyy HH:mm">
+            <dx:GridViewCommandColumn Caption=" " ShowRecoverButton="False" ShowSelectCheckbox="True" VisibleIndex="0" Width="30px">
+            </dx:GridViewCommandColumn>
+            <dx:GridViewDataTextColumn FieldName="ProdDate" VisibleIndex="1" Width="90px">
+                <PropertiesTextEdit DisplayFormatString="dd MMM yyyy">
                 </PropertiesTextEdit>
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn FieldName="IK" ShowInCustomizationForm="True" VisibleIndex="6" Width="50px">
-                        <DataItemTemplate>
-                            <dx:ASPxHyperLink ID="linkIK" Font-Names="Segoe UI" Font-Size="9pt"
-                                runat="server" Text="View" OnInit="IKLink_Init">
-                            </dx:ASPxHyperLink>
-                        </DataItemTemplate>
-                <CellStyle HorizontalAlign="Center">
-                </CellStyle>
+
+            <dx:GridViewDataTextColumn FieldName="ShiftCode" VisibleIndex="2" Width="50px" Caption="Shift">
             </dx:GridViewDataTextColumn>
-            <dx:GridViewBandColumn Caption="Check Result" ShowInCustomizationForm="True" VisibleIndex="2">
+            <dx:GridViewDataTextColumn FieldName="SequenceNo" VisibleIndex="3" Width="40px" Caption="Seq">
+            </dx:GridViewDataTextColumn>
+            <dx:GridViewDataTextColumn FieldName="ItemCheck" VisibleIndex="4" Width="200px">
+            </dx:GridViewDataTextColumn>
+            <dx:GridViewDataTextColumn FieldName="Status" VisibleIndex="5" Width="40px">
+            </dx:GridViewDataTextColumn>
+            <dx:GridViewDataTextColumn FieldName="CheckItem" VisibleIndex="6" Width="160px">
+            </dx:GridViewDataTextColumn>
+            <dx:GridViewDataTextColumn FieldName="ActionName" VisibleIndex="7" Caption="Action" Width="120px">
+            </dx:GridViewDataTextColumn>
+            <dx:GridViewDataTextColumn FieldName="Remark" VisibleIndex="13">
+            </dx:GridViewDataTextColumn>
+            <dx:GridViewBandColumn Caption="MK Verification" VisibleIndex="8">
                 <Columns>
-                    <dx:GridViewDataCheckColumn FieldName="OK" ShowInCustomizationForm="True" VisibleIndex="0" Width="40px">
-                    </dx:GridViewDataCheckColumn>
-                    <dx:GridViewDataCheckColumn FieldName="NG" ShowInCustomizationForm="True" VisibleIndex="1" Width="40px">
-                    </dx:GridViewDataCheckColumn>
+                    <dx:GridViewDataTextColumn Caption="PIC" FieldName="MKVerificationUser" VisibleIndex="0" Width="90px">
+                    </dx:GridViewDataTextColumn>
+                    <dx:GridViewDataTextColumn Caption="Date" FieldName="MKVerificationDate" VisibleIndex="1" Width="90px">
+                        <PropertiesTextEdit DisplayFormatString="dd MMM yyyy">
+                        </PropertiesTextEdit>
+                    </dx:GridViewDataTextColumn>
+                </Columns>
+            </dx:GridViewBandColumn>
+            <dx:GridViewBandColumn Caption="QC Verification" VisibleIndex="10">
+                <Columns>
+                    <dx:GridViewDataTextColumn Caption="PIC" FieldName="QCVerificationUser" VisibleIndex="0" Width="90px">
+                    </dx:GridViewDataTextColumn>
+                    <dx:GridViewDataTextColumn Caption="Date" FieldName="QCVerificationDate" VisibleIndex="1" Width="90px">
+                        <PropertiesTextEdit DisplayFormatString="dd MMM yyyy">
+                        </PropertiesTextEdit>
+                    </dx:GridViewDataTextColumn>
                 </Columns>
             </dx:GridViewBandColumn>
 
@@ -670,151 +660,5 @@
             </Templates>
     </dx:ASPxGridView>    
 </div>
-<div>
-<div style="height:10px"></div>
-<div style="width:100%">
-    <table class="nav-justified">
-        <tr>
-            <td style="width:70px; padding-left:5px; vertical-align:top">
-
-                <dx:ASPxLabel ID="ASPxLabel28" runat="server" Text="Remarks" 
-                    Font-Names="Segoe UI" Font-Size="9pt" Width="70px">
-                </dx:ASPxLabel>
-
-            </td>
-            <td style="width:510px">
-
-                        <dx:ASPxMemo ID="ASPxMemo1" runat="server" Height="45px" Width="500px">
-                        </dx:ASPxMemo>
-
-            </td>
-            <td style="padding-left:10px; vertical-align:top">
-
-                
-                <dx:ASPxButton ID="btnSubmit" runat="server" AutoPostBack="False" 
-                    ClientInstanceName="btnSubmit" Font-Names="Segoe UI" Font-Size="9pt" 
-                    Height="25px" Text="Submit" Theme="Office2010Silver" UseSubmitBehavior="False" 
-                    Width="90px" TabIndex="10">                    
-                    <Paddings Padding="2px" PaddingLeft="5px" />
-                </dx:ASPxButton>
-
-                
-            </td>
-        </tr>
-    </table>
-</div>
-
-<div>
-<dx:ASPxPopupControl ID="pcDiagram" runat="server" ClientInstanceName="pcDiagram" Height="520px" Width="1024px" HeaderText="FTA Diagram" Modal="True"
-                        CloseAction="CloseButton" CloseOnEscape="true" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False">
-                        <ContentCollection>
-<dx:PopupControlContentControl runat="server">
-
-    <dx:ASPxGridView ID="gridFTA" runat="server" AutoGenerateColumns="False" ClientInstanceName="gridFTA" CssClass="auto-style2" EnableTheming="True" Font-Names="Segoe UI" Font-Size="9pt" KeyFieldName="FTAID" Theme="Office2010Black" Width="100%">
-        <SettingsPager AlwaysShowPager="True" Mode="ShowAllRecords" PageSize="30">
-        </SettingsPager>
-        <SettingsEditing EditFormColumnCount="1" Mode="Batch">
-            <BatchEditSettings ShowConfirmOnLosingChanges="False" />
-        </SettingsEditing>
-        <Settings HorizontalScrollBarMode="Auto" ShowStatusBar="Hidden" VerticalScrollableHeight="400" VerticalScrollBarMode="Auto" />
-        <SettingsBehavior AllowDragDrop="False" AllowSort="False" ColumnResizeMode="Control" ConfirmDelete="True" />
-        <SettingsResizing ColumnResizeMode="Control" />
-        <SettingsDataSecurity AllowDelete="False" />
-        <SettingsPopup>
-            <EditForm HorizontalAlign="WindowCenter" VerticalAlign="WindowCenter" Width="200px">
-            </EditForm>
-            <FilterControl AutoUpdatePosition="False">
-            </FilterControl>
-        </SettingsPopup>
-        <Columns>
-            <dx:GridViewDataTextColumn FieldName="Factor1" ShowInCustomizationForm="True" VisibleIndex="0" Width="160px">
-            </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn FieldName="Factor2" ShowInCustomizationForm="True" VisibleIndex="1" Width="160px">
-            </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn FieldName="Factor3" ShowInCustomizationForm="True" VisibleIndex="2">
-            </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn FieldName="IK" ShowInCustomizationForm="True" VisibleIndex="7" Width="50px">
-                <DataItemTemplate>
-                    <dx:ASPxHyperLink ID="linkIK0" runat="server" Font-Names="Segoe UI" Font-Size="9pt" OnInit="IKLink2_Init" Text="View">
-                    </dx:ASPxHyperLink>
-                </DataItemTemplate>
-                <CellStyle HorizontalAlign="Center">
-                </CellStyle>
-            </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn FieldName="Factor3" ShowInCustomizationForm="True" VisibleIndex="3">
-            </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn FieldName="CounterMeasure" ShowInCustomizationForm="True" VisibleIndex="4" Width="180px">
-            </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn FieldName="CheckItem" ShowInCustomizationForm="True" VisibleIndex="5" Width="180px">
-            </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn FieldName="Action" ShowInCustomizationForm="True" VisibleIndex="6" Width="50px">
-                <DataItemTemplate>
-                    <dx:ASPxHyperLink ID="linkIK0" runat="server" Font-Names="Segoe UI" Font-Size="9pt" OnInit="ActionLink_Init" Text="View">
-                    </dx:ASPxHyperLink>
-                </DataItemTemplate>
-            </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn FieldName="FTAID" ShowInCustomizationForm="True" VisibleIndex="8" Width="0px">
-            </dx:GridViewDataTextColumn>
-        </Columns>
-        <Styles>
-            <Header HorizontalAlign="Center" Wrap="True">
-                <Paddings Padding="2px" />
-            </Header>
-            <DetailCell Wrap="False">
-            </DetailCell>
-            <SelectedRow BackColor="White" ForeColor="Black">
-            </SelectedRow>
-            <CommandColumnItem ForeColor="SteelBlue">
-            </CommandColumnItem>
-            <EditFormColumnCaption Font-Names="Segoe UI" Font-Size="9pt">
-                <Paddings PaddingBottom="5px" PaddingLeft="15px" PaddingRight="15px" PaddingTop="5px" />
-            </EditFormColumnCaption>
-            <BatchEditModifiedCell BackColor="#FFFF99" ForeColor="Black">
-            </BatchEditModifiedCell>
-        </Styles>
-    </dx:ASPxGridView>
-
-    <table style="width:100%">
-        <tr style="width:100px">
-            <td style="text-align:center; padding-top: 10px;">
-                <dx:ASPxButton ID="btnHide" runat="server" AutoPostBack="False" ClientInstanceName="btnHide" Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="10" Text="Close" Theme="Office2010Silver" UseSubmitBehavior="False" Width="90px">
-                    <ClientSideEvents Click="ClosePopupDiagram" />
-                    <Paddings Padding="2px" />
-                </dx:ASPxButton>
-            </td>
-        </tr>
-    </table>
-    
-</dx:PopupControlContentControl>
-</ContentCollection>
-</dx:ASPxPopupControl>
-    </div>
-
-<div>
-<dx:ASPxPopupControl ID="pcIK" runat="server" ClientInstanceName="pcIK" Height="520px" Width="1024px" HeaderText="FTA Diagram" Modal="True"
-                        CloseAction="CloseButton" CloseOnEscape="true" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False">
-                        <ContentCollection>
-<dx:PopupControlContentControl runat="server">
-
-    <table style="width:100%">
-        <tr style="width:100px">
-            <td style="text-align:center; padding-top: 10px;">
-                <dx:ASPxButton ID="ASPxButton1" runat="server" AutoPostBack="False" ClientInstanceName="btnCloseIK" Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="10" Text="Close" Theme="Office2010Silver" UseSubmitBehavior="False" Width="90px">
-                    <ClientSideEvents Click="ClosePopupIK" />
-                    <Paddings Padding="2px" />
-                </dx:ASPxButton>
-            </td>
-        </tr>
-    </table>
-    
-</dx:PopupControlContentControl>
-</ContentCollection>
-</dx:ASPxPopupControl>
-</div>
-
-    <div>
-        <dx:ASPxCallback ID="cbkRefresh" runat="server" ClientInstanceName="cbkRefresh"></dx:ASPxCallback>
-
-    </div>
 </asp:Content>
 

@@ -108,19 +108,20 @@ Public Class FTAInquiry
             Else
                 pUser = Session("user") & ""
                 dtDate.Value = Now.Date
+                dtTo.Value = dtDate.Value
                 If pUser <> "" Then
                     Dim User As clsUserSetup = clsUserSetupDB.GetData(pUser)
                     If User IsNot Nothing Then
                         Dim FactoryCode As String = User.FactoryCode
-                        Dim ProdDate As String = Session("C01ProdDate") & ""
-                        Dim ProcessGroup As String = Session("C01ProcessGroup") & ""
-                        Dim LineGroup As String = Session("C01LineGroup") & ""
-                        Dim ProcessCode As String = Session("C01ProcessCode") & ""
-                        Dim ItemTypeCode As String = Session("C01ItemTypeCode") & ""
-                        Dim LineCode As String = Session("C01LineCode") & ""
-                        Dim ItemCheckCode As String = Session("C01ItemCheckCode") & ""
-                        Dim ShiftCode As String = Session("C01ShiftCode") & ""
-                        Dim Sequence As String = Session("C01Sequence") & ""
+                        Dim ProdDate As String = Session("C02ProdDate") & ""
+                        Dim ProcessGroup As String = Session("C02ProcessGroup") & ""
+                        Dim LineGroup As String = Session("C02LineGroup") & ""
+                        Dim ProcessCode As String = Session("C02ProcessCode") & ""
+                        Dim ItemTypeCode As String = Session("C02ItemTypeCode") & ""
+                        Dim LineCode As String = Session("C02LineCode") & ""
+                        Dim ItemCheckCode As String = Session("C02ItemCheckCode") & ""
+                        Dim ShiftCode As String = Session("C02ShiftCode") & ""
+                        Dim Sequence As String = Session("C02Sequence") & ""
                         If ProcessGroup <> "" Then
                             InitCombo(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, ShiftCode, Sequence, ProcessGroup, LineGroup, ProcessCode)
                         Else
@@ -162,13 +163,6 @@ Public Class FTAInquiry
         cboItemCheck.DataBind()
         cboItemCheck.Value = ItemCheckCode
 
-        cboShift.DataSource = clsFrequencyDB.GetShift(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
-        cboShift.DataBind()
-        cboShift.Value = ShiftCode
-
-        cboSeq.DataSource = clsFrequencyDB.GetSequence(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ShiftCode)
-        cboSeq.DataBind()
-        cboSeq.Value = Sequence
     End Sub
 
     Private Sub DefaultCombo(FactoryCode As String)
@@ -217,9 +211,6 @@ Public Class FTAInquiry
                     If cboItemCheck.Items.Count = 1 Then
                         cboItemCheck.SelectedIndex = 0
                         ItemCheckCode = cboItemCheck.Value
-
-                        cboShift.DataSource = clsFrequencyDB.GetShift(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
-                        cboShift.DataBind()
                     End If
                 End If
             End If
@@ -232,50 +223,13 @@ Public Class FTAInquiry
         cboFactory.DataBind()
     End Sub
 
-    Private Sub up_ClearJS()
-        grid.JSProperties("cpUSL") = " "
-        grid.JSProperties("cpLSL") = " "
-        grid.JSProperties("cpUCL") = " "
-        grid.JSProperties("cpCL") = " "
-        grid.JSProperties("cpLCL") = " "
-        grid.JSProperties("cpRUCL") = " "
-        grid.JSProperties("cpMin") = ""
-        grid.JSProperties("cpMax") = ""
-        grid.JSProperties("cpAve") = ""
-        grid.JSProperties("cpR") = ""
-        grid.JSProperties("cpRNG") = ""
-        grid.JSProperties("cpC") = " "
-        grid.JSProperties("cpNG") = " "
-        grid.JSProperties("cpMKUser") = " "
-        grid.JSProperties("cpMKDate") = " "
-        grid.JSProperties("cpQCUser") = " "
-        grid.JSProperties("cpQCDate") = " "
-        grid.JSProperties("cpSubLotNo") = ""
-        grid.JSProperties("cpRemarks") = ""
-        grid.JSProperties("cpRefresh") = ""
-    End Sub
-
     Private Sub up_ClearGrid()
         grid.DataSource = Nothing
         grid.DataBind()
-        up_ClearJS()
     End Sub
     Protected Sub grid_AfterPerformCallback(sender As Object, e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles grid.AfterPerformCallback
         If e.CallbackName <> "CANCELEDIT" And e.CallbackName <> "CUSTOMCALLBACK" Then
-            Dim Hdr As New clsHeader
-            Hdr.FactoryCode = cboFactory.Value
-            Hdr.FactoryName = cboFactory.Text
-            Hdr.ItemTypeCode = cboType.Value
-            Hdr.ItemTypeName = cboType.Text
-            Hdr.LineCode = cboLine.Value
-            Hdr.LineName = cboLine.Text
-            Hdr.ItemCheckCode = cboItemCheck.Value
-            Hdr.ItemCheckName = cboItemCheck.Text
-            Hdr.ProdDate = Convert.ToDateTime(dtDate.Value).ToString("yyyy-MM-dd")
-            Hdr.ShiftCode = cboShift.Value
-            Hdr.Shiftname = cboShift.Text
-            Hdr.Seq = cboSeq.Value
-            GridLoad(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), cboShift.Value, cboSeq.Value)
+            GridLoad(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), Format(dtTo.Value, "yyyy-MM-dd"), cboMK.Value, cboQC.Value)
         End If
     End Sub
 
@@ -288,16 +242,9 @@ Public Class FTAInquiry
         Return SetupFound
     End Function
 
-    Private Sub GridLoadFTA(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String)
+    Private Sub GridLoad(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, MKVerification As Integer, QCVerification As Integer)
         Dim ErrMsg As String = ""
-        Dim dt As DataTable = clsFTACorrectiveActionDB.GetFTAMaster(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
-        gridFTA.DataSource = dt
-        gridFTA.DataBind()
-    End Sub
-
-    Private Sub GridLoad(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer)
-        Dim ErrMsg As String = ""
-        Dim dt As DataTable = clsFTACorrectiveActionDB.GetTable(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence)
+        Dim dt As DataTable = clsFTAInquiryDB.GetTable(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, ProdDate2, MKVerification, QCVerification)
         grid.DataSource = dt
         grid.DataBind()
         Dim UserID As String = Session("user")
@@ -313,16 +260,14 @@ Public Class FTAInquiry
         Else
             grid.JSProperties("cpAllowUpdate") = "0"
         End If
-        Session("C01User") = UserID
-        Session("C01ProdDate") = ProdDate
-        Session("C01ProcessGroup") = cboProcessGroup.Value
-        Session("C01LineGroup") = cboLineGroup.Value
-        Session("C01ProcessCode") = cboProcess.Value
-        Session("C01ItemTypeCode") = ItemTypeCode
-        Session("C01LineCode") = Line
-        Session("C01ItemCheckCode") = ItemCheckCode
-        Session("C01ShiftCode") = Shift
-        Session("C01Sequence") = Sequence
+        Session("C02User") = UserID
+        Session("C02ProdDate") = ProdDate
+        Session("C02ProcessGroup") = cboProcessGroup.Value
+        Session("C02LineGroup") = cboLineGroup.Value
+        Session("C02ProcessCode") = cboProcess.Value
+        Session("C02ItemTypeCode") = ItemTypeCode
+        Session("C02LineCode") = Line
+        Session("C02ItemCheckCode") = ItemCheckCode
     End Sub
 
     Private Function ADbl(v As Object) As Object
@@ -350,49 +295,19 @@ Public Class FTAInquiry
         Select Case pFunction
             Case "clear"
                 up_ClearGrid()
-            Case "load", "save"
+            Case "load"
                 Dim pFactory As String = Split(e.Parameters, "|")(1)
                 Dim pItemType As String = Split(e.Parameters, "|")(2)
                 Dim pLine As String = Split(e.Parameters, "|")(3)
                 Dim pItemCheck As String = Split(e.Parameters, "|")(4)
                 Dim pDate As String = Split(e.Parameters, "|")(5)
-                Dim pShift As String = Split(e.Parameters, "|")(6)
-                Dim pSeq As String = Split(e.Parameters, "|")(7)
-                pSeq = Val(pSeq)
-                If pFunction = "save" Then
-                    Dim pSubLotNo As String = Split(e.Parameters, "|")(9)
-                    Dim pRemark As String = Split(e.Parameters, "|")(10)
-                    pUser = Session("user") & ""
-                    clsSPCResultDB.Update(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pSubLotNo, pRemark, pUser)
-                    show_error(MsgTypeEnum.Success, "Update data successfull!", 1)
-                End If
-                GridLoad(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq)
+                Dim pDate2 As String = Split(e.Parameters, "|")(6)
+                Dim pMK As String = Split(e.Parameters, "|")(7)
+                Dim pQC As String = Split(e.Parameters, "|")(8)
+                pMK = Val(pMK)
+                pQC = Val(pQC)
+                GridLoad(pFactory, pItemType, pLine, pItemCheck, pDate, pDate2, pMK, pQC)
         End Select
-    End Sub
-
-    Private Sub cbkRefresh_Callback(source As Object, e As CallbackEventArgs) Handles cbkRefresh.Callback
-        Dim FactoryCode As String = Split(e.Parameter, "|")(0)
-        Dim ItemTypeCode As String = Split(e.Parameter, "|")(1)
-        Dim LineCode As String = Split(e.Parameter, "|")(2)
-        Dim ItemCheckCode As String = Split(e.Parameter, "|")(3)
-        Dim ProdDate As String = Split(e.Parameter, "|")(4)
-
-        Dim Setup As clsChartSetup = clsChartSetupDB.GetData(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate)
-        If Setup Is Nothing Then
-            cbkRefresh.JSProperties("cpUSL") = " "
-            cbkRefresh.JSProperties("cpLSL") = " "
-            cbkRefresh.JSProperties("cpUCL") = " "
-            cbkRefresh.JSProperties("cpCL") = " "
-            cbkRefresh.JSProperties("cpLCL") = " "
-            cbkRefresh.JSProperties("cpRUCL") = " "
-        Else
-            cbkRefresh.JSProperties("cpUSL") = Setup.SpecUSL
-            cbkRefresh.JSProperties("cpLSL") = Setup.SpecLSL
-            cbkRefresh.JSProperties("cpUCL") = Setup.CPUCL
-            cbkRefresh.JSProperties("cpCL") = Setup.CPCL
-            cbkRefresh.JSProperties("cpLCL") = Setup.CPLCL
-            cbkRefresh.JSProperties("cpRUCL") = Setup.RUCL
-        End If
     End Sub
 
     Private Sub cboType_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboType.Callback
@@ -507,9 +422,9 @@ Public Class FTAInquiry
                 Hdr.ItemCheckCode = cboItemCheck.Value
                 Hdr.ItemCheckName = cboItemCheck.Text
                 Hdr.ProdDate = Convert.ToDateTime(dtDate.Value).ToString("yyyy-MM-dd")
-                Hdr.ShiftCode = cboShift.Value
-                Hdr.Shiftname = cboShift.Text
-                Hdr.Seq = cboSeq.Value
+                Hdr.ShiftCode = cboMK.Value
+                Hdr.Shiftname = cboMK.Text
+                Hdr.Seq = cboQC.Value
                 Hdr.ProcessGroup = cboProcessGroup.Text
                 Hdr.LineGroup = cboLineGroup.Text
                 Hdr.ProcessCode = cboProcess.Text
@@ -1148,15 +1063,6 @@ Public Class FTAInquiry
         End With
     End Sub
 
-    Private Sub cboShift_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboShift.Callback
-        Dim FactoryCode As String = Split(e.Parameter, "|")(0)
-        Dim ItemTypeCode As String = Split(e.Parameter, "|")(1)
-        Dim LineCode As String = Split(e.Parameter, "|")(2)
-        Dim ItemCheckCode As String = Split(e.Parameter, "|")(3)
-        cboShift.DataSource = clsFrequencyDB.GetShift(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode)
-        cboShift.DataBind()
-    End Sub
-
     Private Sub grid_CellEditorInitialize(sender As Object, e As ASPxGridViewEditorEventArgs) Handles grid.CellEditorInitialize
         If e.Column.FieldName = "OK" Or e.Column.FieldName = "NG" Or e.Column.FieldName = "NoCheck" Then
             e.Editor.ReadOnly = False
@@ -1215,15 +1121,6 @@ Public Class FTAInquiry
 
     End Sub
 
-    Private Sub cboSeq_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboSeq.Callback
-        Dim FactoryCode As String = Split(e.Parameter, "|")(0)
-        Dim ItemTypeCode As String = Split(e.Parameter, "|")(1)
-        Dim LineCode As String = Split(e.Parameter, "|")(2)
-        Dim ItemCheckCode As String = Split(e.Parameter, "|")(3)
-        Dim ShiftCode As String = Split(e.Parameter, "|")(4)
-        cboSeq.DataSource = clsFrequencyDB.GetSequence(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ShiftCode)
-        cboSeq.DataBind()
-    End Sub
 
     Protected Sub grid_RowValidating(sender As Object, e As ASPxDataValidationEventArgs)
 
@@ -1258,14 +1155,5 @@ Public Class FTAInquiry
         Dim UserID As String = Session("user") & ""
         cboProcess.DataSource = clsProcessDB.GetList(UserID, FactoryCode, ProcessGroup, LineGroup)
         cboProcess.DataBind()
-    End Sub
-
-    Private Sub gridFTA_CustomCallback(sender As Object, e As ASPxGridViewCustomCallbackEventArgs) Handles gridFTA.CustomCallback
-        Dim pFunction As String = Split(e.Parameters, "|")(0)
-        Dim pFactory As String = Split(e.Parameters, "|")(1)
-        Dim pItemType As String = Split(e.Parameters, "|")(2)
-        Dim pLine As String = Split(e.Parameters, "|")(3)
-        Dim pItemCheck As String = Split(e.Parameters, "|")(4)
-        GridLoadFTA(pFactory, pItemType, pLine, pItemCheck)
     End Sub
 End Class
