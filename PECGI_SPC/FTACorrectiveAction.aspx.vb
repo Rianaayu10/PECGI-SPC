@@ -75,7 +75,6 @@ Public Class FTACorrectiveAction
         sGlobal.getMenu("C010 ")
         Master.SiteTitle = sGlobal.idMenu & " - " & sGlobal.menuName
         pUser = Session("user") & ""
-        hfUserID.Set("UserID", pUser)
         AuthUpdate = sGlobal.Auth_UserUpdate(pUser, "C010")
         grid.SettingsDataSecurity.AllowInsert = True
         grid.SettingsDataSecurity.AllowEdit = True
@@ -107,7 +106,7 @@ Public Class FTACorrectiveAction
                 ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "GridLoad();", True)
             Else
                 pUser = Session("user") & ""
-                dtDate.Value = Now.Date
+                dtDate.Value = "2023-02-07"
                 If pUser <> "" Then
                     Dim User As clsUserSetup = clsUserSetupDB.GetData(pUser)
                     If User IsNot Nothing Then
@@ -128,7 +127,8 @@ Public Class FTACorrectiveAction
                         End If
                     End If
                 End If
-                'InitCombo(User.FactoryCode, "TPMSBR011", "015", "IC021", "2022-08-04", "SH001", 1)
+                btnMK.ClientEnabled = False
+                btnQC.ClientEnabled = False
             End If
         End If
     End Sub
@@ -307,19 +307,12 @@ Public Class FTACorrectiveAction
         Dim dt As DataTable = clsFTACorrectiveActionDB.GetTable(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence)
         grid.DataSource = dt
         grid.DataBind()
+        If dt.Rows.Count = 0 Then
+            grid.JSProperties("cpRemark") = ""
+        Else
+            grid.JSProperties("cpRemark") = dt.Rows(0)("Remark") & ""
+        End If
         Dim UserID As String = Session("user")
-        grid.SettingsDataSecurity.AllowInsert = AuthUpdate
-        grid.SettingsDataSecurity.AllowEdit = AuthUpdate
-        If grid.SettingsDataSecurity.AllowInsert Then
-            grid.JSProperties("cpAllowInsert") = "1"
-        Else
-            grid.JSProperties("cpAllowInsert") = "0"
-        End If
-        If AuthUpdate Then
-            grid.JSProperties("cpAllowUpdate") = "1"
-        Else
-            grid.JSProperties("cpAllowUpdate") = "0"
-        End If
         Session("C01User") = UserID
         Session("C01ProdDate") = ProdDate
         Session("C01ProcessGroup") = cboProcessGroup.Value
@@ -367,11 +360,21 @@ Public Class FTACorrectiveAction
                 Dim pSeq As String = Split(e.Parameters, "|")(7)
                 pSeq = Val(pSeq)
                 If pFunction = "save" Then
-                    Dim pSubLotNo As String = Split(e.Parameters, "|")(9)
-                    Dim pRemark As String = Split(e.Parameters, "|")(10)
+                    Dim pRemark As String = Split(e.Parameters, "|")(8)
                     pUser = Session("user") & ""
-                    clsSPCResultDB.Update(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pSubLotNo, pRemark, pUser)
-                    show_error(MsgTypeEnum.Success, "Update data successfull!", 1)
+                    For Each item In hf
+                        Dim i As String = item.Key
+                        Dim value As Boolean = item.Value
+                        Dim pResult As String
+                        If value = True Then
+                            pResult = "1"
+                        Else
+                            pResult = "0"
+                        End If
+                        clsFTACorrectiveActionDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pResult, pRemark, pUser)
+                    Next item
+
+                    show_error(MsgTypeEnum.Success, "Update data successful!", 1)
                 End If
                 GridLoad(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq)
         End Select
@@ -1166,12 +1169,7 @@ Public Class FTACorrectiveAction
     End Sub
 
     Private Sub grid_CellEditorInitialize(sender As Object, e As ASPxGridViewEditorEventArgs) Handles grid.CellEditorInitialize
-        'If e.Column.FieldName = "OK" Or e.Column.FieldName = "NG" Or e.Column.FieldName = "NoCheck" Then
-        '    e.Editor.ReadOnly = False
-        'Else
-        '    e.Editor.ReadOnly = True
-        '    e.Editor.ForeColor = System.Drawing.Color.Silver
-        'End If
+        e.Editor.ReadOnly = True
     End Sub
 
     Protected Sub IKLink_Init(ByVal sender As Object, ByVal e As EventArgs)
@@ -1216,13 +1214,7 @@ Public Class FTACorrectiveAction
     End Sub
 
     Private Sub grid_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles grid.HtmlDataCellPrepared
-        If e.DataColumn.FieldName <> "OK" And e.DataColumn.FieldName <> "NG" And e.DataColumn.FieldName <> "NoCheck" Then
-            e.Cell.Attributes.Add("onclick", "event.cancelBubble = true")
-        End If
-    End Sub
-
-    Private Sub grid_HtmlRowPrepared(sender As Object, e As ASPxGridViewTableRowEventArgs) Handles grid.HtmlRowPrepared
-
+        e.Cell.Attributes.Add("onclick", "event.cancelBubble = true")
     End Sub
 
     Private Sub cboSeq_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboSeq.Callback
@@ -1292,7 +1284,7 @@ Public Class FTACorrectiveAction
         If FTAID <> "" Then
             Dim i As String = container.VisibleIndex
             chkOK.ClientInstanceName = String.Format("chkOK{0}", i)
-            chkOK.ClientSideEvents.CheckedChanged = "function(s, e) { chkNG" + i + ".SetChecked(false); chkNo" + i + ".SetChecked(false); }"
+            chkOK.ClientSideEvents.CheckedChanged = "function(s, e) { chkNG" + i + ".SetChecked(false); chkNo" + i + ".SetChecked(false); hf.Set('" + i + "', s.GetChecked()); }"
         End If
     End Sub
 
@@ -1334,5 +1326,9 @@ Public Class FTACorrectiveAction
     Private Sub gridAction_CustomCallback(sender As Object, e As ASPxGridViewCustomCallbackEventArgs) Handles gridAction.CustomCallback
         Dim FTAID As String = Split(e.Parameters, "|")(0)
         GridLoadAction(FTAID)
+    End Sub
+
+    Private Sub grid_RowUpdating(sender As Object, e As ASPxDataUpdatingEventArgs) Handles grid.RowUpdating
+        e.Cancel = True
     End Sub
 End Class

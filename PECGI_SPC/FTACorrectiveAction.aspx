@@ -170,6 +170,7 @@
                 toastr.options.onclick = null;
             }            
             btnSubmit.SetEnabled(true);
+            txtRemark.SetText(s.cpRemark);
         }
 
         function ClosePopUpFTA(s, e) {
@@ -250,8 +251,7 @@
         }
 
         function SaveData(s, e) {
-            alert('save');
-            grid.UpdateEdit();
+            grid.PerformCallback('save|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + txtRemark.GetText());
         }
 
     </script>
@@ -547,7 +547,7 @@
 		                    e.processOnServer = false;
 		                    return;
                         }
- 	                    grid.PerformCallback('load' + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|0');
+ 	                    grid.PerformCallback('load|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|0');
                     }" />
                     <Paddings Padding="2px" />
                 </dx:ASPxButton>
@@ -579,7 +579,7 @@
                         </td>
                         <td style="padding-right:5px">
                                 <dx:ASPxButton ID="btnIOT" runat="server" AutoPostBack="False" 
-                                    ClientInstanceName="btnSave" Font-Names="Segoe UI" Font-Size="9pt" 
+                                    ClientInstanceName="btnIOT" Font-Names="Segoe UI" Font-Size="9pt" 
                                     Height="25px" Text="IOT Traceability" Theme="Office2010Silver" UseSubmitBehavior="False" 
                                     Width="120px" TabIndex="10">
                                     <Paddings Padding="2px" />
@@ -645,7 +645,7 @@
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataCheckColumn FieldName="NoCheck" ShowInCustomizationForm="True" VisibleIndex="3" Width="50px">
                         <DataItemTemplate>
-                            <dx:ASPxCheckBox ID="chkNo" runat="server" Checked="false" OnInit="chkNo_Init" />
+                            <dx:ASPxCheckBox ID="chkNo" runat="server" OnInit="chkNo_Init" />
                         </DataItemTemplate>
             </dx:GridViewDataCheckColumn>
             <dx:GridViewDataTextColumn FieldName="Action" ShowInCustomizationForm="True" VisibleIndex="6" Width="260px">
@@ -669,12 +669,12 @@
                 <Columns>
                     <dx:GridViewDataCheckColumn FieldName="OK" ShowInCustomizationForm="True" VisibleIndex="0" Width="40px">
                         <DataItemTemplate>
-                            <dx:ASPxCheckBox ID="chkOK" runat="server" Checked="false" OnInit="chkOK_Init" />
+                            <dx:ASPxCheckBox ID="chkOK" runat="server" OnInit="chkOK_Init" />
                         </DataItemTemplate>
                     </dx:GridViewDataCheckColumn>
                     <dx:GridViewDataCheckColumn FieldName="NG" ShowInCustomizationForm="True" VisibleIndex="1" Width="40px">
                         <DataItemTemplate>
-                            <dx:ASPxCheckBox ID="chkNG" runat="server" Checked="false" OnInit="chkNG_Init" />
+                            <dx:ASPxCheckBox ID="chkNG" runat="server" OnInit="chkNG_Init" />
                         </DataItemTemplate>
                     </dx:GridViewDataCheckColumn>
                 </Columns>
@@ -685,7 +685,6 @@
         </Columns>        
         <SettingsBehavior ColumnResizeMode="Control" ConfirmDelete="True" AllowDragDrop="False" AllowSort="False" />
         <SettingsEditing Mode="Batch" EditFormColumnCount="1" >
-            <BatchEditSettings ShowConfirmOnLosingChanges="False" />
             </SettingsEditing>
         <SettingsPager AlwaysShowPager="true" Mode="ShowAllRecords" PageSize="30">
         </SettingsPager>
@@ -764,7 +763,7 @@
             </td>
             <td style="width:510px">
 
-                        <dx:ASPxMemo ID="ASPxMemo1" runat="server" Height="45px" Width="500px">
+                        <dx:ASPxMemo ID="txtRemark" runat="server" Height="45px" Width="500px" ClientInstanceName="txtRemark">
                         </dx:ASPxMemo>
 
             </td>
@@ -779,6 +778,14 @@
 
                     <ClientSideEvents Click="SaveData"/>
                 </dx:ASPxButton>
+
+                
+            </td>
+            <td style="padding-left:10px; vertical-align:top">
+
+                
+                <dx:ASPxHiddenField ID="hf" runat="server" ClientInstanceName="hf">
+                </dx:ASPxHiddenField>
 
                 
             </td>

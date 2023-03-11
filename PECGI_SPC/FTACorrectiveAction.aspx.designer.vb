@@ -284,13 +284,13 @@ Partial Public Class FTACorrectiveAction
     Protected WithEvents ASPxLabel28 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
-    '''ASPxMemo1 control.
+    '''txtRemark control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents ASPxMemo1 As Global.DevExpress.Web.ASPxMemo
+    Protected WithEvents txtRemark As Global.DevExpress.Web.ASPxMemo
 
     '''<summary>
     '''btnSubmit control.
@@ -300,6 +300,15 @@ Partial Public Class FTACorrectiveAction
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnSubmit As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
+    '''hf control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hf As Global.DevExpress.Web.ASPxHiddenField
 
     '''<summary>
     '''pcFTA control.

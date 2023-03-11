@@ -56,6 +56,27 @@ Public Class clsFTACorrectiveActionDB
         End Using
     End Function
 
+    Public Shared Function Insert(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer, FTAResult As String, Remark As String, UserID As String) As Integer
+        Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+            Cn.Open()
+            Dim q As String = "sp_spc_FTACorrectiveAction_Ins"
+            Dim cmd As New SqlCommand(q, Cn)
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
+            cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
+            cmd.Parameters.AddWithValue("Line", Line)
+            cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
+            cmd.Parameters.AddWithValue("ProdDate", CDate(ProdDate))
+            cmd.Parameters.AddWithValue("ShiftCode", Shift)
+            cmd.Parameters.AddWithValue("SequenceNo", Sequence)
+            cmd.Parameters.AddWithValue("FTAResult", FTAResult)
+            cmd.Parameters.AddWithValue("Remark", Remark)
+            cmd.Parameters.AddWithValue("UserID", UserID)
+            Dim i As Integer = cmd.ExecuteNonQuery
+            Return i
+        End Using
+    End Function
+
     Public Shared Function GetIK(FTAID As String) As Object
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
