@@ -1314,13 +1314,13 @@ Public Class FTACorrectiveAction
 
     Public Sub ShowIK(FTAID As String)
         Dim Img As Object = clsFTACorrectiveActionDB.GetIK(FTAID)
-        If Img IsNot Nothing Then
+        Dim ImageUrl As String = "~/img/noimage.png"
+        If Img IsNot Nothing AndAlso Not IsDBNull(Img) Then
             Dim fcByte As Byte() = Nothing
-            Dim ImageUrl As String = ""
             fcByte = Img
             ImageUrl = "data:image;base64," + Convert.ToBase64String(fcByte)
-            imgIK.ImageUrl = ImageUrl
         End If
+        imgIK.ImageUrl = ImageUrl
     End Sub
 
     Private Sub gridAction_CustomCallback(sender As Object, e As ASPxGridViewCustomCallbackEventArgs) Handles gridAction.CustomCallback
