@@ -295,6 +295,13 @@ Public Class FTACorrectiveAction
         gridFTA.DataBind()
     End Sub
 
+    Private Sub GridLoadAction(FTAID As String)
+        Dim ErrMsg As String = ""
+        Dim dt As DataTable = clsFTACorrectiveActionDB.GetFTAAction(FTAID)
+        gridAction.DataSource = dt
+        gridAction.DataBind()
+    End Sub
+
     Private Sub GridLoad(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer)
         Dim ErrMsg As String = ""
         Dim dt As DataTable = clsFTACorrectiveActionDB.GetTable(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence)
@@ -481,8 +488,9 @@ Public Class FTACorrectiveAction
         cboItemCheck.DataBind()
     End Sub
 
-    Protected Sub grid_BatchUpdate(sender As Object, e As ASPxDataBatchUpdateEventArgs)
-        If e.UpdateValues.Count > 0 Then
+    Protected Sub grid_BatchUpdate(sender As Object, e As ASPxDataBatchUpdateEventArgs) Handles grid.BatchUpdate
+        Dim n As Integer = e.UpdateValues.Count
+        If n > 0 Then
 
         End If
     End Sub
@@ -1158,12 +1166,12 @@ Public Class FTACorrectiveAction
     End Sub
 
     Private Sub grid_CellEditorInitialize(sender As Object, e As ASPxGridViewEditorEventArgs) Handles grid.CellEditorInitialize
-        If e.Column.FieldName = "OK" Or e.Column.FieldName = "NG" Or e.Column.FieldName = "NoCheck" Then
-            e.Editor.ReadOnly = False
-        Else
-            e.Editor.ReadOnly = True
-            e.Editor.ForeColor = System.Drawing.Color.Silver
-        End If
+        'If e.Column.FieldName = "OK" Or e.Column.FieldName = "NG" Or e.Column.FieldName = "NoCheck" Then
+        '    e.Editor.ReadOnly = False
+        'Else
+        '    e.Editor.ReadOnly = True
+        '    e.Editor.ForeColor = System.Drawing.Color.Silver
+        'End If
     End Sub
 
     Protected Sub IKLink_Init(ByVal sender As Object, ByVal e As EventArgs)
@@ -1172,12 +1180,14 @@ Public Class FTACorrectiveAction
         link.NavigateUrl = "javascript:void(0)"
         link.ForeColor = Color.SteelBlue
 
-        Dim UserID As String = ""
-        UserID = templatecontainer.Grid.GetRowValues(templatecontainer.VisibleIndex, "No") & ""
-        If UserID <> "" Then
-            link.ClientSideEvents.Click = "ShowPopUpIK"
+        Dim FTAID As String = ""
+        FTAID = templatecontainer.Grid.GetRowValues(templatecontainer.VisibleIndex, "FTAID") & ""
+        If FTAID <> "" Then
+            link.ClientSideEvents.Click = "function (s,e) {ShowPopUpIK('" + FTAID + "');}"
         End If
     End Sub
+
+
 
     Protected Sub IKLink2_Init(ByVal sender As Object, ByVal e As EventArgs)
         Dim link As DevExpress.Web.ASPxHyperLink = CType(sender, DevExpress.Web.ASPxHyperLink)
@@ -1185,10 +1195,10 @@ Public Class FTACorrectiveAction
         link.NavigateUrl = "javascript:void(0)"
         link.ForeColor = Color.SteelBlue
 
-        Dim UserID As String = ""
-        UserID = templatecontainer.Grid.GetRowValues(templatecontainer.VisibleIndex, "FTAID") & ""
-        If UserID <> "" Then
-            link.ClientSideEvents.Click = "function (s,e) {window.open('UserLine.aspx?prm=" + UserID + "','_self'); }"
+        Dim FTAID As String = ""
+        FTAID = templatecontainer.Grid.GetRowValues(templatecontainer.VisibleIndex, "FTAID") & ""
+        If FTAID <> "" Then
+            link.ClientSideEvents.Click = "function (s,e) {ShowPopUpIK('" + FTAID + "');}"
         End If
     End Sub
 
@@ -1198,10 +1208,10 @@ Public Class FTACorrectiveAction
         link.NavigateUrl = "javascript:void(0)"
         link.ForeColor = Color.SteelBlue
 
-        Dim UserID As String = ""
-        UserID = templatecontainer.Grid.GetRowValues(templatecontainer.VisibleIndex, "FTAID") & ""
-        If UserID <> "" Then
-            link.ClientSideEvents.Click = "function (s,e) {window.open('UserLine.aspx?prm=" + UserID + "','_self'); }"
+        Dim FTAID As String = ""
+        FTAID = templatecontainer.Grid.GetRowValues(templatecontainer.VisibleIndex, "FTAID") & ""
+        If FTAID <> "" Then
+            link.ClientSideEvents.Click = "function (s,e) {ShowPopUpAction('" + FTAID + "');}"
         End If
     End Sub
 
@@ -1267,5 +1277,62 @@ Public Class FTACorrectiveAction
         Dim pLine As String = Split(e.Parameters, "|")(3)
         Dim pItemCheck As String = Split(e.Parameters, "|")(4)
         GridLoadFTA(pFactory, pItemType, pLine, pItemCheck)
+    End Sub
+
+    Private Sub cbkPanel_Callback(sender As Object, e As CallbackEventArgsBase) Handles cbkPanel.Callback
+        Dim s As String = e.Parameter
+        ShowIK(s)
+    End Sub
+
+    Protected Sub chkOK_Init(sender As Object, e As EventArgs)
+        Dim chkOK As ASPxCheckBox = TryCast(sender, ASPxCheckBox)
+        Dim container As GridViewDataItemTemplateContainer = TryCast(chkOK.NamingContainer, GridViewDataItemTemplateContainer)
+        Dim FTAID As String = ""
+        FTAID = container.Grid.GetRowValues(container.VisibleIndex, "FTAID") & ""
+        If FTAID <> "" Then
+            Dim i As String = container.VisibleIndex
+            chkOK.ClientInstanceName = String.Format("chkOK{0}", i)
+            chkOK.ClientSideEvents.CheckedChanged = "function(s, e) { chkNG" + i + ".SetChecked(false); chkNo" + i + ".SetChecked(false); }"
+        End If
+    End Sub
+
+    Protected Sub chkNG_Init(sender As Object, e As EventArgs)
+        Dim chkNG As ASPxCheckBox = TryCast(sender, ASPxCheckBox)
+        Dim container As GridViewDataItemTemplateContainer = TryCast(chkNG.NamingContainer, GridViewDataItemTemplateContainer)
+        Dim FTAID As String = ""
+        FTAID = container.Grid.GetRowValues(container.VisibleIndex, "FTAID") & ""
+        If FTAID <> "" Then
+            Dim i As String = container.VisibleIndex
+            chkNG.ClientInstanceName = String.Format("chkNG{0}", i)
+            chkNG.ClientSideEvents.CheckedChanged = "function(s, e) { chkOK" + i + ".SetChecked(false); chkNo" + i + ".SetChecked(false); }"
+        End If
+    End Sub
+
+    Protected Sub chkNo_Init(sender As Object, e As EventArgs)
+        Dim chkNo As ASPxCheckBox = TryCast(sender, ASPxCheckBox)
+        Dim container As GridViewDataItemTemplateContainer = TryCast(chkNo.NamingContainer, GridViewDataItemTemplateContainer)
+        Dim FTAID As String = ""
+        FTAID = container.Grid.GetRowValues(container.VisibleIndex, "FTAID") & ""
+        If FTAID <> "" Then
+            Dim i As String = container.VisibleIndex
+            chkNo.ClientInstanceName = String.Format("chkNo{0}", i)
+            chkNo.ClientSideEvents.CheckedChanged = "function(s, e) { chkOK" + i + ".SetChecked(false); chkNG" + i + ".SetChecked(false); }"
+        End If
+    End Sub
+
+    Public Sub ShowIK(FTAID As String)
+        Dim Img As Object = clsFTACorrectiveActionDB.GetIK(FTAID)
+        If Img IsNot Nothing Then
+            Dim fcByte As Byte() = Nothing
+            Dim ImageUrl As String = ""
+            fcByte = Img
+            ImageUrl = "data:image;base64," + Convert.ToBase64String(fcByte)
+            imgIK.ImageUrl = ImageUrl
+        End If
+    End Sub
+
+    Private Sub gridAction_CustomCallback(sender As Object, e As ASPxGridViewCustomCallbackEventArgs) Handles gridAction.CustomCallback
+        Dim FTAID As String = Split(e.Parameters, "|")(0)
+        GridLoadAction(FTAID)
     End Sub
 End Class

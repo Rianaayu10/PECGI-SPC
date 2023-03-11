@@ -302,13 +302,13 @@ Partial Public Class FTACorrectiveAction
     Protected WithEvents btnSubmit As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
-    '''pcDiagram control.
+    '''pcFTA control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents pcDiagram As Global.DevExpress.Web.ASPxPopupControl
+    Protected WithEvents pcFTA As Global.DevExpress.Web.ASPxPopupControl
 
     '''<summary>
     '''gridFTA control.
@@ -338,6 +338,24 @@ Partial Public Class FTACorrectiveAction
     Protected WithEvents pcIK As Global.DevExpress.Web.ASPxPopupControl
 
     '''<summary>
+    '''cbkPanel control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cbkPanel As Global.DevExpress.Web.ASPxCallbackPanel
+
+    '''<summary>
+    '''imgIK control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents imgIK As Global.System.Web.UI.WebControls.Image
+
+    '''<summary>
     '''ASPxButton1 control.
     '''</summary>
     '''<remarks>
@@ -345,6 +363,33 @@ Partial Public Class FTACorrectiveAction
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ASPxButton1 As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
+    '''pcAction control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pcAction As Global.DevExpress.Web.ASPxPopupControl
+
+    '''<summary>
+    '''gridAction control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents gridAction As Global.DevExpress.Web.ASPxGridView
+
+    '''<summary>
+    '''ASPxButton2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxButton2 As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
     '''cbkRefresh control.

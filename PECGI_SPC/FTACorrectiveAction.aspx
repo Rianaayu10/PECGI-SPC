@@ -54,6 +54,10 @@
         .auto-style19 {
             width: 130px;
         }
+        .auto-style20 {
+            width: 100%;
+            height: 477px;
+        }
         </style>
     <script type="text/javascript" >
         var rowIndex, columnIndex;
@@ -165,10 +169,16 @@
                 toastr.options.preventDuplicates = true;
                 toastr.options.onclick = null;
             }            
+            btnSubmit.SetEnabled(true);
         }
 
-        function ClosePopupDiagram(s, e) {
-            pcDiagram.Hide();
+        function ClosePopUpFTA(s, e) {
+            pcFTA.Hide();
+            e.processOnServer = false;
+        }
+
+        function ClosePopupAction(s, e) {
+            pcAction.Hide();
             e.processOnServer = false;
         }
 
@@ -177,13 +187,71 @@
             e.processOnServer = false;
         }
 
-        function ShowPopUpDiagram(s, e) {
+        function ShowPopUpFTA(s, e) {
             gridFTA.PerformCallback('load' + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue());
-            pcDiagram.Show();
+            pcFTA.Show();
         }
 
-        function ShowPopUpIK(s, e) {
+        function ShowPopUpAction(s) {
+            gridAction.PerformCallback(s);
+            pcAction.Show();
+        }
+
+        function ShowPopUpIK(s) {
+            cbkPanel.PerformCallback(s);
             pcIK.Show();
+        }
+
+        function SPCSample() {
+            var errmsg = '';
+            if(cboFactory.GetText() == '') {
+                cboFactory.Focus();
+                errmsg = 'Please select Factory!';                                                                
+	        } else if(cboType.GetText() == '') {
+                cboType.Focus();
+                errmsg = 'Please select Type!';
+	        } else if(cboLine.GetText() == '') {
+                cboLine.Focus();
+                errmsg = 'Please select Machine Process!';
+	        } else if(cboItemCheck.GetText() == '') {
+                cboItemCheck.Focus();
+                errmsg = 'Please select Item Check!';
+	        } else if(cboShift.GetText() == '') {
+                cboShift.Focus();
+                errmsg = 'Please select Shift!';
+	        } else if(cboSeq.GetText() == '') {
+                cboSeq.Focus();
+                errmsg = 'Please select Sequence!';
+	        }
+
+            if(errmsg != '') {
+                toastr.warning(errmsg, 'Warning');
+                toastr.options.closeButton = false;
+                toastr.options.debug = false;
+                toastr.options.newestOnTop = false;
+                toastr.options.progressBar = false;
+                toastr.options.preventDuplicates = true;
+                toastr.options.onclick = null;		
+		        e.processOnServer = false;
+		        return;
+            }
+
+            var Factory = cboFactory.GetValue();
+            var ItemType = cboType.GetValue();
+            var Line = cboLine.GetValue();
+            var ItemCheck = cboItemCheck.GetValue();
+            var ProdDate = dtDate.GetText();
+            var Shift = cboShift.GetValue();
+            var Seq = cboSeq.GetValue();
+
+            window.open('ProdSampleInput.aspx?menu=prodSampleVerification.aspx' + '&FactoryCode=' + Factory + '&ItemTypeCode=' + ItemType
+                + '&Line=' + Line + '&ItemCheckCode=' + ItemCheck + '&ProdDate=' + ProdDate + '&Shift=' + Shift + '&Sequence=' + Seq
+                + '', '_blank');
+        }
+
+        function SaveData(s, e) {
+            alert('save');
+            grid.UpdateEdit();
         }
 
     </script>
@@ -505,7 +573,7 @@
                                     ClientInstanceName="btnView" Font-Names="Segoe UI" Font-Size="9pt" 
                                     Height="25px" Text="View FTA Diagram" Theme="Office2010Silver" UseSubmitBehavior="False" 
                                     Width="120px" TabIndex="10">
-                                    <ClientSideEvents Click="ShowPopUpDiagram"/>
+                                    <ClientSideEvents Click="ShowPopUpFTA"/>
                                     <Paddings Padding="2px" />                                    
                                 </dx:ASPxButton>
                         </td>
@@ -523,6 +591,7 @@
                                     Height="25px" Text="SPC Sample" Theme="Office2010Silver" UseSubmitBehavior="False" 
                                     Width="120px" TabIndex="10">
                                     <Paddings Padding="2px" />    
+                                    <ClientSideEvents Click="SPCSample" />
                                 </dx:ASPxButton>                             
                         </td>
                         <td style="padding-right:5px">
@@ -574,17 +643,20 @@
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn FieldName="Description" ShowInCustomizationForm="True" VisibleIndex="1" Width="300px">
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataCheckColumn FieldName="NoCheck" ShowInCustomizationForm="True" VisibleIndex="5" Width="50px">
+            <dx:GridViewDataCheckColumn FieldName="NoCheck" ShowInCustomizationForm="True" VisibleIndex="3" Width="50px">
+                        <DataItemTemplate>
+                            <dx:ASPxCheckBox ID="chkNo" runat="server" Checked="false" OnInit="chkNo_Init" />
+                        </DataItemTemplate>
             </dx:GridViewDataCheckColumn>
-            <dx:GridViewDataTextColumn FieldName="Action" ShowInCustomizationForm="True" VisibleIndex="7" Width="260px">
+            <dx:GridViewDataTextColumn FieldName="Action" ShowInCustomizationForm="True" VisibleIndex="6" Width="260px">
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn FieldName="LastUser" ShowInCustomizationForm="True" VisibleIndex="8">
+            <dx:GridViewDataTextColumn FieldName="LastUser" ShowInCustomizationForm="True" VisibleIndex="7">
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn FieldName="LastUpdate" ShowInCustomizationForm="True" VisibleIndex="9" Width="120px">
+            <dx:GridViewDataTextColumn FieldName="LastUpdate" ShowInCustomizationForm="True" VisibleIndex="8" Width="120px">
                 <PropertiesTextEdit DisplayFormatString="dd MMM yyyy HH:mm">
                 </PropertiesTextEdit>
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn FieldName="IK" ShowInCustomizationForm="True" VisibleIndex="6" Width="50px">
+            <dx:GridViewDataTextColumn FieldName="ViewIK" ShowInCustomizationForm="True" VisibleIndex="4" Width="50px">
                         <DataItemTemplate>
                             <dx:ASPxHyperLink ID="linkIK" Font-Names="Segoe UI" Font-Size="9pt"
                                 runat="server" Text="View" OnInit="IKLink_Init">
@@ -596,12 +668,20 @@
             <dx:GridViewBandColumn Caption="Check Result" ShowInCustomizationForm="True" VisibleIndex="2">
                 <Columns>
                     <dx:GridViewDataCheckColumn FieldName="OK" ShowInCustomizationForm="True" VisibleIndex="0" Width="40px">
+                        <DataItemTemplate>
+                            <dx:ASPxCheckBox ID="chkOK" runat="server" Checked="false" OnInit="chkOK_Init" />
+                        </DataItemTemplate>
                     </dx:GridViewDataCheckColumn>
                     <dx:GridViewDataCheckColumn FieldName="NG" ShowInCustomizationForm="True" VisibleIndex="1" Width="40px">
+                        <DataItemTemplate>
+                            <dx:ASPxCheckBox ID="chkNG" runat="server" Checked="false" OnInit="chkNG_Init" />
+                        </DataItemTemplate>
                     </dx:GridViewDataCheckColumn>
                 </Columns>
             </dx:GridViewBandColumn>
 
+            <dx:GridViewDataTextColumn FieldName="FTAID" VisibleIndex="9" Width="0px">
+            </dx:GridViewDataTextColumn>
         </Columns>        
         <SettingsBehavior ColumnResizeMode="Control" ConfirmDelete="True" AllowDragDrop="False" AllowSort="False" />
         <SettingsEditing Mode="Batch" EditFormColumnCount="1" >
@@ -694,8 +774,10 @@
                 <dx:ASPxButton ID="btnSubmit" runat="server" AutoPostBack="False" 
                     ClientInstanceName="btnSubmit" Font-Names="Segoe UI" Font-Size="9pt" 
                     Height="25px" Text="Submit" Theme="Office2010Silver" UseSubmitBehavior="False" 
-                    Width="90px" TabIndex="10">                    
+                    Width="90px" TabIndex="10" ClientEnabled="false">                    
                     <Paddings Padding="2px" PaddingLeft="5px" />
+
+                    <ClientSideEvents Click="SaveData"/>
                 </dx:ASPxButton>
 
                 
@@ -705,7 +787,7 @@
 </div>
 
 <div>
-<dx:ASPxPopupControl ID="pcDiagram" runat="server" ClientInstanceName="pcDiagram" Height="520px" Width="1024px" HeaderText="FTA Diagram" Modal="True"
+<dx:ASPxPopupControl ID="pcFTA" runat="server" ClientInstanceName="pcFTA" Height="520px" Width="1024px" HeaderText="FTA Diagram" Modal="True"
                         CloseAction="CloseButton" CloseOnEscape="true" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False">
                         <ContentCollection>
 <dx:PopupControlContentControl runat="server">
@@ -749,7 +831,7 @@
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn FieldName="Action" ShowInCustomizationForm="True" VisibleIndex="6" Width="50px">
                 <DataItemTemplate>
-                    <dx:ASPxHyperLink ID="linkIK0" runat="server" Font-Names="Segoe UI" Font-Size="9pt" OnInit="ActionLink_Init" Text="View">
+                    <dx:ASPxHyperLink ID="linkAction" runat="server" Font-Names="Segoe UI" Font-Size="9pt" OnInit="ActionLink_Init" Text="View">
                     </dx:ASPxHyperLink>
                 </DataItemTemplate>
             </dx:GridViewDataTextColumn>
@@ -778,7 +860,7 @@
         <tr style="width:100px">
             <td style="text-align:center; padding-top: 10px;">
                 <dx:ASPxButton ID="btnHide" runat="server" AutoPostBack="False" ClientInstanceName="btnHide" Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="10" Text="Close" Theme="Office2010Silver" UseSubmitBehavior="False" Width="90px">
-                    <ClientSideEvents Click="ClosePopupDiagram" />
+                    <ClientSideEvents Click="ClosePopUpFTA" />
                     <Paddings Padding="2px" />
                 </dx:ASPxButton>
             </td>
@@ -791,16 +873,92 @@
     </div>
 
 <div>
-<dx:ASPxPopupControl ID="pcIK" runat="server" ClientInstanceName="pcIK" Height="520px" Width="1024px" HeaderText="FTA Diagram" Modal="True"
+<dx:ASPxPopupControl ID="pcIK" runat="server" ClientInstanceName="pcIK" Height="520px" Width="1024px" HeaderText="Instruksi Kerja (IK)" Modal="True"
+                        CloseAction="CloseButton" CloseOnEscape="true" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False">
+                        <ContentCollection>
+<dx:PopupControlContentControl runat="server">
+<dx:ASPxCallbackPanel ID="cbkPanel" runat="server" Width="100%" ClientInstanceName="cbkPanel">
+    <SettingsLoadingPanel Enabled="False" />
+                    <PanelCollection>
+                        <dx:PanelContent runat="server">
+                            <table class="auto-style20">
+                                <tr style="height:100%">
+                                    <td style="text-align:center">
+                                        <asp:Image ID="imgIK" runat="server" BorderStyle="Solid" Height="160" Width="230"/>
+                                    </td>
+                                </tr>
+                            </table>                            
+                        </dx:PanelContent>
+                    </PanelCollection>
+                </dx:ASPxCallbackPanel>
+    <table style="width:100%">
+        <tr style="width:100px">
+            <td style="text-align:center; padding-top: 10px;" class="dxcpCurrentColor">
+                
+                <dx:ASPxButton ID="ASPxButton1" runat="server" AutoPostBack="False" ClientInstanceName="btnCloseIK" Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="10" Text="Close" Theme="Office2010Silver" UseSubmitBehavior="False" Width="90px">
+                    <ClientSideEvents Click="ClosePopupIK" />
+                    <Paddings Padding="2px" />
+                </dx:ASPxButton>
+            </td>
+        </tr>
+    </table>
+    
+</dx:PopupControlContentControl>
+</ContentCollection>
+</dx:ASPxPopupControl>
+</div>
+
+<div>
+<dx:ASPxPopupControl ID="pcAction" runat="server" ClientInstanceName="pcAction" Height="350px" Width="586px" HeaderText="FTA Action" Modal="True"
                         CloseAction="CloseButton" CloseOnEscape="true" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False">
                         <ContentCollection>
 <dx:PopupControlContentControl runat="server">
 
+    <dx:ASPxGridView ID="gridAction" runat="server" AutoGenerateColumns="False" ClientInstanceName="gridAction" CssClass="auto-style2" EnableTheming="True" Font-Names="Segoe UI" Font-Size="9pt" KeyFieldName="ActionID" Theme="Office2010Black" Width="100%">
+        <SettingsPager AlwaysShowPager="True" Mode="ShowAllRecords" PageSize="30">
+        </SettingsPager>
+        <SettingsEditing EditFormColumnCount="1" Mode="Batch">
+            <BatchEditSettings ShowConfirmOnLosingChanges="False" />
+        </SettingsEditing>
+        <Settings HorizontalScrollBarMode="Auto" ShowStatusBar="Hidden" VerticalScrollableHeight="260" VerticalScrollBarMode="Auto" />
+        <SettingsBehavior AllowDragDrop="False" AllowSort="False" ColumnResizeMode="Control" ConfirmDelete="True" />
+        <SettingsResizing ColumnResizeMode="Control" />
+        <SettingsDataSecurity AllowDelete="False" />
+        <SettingsPopup>
+            <EditForm HorizontalAlign="WindowCenter" VerticalAlign="WindowCenter" Width="200px">
+            </EditForm>
+            <FilterControl AutoUpdatePosition="False">
+            </FilterControl>
+        </SettingsPopup>
+        <Columns>
+            <dx:GridViewDataTextColumn FieldName="ActionName" ShowInCustomizationForm="True" VisibleIndex="1" Width="200px" Caption="Action">
+            </dx:GridViewDataTextColumn>
+            <dx:GridViewDataTextColumn FieldName="ActionID" ShowInCustomizationForm="True" VisibleIndex="0" Width="60px" Caption="No">
+            </dx:GridViewDataTextColumn>
+        </Columns>
+        <Styles>
+            <Header HorizontalAlign="Center" Wrap="True">
+                <Paddings Padding="2px" />
+            </Header>
+            <DetailCell Wrap="False">
+            </DetailCell>
+            <SelectedRow BackColor="White" ForeColor="Black">
+            </SelectedRow>
+            <CommandColumnItem ForeColor="SteelBlue">
+            </CommandColumnItem>
+            <EditFormColumnCaption Font-Names="Segoe UI" Font-Size="9pt">
+                <Paddings PaddingBottom="5px" PaddingLeft="15px" PaddingRight="15px" PaddingTop="5px" />
+            </EditFormColumnCaption>
+            <BatchEditModifiedCell BackColor="#FFFF99" ForeColor="Black">
+            </BatchEditModifiedCell>
+        </Styles>
+    </dx:ASPxGridView>
+
     <table style="width:100%">
         <tr style="width:100px">
             <td style="text-align:center; padding-top: 10px;">
-                <dx:ASPxButton ID="ASPxButton1" runat="server" AutoPostBack="False" ClientInstanceName="btnCloseIK" Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="10" Text="Close" Theme="Office2010Silver" UseSubmitBehavior="False" Width="90px">
-                    <ClientSideEvents Click="ClosePopupIK" />
+                <dx:ASPxButton ID="ASPxButton2" runat="server" AutoPostBack="False" ClientInstanceName="btnHideAction" Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="10" Text="Close" Theme="Office2010Silver" UseSubmitBehavior="False" Width="90px">
+                    <ClientSideEvents Click="ClosePopupAction" />
                     <Paddings Padding="2px" />
                 </dx:ASPxButton>
             </td>

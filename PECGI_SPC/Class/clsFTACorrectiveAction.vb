@@ -42,6 +42,36 @@ Public Class clsFTACorrectiveActionDB
             Return dt
         End Using
     End Function
+
+    Public Shared Function GetFTAAction(FTAID As String) As DataTable
+        Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+            Cn.Open()
+            Dim q As String = "select * from spc_MS_FTAAction where FTAID = @FTAID order by ActionID "
+            Dim cmd As New SqlCommand(q, Cn)
+            cmd.Parameters.AddWithValue("FTAID", FTAID)
+            Dim da As New SqlDataAdapter(cmd)
+            Dim dt As New DataTable
+            da.Fill(dt)
+            Return dt
+        End Using
+    End Function
+
+    Public Shared Function GetIK(FTAID As String) As Object
+        Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+            Cn.Open()
+            Dim q As String = "Select IK from spc_MS_FTA where FTAID = @FTAID"
+            Dim cmd As New SqlCommand(q, Cn)
+            cmd.Parameters.AddWithValue("FTAID", FTAID)
+            Dim da As New SqlDataAdapter(cmd)
+            Dim dt As New DataTable
+            da.Fill(dt)
+            If dt.Rows.Count = 0 Then
+                Return Nothing
+            Else
+                Return dt.Rows(0)("IK")
+            End If
+        End Using
+    End Function
 End Class
 
 Public Class clsFTAInquiryDB
