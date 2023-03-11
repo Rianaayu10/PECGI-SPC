@@ -141,12 +141,14 @@
     <Content Include="CustomFile\js\bootstrap.js" />
     <Content Include="CustomFile\js\bootstrap.min.js" />
     <Content Include="CustomFile\popper.min.js" />
+    <Content Include="FTAInquiry.aspx" />
     <Content Include="img\rule1.png" />
     <Content Include="img\rule2.png" />
     <Content Include="img\SPCRule.png" />
     <Content Include="img\SPCRuleEN.png" />
     <Content Include="img\SPCRuleIN.png" />
     <Content Include="FTAMaster.aspx" />
+    <Content Include="FTACorrectiveAction.aspx" />
     <Content Include="SPCDashboard.aspx" />
     <Content Include="ChangePassword.aspx" />
     <Content Include="content\toastr.css" />
@@ -896,15 +898,30 @@
       <DependentUpon>AlertDelayInput.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Class\clsFTACorrectiveAction.vb" />
     <Compile Include="Class\clsLineGroup.vb" />
     <Compile Include="Class\clsProcess.vb" />
     <Compile Include="Class\clsProcessGroup.vb" />
     <Compile Include="Class\clsTroubleHistoryByLine.vb" />
+    <Compile Include="FTAInquiry.aspx.designer.vb">
+      <DependentUpon>FTAInquiry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FTAInquiry.aspx.vb">
+      <DependentUpon>FTAInquiry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="FTAMaster.aspx.designer.vb">
       <DependentUpon>FTAMaster.aspx</DependentUpon>
     </Compile>
     <Compile Include="FTAMaster.aspx.vb">
       <DependentUpon>FTAMaster.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FTACorrectiveAction.aspx.designer.vb">
+      <DependentUpon>FTACorrectiveAction.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FTACorrectiveAction.aspx.vb">
+      <DependentUpon>FTACorrectiveAction.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SPCDashboard.aspx.designer.vb">

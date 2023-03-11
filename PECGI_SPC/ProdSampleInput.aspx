@@ -971,7 +971,7 @@
                 <EditFormSettings Visible="False" />
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn Caption="Value" VisibleIndex="4" FieldName="Value" Width="80px">
-                <PropertiesTextEdit SelectInputTextOnClick="True" DisplayFormatString="0.000" Width="70px">
+                <PropertiesTextEdit SelectInputTextOnClick="True" DisplayFormatString="0.0000" Width="70px">
                     <MaskSettings UseInvariantCultureDecimalSymbolOnClient="True" />
                     <ValidationSettings>
                         <RegularExpression ErrorText="Please input valid value" />
@@ -1382,7 +1382,7 @@
 <div id="chartXdiv" style="overflow-x:auto; width:100%; border:1px solid black"">
 <dx:WebChartControl ID="chartX" runat="server" ClientInstanceName="chartX"
         Height="490px" Width="1080px" CrosshairEnabled="True" SeriesDataMember="Description" ToolTipEnabled="False">
-        <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" ToolTipPointPattern="{V:0.000}" CrosshairLabelPattern="{S}: {V:0.000}">
+        <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" ToolTipPointPattern="{V:0.0000}" CrosshairLabelPattern="{S}: {V:0.0000}">
             <viewserializable>
                 <cc1:PointSeriesView>                    
                     <PointMarkerOptions kind="Circle" BorderColor="255, 255, 255" Size="5"></PointMarkerOptions>
@@ -1403,7 +1403,7 @@
                     </cc1:FullStackedBarSeriesView>
                 </ViewSerializable>
             </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="XBar" ValueDataMembersSerializable="AvgValue" CrosshairLabelPattern="{S}: {V:0.000}">
+            <cc1:Series ArgumentDataMember="Seq" Name="XBar" ValueDataMembersSerializable="AvgValue" CrosshairLabelPattern="{S}: {V:0.0000}">
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="Blue">
                         <LineStyle Thickness="1" />
@@ -1427,7 +1427,7 @@
                 </AxisX>
                 <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
                     <Tickmarks MinorVisible="False" />
-                    <Label TextPattern="{V:0.000}" Font="Tahoma, 7pt">
+                    <Label TextPattern="{V:0.0000}" Font="Tahoma, 7pt">
                         <ResolveOverlappingOptions AllowHide="True" />
                     </Label>
                     <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.015" MaxValueSerializable="2.715" MinValueSerializable="2.71" StartSideMargin="0.025" />
@@ -1512,7 +1512,7 @@
                 </AxisX>
                 <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
                     <Tickmarks MinorLength="1" MinorVisible="False" />
-                    <Label TextAlignment="Near" TextPattern="{V:0.000}">
+                    <Label TextAlignment="Near" TextPattern="{V:0.0000}">
                         <ResolveOverlappingOptions AllowHide="True" />
                     </Label>
                     <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.001" MaxValueSerializable="0.027" MinValueSerializable="0" StartSideMargin="0" />
