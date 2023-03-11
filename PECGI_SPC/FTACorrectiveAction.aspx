@@ -169,7 +169,25 @@
                 toastr.options.preventDuplicates = true;
                 toastr.options.onclick = null;
             }            
-            btnSubmit.SetEnabled(true);
+            if(s.cpCount == '') {
+                txtRemark.SetEnabled(false);
+                btnSubmit.SetEnabled(false);
+                btnMK.SetEnabled(false);
+                btnQC.SetEnabled(false);
+            } else {
+                txtRemark.SetEnabled(true);
+                btnSubmit.SetEnabled(true);
+                if(s.cpMKVerificationStatus == '1') {
+                    btnMK.SetEnabled(false);
+                } else {    
+                    btnMK.SetEnabled(true);
+                }
+                if(s.cpQCVerificationStatus == '1') {
+                    btnQC.SetEnabled(false);
+                } else {
+                    btnQC.SetEnabled(true);
+                }
+            }
             txtRemark.SetText(s.cpRemark);
         }
 
@@ -250,7 +268,15 @@
                 + '', '_blank');
         }
 
-        function SaveData(s, e) {
+        function MKVerify() {
+            grid.PerformCallback('mkverify|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue());
+        }
+
+        function QCVerify() {
+            grid.PerformCallback('qcverify|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue());
+        }
+
+        function SaveData() {
             grid.PerformCallback('save|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + txtRemark.GetText());
         }
 
@@ -600,6 +626,7 @@
                                     Height="25px" Text="Verification by MK" Theme="Office2010Silver" UseSubmitBehavior="False" 
                                     Width="120px" TabIndex="10">
                                     <Paddings Padding="2px" />
+                                    <ClientSideEvents Click="MKVerify" />
                                 </dx:ASPxButton>                            
                         </td>
                         <td style="padding-right:5px">
@@ -608,6 +635,7 @@
                                     Height="25px" Text="Verification by QC" Theme="Office2010Silver" UseSubmitBehavior="False" 
                                     Width="120px" TabIndex="10">
                                     <Paddings Padding="2px" />
+                                    <ClientSideEvents Click="QCVerify" />
                                 </dx:ASPxButton>                            
                         </td>
                     </tr>
