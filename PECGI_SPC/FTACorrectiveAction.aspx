@@ -673,10 +673,15 @@
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataCheckColumn FieldName="NoCheck" ShowInCustomizationForm="True" VisibleIndex="3" Width="50px">
                         <DataItemTemplate>
-                            <dx:ASPxCheckBox ID="chkNo" runat="server" OnInit="chkNo_Init" />
+                            <dx:ASPxCheckBox ID="chkNo" runat="server" OnInit="chkNo_Init" Value='<%# Eval("NoCheck")%>'/>
                         </DataItemTemplate>
             </dx:GridViewDataCheckColumn>
             <dx:GridViewDataTextColumn FieldName="Action" ShowInCustomizationForm="True" VisibleIndex="6" Width="260px">
+                        <DataItemTemplate>
+                            <dx:ASPxHyperLink ID="linkEdit" Font-Names="Segoe UI" Font-Size="9pt"
+                                runat="server" Text='<%# Eval("Action")%>' OnInit="EditLink_Init">
+                            </dx:ASPxHyperLink>
+                        </DataItemTemplate>
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn FieldName="LastUser" ShowInCustomizationForm="True" VisibleIndex="7">
             </dx:GridViewDataTextColumn>
@@ -697,12 +702,12 @@
                 <Columns>
                     <dx:GridViewDataCheckColumn FieldName="OK" ShowInCustomizationForm="True" VisibleIndex="0" Width="40px">
                         <DataItemTemplate>
-                            <dx:ASPxCheckBox ID="chkOK" runat="server" OnInit="chkOK_Init" />
+                            <dx:ASPxCheckBox ID="chkOK" runat="server" OnInit="chkOK_Init" Value='<%# Eval("OK")%>' />
                         </DataItemTemplate>
                     </dx:GridViewDataCheckColumn>
                     <dx:GridViewDataCheckColumn FieldName="NG" ShowInCustomizationForm="True" VisibleIndex="1" Width="40px">
                         <DataItemTemplate>
-                            <dx:ASPxCheckBox ID="chkNG" runat="server" OnInit="chkNG_Init" />
+                            <dx:ASPxCheckBox ID="chkNG" runat="server" OnInit="chkNG_Init" Value='<%# Eval("NG")%>'/>
                         </DataItemTemplate>
                     </dx:GridViewDataCheckColumn>
                 </Columns>

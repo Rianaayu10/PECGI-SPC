@@ -125,6 +125,7 @@ Public Class FTACorrectiveAction
                         Else
                             DefaultCombo(User.FactoryCode)
                         End If
+                        GridLoad(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, dtDate.Value, cboShift.Value, cboSeq.Value)
                     End If
                 End If
                 btnMK.ClientEnabled = False
@@ -304,10 +305,12 @@ Public Class FTACorrectiveAction
 
     Private Sub GridLoad(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer)
         Dim ErrMsg As String = ""
-        Dim dt As DataTable = clsFTACorrectiveActionDB.GetTable(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence)
-        grid.DataSource = dt
+        'Dim dt As DataTable = clsFTACorrectiveActionDB.GetTable(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence)
+
+        Dim FTAList As List(Of clsFTACorrectiveAction) = clsFTACorrectiveActionDB.GetList(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence)
+        grid.DataSource = FTAList
         grid.DataBind()
-        If dt.Rows.Count = 0 Then
+        If FTAList.Count = 0 Then
             grid.JSProperties("cpCount") = ""
             grid.JSProperties("cpRemark") = ""
             grid.JSProperties("cpMKVerificationStatus") = ""
@@ -317,17 +320,18 @@ Public Class FTACorrectiveAction
             grid.JSProperties("cpQCVerificationDate") = ""
             grid.JSProperties("cpQCVerificationUser") = ""
         Else
-            grid.JSProperties("cpCount") = dt.Rows.Count
-            grid.JSProperties("cpRemark") = dt.Rows(0)("Remark") & ""
-            grid.JSProperties("cpMKVerificationStatus") = dt.Rows(0)("MKVerificationStatus") & ""
-            grid.JSProperties("cpMKVerificationDate") = dt.Rows(0)("MKVerificationDate") & ""
-            grid.JSProperties("cpMKVerificationUser") = dt.Rows(0)("MKVerificationUser") & ""
-            grid.JSProperties("cpQCVerificationStatus") = dt.Rows(0)("QCVerificationStatus") & ""
-            grid.JSProperties("cpQCVerificationDate") = dt.Rows(0)("QCVerificationDate") & ""
-            grid.JSProperties("cpQCVerificationUser") = dt.Rows(0)("QCVerificationUser") & ""
+            Dim FTA As clsFTACorrectiveAction = FTAList.Item(0)
+            grid.JSProperties("cpCount") = FTAList.Count
+            grid.JSProperties("cpRemark") = FTA.Remark
+            grid.JSProperties("cpMKVerificationStatus") = FTA.MKVerificationStatus
+            grid.JSProperties("cpMKVerificationDate") = FTA.MKVerificationDate
+            grid.JSProperties("cpMKVerificationUser") = FTA.MKVerificationUser
+            grid.JSProperties("cpQCVerificationStatus") = FTA.QCVerificationStatus
+            grid.JSProperties("cpQCVerificationDate") = FTA.QCVerificationDate
+            grid.JSProperties("cpQCVerificationUser") = FTA.QCVerificationUser
         End If
         Dim UserID As String = Session("user")
-        Session("C01User") = UserID
+        Session("C01USer") = UserID
         Session("C01ProdDate") = ProdDate
         Session("C01ProcessGroup") = cboProcessGroup.Value
         Session("C01LineGroup") = cboLineGroup.Value
@@ -379,20 +383,30 @@ Public Class FTACorrectiveAction
                     For Each item In hf
                         Dim i As String = item.Key
                         Dim value As Boolean = item.Value
-                        Dim pResult As String
-                        If value = True Then
-                            pResult = "1"
-                        Else
-                            pResult = "0"
+                        Dim pResult As String = ""
+                        If i.StartsWith("OK") Then
+                            If value = True Then
+                                pResult = "1"
+                            End If
+                        ElseIf i.StartsWith("NG") Then
+                            If value = True Then
+                                pResult = "2"
+                            End If
+                        ElseIf i.StartsWith("No") Then
+                            If value = True Then
+                                pResult = "0"
+                            End If
                         End If
+
                         clsFTACorrectiveActionDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pResult, pRemark, pUser)
                     Next item
+                    hf.Clear()
                     show_error(MsgTypeEnum.Success, "Update data successful!", 1)
                 ElseIf pFunction = "mkverify" Or pFunction = "qcverify" Then
                     Dim i As Integer = clsFTACorrectiveActionDB.Verify(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pUser)
                     Dim JobPos As String
                     If i = 0 Then
-                        show_error(MsgTypeEnum.Warning, "You do not have privilege to Verify!", 1)
+                        show_error(MsgTypeEnum.Warning, "You Do Not have privilege To Verify!", 1)
                     Else
                         If pFunction = "mkverify" Then
                             JobPos = "MK"
@@ -652,6 +666,19 @@ Public Class FTACorrectiveAction
         End If
     End Sub
 
+    Protected Sub EditLink_Init(ByVal sender As Object, ByVal e As EventArgs)
+        Dim link As DevExpress.Web.ASPxHyperLink = CType(sender, DevExpress.Web.ASPxHyperLink)
+        Dim templatecontainer As GridViewDataItemTemplateContainer = CType(link.NamingContainer, GridViewDataItemTemplateContainer)
+        link.NavigateUrl = "javascript:void(0)"
+        link.ForeColor = Color.SteelBlue
+
+        Dim FTAID As String = ""
+        FTAID = templatecontainer.Grid.GetRowValues(templatecontainer.VisibleIndex, "FTAID") & ""
+        If FTAID <> "" Then
+            link.ClientSideEvents.Click = "function (s,e) {ShowPopUpAction('" + FTAID + "');}"
+        End If
+    End Sub
+
     Private Sub grid_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles grid.HtmlDataCellPrepared
         e.Cell.Attributes.Add("onclick", "event.cancelBubble = true")
     End Sub
@@ -723,7 +750,7 @@ Public Class FTACorrectiveAction
         If FTAID <> "" Then
             Dim i As String = container.VisibleIndex
             chkOK.ClientInstanceName = String.Format("chkOK{0}", i)
-            chkOK.ClientSideEvents.CheckedChanged = "function(s, e) { chkNG" + i + ".SetChecked(false); chkNo" + i + ".SetChecked(false); hf.Set('" + i + "', s.GetChecked()); }"
+            chkOK.ClientSideEvents.CheckedChanged = "function(s, e) { chkNG" + i + ".SetChecked(false); chkNo" + i + ".SetChecked(false); hf.Set('OK" + i + "', s.GetChecked()); }"
         End If
     End Sub
 
@@ -735,7 +762,7 @@ Public Class FTACorrectiveAction
         If FTAID <> "" Then
             Dim i As String = container.VisibleIndex
             chkNG.ClientInstanceName = String.Format("chkNG{0}", i)
-            chkNG.ClientSideEvents.CheckedChanged = "function(s, e) { chkOK" + i + ".SetChecked(false); chkNo" + i + ".SetChecked(false); }"
+            chkNG.ClientSideEvents.CheckedChanged = "function(s, e) { chkOK" + i + ".SetChecked(false); chkNo" + i + ".SetChecked(false); hf.Set('NG" + i + "', s.GetChecked()); }"
         End If
     End Sub
 
@@ -747,7 +774,7 @@ Public Class FTACorrectiveAction
         If FTAID <> "" Then
             Dim i As String = container.VisibleIndex
             chkNo.ClientInstanceName = String.Format("chkNo{0}", i)
-            chkNo.ClientSideEvents.CheckedChanged = "function(s, e) { chkOK" + i + ".SetChecked(false); chkNG" + i + ".SetChecked(false); }"
+            chkNo.ClientSideEvents.CheckedChanged = "function(s, e) { chkOK" + i + ".SetChecked(false); chkNG" + i + ".SetChecked(false); hf.Set('No" + i + "', s.GetChecked()); }"
         End If
     End Sub
 
