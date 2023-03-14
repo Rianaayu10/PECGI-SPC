@@ -203,13 +203,13 @@ Partial Public Class FTACorrectiveAction
     Protected WithEvents btnSearch As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
-    '''hfUserID control.
+    '''hfDetail control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents hfUserID As Global.DevExpress.Web.ASPxHiddenField
+    Protected WithEvents hfDetail As Global.DevExpress.Web.ASPxHiddenField
 
     '''<summary>
     '''btnView control.
@@ -399,6 +399,51 @@ Partial Public Class FTACorrectiveAction
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ASPxButton2 As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
+    '''pcEdit control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pcEdit As Global.DevExpress.Web.ASPxPopupControl
+
+    '''<summary>
+    '''gridEdit control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents gridEdit As Global.DevExpress.Web.ASPxGridView
+
+    '''<summary>
+    '''chkOther control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chkOther As Global.DevExpress.Web.ASPxCheckBox
+
+    '''<summary>
+    '''txtOther control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtOther As Global.DevExpress.Web.ASPxTextBox
+
+    '''<summary>
+    '''btnSaveAction control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSaveAction As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
     '''cbkRefresh control.

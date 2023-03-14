@@ -1,6 +1,6 @@
 ﻿Imports System.Data.SqlClient
 
-Public Class clsFTACorrectiveAction
+Public Class clsFTAResult
     Public Property No As Integer
     Public Property Description As String
     Public Property Action As String
@@ -22,7 +22,7 @@ Public Class clsFTACorrectiveAction
     Public Property QCVerificationDate As String
 End Class
 
-Public Class clsFTACorrectiveActionDB
+Public Class clsFTAResultDB
     Public Shared Function GetTable(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer) As DataTable
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
@@ -44,7 +44,7 @@ Public Class clsFTACorrectiveActionDB
         End Using
     End Function
 
-    Public Shared Function GetList(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer) As List(Of clsFTACorrectiveAction)
+    Public Shared Function GetList(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer) As List(Of clsFTAResult)
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String = "sp_spc_FTACorrectiveAction"
@@ -58,9 +58,9 @@ Public Class clsFTACorrectiveActionDB
             cmd.Parameters.AddWithValue("ShiftCode", Shift)
             cmd.Parameters.AddWithValue("SequenceNo", Sequence)
             Dim rd As SqlDataReader = cmd.ExecuteReader
-            Dim FTAList As New List(Of clsFTACorrectiveAction)
+            Dim FTAList As New List(Of clsFTAResult)
             Do While rd.Read
-                Dim FTA As New clsFTACorrectiveAction
+                Dim FTA As New clsFTAResult
                 FTA.No = rd("No")
                 FTA.Description = rd("Description") & ""
                 FTA.Action = rd("Action") & ""
@@ -108,10 +108,15 @@ Public Class clsFTACorrectiveActionDB
         End Using
     End Function
 
-    Public Shared Function GetFTAAction(FTAID As String) As DataTable
+    Public Shared Function GetFTAAction(FTAID As String, Optional UseCheckBox As Boolean = False) As DataTable
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
-            Dim q As String = "select * from spc_MS_FTAAction where FTAID = @FTAID order by ActionID "
+            Dim q As String
+            If UseCheckBox Then
+                q = "select 0 [Select], * from spc_MS_FTAAction where FTAID = @FTAID order by ActionID "
+            Else
+                q = "select * from spc_MS_FTAAction where FTAID = @FTAID order by ActionID "
+            End If
             Dim cmd As New SqlCommand(q, Cn)
             cmd.Parameters.AddWithValue("FTAID", FTAID)
             Dim da As New SqlDataAdapter(cmd)
@@ -177,10 +182,8 @@ Public Class clsFTACorrectiveActionDB
             End If
         End Using
     End Function
-End Class
 
-Public Class clsFTAInquiryDB
-    Public Shared Function GetTable(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, Optional MKVerification As Integer = 0, Optional QCVerification As Integer = 0) As DataTable
+    Public Shared Function GetInquiry(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, Optional MKVerification As Integer = 0, Optional QCVerification As Integer = 0) As DataTable
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String = "sp_SPC_FTAInquiry"
@@ -199,6 +202,43 @@ Public Class clsFTAInquiryDB
             Dim dt As New DataTable
             da.Fill(dt)
             Return dt
+        End Using
+    End Function
+End Class
+
+Public Class clsFTAResultDetail
+    Public Property FAResultID As Integer
+    Public Property SequenceNo As Integer
+
+    Public Property FTAID As String
+    Public Property FTAResult As String
+    Public Property Remark As String
+End Class
+
+Public Class clsFTAResultDetailDB
+    Public Shared Function Insert(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer, Remark As String,
+                                  FTAID As String, DetailSeqNo As Integer, ActionID As Integer, FTAResult As String, DetailRemark As String, UserID As String) As Integer
+        Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+            Cn.Open()
+            Dim q As String = "sp_spc_FTAResultDetail_Ins"
+            Dim cmd As New SqlCommand(q, Cn)
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
+            cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
+            cmd.Parameters.AddWithValue("Line", Line)
+            cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
+            cmd.Parameters.AddWithValue("ProdDate", CDate(ProdDate))
+            cmd.Parameters.AddWithValue("ShiftCode", Shift)
+            cmd.Parameters.AddWithValue("SequenceNo", Sequence)
+            cmd.Parameters.AddWithValue("Remark", Remark)
+            cmd.Parameters.AddWithValue("FTAID", FTAID)
+            cmd.Parameters.AddWithValue("DetailSeqNo", DetailSeqNo)
+            cmd.Parameters.AddWithValue("ActionID", ActionID)
+            cmd.Parameters.AddWithValue("FTAResult", FTAResult)
+            cmd.Parameters.AddWithValue("DetailRemark", DetailRemark)
+            cmd.Parameters.AddWithValue("UserID", UserID)
+            Dim i As Integer = cmd.ExecuteNonQuery
+            Return i
         End Using
     End Function
 End Class

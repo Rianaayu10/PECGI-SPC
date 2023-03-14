@@ -244,7 +244,7 @@ Public Class FTAInquiry
 
     Private Sub GridLoad(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, MKVerification As Integer, QCVerification As Integer)
         Dim ErrMsg As String = ""
-        Dim dt As DataTable = clsFTAInquiryDB.GetTable(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, ProdDate2, MKVerification, QCVerification)
+        Dim dt As DataTable = clsFTAResultDB.GetInquiry(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, ProdDate2, MKVerification, QCVerification)
         grid.DataSource = dt
         grid.DataBind()
         Dim UserID As String = Session("user")

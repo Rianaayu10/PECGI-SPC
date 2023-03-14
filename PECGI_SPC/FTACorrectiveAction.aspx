@@ -124,6 +124,44 @@
             grid.PerformCallback('load' + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|0');
         }
 
+        function OnBatchEditEndEditing(s, e) {
+                if (s.cp_type == "Success" && s.cp_val == 1) {
+                    toastr.success(s.cp_message, 'Success');
+                    toastr.options.closeButton = false;
+                    toastr.options.debug = false;
+                    toastr.options.newestOnTop = false;
+                    toastr.options.progressBar = false;
+                    toastr.options.preventDuplicates = true;
+                    toastr.options.onclick = null;
+                    s.cp_val = 0;
+                    s.cp_message = "";
+                }
+                else if (s.cp_type == "Warning" && s.cp_val == 1) {
+
+                    toastr.warning(s.cp_message, 'Warning');
+                    toastr.options.closeButton = false;
+                    toastr.options.debug = false;
+                    toastr.options.newestOnTop = false;
+                    toastr.options.progressBar = false;
+                    toastr.options.preventDuplicates = true;
+                    toastr.options.onclick = null;
+                    s.cp_val = 0;
+                    s.cp_message = "";
+                }
+                else if (s.cp_type == "ErrorMsg" && s.cp_val == 1) {
+                    toastr.error(s.cp_message, 'Error');
+                    toastr.options.closeButton = false;
+                    toastr.options.debug = false;
+                    toastr.options.newestOnTop = false;
+                    toastr.options.progressBar = false;
+                    toastr.options.preventDuplicates = true;
+                    toastr.options.onclick = null;
+                    s.cp_val = 0;
+                    s.cp_message = "";
+                }            
+                GridLoad();
+        }
+
         function OnEndCallback(s, e) {        
             if (s.cp_message != "" && s.cp_val == 1) {
                 if (s.cp_type == "Success" && s.cp_val == 1) {
@@ -201,6 +239,20 @@
             e.processOnServer = false;
         }
 
+        function SaveAction(s, e) {            
+            if(chkOther.GetChecked()) {
+                var FTAID = hfDetail.Get('FTAID');
+                var DetSeqNo = hfDetail.Get('DetSeqNo');
+                gridEdit.PerformCallback('save|' + FTAID + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + txtRemark.GetText() + '|0|2|' + txtOther.GetText() + '|' + DetSeqNo );
+            } else {
+                gridEdit.UpdateEdit();
+            }            
+            pcEdit.Hide(); 
+            chkOther.SetChecked(false);
+            txtOther.SetText('');           
+            txtOther.SetEnabled(false);
+        }
+
         function ClosePopupIK(s, e) {
             pcIK.Hide();
             e.processOnServer = false;
@@ -214,6 +266,13 @@
         function ShowPopUpAction(s) {
             gridAction.PerformCallback(s);
             pcAction.Show();
+        }
+
+        function ShowPopUpEdit(FTAID, DetSeqNo) {
+            gridEdit.PerformCallback('load|' + FTAID);            
+            hfDetail.Set('FTAID', FTAID);
+            hfDetail.Set('DetSeqNo', DetSeqNo);
+            pcEdit.Show();
         }
 
         function ShowPopUpIK(s) {
@@ -278,6 +337,49 @@
 
         function SaveData() {
             grid.PerformCallback('save|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + txtRemark.GetText());
+        }
+
+        var checkBoxColumns = ['Select'];
+        var lastEditedColumn;
+        var rowIndex;
+        function OnBatchEditStartEditing(s, e) {
+            lastEditedColumn = e.focusedColumn.fieldName;
+            rowIndex = e.visibleIndex;
+        }
+
+        function OnCheckedChanged(s, e) {
+            gridEdit.SetFocusedRowIndex(-1);
+            var isChecked = s.GetChecked();
+            if(isChecked) {
+                chkOther.SetChecked(false);
+                txtOther.SetEnabled(false);
+            }
+            for(var i = 0; i < gridEdit.GetVisibleRowsOnPage(); i++) {
+                if(i != rowIndex) {
+                    gridEdit.batchEditApi.SetCellValue(i, "Select", 0);
+                }
+            }
+
+        }
+
+        function SelectNoCheck(startRow) {
+            for(var i = startRow + 1; i < grid.GetVisibleRowsOnPage(); i++) {
+                grid.batchEditApi.SetCellValue(i, "NoCheck", true);
+            }
+        }
+
+        function chkOtherCheckedChanged(s, e) {
+            var isChecked = s.GetChecked();
+            if(isChecked) 
+            {
+                for (var i = 0; i < gridEdit.GetVisibleRowsOnPage(); i++) {
+                    gridEdit.batchEditApi.SetCellValue(i, "Select", 0);
+                }
+                txtOther.SetEnabled(true);
+                txtOther.Focus();
+            } else {
+                txtOther.SetEnabled(false);
+            }
         }
 
     </script>
@@ -584,7 +686,7 @@
     </table>
     </div>
 <div style="height:10px">
-    <dx:ASPxHiddenField ID="hfUserID" runat="server" ClientInstanceName="hfUserID">
+    <dx:ASPxHiddenField ID="hfDetail" runat="server" ClientInstanceName="hfDetail">
     </dx:ASPxHiddenField>
 </div>
 <hr style="border-color:darkgray; " class="auto-style1"/>
@@ -678,9 +780,20 @@
             </dx:GridViewDataCheckColumn>
             <dx:GridViewDataTextColumn FieldName="Action" ShowInCustomizationForm="True" VisibleIndex="6" Width="260px">
                         <DataItemTemplate>
-                            <dx:ASPxHyperLink ID="linkEdit" Font-Names="Segoe UI" Font-Size="9pt"
-                                runat="server" Text='<%# Eval("Action")%>' OnInit="EditLink_Init">
-                            </dx:ASPxHyperLink>
+                            <table style="width:100%">
+                                <tr>
+                                    <td style="width:36px; text-align:left">
+                                        <dx:ASPxHyperLink ID="linkEdit" Font-Names="Segoe UI" Font-Size="9pt"
+                                            runat="server" Text="Edit" OnInit="EditLink_Init">
+                                        </dx:ASPxHyperLink>
+                                    </td>
+                                    <td>
+                                        <dx:ASPxLabel runat="server" Text='<%# Eval("Action")%>'></dx:ASPxLabel>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            
                         </DataItemTemplate>
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn FieldName="LastUser" ShowInCustomizationForm="True" VisibleIndex="7">
@@ -1008,6 +1121,97 @@
 </dx:PopupControlContentControl>
 </ContentCollection>
 </dx:ASPxPopupControl>
+</div>
+
+
+<div>
+<dx:ASPxPopupControl ID="pcEdit" runat="server" ClientInstanceName="pcEdit" Height="350px" Width="600px" HeaderText="FTA Action" Modal="True"
+                        CloseAction="CloseButton" CloseOnEscape="true" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False">
+                        <ContentCollection>
+<dx:PopupControlContentControl runat="server">
+
+    <dx:ASPxGridView ID="gridEdit" runat="server" AutoGenerateColumns="False" ClientInstanceName="gridEdit" CssClass="auto-style2" EnableTheming="True" Font-Names="Segoe UI" Font-Size="9pt" KeyFieldName="ActionID" Theme="Office2010Black" Width="100%" OnBatchUpdate="gridEdit_BatchUpdate">
+        <ClientSideEvents BatchEditStartEditing="OnBatchEditStartEditing" BatchEditEndEditing="OnBatchEditEndEditing" EndCallback="OnEndCallback" />
+        <SettingsPager AlwaysShowPager="True" Mode="ShowAllRecords" PageSize="30">
+        </SettingsPager>
+        <SettingsEditing EditFormColumnCount="1" Mode="Batch">
+            <BatchEditSettings ShowConfirmOnLosingChanges="False" />
+        </SettingsEditing>
+        <Settings HorizontalScrollBarMode="Auto" ShowStatusBar="Hidden" VerticalScrollableHeight="260" VerticalScrollBarMode="Auto" />
+        <SettingsBehavior AllowDragDrop="False" AllowSort="False" ColumnResizeMode="Control" ConfirmDelete="True" />
+        <SettingsDataSecurity AllowDelete="False" />
+        <SettingsPopup>
+            <EditForm HorizontalAlign="WindowCenter" VerticalAlign="WindowCenter" Width="200px">
+            </EditForm>
+            <FilterControl AutoUpdatePosition="False">
+            </FilterControl>
+        </SettingsPopup>
+        <Columns>
+            <dx:GridViewDataTextColumn FieldName="ActionName" ShowInCustomizationForm="True" VisibleIndex="2" Width="420px" Caption="Action">
+            </dx:GridViewDataTextColumn>
+            <dx:GridViewDataTextColumn FieldName="ActionID" ShowInCustomizationForm="True" VisibleIndex="1" Width="60px" Caption="ID">
+            </dx:GridViewDataTextColumn>
+            <dx:GridViewDataCheckColumn Caption=" " FieldName="Select" ShowInCustomizationForm="True" VisibleIndex="0" Width="40px">
+                <PropertiesCheckEdit ClientInstanceName="chkSelect" ValueChecked="1" ValueType="System.Int32" ValueUnchecked="0">
+                            <ClientSideEvents CheckedChanged="OnCheckedChanged" />
+                        </PropertiesCheckEdit>
+            </dx:GridViewDataCheckColumn>
+            <dx:GridViewDataTextColumn FieldName="FTAID" ShowInCustomizationForm="True" VisibleIndex="3" Width="90px">
+            </dx:GridViewDataTextColumn>
+        </Columns>
+        <Styles>
+            <Header HorizontalAlign="Center" Wrap="True">
+                <Paddings Padding="2px" />
+            </Header>
+            <DetailCell Wrap="False">
+            </DetailCell>
+            <SelectedRow BackColor="White" ForeColor="Black">
+            </SelectedRow>
+            <CommandColumnItem ForeColor="SteelBlue">
+            </CommandColumnItem>
+            <EditFormColumnCaption Font-Names="Segoe UI" Font-Size="9pt">
+                <Paddings PaddingBottom="5px" PaddingLeft="15px" PaddingRight="15px" PaddingTop="5px" />
+            </EditFormColumnCaption>
+            <BatchEditModifiedCell ForeColor="Black">
+            </BatchEditModifiedCell>
+        </Styles>
+    </dx:ASPxGridView>
+    <div style="height:10px"></div>
+    <table style="width:100%">
+        <tr>
+            <td style="width:80px; padding-left:5px">
+
+                <dx:ASPxCheckBox ID="chkOther" runat="server" CheckState="Unchecked" Text="Other" Width="70px" ClientInstanceName="chkOther">
+                    <ClientSideEvents CheckedChanged="chkOtherCheckedChanged" />
+                </dx:ASPxCheckBox>
+
+            </td>
+            <td>
+
+                <dx:ASPxTextBox ID="txtOther" runat="server" Width="100%" ClientInstanceName="txtOther" ClientEnabled="False" MaxLength="50">
+                    <ReadOnlyStyle BackColor="Silver">
+                    </ReadOnlyStyle>
+                    <DisabledStyle BackColor="Silver">
+                    </DisabledStyle>
+                </dx:ASPxTextBox>
+
+            </td>
+        </tr>
+        <tr style="width:100px">
+
+            <td style="text-align:center; padding-top: 10px;" colspan="2" align="center">
+                <dx:ASPxButton ID="btnSaveAction" runat="server" AutoPostBack="False" ClientInstanceName="btnSaveAction" Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="10" Text="Save" Theme="Office2010Silver" UseSubmitBehavior="False" Width="90px">
+                    <ClientSideEvents Click="SaveAction" />
+                    <Paddings Padding="2px" />
+                </dx:ASPxButton>
+            </td>
+        </tr>
+    </table>
+    
+</dx:PopupControlContentControl>
+</ContentCollection>
+</dx:ASPxPopupControl>
+
 </div>
 
     <div>

@@ -70,6 +70,12 @@ Public Class FTACorrectiveAction
         grid.JSProperties("cp_val") = pVal
     End Sub
 
+    Private Sub GridEditShowMsg(ByVal msgType As MsgTypeEnum, ByVal ErrMsg As String, ByVal pVal As Integer)
+        gridEdit.JSProperties("cp_message") = ErrMsg
+        gridEdit.JSProperties("cp_type") = msgType
+        gridEdit.JSProperties("cp_val") = pVal
+    End Sub
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         GlobalPrm = Request.QueryString("FactoryCode") & ""
         sGlobal.getMenu("C010 ")
@@ -291,23 +297,30 @@ Public Class FTACorrectiveAction
 
     Private Sub GridLoadFTA(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String)
         Dim ErrMsg As String = ""
-        Dim dt As DataTable = clsFTACorrectiveActionDB.GetFTAMaster(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
+        Dim dt As DataTable = clsFTAResultDB.GetFTAMaster(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
         gridFTA.DataSource = dt
         gridFTA.DataBind()
     End Sub
 
     Private Sub GridLoadAction(FTAID As String)
         Dim ErrMsg As String = ""
-        Dim dt As DataTable = clsFTACorrectiveActionDB.GetFTAAction(FTAID)
+        Dim dt As DataTable = clsFTAResultDB.GetFTAAction(FTAID)
         gridAction.DataSource = dt
         gridAction.DataBind()
     End Sub
 
+    Private Sub GridLoadEdit(FTAID As String)
+        Dim ErrMsg As String = ""
+        Dim dt As DataTable = clsFTAResultDB.GetFTAAction(FTAID, True)
+        gridEdit.DataSource = dt
+        gridEdit.DataBind()
+    End Sub
+
     Private Sub GridLoad(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer)
         Dim ErrMsg As String = ""
-        'Dim dt As DataTable = clsFTACorrectiveActionDB.GetTable(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence)
+        'Dim dt As DataTable = clsFTAResultDB.GetTable(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence)
 
-        Dim FTAList As List(Of clsFTACorrectiveAction) = clsFTACorrectiveActionDB.GetList(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence)
+        Dim FTAList As List(Of clsFTAResult) = clsFTAResultDB.GetList(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence)
         grid.DataSource = FTAList
         grid.DataBind()
         If FTAList.Count = 0 Then
@@ -320,7 +333,7 @@ Public Class FTACorrectiveAction
             grid.JSProperties("cpQCVerificationDate") = ""
             grid.JSProperties("cpQCVerificationUser") = ""
         Else
-            Dim FTA As clsFTACorrectiveAction = FTAList.Item(0)
+            Dim FTA As clsFTAResult = FTAList.Item(0)
             grid.JSProperties("cpCount") = FTAList.Count
             grid.JSProperties("cpRemark") = FTA.Remark
             grid.JSProperties("cpMKVerificationStatus") = FTA.MKVerificationStatus
@@ -380,6 +393,7 @@ Public Class FTACorrectiveAction
                 If pFunction = "save" Then
                     Dim pRemark As String = Split(e.Parameters, "|")(8)
                     pUser = Session("user") & ""
+                    Dim n As Integer = hf.Count
                     For Each item In hf
                         Dim i As String = item.Key
                         Dim value As Boolean = item.Value
@@ -397,13 +411,14 @@ Public Class FTACorrectiveAction
                                 pResult = "0"
                             End If
                         End If
-
-                        clsFTACorrectiveActionDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pResult, pRemark, pUser)
+                        If pResult <> "" Then
+                            clsFTAResultDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pResult, pRemark, pUser)
+                        End If
                     Next item
                     hf.Clear()
                     show_error(MsgTypeEnum.Success, "Update data successful!", 1)
                 ElseIf pFunction = "mkverify" Or pFunction = "qcverify" Then
-                    Dim i As Integer = clsFTACorrectiveActionDB.Verify(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pUser)
+                    Dim i As Integer = clsFTAResultDB.Verify(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pUser)
                     Dim JobPos As String
                     If i = 0 Then
                         show_error(MsgTypeEnum.Warning, "You Do Not have privilege To Verify!", 1)
@@ -627,12 +642,12 @@ Public Class FTACorrectiveAction
 
     Protected Sub IKLink_Init(ByVal sender As Object, ByVal e As EventArgs)
         Dim link As DevExpress.Web.ASPxHyperLink = CType(sender, DevExpress.Web.ASPxHyperLink)
-        Dim templatecontainer As GridViewDataItemTemplateContainer = CType(link.NamingContainer, GridViewDataItemTemplateContainer)
+        Dim container As GridViewDataItemTemplateContainer = CType(link.NamingContainer, GridViewDataItemTemplateContainer)
         link.NavigateUrl = "javascript:void(0)"
         link.ForeColor = Color.SteelBlue
 
         Dim FTAID As String = ""
-        FTAID = templatecontainer.Grid.GetRowValues(templatecontainer.VisibleIndex, "FTAID") & ""
+        FTAID = container.Grid.GetRowValues(container.VisibleIndex, "FTAID") & ""
         If FTAID <> "" Then
             link.ClientSideEvents.Click = "function (s,e) {ShowPopUpIK('" + FTAID + "');}"
         End If
@@ -642,12 +657,12 @@ Public Class FTACorrectiveAction
 
     Protected Sub IKLink2_Init(ByVal sender As Object, ByVal e As EventArgs)
         Dim link As DevExpress.Web.ASPxHyperLink = CType(sender, DevExpress.Web.ASPxHyperLink)
-        Dim templatecontainer As GridViewDataItemTemplateContainer = CType(link.NamingContainer, GridViewDataItemTemplateContainer)
+        Dim container As GridViewDataItemTemplateContainer = CType(link.NamingContainer, GridViewDataItemTemplateContainer)
         link.NavigateUrl = "javascript:void(0)"
         link.ForeColor = Color.SteelBlue
 
         Dim FTAID As String = ""
-        FTAID = templatecontainer.Grid.GetRowValues(templatecontainer.VisibleIndex, "FTAID") & ""
+        FTAID = container.Grid.GetRowValues(container.VisibleIndex, "FTAID") & ""
         If FTAID <> "" Then
             link.ClientSideEvents.Click = "function (s,e) {ShowPopUpIK('" + FTAID + "');}"
         End If
@@ -655,12 +670,12 @@ Public Class FTACorrectiveAction
 
     Protected Sub ActionLink_Init(ByVal sender As Object, ByVal e As EventArgs)
         Dim link As DevExpress.Web.ASPxHyperLink = CType(sender, DevExpress.Web.ASPxHyperLink)
-        Dim templatecontainer As GridViewDataItemTemplateContainer = CType(link.NamingContainer, GridViewDataItemTemplateContainer)
+        Dim container As GridViewDataItemTemplateContainer = CType(link.NamingContainer, GridViewDataItemTemplateContainer)
         link.NavigateUrl = "javascript:void(0)"
         link.ForeColor = Color.SteelBlue
 
         Dim FTAID As String = ""
-        FTAID = templatecontainer.Grid.GetRowValues(templatecontainer.VisibleIndex, "FTAID") & ""
+        FTAID = container.Grid.GetRowValues(container.VisibleIndex, "FTAID") & ""
         If FTAID <> "" Then
             link.ClientSideEvents.Click = "function (s,e) {ShowPopUpAction('" + FTAID + "');}"
         End If
@@ -668,14 +683,16 @@ Public Class FTACorrectiveAction
 
     Protected Sub EditLink_Init(ByVal sender As Object, ByVal e As EventArgs)
         Dim link As DevExpress.Web.ASPxHyperLink = CType(sender, DevExpress.Web.ASPxHyperLink)
-        Dim templatecontainer As GridViewDataItemTemplateContainer = CType(link.NamingContainer, GridViewDataItemTemplateContainer)
+        Dim container As GridViewDataItemTemplateContainer = CType(link.NamingContainer, GridViewDataItemTemplateContainer)
         link.NavigateUrl = "javascript:void(0)"
         link.ForeColor = Color.SteelBlue
 
-        Dim FTAID As String = ""
-        FTAID = templatecontainer.Grid.GetRowValues(templatecontainer.VisibleIndex, "FTAID") & ""
+        Dim FTAID As String = container.Grid.GetRowValues(container.VisibleIndex, "FTAID") & ""
+        Dim No As String = container.Grid.GetRowValues(container.VisibleIndex, "No") & ""
         If FTAID <> "" Then
-            link.ClientSideEvents.Click = "function (s,e) {ShowPopUpAction('" + FTAID + "');}"
+            Dim i As String = container.VisibleIndex
+            link.ClientInstanceName = String.Format("linkEdit{0}", i)
+            link.ClientSideEvents.Click = "function (s,e) {ShowPopUpEdit('" + FTAID + "', '" + No + "');}"
         End If
     End Sub
 
@@ -750,7 +767,15 @@ Public Class FTACorrectiveAction
         If FTAID <> "" Then
             Dim i As String = container.VisibleIndex
             chkOK.ClientInstanceName = String.Format("chkOK{0}", i)
-            chkOK.ClientSideEvents.CheckedChanged = "function(s, e) { chkNG" + i + ".SetChecked(false); chkNo" + i + ".SetChecked(false); hf.Set('OK" + i + "', s.GetChecked()); }"
+            chkOK.ClientSideEvents.CheckedChanged =
+                "function(s, e) { " +
+                "chkNG" + i + ".SetChecked(false); " +
+                "chkNo" + i + ".SetChecked(false); " +
+                "hf.Set('OK" + i + "', s.GetChecked()); " +
+                "hf.Set('NG" + i + "', false); " +
+                "hf.Set('No" + i + "', false); " +
+                "linkEdit" + i + ".SetVisible(false); " +
+                "}"
         End If
     End Sub
 
@@ -762,7 +787,16 @@ Public Class FTACorrectiveAction
         If FTAID <> "" Then
             Dim i As String = container.VisibleIndex
             chkNG.ClientInstanceName = String.Format("chkNG{0}", i)
-            chkNG.ClientSideEvents.CheckedChanged = "function(s, e) { chkOK" + i + ".SetChecked(false); chkNo" + i + ".SetChecked(false); hf.Set('NG" + i + "', s.GetChecked()); }"
+            chkNG.ClientSideEvents.CheckedChanged =
+                "function(s, e) { " +
+                "chkOK" + i + ".SetChecked(false); " +
+                "chkNo" + i + ".SetChecked(false); " +
+                "hf.Set('NG" + i + "', s.GetChecked()); " +
+                "hf.Set('OK" + i + "', false); " +
+                "hf.Set('No" + i + "', false); " +
+                "linkEdit" + i + ".SetVisible(s.GetChecked()); " +
+                "SelectNoCheck(" + i + "); " +
+                "}"
         End If
     End Sub
 
@@ -774,12 +808,20 @@ Public Class FTACorrectiveAction
         If FTAID <> "" Then
             Dim i As String = container.VisibleIndex
             chkNo.ClientInstanceName = String.Format("chkNo{0}", i)
-            chkNo.ClientSideEvents.CheckedChanged = "function(s, e) { chkOK" + i + ".SetChecked(false); chkNG" + i + ".SetChecked(false); hf.Set('No" + i + "', s.GetChecked()); }"
+            chkNo.ClientSideEvents.CheckedChanged =
+                "function(s, e) { " +
+                "chkOK" + i + ".SetChecked(false); " +
+                "chkNG" + i + ".SetChecked(false); " +
+                "hf.Set('No" + i + "', s.GetChecked()); " +
+                "hf.Set('OK" + i + "', false); " +
+                "hf.Set('NG" + i + "', false); " +
+                "linkEdit" + i + ".SetVisible(false); " +
+                "}"
         End If
     End Sub
 
     Public Sub ShowIK(FTAID As String)
-        Dim Img As Object = clsFTACorrectiveActionDB.GetIK(FTAID)
+        Dim Img As Object = clsFTAResultDB.GetIK(FTAID)
         Dim ImageUrl As String = "~/img/noimage.png"
         If Img IsNot Nothing AndAlso Not IsDBNull(Img) Then
             Dim fcByte As Byte() = Nothing
@@ -794,7 +836,85 @@ Public Class FTACorrectiveAction
         GridLoadAction(FTAID)
     End Sub
 
+    Private Sub gridEdit_CustomCallback(sender As Object, e As ASPxGridViewCustomCallbackEventArgs) Handles gridEdit.CustomCallback
+        Dim pFunction As String = Split(e.Parameters, "|")(0)
+        Dim FTAID As String = Split(e.Parameters, "|")(1)
+        If pFunction = "load" Then
+            GridLoadEdit(FTAID)
+        ElseIf pFunction = "save" Then
+            Dim pFactory As String = Split(e.Parameters, "|")(2)
+            Dim pItemType As String = Split(e.Parameters, "|")(3)
+            Dim pLine As String = Split(e.Parameters, "|")(4)
+            Dim pItemCheck As String = Split(e.Parameters, "|")(5)
+            Dim pDate As String = Split(e.Parameters, "|")(6)
+            Dim pShift As String = Split(e.Parameters, "|")(7)
+            Dim pSeq As String = Split(e.Parameters, "|")(8)
+            Dim pRemark As String = Split(e.Parameters, "|")(9)
+            Dim pActionID As String = Split(e.Parameters, "|")(10)
+            Dim pResult As String = Split(e.Parameters, "|")(11)
+            Dim pDetailRemark As String = Split(e.Parameters, "|")(12)
+            Dim pDetSeqNo As Integer = Split(e.Parameters, "|")(13)
+            pUser = Session("user")
+
+            clsFTAResultDetailDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pRemark, FTAID, pDetSeqNo, pActionID, pResult, pDetailRemark, pUser)
+            GridLoad(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq)
+            GridEditShowMsg(MsgTypeEnum.Success, "Update data successful!", 1)
+        End If
+    End Sub
+
     Private Sub grid_RowUpdating(sender As Object, e As ASPxDataUpdatingEventArgs) Handles grid.RowUpdating
         e.Cancel = True
+    End Sub
+
+    Private Sub gridAction_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles gridAction.HtmlDataCellPrepared
+        e.Cell.Attributes.Add("onclick", "event.cancelBubble = true")
+    End Sub
+
+    Private Sub gridAction_CellEditorInitialize(sender As Object, e As ASPxGridViewEditorEventArgs) Handles gridAction.CellEditorInitialize
+        e.Editor.ReadOnly = True
+    End Sub
+
+    Private Sub gridEdit_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles gridEdit.HtmlDataCellPrepared
+        If e.DataColumn.FieldName <> "Select" Then
+            e.Cell.Attributes.Add("onclick", "event.cancelBubble = true")
+        End If
+    End Sub
+
+    Private Sub gridEdit_CellEditorInitialize(sender As Object, e As ASPxGridViewEditorEventArgs) Handles gridEdit.CellEditorInitialize
+        If e.Column.FieldName <> "Select" Then
+            e.Editor.ReadOnly = True
+        Else
+            e.Editor.ReadOnly = False
+        End If
+    End Sub
+
+    Protected Sub gridEdit_BatchUpdate(sender As Object, e As ASPxDataBatchUpdateEventArgs)
+        Dim pFactory As String = cboFactory.Value
+        Dim pItemType As String = cboType.Value
+        Dim pLine As String = cboLine.Value
+        Dim pItemCheck As String = cboItemCheck.Value
+        Dim pDate As String = Format(dtDate.Value, "yyyy-MM-dd")
+        Dim pShift As String = cboShift.Value
+        Dim pSeq As String = cboSeq.Value
+        pUser = Session("user") & ""
+        Dim DetSeqNo As Integer = hfDetail.Get("DetSeqNo")
+        Dim pFTAID As String = hfDetail.Get("FTAID")
+        Dim pDetailRemark As String = txtOther.Value
+        Dim pRemark As String = txtRemark.Value
+        For i = 0 To e.UpdateValues.Count - 1
+            Dim pResult As String = "2"
+            Dim pActionID As String = e.UpdateValues(i).NewValues("ActionID")
+            clsFTAResultDetailDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pRemark, pFTAID, DetSeqNo, pActionID, pResult, pDetailRemark, pUser)
+        Next
+        e.Handled = True
+        GridEditShowMsg(MsgTypeEnum.Success, "Update data successful!", 1)
+    End Sub
+
+    Private Sub gridEdit_RowUpdating(sender As Object, e As ASPxDataUpdatingEventArgs) Handles gridEdit.RowUpdating
+        e.Cancel = True
+    End Sub
+
+    Private Sub gridEdit_DataBound(sender As Object, e As EventArgs) Handles gridEdit.DataBound
+        gridEdit.Columns("FTAID").Visible = False
     End Sub
 End Class
