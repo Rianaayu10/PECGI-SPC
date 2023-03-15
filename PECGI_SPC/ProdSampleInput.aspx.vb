@@ -278,6 +278,8 @@ Public Class ProdSampleInput
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         GlobalPrm = Request.QueryString("FactoryCode") & ""
+        Dim SPCResultID As String
+        SPCResultID = Request.QueryString("SPCResultID") & ""
         sGlobal.getMenu("B020 ")
         Master.SiteTitle = sGlobal.idMenu & " - " & sGlobal.menuName
         pUser = Session("user") & ""
@@ -289,16 +291,24 @@ Public Class ProdSampleInput
         grid.Columns.Item("Value2").Visible = False
 
         show_error(MsgTypeEnum.Info, "", 0)
+
+        Dim FactoryCode As String = ""
+        Dim ItemTypeCode As String = ""
+        Dim Line As String = ""
+        Dim ProcessGroup As String = ""
+        Dim LineGroup As String = ""
+        Dim ProcessCode As String = ""
+        Dim ItemCheckCode As String = ""
+        Dim ProdDate As String = ""
+        Dim Shift As String = ""
+        Dim Sequence As String = ""
         If Not IsPostBack And Not IsCallback Then
             up_FillCombo()
             If GlobalPrm <> "" Then
                 dtDate.Value = CDate(Request.QueryString("ProdDate"))
-                Dim FactoryCode As String = Request.QueryString("FactoryCode")
-                Dim ItemTypeCode As String = Request.QueryString("ItemTypeCode")
-                Dim Line As String = Request.QueryString("Line")
-                Dim ProcessGroup As String = ""
-                Dim LineGroup As String = ""
-                Dim ProcessCode As String = ""
+                FactoryCode = Request.QueryString("FactoryCode")
+                ItemTypeCode = Request.QueryString("ItemTypeCode")
+                Line = Request.QueryString("Line")
 
                 Dim Ln As ClsLine = ClsLineDB.GetData(FactoryCode, Line)
                 If Ln IsNot Nothing Then
@@ -306,31 +316,45 @@ Public Class ProdSampleInput
                     LineGroup = Ln.LineGroup
                     ProcessGroup = Ln.ProcessGroup
                 End If
-                Dim ItemCheckCode As String = Request.QueryString("ItemCheckCode")
-                Dim ProdDate As String = Request.QueryString("ProdDate")
-                Dim Shift As String = Request.QueryString("Shift")
-                Dim Sequence As String = Request.QueryString("Sequence")
+                ItemCheckCode = Request.QueryString("ItemCheckCode")
+                ProdDate = Request.QueryString("ProdDate")
+                Shift = Request.QueryString("Shift")
+                Sequence = Request.QueryString("Sequence")
 
                 InitCombo(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence, ProcessGroup, LineGroup, ProcessCode)
                 ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "GridLoad();", True)
             Else
                 pUser = Session("user") & ""
+                If SPCResultID <> "" Then
+                    Dim Result As clsSPCResult = clsSPCResultDB.GetData(SPCResultID)
+                    If Result IsNot Nothing Then
+                        Dim Ln As ClsLine = ClsLineDB.GetData(Result.FactoryCode, Result.LineCode)
+                        If Ln IsNot Nothing Then
+                            ProcessCode = Ln.ProcessCode
+                            LineGroup = Ln.LineGroup
+                            ProcessGroup = Ln.ProcessGroup
+                        End If
+                        InitCombo(Result.FactoryCode, Result.ItemTypeCode, Result.LineCode, Result.ItemCheckCode, Result.ProdDate, Result.ShiftCode, Result.SequenceNo, ProcessGroup, LineGroup, ProcessCode)
+                        ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "GridLoad();", True)
+                        Exit Sub
+                    End If
+                End If
                 dtDate.Value = Now.Date
                 If pUser <> "" Then
                     Dim User As clsUserSetup = clsUserSetupDB.GetData(pUser)
                     If User IsNot Nothing Then
-                        Dim FactoryCode As String = User.FactoryCode
-                        Dim ProdDate As String = Session("B02ProdDate") & ""
-                        Dim ProcessGroup As String = Session("B02ProcessGroup") & ""
-                        Dim LineGroup As String = Session("B02LineGroup") & ""
-                        Dim ProcessCode As String = Session("B02ProcessCode") & ""
-                        Dim ItemTypeCode As String = Session("B02ItemTypeCode") & ""
-                        Dim LineCode As String = Session("B02LineCode") & ""
-                        Dim ItemCheckCode As String = Session("B02ItemCheckCode") & ""
-                        Dim ShiftCode As String = Session("B02ShiftCode") & ""
-                        Dim Sequence As String = Session("B02Sequence") & ""
+                        FactoryCode = User.FactoryCode
+                        ProdDate = Session("B02ProdDate") & ""
+                        ProcessGroup = Session("B02ProcessGroup") & ""
+                        LineGroup = Session("B02LineGroup") & ""
+                        ProcessCode = Session("B02ProcessCode") & ""
+                        ItemTypeCode = Session("B02ItemTypeCode") & ""
+                        Line = Session("B02LineCode") & ""
+                        ItemCheckCode = Session("B02ItemCheckCode") & ""
+                        Shift = Session("B02ShiftCode") & ""
+                        Sequence = Session("B02Sequence") & ""
                         If ProcessGroup <> "" Then
-                            InitCombo(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, ShiftCode, Sequence, ProcessGroup, LineGroup, ProcessCode)
+                            InitCombo(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence, ProcessGroup, LineGroup, ProcessCode)
                         Else
                             DefaultCombo(User.FactoryCode)
                         End If

@@ -151,6 +151,24 @@
                 toastr.options.onclick = null;
             }            
         }
+
+        var SPCResultID = '';
+        function OnSelectionChanged(s, e) {
+            var i = s.GetSelectedRowCount();
+            btnSample.SetEnabled(i > 0);
+            btnFTA.SetEnabled(i > 0);
+            s.GetSelectedFieldValues("SPCResultID", GetSelectedFieldValuesCallback);
+        }
+
+        function GetSelectedFieldValuesCallback(values) {
+            for (var i = 0; i < values.length; i++) {
+                SPCResultID = values[i];
+            }
+        }
+
+        function SPCSample() {
+            window.open('ProdSampleInput.aspx?menu=prodSampleVerification.aspx' + '&SPCResultID=' + SPCResultID, '_blank');            
+        }
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
@@ -510,7 +528,8 @@
                                     ClientInstanceName="btnSample" Font-Names="Segoe UI" Font-Size="9pt" 
                                     Height="25px" Text="SPC Sample" Theme="Office2010Silver" UseSubmitBehavior="False" 
                                     Width="90px" TabIndex="10">
-                                    <Paddings Padding="2px" />    
+                                    <Paddings Padding="2px" />  
+                                    <ClientSideEvents Click="SPCSample"/>
                                 </dx:ASPxButton>                             
                         </td>
                         <td style="padding-right:5px" class="auto-style20">
@@ -539,7 +558,7 @@
             Width="100%" 
             Font-Names="Segoe UI" Font-Size="9pt" CssClass="auto-style2">
             <ClientSideEvents 
-                EndCallback="OnEndCallback"
+                EndCallback="OnEndCallback" SelectionChanged="OnSelectionChanged"
              />
             <SettingsResizing ColumnResizeMode="Control" />
             <SettingsDataSecurity AllowDelete="False" />
@@ -569,7 +588,7 @@
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn FieldName="ActionName" VisibleIndex="7" Caption="Action" Width="120px">
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn FieldName="Remark" VisibleIndex="13">
+            <dx:GridViewDataTextColumn FieldName="Remark" VisibleIndex="12">
             </dx:GridViewDataTextColumn>
             <dx:GridViewBandColumn Caption="MK Verification" VisibleIndex="8">
                 <Columns>
@@ -581,7 +600,7 @@
                     </dx:GridViewDataTextColumn>
                 </Columns>
             </dx:GridViewBandColumn>
-            <dx:GridViewBandColumn Caption="QC Verification" VisibleIndex="10">
+            <dx:GridViewBandColumn Caption="QC Verification" VisibleIndex="9">
                 <Columns>
                     <dx:GridViewDataTextColumn Caption="PIC" FieldName="QCVerificationUser" VisibleIndex="0" Width="90px">
                     </dx:GridViewDataTextColumn>
@@ -591,6 +610,9 @@
                     </dx:GridViewDataTextColumn>
                 </Columns>
             </dx:GridViewBandColumn>
+
+            <dx:GridViewDataTextColumn FieldName="SPCResultID" Visible="False" VisibleIndex="13">
+            </dx:GridViewDataTextColumn>
 
         </Columns>        
         <SettingsBehavior ColumnResizeMode="Control" ConfirmDelete="True" AllowDragDrop="False" AllowSort="False" />

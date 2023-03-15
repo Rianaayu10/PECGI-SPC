@@ -774,7 +774,6 @@ Public Class FTACorrectiveAction
                 "hf.Set('OK" + i + "', s.GetChecked()); " +
                 "hf.Set('NG" + i + "', false); " +
                 "hf.Set('No" + i + "', false); " +
-                "linkEdit" + i + ".SetVisible(false); " +
                 "}"
         End If
     End Sub
@@ -794,7 +793,6 @@ Public Class FTACorrectiveAction
                 "hf.Set('NG" + i + "', s.GetChecked()); " +
                 "hf.Set('OK" + i + "', false); " +
                 "hf.Set('No" + i + "', false); " +
-                "linkEdit" + i + ".SetVisible(s.GetChecked()); " +
                 "SelectNoCheck(" + i + "); " +
                 "}"
         End If
@@ -815,7 +813,6 @@ Public Class FTACorrectiveAction
                 "hf.Set('No" + i + "', s.GetChecked()); " +
                 "hf.Set('OK" + i + "', false); " +
                 "hf.Set('NG" + i + "', false); " +
-                "linkEdit" + i + ".SetVisible(false); " +
                 "}"
         End If
     End Sub

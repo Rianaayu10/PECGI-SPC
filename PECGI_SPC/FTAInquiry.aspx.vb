@@ -131,6 +131,8 @@ Public Class FTAInquiry
                 End If
                 'InitCombo(User.FactoryCode, "TPMSBR011", "015", "IC021", "2022-08-04", "SH001", 1)
             End If
+            btnFTA.ClientEnabled = False
+            btnSample.ClientEnabled = False
         End If
     End Sub
 
