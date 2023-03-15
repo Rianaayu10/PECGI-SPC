@@ -850,14 +850,12 @@ Public Class FTACorrectiveAction
             Dim pShift As String = Split(e.Parameters, "|")(7)
             Dim pSeq As String = Split(e.Parameters, "|")(8)
             Dim pRemark As String = Split(e.Parameters, "|")(9)
-            Dim pActionID As String = Split(e.Parameters, "|")(10)
+            Dim pAction As String = Split(e.Parameters, "|")(10)
             Dim pResult As String = Split(e.Parameters, "|")(11)
-            Dim pDetailRemark As String = Split(e.Parameters, "|")(12)
-            Dim pDetSeqNo As Integer = Split(e.Parameters, "|")(13)
+            Dim pDetSeqNo As Integer = Split(e.Parameters, "|")(12)
             pUser = Session("user")
 
-            clsFTAResultDetailDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pRemark, FTAID, pDetSeqNo, pActionID, pResult, pDetailRemark, pUser)
-            GridLoad(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq)
+            clsFTAResultDetailDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pRemark, FTAID, pDetSeqNo, pAction, pResult, pUser)
             GridEditShowMsg(MsgTypeEnum.Success, "Update data successful!", 1)
         End If
     End Sub
@@ -899,15 +897,13 @@ Public Class FTACorrectiveAction
         pUser = Session("user") & ""
         Dim DetSeqNo As Integer = hfDetail.Get("DetSeqNo")
         Dim pFTAID As String = hfDetail.Get("FTAID")
-        Dim pDetailRemark As String = txtOther.Value
         Dim pRemark As String = txtRemark.Value
         For i = 0 To e.UpdateValues.Count - 1
             Dim pResult As String = "2"
-            Dim pActionID As String = e.UpdateValues(i).NewValues("ActionID")
-            clsFTAResultDetailDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pRemark, pFTAID, DetSeqNo, pActionID, pResult, pDetailRemark, pUser)
+            Dim pAction As String = e.UpdateValues(i).NewValues("ActionName")
+            clsFTAResultDetailDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pRemark, pFTAID, DetSeqNo, pAction, pResult, pUser)
         Next
         e.Handled = True
-        GridEditShowMsg(MsgTypeEnum.Success, "Update data successful!", 1)
     End Sub
 
     Private Sub gridEdit_RowUpdating(sender As Object, e As ASPxDataUpdatingEventArgs) Handles gridEdit.RowUpdating

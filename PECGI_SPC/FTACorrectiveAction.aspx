@@ -161,6 +161,11 @@
                 }            
                 GridLoad();
         }
+        
+        function gridEditOnEndCallback(s, e) {
+            gridEdit.CancelEdit();            
+            GridLoad();
+        }
 
         function OnEndCallback(s, e) {        
             if (s.cp_message != "" && s.cp_val == 1) {
@@ -239,18 +244,21 @@
             e.processOnServer = false;
         }
 
-        function SaveAction(s, e) {            
-            if(chkOther.GetChecked()) {
+        function SaveAction() {   
+            var isChecked = chkOther.GetChecked();
+            
+            if(isChecked) {
                 var FTAID = hfDetail.Get('FTAID');
                 var DetSeqNo = hfDetail.Get('DetSeqNo');
-                gridEdit.PerformCallback('save|' + FTAID + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + txtRemark.GetText() + '|0|2|' + txtOther.GetText() + '|' + DetSeqNo );
+                gridEdit.PerformCallback('save|' + FTAID + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + txtRemark.GetText() + '|' + txtOther.GetText() + '|2|' + DetSeqNo );
             } else {
                 gridEdit.UpdateEdit();
-            }            
-            pcEdit.Hide(); 
+            }        
+            pcEdit.Hide();
             chkOther.SetChecked(false);
             txtOther.SetText('');           
             txtOther.SetEnabled(false);
+            e.processOnServer = false;
         }
 
         function ClosePopupIK(s, e) {
@@ -269,10 +277,10 @@
         }
 
         function ShowPopUpEdit(FTAID, DetSeqNo) {
+            pcEdit.Show();
             gridEdit.PerformCallback('load|' + FTAID);            
             hfDetail.Set('FTAID', FTAID);
-            hfDetail.Set('DetSeqNo', DetSeqNo);
-            pcEdit.Show();
+            hfDetail.Set('DetSeqNo', DetSeqNo);            
         }
 
         function ShowPopUpIK(s) {
@@ -1067,7 +1075,7 @@
                         <ContentCollection>
 <dx:PopupControlContentControl runat="server">
 
-    <dx:ASPxGridView ID="gridAction" runat="server" AutoGenerateColumns="False" ClientInstanceName="gridAction" CssClass="auto-style2" EnableTheming="True" Font-Names="Segoe UI" Font-Size="9pt" KeyFieldName="ActionID" Theme="Office2010Black" Width="100%">
+    <dx:ASPxGridView ID="gridAction" runat="server" AutoGenerateColumns="False" ClientInstanceName="gridAction" CssClass="auto-style2" EnableTheming="True" Font-Names="Segoe UI" Font-Size="9pt" KeyFieldName="FTAID" Theme="Office2010Black" Width="100%">
         <SettingsPager AlwaysShowPager="True" Mode="ShowAllRecords" PageSize="30">
         </SettingsPager>
         <SettingsEditing EditFormColumnCount="1" Mode="Batch">
@@ -1131,7 +1139,7 @@
 <dx:PopupControlContentControl runat="server">
 
     <dx:ASPxGridView ID="gridEdit" runat="server" AutoGenerateColumns="False" ClientInstanceName="gridEdit" CssClass="auto-style2" EnableTheming="True" Font-Names="Segoe UI" Font-Size="9pt" KeyFieldName="ActionID" Theme="Office2010Black" Width="100%" OnBatchUpdate="gridEdit_BatchUpdate">
-        <ClientSideEvents BatchEditStartEditing="OnBatchEditStartEditing" BatchEditEndEditing="OnBatchEditEndEditing" EndCallback="OnEndCallback" />
+        <ClientSideEvents BatchEditStartEditing="OnBatchEditStartEditing" EndCallback="gridEditOnEndCallback" />
         <SettingsPager AlwaysShowPager="True" Mode="ShowAllRecords" PageSize="30">
         </SettingsPager>
         <SettingsEditing EditFormColumnCount="1" Mode="Batch">

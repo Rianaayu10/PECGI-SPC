@@ -217,7 +217,7 @@ End Class
 
 Public Class clsFTAResultDetailDB
     Public Shared Function Insert(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer, Remark As String,
-                                  FTAID As String, DetailSeqNo As Integer, ActionID As Integer, FTAResult As String, DetailRemark As String, UserID As String) As Integer
+                                  FTAID As String, DetailSeqNo As Integer, Action As String, FTAResult As String, UserID As String) As Integer
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String = "sp_spc_FTAResultDetail_Ins"
@@ -233,9 +233,8 @@ Public Class clsFTAResultDetailDB
             cmd.Parameters.AddWithValue("Remark", Remark)
             cmd.Parameters.AddWithValue("FTAID", FTAID)
             cmd.Parameters.AddWithValue("DetailSeqNo", DetailSeqNo)
-            cmd.Parameters.AddWithValue("ActionID", ActionID)
+            cmd.Parameters.AddWithValue("Action", Action)
             cmd.Parameters.AddWithValue("FTAResult", FTAResult)
-            cmd.Parameters.AddWithValue("DetailRemark", DetailRemark)
             cmd.Parameters.AddWithValue("UserID", UserID)
             Dim i As Integer = cmd.ExecuteNonQuery
             Return i
