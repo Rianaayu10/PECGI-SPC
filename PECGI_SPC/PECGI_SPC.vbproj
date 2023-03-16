@@ -115,6 +115,8 @@
     <Content Include="About.aspx" />
     <Content Include="AlertDelayVerification.aspx" />
     <Content Include="AlertDelayInput.aspx" />
+    <Content Include="css\dx.light.css" />
+    <Content Include="css\fixedColumns.dataTables.min.css" />
     <Content Include="CustomFile\css\bootstrap-grid.css" />
     <Content Include="CustomFile\css\bootstrap-grid.min.css" />
     <Content Include="CustomFile\css\bootstrap-grid.rtl.css" />
@@ -149,6 +151,9 @@
     <Content Include="img\SPCRuleIN.png" />
     <Content Include="FTAMaster.aspx" />
     <Content Include="FTACorrectiveAction.aspx" />
+    <Content Include="js\dx.all.js" />
+    <Content Include="js\jquery-3.5.1.min.js" />
+    <Content Include="ReportYearlyByType.aspx" />
     <Content Include="SPCDashboard.aspx" />
     <Content Include="ChangePassword.aspx" />
     <Content Include="content\toastr.css" />
@@ -899,10 +904,12 @@
       <DependentUpon>AlertDelayInput.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Class\clsFillCombo.vb" />
     <Compile Include="Class\clsFTACorrectiveAction.vb" />
     <Compile Include="Class\clsLineGroup.vb" />
     <Compile Include="Class\clsProcess.vb" />
     <Compile Include="Class\clsProcessGroup.vb" />
+    <Compile Include="Class\clsReportYearlyByType.vb" />
     <Compile Include="Class\clsTroubleHistoryByLine.vb" />
     <Compile Include="FTAInquiry.aspx.designer.vb">
       <DependentUpon>FTAInquiry.aspx</DependentUpon>
@@ -923,6 +930,13 @@
     </Compile>
     <Compile Include="FTACorrectiveAction.aspx.vb">
       <DependentUpon>FTACorrectiveAction.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportYearlyByType.aspx.designer.vb">
+      <DependentUpon>ReportYearlyByType.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportYearlyByType.aspx.vb">
+      <DependentUpon>ReportYearlyByType.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SPCDashboard.aspx.designer.vb">
