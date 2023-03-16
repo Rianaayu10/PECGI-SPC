@@ -78,6 +78,7 @@ Public Class FTACorrectiveAction
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         GlobalPrm = Request.QueryString("FactoryCode") & ""
+        Dim SPCResultID As String = Request.QueryString("SPCResultID") & ""
         sGlobal.getMenu("C010 ")
         Master.SiteTitle = sGlobal.idMenu & " - " & sGlobal.menuName
         pUser = Session("user") & ""
@@ -86,16 +87,23 @@ Public Class FTACorrectiveAction
         grid.SettingsDataSecurity.AllowEdit = True
 
         show_error(MsgTypeEnum.Info, "", 0)
+        Dim FactoryCode As String = ""
+        Dim ItemTypeCode As String = ""
+        Dim Line As String = ""
+        Dim ProcessGroup As String = ""
+        Dim LineGroup As String = ""
+        Dim ProcessCode As String = ""
+        Dim ItemCheckCode As String = ""
+        Dim ProdDate As String = ""
+        Dim Shift As String = ""
+        Dim Sequence As String = ""
         If Not IsPostBack And Not IsCallback Then
             up_FillCombo()
             If GlobalPrm <> "" Then
                 dtDate.Value = CDate(Request.QueryString("ProdDate"))
-                Dim FactoryCode As String = Request.QueryString("FactoryCode")
-                Dim ItemTypeCode As String = Request.QueryString("ItemTypeCode")
-                Dim Line As String = Request.QueryString("Line")
-                Dim ProcessGroup As String = ""
-                Dim LineGroup As String = ""
-                Dim ProcessCode As String = ""
+                FactoryCode = Request.QueryString("FactoryCode")
+                ItemTypeCode = Request.QueryString("ItemTypeCode")
+                Line = Request.QueryString("Line")
 
                 Dim Ln As ClsLine = ClsLineDB.GetData(FactoryCode, Line)
                 If Ln IsNot Nothing Then
@@ -103,35 +111,52 @@ Public Class FTACorrectiveAction
                     LineGroup = Ln.LineGroup
                     ProcessGroup = Ln.ProcessGroup
                 End If
-                Dim ItemCheckCode As String = Request.QueryString("ItemCheckCode")
-                Dim ProdDate As String = Request.QueryString("ProdDate")
-                Dim Shift As String = Request.QueryString("Shift")
-                Dim Sequence As String = Request.QueryString("Sequence")
+                ItemCheckCode = Request.QueryString("ItemCheckCode")
+                ProdDate = Request.QueryString("ProdDate")
+                Shift = Request.QueryString("Shift")
+                Sequence = Request.QueryString("Sequence")
 
                 InitCombo(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence, ProcessGroup, LineGroup, ProcessCode)
+                GridLoad(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, dtDate.Value, cboShift.Value, cboSeq.Value)
                 ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "GridLoad();", True)
             Else
                 pUser = Session("user") & ""
+                If SPCResultID <> "" Then
+                    Dim Result As clsSPCResult = clsSPCResultDB.GetData(SPCResultID)
+                    If Result IsNot Nothing Then
+                        Dim Ln As ClsLine = ClsLineDB.GetData(Result.FactoryCode, Result.LineCode)
+                        If Ln IsNot Nothing Then
+                            ProcessCode = Ln.ProcessCode
+                            LineGroup = Ln.LineGroup
+                            ProcessGroup = Ln.ProcessGroup
+                        End If
+                        InitCombo(Result.FactoryCode, Result.ItemTypeCode, Result.LineCode, Result.ItemCheckCode, Result.ProdDate, Result.ShiftCode, Result.SequenceNo, ProcessGroup, LineGroup, ProcessCode)
+                        GridLoad(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, dtDate.Value, cboShift.Value, cboSeq.Value)
+                        ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "GridLoad();", True)
+                        Exit Sub
+                    End If
+                End If
                 dtDate.Value = "2023-02-07"
                 If pUser <> "" Then
                     Dim User As clsUserSetup = clsUserSetupDB.GetData(pUser)
                     If User IsNot Nothing Then
-                        Dim FactoryCode As String = User.FactoryCode
-                        Dim ProdDate As String = Session("C01ProdDate") & ""
-                        Dim ProcessGroup As String = Session("C01ProcessGroup") & ""
-                        Dim LineGroup As String = Session("C01LineGroup") & ""
-                        Dim ProcessCode As String = Session("C01ProcessCode") & ""
-                        Dim ItemTypeCode As String = Session("C01ItemTypeCode") & ""
-                        Dim LineCode As String = Session("C01LineCode") & ""
-                        Dim ItemCheckCode As String = Session("C01ItemCheckCode") & ""
-                        Dim ShiftCode As String = Session("C01ShiftCode") & ""
-                        Dim Sequence As String = Session("C01Sequence") & ""
+                        FactoryCode = User.FactoryCode
+                        ProdDate = Session("C01ProdDate") & ""
+                        ProcessGroup = Session("C01ProcessGroup") & ""
+                        LineGroup = Session("C01LineGroup") & ""
+                        ProcessCode = Session("C01ProcessCode") & ""
+                        ItemTypeCode = Session("C01ItemTypeCode") & ""
+                        Line = Session("C01LineCode") & ""
+                        ItemCheckCode = Session("C01ItemCheckCode") & ""
+                        Shift = Session("C01ShiftCode") & ""
+                        Sequence = Session("C01Sequence") & ""
                         If ProcessGroup <> "" Then
-                            InitCombo(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, ShiftCode, Sequence, ProcessGroup, LineGroup, ProcessCode)
+                            InitCombo(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence, ProcessGroup, LineGroup, ProcessCode)
                         Else
                             DefaultCombo(User.FactoryCode)
                         End If
                         GridLoad(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, dtDate.Value, cboShift.Value, cboSeq.Value)
+                        ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "GridLoad();", True)
                     End If
                 End If
                 btnMK.ClientEnabled = False
@@ -332,6 +357,10 @@ Public Class FTACorrectiveAction
             grid.JSProperties("cpQCVerificationStatus") = ""
             grid.JSProperties("cpQCVerificationDate") = ""
             grid.JSProperties("cpQCVerificationUser") = ""
+            btnMK.ClientEnabled = False
+            btnQC.ClientEnabled = False
+            btnSubmit.ClientEnabled = False
+            txtRemark.Text = ""
         Else
             Dim FTA As clsFTAResult = FTAList.Item(0)
             grid.JSProperties("cpCount") = FTAList.Count
@@ -342,6 +371,14 @@ Public Class FTACorrectiveAction
             grid.JSProperties("cpQCVerificationStatus") = FTA.QCVerificationStatus
             grid.JSProperties("cpQCVerificationDate") = FTA.QCVerificationDate
             grid.JSProperties("cpQCVerificationUser") = FTA.QCVerificationUser
+            If FTA.MKVerificationStatus = "1" Then
+                btnMK.ClientEnabled = False
+            End If
+            If FTA.QCVerificationStatus = "1" Then
+                btnQC.ClientEnabled = False
+            End If
+            txtRemark.Text = FTA.Remark
+            btnSubmit.ClientEnabled = True
         End If
         Dim UserID As String = Session("user")
         Session("C01USer") = UserID
@@ -393,26 +430,35 @@ Public Class FTACorrectiveAction
                 If pFunction = "save" Then
                     Dim pRemark As String = Split(e.Parameters, "|")(8)
                     pUser = Session("user") & ""
-                    Dim n As Integer = hf.Count
+                    clsFTAResultDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, "1", pRemark, pUser)
                     For Each item In hf
                         Dim i As String = item.Key
-                        Dim value As Boolean = item.Value
+                        Dim value As Boolean
                         Dim pResult As String = ""
+                        Dim FTAID As String = ""
                         If i.StartsWith("OK") Then
+                            value = item.Value
                             If value = True Then
                                 pResult = "1"
                             End If
                         ElseIf i.StartsWith("NG") Then
+                            value = item.Value
                             If value = True Then
                                 pResult = "2"
                             End If
                         ElseIf i.StartsWith("No") Then
+                            value = item.Value
                             If value = True Then
                                 pResult = "0"
                             End If
+                        ElseIf i.StartsWith("FTAID") Then
+                            FTAID = item.Value
                         End If
                         If pResult <> "" Then
-                            clsFTAResultDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pResult, pRemark, pUser)
+                            Dim pDetSeqNo As Integer = 0
+                            Dim pAction As String = ""
+
+                            'clsFTAResultDetailDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pRemark, FTAID, pDetSeqNo, pAction, pResult, pUser)
                         End If
                     Next item
                     hf.Clear()
@@ -421,7 +467,7 @@ Public Class FTACorrectiveAction
                     Dim i As Integer = clsFTAResultDB.Verify(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pUser)
                     Dim JobPos As String
                     If i = 0 Then
-                        show_error(MsgTypeEnum.Warning, "You Do Not have privilege To Verify!", 1)
+                        show_error(MsgTypeEnum.Warning, "You do not have privilege to verify!", 1)
                     Else
                         If pFunction = "mkverify" Then
                             JobPos = "MK"
@@ -774,6 +820,7 @@ Public Class FTACorrectiveAction
                 "hf.Set('OK" + i + "', s.GetChecked()); " +
                 "hf.Set('NG" + i + "', false); " +
                 "hf.Set('No" + i + "', false); " +
+                "hf.Set('FTAID" + i + "', '" + FTAID + "'); " +
                 "}"
         End If
     End Sub
@@ -794,6 +841,7 @@ Public Class FTACorrectiveAction
                 "hf.Set('OK" + i + "', false); " +
                 "hf.Set('No" + i + "', false); " +
                 "SelectNoCheck(" + i + "); " +
+                "hf.Set('FTAID" + i + "', '" + FTAID + "'); " +
                 "}"
         End If
     End Sub
@@ -813,6 +861,7 @@ Public Class FTACorrectiveAction
                 "hf.Set('No" + i + "', s.GetChecked()); " +
                 "hf.Set('OK" + i + "', false); " +
                 "hf.Set('NG" + i + "', false); " +
+                "hf.Set('FTAID" + i + "', '" + FTAID + "'); " +
                 "}"
         End If
     End Sub
@@ -892,13 +941,13 @@ Public Class FTACorrectiveAction
         Dim pShift As String = cboShift.Value
         Dim pSeq As String = cboSeq.Value
         pUser = Session("user") & ""
-        Dim DetSeqNo As Integer = hfDetail.Get("DetSeqNo")
+        Dim pDetSeqNo As Integer = hfDetail.Get("DetSeqNo")
         Dim pFTAID As String = hfDetail.Get("FTAID")
         Dim pRemark As String = txtRemark.Value
         For i = 0 To e.UpdateValues.Count - 1
             Dim pResult As String = "2"
             Dim pAction As String = e.UpdateValues(i).NewValues("ActionName")
-            clsFTAResultDetailDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pRemark, pFTAID, DetSeqNo, pAction, pResult, pUser)
+            clsFTAResultDetailDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pRemark, pFTAID, pDetSeqNo, pAction, pResult, pUser)
         Next
         e.Handled = True
     End Sub

@@ -330,7 +330,7 @@
             var Shift = cboShift.GetValue();
             var Seq = cboSeq.GetValue();
 
-            window.open('ProdSampleInput.aspx?menu=prodSampleVerification.aspx' + '&FactoryCode=' + Factory + '&ItemTypeCode=' + ItemType
+            window.open('ProdSampleInput.aspx?menu=FTACorrectiveAction.aspx' + '&FactoryCode=' + Factory + '&ItemTypeCode=' + ItemType
                 + '&Line=' + Line + '&ItemCheckCode=' + ItemCheck + '&ProdDate=' + ProdDate + '&Shift=' + Shift + '&Sequence=' + Seq
                 + '', '_blank');
         }

@@ -1024,8 +1024,12 @@
             </dx:GridViewDataTextColumn>
 
             <dx:GridViewDataTextColumn Caption="Value 1" FieldName="Value1" VisibleIndex="2" Width="80px" ShowInCustomizationForm="false">
+                <PropertiesTextEdit DisplayFormatString="0.0000">
+                </PropertiesTextEdit>
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn Caption="Value 2" FieldName="Value2" VisibleIndex="3" Width="80px" ShowInCustomizationForm="false">
+                <PropertiesTextEdit DisplayFormatString="0.0000">
+                </PropertiesTextEdit>
             </dx:GridViewDataTextColumn>
 
         </Columns>        
@@ -1209,20 +1213,20 @@
                     <td colspan="6" class="header"><dx:ASPxLabel ID="ASPxLabel24" runat="server" Text="Result" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                 </tr>
                 <tr>
-                    <td class="header" style="width:50px"><dx:ASPxLabel ID="ASPxLabel13" runat="server" Text="USL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
-                    <td class="header" style="width:50px"><dx:ASPxLabel ID="ASPxLabel7" runat="server" Text="LSL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
-                    <td class="header" style="width:50px"><dx:ASPxLabel ID="ASPxLabel14" runat="server" Text="UCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
-                    <td class="header" style="width:50px"><dx:ASPxLabel ID="ASPxLabel29" runat="server" Text="CL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
-                    <td class="header" style="width:50px"><dx:ASPxLabel ID="ASPxLabel15" runat="server" Text="LCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
-                    <td class="header" style="width:50px" id="colXBarUCL"><dx:ASPxLabel ID="label16" runat="server" Text="UCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>                    
-                    <td class="header" style="width:50px" id="colXBarLCL"><dx:ASPxLabel ID="label17" runat="server" Text="LCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
-                    <td class="header" style="width:50px"><dx:ASPxLabel ID="ASPxLabel30" runat="server" Text="UCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
-                    <td class="header" style="width:50px"><dx:ASPxLabel ID="ASPxLabel16" runat="server" Text="Min" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
-                    <td class="header" style="width:50px"><dx:ASPxLabel ID="ASPxLabel17" runat="server" Text="Max" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
-                    <td class="header" style="width:50px"><dx:ASPxLabel ID="ASPxLabel18" runat="server" Text="Ave" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
-                    <td class="header" style="width:50px"><dx:ASPxLabel ID="ASPxLabel19" runat="server" Text="R" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
-                    <td class="body" align="center" rowspan="2" style="width:50px" id="C"><dx:ASPxLabel ID="lblC" runat="server" Text="" Font-Names="Segoe UI" Font-Size="Medium" Font-Bold="True" ForeColor="Black" ClientInstanceName="lblC"></dx:ASPxLabel></td>
-                    <td class="body" align="center" rowspan="2" style="width:50px" id="NG"><dx:ASPxLabel ID="lblNG" runat="server" Text="" Font-Names="Segoe UI" Font-Size="Medium" ClientInstanceName="lblNG" Font-Bold="True" ForeColor="Black"></dx:ASPxLabel></td>
+                    <td class="header" style="width:60px"><dx:ASPxLabel ID="ASPxLabel13" runat="server" Text="USL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
+                    <td class="header" style="width:60px"><dx:ASPxLabel ID="ASPxLabel7" runat="server" Text="LSL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
+                    <td class="header" style="width:60px"><dx:ASPxLabel ID="ASPxLabel14" runat="server" Text="UCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
+                    <td class="header" style="width:60px"><dx:ASPxLabel ID="ASPxLabel29" runat="server" Text="CL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
+                    <td class="header" style="width:60px"><dx:ASPxLabel ID="ASPxLabel15" runat="server" Text="LCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
+                    <td class="header" style="width:60px" id="colXBarUCL"><dx:ASPxLabel ID="label16" runat="server" Text="UCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>                    
+                    <td class="header" style="width:60px" id="colXBarLCL"><dx:ASPxLabel ID="label17" runat="server" Text="LCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
+                    <td class="header" style="width:60px"><dx:ASPxLabel ID="ASPxLabel30" runat="server" Text="UCL" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
+                    <td class="header" style="width:60px"><dx:ASPxLabel ID="ASPxLabel16" runat="server" Text="Min" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
+                    <td class="header" style="width:60px"><dx:ASPxLabel ID="ASPxLabel17" runat="server" Text="Max" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
+                    <td class="header" style="width:60px"><dx:ASPxLabel ID="ASPxLabel18" runat="server" Text="Ave" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
+                    <td class="header" style="width:60px"><dx:ASPxLabel ID="ASPxLabel19" runat="server" Text="R" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
+                    <td class="body" align="center" rowspan="2" style="width:60px" id="C"><dx:ASPxLabel ID="lblC" runat="server" Text="" Font-Names="Segoe UI" Font-Size="Medium" Font-Bold="True" ForeColor="Black" ClientInstanceName="lblC"></dx:ASPxLabel></td>
+                    <td class="body" align="center" rowspan="2" style="width:60px" id="NG"><dx:ASPxLabel ID="lblNG" runat="server" Text="" Font-Names="Segoe UI" Font-Size="Medium" ClientInstanceName="lblNG" Font-Bold="True" ForeColor="Black"></dx:ASPxLabel></td>
                 </tr>
                 <tr>
                     <td class="body" align="center"><dx:ASPxLabel ID="lblUSL" runat="server" Text=" " Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblUSL" ForeColor="Black"></dx:ASPxLabel>&nbsp;</td>
@@ -1467,7 +1471,7 @@
     <dx:WebChartControl ID="chartR" runat="server" ClientInstanceName="chartR"
         Height="230px" Width="1080px" CrosshairEnabled="True">
         <SeriesSerializable>
-            <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue">
+            <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue" CrosshairLabelPattern="{A}: {V:0.0000}">
                 <ViewSerializable>
                     <cc1:LineSeriesView Color="Blue">
                         <LineStyle Thickness="1" />
@@ -1493,7 +1497,7 @@
                 </ViewSerializable>
             </cc1:Series>
         </SeriesSerializable>
-        <seriestemplate ValueDataMembersSerializable="Value">            
+        <seriestemplate ValueDataMembersSerializable="Value">
             <viewserializable>
                 <cc1:LineSeriesView>
                     <LineMarkerOptions BorderColor="White" Size="3">

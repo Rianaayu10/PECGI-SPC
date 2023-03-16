@@ -166,8 +166,12 @@
             }
         }
 
-        function SPCSample() {
-            window.open('ProdSampleInput.aspx?menu=prodSampleVerification.aspx' + '&SPCResultID=' + SPCResultID, '_blank');            
+        function OpenSPCSample() {
+            window.open('ProdSampleInput.aspx?menu=FTAInquiry.aspx' + '&SPCResultID=' + SPCResultID, '_blank');            
+        }
+
+        function OpenFTACorrection() {
+            window.open('FTACorrectiveAction.aspx?menu=FTAInquiry.aspx' + '&SPCResultID=' + SPCResultID, '_blank');            
         }
     </script>
 </asp:Content>
@@ -520,7 +524,8 @@
                                     ClientInstanceName="btnFTA" Font-Names="Segoe UI" Font-Size="9pt" 
                                     Height="25px" Text="Corrective Action SPC" Theme="Office2010Silver" UseSubmitBehavior="False" 
                                     Width="160px" TabIndex="10">
-                                    <Paddings Padding="2px" />                                    
+                                    <Paddings Padding="2px" />   
+                                    <ClientSideEvents Click="OpenFTACorrection"/>
                                 </dx:ASPxButton>
                         </td>
                         <td style="padding-right:5px">
@@ -529,7 +534,7 @@
                                     Height="25px" Text="SPC Sample" Theme="Office2010Silver" UseSubmitBehavior="False" 
                                     Width="90px" TabIndex="10">
                                     <Paddings Padding="2px" />  
-                                    <ClientSideEvents Click="SPCSample"/>
+                                    <ClientSideEvents Click="OpenSPCSample"/>
                                 </dx:ASPxButton>                             
                         </td>
                         <td style="padding-right:5px" class="auto-style20">

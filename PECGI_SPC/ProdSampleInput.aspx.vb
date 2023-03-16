@@ -709,7 +709,7 @@ Public Class ProdSampleInput
         If v Is Nothing OrElse IsDBNull(v) Then
             Return ""
         Else
-            Return Format(v, "0.000")
+            Return Format(v, "0.0000")
         End If
     End Function
 
@@ -1106,7 +1106,7 @@ Public Class ProdSampleInput
                                 .Cells(iRow, 1).Style.Fill.BackgroundColor.SetColor(cs.Color(.Cells(iRow, 1).Value))
                         End Select
                     ElseIf k > colDes Then
-                        .Cells(iRow, iCol).Style.Numberformat.Format = "0.000"
+                        .Cells(iRow, iCol).Style.Numberformat.Format = "0.0000"
                         LSL = dtLSL.Rows(0)(iCol)
                         USL = dtUSL.Rows(0)(iCol)
                         LCL = dtLCL.Rows(0)(iCol)
@@ -1255,7 +1255,7 @@ Public Class ProdSampleInput
                 iRow = iRow + 1
                 .Cells(iRow, colNo).Value = dt.Rows(i)("SeqNo")
 
-                .Cells(iRow, colValue1, iRow, colValue).Style.Numberformat.Format = "0.000"
+                .Cells(iRow, colValue1, iRow, colValue).Style.Numberformat.Format = "0.0000"
                 .Cells(iRow, colValue1).Value = dt.Rows(i)("Value1")
                 .Cells(iRow, colValue2).Value = dt.Rows(i)("Value2")
                 .Cells(iRow, colValue).Value = dt.Rows(i)("Value")
@@ -1356,7 +1356,7 @@ Public Class ProdSampleInput
             .Cells(iRow + 2, 9 + AddCol).Value = ADbl(vAvg)
             .Cells(iRow + 1, 10 + AddCol).Value = "R"
             .Cells(iRow + 2, 10 + AddCol).Value = ADbl(vR)
-            .Cells(iRow + 2, 2, iRow + 2, 10 + AddCol).Style.Numberformat.Format = "0.000"
+            .Cells(iRow + 2, 2, iRow + 2, 10 + AddCol).Style.Numberformat.Format = "0.0000"
 
             Dim Col As Integer = 7 + AddCol
             If vMin <> "" Then
@@ -1447,7 +1447,7 @@ Public Class ProdSampleInput
             .Cells(iRow + 1, 12 + AddCol, iRow + 2, 12 + AddCol).Merge = True
             .Cells(iRow + 1, 11 + AddCol, iRow + 2, 12 + AddCol).Style.VerticalAlignment = ExcelVerticalAlignment.Center
 
-            .Cells(iRow + 2, 2, iRow + 2, 10 + AddCol).Style.Numberformat.Format = "0.000"
+            .Cells(iRow + 2, 2, iRow + 2, 10 + AddCol).Style.Numberformat.Format = "0.0000"
 
             ExcelHeader(pExl, iRow, 2, iRow + 1, 10 + AddCol)
             ExcelHeader(pExl, iRow, 11 + AddCol, iRow, 12 + AddCol)

@@ -129,7 +129,7 @@ Public Class clsFTAResultDB
     Public Shared Function Insert(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer, FTAResult As String, Remark As String, UserID As String) As Integer
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
-            Dim q As String = "sp_spc_FTACorrectiveAction_Ins"
+            Dim q As String = "sp_spc_FTAResult_Ins"
             Dim cmd As New SqlCommand(q, Cn)
             cmd.CommandType = CommandType.StoredProcedure
             cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)

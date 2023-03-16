@@ -86,12 +86,13 @@ Public Class clsSPCResultDB
         End Using
     End Function
 
-    Public Shared Function GetData() As clsSPCResult
+    Public Shared Function GetData(SPCResultID) As clsSPCResult
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String = "sp_SPCResult"
             Dim cmd As New SqlCommand(q, Cn)
             cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.AddWithValue("SPCResultID", SPCResultID)
             Dim da As New SqlDataAdapter(cmd)
             Dim dt As New DataTable
             da.Fill(dt)
@@ -109,6 +110,7 @@ Public Class clsSPCResultDB
                     Result.ShiftCode = .Item("ShiftCode")
                     Result.SequenceNo = .Item("SequenceNo")
                 End With
+                Return Result
             End If
         End Using
     End Function
