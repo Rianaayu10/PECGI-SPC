@@ -112,7 +112,7 @@ Partial Class frmScheduler
         '
         'tmrExecute
         '
-        Me.tmrExecute.Interval = 5000
+        Me.tmrExecute.Interval = 3000
         '
         'Label3
         '
