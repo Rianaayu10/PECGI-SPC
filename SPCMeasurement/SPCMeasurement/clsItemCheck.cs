@@ -11,6 +11,8 @@ namespace SPCMeasurement
 {
     class clsItemCheck
     {
+        public string ItemCheckCode { get; set; }
+        public string ItemCheck { get; set; }
     }
 
     class clsItemCheckDB
@@ -62,6 +64,34 @@ namespace SPCMeasurement
                 cbo.ValueMember = "ItemCheckCode";
                 cbo.DisplayMember = "ItemCheck";
                 cbo.LimitToList = true;
+            }
+        }
+
+        public static List<clsItemCheck> GetPrevItemChek(string FactoryCode, string ItemTypeCode, string Line, string ItemCheckCode, string ProdDate, string Shift, int Sequence, string UserID)
+        {
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("sp_SPC_GetPrevItemCheck", con);
+                cmd.Parameters.AddWithValue("FactoryCode", FactoryCode);
+                cmd.Parameters.AddWithValue("Line", Line);
+                cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode);
+                cmd.Parameters.AddWithValue("ProdDate", ProdDate);
+                cmd.Parameters.AddWithValue("ShiftCode", Shift);
+                cmd.Parameters.AddWithValue("SequenceNo", Sequence);
+                cmd.Parameters.AddWithValue("UserID", UserID);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataReader rd = cmd.ExecuteReader();
+                List<clsItemCheck> result = new List<clsItemCheck>();
+                while (rd.Read())
+                {
+                    clsItemCheck item = new clsItemCheck();
+                    item.ItemCheckCode = rd["ItemCheckCode"].ToString();
+                    item.ItemCheck = rd["ItemCheck"].ToString();
+                    result.Add(item);
+                }
+                rd.Close();
+                return result;
             }
         }
     }

@@ -42,7 +42,7 @@ namespace SPCMeasurement
                     clsUser User = new clsUser();
                     User.UserID = dt.Rows[0]["UserID"].ToString();
                     User.FullName = dt.Rows[0]["FullName"].ToString();
-                    User.Password = clsDESEncryption.DecryptData(dt.Rows[0]["Password"].ToString());
+                    User.Password = clsDESEncryption.Decrypt(dt.Rows[0]["Password"].ToString(), dt.Rows[0]["UserID"].ToString().ToUpper().Trim());
                     User.FactoryCode = dt.Rows[0]["FactoryCode"].ToString().Trim();
                     return User;
                 }

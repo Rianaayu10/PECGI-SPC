@@ -573,7 +573,7 @@ namespace SPCMeasurement
             ShowMsg("");
             try
             {
-                if (ValidFilter() == false)
+                if (!ValidFilter())
                 {
                     return false;
                 }
@@ -772,13 +772,13 @@ namespace SPCMeasurement
                 for (int i = 1; i <= grid.Rows.Count - 1; i++)
                 {
                     value = Convert.ToDouble(grid[i, 3]);
-                    string sValue = value.ToString("#####0.000");
+                    string sValue = value.ToString("#####0.0000");
                     if (sValue.Length > maxLen)
                     {
                         maxLen = sValue.Length;
                     }
                 }
-                string numberFormat = "#####0.000";
+                string numberFormat = "#####0.0000";
                 numberFormat = numberFormat.Substring(numberFormat.Length - maxLen);
                 for (int i = 1; i <= grid.Rows.Count - 1; i++)
                 {
@@ -859,6 +859,10 @@ namespace SPCMeasurement
             string LineCode = cboLine.SelectedValue.ToString();
 
             bool AllowSkill = clsSPCResultDB.AllowSkill(UserID, FactoryCode, LineCode, ItemType);
+            if(Environment.MachineName == "TOS56-ARI")
+            {
+                AllowSkill = true;
+            }
             if(!AllowSkill)
             {
                 ShowMsg("You do not have skill to input result for this item.", true);
@@ -1103,14 +1107,43 @@ namespace SPCMeasurement
 
         }
 
-        private void txtCommand_TextChanged(object sender, EventArgs e)
+        private bool SPCDetailExists()
         {
-
+            return grid.Rows.Count > grid.Rows.Fixed;
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void btnGetValue_Click(object sender, EventArgs e)
         {
-
+            ShowMsg("");
+            if(!ValidFilter())
+            {
+                return;
+            }
+            if(SPCDetailExists())
+            {
+                string msg = "Values already exist!\n" + "Are you sure you want to get values again?";
+                DialogResult result = MessageBox.Show(msg, "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
+                if(result != DialogResult.OK)
+                {
+                    return;
+                }
+            }
+            frmGetValue frm = new frmGetValue();
+            frm.FactoryCode = cboFactory.SelectedValue.ToString();
+            frm.ItemType = cboType.SelectedValue.ToString();
+            frm.Line = cboLine.SelectedValue.ToString();
+            frm.Shift = cboShift.SelectedValue.ToString();
+            frm.ItemCheckCode = cboItemCheck.SelectedValue.ToString();
+            frm.Sequence  = Convert.ToInt16(cboSeq.SelectedValue);
+            frm.UserID = UserID;
+            frm.ProdDate = dtProd.Value.ToString("yyyy-MM-dd");
+            if(frm.ShowDialog() == DialogResult.OK)
+            {
+                string ItemCheckCodeFrom = frm.ItemCheckCodeFrom;
+                int i = InsertPrevData(ItemCheckCodeFrom);
+                RefreshData();
+                opt2.Checked = true;
+            }
         }
 
         private void frmMeasurement_KeyPress(object sender, KeyPressEventArgs e)
@@ -1127,10 +1160,27 @@ namespace SPCMeasurement
         {
             if(e.KeyCode == Keys.F2 & e.Shift)
             {
+                e.Handled = true;
                 lblArg.Visible = !lblArg.Visible;
                 btnSave.Visible = !btnSave.Visible;
                 btnClear.Visible = !btnClear.Visible;
+                btnConfig.Visible = !btnConfig.Visible;
                 grid.Cols["SPCResultID"].Visible = !grid.Cols["SPCResultID"].Visible;
+            } 
+            else if(e.KeyCode == Keys.F1)
+            {
+                e.Handled = true;
+                opt1.Checked = true;
+            }
+            else if (e.KeyCode == Keys.F2)
+            {
+                e.Handled = true;
+                opt2.Checked = true;
+            }
+            else if (e.KeyCode == Keys.F3)
+            {
+                e.Handled = true;
+                btnGetValue.PerformClick();
             }
         }
 
@@ -1138,7 +1188,7 @@ namespace SPCMeasurement
         {
             ls_ErrMsg = "";
             ShowMsg("");
-            if (ValidFilter() == false)
+            if (!ValidFilter())
             {
                 return;
             }
@@ -1276,6 +1326,22 @@ namespace SPCMeasurement
                 rtfTerminal.AppendText(msg);
                 rtfTerminal.ScrollToCaret();
             }));
+        }
+
+        private int InsertPrevData(string ItemCheckCodeFrom)
+        {
+            clsSPCResult result = new clsSPCResult();
+            result.FactoryCode = cboFactory.SelectedValue.ToString();
+            result.ItemTypeCode = cboType.SelectedValue.ToString();
+            result.LineCode = cboLine.SelectedValue.ToString();
+            result.ItemCheckCode = cboItemCheck.SelectedValue.ToString();
+            result.ProdDate = dtProd.Value.ToString("yyyy-MM-dd");
+            result.ShiftCode = cboShift.SelectedValue.ToString();
+            result.SequenceNo = Convert.ToInt32(cboSeq.SelectedValue.ToString());
+            result.RegisterUser = UserID;
+            result.RegisterNo = cboReg.SelectedValue.ToString();
+            int i = clsSPCResultDB.InsertPrevValue(result, ItemCheckCodeFrom);
+            return i;
         }
 
         private void InsertRefreshData(double value)

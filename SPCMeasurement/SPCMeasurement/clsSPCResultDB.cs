@@ -44,6 +44,32 @@ namespace SPCMeasurement
             }
         }
 
+        public static int InsertPrevValue(clsSPCResult Result, string ItemCheckCodeFrom)
+        {
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("sp_SPCResult_InsPrevValue", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("FactoryCode", Result.FactoryCode);
+                cmd.Parameters.AddWithValue("ItemTypeCode", Result.ItemTypeCode);
+                cmd.Parameters.AddWithValue("Line", Result.LineCode);
+                cmd.Parameters.AddWithValue("ItemCheckCodeFrom", ItemCheckCodeFrom);
+                cmd.Parameters.AddWithValue("ItemCheckCode", Result.ItemCheckCode);
+                cmd.Parameters.AddWithValue("ProdDate", Result.ProdDate);
+                cmd.Parameters.AddWithValue("ShiftCode", Result.ShiftCode);
+                cmd.Parameters.AddWithValue("SequenceNo", Result.SequenceNo);
+                cmd.Parameters.AddWithValue("RegisterUser", Result.RegisterUser);
+                cmd.Parameters.AddWithValue("RegisterNo", Result.RegisterNo);
+
+                cmd.Parameters.Add("SPCResultID", SqlDbType.Int);
+                cmd.Parameters["SPCResultID"].Direction = ParameterDirection.Output;
+                int i = cmd.ExecuteNonQuery();
+                Result.SPCResultID = Convert.ToInt32(cmd.Parameters["SPCResultID"].Value);
+                cmd.Dispose();
+                return i;
+            }
+        }
         public static int Insert(clsSPCResult Result)
         {
             using (SqlConnection con = new SqlConnection(constr))
@@ -139,6 +165,6 @@ namespace SPCMeasurement
                 da.Fill(dt);
                 return dt.Rows.Count > 0;
             }
-        }
+        }        
     }
 }

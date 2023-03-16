@@ -56,13 +56,16 @@ namespace SPCMeasurement
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsProgress = new System.Windows.Forms.ToolStripStatusLabel();
+            this.stUser = new System.Windows.Forms.ToolStripStatusLabel();
             this.stMsg = new System.Windows.Forms.ToolStripStatusLabel();
+            this.stServer = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerCurr = new System.Windows.Forms.Timer(this.components);
             this.lblScaleCon = new System.Windows.Forms.Label();
             this.lblScaleStatus = new System.Windows.Forms.Label();
             this.txtScale = new System.Windows.Forms.TextBox();
             this.grid = new C1.Win.C1FlexGrid.C1FlexGrid();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.rtfTerminal = new System.Windows.Forms.RichTextBox();
             this.lblArg = new System.Windows.Forms.Label();
             this.pnlValue = new System.Windows.Forms.Panel();
@@ -70,15 +73,13 @@ namespace SPCMeasurement
             this.opt1 = new System.Windows.Forms.RadioButton();
             this.btnRead = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
-            this.btnSearch = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
             this.btnConfig = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.stUser = new System.Windows.Forms.ToolStripStatusLabel();
-            this.stServer = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
+            this.btnGetValue = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.cboProcess)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboLineGroup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboProcessGroup)).BeginInit();
@@ -543,6 +544,17 @@ namespace SPCMeasurement
             this.tsProgress.Name = "tsProgress";
             this.tsProgress.Size = new System.Drawing.Size(0, 20);
             // 
+            // stUser
+            // 
+            this.stUser.AutoSize = false;
+            this.stUser.BackColor = System.Drawing.SystemColors.Control;
+            this.stUser.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stUser.Image = global::SPCMeasurement.Properties.Resources.user;
+            this.stUser.Name = "stUser";
+            this.stUser.Size = new System.Drawing.Size(120, 20);
+            this.stUser.Text = "User";
+            this.stUser.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // stMsg
             // 
             this.stMsg.BackColor = System.Drawing.Color.White;
@@ -550,6 +562,18 @@ namespace SPCMeasurement
             this.stMsg.Size = new System.Drawing.Size(1000, 20);
             this.stMsg.Spring = true;
             this.stMsg.Text = "Message";
+            // 
+            // stServer
+            // 
+            this.stServer.AutoSize = false;
+            this.stServer.BackColor = System.Drawing.SystemColors.Control;
+            this.stServer.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stServer.Image = global::SPCMeasurement.Properties.Resources.server_connect;
+            this.stServer.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.stServer.Name = "stServer";
+            this.stServer.Size = new System.Drawing.Size(200, 20);
+            this.stServer.Text = "Server";
+            this.stServer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblScaleCon
             // 
@@ -653,6 +677,19 @@ namespace SPCMeasurement
             this.panel1.Size = new System.Drawing.Size(1311, 107);
             this.panel1.TabIndex = 0;
             // 
+            // btnSearch
+            // 
+            this.btnSearch.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSearch.Image = global::SPCMeasurement.Properties.Resources.search;
+            this.btnSearch.Location = new System.Drawing.Point(1160, 45);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(103, 49);
+            this.btnSearch.TabIndex = 12;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
             // rtfTerminal
             // 
             this.rtfTerminal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -681,11 +718,12 @@ namespace SPCMeasurement
             // pnlValue
             // 
             this.pnlValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlValue.Controls.Add(this.btnGetValue);
             this.pnlValue.Controls.Add(this.opt2);
             this.pnlValue.Controls.Add(this.opt1);
-            this.pnlValue.Location = new System.Drawing.Point(348, 138);
+            this.pnlValue.Location = new System.Drawing.Point(500, 141);
             this.pnlValue.Name = "pnlValue";
-            this.pnlValue.Size = new System.Drawing.Size(211, 52);
+            this.pnlValue.Size = new System.Drawing.Size(411, 52);
             this.pnlValue.TabIndex = 110;
             this.pnlValue.Visible = false;
             // 
@@ -693,14 +731,16 @@ namespace SPCMeasurement
             // 
             this.opt2.Appearance = System.Windows.Forms.Appearance.Button;
             this.opt2.BackColor = System.Drawing.SystemColors.Control;
-            this.opt2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.opt2.Location = new System.Drawing.Point(108, 3);
+            this.opt2.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.opt2.Image = ((System.Drawing.Image)(resources.GetObject("opt2.Image")));
+            this.opt2.Location = new System.Drawing.Point(132, 3);
             this.opt2.Name = "opt2";
-            this.opt2.Size = new System.Drawing.Size(97, 45);
+            this.opt2.Size = new System.Drawing.Size(123, 45);
             this.opt2.TabIndex = 1;
             this.opt2.TabStop = true;
             this.opt2.Text = "Value 2";
             this.opt2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.opt2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.opt2.UseVisualStyleBackColor = false;
             this.opt2.CheckedChanged += new System.EventHandler(this.opt2_CheckedChanged);
             // 
@@ -708,14 +748,16 @@ namespace SPCMeasurement
             // 
             this.opt1.Appearance = System.Windows.Forms.Appearance.Button;
             this.opt1.BackColor = System.Drawing.SystemColors.Control;
-            this.opt1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.opt1.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.opt1.Image = ((System.Drawing.Image)(resources.GetObject("opt1.Image")));
             this.opt1.Location = new System.Drawing.Point(3, 3);
             this.opt1.Name = "opt1";
-            this.opt1.Size = new System.Drawing.Size(97, 45);
+            this.opt1.Size = new System.Drawing.Size(123, 45);
             this.opt1.TabIndex = 0;
             this.opt1.TabStop = true;
             this.opt1.Text = "Value 1";
             this.opt1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.opt1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.opt1.UseVisualStyleBackColor = false;
             this.opt1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
@@ -747,19 +789,6 @@ namespace SPCMeasurement
             this.btnClear.Visible = false;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
-            // btnSearch
-            // 
-            this.btnSearch.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Image = global::SPCMeasurement.Properties.Resources.search;
-            this.btnSearch.Location = new System.Drawing.Point(1160, 45);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(103, 49);
-            this.btnSearch.TabIndex = 12;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            // 
             // btnPrint
             // 
             this.btnPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -781,7 +810,7 @@ namespace SPCMeasurement
             this.btnConfig.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnConfig.Image")));
             this.btnConfig.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnConfig.Location = new System.Drawing.Point(926, 565);
+            this.btnConfig.Location = new System.Drawing.Point(487, 565);
             this.btnConfig.Name = "btnConfig";
             this.btnConfig.Size = new System.Drawing.Size(133, 49);
             this.btnConfig.TabIndex = 6;
@@ -804,29 +833,6 @@ namespace SPCMeasurement
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Visible = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // stUser
-            // 
-            this.stUser.AutoSize = false;
-            this.stUser.BackColor = System.Drawing.SystemColors.Control;
-            this.stUser.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stUser.Image = global::SPCMeasurement.Properties.Resources.user;
-            this.stUser.Name = "stUser";
-            this.stUser.Size = new System.Drawing.Size(120, 20);
-            this.stUser.Text = "User";
-            this.stUser.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // stServer
-            // 
-            this.stServer.AutoSize = false;
-            this.stServer.BackColor = System.Drawing.SystemColors.Control;
-            this.stServer.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stServer.Image = global::SPCMeasurement.Properties.Resources.server_connect;
-            this.stServer.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.stServer.Name = "stServer";
-            this.stServer.Size = new System.Drawing.Size(200, 20);
-            this.stServer.Text = "Server";
-            this.stServer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // btnClose
             // 
@@ -870,6 +876,20 @@ namespace SPCMeasurement
             this.btnStart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            // 
+            // btnGetValue
+            // 
+            this.btnGetValue.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGetValue.Image = ((System.Drawing.Image)(resources.GetObject("btnGetValue.Image")));
+            this.btnGetValue.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGetValue.Location = new System.Drawing.Point(261, 3);
+            this.btnGetValue.Name = "btnGetValue";
+            this.btnGetValue.Size = new System.Drawing.Size(145, 45);
+            this.btnGetValue.TabIndex = 112;
+            this.btnGetValue.Text = "Get Value";
+            this.btnGetValue.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnGetValue.UseVisualStyleBackColor = true;
+            this.btnGetValue.Click += new System.EventHandler(this.btnGetValue_Click);
             // 
             // frmMeasurement
             // 
@@ -976,6 +996,7 @@ namespace SPCMeasurement
         private System.Windows.Forms.RadioButton opt1;
         private System.Windows.Forms.RadioButton opt2;
         private System.Windows.Forms.Button btnRead;
+        private System.Windows.Forms.Button btnGetValue;
     }
 }
 

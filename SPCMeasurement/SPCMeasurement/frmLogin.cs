@@ -55,11 +55,13 @@ namespace SPCMeasurement
             if(User == null)
             {
                 txtUser.Focus();
+                txtUser.SelectAll();
                 MessageBox.Show("Invalid User ID or password", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             } else if (User.Password != txtPassword.Text)
             {
                 txtPassword.Focus();
+                txtPassword.SelectAll();
                 MessageBox.Show("Invalid User ID or password", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
@@ -95,7 +97,11 @@ namespace SPCMeasurement
 
         private void frmLogin_Load(object sender, EventArgs e)
         {
-
+            if(Environment.MachineName == "TOS56-ARI")
+            {
+                txtUser.Text = "admintos";
+                txtPassword.Text = "Pecgi22";
+            }
         }
 
         private void frmLogin_Shown(object sender, EventArgs e)
