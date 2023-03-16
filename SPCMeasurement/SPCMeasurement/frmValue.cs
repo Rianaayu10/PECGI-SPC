@@ -12,6 +12,7 @@ namespace SPCMeasurement
 {
     public partial class frmValue : Form
     {
+        public double Value;
         public frmValue()
         {
             InitializeComponent();
@@ -19,7 +20,13 @@ namespace SPCMeasurement
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.DialogResult = DialogResult.Cancel;
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            Value = Convert.ToDouble(txtScale.Text);
+            this.DialogResult = DialogResult.OK;
         }
     }
 }

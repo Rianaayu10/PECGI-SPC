@@ -57,7 +57,7 @@ namespace SPCMeasurement
                 cbo.MaxDropDownItems = 10;
                 cbo.Splits[0].DisplayColumns[0].Visible = false;
                 cbo.Splits[0].DisplayColumns[2].Visible = false;
-                cbo.ExtendRightColumn = true;
+                cbo.ExtendRightColumn = true;                
                 cbo.DropdownPosition = C1.Win.C1List.DropdownPositionEnum.LeftDown;
                 cbo.ValueMember = "ItemCheckCode";
                 cbo.DisplayMember = "ItemCheck";

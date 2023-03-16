@@ -62,6 +62,7 @@ namespace SPCMeasurement
                 cmd.Parameters.AddWithValue("Remark", Result.Remark);
                 cmd.Parameters.AddWithValue("RegisterUser", Result.RegisterUser);
                 cmd.Parameters.AddWithValue("RegisterNo", Result.RegisterNo);
+                cmd.Parameters.AddWithValue("Measure2nd", Result.Measure2nd);
 
                 cmd.Parameters.Add("SPCResultID", SqlDbType.Int);
                 cmd.Parameters["SPCResultID"].Direction = ParameterDirection.Output;                

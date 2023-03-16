@@ -20,5 +20,6 @@ namespace SPCMeasurement
         public string Remark { get; set; }
         public string RegisterUser { get; set; }
         public string RegisterNo { get; set; }
+        public string Measure2nd { get; set; }
     }  
 }

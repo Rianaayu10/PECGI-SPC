@@ -104,20 +104,24 @@ namespace SPCMeasurement
             string q = "'0082  +   1.2  N\n      +   3.4  N                \n";
             if(opt1.Checked)
             {
-                q = "1371.31 mg\n";
+                q = "4.7 mg\n";
             } else
             {
-                q = "1372.31 mg\n";
+                q = "1 mg\n";
             }
-            
-            double value = SetText2(q);
-            value = value + DateTime.Now.Second;
-            if (bolWeightOK & value > 0)
+
+            frmValue frm = new frmValue();
+            if(frm.ShowDialog() == DialogResult.OK)
             {
-                InsertData(value);
-                bolWeightOK = false;
-                prevValScale = 0;
-            }            
+                double value = frm.Value;
+                if (value > 0)
+                {
+                    InsertData(value);
+                    bolWeightOK = false;
+                    prevValScale = 0;
+                }
+            }
+            frm.Dispose();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -830,10 +834,18 @@ namespace SPCMeasurement
             C1.Win.C1FlexGrid.CellStyle cs = grid.Styles.Add("red");
             cs.BackColor = System.Drawing.Color.Red;
             cs.ForeColor = System.Drawing.Color.White;
-            for(int i = 1; i <= grid.Rows.Count - 1; i++)
+
+            C1.Win.C1FlexGrid.CellStyle csDel = grid.Styles.Add("delete");
+            csDel.BackColor = System.Drawing.Color.Gray;
+            csDel.ForeColor = System.Drawing.Color.Black;
+            for (int i = 1; i <= grid.Rows.Count - 1; i++)
             {
                 string Judgement = grid[i, "Judgement"].ToString().Trim();
-                if(Judgement=="NG")
+                string DeleteStatus = grid[i, "DeleteStatus"].ToString().Trim();
+                if (DeleteStatus == "1")
+                {
+                    grid.Rows[i].Style = csDel;
+                } else if (Judgement == "NG")
                 {
                     grid.Rows[i].Style = cs;
                 }
@@ -879,7 +891,7 @@ namespace SPCMeasurement
                 if (result == DialogResult.Yes)
                 {
                     int SPCResultID = Convert.ToInt32(grid[1, "SPCResultID"]);
-                    clsSPCResultDetailDB.Delete(SPCResultID);
+                    clsSPCResultDetailDB.Delete(SPCResultID, Measure2nd);
                     RefreshData();
                 }
             }      
@@ -952,6 +964,7 @@ namespace SPCMeasurement
             result.Remark = "";
             result.RegisterUser = UserID;
             result.RegisterNo = cboReg.SelectedValue.ToString();
+            result.Measure2nd = Measure2nd;
             clsSPCResultDB.Insert(result);
 
             clsSPCResultDetail detail = new clsSPCResultDetail();
@@ -1091,6 +1104,11 @@ namespace SPCMeasurement
         }
 
         private void txtCommand_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
         {
 
         }
@@ -1336,12 +1354,20 @@ namespace SPCMeasurement
                     InvokeInProgress = true;
                     string[] ValArray = data.Split('\n');
                     string tmpVal = ValArray[0].Trim();
+                    if (tmpVal.Length < getResultData)
+                    {
+                        return;
+                    }
                     tmpVal = tmpVal.Substring(getResultData);
                     tmpVal = tmpVal.Replace("N", "");
                     tmpVal = tmpVal.Replace("mg", "");
                     if (tmpVal.Contains("+"))
                     {
                         int pos = tmpVal.IndexOf("+");
+                        if(tmpVal.Length < pos + 1)
+                        {
+                            return;
+                        }
                         tmpVal = tmpVal.Substring(pos + 1);
                     }
                     tmpVal = tmpVal.Trim();

@@ -161,6 +161,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="measure.ico" />
+    <None Include="Resources\measure.png" />
+    <None Include="Resources\measurement-icon.png" />
     <None Include="Resources\setting_tools.png" />
     <None Include="Resources\cross.png" />
     <None Include="Resources\user.png" />
