@@ -808,7 +808,7 @@
 <div style="width:100%; border:1px solid black">
 <dx:WebChartControl ID="chartX" runat="server" ClientInstanceName="chartX"
         Height="434px" Width="1080px" CrosshairEnabled="True" SeriesDataMember="Description" ToolTipEnabled="False">
-        <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" CrosshairLabelPattern="{S}: {V:0.000}">
+        <seriestemplate SeriesDataMember="Description" ArgumentDataMember="Seq" ValueDataMembersSerializable="Value" CrosshairLabelPattern="{S}: {V:0.0000}">
             <viewserializable>
                 <cc1:PointSeriesView>                    
                     <PointMarkerOptions kind="Circle" BorderColor="255, 255, 255" Size="4"></PointMarkerOptions>
@@ -851,7 +851,7 @@
                 </AxisX>
                 <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
                     <Tickmarks MinorVisible="False" />
-                    <Label TextPattern="{V:0.000}" Font="Tahoma, 7pt">
+                    <Label TextPattern="{V:0.0000}" Font="Tahoma, 7pt">
                         <ResolveOverlappingOptions AllowHide="True" />
                     </Label>
                     <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.015" MaxValueSerializable="2.715" MinValueSerializable="2.7" StartSideMargin="0.025" />
@@ -921,7 +921,7 @@
                 </AxisX>
                 <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
                     <Tickmarks MinorLength="1" MinorVisible="False" />
-                    <Label TextAlignment="Near" TextPattern="{V:0.000}">
+                    <Label TextAlignment="Near" TextPattern="{V:0.0000}">
                         <ResolveOverlappingOptions AllowHide="True" />
                     </Label>
                     <VisualRange Auto="False" AutoSideMargins="False" EndSideMargin="0.001" MaxValueSerializable="0.027" MinValueSerializable="0" StartSideMargin="0" />
@@ -956,11 +956,11 @@
                 <cc1:XYDiagram Rotated="True">
                 <AxisX VisibleInPanesSerializable="-1" Visibility="True">
                     <Tickmarks MinorVisible="False" />
-                    <Label TextPattern="{A:0.000}">
+                    <Label TextPattern="{A:0.0000}">
                         <ResolveOverlappingOptions AllowHide="False" />
                     </Label>
                     <WholeRange AutoSideMargins="False" EndSideMargin="3" StartSideMargin="3" />
-                    <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Count" IntervalOptions-GridLayoutMode="GridShiftedLabelCentered" IntervalOptions-Count="8" IntervalOptions-Pattern="{A1:0.000} - {A2:0.000}" IntervalOptions-OverflowValuePattern="{OS}" IntervalOptions-UnderflowValuePattern="{US}" />
+                    <NumericScaleOptions AutoGrid="False" ScaleMode="Interval" AggregateFunction="Histogram" GridAlignment="Custom" GridSpacing="0.001" IntervalOptions-DivisionMode="Count" IntervalOptions-GridLayoutMode="GridShiftedLabelCentered" IntervalOptions-Count="8" IntervalOptions-Pattern="{A1:0.0000} - {A2:0.0000}" IntervalOptions-OverflowValuePattern="{OS}" IntervalOptions-UnderflowValuePattern="{US}" />
                     </AxisX>
 
                 <AxisY VisibleInPanesSerializable="-1" MinorCount="1">

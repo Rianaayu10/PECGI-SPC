@@ -64,6 +64,9 @@
         .auto-style22 {
             width: 165px;
         }
+        .auto-style23 {
+            height: 10px;
+        }
         </style>
     <script type="text/javascript" >
         var prevOnLoad = window.onload;
@@ -244,7 +247,7 @@
 
         function ValidateSave(s, e) {
             lblAuto.SetText('OFF');
-            grid.PerformCallback('save' + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + cboShow.GetValue() + '|' + txtSubLotNo.GetText() + '|' + txtRemarks.GetText() );           
+            grid.PerformCallback('save' + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + cboShow.GetValue() + '|' + txtSubLotNo.GetText() + '|' + txtRemarks.GetText() + '|' + chkNoProd.GetChecked() );
         }
 
         function ClearGrid(s, e) {
@@ -440,6 +443,12 @@
             lblC.SetText(s.cpC);            
             txtRemarks.SetText(s.cpRemarks);
             txtSubLotNo.SetText(s.cpSubLotNo);
+            if(s.cpNoProd == '1')
+            {
+                chkNoProd.SetChecked(true);
+            } else {
+                chkNoProd.SetChecked(false);
+            }
             
             if (s.cpNG == '2') {
                 lblNG.SetText('NG');
@@ -933,6 +942,12 @@
                                     <Paddings Padding="2px" />
                                 </dx:ASPxButton>                            
                         </td>
+                        <td class="auto-style21" style="padding-left:20px">
+                            <dx:ASPxLabel ID="ASPxLabel31" runat="server" Text="Auto Refresh: " ClientInstanceName="label31" Font-Names="Segoe UI" Font-Size="9pt" ClientVisible="True"></dx:ASPxLabel>
+                        </td>
+                        <td>
+                            <dx:ASPxLabel ID="lblAuto" runat="server" Text="ON" ClientInstanceName="lblAuto" Font-Names="Segoe UI" Font-Size="9pt" ClientVisible="True"></dx:ASPxLabel>
+                        </td>
                     </tr>
                 </table>
             </td>
@@ -1101,26 +1116,6 @@
     </dx:ASPxGridView>    
 </div>
 
-<div style="height:16px">
-    <table style="width:115px">
-        <tr>
-            <td class="auto-style21">
-                <dx:ASPxLabel ID="ASPxLabel31" runat="server" Text="Auto Refresh: " ClientInstanceName="label31"
-                    Font-Names="Segoe UI" Font-Size="9pt" ClientVisible="True">
-                </dx:ASPxLabel>
-            </td>
-            <td style="text-align:left">
-                <dx:ASPxLabel ID="lblAuto" runat="server" Text="ON" ClientInstanceName="lblAuto"
-                    Font-Names="Segoe UI" Font-Size="9pt" ClientVisible="True">
-                </dx:ASPxLabel>
-            </td>
-        </tr>
-    </table>
-
-                
-
-
-</div>    
 <div>
 <table style="width:100%">
     <tr>
@@ -1143,6 +1138,15 @@
                     <td>
                         <dx:ASPxTextBox ID="txtRemarks" runat="server" Width="160px" ClientInstanceName="txtRemarks">
                         </dx:ASPxTextBox>
+                    </td>
+                </tr>
+                <tr style="height:26px">
+                    <td>
+                        &nbsp;</td>
+                    <td>
+                        
+                        <dx:ASPxCheckBox ID="chkNoProd" runat="server" Text="No Production" ClientInstanceName="chkNoProd"></dx:ASPxCheckBox>
+                        
                     </td>
                 </tr>
             </table>
@@ -1246,7 +1250,7 @@
         </td>
     </tr>
 </table>    
-    <div style="height:10px; vertical-align:middle">
+    <div style="vertical-align:middle" class="auto-style23">
 
     </div>
 

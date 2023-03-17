@@ -524,6 +524,7 @@ Public Class ProdSampleInput
         grid.JSProperties("cpQCDate") = " "
         grid.JSProperties("cpSubLotNo") = ""
         grid.JSProperties("cpRemarks") = ""
+        grid.JSProperties("cpNoProd") = ""
         grid.JSProperties("cpRefresh") = ""
     End Sub
 
@@ -575,6 +576,8 @@ Public Class ProdSampleInput
         Dim dt As DataTable = clsSPCResultDetailDB.GetTable(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence, VerifiedOnly)
         grid.DataSource = dt
         grid.DataBind()
+
+        Dim Result As clsSPCResult = clsSPCResultDB.GetData(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence)
 
         Dim Item As clsItemCheck = clsItemCheckDB.GetData(ItemCheckCode)
         If Item Is Nothing OrElse Item.Measure2Cls <> "1" Then
@@ -646,13 +649,16 @@ Public Class ProdSampleInput
                 grid.JSProperties("cpMKUser") = .Item("MKUser")
                 grid.JSProperties("cpQCDate") = .Item("QCDate")
                 grid.JSProperties("cpQCUser") = .Item("QCUser")
-                grid.JSProperties("cpSubLotNo") = .Item("SubLotNo") & ""
-                grid.JSProperties("cpRemarks") = .Item("Remarks")
                 grid.JSProperties("cpRefresh") = "1"
                 If .Item("QCDate") & "" <> "" Then
                     Verified = True
                 End If
             End With
+        End If
+        If Result IsNot Nothing Then
+            grid.JSProperties("cpSubLotNo") = Result.SubLotNo
+            grid.JSProperties("cpRemarks") = Result.Remark
+            grid.JSProperties("cpNoProd") = Result.NoProductionStatus
         End If
         Dim dtVer As DataTable = clsSPCResultDB.GetLastVerification(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Sequence)
         Dim LastVerification As Integer = dtVer.Rows(0)(0)
@@ -732,8 +738,14 @@ Public Class ProdSampleInput
                 If pFunction = "save" Then
                     Dim pSubLotNo As String = Split(e.Parameters, "|")(9)
                     Dim pRemark As String = Split(e.Parameters, "|")(10)
+                    Dim pNoProd As String = Split(e.Parameters, "|")(11)
+                    If pNoProd.Trim.ToLower = "true" Then
+                        pNoProd = "1"
+                    Else
+                        pNoProd = "0"
+                    End If
                     pUser = Session("user") & ""
-                    clsSPCResultDB.Update(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pSubLotNo, pRemark, pUser)
+                    clsSPCResultDB.Update(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pSubLotNo, pRemark, pNoProd, pUser)
                     show_error(MsgTypeEnum.Success, "Update data successfull!", 1)
                 End If
                 GridLoad(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pVerified)

@@ -11,6 +11,9 @@ Public Class clsSPCResult
     Public Property SequenceNo As Integer
     Public Property SubLotNo As String
     Public Property Remark As String
+    Public Property NoProductionStatus As String
+    Public Property FTAStatus As String
+
     Public Property RegisterUser As String
 End Class
 
@@ -73,12 +76,13 @@ Public Class clsSPCResultDB
         ADecimal = ADbl(value)
     End Function
 
-    Public Shared Function GetTable() As DataTable
+    Public Shared Function GetTable(SPCResultID As Integer) As DataTable
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String = "sp_SPCResult"
             Dim cmd As New SqlCommand(q, Cn)
             cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.AddWithValue("SPCResultID", SPCResultID)
             Dim da As New SqlDataAdapter(cmd)
             Dim dt As New DataTable
             da.Fill(dt)
@@ -86,7 +90,7 @@ Public Class clsSPCResultDB
         End Using
     End Function
 
-    Public Shared Function GetData(SPCResultID) As clsSPCResult
+    Public Shared Function GetData(SPCResultID As Integer) As clsSPCResult
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String = "sp_SPCResult"
@@ -109,6 +113,48 @@ Public Class clsSPCResultDB
                     Result.ProdDate = .Item("ProdDate")
                     Result.ShiftCode = .Item("ShiftCode")
                     Result.SequenceNo = .Item("SequenceNo")
+                    Result.NoProductionStatus = .Item("NoProductionStatus")
+                    Result.FTAStatus = .Item("FTAStatus")
+                End With
+                Return Result
+            End If
+        End Using
+    End Function
+
+
+    Public Shared Function GetData(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer) As clsSPCResult
+        Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+            Cn.Open()
+            Dim q As String = "sp_SPCResult"
+            Dim cmd As New SqlCommand(q, Cn)
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
+            cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
+            cmd.Parameters.AddWithValue("Line", Line)
+            cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
+            cmd.Parameters.AddWithValue("ProdDate", CDate(ProdDate))
+            cmd.Parameters.AddWithValue("ShiftCode", Shift)
+            cmd.Parameters.AddWithValue("SequenceNo", Sequence)
+            Dim da As New SqlDataAdapter(cmd)
+            Dim dt As New DataTable
+            da.Fill(dt)
+            If dt.Rows.Count = 0 Then
+                Return Nothing
+            Else
+                Dim Result As New clsSPCResult
+                With dt.Rows(0)
+                    Result.SPCResultID = .Item("SPCResultID")
+                    Result.FactoryCode = .Item("FactoryCode")
+                    Result.ItemTypeCode = .Item("ItemTypeCode")
+                    Result.LineCode = .Item("LineCode")
+                    Result.ItemCheckCode = .Item("ItemCheckCode")
+                    Result.ProdDate = .Item("ProdDate")
+                    Result.ShiftCode = .Item("ShiftCode")
+                    Result.SequenceNo = .Item("SequenceNo")
+                    Result.SubLotNo = .Item("SubLotNo")
+                    Result.Remark = .Item("Remark")
+                    Result.NoProductionStatus = .Item("NoProductionStatus")
+                    Result.FTAStatus = .Item("FTAStatus")
                 End With
                 Return Result
             End If
@@ -131,7 +177,7 @@ Public Class clsSPCResultDB
         End Using
     End Function
 
-    Public Shared Function Update(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, ProdDate As String, ShiftCode As String, SequenceNo As Integer, SubLotNo As String, Remark As String, RegisterUser As String) As Object
+    Public Shared Function Update(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, ProdDate As String, ShiftCode As String, SequenceNo As Integer, SubLotNo As String, Remark As String, NoProductionStatus As String, RegisterUser As String) As Object
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String = "sp_SPCResult_Upd"
@@ -145,6 +191,7 @@ Public Class clsSPCResultDB
             cmd.Parameters.AddWithValue("SequenceNo", SequenceNo)
             cmd.Parameters.AddWithValue("SubLotNo", SubLotNo)
             cmd.Parameters.AddWithValue("Remark", Remark)
+            cmd.Parameters.AddWithValue("NoProductionStatus", NoProductionStatus)
             cmd.Parameters.AddWithValue("RegisterUser", RegisterUser)
             cmd.CommandType = CommandType.StoredProcedure
             Dim PrevDate As Object = cmd.ExecuteScalar

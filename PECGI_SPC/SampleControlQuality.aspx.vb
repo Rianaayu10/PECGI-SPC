@@ -255,7 +255,7 @@ Public Class SampleControlQuality
                 .Cells(Row + 12, Col).Value = dtCP.Rows(0)("Max")
                 .Cells(Row + 13, Col).Value = dtCP.Rows(0)("XBarBar")
                 .Cells(Row + 14, Col).Value = dtCP.Rows(0)("RBar")
-                .Cells(Row + 6, Col, Row + 14, Col).Style.Numberformat.Format = "0.000"
+                .Cells(Row + 6, Col, Row + 14, Col).Style.Numberformat.Format = "0.0000"
 
                 If ChartType = "1" Then
                     If Not IsDBNull(dtCP.Rows(0)("XBarBar")) And (dtCP.Rows(0)("XBarBar") < dtCP.Rows(0)("XbarLCL") Or dtCP.Rows(0)("XBarBar") > dtCP.Rows(0)("XBarUCL")) Then
@@ -277,7 +277,7 @@ Public Class SampleControlQuality
                 .Cells(Row + 12, Col).Value = dtCP.Rows(0)("CPK1")
                 .Cells(Row + 13, Col).Value = dtCP.Rows(0)("CPK2")
                 .Cells(Row + 14, Col).Value = dtCP.Rows(0)("CPKMin")
-                .Cells(Row + 6, Col, Row + 13, Col).Style.Numberformat.Format = "0.000"
+                .Cells(Row + 6, Col, Row + 13, Col).Style.Numberformat.Format = "0.0000"
             End If
 
             Dim rg As ExcelRange = .Cells(Row, 10, Row + 14, 16)
@@ -384,7 +384,7 @@ Public Class SampleControlQuality
                                 .Cells(iRow, 1).Style.Fill.BackgroundColor.SetColor(cs.Color(.Cells(iRow, 1).Value))
                         End Select
                     ElseIf k > colDes Then
-                        .Cells(iRow, iCol).Style.Numberformat.Format = "0.000"
+                        .Cells(iRow, iCol).Style.Numberformat.Format = "0.0000"
                         LSL = dtLSL.Rows(0)(iCol)
                         USL = dtUSL.Rows(0)(iCol)
                         LCL = dtLCL.Rows(0)(iCol)
@@ -594,7 +594,7 @@ Public Class SampleControlQuality
         If v Is Nothing OrElse IsDBNull(v) Then
             Return ""
         Else
-            Return Format(v, "0.000")
+            Return Format(v, "0.0000")
         End If
     End Function
 
