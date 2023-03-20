@@ -600,9 +600,9 @@ Public Class ProdSampleInput
         Dim UserID As String = Session("user")
         Dim pEmplooyeeID = clsIOT.GetEmployeeID(UserID)
         Dim AllowSkill As Boolean = clsIOT.AllowSkill(pEmplooyeeID, FactoryCode, Line, ItemTypeCode)
-        'If My.Computer.Name = "TOS56-ARI" Then
-        '    AllowSkill = True
-        'End If
+        If My.Computer.Name = "TOS56-ARI" Then
+            AllowSkill = True
+        End If
         ChartType = clsXRChartDB.GetChartType(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
         grid.JSProperties("cpChartType") = ChartType
 
@@ -662,9 +662,9 @@ Public Class ProdSampleInput
         End If
         Dim dtVer As DataTable = clsSPCResultDB.GetLastVerification(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Sequence)
         Dim LastVerification As Integer = dtVer.Rows(0)(0)
-        'If My.Computer.Name = "TOS56-ARI" Then
-        '    LastVerification = 1
-        'End If
+        If My.Computer.Name = "TOS56-ARI" Then
+            LastVerification = 1
+        End If
         grid.SettingsDataSecurity.AllowInsert = LastVerification = 1 And Not Verified And AuthUpdate And AllowSkill
         grid.SettingsDataSecurity.AllowEdit = LastVerification = 1 And Not Verified And AuthUpdate And AllowSkill
         If grid.SettingsDataSecurity.AllowInsert Then
@@ -1795,7 +1795,7 @@ Public Class ProdSampleInput
             diagram.AxisY.NumericScaleOptions.CustomGridAlignment = 0.005
             diagram.AxisY.GridLines.MinorVisible = False
             If ChartType = "1" Or ChartType = "2" Then
-                .Titles(0).Text = "X Bar Control Chart"
+                .Titles(0).Text = "Xbar Control Chart"
             Else
                 .Titles(0).Text = "Graph Monitoring"
             End If
@@ -1804,7 +1804,7 @@ Public Class ProdSampleInput
             Dim Setup As clsChartSetup = clsChartSetupDB.GetData(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate)
             diagram.AxisY.ConstantLines.Clear()
             If Setup IsNot Nothing Then
-                Dim LCL As New ConstantLine("LCL")
+                Dim LCL As New ConstantLine("LCL")                
                 LCL.Color = System.Drawing.Color.Red
                 LCL.LineStyle.Thickness = 1
                 LCL.LineStyle.DashStyle = DashStyle.Dash
@@ -1826,14 +1826,14 @@ Public Class ProdSampleInput
                 CL.AxisValue = Setup.CPCL
 
                 If ChartType = "1" Or ChartType = "2" Then
-                    Dim XBarLCL As New ConstantLine("XBarLCL")
+                    Dim XBarLCL As New ConstantLine("      XBarLCL")
                     XBarLCL.Color = System.Drawing.Color.Orange
                     XBarLCL.LineStyle.Thickness = 1
                     XBarLCL.LineStyle.DashStyle = DashStyle.Dash
                     diagram.AxisY.ConstantLines.Add(XBarLCL)
                     XBarLCL.AxisValue = Setup.XBarLCL
 
-                    Dim XBarUCL As New ConstantLine("XBarUCL")
+                    Dim XBarUCL As New ConstantLine("      XBarUCL")
                     XBarUCL.Color = System.Drawing.Color.Orange
                     XBarUCL.LineStyle.Thickness = 1
                     XBarUCL.LineStyle.DashStyle = DashStyle.Dash
@@ -1841,14 +1841,14 @@ Public Class ProdSampleInput
                     XBarUCL.AxisValue = Setup.XBarUCL
                 End If
 
-                Dim LSL As New ConstantLine("LSL")
+                Dim LSL As New ConstantLine("      LSL")
                 LSL.Color = System.Drawing.Color.Red
                 LSL.LineStyle.Thickness = 1
                 LSL.LineStyle.DashStyle = DashStyle.Solid
                 diagram.AxisY.ConstantLines.Add(LSL)
                 LSL.AxisValue = Setup.SpecLSL
 
-                Dim USL As New ConstantLine("USL")
+                Dim USL As New ConstantLine("      USL")
                 USL.Color = System.Drawing.Color.Red
                 USL.LineStyle.Thickness = 1
                 USL.LineStyle.DashStyle = DashStyle.Solid
@@ -1963,19 +1963,19 @@ Public Class ProdSampleInput
             LastNG = 0
         End If
         Dim cs As New clsSPCColor
-        If e.DataColumn.FieldName = "Des" Then
-            If e.CellValue = "1" Then
-                e.Cell.BackColor = cs.Color1
-            ElseIf e.CellValue = "2" Then
-                e.Cell.BackColor = cs.Color2
-            ElseIf e.CellValue = "3" Then
-                e.Cell.BackColor = cs.Color3
-            ElseIf e.CellValue = "4" Then
-                e.Cell.BackColor = cs.Color4
-            ElseIf e.CellValue = "5" Then
-                e.Cell.BackColor = cs.Color5
-            End If
-        End If
+        'If e.DataColumn.FieldName = "Des" Then
+        'If e.CellValue = "1" Then
+        '    e.Cell.BackColor = cs.Color1
+        'ElseIf e.CellValue = "2" Then
+        '    e.Cell.BackColor = cs.Color2
+        'ElseIf e.CellValue = "3" Then
+        '    e.Cell.BackColor = cs.Color3
+        'ElseIf e.CellValue = "4" Then
+        '    e.Cell.BackColor = cs.Color4
+        'ElseIf e.CellValue = "5" Then
+        '    e.Cell.BackColor = cs.Color5
+        'End If
+        'End If
 
         If e.KeyValue = "-" Or e.KeyValue = "--" Then
             e.Cell.Text = ""

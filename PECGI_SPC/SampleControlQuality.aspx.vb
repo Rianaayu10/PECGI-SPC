@@ -210,8 +210,8 @@ Public Class SampleControlQuality
             If ChartType = "1" Then
                 Noj = " (No Judgement)"
             End If
-            .Cells(Row + 13, Col).Value = "X Bar Bar" & Noj
-            .Cells(Row + 14, Col).Value = "R Bar" & Noj
+            .Cells(Row + 13, Col).Value = "Xbarbar" & Noj
+            .Cells(Row + 14, Col).Value = "Rbar" & Noj
             .Cells(Row, Col, Row + 14, Col + 2).Style.Fill.PatternType = ExcelFillStyle.Solid
             .Cells(Row, Col, Row + 14, Col + 2).Style.Fill.BackgroundColor.SetColor(Color.FromArgb(242, 242, 242))
             For iRow = Row To Row + 14
@@ -223,8 +223,8 @@ Public Class SampleControlQuality
 
             Col = 14
             .Cells(Row + 7, Col).Value = "d2"
-            .Cells(Row + 8, Col).Value = "XBar UCL" & Noj
-            .Cells(Row + 9, Col).Value = "XBar LCL" & Noj
+            .Cells(Row + 8, Col).Value = "Xbar UCL" & Noj
+            .Cells(Row + 9, Col).Value = "Xbar LCL" & Noj
             .Cells(Row + 10, Col).Value = "R UCL" & Noj
 
             .Cells(Row + 11, Col).Value = "Cp"
@@ -253,24 +253,24 @@ Public Class SampleControlQuality
 
                 .Cells(Row + 11, Col).Value = dtCP.Rows(0)("Min")
                 .Cells(Row + 12, Col).Value = dtCP.Rows(0)("Max")
-                .Cells(Row + 13, Col).Value = dtCP.Rows(0)("XBarBar")
-                .Cells(Row + 14, Col).Value = dtCP.Rows(0)("RBar")
+                .Cells(Row + 13, Col).Value = dtCP.Rows(0)("Xbarbar")
+                .Cells(Row + 14, Col).Value = dtCP.Rows(0)("Rbar")
                 .Cells(Row + 6, Col, Row + 14, Col).Style.Numberformat.Format = "0.0000"
 
                 If ChartType = "1" Then
-                    If Not IsDBNull(dtCP.Rows(0)("XBarBar")) And (dtCP.Rows(0)("XBarBar") < dtCP.Rows(0)("XbarLCL") Or dtCP.Rows(0)("XBarBar") > dtCP.Rows(0)("XBarUCL")) Then
+                    If Not IsDBNull(dtCP.Rows(0)("Xbarbar")) And (dtCP.Rows(0)("Xbarbar") < dtCP.Rows(0)("XbarLCL") Or dtCP.Rows(0)("Xbarbar") > dtCP.Rows(0)("XbarUCL")) Then
                         .Cells(Row + 13, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
                         .Cells(Row + 13, Col).Style.Fill.BackgroundColor.SetColor(Color.Pink)
                     End If
-                    If Not IsDBNull(dtCP.Rows(0)("RBar")) And dtCP.Rows(0)("RBar") > dtCP.Rows(0)("RUCL") Then
+                    If Not IsDBNull(dtCP.Rows(0)("Rbar")) And dtCP.Rows(0)("Rbar") > dtCP.Rows(0)("RUCL") Then
                         .Cells(Row + 14, Col).Style.Fill.PatternType = ExcelFillStyle.Solid
                         .Cells(Row + 14, Col).Style.Fill.BackgroundColor.SetColor(Color.Pink)
                     End If
                 End If
                 Col = 16
                 .Cells(Row + 7, Col).Value = dtCP.Rows(0)("D2")
-                .Cells(Row + 8, Col).Value = dtCP.Rows(0)("XBarUCL")
-                .Cells(Row + 9, Col).Value = dtCP.Rows(0)("XBarLCL")
+                .Cells(Row + 8, Col).Value = dtCP.Rows(0)("XbarUCL")
+                .Cells(Row + 9, Col).Value = dtCP.Rows(0)("XbarLCL")
                 .Cells(Row + 10, Col).Value = dtCP.Rows(0)("RUCL")
 
                 .Cells(Row + 11, Col).Value = dtCP.Rows(0)("CP")
@@ -702,8 +702,8 @@ Public Class SampleControlQuality
 
                     .JSProperties("cpD2") = AFormat(dtCP.Rows(0)("D2"))
                     .JSProperties("cpRUCL") = AFormat(dtCP.Rows(0)("RUCL"))
-                    .JSProperties("cpXLCL") = AFormat(dtCP.Rows(0)("XBarLCL"))
-                    .JSProperties("cpXUCL") = AFormat(dtCP.Rows(0)("XBarUCL"))
+                    .JSProperties("cpXLCL") = AFormat(dtCP.Rows(0)("XbarLCL"))
+                    .JSProperties("cpXUCL") = AFormat(dtCP.Rows(0)("XbarUCL"))
 
                     .JSProperties("cpMin") = AFormat(dtCP.Rows(0)("Min"))
                     .JSProperties("cpMax") = AFormat(dtCP.Rows(0)("Max"))
@@ -712,15 +712,15 @@ Public Class SampleControlQuality
                     .JSProperties("cpCP") = dtCP.Rows(0)("CP") & ""
                     .JSProperties("cpCPK1") = dtCP.Rows(0)("CPK1") & ""
                     .JSProperties("cpCPK2") = dtCP.Rows(0)("CPK2") & ""
-                    .JSProperties("cpXBarBar") = dtCP.Rows(0)("XBarBar") & ""
-                    .JSProperties("cpRBar") = dtCP.Rows(0)("RBar") & ""
+                    .JSProperties("cpXBarBar") = dtCP.Rows(0)("Xbarbar") & ""
+                    .JSProperties("cpRBar") = dtCP.Rows(0)("Rbar") & ""
                     .JSProperties("cpCPKMin") = dtCP.Rows(0)("CPKMin") & ""
                     If ChartType = "1" Or ChartType = "2" Then
                         .JSProperties("cpChartType") = "1"
-                        If Not IsDBNull(dtCP.Rows(0)("XBarBar")) AndAlso Not IsDBNull(dtCP.Rows(0)("LCL")) AndAlso Not IsDBNull(dtCP.Rows(0)("UCL")) Then
-                            Dim XBarBar As Double = dtCP.Rows(0)("XBarBar")
-                            Dim LCL As Double = dtCP.Rows(0)("XBarLCL")
-                            Dim UCL As Double = dtCP.Rows(0)("XBarUCL")
+                        If Not IsDBNull(dtCP.Rows(0)("Xbarbar")) AndAlso Not IsDBNull(dtCP.Rows(0)("LCL")) AndAlso Not IsDBNull(dtCP.Rows(0)("UCL")) Then
+                            Dim XBarBar As Double = dtCP.Rows(0)("Xbarbar")
+                            Dim LCL As Double = dtCP.Rows(0)("XbarLCL")
+                            Dim UCL As Double = dtCP.Rows(0)("XbarUCL")
                             If XBarBar < LCL Or XBarBar > UCL Then
                                 .JSProperties("cpXBarColor") = "1"
                             Else
@@ -811,19 +811,19 @@ Public Class SampleControlQuality
             LastNG = 0
         End If
         Dim cs As New clsSPCColor
-        If e.DataColumn.FieldName = "Des" Then
-            If e.CellValue = "1" Then
-                e.Cell.BackColor = cs.Color1
-            ElseIf e.CellValue = "2" Then
-                e.Cell.BackColor = cs.Color2
-            ElseIf e.CellValue = "3" Then
-                e.Cell.BackColor = cs.Color3
-            ElseIf e.CellValue = "4" Then
-                e.Cell.BackColor = cs.Color4
-            ElseIf e.CellValue = "5" Then
-                e.Cell.BackColor = cs.Color5
-            End If
-        End If
+        'If e.DataColumn.FieldName = "Des" Then
+        '    If e.CellValue = "1" Then
+        '        e.Cell.BackColor = cs.Color1
+        '    ElseIf e.CellValue = "2" Then
+        '        e.Cell.BackColor = cs.Color2
+        '    ElseIf e.CellValue = "3" Then
+        '        e.Cell.BackColor = cs.Color3
+        '    ElseIf e.CellValue = "4" Then
+        '        e.Cell.BackColor = cs.Color4
+        '    ElseIf e.CellValue = "5" Then
+        '        e.Cell.BackColor = cs.Color5
+        '    End If
+        'End If
         If e.KeyValue = "-" Or e.KeyValue = "--" Then
             e.Cell.Text = ""
         End If
@@ -918,7 +918,7 @@ Public Class SampleControlQuality
                 CL.AxisValue = ht1.CPCL
                 CL.ShowInLegend = True
 
-                Dim LSL As New ConstantLine("LSL")
+                Dim LSL As New ConstantLine("      LSL")
                 LSL.Title.TextColor = DarkGray
                 LSL.Color = System.Drawing.Color.Red
                 LSL.LineStyle.Thickness = 1
@@ -927,7 +927,7 @@ Public Class SampleControlQuality
                 LSL.AxisValue = ht1.SpecLSL
                 LSL.ShowInLegend = True
 
-                Dim USL As New ConstantLine("USL")
+                Dim USL As New ConstantLine("      USL")
                 USL.Title.TextColor = DarkGray
                 USL.Color = System.Drawing.Color.Red
                 USL.LineStyle.Thickness = 1
@@ -962,7 +962,7 @@ Public Class SampleControlQuality
 
             Dim ChartType As String = clsXRChartDB.GetChartType(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
             If ChartType = "1" Or ChartType = "2" Then
-                .Titles(0).Text = "X Bar Control Chart"
+                .Titles(0).Text = "Xbar Control Chart"
             Else
                 .Titles(0).Text = "Graph Monitoring"
             End If
@@ -992,14 +992,14 @@ Public Class SampleControlQuality
                 CL.AxisValue = Setup.CPCL
 
                 If ChartType = "1" Or ChartType = "2" Then
-                    Dim XBarLCL As New ConstantLine("XBarLCL")
+                    Dim XBarLCL As New ConstantLine("      XbarLCL")
                     XBarLCL.Color = System.Drawing.Color.Orange
                     XBarLCL.LineStyle.Thickness = 1
                     XBarLCL.LineStyle.DashStyle = DashStyle.Dash
                     diagram.AxisY.ConstantLines.Add(XBarLCL)
                     XBarLCL.AxisValue = Setup.XBarLCL
 
-                    Dim XBarUCL As New ConstantLine("XBarUCL")
+                    Dim XBarUCL As New ConstantLine("      XbarUCL")
                     XBarUCL.Color = System.Drawing.Color.Orange
                     XBarUCL.LineStyle.Thickness = 1
                     XBarUCL.LineStyle.DashStyle = DashStyle.Dash
@@ -1007,14 +1007,14 @@ Public Class SampleControlQuality
                     XBarUCL.AxisValue = Setup.XBarUCL
                 End If
 
-                Dim LSL As New ConstantLine("LSL")
+                Dim LSL As New ConstantLine("      LSL")
                 LSL.Color = System.Drawing.Color.Red
                 LSL.LineStyle.Thickness = 1
                 LSL.LineStyle.DashStyle = DashStyle.Solid
                 diagram.AxisY.ConstantLines.Add(LSL)
                 LSL.AxisValue = Setup.SpecLSL
 
-                Dim USL As New ConstantLine("USL")
+                Dim USL As New ConstantLine("      USL")
                 USL.Color = System.Drawing.Color.Red
                 USL.LineStyle.Thickness = 1
                 USL.LineStyle.DashStyle = DashStyle.Solid

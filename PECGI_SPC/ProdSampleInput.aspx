@@ -1120,7 +1120,7 @@
 <table style="width:100%">
     <tr>
         <td>
-            <table style="width:100%">
+            <table style="width:100%;">
                 <tr style="height:26px">
                     <td style="width:100px">
                         <dx:ASPxLabel ID="ASPxLabel20" runat="server" Text="Lot No" Font-Names="Segoe UI" Font-Size="9pt" Width="80px"></dx:ASPxLabel>
@@ -1212,7 +1212,7 @@
                     <td rowspan="3" class="auto-style20" align="center" id="colSpecial"><dx:ASPxLabel ID="ASPxLabel28" runat="server" Text="@" Font-Names="Segoe UI" Font-Size="16pt" Font-Bold="false"></dx:ASPxLabel></td>
                     <td colspan="2" class="header"><dx:ASPxLabel ID="ASPxLabel22" runat="server" Text="Specification" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                     <td colspan="3" class="header"><dx:ASPxLabel ID="ASPxLabel23" runat="server" Text="Control Plan" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
-                    <td colspan="2" class="header" id="headerXBar"><dx:ASPxLabel runat="server" Text="X Bar Control" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
+                    <td colspan="2" class="header" id="headerXBar"><dx:ASPxLabel runat="server" Text="Xbar Control" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                     <td class="header"><dx:ASPxLabel runat="server" Text="R" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                     <td colspan="6" class="header"><dx:ASPxLabel ID="ASPxLabel24" runat="server" Text="Result" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel></td>
                 </tr>
