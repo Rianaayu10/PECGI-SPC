@@ -325,6 +325,7 @@ Public Class SampleControlQuality
             dtCP = ds.Tables(6)
             dtRUCL = ds.Tables(7)
             dtRLCL = ds.Tables(8)
+            dtDel = ds.Tables(9)
 
             StartRow = iRow
             .Cells(iRow, 1).Value = "Date"
@@ -606,6 +607,7 @@ Public Class SampleControlQuality
     Dim dtCP As DataTable
     Dim dtRUCL As DataTable
     Dim dtRLCL As DataTable
+    Dim dtDel As DataTable
     Dim LastNG As Integer
     Private Sub GridXLoad(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, VerifiedOnly As Integer)
         With gridX
@@ -684,6 +686,7 @@ Public Class SampleControlQuality
                 dtCP = ds.Tables(6)
                 dtRUCL = ds.Tables(7)
                 dtRLCL = ds.Tables(8)
+                dtDel = ds.Tables(9)
 
                 If dtCP.Rows.Count > 0 Then
                     .JSProperties("cpFactory") = dtCP.Rows(0)("FactoryName") & ""
@@ -771,6 +774,7 @@ Public Class SampleControlQuality
         Dim USL As Double
         Dim RUCL As Double
         Dim RLCL As Double
+        Dim Del As String
         Dim LightYellow As Color = Color.FromArgb(255, 255, 153)
 
         Dim ColName As String = e.DataColumn.FieldName
@@ -779,8 +783,20 @@ Public Class SampleControlQuality
             USL = dtUSL.Rows(0)(ColName)
             LCL = dtLCL.Rows(0)(ColName)
             UCL = dtUCL.Rows(0)(ColName)
+            Dim Seq As Integer
+            For i = 0 To dtDel.Rows.Count - 1
+                Dim seq1 As String = dtDel.Rows(i)("SequenceNo")
+                Dim seq2 As String = e.GetValue("SequenceNo")
+                If seq1 = seq2 Then
+                    Seq = i
+                    Exit For
+                End If
+            Next
+            Del = dtDel.Rows(Seq)(ColName)
             Dim Value As Double = clsSPCResultDB.ADecimal(e.CellValue)
-            If Value < LSL Or Value > USL Then
+            If Del = "1" Then
+                e.Cell.BackColor = Color.Silver
+            ElseIf Value < LSL Or Value > USL Then
                 e.Cell.BackColor = Color.Red
             ElseIf Value < LCL Or Value > UCL Then
                 If e.GetValue("Seq") = "1" Or ChartType = "0" Then
@@ -788,6 +804,14 @@ Public Class SampleControlQuality
                 Else
                     e.Cell.BackColor = LightYellow
                 End If
+            End If
+        End If
+        If Not IsDBNull(e.CellValue) AndAlso ColName <> "Seq" AndAlso ColName <> "Sequence" AndAlso ColName <> "Des" Then
+            Dim s As String = e.GetValue("Seq")
+            If e.CellValue = "OK" Then
+                e.Cell.BackColor = Color.Green
+            ElseIf e.CellValue = "NG" Then
+                e.Cell.BackColor = Color.Red
             End If
         End If
         If Not IsDBNull(e.CellValue) AndAlso ColName <> "Seq" And ColName <> "Des" And e.GetValue("Seq") = "6" And ChartType <> "0" Then
