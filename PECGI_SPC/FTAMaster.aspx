@@ -403,7 +403,7 @@
     <div style="padding: 20px 5px 5px 5px">
 
         <dx:ASPxGridView ID="Grid" runat="server" AutoGenerateColumns="False" ClientInstanceName="Grid"
-            EnableTheming="True" KeyFieldName="FactoryCode;ItemTypeCode;LineCode;ItemCheckCode" Theme="Office2010Black" Width="100%"
+            EnableTheming="True" KeyFieldName="FTAID" Theme="Office2010Black" Width="100%"
             Font-Names="Segoe UI" Font-Size="9pt"
             OnRowValidating="Grid_RowValidating" OnStartRowEditing="Grid_StartRowEditing"
             OnRowInserting="Grid_RowInserting" OnRowDeleting="Grid_RowDeleting"
@@ -566,49 +566,35 @@
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
                 </dx:GridViewDataComboBoxColumn>
 
-                <dx:GridViewDataComboBoxColumn Caption="Counter Measure" FieldName="CounterMeasure" VisibleIndex="6"
-                    Width="200px" Settings-AutoFilterCondition="Contains">
-                    <PropertiesComboBox DataSourceID="dsCounterMeasure" DropDownStyle="DropDown" TextFormatString="{0}"
-                        IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="195px"
-                        TextField="CounterMeasure" ValueField="CounterMeasure" ClientInstanceName="CounterMeasure">
-                        <ItemStyle Height="10px" Paddings-Padding="4px">
-                            <Paddings Padding="4px"></Paddings>
-                        </ItemStyle>
-                        <ButtonStyle Width="5px" Paddings-Padding="2px">
-                            <Paddings Padding="2px"></Paddings>
-                        </ButtonStyle>
-                    </PropertiesComboBox>
+                <dx:GridViewDataTextColumn Caption="Counter Measure" FieldName="CounterMeasure"
+                    VisibleIndex="6" Width="200px" Settings-AutoFilterCondition="Contains">
+                    <PropertiesTextEdit MaxLength="35" Width="195px">
+                        <Style HorizontalAlign="Left"></Style>
+                    </PropertiesTextEdit>
                     <Settings AutoFilterCondition="Contains"></Settings>
                     <FilterCellStyle Paddings-PaddingRight="4px">
-                        <Paddings PaddingRight="4px"></Paddings>
+                    <Paddings PaddingRight="4px"></Paddings>
                     </FilterCellStyle>
                     <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
-                        <Paddings PaddingLeft="5px"></Paddings>
+                    <Paddings PaddingLeft="5px"></Paddings>
                     </HeaderStyle>
-                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
-                </dx:GridViewDataComboBoxColumn>
+                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
+                </dx:GridViewDataTextColumn>
 
-                <dx:GridViewDataComboBoxColumn Caption="Check Item" FieldName="CheckItem" VisibleIndex="7"
-                    Width="200px" Settings-AutoFilterCondition="Contains">
-                    <PropertiesComboBox DataSourceID="dsCheckItem" DropDownStyle="DropDownList" TextFormatString="{0}"
-                        IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="195px"
-                        TextField="CheckItem" ValueField="CheckItem" ClientInstanceName="CheckItem">
-                        <ItemStyle Height="10px" Paddings-Padding="4px">
-                            <Paddings Padding="4px"></Paddings>
-                        </ItemStyle>
-                        <ButtonStyle Width="5px" Paddings-Padding="2px">
-                            <Paddings Padding="2px"></Paddings>
-                        </ButtonStyle>
-                    </PropertiesComboBox>
+                <dx:GridViewDataTextColumn Caption="Check Item" FieldName="CheckItem"
+                    VisibleIndex="7" Width="200px" Settings-AutoFilterCondition="Contains">
+                    <PropertiesTextEdit MaxLength="35" Width="195px">
+                        <Style HorizontalAlign="Left"></Style>
+                    </PropertiesTextEdit>
                     <Settings AutoFilterCondition="Contains"></Settings>
                     <FilterCellStyle Paddings-PaddingRight="4px">
-                        <Paddings PaddingRight="4px"></Paddings>
+                    <Paddings PaddingRight="4px"></Paddings>
                     </FilterCellStyle>
                     <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
-                        <Paddings PaddingLeft="5px"></Paddings>
+                    <Paddings PaddingLeft="5px"></Paddings>
                     </HeaderStyle>
-                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
-                </dx:GridViewDataComboBoxColumn>
+                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
+                </dx:GridViewDataTextColumn>
 
                 <dx:GridViewDataTextColumn Caption="Action" ShowInCustomizationForm="True" VisibleIndex="8" Width="200px">
                         <DataItemTemplate>
@@ -654,28 +640,21 @@
                 </CellStyle>
                 <Settings AutoFilterCondition="Contains" AllowHeaderFilter="False" ></Settings>
             </dx:GridViewDataTextColumn>
-
-                <dx:GridViewDataComboBoxColumn Caption="Check Order" FieldName="CheckOrder" VisibleIndex="10"
-                    Width="200px" Settings-AutoFilterCondition="Contains">
-                    <PropertiesComboBox DataSourceID="dsCheckOrder" DropDownStyle="DropDownList" TextFormatString="{0}"
-                        IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="195px"
-                        TextField="CheckOrder" ValueField="CheckOrder" ClientInstanceName="CheckOrder">
-                        <ItemStyle Height="10px" Paddings-Padding="4px">
-                            <Paddings Padding="4px"></Paddings>
-                        </ItemStyle>
-                        <ButtonStyle Width="5px" Paddings-Padding="2px">
-                            <Paddings Padding="2px"></Paddings>
-                        </ButtonStyle>
-                    </PropertiesComboBox>
+                
+                <dx:GridViewDataTextColumn Caption="Check Order" FieldName="CheckOrder"
+                    VisibleIndex="10" Width="200px" Settings-AutoFilterCondition="Contains">
+                    <PropertiesTextEdit MaxLength="35" Width="195px">
+                        <Style HorizontalAlign="Left"></Style>
+                    </PropertiesTextEdit>
                     <Settings AutoFilterCondition="Contains"></Settings>
                     <FilterCellStyle Paddings-PaddingRight="4px">
-                        <Paddings PaddingRight="4px"></Paddings>
+                    <Paddings PaddingRight="4px"></Paddings>
                     </FilterCellStyle>
                     <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
-                        <Paddings PaddingLeft="5px"></Paddings>
+                    <Paddings PaddingLeft="5px"></Paddings>
                     </HeaderStyle>
-                    <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
-                </dx:GridViewDataComboBoxColumn>
+                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
+                </dx:GridViewDataTextColumn>
                 
                 <dx:GridViewDataTextColumn Caption="Remark" FieldName="Remark"
                     VisibleIndex="11" Width="150px" Settings-AutoFilterCondition="Contains">
@@ -806,7 +785,7 @@
                     <div style="padding: 15px 15px 15px 15px; width: 300px">
                         <dx:ContentControl ID="ContentControl1" runat="server">
                             <table align="center">
-                                <tr style="height:30px">
+                                <%--<tr style="height:30px">
                                     <td>
                                         <dx:ASPxLabel ID="ASPxLabel4" runat="server" Font-Names="Segoe UI" Font-Size="8pt" Text="Factory Name" Width="90px"></dx:ASPxLabel>
                                     </td>                                
@@ -841,7 +820,7 @@
                                             runat="server" ColumnID="ItemCheck">
                                         </dx:ASPxGridViewTemplateReplacement>                                    
                                     </td>
-                                </tr>
+                                </tr>--%>
                                 <tr style="height:30px">
                                     <td>FTA ID</td>                                
                                     <td>

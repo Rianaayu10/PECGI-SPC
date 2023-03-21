@@ -1,7 +1,7 @@
 ﻿Imports System.Data.SqlClient
 
 Public Class ClsFTAMasterDB
-    Public Shared Function Insert(pItemCheckByType As ClsFTAMaster) As Integer
+    Public Shared Function Insert(pFTAMaster As ClsFTAMaster) As Integer
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String
@@ -10,21 +10,21 @@ Public Class ClsFTAMasterDB
             cmd.CommandType = CommandType.StoredProcedure
             Dim des As New clsDESEncryption("TOS")
             With cmd.Parameters
-                .AddWithValue("FactoryCode", pItemCheckByType.FactoryCode)
-                .AddWithValue("ItemTypeCode", pItemCheckByType.ItemTypeCode)
-                .AddWithValue("LineCode", pItemCheckByType.LineCode)
-                .AddWithValue("ItemCheckCode", pItemCheckByType.ItemCheck)
-                .AddWithValue("FTAID", pItemCheckByType.FTAID)
-                .AddWithValue("Factor1", pItemCheckByType.Factor1)
-                .AddWithValue("Factor2", pItemCheckByType.Factor2)
-                .AddWithValue("Factor3", pItemCheckByType.Factor3)
-                .AddWithValue("Factor4", pItemCheckByType.Factor4)
-                .AddWithValue("CounterMeasure", pItemCheckByType.CounterMeasure)
-                .AddWithValue("CheckItem", pItemCheckByType.CheckItem)
-                .AddWithValue("CheckOrder", pItemCheckByType.CheckOrder)
-                .AddWithValue("Remark", pItemCheckByType.Remark)
-                .AddWithValue("ActiveStatus", Val(pItemCheckByType.ActiveStatus & ""))
-                .AddWithValue("RegisterUser", pItemCheckByType.CreateUser)
+                .AddWithValue("FactoryCode", pFTAMaster.FactoryCode)
+                .AddWithValue("ItemTypeCode", pFTAMaster.ItemTypeCode)
+                .AddWithValue("LineCode", pFTAMaster.LineCode)
+                .AddWithValue("ItemCheckCode", pFTAMaster.ItemCheck)
+                .AddWithValue("FTAID", pFTAMaster.FTAID)
+                .AddWithValue("Factor1", pFTAMaster.Factor1)
+                .AddWithValue("Factor2", pFTAMaster.Factor2)
+                .AddWithValue("Factor3", pFTAMaster.Factor3)
+                .AddWithValue("Factor4", pFTAMaster.Factor4)
+                .AddWithValue("CounterMeasure", pFTAMaster.CounterMeasure)
+                .AddWithValue("CheckItem", pFTAMaster.CheckItem)
+                .AddWithValue("CheckOrder", pFTAMaster.CheckOrder)
+                .AddWithValue("Remark", pFTAMaster.Remark)
+                .AddWithValue("ActiveStatus", Val(pFTAMaster.ActiveStatus & ""))
+                .AddWithValue("RegisterUser", pFTAMaster.CreateUser)
                 .AddWithValue("TypeProcess", 2)
 
             End With
@@ -33,23 +33,24 @@ Public Class ClsFTAMasterDB
         End Using
     End Function
 
-    Public Shared Function Delete(pFactoryCode As String, pItemTypeCode As String, pLineCode As String, pItemCheck As String) As Integer
+    Public Shared Function Delete(pFactoryCode As String, pItemTypeCode As String, pLineCode As String, pItemCheck As String, pFTAID As String) As Integer
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
-            Dim q As String = "sp_SPC_ItemCheckByTypeMaster"
+            Dim q As String = "sp_SPC_FTAMaster"
             Dim cmd As New SqlCommand(q, Cn)
             cmd.CommandType = CommandType.StoredProcedure
             cmd.Parameters.AddWithValue("FactoryCode", pFactoryCode)
             cmd.Parameters.AddWithValue("ItemTypeCode", pItemTypeCode)
             cmd.Parameters.AddWithValue("LineCode", pLineCode)
-            cmd.Parameters.AddWithValue("ItemCheck", pItemCheck)
-            cmd.Parameters.AddWithValue("TypeProcess", 7)
+            cmd.Parameters.AddWithValue("ItemCheckCode", pItemCheck)
+            cmd.Parameters.AddWithValue("FTAID", pFTAID)
+            cmd.Parameters.AddWithValue("TypeProcess", 8)
             Dim i As Integer = cmd.ExecuteNonQuery
             Return i
         End Using
     End Function
 
-    Public Shared Function Update(pItemCheckByType As ClsFTAMaster) As Integer
+    Public Shared Function Update(pFTAMaster As ClsFTAMaster) As Integer
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String
@@ -62,22 +63,22 @@ Public Class ClsFTAMasterDB
             Dim cmd As New SqlCommand(q, Cn)
             cmd.CommandType = CommandType.StoredProcedure
             With cmd.Parameters
-                .AddWithValue("FactoryCode", pItemCheckByType.FactoryCode)
-                .AddWithValue("ItemTypeCode", pItemCheckByType.ItemTypeCode)
-                .AddWithValue("LineCode", pItemCheckByType.LineCode)
-                .AddWithValue("ItemCheck", pItemCheckByType.ItemCheck)
-                .AddWithValue("FTAID", pItemCheckByType.FTAID)
-                .AddWithValue("Factor1", pItemCheckByType.Factor1)
-                .AddWithValue("Factor2", pItemCheckByType.Factor2)
-                .AddWithValue("Factor3", pItemCheckByType.Factor3)
-                .AddWithValue("Factor4", pItemCheckByType.Factor4)
-                .AddWithValue("CounterMeasure", pItemCheckByType.CounterMeasure)
-                .AddWithValue("CheckItem", pItemCheckByType.CheckItem)
-                .AddWithValue("CheckOrder", pItemCheckByType.CheckOrder)
-                .AddWithValue("Remark", pItemCheckByType.Remark)
-                .AddWithValue("ActiveStatus", Val(pItemCheckByType.ActiveStatus & ""))
-                .AddWithValue("RegisterUser", pItemCheckByType.CreateUser)
-                .AddWithValue("TypeProcess", 3)
+                .AddWithValue("FactoryCode", pFTAMaster.FactoryCode)
+                .AddWithValue("ItemTypeCode", pFTAMaster.ItemTypeCode)
+                .AddWithValue("LineCode", pFTAMaster.LineCode)
+                .AddWithValue("ItemCheckCode", pFTAMaster.ItemCheck)
+                .AddWithValue("FTAID", pFTAMaster.FTAID)
+                .AddWithValue("Factor1", pFTAMaster.Factor1)
+                .AddWithValue("Factor2", pFTAMaster.Factor2)
+                .AddWithValue("Factor3", pFTAMaster.Factor3)
+                .AddWithValue("Factor4", pFTAMaster.Factor4)
+                .AddWithValue("CounterMeasure", pFTAMaster.CounterMeasure)
+                .AddWithValue("CheckItem", pFTAMaster.CheckItem)
+                .AddWithValue("CheckOrder", pFTAMaster.CheckOrder)
+                .AddWithValue("Remark", pFTAMaster.Remark)
+                .AddWithValue("ActiveStatus", Val(pFTAMaster.ActiveStatus & ""))
+                .AddWithValue("UpdateUser", pFTAMaster.UpdateUser)
+                .AddWithValue("TypeProcess", 9)
             End With
             Dim i As Integer = cmd.ExecuteNonQuery
             Return i
@@ -109,7 +110,7 @@ Public Class ClsFTAMasterDB
             Return Nothing
         End Try
     End Function
-    Public Shared Function ValidateData(FTAID As String) As ClsFTAMaster
+    Public Shared Function ValidateData(pFTAMaster As ClsFTAMaster) As ClsFTAMaster
         Using cn As New SqlConnection(Sconn.Stringkoneksi)
             Dim sql As String
             Dim clsDESEncryption As New clsDESEncryption("TOS")
@@ -118,7 +119,11 @@ Public Class ClsFTAMasterDB
             Dim cmd As New SqlCommand(sql, cn)
             cmd.CommandType = CommandType.StoredProcedure
             Dim da As New SqlDataAdapter(cmd)
-            cmd.Parameters.AddWithValue("FTAID", FTAID)
+            cmd.Parameters.AddWithValue("FactoryCode", pFTAMaster.FactoryCode)
+            cmd.Parameters.AddWithValue("ItemTypeCode", pFTAMaster.ItemTypeCode)
+            cmd.Parameters.AddWithValue("LineCode", pFTAMaster.LineCode)
+            cmd.Parameters.AddWithValue("ItemCheckCode", pFTAMaster.ItemCheck)
+            cmd.Parameters.AddWithValue("FTAID", pFTAMaster.FTAID)
             cmd.Parameters.AddWithValue("TypeProcess", 1)
             Dim dt As New DataTable
             da.Fill(dt)
@@ -295,32 +300,6 @@ Public Class ClsFTAMasterDB
             pErr = ex.Message
             Return Nothing
         End Try
-        'Dim ConStr As String = Sconn.Stringkoneksi
-        'Using Cn As New SqlConnection(ConStr)
-        '    Cn.Open()
-        '    Dim q As String = "sp_SPC_SampleControl"
-        '    Dim cmd As New SqlCommand(q, Cn)
-        '    cmd.CommandType = CommandType.StoredProcedure
-        '    cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
-        '    cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
-        '    cmd.Parameters.AddWithValue("Line", Line)
-        '    cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
-        '    If ProdDate <> "" Then
-        '        cmd.Parameters.AddWithValue("ProdDate", CDate(ProdDate))
-        '    End If
-        '    cmd.Parameters.AddWithValue("ProdDate2", CDate(ProdDate2))
-        '    cmd.Parameters.AddWithValue("VerifiedOnly", VerifiedOnly)
-        '    If ShowVerifier Then
-        '        cmd.Parameters.AddWithValue("ShowVerifier", 1)
-        '    End If
-        '    If CompleteOnly Then
-        '        cmd.Parameters.AddWithValue("CompleteStatus", 1)
-        '    End If
-        '    Dim da As New SqlDataAdapter(cmd)
-        '    Dim ds As New DataSet
-        '    da.Fill(ds)
-        '    Return ds
-        'End Using
     End Function
     Public Shared Function GetItemCheckMaster(Optional ByRef pErr As String = "") As DataTable
         Try
@@ -342,6 +321,31 @@ Public Class ClsFTAMasterDB
             pErr = ex.Message
             Return Nothing
         End Try
+    End Function
+    Public Shared Function ValidateDataFTAIDinC010(pFTAID As String) As ClsFTAMaster
+        Using cn As New SqlConnection(Sconn.Stringkoneksi)
+            Dim sql As String
+            Dim clsDESEncryption As New clsDESEncryption("TOS")
+
+            sql = "sp_SPC_FTAMaster"
+            Dim cmd As New SqlCommand(sql, cn)
+            cmd.CommandType = CommandType.StoredProcedure
+            Dim da As New SqlDataAdapter(cmd)
+            cmd.Parameters.AddWithValue("FTAID", pFTAID)
+            cmd.Parameters.AddWithValue("TypeProcess", 10)
+            Dim dt As New DataTable
+            da.Fill(dt)
+            Dim Users As New List(Of ClsFTAMaster)
+            If dt.Rows.Count > 0 Then
+                Dim i As Integer = 0
+                Dim FTAMaster As New ClsFTAMaster With {
+                    .FTAID = dt.Rows(i)("FTAID")
+                    }
+                Return FTAMaster
+            Else
+                Return Nothing
+            End If
+        End Using
     End Function
     Public Shared Function ValidationDelete(FactoryCode As String, ItemTypeCode As String, LineCode As String, ItemCheckCode As String) As ClsFTAMaster
         Using cn As New SqlConnection(Sconn.Stringkoneksi)

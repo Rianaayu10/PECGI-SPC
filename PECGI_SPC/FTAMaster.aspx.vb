@@ -90,14 +90,14 @@ Public Class FTAMaster
     Protected Sub Grid_RowInserting(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataInsertingEventArgs) Handles Grid.RowInserting
         e.Cancel = True
         Dim pErr As String = ""
-        Dim LineCode As String = ""
-        Dim ItemCheck As String = ""
-        LineCode = e.NewValues("LineName")
-        ItemCheck = e.NewValues("ItemCheck")
+        Dim FactoryCode As String = cboFactory.Value
+        Dim ItemTypeCode As String = cboType.Value
+        Dim LineCode As String = cboLine.Value
+        Dim ItemCheck As String = cboItemCheck.Value
         Dim FTAMaster As New ClsFTAMaster With {
-            .FactoryCode = e.NewValues("FactoryCode"),
-            .ItemTypeCode = e.NewValues("ItemTypeCode"),
-            .LineCode = LineCode.Substring(0, LineCode.IndexOf(" -")),
+            .FactoryCode = FactoryCode,
+            .ItemTypeCode = ItemTypeCode,
+            .LineCode = LineCode,
             .ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -")),
             .FTAID = e.NewValues("FTAID"),
             .Factor1 = e.NewValues("Factor1"),
@@ -113,11 +113,8 @@ Public Class FTAMaster
             .CreateUser = pUser
         }
         Try
-            If IsNothing(FTAMaster.Remark) Then
-                FTAMaster.Remark = ""
-            End If
 
-            Dim CheckFTAID As ClsFTAMaster = ClsFTAMasterDB.ValidateData(FTAMaster.FTAID)
+            Dim CheckFTAID As ClsFTAMaster = ClsFTAMasterDB.ValidateData(FTAMaster)
             If CheckFTAID IsNot Nothing Then
                 show_error(MsgTypeEnum.ErrorMsg, "Can't insert data, FTA ID '" + CheckFTAID.FTAID + "' is already exist", 1)
                 Return
@@ -134,34 +131,44 @@ Public Class FTAMaster
     Protected Sub Grid_RowUpdating(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataUpdatingEventArgs) Handles Grid.RowUpdating
         e.Cancel = True
         Dim pErr As String = ""
-        Dim LineCode As String = ""
-        Dim ItemCheck As String = ""
-        Dim SpecialChar As String = ""
-        LineCode = e.NewValues("LineName")
-        ItemCheck = e.NewValues("ItemCheck")
-        SpecialChar = e.NewValues("CharacteristicStatus")
-        Dim ProcessTableLineCode = e.NewValues("ProcessTableLineCode")
-        'Dim BatteryType As New ClsFTAMaster With {
-        '    .FactoryCode = e.NewValues("FactoryCode"),
-        '    .ItemTypeCode = e.NewValues("ItemTypeCode"),
-        '    .LineCode = LineCode.Substring(0, LineCode.IndexOf(" -")),
-        '    .ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -")),
-        '    .FrequencyCode = e.NewValues("FrequencyCode"),
-        '    .RegistrationNo = e.NewValues("RegistrationNo"),
-        '    .SampleSize = e.NewValues("SampleSize"),
-        '    .Remark = e.NewValues("Remark"),
-        '    .Evaluation = e.NewValues("Evaluation"),
-        '    .CharacteristicItem = SpecialChar.Substring(0, SpecialChar.IndexOf(" -")),
-        '    .ProcessTableLineCode = ProcessTableLineCode.Substring(0, ProcessTableLineCode.IndexOf(" -")),
-        '    .FTARatio = e.NewValues("FTARatio"),
-        '    .StationID = e.NewValues("StationID"),
-        '    .ActiveStatus = e.NewValues("ActiveStatus"),
-        '    .UpdateUser = pUser,
-        '    .CreateUser = pUser
-        '}
+
+        Dim FactoryCode As String = cboFactory.Value
+        Dim ItemTypeCode As String = cboType.Value
+        Dim LineCode As String = cboLine.Value
+        Dim ItemCheck As String = cboItemCheck.Value
+        Dim FTAID As String = e.NewValues("FTAID")
+        Dim Factor1 As String = e.NewValues("Factor1")
+        Dim Factor2 As String = e.NewValues("Factor2")
+        Dim Factor3 As String = e.NewValues("Factor3")
+        Dim Factor4 As String = e.NewValues("Factor4")
+        Dim CounterMeasure As String = e.NewValues("CounterMeasure")
+        Dim CheckItem As String = e.NewValues("CheckItem")
+        Dim CheckOrder As String = e.NewValues("CheckOrder")
+        Dim Remark As String = e.NewValues("Remark")
+        Dim ActiveStatus As String = e.NewValues("ActiveStatus")
+
+        ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
+
+        Dim FTAUpdate As New ClsFTAMaster With {
+        .FactoryCode = FactoryCode,
+        .ItemTypeCode = ItemTypeCode,
+        .LineCode = LineCode,
+        .ItemCheck = ItemCheck,
+        .FTAID = FTAID,
+        .Factor1 = Factor1,
+        .Factor2 = Factor2,
+        .Factor3 = Factor3,
+        .Factor4 = Factor4,
+        .CounterMeasure = CounterMeasure,
+        .CheckItem = CheckItem,
+        .CheckOrder = CheckOrder,
+        .Remark = Remark,
+        .ActiveStatus = ActiveStatus,
+        .UpdateUser = pUser
+        }
         Try
 
-            'ClsFTAMasterDB.Update(BatteryType)
+            ClsFTAMasterDB.Update(FTAUpdate)
             Grid.CancelEdit()
             up_GridLoad(cboFactory.Value, cboType.Value, cboLine.Text)
             show_error(MsgTypeEnum.Success, "Update data successfully!", 1)
@@ -173,23 +180,27 @@ Public Class FTAMaster
     Protected Sub Grid_RowDeleting(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataDeletingEventArgs) Handles Grid.RowDeleting
         e.Cancel = True
         Try
-            Dim FactoryCode As String = e.Values("FactoryCode")
-            Dim ItemTypeCode As String = e.Values("ItemTypeCode")
-            Dim LineCode As String = e.Values("LineName")
-            Dim ItemCheck As String = e.Values("ItemCheck")
+            Dim FactoryCode As String = cboFactory.Value
+            Dim ItemTypeCode As String = cboType.Value
+            Dim LineCode As String = cboLine.Value
+            Dim ItemCheck As String = cboItemCheck.Value
+            Dim FTAID As String = e.Values("FTAID")
 
-            LineCode = LineCode.Substring(0, LineCode.IndexOf(" -"))
             ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
 
-            Dim ValidationDelete As ClsFTAMaster = ClsFTAMasterDB.ValidationDelete(FactoryCode, ItemTypeCode, LineCode, ItemCheck)
-            If ValidationDelete IsNot Nothing Then
-                show_error(MsgTypeEnum.ErrorMsg, "Can't Delete, item check '" + ItemCheck + "' On machine '" + LineCode + "' has been used in Production Sample Input", 1)
+            Dim CheckFTAID As ClsFTAMaster = ClsFTAMasterDB.ValidateDataFTAIDinC010(FTAID)
+            If CheckFTAID IsNot Nothing Then
+                show_error(MsgTypeEnum.ErrorMsg, "Can't Delete, FTA ID '" + FTAID + "' has been used in Corrective Action SPC Process", 1)
                 Return
             End If
-            ClsFTAMasterDB.Delete(FactoryCode, ItemTypeCode, LineCode, ItemCheck)
+
+            Dim CountDel As Integer = ClsFTAMasterDB.Delete(FactoryCode, ItemTypeCode, LineCode, ItemCheck, FTAID)
             Grid.CancelEdit()
             up_GridLoad(cboFactory.Value, cboType.Value, cboLine.Text)
-            show_error(MsgTypeEnum.Success, "Delete data successfully!", 1)
+
+            If CountDel > 0 Then
+                show_error(MsgTypeEnum.Success, "Delete data successfully!", 1)
+            End If
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
         End Try
@@ -199,39 +210,6 @@ Public Class FTAMaster
         If Grid.IsNewRowEditing Then
             Grid.SettingsCommandButton.UpdateButton.Text = "Save"
         End If
-    End Sub
-
-    Private Sub Grid_CellEditorInitialize(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewEditorEventArgs) Handles Grid.CellEditorInitialize
-
-        If Not Grid.IsNewRowEditing Then
-
-            If e.Column.FieldName = "ItemCheckCode" Or e.Column.FieldName = "FactoryCode" Or e.Column.FieldName = "ItemTypeCode" Or e.Column.FieldName = "LineName" Or e.Column.FieldName = "ItemTypeCode" Or e.Column.FieldName = "ItemCheck" Then
-                e.Editor.ReadOnly = True
-                e.Editor.ForeColor = Color.Silver
-                e.Editor.Visible = True
-            End If
-
-        End If
-
-        If Grid.IsNewRowEditing Then
-
-            If e.Column.FieldName = "ActiveStatus" Then
-                TryCast(e.Editor, ASPxCheckBox).Checked = True
-            End If
-
-            If e.Column.FieldName = "FactoryCode" Then
-                Dim combo As ASPxComboBox = TryCast(e.Editor, ASPxComboBox)
-                up_FillcomboGrid(combo, "1", pUser)
-                If Grid.IsEditing Then combo.Value = e.Value : HF.Set("FactoryGrid", e.Value)
-                e.Editor.Value = cboFactory.Value
-            ElseIf e.Column.FieldName = "ItemTypeCode" Then
-                e.Editor.Value = cboType.Value
-            ElseIf e.Column.FieldName = "LineName" Then
-                e.Editor.Value = cboLine.Text
-            End If
-
-        End If
-
     End Sub
     Protected Sub Grid_RowValidating(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataValidationEventArgs) Handles Grid.RowValidating
         Dim GridColumn As New GridViewDataColumn
@@ -442,7 +420,7 @@ Public Class FTAMaster
         ShowIK(s)
     End Sub
     Public Sub ShowIK(FTAID As String)
-        Dim Img As Object = clsFTACorrectiveActionDB.GetIK(FTAID)
+        Dim Img As Object = clsFTAResultDB.GetIK(FTAID)
         Dim ImageUrl As String = "~/img/noimage.png"
         If Img IsNot Nothing AndAlso Not IsDBNull(Img) Then
             Dim fcByte As Byte() = Nothing
@@ -577,7 +555,7 @@ Public Class FTAMaster
             End If
 
         End If
-        If Not Grid.IsNewRowEditing Then
+        If Not gvFTAAction.IsNewRowEditing Then
 
             If e.Column.FieldName = "FTAIDAction" Then
                 e.Editor.Value = FTAIDAction
@@ -585,6 +563,20 @@ Public Class FTAMaster
                 e.Editor.ForeColor = Color.Silver
                 e.Editor.Visible = True
             ElseIf e.Column.FieldName = "ActionID" Then
+                e.Editor.ReadOnly = True
+                e.Editor.ForeColor = Color.Silver
+                e.Editor.Visible = True
+            End If
+
+        End If
+
+
+    End Sub
+    Private Sub Grid_CellEditorInitialize(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewEditorEventArgs) Handles Grid.CellEditorInitialize
+
+        If Not Grid.IsNewRowEditing Then
+
+            If e.Column.FieldName = "FTAID" Then
                 e.Editor.ReadOnly = True
                 e.Editor.ForeColor = Color.Silver
                 e.Editor.Visible = True
