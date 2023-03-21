@@ -5,6 +5,11 @@ Imports System.IO
 Imports DevExpress.Web
 Imports DevExpress.Web.Data
 Imports System.Drawing
+Imports DevExpress.XtraPrinting
+Imports DevExpress.XtraPrintingLinks
+Imports DevExpress.XtraCharts.Native
+Imports OfficeOpenXml
+Imports OfficeOpenXml.Style
 
 Public Class FTAMaster
     Inherits System.Web.UI.Page
@@ -15,6 +20,8 @@ Public Class FTAMaster
     Public AuthInsert As Boolean = False
     Public AuthUpdate As Boolean = False
     Public AuthDelete As Boolean = False
+    Dim FTAIDforUploadIK As String = ""
+    Dim FTAIDAction As String = ""
     Public dt As DataTable
 #End Region
 
@@ -22,33 +29,28 @@ Public Class FTAMaster
     Private Sub Page_Init(ByVal sender As Object, ByVale As System.EventArgs) Handles Me.Init
         If Not Page.IsPostBack Then
             GetFactoryCode()
-            '    dsRegNo.SelectParameters("Type").DefaultValue = "6"
-            '    dsRegNo.SelectParameters("FactoryCode1").DefaultValue = "F001"
-            '    'FillCBRegNoGrid()
-            'Else
-            '    dsRegNo.SelectParameters("Type").DefaultValue = "6"
-            '    dsRegNo.SelectParameters("FactoryCode1").DefaultValue = cboFactory.Value
+            GetItemCheck()
         End If
     End Sub
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        sGlobal.getMenu("A020")
+        sGlobal.getMenu("A050")
         Master.SiteTitle = sGlobal.idMenu & " - " & sGlobal.menuName
 
         pUser = Session("user")
-        AuthAccess = sGlobal.Auth_UserAccess(pUser, "A020")
+        AuthAccess = sGlobal.Auth_UserAccess(pUser, "A050")
         If AuthAccess = False Then
             Response.Redirect("~/Main.aspx")
         End If
 
-        AuthUpdate = sGlobal.Auth_UserUpdate(pUser, "A020")
+        AuthUpdate = sGlobal.Auth_UserUpdate(pUser, "A050")
         If AuthUpdate = False Then
             Dim commandColumn = TryCast(Grid.Columns(0), GridViewCommandColumn)
             commandColumn.ShowEditButton = False
             commandColumn.ShowNewButtonInHeader = False
         End If
 
-        AuthDelete = sGlobal.Auth_UserDelete(pUser, "A020")
+        AuthDelete = sGlobal.Auth_UserDelete(pUser, "A050")
         If AuthDelete = False Then
             Dim commandColumn = TryCast(Grid.Columns(0), GridViewCommandColumn)
             commandColumn.ShowDeleteButton = False
@@ -58,17 +60,21 @@ Public Class FTAMaster
 
     Protected Sub Grid_AfterPerformCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles Grid.AfterPerformCallback
         If e.CallbackName <> "CANCELEDIT" Then
-            up_GridLoad(cboFactory.Value, cboType.Text, cboLine.Text)
+            up_GridLoad(cboFactory.Value, cboType.Value, cboLine.Text)
         End If
     End Sub
     Private Sub GetFactoryCode()
         'cboFactory.DataSource = clsFactoryDB.GetList
-        cboFactory.DataSource = ClsSPCItemCheckByTypeDB.FillComboFactoryGrid("1", Session("user"))
+        cboFactory.DataSource = ClsFTAMasterDB.FillComboFactoryGrid("1", Session("user"))
         cboFactory.DataBind()
+    End Sub
+    Private Sub GetItemCheck()
+        cboItemCheck.DataSource = ClsSPCItemCheckMasterDB.FillComboItemCheck("7")
+        cboItemCheck.DataBind()
     End Sub
     Private Sub FillCBRegNoGrid()
         Dim DT As New DataTable
-        DT = ClsSPCItemCheckByTypeDB.GetRegNo(cboFactory.Value)
+        DT = ClsFTAMasterDB.GetRegNo(cboFactory.Value)
         'Dim myCombo As ASPxComboBox = TryCast(e.Editor, ASPxComboBox)
         'CType(TryCast(sender, ASPxGridView).Columns("RegistrationNo"), GridViewDataComboBoxColumn).PropertiesComboBox.DataSource = DT
         'myCombo.DataSource = DT
@@ -86,45 +92,39 @@ Public Class FTAMaster
         Dim pErr As String = ""
         Dim LineCode As String = ""
         Dim ItemCheck As String = ""
-        Dim SpecialChar As String = ""
         LineCode = e.NewValues("LineName")
         ItemCheck = e.NewValues("ItemCheck")
-        SpecialChar = e.NewValues("CharacteristicStatus")
-        Dim ProcessTableLineCode = e.NewValues("ProcessTableLineCode")
-        Dim BatteryType As New ClsSPCItemCheckByType With {
+        Dim FTAMaster As New ClsFTAMaster With {
             .FactoryCode = e.NewValues("FactoryCode"),
-            .FactoryName = cboFactory.Text,
             .ItemTypeCode = e.NewValues("ItemTypeCode"),
             .LineCode = LineCode.Substring(0, LineCode.IndexOf(" -")),
             .ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -")),
-            .FrequencyCode = e.NewValues("FrequencyCode"),
-            .RegistrationNo = e.NewValues("RegistrationNo"),
-            .SampleSize = e.NewValues("SampleSize"),
+            .FTAID = e.NewValues("FTAID"),
+            .Factor1 = e.NewValues("Factor1"),
+            .Factor2 = e.NewValues("Factor2"),
+            .Factor3 = e.NewValues("Factor3"),
+            .Factor4 = e.NewValues("Factor4"),
+            .CounterMeasure = e.NewValues("CounterMeasure"),
+            .CheckItem = e.NewValues("CheckItem"),
+            .CheckOrder = e.NewValues("CheckOrder"),
             .Remark = e.NewValues("Remark"),
-            .Evaluation = e.NewValues("Evaluation"),
-            .CharacteristicItem = SpecialChar.Substring(0, SpecialChar.IndexOf(" -")),
-            .ProcessTableLineCode = ProcessTableLineCode.Substring(0, ProcessTableLineCode.IndexOf(" -")),
-            .FTARatio = e.NewValues("FTARatio"),
-            .StationID = e.NewValues("StationID"),
             .ActiveStatus = e.NewValues("ActiveStatus"),
             .UpdateUser = pUser,
             .CreateUser = pUser
         }
         Try
-            If IsNothing(BatteryType.Remark) Then
-                BatteryType.Remark = ""
+            If IsNothing(FTAMaster.Remark) Then
+                FTAMaster.Remark = ""
             End If
-            If IsNothing(BatteryType.Evaluation) Then
-                BatteryType.Evaluation = ""
-            End If
-            Dim CheckDataBattery As ClsSPCItemCheckByType = ClsSPCItemCheckByTypeDB.GetData(BatteryType.FactoryCode, BatteryType.ItemTypeCode, BatteryType.LineCode, BatteryType.ItemCheck)
-            If CheckDataBattery IsNot Nothing Then
-                show_error(MsgTypeEnum.ErrorMsg, "Can't insert data, Battery type '" + CheckDataBattery.ItemTypeName + "' for item check '" + BatteryType.ItemCheck + "' on machine process '" + BatteryType.LineCode + "' in factory '" + BatteryType.FactoryName + "' is already registered", 1)
+
+            Dim CheckFTAID As ClsFTAMaster = ClsFTAMasterDB.ValidateData(FTAMaster.FTAID)
+            If CheckFTAID IsNot Nothing Then
+                show_error(MsgTypeEnum.ErrorMsg, "Can't insert data, FTA ID '" + CheckFTAID.FTAID + "' is already exist", 1)
                 Return
             End If
-            ClsSPCItemCheckByTypeDB.Insert(BatteryType)
+            ClsFTAMasterDB.Insert(FTAMaster)
             Grid.CancelEdit()
-            up_GridLoad(cboFactory.Value, cboType.Text, cboLine.Text)
+            up_GridLoad(cboFactory.Value, cboType.Value, cboLine.Text)
             show_error(MsgTypeEnum.Success, "Save data successfully!", 1)
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
@@ -141,34 +141,29 @@ Public Class FTAMaster
         ItemCheck = e.NewValues("ItemCheck")
         SpecialChar = e.NewValues("CharacteristicStatus")
         Dim ProcessTableLineCode = e.NewValues("ProcessTableLineCode")
-        Dim BatteryType As New ClsSPCItemCheckByType With {
-            .FactoryCode = e.NewValues("FactoryCode"),
-            .ItemTypeCode = e.NewValues("ItemTypeCode"),
-            .LineCode = LineCode.Substring(0, LineCode.IndexOf(" -")),
-            .ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -")),
-            .FrequencyCode = e.NewValues("FrequencyCode"),
-            .RegistrationNo = e.NewValues("RegistrationNo"),
-            .SampleSize = e.NewValues("SampleSize"),
-            .Remark = e.NewValues("Remark"),
-            .Evaluation = e.NewValues("Evaluation"),
-            .CharacteristicItem = SpecialChar.Substring(0, SpecialChar.IndexOf(" -")),
-            .ProcessTableLineCode = ProcessTableLineCode.Substring(0, ProcessTableLineCode.IndexOf(" -")),
-            .FTARatio = e.NewValues("FTARatio"),
-            .StationID = e.NewValues("StationID"),
-            .ActiveStatus = e.NewValues("ActiveStatus"),
-            .UpdateUser = pUser,
-            .CreateUser = pUser
-        }
+        'Dim BatteryType As New ClsFTAMaster With {
+        '    .FactoryCode = e.NewValues("FactoryCode"),
+        '    .ItemTypeCode = e.NewValues("ItemTypeCode"),
+        '    .LineCode = LineCode.Substring(0, LineCode.IndexOf(" -")),
+        '    .ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -")),
+        '    .FrequencyCode = e.NewValues("FrequencyCode"),
+        '    .RegistrationNo = e.NewValues("RegistrationNo"),
+        '    .SampleSize = e.NewValues("SampleSize"),
+        '    .Remark = e.NewValues("Remark"),
+        '    .Evaluation = e.NewValues("Evaluation"),
+        '    .CharacteristicItem = SpecialChar.Substring(0, SpecialChar.IndexOf(" -")),
+        '    .ProcessTableLineCode = ProcessTableLineCode.Substring(0, ProcessTableLineCode.IndexOf(" -")),
+        '    .FTARatio = e.NewValues("FTARatio"),
+        '    .StationID = e.NewValues("StationID"),
+        '    .ActiveStatus = e.NewValues("ActiveStatus"),
+        '    .UpdateUser = pUser,
+        '    .CreateUser = pUser
+        '}
         Try
-            If IsNothing(BatteryType.Remark) Then
-                BatteryType.Remark = ""
-            End If
-            If IsNothing(BatteryType.Evaluation) Then
-                BatteryType.Evaluation = ""
-            End If
-            ClsSPCItemCheckByTypeDB.Update(BatteryType)
+
+            'ClsFTAMasterDB.Update(BatteryType)
             Grid.CancelEdit()
-            up_GridLoad(cboFactory.Value, cboType.Text, cboLine.Text)
+            up_GridLoad(cboFactory.Value, cboType.Value, cboLine.Text)
             show_error(MsgTypeEnum.Success, "Update data successfully!", 1)
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
@@ -186,14 +181,14 @@ Public Class FTAMaster
             LineCode = LineCode.Substring(0, LineCode.IndexOf(" -"))
             ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
 
-            Dim ValidationDelete As ClsSPCItemCheckByType = ClsSPCItemCheckByTypeDB.ValidationDelete(FactoryCode, ItemTypeCode, LineCode, ItemCheck)
+            Dim ValidationDelete As ClsFTAMaster = ClsFTAMasterDB.ValidationDelete(FactoryCode, ItemTypeCode, LineCode, ItemCheck)
             If ValidationDelete IsNot Nothing Then
                 show_error(MsgTypeEnum.ErrorMsg, "Can't Delete, item check '" + ItemCheck + "' On machine '" + LineCode + "' has been used in Production Sample Input", 1)
                 Return
             End If
-            ClsSPCItemCheckByTypeDB.Delete(FactoryCode, ItemTypeCode, LineCode, ItemCheck)
+            ClsFTAMasterDB.Delete(FactoryCode, ItemTypeCode, LineCode, ItemCheck)
             Grid.CancelEdit()
-            up_GridLoad(cboFactory.Value, cboType.Text, cboLine.Text)
+            up_GridLoad(cboFactory.Value, cboType.Value, cboLine.Text)
             show_error(MsgTypeEnum.Success, "Delete data successfully!", 1)
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
@@ -241,68 +236,68 @@ Public Class FTAMaster
     Protected Sub Grid_RowValidating(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataValidationEventArgs) Handles Grid.RowValidating
         Dim GridColumn As New GridViewDataColumn
 
-        GridColumn = Grid.DataColumns("FactoryCode")
-        If IsNothing(e.NewValues("FactoryCode")) OrElse e.NewValues("FactoryCode").ToString.Trim = "" Then
-            e.Errors(GridColumn) = "Factory Name Must Be Filled !"
-            show_error(MsgTypeEnum.ErrorMsg, "Factory Name Must Be Filled !", 1)
-            Return
-        End If
+        'GridColumn = Grid.DataColumns("FactoryCode")
+        'If IsNothing(e.NewValues("FactoryCode")) OrElse e.NewValues("FactoryCode").ToString.Trim = "" Then
+        '    e.Errors(GridColumn) = "Factory Name Must Be Filled !"
+        '    show_error(MsgTypeEnum.ErrorMsg, "Factory Name Must Be Filled !", 1)
+        '    Return
+        'End If
 
-        GridColumn = Grid.DataColumns("ItemTypeCode")
-        If IsNothing(e.NewValues("ItemTypeCode")) OrElse e.NewValues("ItemTypeCode").ToString.Trim = "" Then
-            e.Errors(GridColumn) = "Type Name Must Be Filled !"
-            show_error(MsgTypeEnum.ErrorMsg, "Type Name Must Be Filled !", 1)
-            Return
-        End If
+        'GridColumn = Grid.DataColumns("ItemTypeCode")
+        'If IsNothing(e.NewValues("ItemTypeCode")) OrElse e.NewValues("ItemTypeCode").ToString.Trim = "" Then
+        '    e.Errors(GridColumn) = "Type Name Must Be Filled !"
+        '    show_error(MsgTypeEnum.ErrorMsg, "Type Name Must Be Filled !", 1)
+        '    Return
+        'End If
 
-        GridColumn = Grid.DataColumns("LineName")
-        If IsNothing(e.NewValues("LineName")) OrElse e.NewValues("LineName").ToString.Trim = "" Then
-            e.Errors(GridColumn) = "Machine Proccess Must Be Filled !"
-            show_error(MsgTypeEnum.ErrorMsg, "Machine Proccess Must Be Filled !", 1)
-            Return
-        End If
+        'GridColumn = Grid.DataColumns("LineName")
+        'If IsNothing(e.NewValues("LineName")) OrElse e.NewValues("LineName").ToString.Trim = "" Then
+        '    e.Errors(GridColumn) = "Machine Proccess Must Be Filled !"
+        '    show_error(MsgTypeEnum.ErrorMsg, "Machine Proccess Must Be Filled !", 1)
+        '    Return
+        'End If
 
-        GridColumn = Grid.DataColumns("ItemCheck")
-        If IsNothing(e.NewValues("ItemCheck")) OrElse e.NewValues("ItemCheck").ToString.Trim = "" Then
-            e.Errors(GridColumn) = "Item Check Must Be Filled !"
-            show_error(MsgTypeEnum.ErrorMsg, "Item Check Must Be Filled !", 1)
-            Return
-        End If
+        'GridColumn = Grid.DataColumns("ItemCheck")
+        'If IsNothing(e.NewValues("ItemCheck")) OrElse e.NewValues("ItemCheck").ToString.Trim = "" Then
+        '    e.Errors(GridColumn) = "Item Check Must Be Filled !"
+        '    show_error(MsgTypeEnum.ErrorMsg, "Item Check Must Be Filled !", 1)
+        '    Return
+        'End If
 
-        GridColumn = Grid.DataColumns("FrequencyCode")
-        If IsNothing(e.NewValues("FrequencyCode")) OrElse e.NewValues("FrequencyCode").ToString.Trim = "" Then
-            e.Errors(GridColumn) = "Frequency Must Be Filled !"
-            show_error(MsgTypeEnum.ErrorMsg, "Frequency Must Be Filled !", 1)
-            Return
-        End If
+        'GridColumn = Grid.DataColumns("FrequencyCode")
+        'If IsNothing(e.NewValues("FrequencyCode")) OrElse e.NewValues("FrequencyCode").ToString.Trim = "" Then
+        '    e.Errors(GridColumn) = "Frequency Must Be Filled !"
+        '    show_error(MsgTypeEnum.ErrorMsg, "Frequency Must Be Filled !", 1)
+        '    Return
+        'End If
 
-        GridColumn = Grid.DataColumns("RegistrationNo")
-        If IsNothing(e.NewValues("RegistrationNo")) OrElse e.NewValues("RegistrationNo").ToString.Trim = "" Then
-            e.Errors(GridColumn) = "Registration Number Must Be Filled !"
-            show_error(MsgTypeEnum.ErrorMsg, "Registration Number Must Be Filled !", 1)
-            Return
-        End If
+        'GridColumn = Grid.DataColumns("RegistrationNo")
+        'If IsNothing(e.NewValues("RegistrationNo")) OrElse e.NewValues("RegistrationNo").ToString.Trim = "" Then
+        '    e.Errors(GridColumn) = "Registration Number Must Be Filled !"
+        '    show_error(MsgTypeEnum.ErrorMsg, "Registration Number Must Be Filled !", 1)
+        '    Return
+        'End If
 
-        GridColumn = Grid.DataColumns("SampleSize")
-        If IsNothing(e.NewValues("SampleSize")) OrElse e.NewValues("SampleSize").ToString.Trim = "" Then
-            e.Errors(GridColumn) = "Sample Size Must Be Filled !"
-            show_error(MsgTypeEnum.ErrorMsg, "Sample Size Must Be Filled !", 1)
-            Return
-        End If
+        'GridColumn = Grid.DataColumns("SampleSize")
+        'If IsNothing(e.NewValues("SampleSize")) OrElse e.NewValues("SampleSize").ToString.Trim = "" Then
+        '    e.Errors(GridColumn) = "Sample Size Must Be Filled !"
+        '    show_error(MsgTypeEnum.ErrorMsg, "Sample Size Must Be Filled !", 1)
+        '    Return
+        'End If
 
-        GridColumn = Grid.DataColumns("CharacteristicStatus")
-        If IsNothing(e.NewValues("CharacteristicStatus")) OrElse e.NewValues("CharacteristicStatus").ToString.Trim = "" Then
-            e.Errors(GridColumn) = "Characteristic Status Must Be Filled !"
-            show_error(MsgTypeEnum.ErrorMsg, "Characteristic Status Must Be Filled !", 1)
-            Return
-        End If
+        'GridColumn = Grid.DataColumns("CharacteristicStatus")
+        'If IsNothing(e.NewValues("CharacteristicStatus")) OrElse e.NewValues("CharacteristicStatus").ToString.Trim = "" Then
+        '    e.Errors(GridColumn) = "Characteristic Status Must Be Filled !"
+        '    show_error(MsgTypeEnum.ErrorMsg, "Characteristic Status Must Be Filled !", 1)
+        '    Return
+        'End If
 
-        GridColumn = Grid.DataColumns("ProcessTableLineCode")
-        If IsNothing(e.NewValues("ProcessTableLineCode")) OrElse e.NewValues("ProcessTableLineCode").ToString.Trim = "" Then
-            e.Errors(GridColumn) = "Process Table Line Code  Must Be Filled !"
-            show_error(MsgTypeEnum.ErrorMsg, "Process Table Line Code Must Be Filled !", 1)
-            Return
-        End If
+        'GridColumn = Grid.DataColumns("ProcessTableLineCode")
+        'If IsNothing(e.NewValues("ProcessTableLineCode")) OrElse e.NewValues("ProcessTableLineCode").ToString.Trim = "" Then
+        '    e.Errors(GridColumn) = "Process Table Line Code  Must Be Filled !"
+        '    show_error(MsgTypeEnum.ErrorMsg, "Process Table Line Code Must Be Filled !", 1)
+        '    Return
+        'End If
 
     End Sub
 
@@ -321,25 +316,30 @@ Public Class FTAMaster
         Grid.JSProperties("cp_val") = pVal
     End Sub
 
-    Private Sub up_GridLoad(FactoryCode As String, ItemTypeDescription As String, MachineProccess As String)
-        Dim dtItemCheckByType As DataTable
+    Private Sub up_GridLoad(FactoryCode As String, ItemType As String, LineCode As String)
+        Dim dtFTAMaster As DataTable
+        Dim ItemCheck As String = ""
         Try
             If FactoryCode Is Nothing Then
                 FactoryCode = ""
             End If
-            If ItemTypeDescription Is Nothing Then
-                ItemTypeDescription = ""
+            If ItemType Is Nothing Then
+                ItemType = ""
             End If
-            If MachineProccess Is Nothing Then
-                MachineProccess = ""
-            End If
-
-            If MachineProccess <> "ALL" AndAlso MachineProccess <> "" Then
-                MachineProccess = MachineProccess.Substring(0, MachineProccess.IndexOf(" -"))
+            If LineCode Is Nothing Then
+                LineCode = ""
             End If
 
-            dtItemCheckByType = ClsSPCItemCheckByTypeDB.GetList(pUser, FactoryCode, ItemTypeDescription, MachineProccess, cboType.Value)
-            Grid.DataSource = dtItemCheckByType
+            If LineCode <> "ALL" AndAlso LineCode <> "" Then
+                LineCode = LineCode.Substring(0, LineCode.IndexOf(" -"))
+            End If
+
+            If cboItemCheck.Value IsNot Nothing Then
+                ItemCheck = cboItemCheck.Value.Substring(0, cboItemCheck.Value.IndexOf(" -"))
+            End If
+
+            dtFTAMaster = ClsFTAMasterDB.GetList(FactoryCode, ItemCheck, LineCode, ItemType)
+            Grid.DataSource = dtFTAMaster
             Grid.DataBind()
 
             hdUserLogin.Value = pUser
@@ -355,7 +355,7 @@ Public Class FTAMaster
             Dim pAction As String = Split(e.Parameters, "|")(0)
 
             If pAction = "Load" Then
-                up_GridLoad(cboFactory.Value, cboType.Text, cboLine.Text)
+                up_GridLoad(cboFactory.Value, cboType.Value, cboLine.Text)
             End If
 
         Catch ex As Exception
@@ -363,18 +363,18 @@ Public Class FTAMaster
         End Try
     End Sub
     Private Sub cboType_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboType.Callback
-        cboType.DataSource = ClsSPCItemCheckByTypeDB.GetListItemType()
+        cboType.DataSource = ClsFTAMasterDB.GetListItemType()
         cboType.DataBind()
     End Sub
     Private Sub cboLine_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboLine.Callback
         Dim FactoryCode As String = Split(e.Parameter, "|")(0)
         Dim Machine As String = cboMachine.Value
         Dim UserID As String = Session("user") & ""
-        cboLine.DataSource = ClsSPCItemCheckByTypeDB.GetMachineProccess(UserID, FactoryCode, Machine)
+        cboLine.DataSource = ClsFTAMasterDB.GetMachineProccess(UserID, FactoryCode, Machine)
         cboLine.DataBind()
     End Sub
     Private Sub up_FillcomboGrid(ByVal cmb As ASPxComboBox, Type As String, Optional Param As String = "")
-        dt = ClsSPCItemCheckByTypeDB.FillComboFactoryGrid(Type, Param)
+        dt = ClsFTAMasterDB.FillComboFactoryGrid(Type, Param)
         With cmb
             .Items.Clear() : .Columns.Clear()
             .DataSource = dt
@@ -398,6 +398,384 @@ Public Class FTAMaster
     Private Sub cboMachine_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboMachine.Callback
         cboMachine.DataSource = clsProcessDB.GetList(pUser, cboFactory.Value, cboProcessGroup.Value, cboLineGroup.Value)
         cboMachine.DataBind()
+    End Sub
+    Protected Sub ActionLink_Init(ByVal sender As Object, ByVal e As EventArgs)
+        Dim link As DevExpress.Web.ASPxHyperLink = CType(sender, DevExpress.Web.ASPxHyperLink)
+        Dim templatecontainer As GridViewDataItemTemplateContainer = CType(link.NamingContainer, GridViewDataItemTemplateContainer)
+        link.NavigateUrl = "javascript:void(0)"
+        link.ForeColor = Color.SteelBlue
+
+        Dim FTAID As String = ""
+        FTAID = templatecontainer.Grid.GetRowValues(templatecontainer.VisibleIndex, "FTAID") & ""
+        If FTAID <> "" Then
+            link.ClientSideEvents.Click = "function (s,e) {ShowPopUpAction('" + FTAID + "');}"
+            FTAIDAction = FTAID
+        End If
+    End Sub
+    Protected Sub linkUploadIK_Init(ByVal sender As Object, ByVal e As EventArgs)
+        Dim link As DevExpress.Web.ASPxHyperLink = CType(sender, DevExpress.Web.ASPxHyperLink)
+        Dim templatecontainer As GridViewDataItemTemplateContainer = CType(link.NamingContainer, GridViewDataItemTemplateContainer)
+        link.NavigateUrl = "javascript:void(0)"
+        link.ForeColor = Color.SteelBlue
+
+        Dim FTAID As String = ""
+        FTAID = templatecontainer.Grid.GetRowValues(templatecontainer.VisibleIndex, "FTAID") & ""
+        If FTAID <> "" Then
+            link.ClientSideEvents.Click = "function (s,e) {ShowPopUpUploadIK('" + FTAID + "');}"
+            FTAIDforUploadIK = FTAID
+        End If
+    End Sub
+    Protected Sub IKLink_Init(ByVal sender As Object, ByVal e As EventArgs)
+        Dim link As DevExpress.Web.ASPxHyperLink = CType(sender, DevExpress.Web.ASPxHyperLink)
+        Dim templatecontainer As GridViewDataItemTemplateContainer = CType(link.NamingContainer, GridViewDataItemTemplateContainer)
+        link.NavigateUrl = "javascript:void(0)"
+        link.ForeColor = Color.SteelBlue
+
+        Dim FTAID As String = ""
+        FTAID = templatecontainer.Grid.GetRowValues(templatecontainer.VisibleIndex, "FTAID") & ""
+        If FTAID <> "" Then
+            link.ClientSideEvents.Click = "function (s,e) {ShowPopUpIK('" + FTAID + "');}"
+        End If
+    End Sub
+    Private Sub cbkPanel_Callback(sender As Object, e As CallbackEventArgsBase) Handles cbkPanel.Callback
+        Dim s As String = e.Parameter
+        ShowIK(s)
+    End Sub
+    Public Sub ShowIK(FTAID As String)
+        Dim Img As Object = clsFTACorrectiveActionDB.GetIK(FTAID)
+        Dim ImageUrl As String = "~/img/noimage.png"
+        If Img IsNot Nothing AndAlso Not IsDBNull(Img) Then
+            Dim fcByte As Byte() = Nothing
+            fcByte = Img
+            ImageUrl = "data:image;base64," + Convert.ToBase64String(fcByte)
+        End If
+        imgIK.ImageUrl = ImageUrl
+    End Sub
+    Private Sub cbkPanelUploadIK_Callback(sender As Object, e As CallbackEventArgsBase) Handles cbkPanelUploadIK.Callback
+        Dim s As String = e.Parameter
+        lblMsgUpload.Text = ""
+        lblMsgUpload.ForeColor = Color.Black
+        'FTAIDforUploadIK = s
+    End Sub
+    Protected Sub btnUploadIK_Click(sender As Object, e As EventArgs) Handles btnUploadIK.Click
+        Try
+            Dim PostedFile As HttpPostedFile = updIK.PostedFile
+            Dim FileName As String = Path.GetFileName(PostedFile.FileName)
+            Dim FileExtension As String = Path.GetExtension(FileName)
+            Dim Stream As Stream = PostedFile.InputStream
+            Dim Br As BinaryReader = New BinaryReader(Stream)
+            Dim Bytes As Byte() = Br.ReadBytes(Stream.Length)
+
+            'LineCode = e.NewValues("LineName")
+            '.LineCode = LineCode.Substring(0, LineCode.IndexOf(" -")),
+            '.ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -")),
+
+            Dim ItemCheck = cboItemCheck.Value
+            Dim UploadIK As New ClsFTAMaster
+            UploadIK.FactoryCode = cboFactory.Value
+            UploadIK.ItemTypeCode = cboType.Value
+            UploadIK.LineCode = cboLine.Value
+            UploadIK.FTAID = FTAIDforUploadIK
+            UploadIK.ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
+            If Bytes.Length > 0 Then
+                UploadIK.Image = Bytes
+            End If
+            UploadIK.UpdateUser = pUser
+
+            ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "ClosePopupUploadIK();", True)
+
+            Dim i As Integer = ClsFTAMasterDB.UploadIK_UpdIns(UploadIK)
+            If i >= 1 Then
+                lblMsgUpload.Text = "Upload Success"
+                lblMsgUpload.ForeColor = Color.Green
+            Else
+                lblMsgUpload.Text = "Upload Failed"
+                lblMsgUpload.ForeColor = Color.Red
+            End If
+
+            'up_GridLoad(Menu.CatererID, MenuType, ActiveStatus, ShowPicture)
+        Catch ex As Exception
+            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
+        End Try
+    End Sub
+    Private Sub cbkPanelAction_Callback(sender As Object, e As CallbackEventArgsBase) Handles cbkPanelAction.Callback
+        Dim s As String = e.Parameter
+        BindGridAction(s)
+    End Sub
+    Public Sub BindGridAction(FTAID As String)
+        Dim dtFTAMaster As DataTable
+        Try
+
+            dtFTAMaster = ClsFTAMasterDB.GetListActionByFTAID(FTAID)
+            gvFTAAction.DataSource = dtFTAMaster
+            gvFTAAction.DataBind()
+
+        Catch ex As Exception
+            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
+        End Try
+    End Sub
+    Protected Sub gvFTAAction_RowInserting(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataInsertingEventArgs) Handles gvFTAAction.RowInserting
+        e.Cancel = True
+        Try
+            Dim FTAIDAction = e.NewValues("FTAIDAction")
+            Dim ActionName = e.NewValues("ActionName")
+            Dim ActionID = e.NewValues("ActionID")
+            Dim RemarkAction = e.NewValues("RemarkAction")
+
+            ClsFTAMasterDB.InsertAction(FTAIDAction, ActionName, ActionID, RemarkAction)
+            gvFTAAction.CancelEdit()
+            BindGridAction(FTAIDAction)
+            show_error(MsgTypeEnum.Success, "Save data action successfully!", 1)
+        Catch ex As Exception
+            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
+        End Try
+    End Sub
+    Protected Sub gvFTAAction_RowDeleting(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataDeletingEventArgs) Handles gvFTAAction.RowDeleting
+        e.Cancel = True
+        Try
+            Dim FTAIDAction = e.Values("FTAIDAction")
+            Dim ActionName = e.Values("ActionName")
+            Dim ActionID = e.Values("ActionID")
+            Dim RemarkAction = e.Values("RemarkAction")
+
+            ClsFTAMasterDB.DeleteAction(FTAIDAction, ActionID)
+            gvFTAAction.CancelEdit()
+            BindGridAction(FTAIDAction)
+            show_error(MsgTypeEnum.Success, "Delete data action successfully!", 1)
+        Catch ex As Exception
+            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
+        End Try
+    End Sub
+    Protected Sub gvFTAAction_RowUpdating(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataUpdatingEventArgs) Handles gvFTAAction.RowUpdating
+        e.Cancel = True
+        Try
+            Dim FTAIDAction = e.NewValues("FTAIDAction")
+            Dim ActionName = e.NewValues("ActionName")
+            Dim ActionID = e.NewValues("ActionID")
+            Dim RemarkAction = e.NewValues("RemarkAction")
+
+            Dim UpdateAction = ClsFTAMasterDB.UpdateFTAAction(FTAIDAction, ActionName, ActionID, RemarkAction)
+            gvFTAAction.CancelEdit()
+            BindGridAction(FTAIDAction)
+
+            If UpdateAction >= 1 Then
+                show_error(MsgTypeEnum.Success, "Update data action successfully!", 1)
+            End If
+        Catch ex As Exception
+            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
+        End Try
+    End Sub
+    Private Sub gvFTAAction_CellEditorInitialize(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewEditorEventArgs) Handles gvFTAAction.CellEditorInitialize
+
+        If gvFTAAction.IsNewRowEditing Then
+
+            If e.Column.FieldName = "FTAIDAction" Then
+                e.Editor.Value = FTAIDAction
+                e.Editor.ReadOnly = True
+                e.Editor.ForeColor = Color.Silver
+                e.Editor.Visible = True
+            End If
+
+        End If
+        If Not Grid.IsNewRowEditing Then
+
+            If e.Column.FieldName = "FTAIDAction" Then
+                e.Editor.Value = FTAIDAction
+                e.Editor.ReadOnly = True
+                e.Editor.ForeColor = Color.Silver
+                e.Editor.Visible = True
+            ElseIf e.Column.FieldName = "ActionID" Then
+                e.Editor.ReadOnly = True
+                e.Editor.ForeColor = Color.Silver
+                e.Editor.Visible = True
+            End If
+
+        End If
+
+
+    End Sub
+    Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
+        DownloadExcel()
+    End Sub
+    Private Sub DownloadExcel()
+        Dim ps As New PrintingSystem()
+        Dim compositeLink As New CompositeLink(ps)
+
+        Using Pck As New ExcelPackage
+            Dim ws As ExcelWorksheet = Pck.Workbook.Worksheets.Add("Sheet1")
+            With ws
+                Dim iDay As Integer = 2
+                Dim iCol As Integer = 2
+                Dim lastCol As Integer = 1
+                Dim Seq As Integer = 0
+
+                Dim Hdr As New ClsFTAMaster
+                Hdr.FactoryCode = cboFactory.Value
+                Hdr.FactoryName = cboFactory.Text
+                Hdr.ItemTypeCode = cboType.Value
+                Hdr.ItemTypeName = cboType.Text
+                Hdr.LineCode = cboLine.Value
+                Hdr.LineName = cboLine.Text
+                Hdr.ItemCheck = cboItemCheck.Text
+                Hdr.ProcessGroup = cboProcessGroup.Text
+                Hdr.LineGroup = cboLineGroup.Text
+                Hdr.Machine = cboMachine.Text
+
+                GridTitle(ws, Hdr)
+                GridExcel(ws, Hdr)
+
+            End With
+
+            Dim stream As MemoryStream = New MemoryStream(Pck.GetAsByteArray())
+            Response.AppendHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            Response.AppendHeader("Content-Disposition", "attachment; filename=FTAMaster_" & Format(Date.Now, "yyyy-MM-dd") & ".xlsx")
+            Response.BinaryWrite(stream.ToArray())
+            Response.End()
+
+        End Using
+    End Sub
+    Private Sub GridTitle(ByVal pExl As ExcelWorksheet, cls As ClsFTAMaster)
+        With pExl
+            Try
+                .Cells(1, 1).Value = "FTA Master"
+                .Cells(1, 1, 1, 13).Merge = True
+                .Cells(1, 1, 1, 13).Style.HorizontalAlignment = HorzAlignment.Near
+                .Cells(1, 1, 1, 13).Style.VerticalAlignment = VertAlignment.Center
+                .Cells(1, 1, 1, 13).Style.Font.Bold = True
+                .Cells(1, 1, 1, 13).Style.Font.Size = 16
+                .Cells(1, 1, 1, 13).Style.Font.Name = "Segoe UI"
+
+                .Cells(3, 1, 3, 2).Value = "Factory"
+                .Cells(3, 1, 3, 2).Merge = True
+                .Cells(3, 3).Value = ": " & cls.FactoryName
+
+                .Cells(4, 1, 4, 2).Value = "Process Group"
+                .Cells(4, 1, 4, 2).Merge = True
+                .Cells(4, 3).Value = ": " & cls.ProcessGroup
+
+                .Cells(5, 1, 5, 2).Value = "Line Group"
+                .Cells(5, 1, 5, 2).Merge = True
+                .Cells(5, 3).Value = ": " & cls.LineGroup
+
+                .Cells(6, 1, 6, 2).Value = "Machine"
+                .Cells(6, 1, 6, 2).Merge = True
+                .Cells(6, 3).Value = ": " & cls.Machine
+
+                .Cells(7, 1, 7, 2).Value = "Machine Process"
+                .Cells(7, 1, 7, 2).Merge = True
+                .Cells(7, 3).Value = ": " & cls.LineName
+
+                .Cells(8, 1, 8, 2).Value = "Type"
+                .Cells(8, 1, 8, 2).Merge = True
+                .Cells(8, 3).Value = ": " & cls.ItemTypeName
+
+                .Cells(9, 1, 9, 2).Value = "Item Check"
+                .Cells(9, 1, 9, 2).Merge = True
+                .Cells(9, 3).Value = ": " & cls.ItemCheck
+
+                Dim rgHdr As ExcelRange = .Cells(3, 3, 9, 4)
+                rgHdr.Style.HorizontalAlignment = HorzAlignment.Near
+                rgHdr.Style.VerticalAlignment = VertAlignment.Center
+                rgHdr.Style.Font.Size = 10
+                rgHdr.Style.Font.Name = "Segoe UI"
+            Catch ex As Exception
+                Throw New Exception(ex.Message)
+            End Try
+        End With
+    End Sub
+    Private Sub GridExcel(pExl As ExcelWorksheet, Hdr As ClsFTAMaster)
+
+        Dim ItemCheck As String = ""
+        Dim LineCode As String = ""
+        Dim FTAID As String = ""
+        Dim Factor1 As String = ""
+        Dim Factor2 As String = ""
+        Dim Factor3 As String = ""
+        Dim Factor4 As String = ""
+        Dim CounterMeasure As String = ""
+        Dim CheckItem As String = ""
+        Dim CheckOrder As String = ""
+        Dim Remark As String = ""
+        Dim ActiveStatus As String = ""
+        Dim LastUser As String = ""
+        Dim LastUpdate As String = ""
+        Dim iRow As Integer
+        Dim StartRow As Integer = 12
+
+        With pExl
+
+            If cboItemCheck.Value IsNot Nothing Then
+                ItemCheck = cboItemCheck.Value.Substring(0, cboItemCheck.Value.IndexOf(" -"))
+            End If
+            Dim ds As DataSet = ClsFTAMasterDB.GetListForExcel(cboFactory.Value, ItemCheck, cboLine.Value, cboType.Value)
+
+            Dim dtFTA As DataTable = ds.Tables(0)
+
+            iRow = 12
+            .Cells(iRow, 1).Value = "FTA ID"
+            .Cells(iRow, 2).Value = "Factor 1"
+            .Cells(iRow, 3).Value = "Factor 2"
+            .Cells(iRow, 4).Value = "Factor 3"
+            .Cells(iRow, 5).Value = "Factor 4"
+            .Cells(iRow, 6).Value = "Counter Measure"
+            .Cells(iRow, 7).Value = "Check Item"
+            .Cells(iRow, 8).Value = "Check Order"
+            .Cells(iRow, 9).Value = "Remark"
+            .Cells(iRow, 10).Value = "Active Status"
+            .Cells(iRow, 11).Value = "Last User"
+            .Cells(iRow, 12).Value = "Last Update"
+
+            For excelFTA = 0 To dtFTA.Rows.Count - 1
+
+                iRow = iRow + 1
+
+                .Cells(iRow, 1).Value = dtFTA.Rows(excelFTA)("FTAID")
+                .Cells(iRow, 2).Value = dtFTA.Rows(excelFTA)("Factor1")
+                .Cells(iRow, 3).Value = dtFTA.Rows(excelFTA)("Factor2")
+                .Cells(iRow, 4).Value = dtFTA.Rows(excelFTA)("Factor3")
+                .Cells(iRow, 5).Value = dtFTA.Rows(excelFTA)("Factor4")
+                .Cells(iRow, 6).Value = dtFTA.Rows(excelFTA)("CounterMeasure")
+                .Cells(iRow, 7).Value = dtFTA.Rows(excelFTA)("CheckItem")
+                .Cells(iRow, 8).Value = dtFTA.Rows(excelFTA)("CheckOrder")
+                .Cells(iRow, 9).Value = dtFTA.Rows(excelFTA)("Remark")
+                .Cells(iRow, 10).Value = dtFTA.Rows(excelFTA)("ActiveStatus")
+                .Cells(iRow, 11).Value = dtFTA.Rows(excelFTA)("UpdateUser")
+                .Cells(iRow, 12).Value = dtFTA.Rows(excelFTA)("UpdateDate").ToString()
+
+
+            Next
+
+            ExcelHeader(pExl, StartRow, 1, StartRow, 12)
+            ExcelBorder(pExl, StartRow, 1, iRow, 12)
+            ExcelFont(pExl, StartRow, 1, iRow, 12, 9)
+            'LastRow = iRow + 1
+        End With
+    End Sub
+    Private Sub ExcelHeader(Exl As ExcelWorksheet, StartRow As Integer, StartCol As Integer, EndRow As Integer, EndCol As Integer)
+        With Exl
+            .Cells(StartRow, StartCol, EndRow, EndCol).Style.Fill.PatternType = ExcelFillStyle.Solid
+            .Cells(StartRow, StartCol, EndRow, EndCol).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml("#878787"))
+            .Cells(StartRow, StartCol, EndRow, EndCol).Style.Font.Color.SetColor(Color.White)
+        End With
+    End Sub
+    Private Sub ExcelBorder(Exl As ExcelWorksheet, StartRow As Integer, StartCol As Integer, EndRow As Integer, EndCol As Integer)
+        With Exl
+            Dim Range As ExcelRange = .Cells(StartRow, StartCol, EndRow, EndCol)
+            Range.Style.Border.Top.Style = ExcelBorderStyle.Thin
+            Range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin
+            Range.Style.Border.Right.Style = ExcelBorderStyle.Thin
+            Range.Style.Border.Left.Style = ExcelBorderStyle.Thin
+            Range.Style.Font.Size = 10
+            Range.Style.Font.Name = "Segoe UI"
+            Range.Style.HorizontalAlignment = HorzAlignment.Center
+        End With
+    End Sub
+    Private Sub ExcelFont(Exl As ExcelWorksheet, StartRow As Integer, StartCol As Integer, EndRow As Integer, EndCol As Integer, FontSize As Integer)
+        With Exl
+            Dim Range As ExcelRange = .Cells(StartRow, StartCol, EndRow, EndCol)
+            Range.Style.Font.Size = FontSize
+            Range.Style.Font.Name = "Segoe UI"
+        End With
     End Sub
 #End Region
 
