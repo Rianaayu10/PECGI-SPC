@@ -928,7 +928,7 @@
     </div>
     
     <div>
-        <dx:ASPxPopupControl ID="pcIK" runat="server" ClientInstanceName="pcIK" Height="500px" Width="250px" HeaderText="Instruksi Kerja (IK)" Modal="True" 
+        <dx:ASPxPopupControl ID="pcIK" runat="server" ClientInstanceName="pcIK" Height="600px" Width="450px" HeaderText="Instruksi Kerja (IK)" Modal="True" 
             CloseAction="CloseButton" CloseOnEscape="true" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False">
             
             <ContentCollection>
@@ -941,7 +941,7 @@
                                 <table class="auto-style20">
                                     <tr style="height:100%">
                                         <td style="text-align:center">
-                                            <asp:Image ID="imgIK" runat="server" BorderStyle="Solid" Height="400" Width="230"/>
+                                            <asp:Image ID="imgIK" runat="server" BorderStyle="Solid" Height="500" Width="430"/>
                                         </td>
                                     </tr>
                                 </table>                            
