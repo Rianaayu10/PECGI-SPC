@@ -50,22 +50,22 @@ Partial Public Class FTAMaster
     Protected WithEvents cboMachine As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
-    '''btnSearch control.
+    '''ASPxLabel9 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnSearch As Global.DevExpress.Web.ASPxButton
+    Protected WithEvents ASPxLabel9 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
-    '''btnReset control.
+    '''cboItemCheck control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnReset As Global.DevExpress.Web.ASPxButton
+    Protected WithEvents cboItemCheck As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
     '''ASPxLabel7 control.
@@ -104,6 +104,24 @@ Partial Public Class FTAMaster
     Protected WithEvents cboLine As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
+    '''btnSearch control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSearch As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
+    '''btnReset control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnReset As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
     '''ASPxLabel6 control.
     '''</summary>
     '''<remarks>
@@ -140,13 +158,85 @@ Partial Public Class FTAMaster
     Protected WithEvents cboType As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
-    '''dsFactory control.
+    '''btnExcel control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents dsFactory As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents btnExcel As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
+    '''Label2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents Label2 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''dsFactor1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dsFactor1 As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''dsFactor2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dsFactor2 As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''dsFactor3 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dsFactor3 As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''dsFactor4 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dsFactor4 As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''dsCounterMeasure control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dsCounterMeasure As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''dsCheckItem control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dsCheckItem As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''dsCheckOrder control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dsCheckOrder As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''dsType control.
@@ -167,15 +257,6 @@ Partial Public Class FTAMaster
     Protected WithEvents dsMachine As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''dsFrequency control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents dsFrequency As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
     '''dsItemCheck control.
     '''</summary>
     '''<remarks>
@@ -183,33 +264,6 @@ Partial Public Class FTAMaster
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents dsItemCheck As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''dsRegNo control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents dsRegNo As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''dsCharStatus control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents dsCharStatus As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''dsEvaluation control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents dsEvaluation As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Grid control.
@@ -255,6 +309,123 @@ Partial Public Class FTAMaster
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents HF As Global.DevExpress.Web.ASPxHiddenField
+
+    '''<summary>
+    '''pcIK control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pcIK As Global.DevExpress.Web.ASPxPopupControl
+
+    '''<summary>
+    '''cbkPanel control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cbkPanel As Global.DevExpress.Web.ASPxCallbackPanel
+
+    '''<summary>
+    '''imgIK control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents imgIK As Global.System.Web.UI.WebControls.Image
+
+    '''<summary>
+    '''ASPxButton1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxButton1 As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
+    '''pcUploadIK control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pcUploadIK As Global.DevExpress.Web.ASPxPopupControl
+
+    '''<summary>
+    '''cbkPanelUploadIK control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cbkPanelUploadIK As Global.DevExpress.Web.ASPxCallbackPanel
+
+    '''<summary>
+    '''updIK control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents updIK As Global.System.Web.UI.WebControls.FileUpload
+
+    '''<summary>
+    '''lblMsgUpload control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblMsgUpload As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''btnUploadIK control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnUploadIK As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
+    '''ASPxButton2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxButton2 As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
+    '''pcAction control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pcAction As Global.DevExpress.Web.ASPxPopupControl
+
+    '''<summary>
+    '''cbkPanelAction control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cbkPanelAction As Global.DevExpress.Web.ASPxCallbackPanel
+
+    '''<summary>
+    '''gvFTAAction control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents gvFTAAction As Global.DevExpress.Web.ASPxGridView
 
     '''<summary>
     '''Master property.

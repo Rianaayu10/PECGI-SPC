@@ -61,6 +61,7 @@ Public Class ProdSampleInput
     Dim dtCP As DataTable
     Dim dtRUCL As DataTable
     Dim dtRLCL As DataTable
+    Dim dtDel As DataTable
     Dim LastNG As Integer
 
     Private Sub GridXLoad(Hdr As clsHeader)
@@ -147,126 +148,13 @@ Public Class ProdSampleInput
                 dtCP = ds.Tables(6)
                 dtRUCL = ds.Tables(7)
                 dtRLCL = ds.Tables(8)
+                dtDel = ds.Tables(9)
             End If
             If ChartType = "0" Then
                 .JSProperties("cpShow") = "0"
             Else
                 .JSProperties("cpShow") = "1"
             End If
-
-            'Dim SelDay As Object = clsSPCResultDB.GetPrevDate(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate)
-
-            'If Not IsDBNull(SelDay) Then
-            '    Dim dt2 As DataTable = clsSPCResultDetailDB.GetLastR(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Format(SelDay, "yyyy-MM-dd"), 1, Hdr.VerifiedOnly)
-            '    If dt2.Rows.Count > 0 Then
-            '        LastNG = dt2.Rows(0)("NG")
-            '    Else
-            '        LastNG = 0
-            '    End If
-            'Else
-            '    LastNG = 0
-            'End If
-
-            'For iDay = 1 To 2
-            '    If Not IsDBNull(SelDay) Then
-            '        Dim dDay As String = Format(CDate(SelDay), "yyyy-MM-dd")
-            '        Dim BandDay As GridViewBandColumn
-
-            '        Dim Shiftlist As List(Of clsShift)
-            '        If SelDay = CDate(Hdr.ProdDate) Then
-            '            Shiftlist = clsFrequencyDB.GetShift(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay, Hdr.ShiftCode)
-            '        Else
-            '            Shiftlist = clsFrequencyDB.GetShift(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, dDay)
-            '        End If
-
-            '        If Shiftlist.Count > 0 Then
-            '            BandDay = New GridViewBandColumn
-            '            BandDay.Caption = Format(SelDay, "dd MMM yyyy")
-            '            .Columns.Add(BandDay)
-
-            '        End If
-
-            '        For Each Shift In Shiftlist
-            '            Dim BandShift As New GridViewBandColumn
-            '            BandShift.Caption = Shift.ShiftCode
-            '            BandDay.Columns.Add(BandShift)
-
-            '            Dim SeqList As List(Of clsSequenceNo)
-            '            If SelDay = CDate(Hdr.ProdDate) Then
-            '                SeqList = clsFrequencyDB.GetSequence(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Shift.ShiftCode, dDay, Hdr.Seq)
-            '            Else
-            '                SeqList = clsFrequencyDB.GetSequence(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Shift.ShiftCode, dDay)
-            '            End If
-            '            Dim ColIndex As Integer = 1
-            '            For Each Seq In SeqList
-            '                Dim colTime As New GridViewDataTextColumn
-            '                colTime.Caption = Seq.StartTime
-            '                colTime.FieldName = iDay.ToString + "_" + Shift.ShiftName.ToString + "_" + Seq.SequenceNo.ToString
-            '                colTime.Width = 90
-            '                colTime.CellStyle.HorizontalAlign = HorizontalAlign.Center
-
-            '                BandShift.Columns.Add(colTime)
-            '                ColIndex = ColIndex + 1
-            '            Next
-
-            '            Dim colLCL As New GridViewDataTextColumn
-            '            colLCL.Caption = "LCL"
-            '            colLCL.FieldName = "CPLCL" & iDay.ToString
-            '            colLCL.Visible = False
-            '            BandShift.Columns.Add(colLCL)
-
-            '            Dim colUCL As New GridViewDataTextColumn
-            '            colUCL.Caption = "UCL"
-            '            colUCL.FieldName = "CPUCL" & iDay.ToString
-            '            colUCL.Visible = False
-            '            BandShift.Columns.Add(colUCL)
-
-            '            Dim colLSL As New GridViewDataTextColumn
-            '            colLSL.Caption = "LSL"
-            '            colLSL.FieldName = "SpecLSL" & iDay.ToString
-            '            colLSL.Visible = False
-            '            BandShift.Columns.Add(colLSL)
-
-            '            Dim colUSL As New GridViewDataTextColumn
-            '            colUSL.Caption = "USL"
-            '            colUSL.FieldName = "SpecUSL" & iDay.ToString
-            '            colUSL.Visible = False
-            '            BandShift.Columns.Add(colUSL)
-
-            '            Dim colRLCL As New GridViewDataTextColumn
-            '            colRLCL.Caption = "RLCL"
-            '            colRLCL.FieldName = "SpecRLCL" & iDay.ToString
-            '            colRLCL.Visible = False
-            '            BandShift.Columns.Add(colRLCL)
-
-            '            Dim colRUCL As New GridViewDataTextColumn
-            '            colRUCL.Caption = "RUCL"
-            '            colRUCL.FieldName = "SpecRUCL" & iDay.ToString
-            '            colRUCL.Visible = False
-            '            BandShift.Columns.Add(colRUCL)
-
-            '        Next
-            '    End If
-            '    SelDay = CDate(Hdr.ProdDate)
-            'Next
-            'ChartType = clsXRChartDB.GetChartType(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode)
-            'If ChartType = "0" Then
-            '    .JSProperties("cpShow") = "0"
-            'Else
-            '    .JSProperties("cpShow") = "1"
-            'End If
-
-            'Dim dt As DataTable = ds.Tables(1)
-            'dtLSL = ds.Tables(2)
-            'dtUSL = ds.Tables(3)
-            'dtLCL = ds.Tables(4)
-            'dtUCL = ds.Tables(5)
-            'dtCP = ds.Tables(6)
-            'dtRUCL = ds.Tables(7)
-            'dtRLCL = ds.Tables(8)
-
-            '.DataSource = dt
-            '.DataBind()
         End With
     End Sub
 
@@ -600,9 +488,9 @@ Public Class ProdSampleInput
         Dim UserID As String = Session("user")
         Dim pEmplooyeeID = clsIOT.GetEmployeeID(UserID)
         Dim AllowSkill As Boolean = clsIOT.AllowSkill(pEmplooyeeID, FactoryCode, Line, ItemTypeCode)
-        'If My.Computer.Name = "TOS56-ARI" Then
-        '    AllowSkill = True
-        'End If
+        If My.Computer.Name = "TOS56-ARI" Then
+            AllowSkill = True
+        End If
         ChartType = clsXRChartDB.GetChartType(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
         grid.JSProperties("cpChartType") = ChartType
 
@@ -662,9 +550,9 @@ Public Class ProdSampleInput
         End If
         Dim dtVer As DataTable = clsSPCResultDB.GetLastVerification(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Sequence)
         Dim LastVerification As Integer = dtVer.Rows(0)(0)
-        'If My.Computer.Name = "TOS56-ARI" Then
-        '    LastVerification = 1
-        'End If
+        If My.Computer.Name = "TOS56-ARI" Then
+            LastVerification = 1
+        End If
         grid.SettingsDataSecurity.AllowInsert = LastVerification = 1 And Not Verified And AuthUpdate And AllowSkill
         grid.SettingsDataSecurity.AllowEdit = LastVerification = 1 And Not Verified And AuthUpdate And AllowSkill
         If grid.SettingsDataSecurity.AllowInsert Then
@@ -1054,6 +942,7 @@ Public Class ProdSampleInput
             dtCP = ds.Tables(6)
             dtRUCL = ds.Tables(7)
             dtRLCL = ds.Tables(8)
+            dtDel = ds.Tables(9)
 
             StartRow = iRow
             .Cells(iRow, 1).Value = "Date"
@@ -1337,7 +1226,7 @@ Public Class ProdSampleInput
             Dim AddCol As Integer = 0
             If ChartType = "1" Or ChartType = "2" Then
                 AddCol = 2
-                .Cells(iRow, 7).Value = "X Bar Control"
+                .Cells(iRow, 7).Value = "Xbar Control"
                 .Cells(iRow, 7, iRow, 8).Merge = True
             End If
             .Cells(iRow, 7 + AddCol).Value = "Result"
@@ -1795,7 +1684,7 @@ Public Class ProdSampleInput
             diagram.AxisY.NumericScaleOptions.CustomGridAlignment = 0.005
             diagram.AxisY.GridLines.MinorVisible = False
             If ChartType = "1" Or ChartType = "2" Then
-                .Titles(0).Text = "X Bar Control Chart"
+                .Titles(0).Text = "Xbar Control Chart"
             Else
                 .Titles(0).Text = "Graph Monitoring"
             End If
@@ -1804,7 +1693,7 @@ Public Class ProdSampleInput
             Dim Setup As clsChartSetup = clsChartSetupDB.GetData(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate)
             diagram.AxisY.ConstantLines.Clear()
             If Setup IsNot Nothing Then
-                Dim LCL As New ConstantLine("LCL")
+                Dim LCL As New ConstantLine("LCL")                
                 LCL.Color = System.Drawing.Color.Red
                 LCL.LineStyle.Thickness = 1
                 LCL.LineStyle.DashStyle = DashStyle.Dash
@@ -1826,14 +1715,14 @@ Public Class ProdSampleInput
                 CL.AxisValue = Setup.CPCL
 
                 If ChartType = "1" Or ChartType = "2" Then
-                    Dim XBarLCL As New ConstantLine("XBarLCL")
+                    Dim XBarLCL As New ConstantLine("      XBarLCL")
                     XBarLCL.Color = System.Drawing.Color.Orange
                     XBarLCL.LineStyle.Thickness = 1
                     XBarLCL.LineStyle.DashStyle = DashStyle.Dash
                     diagram.AxisY.ConstantLines.Add(XBarLCL)
                     XBarLCL.AxisValue = Setup.XBarLCL
 
-                    Dim XBarUCL As New ConstantLine("XBarUCL")
+                    Dim XBarUCL As New ConstantLine("      XBarUCL")
                     XBarUCL.Color = System.Drawing.Color.Orange
                     XBarUCL.LineStyle.Thickness = 1
                     XBarUCL.LineStyle.DashStyle = DashStyle.Dash
@@ -1841,14 +1730,14 @@ Public Class ProdSampleInput
                     XBarUCL.AxisValue = Setup.XBarUCL
                 End If
 
-                Dim LSL As New ConstantLine("LSL")
+                Dim LSL As New ConstantLine("      LSL")
                 LSL.Color = System.Drawing.Color.Red
                 LSL.LineStyle.Thickness = 1
                 LSL.LineStyle.DashStyle = DashStyle.Solid
                 diagram.AxisY.ConstantLines.Add(LSL)
                 LSL.AxisValue = Setup.SpecLSL
 
-                Dim USL As New ConstantLine("USL")
+                Dim USL As New ConstantLine("      USL")
                 USL.Color = System.Drawing.Color.Red
                 USL.LineStyle.Thickness = 1
                 USL.LineStyle.DashStyle = DashStyle.Solid
@@ -1923,16 +1812,29 @@ Public Class ProdSampleInput
         Dim USL As Double
         Dim RUCL As Double
         Dim RLCL As Double
+        Dim Del As String
         Dim LightYellow As Color = Color.FromArgb(255, 255, 153)
 
         Dim ColName As String = e.DataColumn.FieldName
-        If Not IsDBNull(e.CellValue) AndAlso ColName <> "Seq" AndAlso ColName <> "Des" AndAlso (e.GetValue("Seq") = "1" Or e.GetValue("Seq") = "3" Or e.GetValue("Seq") = "4" Or e.GetValue("Seq") = "5") Then
+        If Not IsDBNull(e.CellValue) AndAlso ColName <> "Seq" AndAlso ColName <> "Sequence" AndAlso ColName <> "Des" AndAlso (e.GetValue("Seq") = "1" Or e.GetValue("Seq") = "3" Or e.GetValue("Seq") = "4" Or e.GetValue("Seq") = "5") Then
             LSL = dtLSL.Rows(0)(ColName)
             USL = dtUSL.Rows(0)(ColName)
             LCL = dtLCL.Rows(0)(ColName)
             UCL = dtUCL.Rows(0)(ColName)
+            Dim Seq As Integer
+            For i = 0 To dtDel.Rows.Count - 1
+                Dim seq1 As String = dtDel.Rows(i)("SequenceNo")
+                Dim seq2 As String = e.GetValue("SequenceNo")
+                If seq1 = seq2 Then
+                    Seq = i
+                    Exit For
+                End If
+            Next
+            Del = dtDel.Rows(Seq)(ColName)
             Dim Value As Double = clsSPCResultDB.ADecimal(e.CellValue)
-            If Value < LSL Or Value > USL Then
+            If Del = "1" Then
+                e.Cell.BackColor = Color.Silver
+            ElseIf Value < LSL Or Value > USL Then
                 e.Cell.BackColor = Color.Red
             ElseIf Value < LCL Or Value > UCL Then
                 If e.GetValue("Seq") = "1" Or ChartType = "0" Then
@@ -1942,7 +1844,15 @@ Public Class ProdSampleInput
                 End If
             End If
         End If
-        If Not IsDBNull(e.CellValue) AndAlso ColName <> "Seq" And ColName <> "Des" And e.GetValue("Seq") = "6" And ChartType <> "0" Then
+        If Not IsDBNull(e.CellValue) AndAlso ColName <> "Seq" AndAlso ColName <> "Sequence" AndAlso ColName <> "Des" Then
+            Dim s As String = e.GetValue("Seq")
+            If e.CellValue = "OK" Then
+                e.Cell.BackColor = Color.Green
+            ElseIf e.CellValue = "NG" Then
+                e.Cell.BackColor = Color.Red
+            End If
+        End If
+        If Not IsDBNull(e.CellValue) AndAlso ColName <> "Seq" AndAlso ColName <> "Sequence" AndAlso ColName <> "Des" And ColName <> "Des" And e.GetValue("Seq") = "6" And ChartType <> "0" Then
             RUCL = dtRUCL.Rows(0)(ColName)
             RLCL = dtRLCL.Rows(0)(ColName)
             Dim Value As Double = clsSPCResultDB.ADecimal(e.CellValue)
@@ -1962,97 +1872,9 @@ Public Class ProdSampleInput
             End If
             LastNG = 0
         End If
-        Dim cs As New clsSPCColor
-        If e.DataColumn.FieldName = "Des" Then
-            If e.CellValue = "1" Then
-                e.Cell.BackColor = cs.Color1
-            ElseIf e.CellValue = "2" Then
-                e.Cell.BackColor = cs.Color2
-            ElseIf e.CellValue = "3" Then
-                e.Cell.BackColor = cs.Color3
-            ElseIf e.CellValue = "4" Then
-                e.Cell.BackColor = cs.Color4
-            ElseIf e.CellValue = "5" Then
-                e.Cell.BackColor = cs.Color5
-            End If
-        End If
-
         If e.KeyValue = "-" Or e.KeyValue = "--" Then
             e.Cell.Text = ""
         End If
-
-        Return
-
-        'If Not IsDBNull(e.CellValue) AndAlso (e.DataColumn.FieldName.StartsWith("1") Or e.DataColumn.FieldName.StartsWith("2")) _
-        'And (e.GetValue("Seq") = "1" Or e.GetValue("Seq") = "3" Or e.GetValue("Seq") = "4" Or e.GetValue("Seq") = "5" Or e.GetValue("Seq") = "6") Then
-        '    If (e.DataColumn.FieldName.StartsWith("1")) Then
-        '        If Not IsDBNull(e.GetValue("CPLCL1")) Then
-        '            SetupFound = True
-        '            LCL = e.GetValue("CPLCL1")
-        '            UCL = e.GetValue("CPUCL1")
-        '            LSL = e.GetValue("SpecLSL1")
-        '            USL = e.GetValue("SpecUSL1")
-        '            RLCL = e.GetValue("RLCL1")
-        '            RUCL = e.GetValue("RUCL1")
-        '        End If
-        '    ElseIf (e.DataColumn.FieldName.StartsWith("2")) Then
-        '        If Not IsDBNull(e.GetValue("CPLCL2")) Then
-        '            SetupFound = True
-        '            LCL = e.GetValue("CPLCL2")
-        '            UCL = e.GetValue("CPUCL2")
-        '            LSL = e.GetValue("SpecLSL2")
-        '            USL = e.GetValue("SpecUSL2")
-        '            RLCL = e.GetValue("RLCL2")
-        '            RUCL = e.GetValue("RUCL2")
-        '        End If
-        '    End If
-        '    If SetupFound Then
-        '        Dim Value As Double = clsSPCResultDB.ADecimal(e.CellValue)
-        '        If e.GetValue("Seq") = "6" Then
-        '            If ChartType <> "0" Then
-        '                If Value < RLCL Or Value > RUCL Then
-        '                    If PrevYellow = 1 Then
-        '                        e.Cell.BackColor = Color.Pink
-        '                    Else
-        '                        If LastNG > 0 Then
-        '                            e.Cell.BackColor = Color.Pink
-        '                        Else
-        '                            e.Cell.BackColor = Color.Yellow
-        '                        End If
-        '                        PrevYellow = 1
-        '                    End If
-        '                Else
-        '                    PrevYellow = 0
-        '                End If
-        '            End If
-        '            LastNG = 0
-        '        Else
-        '            If Value < LSL Or Value > USL Then
-        '                e.Cell.BackColor = Color.Red
-        '            ElseIf Value < LCL Or Value > UCL Then
-        '                If e.GetValue("Seq") = "1" Or ChartType = "0" Then
-        '                    e.Cell.BackColor = Color.Pink
-        '                Else
-        '                    e.Cell.BackColor = LightYellow
-        '                End If
-        '            End If
-        '        End If
-        '    End If
-        'End If
-
-        'If e.DataColumn.FieldName = "Des" Then
-        '    If e.CellValue = "1" Then
-        '        e.Cell.BackColor = cs.Color1
-        '    ElseIf e.CellValue = "2" Then
-        '        e.Cell.BackColor = cs.Color2
-        '    ElseIf e.CellValue = "3" Then
-        '        e.Cell.BackColor = cs.Color3
-        '    ElseIf e.CellValue = "4" Then
-        '        e.Cell.BackColor = cs.Color4
-        '    ElseIf e.CellValue = "5" Then
-        '        e.Cell.BackColor = cs.Color5
-        '    End If
-        'End If
     End Sub
 
     Private Sub chartR_CustomCallback(sender As Object, e As CustomCallbackEventArgs) Handles chartR.CustomCallback

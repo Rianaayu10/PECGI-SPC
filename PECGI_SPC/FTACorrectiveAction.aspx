@@ -1196,7 +1196,7 @@
             </td>
             <td>
 
-                <dx:ASPxTextBox ID="txtOther" runat="server" Width="100%" ClientInstanceName="txtOther" ClientEnabled="False" MaxLength="50">
+                <dx:ASPxTextBox ID="txtOther" runat="server" Width="450px" ClientInstanceName="txtOther" ClientEnabled="False" MaxLength="50">
                     <ReadOnlyStyle BackColor="Silver">
                     </ReadOnlyStyle>
                     <DisabledStyle BackColor="Silver">
