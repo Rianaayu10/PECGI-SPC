@@ -153,6 +153,7 @@
     <Content Include="img\SPCRuleIN.png" />
     <Content Include="FTAMaster.aspx" />
     <Content Include="FTACorrectiveAction.aspx" />
+    <Content Include="UploadFTAMaster.aspx" />
     <Content Include="js\dx.all.js" />
     <Content Include="js\jquery-3.5.1.min.js" />
     <Content Include="ReportYearlyByType.aspx" />
@@ -945,6 +946,13 @@
     </Compile>
     <Compile Include="FTACorrectiveAction.aspx.vb">
       <DependentUpon>FTACorrectiveAction.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UploadFTAMaster.aspx.designer.vb">
+      <DependentUpon>UploadFTAMaster.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UploadFTAMaster.aspx.vb">
+      <DependentUpon>UploadFTAMaster.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ReportYearlyByType.aspx.designer.vb">
