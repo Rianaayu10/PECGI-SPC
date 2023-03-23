@@ -25,8 +25,20 @@ namespace SPCMeasurement
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            Value = Convert.ToDouble(txtScale.Text);
-            this.DialogResult = DialogResult.OK;
+            double v;
+            if(double.TryParse(txtScale.Text, out v))
+            {
+                Value = v;
+                this.DialogResult = DialogResult.OK;
+            } else
+            {
+                this.DialogResult = DialogResult.None;
+            }         
+        }
+
+        private void txtScale_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

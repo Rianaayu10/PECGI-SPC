@@ -99,6 +99,31 @@ namespace SPCMeasurement
             }            
         }
 
+        public static clsSPCResultSample GetSampleSize(int SPCResultID)
+        {
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("sp_SPCResult_GetComplete", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("SPCResultID", SPCResultID);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                if(dt.Rows.Count == 0)
+                {
+                    return null;
+                } else
+                {
+                    clsSPCResultSample result = new clsSPCResultSample();
+                    result.SPCResultID = SPCResultID;
+                    result.SampleSize = Convert.ToInt16(dt.Rows[0]["SampleSize"]);
+                    result.ActualSample = Convert.ToInt16(dt.Rows[0]["ActualSample"]);                    
+                    return result;
+                }                
+            }
+        }
+
         public static bool AllowSkill(string UserID, string FactoryCode, string LineCode, string ItemTypeCode)
         {
             using (SqlConnection con = new SqlConnection(constr))

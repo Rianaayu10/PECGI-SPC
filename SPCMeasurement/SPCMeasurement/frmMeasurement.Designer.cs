@@ -69,6 +69,7 @@ namespace SPCMeasurement
             this.rtfTerminal = new System.Windows.Forms.RichTextBox();
             this.lblArg = new System.Windows.Forms.Label();
             this.pnlValue = new System.Windows.Forms.Panel();
+            this.btnGetValue = new System.Windows.Forms.Button();
             this.opt2 = new System.Windows.Forms.RadioButton();
             this.opt1 = new System.Windows.Forms.RadioButton();
             this.btnRead = new System.Windows.Forms.Button();
@@ -79,7 +80,8 @@ namespace SPCMeasurement
             this.btnClose = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
-            this.btnGetValue = new System.Windows.Forms.Button();
+            this.lblComplete = new System.Windows.Forms.Label();
+            this.btnClearValue2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.cboProcess)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboLineGroup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboProcessGroup)).BeginInit();
@@ -708,7 +710,7 @@ namespace SPCMeasurement
             this.lblArg.AutoSize = true;
             this.lblArg.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblArg.ForeColor = System.Drawing.Color.Gray;
-            this.lblArg.Location = new System.Drawing.Point(134, 565);
+            this.lblArg.Location = new System.Drawing.Point(942, 581);
             this.lblArg.Name = "lblArg";
             this.lblArg.Size = new System.Drawing.Size(75, 17);
             this.lblArg.TabIndex = 109;
@@ -726,6 +728,22 @@ namespace SPCMeasurement
             this.pnlValue.Size = new System.Drawing.Size(411, 52);
             this.pnlValue.TabIndex = 110;
             this.pnlValue.Visible = false;
+            this.pnlValue.VisibleChanged += new System.EventHandler(this.pnlValue_VisibleChanged);
+            this.pnlValue.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlValue_Paint);
+            // 
+            // btnGetValue
+            // 
+            this.btnGetValue.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGetValue.Image = ((System.Drawing.Image)(resources.GetObject("btnGetValue.Image")));
+            this.btnGetValue.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGetValue.Location = new System.Drawing.Point(261, 3);
+            this.btnGetValue.Name = "btnGetValue";
+            this.btnGetValue.Size = new System.Drawing.Size(145, 45);
+            this.btnGetValue.TabIndex = 112;
+            this.btnGetValue.Text = "Get Value";
+            this.btnGetValue.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnGetValue.UseVisualStyleBackColor = true;
+            this.btnGetValue.Click += new System.EventHandler(this.btnGetValue_Click);
             // 
             // opt2
             // 
@@ -765,6 +783,7 @@ namespace SPCMeasurement
             // 
             this.btnRead.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRead.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRead.Image = ((System.Drawing.Image)(resources.GetObject("btnRead.Image")));
             this.btnRead.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRead.Location = new System.Drawing.Point(626, 565);
             this.btnRead.Name = "btnRead";
@@ -779,7 +798,7 @@ namespace SPCMeasurement
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClear.Image = global::SPCMeasurement.Properties.Resources.cross;
-            this.btnClear.Location = new System.Drawing.Point(1199, 319);
+            this.btnClear.Location = new System.Drawing.Point(1081, 319);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(82, 30);
             this.btnClear.TabIndex = 107;
@@ -824,7 +843,7 @@ namespace SPCMeasurement
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.Image = global::SPCMeasurement.Properties.Resources.disk;
-            this.btnSave.Location = new System.Drawing.Point(1111, 319);
+            this.btnSave.Location = new System.Drawing.Point(993, 319);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(82, 30);
             this.btnSave.TabIndex = 8;
@@ -877,19 +896,34 @@ namespace SPCMeasurement
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
-            // btnGetValue
+            // lblComplete
             // 
-            this.btnGetValue.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGetValue.Image = ((System.Drawing.Image)(resources.GetObject("btnGetValue.Image")));
-            this.btnGetValue.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGetValue.Location = new System.Drawing.Point(261, 3);
-            this.btnGetValue.Name = "btnGetValue";
-            this.btnGetValue.Size = new System.Drawing.Size(145, 45);
-            this.btnGetValue.TabIndex = 112;
-            this.btnGetValue.Text = "Get Value";
-            this.btnGetValue.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnGetValue.UseVisualStyleBackColor = true;
-            this.btnGetValue.Click += new System.EventHandler(this.btnGetValue_Click);
+            this.lblComplete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblComplete.BackColor = System.Drawing.Color.LimeGreen;
+            this.lblComplete.Font = new System.Drawing.Font("Arial Narrow", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblComplete.ForeColor = System.Drawing.Color.White;
+            this.lblComplete.Location = new System.Drawing.Point(144, 568);
+            this.lblComplete.Name = "lblComplete";
+            this.lblComplete.Size = new System.Drawing.Size(337, 37);
+            this.lblComplete.TabIndex = 112;
+            this.lblComplete.Text = "Complete";
+            this.lblComplete.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblComplete.TextChanged += new System.EventHandler(this.lblComplete_TextChanged);
+            this.lblComplete.Click += new System.EventHandler(this.lblComplete_Click);
+            // 
+            // btnClearValue2
+            // 
+            this.btnClearValue2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearValue2.Image = global::SPCMeasurement.Properties.Resources.cross;
+            this.btnClearValue2.Location = new System.Drawing.Point(1169, 319);
+            this.btnClearValue2.Name = "btnClearValue2";
+            this.btnClearValue2.Size = new System.Drawing.Size(107, 30);
+            this.btnClearValue2.TabIndex = 107;
+            this.btnClearValue2.Text = "Clear Value 2";
+            this.btnClearValue2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnClearValue2.UseVisualStyleBackColor = true;
+            this.btnClearValue2.Visible = false;
+            this.btnClearValue2.Click += new System.EventHandler(this.btnClearValue2_Click);
             // 
             // frmMeasurement
             // 
@@ -897,10 +931,12 @@ namespace SPCMeasurement
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(183)))), ((int)(((byte)(227)))), ((int)(((byte)(242)))));
             this.ClientSize = new System.Drawing.Size(1335, 650);
+            this.Controls.Add(this.lblComplete);
             this.Controls.Add(this.btnRead);
             this.Controls.Add(this.pnlValue);
             this.Controls.Add(this.lblArg);
             this.Controls.Add(this.rtfTerminal);
+            this.Controls.Add(this.btnClearValue2);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnPrint);
@@ -997,6 +1033,8 @@ namespace SPCMeasurement
         private System.Windows.Forms.RadioButton opt2;
         private System.Windows.Forms.Button btnRead;
         private System.Windows.Forms.Button btnGetValue;
+        private System.Windows.Forms.Label lblComplete;
+        private System.Windows.Forms.Button btnClearValue2;
     }
 }
 

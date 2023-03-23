@@ -42,11 +42,12 @@ namespace SPCMeasurement
             this.txtScale.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtScale.Location = new System.Drawing.Point(12, 12);
-            this.txtScale.MaxLength = 7;
+            this.txtScale.MaxLength = 0;
             this.txtScale.Name = "txtScale";
             this.txtScale.Size = new System.Drawing.Size(263, 62);
             this.txtScale.TabIndex = 0;
             this.txtScale.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtScale.TextChanged += new System.EventHandler(this.txtScale_TextChanged);
             // 
             // btnCancel
             // 

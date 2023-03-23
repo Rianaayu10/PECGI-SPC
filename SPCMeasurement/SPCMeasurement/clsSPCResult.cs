@@ -22,4 +22,14 @@ namespace SPCMeasurement
         public string RegisterNo { get; set; }
         public string Measure2nd { get; set; }
     }  
+
+    public class clsSPCResultSample
+    {
+        public int SPCResultID { get; set; }
+        public int SampleSize { get; set; }
+        public int ActualSample { get; set; }
+        public int Remaining {
+            get { return SampleSize - ActualSample; }          
+        }
+    }
 }

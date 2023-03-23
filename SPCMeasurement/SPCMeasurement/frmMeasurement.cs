@@ -36,7 +36,7 @@ namespace SPCMeasurement
         string ls_SQLConnTO = "", ls_SQLCmdTO = "";
         string ls_MEAS_Connection = "";
         string ls_COM_Port = "", ls_COM_BaudRate = "", ls_COM_DataBits = "", ls_COM_Parity = "", ls_COM_StopBits = "", ls_COM_RTSEnable = "", ls_COM_GetResultData = "", ls_Command = "";
-        string ls_COM_Stable = "";
+        string ls_COM_Stable = "", ls_COM_FlowControl = "", ls_COM_DTREnable = "";
         string Measure2nd = "0";
         int getResultData = 0;
 
@@ -94,7 +94,7 @@ namespace SPCMeasurement
             ShowMsg("");
             if(ValidateValue2() == false)
             {
-                ShowMsg("No more samples to measure", true);
+                ShowMsg("No more samples from Value 1", true);
                 return;
             }
             if (!ValidSkill())
@@ -142,8 +142,9 @@ namespace SPCMeasurement
                 FactoryCode = "";
             } else {
                 FactoryCode = cboFactory.SelectedValue.ToString();
-            }            
-            clsProcessGroupDB.FillCombo(cboProcessGroup, UserID, FactoryCode);            
+            }
+            clsProcessGroupDB.FillCombo(cboProcessGroup, UserID, FactoryCode);
+            RefreshData();
         }
 
         private void frmMeasurement_FormClosing(object sender, FormClosingEventArgs e)
@@ -176,6 +177,7 @@ namespace SPCMeasurement
                 ProcessGroup = cboProcessGroup.SelectedValue.ToString();
             }
             clsLineGroupDB.FillCombo(cboLineGroup, UserID, FactoryCode, ProcessGroup);
+            RefreshData();
         }
 
         private void cboLineGroup_TextChanged(object sender, EventArgs e)
@@ -212,6 +214,7 @@ namespace SPCMeasurement
                 LineGroup = cboLineGroup.SelectedValue.ToString();
             }
             clsProcessDB.FillCombo(cboProcess, UserID, FactoryCode, ProcessGroup, LineGroup);
+            RefreshData();
         }
 
         private void cboLine_TextChanged(object sender, EventArgs e)
@@ -239,6 +242,7 @@ namespace SPCMeasurement
             }
 
             clsItemTypeDB.FillCombo(cboType, UserID, FactoryCode, LineCode);
+            RefreshData();
         }
 
         private void cboProcess_TextChanged(object sender, EventArgs e)
@@ -275,6 +279,7 @@ namespace SPCMeasurement
                 ProcessCode = cboProcess.SelectedValue.ToString();
             }
             clsLineDB.FillCombo(cboLine, UserID, FactoryCode, ProcessCode);
+            RefreshData();
         }
 
         private void dtProd_ValueChanged(object sender, EventArgs e)
@@ -316,6 +321,7 @@ namespace SPCMeasurement
                 ItemTypeCode = cboType.SelectedValue.ToString();
             }
             clsItemCheckDB.FillCombo(cboItemCheck, FactoryCode, LineCode, ItemTypeCode);
+            RefreshData();
         }
 
         private void FillCboShift()
@@ -435,6 +441,7 @@ namespace SPCMeasurement
             }
             ShowValue2(Measure2nd == "1");
             FillCboShift();
+            RefreshData();
         }
 
         private void ShowValue2(bool show)
@@ -573,25 +580,30 @@ namespace SPCMeasurement
             ShowMsg("");
             try
             {
-                if (!ValidFilter())
+                string FactoryCode = cboFactory.SelectedValue + "";
+                string ItemType = cboType.SelectedValue + "";
+                string LineCode = cboLine.SelectedValue + "";
+                string ItemCheck = cboItemCheck.SelectedValue + "";
+                string ProcessGroup = cboProcessGroup.SelectedValue + "";
+                string ProcessCode = cboProcess.SelectedValue + "";
+                string LineGroup = cboLineGroup.SelectedValue + "";
+                string ShiftCode = cboShift.SelectedValue + "";
+                string SeqNo = cboSeq.SelectedValue + "";
+                if(SeqNo == "")
+                {
+                    SeqNo = "0";
+                }
+                string ProdDate = dtProd.Value.ToString("yyyy-MM-dd");
+                string RegNo = "";
+                if (cboReg.SelectedValue != null)
+                {
+                    RegNo = cboReg.SelectedValue.ToString();
+                }
+                if (FactoryCode == "" | ProcessGroup == "" | LineGroup == "" | ProcessCode == "" | LineCode == "" | ItemType == "" | ItemCheck == "" | ShiftCode == "" | SeqNo == "" | SeqNo == "0")
                 {
                     return false;
                 }
-                string FactoryCode = cboFactory.SelectedValue.ToString();
-                string ItemType = cboType.SelectedValue.ToString();
-                string LineCode = cboLine.SelectedValue.ToString();
-                string ItemCheck = cboItemCheck.SelectedValue.ToString();
-                string ProcessGroup = cboProcessGroup.SelectedValue.ToString();
-                string ProcessCode = cboProcess.SelectedValue.ToString();
-                string LineGroup = cboLineGroup.SelectedValue.ToString();
-                string ShiftCode = cboShift.SelectedValue.ToString();
-                string SeqNo = cboSeq.SelectedValue.ToString();
-                string RegNo = "";
-                if(cboReg.SelectedValue != null)
-                {
-                    RegNo = cboReg.SelectedValue.ToString();
-                }                
-                List<clsSPCResultDetail> result = clsSPCResultDetailDB.GetList(cboFactory.SelectedValue.ToString(), cboType.SelectedValue.ToString(), cboLine.SelectedValue.ToString(), cboItemCheck.SelectedValue.ToString(), dtProd.Value.ToString("yyyy-MM-dd"), cboShift.SelectedValue.ToString(), Convert.ToInt32(cboSeq.SelectedValue), 0, RegNo);
+                List<clsSPCResultDetail> result = clsSPCResultDetailDB.GetList(FactoryCode, ItemType, LineCode, ItemCheck, ProdDate, ShiftCode, Convert.ToInt32(SeqNo), 0, RegNo);
                 grid.DataSource = result;
                 grid.Row = grid.Rows.Count - 1;
                 grid.ShowCell(grid.Rows.Count - 1, 0);
@@ -599,8 +611,17 @@ namespace SPCMeasurement
                 if (Measure2nd == "1" & grid.Rows.Count == grid.Rows.Fixed)
                 {
                     opt1.Checked = true;
-                }                
+                }
                 SaveCache(FactoryCode, ProcessGroup, LineGroup, ProcessCode, LineCode, ItemType, ItemCheck, ShiftCode, SeqNo, RegNo);
+                if (result.Count > 0)
+                {
+                    clsSPCResultDetail detail = result[0];
+                    ShowComplete(detail.SPCResultID);
+                }
+                else
+                {
+                    lblComplete.Text = "";
+                }
                 return true;
             }
             catch (Exception ex)
@@ -615,7 +636,11 @@ namespace SPCMeasurement
         private void btnSearch_Click(object sender, EventArgs e)
         {
             ShowMsg("");
-            if(!ValidInput())
+            if (!ValidFilter())
+            {
+                return;
+            }
+            if (!ValidInput())
             {                
                 return;
             }
@@ -624,6 +649,11 @@ namespace SPCMeasurement
 
         private void SaveCache(string FactoryCode, string ProcessGroup, string LineGroup, string ProcessCode, string LineCode, string ItemType, string ItemCheck, string ShiftCode, string SeqNo, string RegNo)
         {
+            if(FactoryCode == "" | ProcessGroup == "" | LineGroup == "" | ProcessCode == "" | LineCode == "" | ItemType == "" | ItemCheck == "" | ShiftCode == "" | SeqNo == "" | SeqNo == "0")
+            {
+                return;
+            }
+
             Microsoft.Win32.RegistryKey key;
             key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("SPCMeasurement");
             key.SetValue("UserID", UserID);
@@ -895,7 +925,7 @@ namespace SPCMeasurement
                 if (result == DialogResult.Yes)
                 {
                     int SPCResultID = Convert.ToInt32(grid[1, "SPCResultID"]);
-                    clsSPCResultDetailDB.Delete(SPCResultID, Measure2nd);
+                    clsSPCResultDetailDB.Delete(SPCResultID);
                     RefreshData();
                 }
             }      
@@ -1007,6 +1037,7 @@ namespace SPCMeasurement
             grid.Row = grid.Rows.Count - 1;
             grid.ShowCell(grid.Rows.Count - 1, 0);
             SetRowColor();
+            ShowComplete(detail.SPCResultID);
         }
 
         private void btnConfig_Click(object sender, EventArgs e)
@@ -1094,7 +1125,8 @@ namespace SPCMeasurement
                     ShowMsg("Port is closed", true);
                     return;
                 }
-                ComPort.Write("QX\r\n");
+                //ComPort.Write("QX\r\n");
+                ComPort.Write(ls_Command + "\r\n");
             }
             catch (Exception ex )
             {
@@ -1110,6 +1142,27 @@ namespace SPCMeasurement
         private bool SPCDetailExists()
         {
             return grid.Rows.Count > grid.Rows.Fixed;
+        }
+
+        private void lblComplete_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblComplete_TextChanged(object sender, EventArgs e)
+        {
+            if(lblComplete.Text.ToLower().StartsWith("complete"))
+            {
+                lblComplete.BackColor = Color.LimeGreen;
+                lblComplete.Visible = true;
+            } else if (lblComplete.Text.ToLower().StartsWith("incomplete"))
+            {
+                lblComplete.BackColor = Color.Orange;
+                lblComplete.Visible = true;
+            } else if (lblComplete.Text == "")
+            {
+                lblComplete.Visible = false;
+            }
         }
 
         private void btnGetValue_Click(object sender, EventArgs e)
@@ -1156,15 +1209,56 @@ namespace SPCMeasurement
 
         }
 
+        private void btnClearValue2_Click(object sender, EventArgs e)
+        {
+            ShowMsg("");
+            if (grid.Rows.Count > grid.Rows.Fixed)
+            {
+                DialogResult result = MessageBox.Show("Are you sure you want to clear all value 2?", "Clear Value 2", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    int SPCResultID = Convert.ToInt32(grid[1, "SPCResultID"]);
+                    clsSPCResultDetailDB.ClearValue2(SPCResultID);
+                    RefreshData();
+                }
+            }
+            else
+            {
+                ShowMsg("No data to delete", true);
+            }
+        }
+
+        private void pnlValue_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pnlValue_VisibleChanged(object sender, EventArgs e)
+        {
+            if(pnlValue.Visible == false)
+            {
+                btnClearValue2.Visible = false;
+            } else
+            {
+                btnClearValue2.Visible = btnClear.Visible;
+            }
+        }
+
         private void frmMeasurement_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.KeyCode == Keys.F2 & e.Shift)
             {
                 e.Handled = true;
-                lblArg.Visible = !lblArg.Visible;
                 btnSave.Visible = !btnSave.Visible;
                 btnClear.Visible = !btnClear.Visible;
-                btnConfig.Visible = !btnConfig.Visible;
+                if(pnlValue.Visible)
+                {
+                    btnClearValue2.Visible = !btnClearValue2.Visible;
+                } else
+                {
+                    btnClearValue2.Visible = false;
+                }
+                
                 grid.Cols["SPCResultID"].Visible = !grid.Cols["SPCResultID"].Visible;
             } 
             else if(e.KeyCode == Keys.F1)
@@ -1245,10 +1339,12 @@ namespace SPCMeasurement
             ls_COM_DataBits = cboReg.GetItemText(r, "DataBits");
             ls_COM_StopBits = cboReg.GetItemText(r, "StopBits");
             ls_COM_GetResultData = cboReg.GetItemText(r, "GetResultData");
+            ls_COM_FlowControl = cboReg.GetItemText(r, "FlowControl");
             ls_Command  = cboReg.GetItemText(r, "Command");            
             int.TryParse(ls_COM_GetResultData, out getResultData);
 
             ls_COM_RTSEnable = cboReg.GetItemText(r, "EnableRTS");
+            ls_COM_DTREnable = cboReg.GetItemText(r, "EnableDTR");
 
             if (ls_COM_Port.Trim() == USBPort )
             {
@@ -1266,8 +1362,26 @@ namespace SPCMeasurement
                 ComPort.DataBits = int.Parse(ls_COM_DataBits);        //convert Text to Integer
                 ComPort.StopBits = (StopBits)Enum.Parse(typeof(StopBits), ls_COM_StopBits);  //convert Text to stop bits
                 ComPort.RtsEnable = ls_COM_RTSEnable == "1";
-                ComPort.NewLine = "\n";                
-                try 
+                ComPort.DtrEnable = ls_COM_DTREnable == "1";
+                ComPort.NewLine = "\n";
+                if(ls_COM_FlowControl == "1")
+                {
+                    ComPort.Handshake = Handshake.XOnXOff;
+                } 
+                else if (ls_COM_FlowControl == "2")
+                {
+                    ComPort.Handshake = Handshake.RequestToSend;
+                }
+                else if (ls_COM_FlowControl == "3")
+                {
+                    ComPort.Handshake = Handshake.RequestToSendXOnXOff;
+                } 
+                else
+                {
+                    ComPort.Handshake = Handshake.None;
+                }
+
+                    try 
                 {
                     ComPort.Open();
                     ComPort.DataReceived += SerialPortDataReceivedPassive;  //Check for received data. When there is data in the receive buffer,
@@ -1314,6 +1428,42 @@ namespace SPCMeasurement
                 btnStart.Enabled = false;
                 btnStop.Enabled = true;
 
+            }
+        }
+
+        private void ShowCompleteThread(int SPCResultID)
+        {
+            lblComplete.Invoke(new EventHandler(delegate
+            {
+                clsSPCResultSample result = clsSPCResultDB.GetSampleSize(SPCResultID);
+                if (result == null)
+                {
+                    lblComplete.Text = "";
+                } else if (result.Remaining > 0)
+                {
+                    lblComplete.Text = "Incomplete: " + result.Remaining.ToString() + " remaining";
+                }
+                else
+                {
+                    lblComplete.Text = "Complete";
+                }
+            }));
+        }
+
+        private void ShowComplete(int SPCResultID)
+        {
+            clsSPCResultSample result = clsSPCResultDB.GetSampleSize(SPCResultID);
+            if (result == null)
+            {
+                lblComplete.Text = "";
+            }
+            else if (result.Remaining > 0)
+            {
+                lblComplete.Text = "Incomplete: " + result.Remaining.ToString() + " remaining";
+            }
+            else
+            {
+                lblComplete.Text = "Complete";
             }
         }
 
@@ -1397,6 +1547,7 @@ namespace SPCMeasurement
                 grid.Row = grid.Rows.Count - 1;
                 grid.ShowCell(grid.Rows.Count - 1, 0);
                 SetRowColor();
+                ShowCompleteThread(result.SPCResultID);
             }));
         }
 
@@ -1645,6 +1796,7 @@ namespace SPCMeasurement
         private void Form1_Load(object sender, EventArgs e)
         {
             IsInit = true;
+            lblComplete.Text = "";
             this.Text = "SPC Measurement ver " + Application.ProductVersion;
             ShowMsg("");
             txtScale.ReadOnly = true;

@@ -33,7 +33,7 @@ namespace SPCMeasurement
                 string q;
                 q = "select D.RegistrationNo, D.Description, \n" +
                     "D.BaudRate, D.DataBits, Case D.Parity when '0' then 'None' when '1' then 'Even' when '2' then 'Odd' else 'Both' end Parity, \n" +
-                    "D.StopBits, D.StableCondition, D.GetResultData, D.Port, isnull(D.EnableRts, '0') EnableRTS, isnull(D.Command, '') Command " +
+                    "D.StopBits, D.StableCondition, D.GetResultData, D.Port, isnull(D.EnableRts, '0') EnableRTS, isnull(D.Command, '') Command, isnull(FlowControl, '') FlowControl, isnull(D.EnableDTR, '0') EnableDTR " +
                     "from spc_MS_Device D inner join spc_ItemCheckByType I on D.RegistrationNo = I.RegistrationNo and D.FactoryCode = I.FactoryCode  " +
                     "where D.FactoryCode = @FactoryCode and I.ItemTypeCode = @ItemTypeCode and I.LineCode = @LineCode and I.ItemCheckCode = @ItemCheckCode and D.ActiveStatus = '1'";
 

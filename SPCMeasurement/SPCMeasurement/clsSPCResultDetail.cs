@@ -55,28 +55,30 @@ namespace SPCMeasurement
             }
         }
 
-        public static int Delete(int SPCResultID, string Measure2nd = "")
+        public static int Delete(int SPCResultID)
         {
             using (SqlConnection con = new SqlConnection(constr))
             {
                 con.Open();
                 string q;
-                //if (Measure2nd == "1")
-                //{
-                //    q = "Delete spc_Result \n" +
-                //        "from spc_Result R inner join spc_ResultTemp T \n" +
-                //        "on T.FactoryCode = R.FactoryCode and T.ItemTypeCode = R.ItemTypeCode and T.LineCode = R.LineCode and T.ItemCheckCode = R.ItemCheckCode \n" +
-                //        "and T.ProdDate = R.ProdDate and T.ShiftCode = R.ShiftCode and T.SequenceNo = R.SequenceNo \n" +
-                //        "where T.SPCResultID = @SPCResultID	\n\n" +
-                //        "Delete spc_ResultDetailTemp where SPCResultID = @SPCResultID \n\n" +
-                //        "Delete spc_ResultTemp where SPCResultID = @SPCResultID \n\n";
-                //} else
-                //{
-                //    q = "Delete spc_ResultDetail where SPCResultID = @SPCResultID\n" +
-                //        "Delete spc_Result where SPCResultID = @SPCResultID\n";
-                //}
                 q = "Delete spc_ResultDetail where SPCResultID = @SPCResultID\n" +
                     "Delete spc_Result where SPCResultID = @SPCResultID\n";
+                SqlCommand cmd = new SqlCommand(q, con);
+                cmd.Parameters.AddWithValue("SPCResultID", SPCResultID);
+                int i = cmd.ExecuteNonQuery();
+                cmd.Dispose();
+                return i;
+            }
+        }
+
+        public static int ClearValue2(int SPCResultID)
+        {
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                con.Open();
+                string q;
+                q = "Update spc_ResultDetail set Value = 0 where SPCResultID = @SPCResultID and Value2 is not Null \n" +
+                    "Update spc_ResultDetail set Value2 = NULL where SPCResultID = @SPCResultID and Value2 is not Null ";
                 SqlCommand cmd = new SqlCommand(q, con);
                 cmd.Parameters.AddWithValue("SPCResultID", SPCResultID);
                 int i = cmd.ExecuteNonQuery();
@@ -90,7 +92,8 @@ namespace SPCMeasurement
             using (SqlConnection con = new SqlConnection(constr))
             {
                 con.Open();
-                string q = "select count(*) from spc_ResultDetail where SPCResultID = @SPCResultID and Value1 is not Null and Value2 is Null";
+                string q = "select count(*) from spc_ResultDetail \n" +
+                    "where SPCResultID = @SPCResultID and Value1 is not Null and Value2 is Null";
                 SqlCommand cmd = new SqlCommand(q, con);
                 cmd.Parameters.AddWithValue("SPCResultID", SPCResultID);
                 int i = Convert.ToInt32(cmd.ExecuteScalar());
