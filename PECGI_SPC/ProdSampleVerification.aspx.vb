@@ -1328,6 +1328,9 @@ Public Class ProdSampleVerification
         Dim dt As New DataTable
         Dim cls As New clsProdSampleVerification
         cls.FactoryCode = Request.QueryString("FactoryCode")
+        cls.ProcessGroup = ""
+        cls.LineGroup = ""
+        cls.ProcessCode = ""
         cls.LineCode = Request.QueryString("Line")
         cls.ItemType_Code = Request.QueryString("ItemTypeCode")
         cls.ItemCheck_Code = Request.QueryString("ItemCheckCode")
@@ -1337,7 +1340,8 @@ Public Class ProdSampleVerification
         cls.ShowVerify = Request.QueryString("ShowVerify")
         cls.User = pUser
 
-        dt = clsProdSampleVerificationDB.GetFilterCombo(GetFilter, cls)
+        dt = clsProdSampleVerificationDB.FillCombo(GetFilter, cls)
+        'dt = clsProdSampleVerificationDB.GetFilterCombo(GetFilter, cls)
         prmFactoryCode = dt.Rows(0)("FactoryCode").ToString
         prmProcessGroup = dt.Rows(0)("ProcessGroup").ToString
         prmLineGroup = dt.Rows(0)("LineGroup").ToString
@@ -1747,59 +1751,59 @@ Public Class ProdSampleVerification
                 '-----ADD DATA CELL-------
                 irow = irow + 1
                 .Cells(irow, icolbd).Value = USL
-                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.0000"
                 icolbd = icolbd + 1
 
                 .Cells(irow, icolbd).Value = LSL
-                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.0000"
                 icolbd = icolbd + 1
 
                 .Cells(irow, icolbd).Value = UCL
-                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.0000"
                 icolbd = icolbd + 1
 
                 .Cells(irow, icolbd).Value = CL
-                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.0000"
                 icolbd = icolbd + 1
 
                 .Cells(irow, icolbd).Value = LCL
-                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.0000"
                 icolbd = icolbd + 1
 
                 If CS = "1" Then
                     .Cells(irow, icolbd).Value = XBarUCL
-                    .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                    .Cells(irow, icolbd).Style.Numberformat.Format = "####0.0000"
                     icolbd = icolbd + 1
 
                     .Cells(irow, icolbd).Value = XBarLCL
-                    .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                    .Cells(irow, icolbd).Style.Numberformat.Format = "####0.0000"
                     icolbd = icolbd + 1
                 End If
 
                 .Cells(irow, icolbd).Value = R
-                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.0000"
                 icolbd = icolbd + 1
 
                 .Cells(irow, icolbd).Value = MIN
-                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.0000"
                 .Cells(irow, icolbd).Style.Fill.PatternType = ExcelFillStyle.Solid
                 .Cells(irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(MINClr))
                 icolbd = icolbd + 1
 
                 .Cells(irow, icolbd).Value = MAX
-                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.0000"
                 .Cells(irow, icolbd).Style.Fill.PatternType = ExcelFillStyle.Solid
                 .Cells(irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(MAXClr))
                 icolbd = icolbd + 1
 
                 .Cells(irow, icolbd).Value = AVG
-                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.0000"
                 .Cells(irow, icolbd).Style.Fill.PatternType = ExcelFillStyle.Solid
                 .Cells(irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(AVGClr))
                 icolbd = icolbd + 1
 
                 .Cells(irow, icolbd).Value = R
-                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.000"
+                .Cells(irow, icolbd).Style.Numberformat.Format = "####0.0000"
                 .Cells(irow, icolbd).Style.Fill.PatternType = ExcelFillStyle.Solid
                 .Cells(irow, icolbd).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(RClr))
                 icolbd = icolbd + 1

@@ -727,25 +727,25 @@ Public Class ProductionSampleVerificationList
 
                             .Cells(irow, 5).Value = dt.Rows(i)("nMin")
                             .Cells(irow, 5).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
-                            .Cells(irow, 5).Style.Numberformat.Format = "####0.000"
+                            .Cells(irow, 5).Style.Numberformat.Format = "####0.0000"
                             .Cells(irow, 5).Style.Fill.PatternType = ExcelFillStyle.Solid
                             .Cells(irow, 5).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(dt.Rows(i)("nMinColor")))
 
                             .Cells(irow, 6).Value = dt.Rows(i)("nMax")
                             .Cells(irow, 6).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
-                            .Cells(irow, 6).Style.Numberformat.Format = "####0.000"
+                            .Cells(irow, 6).Style.Numberformat.Format = "####0.0000"
                             .Cells(irow, 6).Style.Fill.PatternType = ExcelFillStyle.Solid
                             .Cells(irow, 6).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(dt.Rows(i)("nMaxColor")))
 
                             .Cells(irow, 7).Value = dt.Rows(i)("nAvg")
                             .Cells(irow, 7).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
-                            .Cells(irow, 7).Style.Numberformat.Format = "####0.000"
+                            .Cells(irow, 7).Style.Numberformat.Format = "####0.0000"
                             .Cells(irow, 7).Style.Fill.PatternType = ExcelFillStyle.Solid
                             .Cells(irow, 7).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(dt.Rows(i)("nAvgColor")))
 
                             .Cells(irow, 8).Value = dt.Rows(i)("nR")
                             .Cells(irow, 8).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
-                            .Cells(irow, 8).Style.Numberformat.Format = "####0.000"
+                            .Cells(irow, 8).Style.Numberformat.Format = "####0.0000"
                             .Cells(irow, 8).Style.Fill.PatternType = ExcelFillStyle.Solid
                             .Cells(irow, 8).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(dt.Rows(i)("nRColor")))
 
