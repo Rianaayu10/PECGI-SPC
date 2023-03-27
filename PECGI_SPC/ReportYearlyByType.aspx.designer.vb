@@ -176,6 +176,15 @@ Partial Public Class ReportYearlyByType
     Protected WithEvents btnClear As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
+    '''btnExcel control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnExcel As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
     '''cb control.
     '''</summary>
     '''<remarks>
@@ -192,6 +201,15 @@ Partial Public Class ReportYearlyByType
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents HideValue As Global.DevExpress.Web.ASPxHiddenField
+
+    '''<summary>
+    '''Image control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents Image As Global.DevExpress.Web.ASPxImage
 
     '''<summary>
     '''Master property.

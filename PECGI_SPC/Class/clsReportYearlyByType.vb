@@ -18,20 +18,6 @@ Public Class clsReportYearlyByType
     Public Property QtyFTA_DetailPercentage As String
     Public Property val As Object
 
-    Public Property V1 As String
-    Public Property V2 As String
-    Public Property V3 As String
-    Public Property V4 As String
-    Public Property V5 As String
-    Public Property V6 As String
-    Public Property V7 As String
-    Public Property V8 As String
-    Public Property V9 As String
-    Public Property V10 As String
-    Public Property V11 As String
-    Public Property V12 As String
-
-
     Public Shared Function FillCombo(ComboType As String, data As clsFillCombo) As DataTable
         Try
             Using cn As New SqlConnection(Sconn.Stringkoneksi)
@@ -128,5 +114,66 @@ Public Class clsReportYearlyByType
         End Try
     End Function
 
+    Public Shared Function ChartLineDetail(data As clsReportYearlyByType) As List(Of clsReportYearlyByType_ChartLineDetail)
+        Try
+            Using conn As New SqlConnection(Sconn.Stringkoneksi)
+                conn.Open()
+                Dim sql As String = ""
+                sql = "sp_spc_FTA_ReportYearlyByType_ChartLineDetail"
+                Dim cmd As New SqlCommand(sql, conn)
 
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Parameters.AddWithValue("User", If(data.UserID, ""))
+                cmd.Parameters.AddWithValue("LineGroup", If(data.LineGroup, ""))
+                cmd.Parameters.AddWithValue("ProcessCode", If(data.ProcessCode, ""))
+                cmd.Parameters.AddWithValue("LineCode", If(data.LineCode, ""))
+                cmd.Parameters.AddWithValue("Periode", If(data.Periode, ""))
+                cmd.Parameters.AddWithValue("QtyFTA", If(data.QtyFTA, ""))
+                Dim da As New SqlDataAdapter(cmd)
+                Dim dt As New DataTable
+                da.Fill(dt)
+
+                If dt.Rows.Count > 0 Then
+                    Dim ChartLine As New List(Of clsReportYearlyByType_ChartLineDetail)()
+                    For i As Integer = 0 To dt.Rows.Count - 1
+                        ChartLine.Add(
+                        New clsReportYearlyByType_ChartLineDetail() With {
+                        .LABELNAME = dt.Rows(i)("LABELNAME"),
+                        .DATAVAL = dt.Rows(i)("QtyFTA_Detail"),
+                        .DATAVAL2 = dt.Rows(i)("Percentage"),
+                        .AXISVAL = Trim(dt.Rows(i)("No")),
+                        .AXISVAL2 = Trim(dt.Rows(i)("NoofLine")),
+                        .AXISNAME = Trim(dt.Rows(i)("ItemCheckName"))
+                        })
+                    Next
+
+                    Return ChartLine
+                Else
+                    Return Nothing
+                End If
+            End Using
+        Catch ex As Exception
+            Throw New Exception("Query Error! " & ex.Message)
+        End Try
+    End Function
+
+
+End Class
+
+Public Class clsReportYearlyByType_ChartLineDetail
+    Public Property LABELNAME As String
+    Public Property DATAVAL As String
+    Public Property DATAVAL2 As String
+    Public Property AXISVAL As String
+    Public Property AXISVAL2 As String
+    Public Property AXISNAME As String
+End Class
+
+Public Class clsReportYearlyByType_ChartLineSetting
+    Public Property data As String
+    Public Property xaxisTicks As String
+    Public Property Min As String
+    Public Property Max As String
+    Public Property Median As String
+    Public Property Length As String
 End Class

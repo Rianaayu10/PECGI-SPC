@@ -20,6 +20,7 @@
             var today = new Date();
             dtFromDate.SetDate(today);
             dtToDate.SetDate(today);
+            btnExcel.SetEnabled(false);
         }
 
         function ChangeFactory() {
@@ -97,7 +98,7 @@
                 toastr.warning("To Date can not less then From Date !", 'Warning', { timeOut: 3000, closeButton: true });
             } else if (nMonth > 12) {
                 toastr.warning("Periode can not more than 12 period !", 'Warning', { timeOut: 3000, closeButton: true });
-            }else {
+            } else {
                 tableLineGroup(User, FactoryCode, ProcessGroup, LineGroup, ProcessCode, LineCode, ItemType, ProdDate_From, ProdDate_To);
             }
         }
@@ -142,7 +143,8 @@
                 dataType: "json",
                 success: function (result) {
                     if (result.d.Message == "Success") {
-                        Clear();
+                        $('#tableLineGroup tr th').remove();
+                        $('#tableLineGroup tr td').remove();
                         LoadHeader();
                         chartLineGroup(User, FactoryCode, ProcessGroup, LineGroup, ProcessCode, LineCode, ItemType, ProdDate_From, ProdDate_To);
                         Object.values(result.d.Contents).forEach(LineGroupContent);
@@ -159,20 +161,28 @@
         function tableLineDetail(User, LineGroup, LineGroupName, Periode, Qty) {
             var ProcessCode = HideValue.Get("ProcessCode");
             var LineCode = HideValue.Get("LineCode");
+
+            /*Save data to hide value for using generate excel data*/
+            HideValue.Set("sUser", User);
+            HideValue.Set("sLineGroup", LineGroup);
+            HideValue.Set("sProcessCode", ProcessCode);
+            HideValue.Set("sLineCode", LineCode);
+            HideValue.Set("sPeriode", Periode);
+            HideValue.Set("sQty", Qty);
+
             nRow = 1;
             $('#tableLineDetail tr td').remove();
             $.ajax({
                 url: 'ReportYearlyByType.aspx/LoadDetail',
                 type: 'POST',
-                data: '{ User : "' + User + '", ProcessCode :"' + ProcessCode +'", LineCode :"' + LineCode +'", LineGroup : "' + LineGroup + '",  Periode : "' + Periode + '", Qty : "' + Qty + '" }',
+                data: '{ User : "' + User + '", ProcessCode :"' + ProcessCode + '", LineCode :"' + LineCode + '", LineGroup : "' + LineGroup + '",  Periode : "' + Periode + '", Qty : "' + Qty + '" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (result) {
                     if (result.d.Message == "Success") {
                         if (result.d.Contents != "") {
+                          /*  btnExcel.SetEnabled(true);*/
                             Object.values(result.d.Contents).forEach(LineDetailContent);
-                            var DS = result.d.Contents;
-                            chartLineDetail(DS, LineGroupName, Qty, Periode)
                         }
                     } else {
                         toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
@@ -182,6 +192,8 @@
                     toastr.error(ex.Message, 'Failed', { timeOut: 3000, "closeButton": true });
                 }
             });
+
+            chartLineDetail(User, LineGroup, LineGroupName, Periode, Qty)
         }
 
 
@@ -191,12 +203,15 @@
 
             let length = dt.length;
             for (let i = 0; i <= length - 1; i++) {
-                if (i <= 1) {
+                if (i == 0) {
                     row.insertCell(i).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i] + '</td>'
+                }
+                else if (i == 1) {
+                    row.insertCell(i).outerHTML = '<td style="text-align: left; background-color: white; font-weight: 100;">' + dt[i] + '</td>'
                 } else {
-                    if(dt[i].split('|')[4] == "0"){
+                    if (dt[i].split('|')[4] == "0") {
                         row.insertCell(i).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i].split('|')[4] + '</td>'
-                    }else {
+                    } else {
                         row.insertCell(i).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + '<a href="javascript:void(0)" onclick="return tableLineDetail(\'' + dt[i].split("|")[0] + '\', \'' + dt[i].split("|")[1] + '\', \'' + dt[i].split("|")[2] + '\',\'' + dt[i].split("|")[3] + '\',\'' + dt[i].split("|")[4] + '\')" >' + '<div>' + dt[i].split('|')[4] + '</div>' + '</a>' + '</td>'
                     }
                 }
@@ -211,7 +226,9 @@
             let length = dt.length;
             for (let i = 0; i <= length - 1; i++) {
 
-                if (i == 3) {
+                if (i == 1) {
+                    row.insertCell(i).outerHTML = '<td style="text-align: left; background-color: white; font-weight: 100;">' + dt[i] + '</td>'
+                } else if (i == 3) {
                     row.insertCell(i).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i] + '%' + '</td>'
                 } else {
                     row.insertCell(i).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i] + '</td>'
@@ -231,17 +248,18 @@
                 success: function (result) {
                     if (result.d.Message == "Success") {
                         if (result.d.Contents != "") {
+
                             const DS = result.d.Contents
                             var periode = ''
                             var startPeriod = ProdDate_To.split("-")[0];
                             var endPeriod = ProdDate_From.split("-")[0];
                             var ItemTypeName = cboItemType.GetText();
 
-                            if ((parseInt(startPeriod, 10) - parseInt(endPeriod, 10)) > 0 ){
+                            if ((parseInt(startPeriod, 10) - parseInt(endPeriod, 10)) > 0) {
                                 periode = endPeriod + "/" + startPeriod
                             } else {
                                 periode = startPeriod
-                            }                                               
+                            }
 
                             var display1 = [];
                             var n = 0;
@@ -278,6 +296,9 @@
                                 t = t + 1;
                             }
 
+                            document.getElementById('lblTitleChart').innerHTML = 'Resume FTA SPC ' + periode;
+                            document.getElementById('lblSubTitleChart').innerHTML = '( ' + ItemTypeName + ' )';
+
                             $('#chart').dxChart({
                                 palette: 'Pastel',
                                 dataSource: display1,
@@ -294,16 +315,8 @@
                                 valueAxis: {
                                     position: 'left',
                                 },
-                                title: {
-                                    display: true,
-                                    text: 'Resume FTA SPC ' + ItemTypeName + " " + periode,
-                                    font: {
-                                        size: 18,
-                                        weight: '600',
-                                    }
-                                },
                                 export: {
-                                    enabled: true,
+                                    enabled: false,
                                 },
                                 tooltip: {
                                     enabled: true,
@@ -328,135 +341,197 @@
 
         }
 
-        function chartLineDetail(DS, LineGroupName, Qty, Periode) {
 
-            var complaintsData = [];
-            $.each(DS, function (dt) {
-                var display2 = {};
-                display2["complaint"] = DS[dt][1];
-                display2["count"] = parseInt(DS[dt][2], 10);
+        function chartLineDetail(User, LineGroup, LineGroupName, Periode, Qty) {
+            var ProcessCode = HideValue.Get("ProcessCode");
+            var LineCode = HideValue.Get("LineCode");
+            $.ajax({
+                url: 'ReportYearlyByType.aspx/ChartLineDetail',
+                type: 'POST',
+                data: '{ User : "' + User + '", ProcessCode :"' + ProcessCode + '", LineCode :"' + LineCode + '", LineGroup : "' + LineGroup + '",  Periode : "' + Periode + '", Qty : "' + Qty + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data, textStatus, jQxhr) { 
+                    document.getElementById('lblTitleChartDetail').innerHTML = 'Summary FTA SPC ' + Periode;
+                    document.getElementById('lblSubTitleChartDetail').innerHTML = '(' + LineGroupName + ')' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n = ' + data.d.Max;
+                    //}
+                    //if (Factory == "" && Type == "" && Line == "") {
+                    //    document.getElementById('lblDescsChartLineDetail').innerHTML = 'Period : ' + ' - ' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n = ' + data.d.Max;
+                    //}
+                    //else {
+                    //    document.getElementById('lblDescsChartLineDetail').innerHTML = 'Period : ' + dtFromDate.GetText() + ' - ' + dtToDate.GetText() + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n = ' + data.d.Max;
+                    //}
 
-                complaintsData.push(display2);
-            });
-            //console.log(complaintsData);
 
-            //const complaintsData = [
-            //    //{ complaint: 'Cold pizza', count: 5 },
-            //    //{ complaint: 'Not enough cheese', count: 1 },
-            //    //{ complaint: 'Underbaked or Overbaked', count: 1 },
-            //    //{ complaint: 'Delayed delivery', count: 1 },
-            //    //{ complaint: 'Damaged pizza', count: 1 },
-            //    //{ complaint: 'Incorrect billing', count: 1 },
-            //    //{ complaint: 'Wrong size delivered', count: 1 },
-            //];
-
-            const data = complaintsData.sort((a, b) => b.count - a.count);
-            const totalCount = data.reduce((prevValue, item) => prevValue + item.count, 0);
-            console.log(totalCount);
-            let cumulativeCount = 0;
-            const dataSource = data.map((item) => {
-                cumulativeCount = item.count;
-                return {
-                    complaint: item.complaint,
-                    count: item.count,
-                    cumulativePercentage: Math.round((cumulativeCount * 100) / totalCount),
-                };
-            });
-
-            $('#chartdetail').dxChart({
-                palette: 'Harmony Light',
-                dataSource,
-                title: {
-                    display: true,
-                    text: 'Summary FTA SPC ' + Periode,
-                    font: {
-                        size: 18,
-                        weight: '600',
-                    },
-                    subtitle: {
-                        text: '(' + LineGroupName+')',
-                    },
-                },
-                argumentAxis: {
-                    label: {
-                        overlappingBehavior: 'stagger',
-                    },
-                },
-                tooltip: {
-                    enabled: true,
-                    shared: true,
-                    customizeTooltip(info) {
-                        const content = ["<div><div class='tooltip-header'></div>",
-                            "<div class='tooltip-body'><div class='series-name'>",
-                            "<span class='top-series-name'></span>",
-                            ": </div><div class='value-text'>",
-                            "<span class='top-series-value'></span>",
-                            "</div><div class='series-name'>",
-                            "<span class='bottom-series-name'></span>",
-                            ": </div><div class='value-text'>",
-                            "<span class='bottom-series-value'></span>",
-                            '% </div></div></div>'].join('');
-
-                        const htmlContent = $(content);
-
-                        htmlContent.find('.tooltip-header').text(info.argumentText);
-                        htmlContent.find('.top-series-name').text(info.points[0].seriesName);
-                        htmlContent.find('.top-series-value').text(info.points[0].valueText);
-                        htmlContent.find('.bottom-series-name').text(info.points[1].seriesName);
-                        htmlContent.find('.bottom-series-value').text(info.points[1].valueText);
-
-                        return {
-                            html: $('<div>').append(htmlContent).html(),
-                        };
-                    },
-                },
-                valueAxis: [{
-                    name: 'frequency',
-                    position: 'left',
-                    tickInterval: 1,
-                }, {
-                    name: 'percentage',
-                    position: 'right',
-                    showZero: true,
-                    label: {
-                        customizeText(info) {
-                            return `${info.valueText}%`;
+                    var options = {
+                        xaxis: {
+                            axisLabelUseCanvas: true,
+                            show: true,
+                            tickLength: 0,
+                            axisLabelFontSizePixels: 12,
+                            axisLabelFontFamily: 'arial,sans-serif',
+                            axisLabelPadding: 500,
+                            ticks: eval(data.d.xaxisTicks)
                         },
-                    },
-                    tickInterval: 10,
-                    valueMarginsEnabled: false,
-                }],
-                commonSeriesSettings: {
-                    argumentField: 'complaint',
-                },
-                series: [{
-                    type: 'bar',
-                    valueField: 'count',
-                    axis: 'frequency',
-                    name: 'Complaint frequency',
-                    color: '#fa9add',
-                }, {
-                    type: 'spline',
-                    valueField: 'cumulativePercentage',
-                    axis: 'percentage',
-                    name: 'Cumulative percentage',
-                    color: '#f20000',
-                }],
-                export: {
-                    enabled: true,
-                },
-                legend: {
-                    verticalAlignment: 'bottom',
-                    horizontalAlignment: 'center',
-                    itemTextPosition: 'top',
-                },
-            });
 
+                        yaxes: [{
+                            position: 'left',
+                            max: data.d.Max,
+                            min: 0,
+                            axisLabel: 'FTA Result',
+                        }, {
+                            position: 'right',
+                            max: 100,
+                            min: 0,
+                            axisLabel: 'Percentage',
+                        }
+                        ],
+
+                        grid: {
+                            hoverable: true,
+                            clickable: true,
+                            borderWidth: 1,
+                            backgroundColor: '#FFF',
+                        }
+                    };
+                    $.plot($('#chartdetail'), eval(data.d.data), options);
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
         }
+
+        //function chartLineDetail(DS, LineGroupName, Qty, Periode) {
+
+        //    var complaintsData = [];
+        //    $.each(DS, function (dt) {
+        //        var display2 = {};
+        //        display2["complaint"] = DS[dt][1];
+        //        display2["count"] = parseInt(DS[dt][2], 10);
+
+        //        complaintsData.push(display2);
+        //    });
+        //    //console.log(complaintsData);
+
+        //    //const complaintsData = [
+        //    //    //{ complaint: 'Cold pizza', count: 5 },
+        //    //    //{ complaint: 'Not enough cheese', count: 1 },
+        //    //    //{ complaint: 'Underbaked or Overbaked', count: 1 },
+        //    //    //{ complaint: 'Delayed delivery', count: 1 },
+        //    //    //{ complaint: 'Damaged pizza', count: 1 },
+        //    //    //{ complaint: 'Incorrect billing', count: 1 },
+        //    //    //{ complaint: 'Wrong size delivered', count: 1 },
+        //    //];
+
+        //    const data = complaintsData.sort((a, b) => b.count - a.count);
+        //    const totalCount = data.reduce((prevValue, item) => prevValue + item.count, 0);
+        //    console.log(totalCount);
+        //    let cumulativeCount = 0;
+        //    const dataSource = data.map((item) => {
+        //        cumulativeCount += item.count;
+        //        return {
+        //            complaint: item.complaint,
+        //            count: item.count,
+        //            cumulativePercentage: Math.round((cumulativeCount * 100) / totalCount),
+        //        };
+        //    });
+
+        //    $('#chartdetail').dxChart({
+        //        palette: 'Harmony Light',
+        //        dataSource,
+        //        title: {
+        //            display: true,
+        //            text: 'Summary FTA SPC ' + Periode,
+        //            font: {
+        //                size: 18,
+        //                weight: '600',
+        //            },
+        //            subtitle: {
+        //                text: '(' + LineGroupName + ')',
+        //            },
+        //        },
+        //        argumentAxis: {
+        //            label: {
+        //                overlappingBehavior: 'stagger',
+        //            },
+        //        },
+        //        tooltip: {
+        //            enabled: true,
+        //            shared: true,
+        //            customizeTooltip(info) {
+        //                const content = ["<div><div class='tooltip-header'></div>",
+        //                    "<div class='tooltip-body'><div class='series-name'>",
+        //                    "<span class='top-series-name'></span>",
+        //                    ": </div><div class='value-text'>",
+        //                    "<span class='top-series-value'></span>",
+        //                    "</div><div class='series-name'>",
+        //                    "<span class='bottom-series-name'></span>",
+        //                    ": </div><div class='value-text'>",
+        //                    "<span class='bottom-series-value'></span>",
+        //                    '% </div></div></div>'].join('');
+
+        //                const htmlContent = $(content);
+
+        //                htmlContent.find('.tooltip-header').text(info.argumentText);
+        //                htmlContent.find('.top-series-name').text(info.points[0].seriesName);
+        //                htmlContent.find('.top-series-value').text(info.points[0].valueText);
+        //                htmlContent.find('.bottom-series-name').text(info.points[1].seriesName);
+        //                htmlContent.find('.bottom-series-value').text(info.points[1].valueText);
+
+        //                return {
+        //                    html: $('<div>').append(htmlContent).html(),
+        //                };
+        //            },
+        //        },
+        //        valueAxis: [{
+        //            name: 'frequency',
+        //            position: 'left',
+        //            tickInterval: 1,
+        //        }, {
+        //            name: 'percentage',
+        //            position: 'right',
+        //            showZero: true,
+        //            label: {
+        //                customizeText(info) {
+        //                    return `${info.valueText}%`;
+        //                },
+        //            },
+        //            tickInterval: 10,
+        //            valueMarginsEnabled: false,
+        //        }],
+        //        commonSeriesSettings: {
+        //            argumentField: 'complaint',
+        //        },
+        //        series: [{
+        //            type: 'bar',
+        //            valueField: 'count',
+        //            axis: 'frequency',
+        //            name: 'Complaint frequency',
+        //            color: '#fa9add',
+        //        }, {
+        //            type: 'spline',
+        //            valueField: 'cumulativePercentage',
+        //            axis: 'percentage',
+        //            name: 'Cumulative percentage',
+        //            color: '#f20000',
+        //        }],
+        //        export: {
+        //            enabled: true,
+        //        },
+        //        legend: {
+        //            verticalAlignment: 'bottom',
+        //            horizontalAlignment: 'center',
+        //            itemTextPosition: 'top',
+        //        },
+        //    });
+
+        //}
 
         function Clear() {
             $('#tableLineGroup tr th').remove();
             $('#tableLineGroup tr td').remove();
+
         }
 
         function formatDate(dateString) {
@@ -478,6 +553,43 @@
             months -= dateFrom.getMonth();
             months += dateTo.getMonth();
             return months <= 0 ? 0 : months;
+        }
+
+        function ExcelClick(s, e) {
+
+            //var dt = new Date();
+            //var year = dt.getFullYear();
+            //var month = (dt.getMonth() + 1).toString().padStart(2, "0");
+            //var day = dt.getDate().toString().padStart(2, "0");
+            //var hours = dt.getTime();
+            //var sDate = day + month + year + hours;
+            //console.log(sDate);
+            //var filename = 'chart_' + sDate;
+            //var chart = $("#chart").dxChart("instance");
+            //chart.exportTo(filename, 'PNG');
+
+
+
+            //var detfilename = 'chartdetail_' + sDate;
+            //var chart = $("#chartdetail").dxChart("instance");
+           
+
+            var chart = $("#chart").dxChart("instance");
+            chart.exportTo(detfilename, 'PNG').thenthen(function (imgData) {
+                Image.SetImageUrl(imgData);
+                /* Grid.PerformCallback('Excel' + '|' + ASPxImage1.GetImageUrl());*/
+                Image.SetVisible(false);
+                HideValue.Set("FileName", Image.GetImageUrl());
+            });
+            //chart.exporting.getImage("jpg").then(function (imgData) {
+            //   Image.SetImageUrl(imgData);
+            //   /* Grid.PerformCallback('Excel' + '|' + ASPxImage1.GetImageUrl());*/
+            //    Image.SetVisible(false);
+            //    HideValue.Set("FileName", Image.GetImageUrl());
+            //});
+
+            //HideValue.Set("FileName", filename);
+            //HideValue.Set("DetFileName", detfilename);
         }
 
         function MessageError(s, e) {
@@ -531,11 +643,8 @@
 
     <style type="text/css">
         #chart {
-            height: 400px;
-        }
-
-        #chartdetail {
-            height: 400px;
+            width: 40vw;
+            height: 50vh;
         }
 
         .txtAlignLeft {
@@ -577,10 +686,40 @@
                 width: 30px;
             }
     </style>
+
+    <style type="text/css">
+		.flot {
+			left: 0px;
+			top: 0px;
+			right: 0px;
+			bottom: 0px;
+			height:50vh;
+			width :30vw;
+        
+		}
+
+		#flotTip {
+			padding: 3px 5px;
+			background-color: #000;
+			z-index: 100;
+			color: #fff;
+			opacity: .80;
+			filter: alpha(opacity=85);
+		}
+
+		#marking {
+			z-index: 100;
+		}
+
+		.hidden {
+			display:none;
+		}
+	</style>
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
-    <div style="padding: 0px 5px 5px 5px; padding-bottom: 20px; border-bottom: groove 1px">
+    <div style="padding: 0px 5px 5px 5px; padding-bottom: 15px; border-bottom: groove 2px">
         <table>
             <tr style="height: 40px">
                 <td>
@@ -747,15 +886,23 @@
             </tr>
         </table>
     </div>
+    <div style="margin-top: 10px">
+        <dx:ASPxButton ID="btnExcel" runat="server" AutoPostBack="False" ClientInstanceName="btnExcel" Height="30px"
+            Font-Names="Segoe UI" Font-Size="9pt" Text="Excel" Theme="Office2010Silver" Width="100px">
+            <ClientSideEvents Click="ExcelClick" />
+        </dx:ASPxButton>
+    </div>
     <dx:ASPxCallback ID="cb" runat="server" ClientInstanceName="cb">
         <ClientSideEvents CallbackComplete="MessageError" />
     </dx:ASPxCallback>
     <dx:ASPxHiddenField ID="HideValue" runat="server" ClientInstanceName="HideValue"></dx:ASPxHiddenField>
+    <dx:ASPxImage ID="Image" ClientInstanceName="Image" runat="server" ShowLoadingImage="true">
+    </dx:ASPxImage>
 </asp:Content>
 
 
 <asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div style="padding: 20px 5px 5px 5px; padding-bottom: 10px;" class="widget-body">
+    <div style="padding: 0px 5px 5px 5px; padding-bottom: 10px;" class="widget-body">
         <section id="widget-grid" class="">
             <div class="row">
                 <article class="col-sm-6 col-md-6 col-lg-6">
@@ -774,7 +921,8 @@
                                         <table style="width: 100%; min-height: 250px" border="1">
                                             <tr>
                                                 <td align="center">
-                                                    <div id="chart"></div>
+                                                      <div><h3 id="lblTitleChart"></h3><p p style="margin-top:-10px" id="lblSubTitleChart"></p></div>
+                                                    <div id="chart" class="float"></div>
                                                 </td>
                                             </tr>
                                         </table>
@@ -784,7 +932,7 @@
                                     &nbsp
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-12" style="min-height:200px;">
+                                    <div class="col-xs-12" style="min-height: 200px;">
                                         <table id="tableLineGroup" class="table table-striped table-bordered table-hover row-border" style="font-family: 'Trebuchet MS'">
                                             <thead>
                                                 <tr role="row">
@@ -817,7 +965,9 @@
                                         <table style="width: 100%; min-height: 250px;" border="1">
                                             <tr>
                                                 <td align="center">
-                                                    <div id="chartdetail"></div>
+                                                    <div><h3 id="lblTitleChartDetail"></h3><p style="margin-top:-10px" id="lblSubTitleChartDetail"></p></div>
+													<div id="chartdetail" class="flot"></div>
+                                                   <%-- <div id="chartdetail" ></div>--%>
                                                 </td>
                                             </tr>
                                         </table>
@@ -827,7 +977,7 @@
                                     &nbsp
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-12"  style="min-height:200px;">
+                                    <div class="col-xs-12" style="min-height: 200px;">
                                         <table id="tableLineDetail" class="table table-striped table-bordered table-hover row-border" style="font-family: 'Trebuchet MS'">
                                             <thead>
                                                 <tr role="row">

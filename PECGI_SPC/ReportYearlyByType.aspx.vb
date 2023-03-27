@@ -6,6 +6,8 @@ Imports DevExpress.Web
 Imports DevExpress.Web.Data
 Imports System.Drawing
 Imports System.Web.Services
+Imports OfficeOpenXml
+Imports OfficeOpenXml.Style
 Public Class ReportYearlyByType
     Inherits System.Web.UI.Page
     Dim Factory_ComboType = "1"
@@ -21,6 +23,7 @@ Public Class ReportYearlyByType
                 Response.Redirect("~/Default.aspx")
             End If
             UpFillCombo()
+            Master.SiteTitle = "C040 - FTA Report Yearly By Type"
         End If
     End Sub
 
@@ -203,6 +206,10 @@ Public Class ReportYearlyByType
         End Try
     End Sub
 
+    'Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
+
+    'End Sub
+
     <System.Web.Script.Services.ScriptMethod()>
     <WebMethod()>
     Public Shared Function LoadData(User As String, FactoryCode As String, ProcessGroup As String, LineGroup As String, ProcessCode As String, LineCode As String, ItemType As String, ProdDate_From As String, ProdDate_To As String) As clsContent
@@ -339,4 +346,270 @@ Public Class ReportYearlyByType
         Return content
     End Function
 
+    <WebMethod()>
+    Public Shared Function ChartLineDetail(User As String, ProcessCode As String, LineCode As String, LineGroup As String, Periode As String, Qty As String) As clsReportYearlyByType_ChartLineSetting
+        Dim data As New clsReportYearlyByType
+        data.UserID = User
+        data.ProcessCode = ProcessCode
+        data.LineCode = LineCode
+        data.LineGroup = LineGroup
+        data.Periode = Periode
+        data.QtyFTA = Qty
+        Dim dt As List(Of clsReportYearlyByType_ChartLineDetail) = clsReportYearlyByType.ChartLineDetail(data)
+        Dim labels As Object() = dt.Select(Function(t) t.LABELNAME).Distinct.ToArray()
+        Dim message As String = "["
+        Dim axis As String = "["
+        Dim max As Integer
+
+        For i As Integer = 0 To dt.Count - 1
+            max = max + dt(i).DATAVAL
+        Next
+
+        For i As Integer = 0 To labels.Length - 1
+            message += "{'color':'#525454','data':["
+            Dim d = dt.Where(Function(x) x.LABELNAME = labels(i).ToString()).Select(Function(x) New With {Key .axisValue = x.AXISVAL, Key .dataValue = x.DATAVAL, Key .axisName = x.AXISNAME})
+
+            For Each item In d
+                message += "[" & item.axisValue & "," + item.dataValue & "],"
+
+                If i = 0 Then
+                    axis += "[" & item.axisValue & ",'" + item.axisValue & "'],"
+                End If
+            Next
+
+            message = message.Substring(0, message.Length - 1) & "], 'bars': {'show': true,  'clickable': true, 'align': 'center', 'barWidth' : 1, 'fillColor': '#fdbff9' , 'lineWidth':1 }}, { 'color':'#525454','data': [[0.5,0],"
+            Dim e = dt.Where(Function(x) x.LABELNAME = labels(i).ToString()).Select(Function(x) New With {Key .axisValue = x.AXISVAL2, Key .dataValue = x.DATAVAL2, Key .axisName = x.AXISNAME})
+
+            For Each item In e
+                message += "[" & item.axisValue & "," + item.dataValue & "],"
+            Next
+
+            message = message.Substring(0, message.Length - 1) & "],  'yaxis': 2,  'points': { 'symbol': 'circle', 'fillColor': '#5fa9f5','radius' : 1, 'show': true }, 'lines': {'show':true,'lineWidth':0.5}},"
+
+        Next
+
+        message = message.Substring(0, message.Length - 1)
+        message += "]"
+        axis = axis.Substring(0, axis.Length - 1)
+        axis += "]"
+
+
+        Dim chart As clsReportYearlyByType_ChartLineSetting = New clsReportYearlyByType_ChartLineSetting()
+        chart.data = message
+        chart.xaxisTicks = axis
+        chart.Max = max.ToString
+
+        Return chart
+    End Function
+
+    Private Sub ExcelContent(filename As String, DetFileName As String)
+        Try
+
+            Using excel As New ExcelPackage
+
+                Dim ws As ExcelWorksheet
+                ws = excel.Workbook.Worksheets.Add("C040 - FTA Report Yearly By Type")
+
+                Dim data As New clsReportYearlyByType
+                data.UserID = Session("user")
+                data.FactoryCode = cboFactory.Value
+                data.ProcessGroup = cboProcessGroup.Value
+                data.LineGroup = cboLineGroup.Value
+                data.ProcessCode = cboProcessCode.Value
+                data.LineCode = cboLineCode.Value
+                data.ItemType = cboItemType.Value
+                data.ProdDateFrom = Date.Parse(dtFromDate.Text).ToString("yyyy-MM-dd")
+                data.ProdDateTo = Date.Parse(dtToDate.Text).ToString("yyyy-MM-dd")
+
+                Dim period = DateDiff(DateInterval.Month, Date.Parse(dtFromDate.Text), Date.Parse(dtToDate.Text))
+
+                Dim dt As New DataTable
+                dt = clsReportYearlyByType.LoadData(data)
+
+                With ws
+                    Dim irow = 1
+
+                    .Cells(irow, 1).Value = "FTA Report Yearly By Type"
+                    .Cells(irow, 1).Style.Font.Size = 16
+                    .Cells(irow, 1).Style.Font.Name = "Segoe UI"
+                    irow = irow + 2
+
+                    Dim irowStart = irow
+                    .Cells(irow, 1).Value = "No"
+                    .Cells(irow, 2).Value = "Item FTA by Line Group"
+
+                    Dim nCol = 3
+                    For i = 0 To period
+                        Dim sDate = DateAdd(DateInterval.Month, i, Date.Parse(dtFromDate.Text))
+                        .Cells(irow, nCol).Value = sDate.ToString("MMM-yy")
+                        nCol = nCol + 1
+                    Next
+
+                    Dim Hdr As ExcelRange = .Cells(irowStart, 1, irowStart, nCol - 1)
+                    Hdr.Style.HorizontalAlignment = HorzAlignment.Far
+                    Hdr.Style.VerticalAlignment = VertAlignment.Center
+                    Hdr.Style.Font.Size = 10
+                    Hdr.Style.Font.Name = "Segoe UI"
+                    Hdr.Style.Font.Color.SetColor(Color.White)
+                    Hdr.Style.Fill.PatternType = ExcelFillStyle.Solid
+                    Hdr.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.DimGray)
+
+                    irow = irow + 1
+                    irowStart = irow
+
+                    For i = 1 To dt.Rows.Count - 1
+                        Try
+                            Dim n = 1
+                            For Each dc As DataColumn In dt.Columns
+                                Try
+                                    If n = 1 Then
+                                        .Cells(irow, n).Value = dt.Rows(i)(dc.ToString())
+                                        .Column(1).Width = 5
+                                    ElseIf n = 2 Then
+                                        .Cells(irow, n).Value = dt.Rows(i)(dc.ToString())
+                                        .Column(2).Width = 20
+                                    Else
+                                        .Cells(irow, n).Value = dt.Rows(i)(dc.ToString()).ToString.Split("|")(4)
+                                        .Column(n).Width = 10
+                                    End If
+
+                                    n = n + 1
+                                Catch ex As Exception
+                                    Throw New Exception(ex.Message)
+                                End Try
+                            Next
+                            irow = irow + 1
+                        Catch ex As Exception
+                            Throw New Exception(ex.Message)
+                        End Try
+                    Next
+
+                    Dim Dtl As ExcelRange = .Cells(irowStart, 1, irow - 1, nCol - 1)
+                    Dtl.Style.VerticalAlignment = VertAlignment.Center
+                    Dtl.Style.Font.Size = 10
+                    Dtl.Style.Font.Name = "Segoe UI"
+                    Dtl.Style.WrapText = True
+                    Dtl.Style.VerticalAlignment = ExcelVerticalAlignment.Center
+
+
+                    Dim Border As ExcelRange = .Cells(irowStart, 1, irow - 1, nCol - 1)
+                    Border.Style.Border.Top.Style = ExcelBorderStyle.Thin
+                    Border.Style.Border.Bottom.Style = ExcelBorderStyle.Thin
+                    Border.Style.Border.Right.Style = ExcelBorderStyle.Thin
+                    Border.Style.Border.Left.Style = ExcelBorderStyle.Thin
+
+
+                    irow = irow + 4
+                    If HideValue.Get("sProcessCode") IsNot Nothing Then
+
+                        Dim dtDet As New DataTable
+                        Dim det As New clsReportYearlyByType
+                        det.UserID = Session("user")
+                        det.ProcessCode = HideValue.Get("sProcessCode")
+                        det.LineCode = HideValue.Get("sLineCode")
+                        det.LineGroup = HideValue.Get("sLineGroup")
+                        det.Periode = HideValue.Get("sPeriode")
+                        det.QtyFTA = HideValue.Get("sQty")
+
+                        dtDet = clsReportYearlyByType.LoadDetail(det)
+
+                        irowStart = irow
+                        .Cells(irow, 1).Value = "No"
+                        .Cells(irow, 2).Value = "Item FTA by Line"
+                        .Cells(irow, 3).Value = "QtyTotal"
+                        .Cells(irow, 4).Value = "Percentage"
+
+                        Hdr = .Cells(irowStart, 1, irowStart, 4)
+                        Hdr.Style.HorizontalAlignment = HorzAlignment.Far
+                        Hdr.Style.VerticalAlignment = VertAlignment.Center
+                        Hdr.Style.Font.Size = 10
+                        Hdr.Style.Font.Name = "Segoe UI"
+                        Hdr.Style.Font.Color.SetColor(Color.White)
+                        Hdr.Style.Fill.PatternType = ExcelFillStyle.Solid
+                        Hdr.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.DimGray)
+
+                        irow = irow + 1
+                        irowStart = irow
+
+                        For i = 0 To dtDet.Rows.Count - 1
+                            Try
+                                Dim n = 1
+                                For Each dc As DataColumn In dtDet.Columns
+                                    Try
+                                        .Cells(irow, n).Value = dtDet.Rows(i)(dc.ToString())
+                                        If n = 1 Then
+                                            .Column(1).Width = 5
+                                        ElseIf n = 2 Then
+                                            .Column(2).Width = 20
+                                        Else
+                                            .Column(n).Width = 15
+                                        End If
+
+                                        n = n + 1
+                                    Catch ex As Exception
+                                        Throw New Exception(ex.Message)
+                                    End Try
+                                Next
+                                irow = irow + 1
+                            Catch ex As Exception
+                                Throw New Exception(ex.Message)
+                            End Try
+                        Next
+
+
+
+                        Dtl = .Cells(irowStart, 1, irow - 1, 4)
+                        Dtl.Style.VerticalAlignment = VertAlignment.Center
+                        Dtl.Style.Font.Size = 10
+                        Dtl.Style.Font.Name = "Segoe UI"
+                        Dtl.Style.WrapText = True
+                        Dtl.Style.VerticalAlignment = ExcelVerticalAlignment.Center
+
+
+                        Border = .Cells(irowStart, 1, irow - 1, 4)
+                        Border.Style.Border.Top.Style = ExcelBorderStyle.Thin
+                        Border.Style.Border.Bottom.Style = ExcelBorderStyle.Thin
+                        Border.Style.Border.Right.Style = ExcelBorderStyle.Thin
+                        Border.Style.Border.Left.Style = ExcelBorderStyle.Thin
+
+                    End If
+
+                    'Dim Path As String = Server.MapPath("")
+                    'Dim streamImg As New MemoryStream
+                    'Dim fi As New FileInfo(Path & "\" & filename)
+                    'Dim ImgWeb = System.IO.Directory.GetFiles("Downloads", filename & ".PNG")
+
+                    Dim PathWeb = "E:"
+                    Dim ImgWeb = System.IO.Directory.GetFiles(PathWeb & "\", "*" & filename & "*.PNG")
+
+
+
+                End With
+
+                Response.Clear()
+                Response.Buffer = True
+                Response.Charset = ""
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                Response.AddHeader("content-disposition", "attachment; filename=Report Yearly By Type_" & Format(Date.Now, "yyyy-MM-dd_HHmmss") & ".xlsx")
+                Using MyMemoryStream As New MemoryStream()
+                    excel.SaveAs(MyMemoryStream)
+                    MyMemoryStream.WriteTo(Response.OutputStream)
+                    Response.Flush()
+                    Response.End()
+                End Using
+            End Using
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+
+    'Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
+    '    System.Threading.Thread.Sleep(5000)
+    '    Dim sFileName = HideValue.Get("FileName")
+    '    'Dim DetFileName = HideValue.Get("DetFileName")
+    '    Dim FileName = "chart_240320231679643943938"
+    '    Dim DetFileName = "chart_240320231679643943938"
+    '    ExcelContent(FileName, DetFileName)
+    'End Sub
 End Class
