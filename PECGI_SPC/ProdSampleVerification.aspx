@@ -116,11 +116,13 @@
                 btnSPCSample.SetEnabled(true);
                 btnIOTProcess.SetEnabled(true);
                 btnIOTTraceability.SetEnabled(true);
+                btnCorrectiveAction.SetEnabled(true);
             } else {
                 btnExcel.SetEnabled(false);
                 btnSPCSample.SetEnabled(false);
                 btnIOTProcess.SetEnabled(false);
                 btnIOTTraceability.SetEnabled(false);
+                btnCorrectiveAction.SetEnabled(false);
             }
 
             if (s.cp_message != "" && s.cp_val == 1) {
@@ -340,11 +342,13 @@
                 btnSPCSample.SetEnabled(true);
                 btnIOTProcess.SetEnabled(true);
                 btnIOTTraceability.SetEnabled(true);
+                btnCorrectiveAction.SetEnabled(true);
             } else {
                 btnExcel.SetEnabled(false);
                 btnSPCSample.SetEnabled(false);
                 btnIOTProcess.SetEnabled(false);
                 btnIOTTraceability.SetEnabled(false);
+                btnCorrectiveAction.SetEnabled(false);
             }
 
             if (s.cp_message != "" && s.cp_val == 1) {
@@ -530,6 +534,21 @@
 
             /*console.log(ProdDate);*/
             window.open('ProdSampleInput.aspx?menu=prodSampleVerification.aspx' + '&FactoryCode=' + Factory + '&ItemTypeCode=' + ItemType
+                + '&Line=' + Line + '&ItemCheckCode=' + ItemCheck + '&ProdDate=' + ProdDate + '&Shift=' + Shift + '&Sequence=' + Seq
+                + '', '_blank');
+        }
+
+        function CorrectiveAction() {
+            var Factory = HideValue.Get('FactoryCode');
+            var ItemType = HideValue.Get('ItemType_Code');
+            var Line = HideValue.Get('LineCode');
+            var ItemCheck = HideValue.Get('ItemCheck_Code');
+            var ProdDate = HideValue.Get('ProdDate');
+            var Shift = HideValue.Get('ShiftCode');
+            var Seq = HideValue.Get('Seq');
+
+            /*console.log(ProdDate);*/
+            window.open('FTACorrectiveAction.aspx?FactoryCode=' + Factory + '&ItemTypeCode=' + ItemType
                 + '&Line=' + Line + '&ItemCheckCode=' + ItemCheck + '&ProdDate=' + ProdDate + '&Shift=' + Shift + '&Sequence=' + Seq
                 + '', '_blank');
         }
@@ -830,40 +849,55 @@
     <div style="padding: 5px 5px 5px 5px; padding-top: 10px; padding-bottom: 5px">
         <table style="width: 100%">
             <tr>
-                <td style="width: 100px">
-                    <dx:ASPxButton ID="btnVerification" runat="server" AutoPostBack="False" ClientInstanceName="btnVerification" Height="40px"
-                        Font-Names="Segoe UI" Font-Size="9pt" Text="Verification" Theme="Office2010Silver" Width="100px">
-                        <ClientSideEvents Click="Verify" />
-                    </dx:ASPxButton>
+                <td>
+                    <table>
+                        <tr style="height:50px">
+                            <td style="width: 100px">
+                                <dx:ASPxButton ID="btnVerification" runat="server" AutoPostBack="False" ClientInstanceName="btnVerification" Height="40px"
+                                    Font-Names="Segoe UI" Font-Size="9pt" Text="Verification" Theme="Office2010Silver" Width="100px">
+                                    <ClientSideEvents Click="Verify" />
+                                </dx:ASPxButton>
+                            </td>
+                            <td style="width: 5px"></td>
+                            <td style="width: 100px">
+                                <dx:ASPxButton ID="btnSPCSample" runat="server" AutoPostBack="False" ClientInstanceName="btnSPCSample" Height="40px"
+                                    Font-Names="Segoe UI" Font-Size="9pt" Text="SPC Sample Open New Tab" Wrap="True" Theme="Office2010Silver" Width="120px">
+                                    <ClientSideEvents Click="SPCSample" />
+                                </dx:ASPxButton>
+                            </td>
+                            <td style="width: 5px"></td>
+                            <td style="width: 100px">
+                                <dx:ASPxButton ID="btnIOTProcess" runat="server" AutoPostBack="False" ClientInstanceName="btnIOTProcess" Height="40px"
+                                    Font-Names="Segoe UI" Font-Size="9pt" Text="View IOT Process Table" Theme="Office2010Silver" Width="100px">
+                                    <ClientSideEvents Click="IOTProcess" />
+                                </dx:ASPxButton>
+                            </td>
+                            <td style="width: 5px"></td>
+                            <td style="width: 100px">
+                                <dx:ASPxButton ID="btnIOTTraceability" runat="server" AutoPostBack="False" ClientInstanceName="btnIOTTraceability" Height="40px"
+                                    Font-Names="Segoe UI" Font-Size="9pt" Text="View IOT Traceability" Theme="Office2010Silver" Width="100px">
+                                    <ClientSideEvents Click="IOTTraceability" />
+                                </dx:ASPxButton>
+                            </td>
+                            <td style="width: 5px"></td>
+                            <td style="width: 100px">
+                                <dx:ASPxButton ID="btnExcel" runat="server" AutoPostBack="False" ClientInstanceName="btnExcel" Height="40px"
+                                    Font-Names="Segoe UI" Font-Size="9pt" Text="Excel" Theme="Office2010Silver" Width="100px">
+                                </dx:ASPxButton>
+                            </td>
+                            <td style="width: 5px"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <dx:ASPxButton ID="btnCorrectiveAction" runat="server" AutoPostBack="False" ClientInstanceName="btnCorrectiveAction" Height="40px"
+                                    Font-Names="Segoe UI" Font-Size="9pt" Text="Corrective Action SPC" Theme="Office2010Silver" Width="100px">
+                                    <ClientSideEvents Click="CorrectiveAction" />
+                                </dx:ASPxButton>
+                            </td>
+                        </tr>
+                    </table>
                 </td>
-                <td style="width: 5px"></td>
-                <td style="width: 100px">
-                    <dx:ASPxButton ID="btnSPCSample" runat="server" AutoPostBack="False" ClientInstanceName="btnSPCSample" Height="40px"
-                        Font-Names="Segoe UI" Font-Size="9pt" Text="SPC Sample Open New Tab" Wrap="True" Theme="Office2010Silver" Width="120px">
-                        <ClientSideEvents Click="SPCSample" />
-                    </dx:ASPxButton>
-                </td>
-                <td style="width: 5px"></td>
-                <td style="width: 100px">
-                    <dx:ASPxButton ID="btnIOTProcess" runat="server" AutoPostBack="False" ClientInstanceName="btnIOTProcess" Height="40px"
-                        Font-Names="Segoe UI" Font-Size="9pt" Text="View IOT Process Table" Theme="Office2010Silver" Width="100px">
-                        <ClientSideEvents Click="IOTProcess" />
-                    </dx:ASPxButton>
-                </td>
-                <td style="width: 5px"></td>
-                <td style="width: 100px">
-                    <dx:ASPxButton ID="btnIOTTraceability" runat="server" AutoPostBack="False" ClientInstanceName="btnIOTTraceability" Height="40px"
-                        Font-Names="Segoe UI" Font-Size="9pt" Text="View IOT Traceability" Theme="Office2010Silver" Width="100px">
-                        <ClientSideEvents Click="IOTTraceability" />
-                    </dx:ASPxButton>
-                </td>
-                <td style="width: 5px"></td>
-                <td style="width: 100px">
-                    <dx:ASPxButton ID="btnExcel" runat="server" AutoPostBack="False" ClientInstanceName="btnExcel" Height="40px"
-                        Font-Names="Segoe UI" Font-Size="9pt" Text="Excel" Theme="Office2010Silver" Width="100px">
-                    </dx:ASPxButton>
-                </td>
-                <td style="width: 5px"></td>
+
                 <td style="width: 120px"></td>
                 <td style="width: 600px">
                     <table style="width: 100%">

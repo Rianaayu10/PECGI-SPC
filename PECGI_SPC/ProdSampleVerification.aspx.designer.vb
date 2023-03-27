@@ -284,6 +284,15 @@ Partial Public Class ProdSampleVerification
     Protected WithEvents btnExcel As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
+    '''btnCorrectiveAction control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnCorrectiveAction As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
     '''lblSpecChar control.
     '''</summary>
     '''<remarks>
