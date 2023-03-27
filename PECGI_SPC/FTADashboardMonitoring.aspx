@@ -215,9 +215,23 @@
 
     <script type="text/javascript" src="js/jquery-3.5.1.min.js"></script>
     <script type="text/javascript">
+        var UserID = ""
+        var ChangeValue = ""
 
         $(document).ready(function () {
-            var UserID = HideValue.Get("UserID");
+            UserID = HideValue.Get("UserID");
+            loadDashboard(UserID);
+        })
+
+        window.onload = function () {
+
+            setTimer1 = setInterval(function () {
+                loadDashboard(UserID);
+            }, 5000, (1));
+
+        }
+
+        function loadDashboard(UserID) {
             $.ajax({
                 url: 'FTADashboardMonitoring.aspx/LoadData',
                 type: 'POST',
@@ -226,8 +240,6 @@
                 dataType: "json",
                 success: function (result) {
                     if (result.d.Message == "Success") {
-
-                        //console.log(result.d.Contents.Station1)
 
                         var station1 = result.d.Contents.Station1
                         var station2 = result.d.Contents.Station2
@@ -248,62 +260,34 @@
                         var DelayNG = result.d.Contents.DelayNG
                         var DelayInput = result.d.Contents.DelayInput
 
-                        //console.log(result.d.Contents.DelayInput);
+                        if (ChangeValue == "") {
+                            DashboarContent(station1, station2, station3, station4, station5, station6, station7, station8, station9, station10, station11, station12, station13, station14, station15, station16, DelayNG, DelayInput);
+                        } else {
+                            console.log(station1);
+                            var laststation1 = HideValue.Get("station1")
+                            var laststation2 = HideValue.Get("station2")
+                            var laststation3 = HideValue.Get("station3")
+                            var laststation4 = HideValue.Get("station4")
+                            var laststation5 = HideValue.Get("station5")
+                            var laststation6 = HideValue.Get("station6")
+                            var laststation7 = HideValue.Get("station7")
+                            var laststation8 = HideValue.Get("station8")
+                            var laststation9 = HideValue.Get("station9")
+                            var laststation10 = HideValue.Get("station10")
+                            var laststation11 = HideValue.Get("station11")
+                            var laststation12 = HideValue.Get("station12")
+                            var laststation13 = HideValue.Get("station13")
+                            var laststation14 = HideValue.Get("station14")
+                            var laststation15 = HideValue.Get("station15")
+                            var laststation16 = HideValue.Get("station16")
+                            var lastDelayInput = HideValue.Get("DelayInput")
+                            var lastDelayNG = HideValue.Get("DelayNG")
 
-                        $("#Station1").css("background-color", station1.split("|")[1]);
-                        $("#Station1").css("color", station1.split("|")[2]);
-
-                        $("#Station2").css("background-color", station2.split("|")[1]);
-                        $("#Station2").css("color", station2.split("|")[2]);
-
-                        $("#Station3").css("background-color", station3.split("|")[1]);
-                        $("#Station3").css("color", station3.split("|")[2]);
-
-                        $("#Station4").css("background-color", station4.split("|")[1]);
-                        $("#Station4").css("color", station4.split("|")[2]);
-
-                        $("#Station5").css("background-color", station5.split("|")[1]);
-                        $("#Station5").css("color", station5.split("|")[2]);
-
-                        $("#Station6").css("background-color", station6.split("|")[1]);
-                        $("#Station6").css("color", station6.split("|")[2]);
-
-                        $("#Station7").css("background-color", station7.split("|")[1]);
-                        $("#Station7").css("color", station7.split("|")[2]);
-
-                        $("#Station8").css("background-color", station8.split("|")[1]);
-                        $("#Station8").css("color", station8.split("|")[2]);
-
-                        $("#Station9").css("background-color", station9.split("|")[1]);
-                        $("#Station9").css("color", station9.split("|")[2]);
-
-                        $("#Station10").css("background-color", station10.split("|")[1]);
-                        $("#Station10").css("color", station10.split("|")[2]);
-
-                        $("#Station11").css("background-color", station11.split("|")[1]);
-                        $("#Station11").css("color", station11.split("|")[2]);
-
-                        $("#Station12").css("background-color", station12.split("|")[1]);
-                        $("#Station12").css("color", station12.split("|")[2]);
-
-                        $("#Station13").css("background-color", station13.split("|")[1]);
-                        $("#Station13").css("color", station13.split("|")[2]);
-
-                        $("#Station14").css("background-color", station14.split("|")[1]);
-                        $("#Station14").css("color", station14.split("|")[2]);
-
-                        $("#Station15").css("background-color", station15.split("|")[1]);
-                        $("#Station15").css("color", station15.split("|")[2]);
-
-                        $("#Station16").css("background-color", station16.split("|")[1]);
-                        $("#Station16").css("color", station16.split("|")[2]);
-
-                        $("#DelayNG").html(DelayNG);
-                        $("#DelayNG").addClass("delay_font");
-
-                        $("#DelayInput").html(DelayInput);
-                        $("#DelayInput").addClass("delay_font");
-
+                            if (station1 != laststation1 || station2 != laststation2 || station3 != laststation3 || station4 != laststation4 || station5 != laststation5 || station6 != laststation6 || station7 != laststation7 || station8 != laststation8 || station9 != laststation9 || station10 != laststation10 || station11 != laststation11 || station2 != laststation12 || station13 != laststation13 || station14 != laststation14 || station15 != laststation15 || station16 != laststation16 || DelayInput != lastDelayInput || DelayNG != lastDelayNG ) {
+                                DashboarContent(station1, station2, station3, station4, station5, station6, station7, station8, station9, station10, station11, station12, station13, station14, station15, station16, DelayNG, DelayInput);
+                            }
+                        }
+                       
                     } else {
                         toastr.warning(result.d.Message, 'Warning', { timeOut: 3000, closeButton: true });
                     }
@@ -312,12 +296,86 @@
                     toastr.error(ex.Message, 'Failed', { timeOut: 3000, "closeButton": true });
                 }
             });
+        }
 
-        })
+        function DashboarContent(station1, station2, station3, station4, station5, station6, station7, station8, station9, station10, station11, station12, station13, station14, station15, station16, DelayNG, DelayInput) {
+            HideValue.Set("station1", station1)
+            HideValue.Set("station2", station2)
+            HideValue.Set("station3", station3)
+            HideValue.Set("station4", station4)
+            HideValue.Set("station5", station5)
+            HideValue.Set("station6", station6)
+            HideValue.Set("station7", station7)
+            HideValue.Set("station8", station8)
+            HideValue.Set("station9", station9)
+            HideValue.Set("station10", station10)
+            HideValue.Set("station11", station11)
+            HideValue.Set("station12", station12)
+            HideValue.Set("station13", station13)
+            HideValue.Set("station14", station14)
+            HideValue.Set("station15", station15)
+            HideValue.Set("station16", station16)
+            HideValue.Set("DelayNG", DelayNG)
+            HideValue.Set("DelayInput", DelayInput)
 
-        setTimeout(function () {
-            window.location.reload(1);
-        }, 5000);
+            //console.log(data.DelayInput);
+
+            $("#Station1").css("background-color", station1.split("|")[1]);
+            $("#Station1").css("color", station1.split("|")[2]);
+
+            $("#Station2").css("background-color", station2.split("|")[1]);
+            $("#Station2").css("color", station2.split("|")[2]);
+
+            $("#Station3").css("background-color", station3.split("|")[1]);
+            $("#Station3").css("color", station3.split("|")[2]);
+
+            $("#Station4").css("background-color", station4.split("|")[1]);
+            $("#Station4").css("color", station4.split("|")[2]);
+
+            $("#Station5").css("background-color", station5.split("|")[1]);
+            $("#Station5").css("color", station5.split("|")[2]);
+
+            $("#Station6").css("background-color", station6.split("|")[1]);
+            $("#Station6").css("color", station6.split("|")[2]);
+
+            $("#Station7").css("background-color", station7.split("|")[1]);
+            $("#Station7").css("color", station7.split("|")[2]);
+
+            $("#Station8").css("background-color", station8.split("|")[1]);
+            $("#Station8").css("color", station8.split("|")[2]);
+
+            $("#Station9").css("background-color", station9.split("|")[1]);
+            $("#Station9").css("color", station9.split("|")[2]);
+
+            $("#Station10").css("background-color", station10.split("|")[1]);
+            $("#Station10").css("color", station10.split("|")[2]);
+
+            $("#Station11").css("background-color", station11.split("|")[1]);
+            $("#Station11").css("color", station11.split("|")[2]);
+
+            $("#Station12").css("background-color", station12.split("|")[1]);
+            $("#Station12").css("color", station12.split("|")[2]);
+
+            $("#Station13").css("background-color", station13.split("|")[1]);
+            $("#Station13").css("color", station13.split("|")[2]);
+
+            $("#Station14").css("background-color", station14.split("|")[1]);
+            $("#Station14").css("color", station14.split("|")[2]);
+
+            $("#Station15").css("background-color", station15.split("|")[1]);
+            $("#Station15").css("color", station15.split("|")[2]);
+
+            $("#Station16").css("background-color", station16.split("|")[1]);
+            $("#Station16").css("color", station16.split("|")[2]);
+
+            $("#DelayNG").html(DelayNG);
+            $("#DelayNG").addClass("delay_font");
+
+            $("#DelayInput").html(DelayInput);
+            $("#DelayInput").addClass("delay_font");
+
+            ChangeValue = "1";
+        }
 
     </script>
 
