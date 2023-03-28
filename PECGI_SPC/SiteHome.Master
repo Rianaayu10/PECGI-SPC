@@ -102,7 +102,7 @@
             <ul>
                 <li>
                     <a href="Main.aspx" title="Home"><i class="fa fa-lg fa-fw fa-home"></i><span class="menu-item-parent">Home</span></a>
-                    <asp:Label ID="lblUser" runat="server" Text="lblUser" Width="0" Visible="false"></asp:Label>
+                    <asp:Label ID="lblUser" runat="server" Text="lblUser" Width="0" CssClass="display-none"></asp:Label>
                 </li>
                 <asp:Repeater ID="rptMenu" runat="server">
                     <ItemTemplate>
@@ -893,6 +893,7 @@
 
         function GetTotNotif() {
             var User = $("#lblUser").text();
+            console.log(User);
             $.ajax({
                 type: "POST",
                 url: "AlertDelayInput.aspx/AlertNotif",
