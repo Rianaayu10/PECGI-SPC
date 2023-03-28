@@ -49,19 +49,19 @@
         .position3 {
             position: absolute;
             z-index: 2;
-            min-height: 2.5vh;
+            min-height: 3.2vh;
             min-width: 3.5vw;
             text-align: center;
             border-color: black;
             border-style: solid;
         }
 
-        .bk_color{
-            background-color:grey;
+        .bk_color {
+            background-color: grey;
         }
 
-        .delay_font{
-            font-size: 13vh; 
+        .delay_font {
+            font-size: 13vh;
             font-weight: 600;
         }
     </style>
@@ -173,7 +173,7 @@
                                 <div><span style="font-size: 2vh;">Delay Input</span></div>
                             </div>
                             <div style="display: flex; justify-content: left; margin-top: 2vh;">
-                                <div style="border-style: solid; background-color: orange; min-width: 2vw; min-height: 2vh; margin-right: 2vh"></div>
+                                <div style="border-style: solid; background-color: red; min-width: 2vw; min-height: 2vh; margin-right: 2vh"></div>
                                 <div><span style="font-size: 2vh;">NG Result</span></div>
                             </div>
                             <div style="display: flex; justify-content: left; margin-top: 2vh;">
@@ -190,7 +190,7 @@
                         </div>
                         <div style="display: flex; justify-content: center;">
                             <div style="border-style: solid; min-width: 10vw; min-height: 20vh; text-align: center; align-items: center; display: flex; justify-content: center;">
-                                <span id="DelayInput"> --- </span>
+                                <span id="DelayInput">--- </span>
                             </div>
                         </div>
                     </div>
@@ -202,7 +202,7 @@
                         </div>
                         <div style="display: flex; justify-content: center;">
                             <div style="border-style: solid; min-width: 10vw; min-height: 20vh; text-align: center; align-items: center; display: flex; justify-content: center;">
-                                <span id="DelayNG"> --- </span>
+                                <span id="DelayNG">--- </span>
                             </div>
                         </div>
                     </div>
@@ -283,11 +283,11 @@
                             var lastDelayInput = HideValue.Get("DelayInput")
                             var lastDelayNG = HideValue.Get("DelayNG")
 
-                            if (station1 != laststation1 || station2 != laststation2 || station3 != laststation3 || station4 != laststation4 || station5 != laststation5 || station6 != laststation6 || station7 != laststation7 || station8 != laststation8 || station9 != laststation9 || station10 != laststation10 || station11 != laststation11 || station2 != laststation12 || station13 != laststation13 || station14 != laststation14 || station15 != laststation15 || station16 != laststation16 || DelayInput != lastDelayInput || DelayNG != lastDelayNG ) {
+                            if (station1 != laststation1 || station2 != laststation2 || station3 != laststation3 || station4 != laststation4 || station5 != laststation5 || station6 != laststation6 || station7 != laststation7 || station8 != laststation8 || station9 != laststation9 || station10 != laststation10 || station11 != laststation11 || station2 != laststation12 || station13 != laststation13 || station14 != laststation14 || station15 != laststation15 || station16 != laststation16 || DelayInput != lastDelayInput || DelayNG != lastDelayNG) {
                                 DashboarContent(station1, station2, station3, station4, station5, station6, station7, station8, station9, station10, station11, station12, station13, station14, station15, station16, DelayNG, DelayInput);
                             }
                         }
-                       
+
                     } else {
                         toastr.warning(result.d.Message, 'Warning', { timeOut: 3000, closeButton: true });
                     }
