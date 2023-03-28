@@ -63,7 +63,6 @@ Public Class UserLine
             a = cboUserID.SelectedItem.GetFieldValue("UserID")
         End If
         HideValue.Set("UserID", a)
-        HideValue.Set("Userload", a)
     End Sub
 #End Region
 
@@ -94,7 +93,6 @@ Public Class UserLine
             Else
                 btnCancel.Visible = True
                 UserID = Request.QueryString("prm").ToString()
-                cboUserID.Enabled = False
             End If
 
             Up_FillCombo(UserID)
@@ -139,21 +137,20 @@ Public Class UserLine
 
     Private Sub gridMenu_CustomCallback(sender As Object, e As DevExpress.Web.ASPxGridViewCustomCallbackEventArgs) Handles gridMenu.CustomCallback
         Dim pAction As String = Split(e.Parameters, "|")(0)
-        Dim pUserID As String = Split(e.Parameters, "|")(1)
+        Dim pUserID As String = HideValue.Get("UserID")
         If pAction = "save" Then
             show_error(MsgTypeEnum.Success, "Update data successful", 1)
-            HideValue.Set("Userload", pUserID)
         End If
         up_GridLoad(pUserID)
     End Sub
 
     Private Sub cbkValid_Callback(source As Object, e As DevExpress.Web.CallbackEventArgs) Handles cbkValid.Callback
-        Dim pAction = Split(e.Parameter, "|")(0)
-        Dim FromUserID = Split(e.Parameter, "|")(1)
-        Dim TouserID = Split(e.Parameter, "|")(2)
-        If FromUserID <> "null" Then
-            clsUserLineDB.Copy(FromUserID, TouserID, RegisterUser)
-        End If
+        'Dim pAction = Split(e.Parameter, "|")(0)
+        'Dim FromUserID = Split(e.Parameter, "|")(1)
+        'Dim TouserID = Split(e.Parameter, "|")(2)
+        'If FromUserID <> "null" Then
+        '    clsUserLineDB.Copy(FromUserID, TouserID, RegisterUser)
+        'End If
     End Sub
 
     Private Sub gridMenu_RowUpdating(sender As Object, e As ASPxDataUpdatingEventArgs) Handles gridMenu.RowUpdating
@@ -162,7 +159,7 @@ Public Class UserLine
 
     Protected Sub Grid_AfterPerformCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles gridMenu.AfterPerformCallback
         If e.CallbackName <> "CANCELEDIT" Then
-            Dim a = HideValue.Get("Userload")
+            Dim a = HideValue.Get("UserID")
             up_GridLoad(a)
         End If
     End Sub

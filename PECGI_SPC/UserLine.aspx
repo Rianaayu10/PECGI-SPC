@@ -93,14 +93,15 @@
         }
 
         function SaveData(s, e) {
-            cbkValid.PerformCallback('save|' + cboUserReplace.GetValue() + '|' + HideValue.Get('UserID'));
+         /*   cbkValid.PerformCallback('save|' + cboUserReplace.GetValue() + '|' + HideValue.Get('UserID'));*/
+            cbkValid.PerformCallback();
         }
 
         function SaveLine(s, e) {
             gridMenu.UpdateEdit();
             millisecondsToWait = 1000;
             setTimeout(function () {
-                gridMenu.PerformCallback('save|' + HideValue.Get('UserID'));
+                gridMenu.PerformCallback('save|');
             }, millisecondsToWait);
         }
 
@@ -130,8 +131,7 @@
                                     <ClientSideEvents SelectedIndexChanged="function(s, e) {
                                                   var UserID = cboUserID.GetValue();
                                                   HideValue.Set('UserID', UserID);
-                                                  HideValue.Set('Userload', UserID);
-	                                              gridMenu.PerformCallback('load|' + UserID);
+	                                              gridMenu.PerformCallback('load|');
                                              }" />
                                     <Columns>
                                         <dx:ListBoxColumn Caption="User ID" FieldName="UserID" Width="60px" />
@@ -140,7 +140,7 @@
                                 </dx:ASPxComboBox>
                             </td>
                         </tr>
-                        <tr style="height: 30px">
+                      <%--  <tr style="height: 30px">
                             <td>&nbsp;<dx:ASPxLabel ID="ASPxLabel2" runat="server" Font-Names="Segoe UI"
                                 Font-Size="9pt" Text="Copy Lines From">
                             </dx:ASPxLabel>
@@ -162,7 +162,7 @@
                                     </Columns>
                                 </dx:ASPxComboBox>
                             </td>
-                        </tr>
+                        </tr>--%>
                     </table>
                 </div>
                 <div style="height: 10px">
