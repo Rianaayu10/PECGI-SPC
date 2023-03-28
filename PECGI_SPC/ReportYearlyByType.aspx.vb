@@ -24,6 +24,9 @@ Public Class ReportYearlyByType
             End If
             UpFillCombo()
             Master.SiteTitle = "C040 - FTA Report Yearly By Type"
+            'Dim dfrom As Date
+            'dfrom = Format(Now, "yyyy-MM-01")
+            'TmPeriod_From.Value = dfrom
         End If
     End Sub
 

@@ -65,7 +65,7 @@ Partial Public Class ReportYearlyByType
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents dtFromDate As Global.DevExpress.Web.ASPxDateEdit
+    Protected WithEvents dtFromDate As Global.DevExpress.Web.ASPxTimeEdit
 
     '''<summary>
     '''lblToDate control.
@@ -83,7 +83,7 @@ Partial Public Class ReportYearlyByType
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents dtToDate As Global.DevExpress.Web.ASPxDateEdit
+    Protected WithEvents dtToDate As Global.DevExpress.Web.ASPxTimeEdit
 
     '''<summary>
     '''lblProcessGroup control.

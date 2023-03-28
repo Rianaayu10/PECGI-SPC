@@ -16,12 +16,13 @@
 
         var nRow = 1
 
-        function OnInit() {
+        $(document).ready(function () {
             var today = new Date();
             dtFromDate.SetDate(today);
             dtToDate.SetDate(today);
+            /*     TmPeriod_From.SetDate(today);*/
             btnExcel.SetEnabled(false);
-        }
+        })
 
         function ChangeFactory() {
             var FactoryCode = cboFactory.GetValue();
@@ -75,10 +76,16 @@
             var ItemType = HideValue.Get("ItemType");
 
             var pfromDate = dtFromDate.GetText().split(' ');
-            var ProdDate_From = pfromDate[2] + "-" + MMM[pfromDate[1]] + "-" + pfromDate[0]
+            var ProdDate_From = pfromDate[1] + "-" + MMM[pfromDate[0]] + "-" + '01'
 
             var ptoDate = dtToDate.GetText().split(' ');
-            var ProdDate_To = ptoDate[2] + "-" + MMM[ptoDate[1]] + "-" + ptoDate[0]
+            var ProdDate_To = ptoDate[1] + "-" + MMM[ptoDate[0]] + "-" + '01'
+
+            //var pfromDate = dtFromDate.GetText().split(' ');
+            //var ProdDate_From = pfromDate[2] + "-" + MMM[pfromDate[1]] + "-" + pfromDate[0]
+
+            //var ptoDate = dtToDate.GetText().split(' ');
+            //var ProdDate_To = ptoDate[2] + "-" + MMM[ptoDate[1]] + "-" + ptoDate[0]
 
             var nMonth = monthDiff(parseDate(dtFromDate.GetText()), parseDate(dtToDate.GetText()));
 
@@ -181,7 +188,7 @@
                 success: function (result) {
                     if (result.d.Message == "Success") {
                         if (result.d.Contents != "") {
-                          /*  btnExcel.SetEnabled(true);*/
+                            /*  btnExcel.SetEnabled(true);*/
                             Object.values(result.d.Contents).forEach(LineDetailContent);
                         }
                     } else {
@@ -351,7 +358,7 @@
                 data: '{ User : "' + User + '", ProcessCode :"' + ProcessCode + '", LineCode :"' + LineCode + '", LineGroup : "' + LineGroup + '",  Periode : "' + Periode + '", Qty : "' + Qty + '" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function (data, textStatus, jQxhr) { 
+                success: function (data, textStatus, jQxhr) {
                     document.getElementById('lblTitleChartDetail').innerHTML = 'Summary FTA SPC ' + Periode;
                     document.getElementById('lblSubTitleChartDetail').innerHTML = '(' + LineGroupName + ')' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n = ' + data.d.Max;
                     //}
@@ -402,132 +409,6 @@
             });
         }
 
-        //function chartLineDetail(DS, LineGroupName, Qty, Periode) {
-
-        //    var complaintsData = [];
-        //    $.each(DS, function (dt) {
-        //        var display2 = {};
-        //        display2["complaint"] = DS[dt][1];
-        //        display2["count"] = parseInt(DS[dt][2], 10);
-
-        //        complaintsData.push(display2);
-        //    });
-        //    //console.log(complaintsData);
-
-        //    //const complaintsData = [
-        //    //    //{ complaint: 'Cold pizza', count: 5 },
-        //    //    //{ complaint: 'Not enough cheese', count: 1 },
-        //    //    //{ complaint: 'Underbaked or Overbaked', count: 1 },
-        //    //    //{ complaint: 'Delayed delivery', count: 1 },
-        //    //    //{ complaint: 'Damaged pizza', count: 1 },
-        //    //    //{ complaint: 'Incorrect billing', count: 1 },
-        //    //    //{ complaint: 'Wrong size delivered', count: 1 },
-        //    //];
-
-        //    const data = complaintsData.sort((a, b) => b.count - a.count);
-        //    const totalCount = data.reduce((prevValue, item) => prevValue + item.count, 0);
-        //    console.log(totalCount);
-        //    let cumulativeCount = 0;
-        //    const dataSource = data.map((item) => {
-        //        cumulativeCount += item.count;
-        //        return {
-        //            complaint: item.complaint,
-        //            count: item.count,
-        //            cumulativePercentage: Math.round((cumulativeCount * 100) / totalCount),
-        //        };
-        //    });
-
-        //    $('#chartdetail').dxChart({
-        //        palette: 'Harmony Light',
-        //        dataSource,
-        //        title: {
-        //            display: true,
-        //            text: 'Summary FTA SPC ' + Periode,
-        //            font: {
-        //                size: 18,
-        //                weight: '600',
-        //            },
-        //            subtitle: {
-        //                text: '(' + LineGroupName + ')',
-        //            },
-        //        },
-        //        argumentAxis: {
-        //            label: {
-        //                overlappingBehavior: 'stagger',
-        //            },
-        //        },
-        //        tooltip: {
-        //            enabled: true,
-        //            shared: true,
-        //            customizeTooltip(info) {
-        //                const content = ["<div><div class='tooltip-header'></div>",
-        //                    "<div class='tooltip-body'><div class='series-name'>",
-        //                    "<span class='top-series-name'></span>",
-        //                    ": </div><div class='value-text'>",
-        //                    "<span class='top-series-value'></span>",
-        //                    "</div><div class='series-name'>",
-        //                    "<span class='bottom-series-name'></span>",
-        //                    ": </div><div class='value-text'>",
-        //                    "<span class='bottom-series-value'></span>",
-        //                    '% </div></div></div>'].join('');
-
-        //                const htmlContent = $(content);
-
-        //                htmlContent.find('.tooltip-header').text(info.argumentText);
-        //                htmlContent.find('.top-series-name').text(info.points[0].seriesName);
-        //                htmlContent.find('.top-series-value').text(info.points[0].valueText);
-        //                htmlContent.find('.bottom-series-name').text(info.points[1].seriesName);
-        //                htmlContent.find('.bottom-series-value').text(info.points[1].valueText);
-
-        //                return {
-        //                    html: $('<div>').append(htmlContent).html(),
-        //                };
-        //            },
-        //        },
-        //        valueAxis: [{
-        //            name: 'frequency',
-        //            position: 'left',
-        //            tickInterval: 1,
-        //        }, {
-        //            name: 'percentage',
-        //            position: 'right',
-        //            showZero: true,
-        //            label: {
-        //                customizeText(info) {
-        //                    return `${info.valueText}%`;
-        //                },
-        //            },
-        //            tickInterval: 10,
-        //            valueMarginsEnabled: false,
-        //        }],
-        //        commonSeriesSettings: {
-        //            argumentField: 'complaint',
-        //        },
-        //        series: [{
-        //            type: 'bar',
-        //            valueField: 'count',
-        //            axis: 'frequency',
-        //            name: 'Complaint frequency',
-        //            color: '#fa9add',
-        //        }, {
-        //            type: 'spline',
-        //            valueField: 'cumulativePercentage',
-        //            axis: 'percentage',
-        //            name: 'Cumulative percentage',
-        //            color: '#f20000',
-        //        }],
-        //        export: {
-        //            enabled: true,
-        //        },
-        //        legend: {
-        //            verticalAlignment: 'bottom',
-        //            horizontalAlignment: 'center',
-        //            itemTextPosition: 'top',
-        //        },
-        //    });
-
-        //}
-
         function Clear() {
             $('#tableLineGroup tr th').remove();
             $('#tableLineGroup tr td').remove();
@@ -544,7 +425,7 @@
 
         function parseDate(str) {
             var mdy = str.split(' ');
-            return new Date(mdy[2], MMM[mdy[1]] - 1, mdy[0]);
+            return new Date(mdy[1], MMM[mdy[0]] - 1, '01');
         }
 
         function monthDiff(dateFrom, dateTo) {
@@ -572,7 +453,7 @@
 
             //var detfilename = 'chartdetail_' + sDate;
             //var chart = $("#chartdetail").dxChart("instance");
-           
+
 
             var chart = $("#chart").dxChart("instance");
             chart.exportTo(detfilename, 'PNG').thenthen(function (imgData) {
@@ -688,33 +569,32 @@
     </style>
 
     <style type="text/css">
-		.flot {
-			left: 0px;
-			top: 0px;
-			right: 0px;
-			bottom: 0px;
-			height:50vh;
-			width :30vw;
-        
-		}
+        .flot {
+            left: 0px;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            height: 50vh;
+            width: 30vw;
+        }
 
-		#flotTip {
-			padding: 3px 5px;
-			background-color: #000;
-			z-index: 100;
-			color: #fff;
-			opacity: .80;
-			filter: alpha(opacity=85);
-		}
+        #flotTip {
+            padding: 3px 5px;
+            background-color: #000;
+            z-index: 100;
+            color: #fff;
+            opacity: .80;
+            filter: alpha(opacity=85);
+        }
 
-		#marking {
-			z-index: 100;
-		}
+        #marking {
+            z-index: 100;
+        }
 
-		.hidden {
-			display:none;
-		}
-	</style>
+        .hidden {
+            display: none;
+        }
+    </style>
 
 </asp:Content>
 
@@ -759,20 +639,11 @@
                 </td>
                 <td style="width: 20px">&nbsp;</td>
                 <td>
-
-                    <dx:ASPxDateEdit ID="dtFromDate" runat="server" Theme="Office2010Black" AutoPostBack="false" EditFormat="Date"
-                        ClientInstanceName="dtFromDate" EditFormatString="dd MMM yyyy" DisplayFormatString="dd MMM yyyy"
-                        Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="5" Width="100px">
-                        <ClientSideEvents Init="OnInit" />
-                        <CalendarProperties>
-                            <HeaderStyle Font-Size="12pt" Paddings-Padding="5px" />
-                            <DayStyle Font-Size="9pt" Paddings-Padding="5px" />
-                            <WeekNumberStyle Font-Size="9pt" Paddings-Padding="5px"></WeekNumberStyle>
-                            <FooterStyle Font-Size="9pt" Paddings-Padding="10px" />
-                            <ButtonStyle Font-Size="9pt" Paddings-Padding="10px"></ButtonStyle>
-                        </CalendarProperties>
+                    <dx:ASPxTimeEdit ID="dtFromDate" EditFormat="Custom" EditFormatString="MMM yyyy" ClientInstanceName="dtFromDate"
+                        DisplayFormatString="MMM yyyy" Theme="Office2010Black" runat="server" Width="100px">
                         <ButtonStyle Width="5px" Paddings-Padding="4px"></ButtonStyle>
-                    </dx:ASPxDateEdit>
+                    </dx:ASPxTimeEdit>
+
                 </td>
 
                 <td style="width: 10px">&nbsp;</td>
@@ -784,19 +655,11 @@
                 <td style="width: 10px">&nbsp;</td>
                 <td>&nbsp;</td>
                 <td style="width: 20px" colspan="3">
-                    <dx:ASPxDateEdit ID="dtToDate" runat="server" Theme="Office2010Black" AutoPostBack="false"
-                        ClientInstanceName="dtToDate" EditFormatString="dd MMM yyyy" DisplayFormatString="dd MMM yyyy"
-                        Font-Names="Segoe UI" Font-Size="9pt" Height="25px" TabIndex="5" Width="100px">
-                        <ClientSideEvents Init="OnInit" />
-                        <CalendarProperties>
-                            <HeaderStyle Font-Size="12pt" Paddings-Padding="5px" />
-                            <DayStyle Font-Size="9pt" Paddings-Padding="5px" />
-                            <WeekNumberStyle Font-Size="9pt" Paddings-Padding="5px"></WeekNumberStyle>
-                            <FooterStyle Font-Size="9pt" Paddings-Padding="10px" />
-                            <ButtonStyle Font-Size="9pt" Paddings-Padding="10px"></ButtonStyle>
-                        </CalendarProperties>
+                    <dx:ASPxTimeEdit ID="dtToDate" EditFormat="Custom" EditFormatString="MMM yyyy" ClientInstanceName="dtToDate"
+                        DisplayFormatString="MMM yyyy" Theme="Office2010Black" runat="server" Width="100px">
                         <ButtonStyle Width="5px" Paddings-Padding="4px"></ButtonStyle>
-                    </dx:ASPxDateEdit>
+                    </dx:ASPxTimeEdit>
+
                 </td>
             </tr>
             <tr>
@@ -921,7 +784,10 @@
                                         <table style="width: 100%; min-height: 250px" border="1">
                                             <tr>
                                                 <td align="center">
-                                                      <div><h3 id="lblTitleChart"></h3><p p style="margin-top:-10px" id="lblSubTitleChart"></p></div>
+                                                    <div>
+                                                        <h3 id="lblTitleChart"></h3>
+                                                        <p p style="margin-top: -10px" id="lblSubTitleChart"></p>
+                                                    </div>
                                                     <div id="chart" class="float"></div>
                                                 </td>
                                             </tr>
@@ -965,9 +831,12 @@
                                         <table style="width: 100%; min-height: 250px;" border="1">
                                             <tr>
                                                 <td align="center">
-                                                    <div><h3 id="lblTitleChartDetail"></h3><p style="margin-top:-10px" id="lblSubTitleChartDetail"></p></div>
-													<div id="chartdetail" class="flot"></div>
-                                                   <%-- <div id="chartdetail" ></div>--%>
+                                                    <div>
+                                                        <h3 id="lblTitleChartDetail"></h3>
+                                                        <p style="margin-top: -10px" id="lblSubTitleChartDetail"></p>
+                                                    </div>
+                                                    <div id="chartdetail" class="flot"></div>
+                                                    <%-- <div id="chartdetail" ></div>--%>
                                                 </td>
                                             </tr>
                                         </table>
