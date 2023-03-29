@@ -1145,7 +1145,7 @@
                         &nbsp;</td>
                     <td>
                         
-                        <dx:ASPxCheckBox ID="chkNoProd" runat="server" Text="No Production" ClientInstanceName="chkNoProd"></dx:ASPxCheckBox>
+                        <dx:ASPxCheckBox ID="chkNoProd" runat="server" Text="No Production" ClientInstanceName="chkNoProd" Font-Names="Segoe UI" Font-Size="9pt" Width="120px"></dx:ASPxCheckBox>
                         
                     </td>
                 </tr>

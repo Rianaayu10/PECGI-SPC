@@ -461,7 +461,9 @@ Public Class ProdSampleInput
 
     Private Sub GridLoad(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer, VerifiedOnly As Integer)
         Dim ErrMsg As String = ""
-        Dim dt As DataTable = clsSPCResultDetailDB.GetTable(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence, VerifiedOnly)
+        Dim ds As DataSet = clsSPCResultDetailDB.GetDataSet(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence, VerifiedOnly)
+        Dim dt As DataTable = ds.Tables(0)
+        Dim dtNG As DataTable = ds.Tables(1)
         grid.DataSource = dt
         grid.DataBind()
 
@@ -532,7 +534,7 @@ Public Class ProdSampleInput
                     grid.JSProperties("cpRNG") = .Item("RValueNG")
                 End If
                 grid.JSProperties("cpC") = .Item("CValue")
-                grid.JSProperties("cpNG") = .Item("NGValue")
+                grid.JSProperties("cpNG") = dtNG.Rows(0).Item("NGValue")
                 grid.JSProperties("cpMKDate") = .Item("MKDate")
                 grid.JSProperties("cpMKUser") = .Item("MKUser")
                 grid.JSProperties("cpQCDate") = .Item("QCDate")
