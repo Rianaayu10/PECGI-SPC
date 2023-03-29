@@ -84,7 +84,7 @@ Public Class ClsFTAMasterDB
             Return i
         End Using
     End Function
-    Public Shared Function GetList(FactoryCode As String, ItemCheckCode As String, LineCode As String, ItemTypeCode As String, Optional ByRef pErr As String = "") As DataTable
+    Public Shared Function GetList(FactoryCode As String, ItemCheckCode As String, ItemTypeCode As String, Optional ByRef pErr As String = "") As DataTable
         Try
             Using conn As New SqlConnection(Sconn.Stringkoneksi)
                 conn.Open()
@@ -96,7 +96,6 @@ Public Class ClsFTAMasterDB
                 With cmd.Parameters
                     .AddWithValue("FactoryCode", FactoryCode)
                     .AddWithValue("ItemCheckCode", ItemCheckCode)
-                    .AddWithValue("LineCode", LineCode)
                     .AddWithValue("ItemTypeCode", ItemTypeCode)
                 End With
                 Dim da As New SqlDataAdapter(cmd)
