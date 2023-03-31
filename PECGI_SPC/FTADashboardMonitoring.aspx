@@ -81,7 +81,30 @@
                                     <label style="color: white"><b>FTA Dashboard Monitoring</b></label>
                                 </u></font>
                             </td>
+
+                            <td style="padding-right: 10px"></td>
+                            <td align="right" style="width: 10%; background-color: black">
+                                <small>
+                                    <p style="text-align: left; color: white; margin-top: 5px; margin-left: 5px">
+                                        Date :
+                                        <dx:ASPxLabel ID="lblDateNow" ClientInstanceName="lblOK" runat="server" Text="" CssClass="text" Font-Names="Segoe UI" Font-Size="9pt" />
+                                        <br />
+                                        Time :
+                                        <label id="lblTimeNow"></label>
+                                    </p>
+                                </small>
+                            </td>
                         </tr>
+
+                        <%--  <tr style="height: 10px">
+                            <td align="center" width="10%"><a href="Main.aspx">
+                                <img src="img/logo-panasonic.svg" alt="" width="100" height="50" class="d-inline-block align-text-top"></a></td>
+                            <td width="80%" align="center">
+                                <font style="color: black; font-size: 4.5vh; font-weight: bold; font-family: Segoe UI"><u>
+                                    <label style="color: white"><b>FTA Dashboard Monitoring</b></label>
+                                </u></font>
+                            </td>
+                        </tr>--%>
                     </tbody>
                 </table>
             </div>
@@ -224,6 +247,11 @@
         })
 
         window.onload = function () {
+
+            setTimer1 = setInterval(function () {
+                var today = new Date();
+                document.getElementById('lblTimeNow').innerHTML = ("0" + today.getHours()).slice(-2) + ":" + ("0" + today.getMinutes()).slice(-2) + ":" + ("0" + today.getSeconds()).slice(-2);
+            }, 1000, (1));
 
             setTimer1 = setInterval(function () {
                 loadDashboard(UserID);

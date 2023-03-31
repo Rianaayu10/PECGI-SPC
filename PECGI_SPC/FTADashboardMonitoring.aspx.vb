@@ -16,6 +16,7 @@ Public Class FTADashboardMonitoring
                 Response.Redirect("~/Default.aspx")
             End If
             HideValue.Set("UserID", Session("user"))
+            lblDateNow.Text = DateTime.Now.ToString("dd-MMM-yyyy") 'HH:mm:ss
         End If
     End Sub
 

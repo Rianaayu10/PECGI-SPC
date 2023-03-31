@@ -23,6 +23,15 @@ Partial Public Class FTADashboardMonitoring
     Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
 
     '''<summary>
+    '''lblDateNow control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblDateNow As Global.DevExpress.Web.ASPxLabel
+
+    '''<summary>
     '''HideValue control.
     '''</summary>
     '''<remarks>
