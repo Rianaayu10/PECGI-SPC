@@ -913,6 +913,7 @@
     <Compile Include="Class\clsFillCombo.vb" />
     <Compile Include="Class\clsFTACorrectiveAction.vb" />
     <Compile Include="Class\clsFTADashboardMonitoring.vb" />
+    <Compile Include="Class\clsUploadFTAMaster.vb" />
     <Compile Include="Class\clsFTAMaster.vb" />
     <Compile Include="Class\clsFTAMasterDB.vb" />
     <Compile Include="Class\clsLineGroup.vb" />

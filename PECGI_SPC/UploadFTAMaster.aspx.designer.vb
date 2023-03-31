@@ -50,6 +50,87 @@ Partial Public Class UploadFTAMaster
     Protected WithEvents cboType As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
+    '''rdlThemeID1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents rdlThemeID1 As Global.DevExpress.Web.ASPxRadioButtonList
+
+    '''<summary>
+    '''uplFTAMaster control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents uplFTAMaster As Global.DevExpress.Web.ASPxUploadControl
+
+    '''<summary>
+    '''Uploader control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents Uploader As Global.DevExpress.Web.ASPxUploadControl
+
+    '''<summary>
+    '''btnExcel control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnExcel As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
+    '''btnClear control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnClear As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
+    '''btnUpload control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnUpload As Global.DevExpress.Web.ASPxButton
+
+    '''<summary>
+    '''ASPxMemo1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ASPxMemo1 As Global.DevExpress.Web.ASPxMemo
+
+    '''<summary>
+    '''lpProgress control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lpProgress As Global.DevExpress.Web.ASPxLoadingPanel
+
+    '''<summary>
+    '''cbTypeValue control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cbTypeValue As Global.DevExpress.Web.ASPxCallback
+
+    '''<summary>
     '''hdUserLogin control.
     '''</summary>
     '''<remarks>

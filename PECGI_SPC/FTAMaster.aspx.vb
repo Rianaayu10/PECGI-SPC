@@ -316,7 +316,7 @@ Public Class FTAMaster
                 ItemCheck = cboItemCheck.Value.Substring(0, cboItemCheck.Value.IndexOf(" -"))
             End If
 
-            dtFTAMaster = ClsFTAMasterDB.GetList(FactoryCode, ItemCheck, LineCode, ItemType)
+            dtFTAMaster = ClsFTAMasterDB.GetList(FactoryCode, ItemCheck, ItemType)
             Grid.DataSource = dtFTAMaster
             Grid.DataBind()
 
@@ -487,6 +487,7 @@ Public Class FTAMaster
             dtFTAMaster = ClsFTAMasterDB.GetListActionByFTAID(FTAID)
             gvFTAAction.DataSource = dtFTAMaster
             gvFTAAction.DataBind()
+            Session("FTA_ID") = FTAID
 
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
@@ -548,17 +549,19 @@ Public Class FTAMaster
         If gvFTAAction.IsNewRowEditing Then
 
             If e.Column.FieldName = "FTAIDAction" Then
-                e.Editor.Value = FTAIDAction
+                e.Editor.Value = Session("FTA_ID")
                 e.Editor.ReadOnly = True
                 e.Editor.ForeColor = Color.Silver
                 e.Editor.Visible = True
+            Else
+                e.Editor.ReadOnly = False
             End If
 
         End If
         If Not gvFTAAction.IsNewRowEditing Then
 
             If e.Column.FieldName = "FTAIDAction" Then
-                e.Editor.Value = FTAIDAction
+                e.Editor.Value = Session("FTA_ID")
                 e.Editor.ReadOnly = True
                 e.Editor.ForeColor = Color.Silver
                 e.Editor.Visible = True

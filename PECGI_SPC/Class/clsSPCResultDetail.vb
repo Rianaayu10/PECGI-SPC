@@ -92,6 +92,29 @@ Public Class clsSPCResultDetailDB
         End Using
     End Function
 
+
+    Public Shared Function GetDataSet(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer, VerifiedOnly As Integer) As DataSet
+        Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+            Cn.Open()
+            Dim q As String = "sp_SPCResultDetail"
+            Dim cmd As New SqlCommand(q, Cn)
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
+            cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
+            cmd.Parameters.AddWithValue("Line", Line)
+            cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
+            cmd.Parameters.AddWithValue("ProdDate", CDate(ProdDate))
+            cmd.Parameters.AddWithValue("ShiftCode", Shift)
+            cmd.Parameters.AddWithValue("SequenceNo", Sequence)
+            cmd.Parameters.AddWithValue("VerifiedOnly", VerifiedOnly)
+
+            Dim da As New SqlDataAdapter(cmd)
+            Dim ds As New DataSet
+            da.Fill(ds)
+            Return ds
+        End Using
+    End Function
+
     Public Shared Function GetTableXR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, VerifiedOnly As Integer) As DataTable
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()

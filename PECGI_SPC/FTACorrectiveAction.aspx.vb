@@ -83,8 +83,11 @@ Public Class FTACorrectiveAction
         Master.SiteTitle = sGlobal.idMenu & " - " & sGlobal.menuName
         pUser = Session("user") & ""
         AuthUpdate = sGlobal.Auth_UserUpdate(pUser, "C010")
-        grid.SettingsDataSecurity.AllowInsert = True
-        grid.SettingsDataSecurity.AllowEdit = True
+        grid.SettingsDataSecurity.AllowInsert = AuthUpdate
+        grid.SettingsDataSecurity.AllowEdit = AuthUpdate
+        btnMK.Enabled = AuthUpdate
+        btnQC.Enabled = AuthUpdate
+        btnSubmit.Enabled = AuthUpdate
 
         show_error(MsgTypeEnum.Info, "", 0)
         Dim FactoryCode As String = ""

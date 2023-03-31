@@ -233,7 +233,8 @@
                 <dx:ASPxComboBox ID="cboItemCheck" runat="server" Theme="Office2010Black" 
                     ClientInstanceName="cboItemCheck" ValueField="ItemCheckCode" TextField="ItemCheck" Font-Names="Segoe UI" 
                     Font-Size="9pt" Height="25px" 
-                    Width="240px" TabIndex="5" >
+                    Width="240px" TabIndex="5">
+                    <ClientSideEvents EndCallback="function(s, e) {cboItemCheck.SetEnabled(true);}"/>
                     <ItemStyle Height="10px" Paddings-Padding="4px"><Paddings Padding="4px"></Paddings>
                     </ItemStyle>
                     <ButtonStyle Paddings-Padding="4px" Width="5px"><Paddings Padding="4px"></Paddings>
