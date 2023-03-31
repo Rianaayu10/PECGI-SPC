@@ -82,12 +82,21 @@ Public Class FTACorrectiveAction
         sGlobal.getMenu("C010 ")
         Master.SiteTitle = sGlobal.idMenu & " - " & sGlobal.menuName
         pUser = Session("user") & ""
+        Dim User As clsUserSetup = clsUserSetupDB.GetData(pUser)
+
         AuthUpdate = sGlobal.Auth_UserUpdate(pUser, "C010")
         grid.SettingsDataSecurity.AllowInsert = AuthUpdate
         grid.SettingsDataSecurity.AllowEdit = AuthUpdate
-        btnMK.Enabled = AuthUpdate
-        btnQC.Enabled = AuthUpdate
+        If User Is Nothing Or AuthUpdate = False Then
+            btnMK.Enabled = False
+            btnQC.Enabled = False
+        Else
+            btnMK.Enabled = User.JobPosition = "MK"
+            btnQC.Enabled = User.JobPosition = "QC"
+        End If
+
         btnSubmit.Enabled = AuthUpdate
+
 
         show_error(MsgTypeEnum.Info, "", 0)
         Dim FactoryCode As String = ""
@@ -141,7 +150,6 @@ Public Class FTACorrectiveAction
                 End If
                 dtDate.Value = "2023-02-07"
                 If pUser <> "" Then
-                    Dim User As clsUserSetup = clsUserSetupDB.GetData(pUser)
                     If User IsNot Nothing Then
                         FactoryCode = User.FactoryCode
                         ProdDate = Session("C01ProdDate") & ""
@@ -347,7 +355,12 @@ Public Class FTACorrectiveAction
     Private Sub GridLoad(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer)
         Dim ErrMsg As String = ""
         'Dim dt As DataTable = clsFTAResultDB.GetTable(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence)
-
+        Dim User As clsUserSetup = clsUserSetupDB.GetData(pUser)
+        If User IsNot Nothing Then
+            grid.JSProperties("cpJobPosition") = User.JobPosition
+        Else
+            grid.JSProperties("cpJobPosition") = ""
+        End If
         Dim FTAList As List(Of clsFTAResult) = clsFTAResultDB.GetList(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence)
         grid.DataSource = FTAList
         grid.DataBind()
@@ -435,12 +448,13 @@ Public Class FTACorrectiveAction
                     pUser = Session("user") & ""
                     clsFTAResultDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, "1", pRemark, pUser)
 
+                    Dim n As Integer = hfID.Count
                     For Each item In hfID
                         Dim i As String = item.Key
                         Dim FTAID As String = item.Value
                         Dim pDetSeqNo As Integer = i + 1
                         Dim pResult As String
-                        Dim pAction As String = ""
+                        Dim pAction As String = hfAct.Item(i)
 
                         Dim valueOK = hfOK.Item(i)
                         Dim valueNG = hfNG.Item(i)
@@ -490,6 +504,7 @@ Public Class FTACorrectiveAction
                     hfOK.Clear()
                     hfNG.Clear()
                     hfNo.Clear()
+                    hfAct.Clear()
                     show_error(MsgTypeEnum.Success, "Update data successful!", 1)
                 ElseIf pFunction = "mkverify" Or pFunction = "qcverify" Then
                     Dim JobPos As String
@@ -766,7 +781,7 @@ Public Class FTACorrectiveAction
         If FTAID <> "" Then
             Dim i As String = container.VisibleIndex
             link.ClientInstanceName = String.Format("linkEdit{0}", i)
-            link.ClientSideEvents.Click = "function (s,e) {ShowPopUpEdit('" + FTAID + "', '" + No + "');}"
+            link.ClientSideEvents.Click = "function (s,e) {ShowPopUpEdit('" + FTAID + "', '" + No + "', " + i + ");}"
         End If
     End Sub
 
@@ -849,6 +864,7 @@ Public Class FTACorrectiveAction
                 "hfNG.Set('" + i + "', false); " +
                 "hfNo.Set('" + i + "', false); " +
                 "hfID.Set('" + i + "', '" + FTAID + "'); " +
+                "hfAct.Set('" + i + "', ''); " +
                 "}"
         End If
     End Sub
@@ -869,6 +885,7 @@ Public Class FTACorrectiveAction
                 "hfOK.Set('" + i + "', false); " +
                 "hfNo.Set('" + i + "', false); " +
                 "hfID.Set('" + i + "', '" + FTAID + "'); " +
+                "hfAct.Set('" + i + "', ''); " +
                 "}"
         End If
     End Sub
@@ -889,6 +906,7 @@ Public Class FTACorrectiveAction
                 "hfOK.Set('" + i + "', false); " +
                 "hfNG.Set('" + i + "', false); " +
                 "hfID.Set('" + i + "', '" + FTAID + "'); " +
+                "hfAct.Set('" + i + "', ''); " +
                 "}"
         End If
     End Sub

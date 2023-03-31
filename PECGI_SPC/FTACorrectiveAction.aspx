@@ -220,12 +220,12 @@
             } else {
                 txtRemark.SetEnabled(true);
                 btnSubmit.SetEnabled(true);
-                if(s.cpMKVerificationStatus == '1') {
+                if(s.cpMKVerificationStatus == '1' | s.cpJobPosition != 'MK') {
                     btnMK.SetEnabled(false);
                 } else {    
                     btnMK.SetEnabled(true);
                 }
-                if(s.cpQCVerificationStatus == '1') {
+                if(s.cpQCVerificationStatus == '1' | s.cpJobPosition != 'QC') {
                     btnQC.SetEnabled(false);
                 } else {
                     btnQC.SetEnabled(true);
@@ -246,14 +246,16 @@
 
         function SaveAction() {   
             var isChecked = chkOther.GetChecked();
-            
-            if(isChecked) {
-                var FTAID = hfDetail.Get('FTAID');
-                var DetSeqNo = hfDetail.Get('DetSeqNo');
-                gridEdit.PerformCallback('save|' + FTAID + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + txtRemark.GetText() + '|' + txtOther.GetText() + '|2|' + DetSeqNo );
+            var FTAID = hfDetail.Get('FTAID');
+            var DetSeqNo = hfDetail.Get('DetSeqNo');         
+            var pAction = txtOther.GetText();
+            var idx = hfDetail.Get('Index');
+            hfAct.Set(idx, pAction);   
+            if(isChecked == true) {
+                gridEdit.PerformCallback('save|' + FTAID + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + txtRemark.GetText() + '|' + pAction + '|2|' + DetSeqNo );
             } else {
                 gridEdit.UpdateEdit();
-            }        
+            }
             pcEdit.Hide();
             chkOther.SetChecked(false);
             txtOther.SetText('');           
@@ -276,11 +278,12 @@
             pcAction.Show();
         }
 
-        function ShowPopUpEdit(FTAID, DetSeqNo) {
+        function ShowPopUpEdit(FTAID, DetSeqNo, Index) {
             pcEdit.Show();
             gridEdit.PerformCallback('load|' + FTAID);            
             hfDetail.Set('FTAID', FTAID);
-            hfDetail.Set('DetSeqNo', DetSeqNo);            
+            hfDetail.Set('DetSeqNo', DetSeqNo);      
+            hfDetail.Set('Index', Index);
         }
 
         function ShowPopUpIK(s) {
@@ -835,6 +838,12 @@
             </dx:GridViewBandColumn>
 
             <dx:GridViewDataTextColumn FieldName="FTAID" VisibleIndex="9" Width="0px">
+                <PropertiesTextEdit>
+                    <Style Wrap="False">
+                    </Style>
+                </PropertiesTextEdit>
+                <CellStyle Wrap="False">
+                </CellStyle>
             </dx:GridViewDataTextColumn>
         </Columns>        
         <SettingsBehavior ColumnResizeMode="Control" ConfirmDelete="True" AllowDragDrop="False" AllowSort="False" />
@@ -944,8 +953,8 @@
                 </dx:ASPxHiddenField>
                 <dx:ASPxHiddenField ID="hfNo" runat="server" ClientInstanceName="hfNo">
                 </dx:ASPxHiddenField>
-
-                
+                <dx:ASPxHiddenField ID="hfAct" runat="server" ClientInstanceName="hfAct">
+                </dx:ASPxHiddenField>
             </td>
         </tr>
     </table>

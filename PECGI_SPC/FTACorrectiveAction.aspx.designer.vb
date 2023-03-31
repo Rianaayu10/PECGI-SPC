@@ -338,6 +338,15 @@ Partial Public Class FTACorrectiveAction
     Protected WithEvents hfNo As Global.DevExpress.Web.ASPxHiddenField
 
     '''<summary>
+    '''hfAct control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hfAct As Global.DevExpress.Web.ASPxHiddenField
+
+    '''<summary>
     '''pcFTA control.
     '''</summary>
     '''<remarks>

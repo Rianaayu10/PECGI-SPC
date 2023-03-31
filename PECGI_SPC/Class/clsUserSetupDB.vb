@@ -214,6 +214,7 @@ Public Class clsUserSetupDB
                             .Description = Trim(dt.Rows(i)("Description") & ""),
                             .LockStatus = Val(dt.Rows(i)("LockStatus") & ""),
                             .FactoryCode = dt.Rows(i)("FactoryCode") & "",
+                            .JobPosition = dt.Rows(i)("JobPosition") & "",
                             .FailedLogin = Val(dt.Rows(i)("FailedLogin") & ""),
                             .AdminStatus = Val(dt.Rows(i)("AdminStatus") & "")
                         }
