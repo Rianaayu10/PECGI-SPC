@@ -434,49 +434,74 @@ Public Class FTACorrectiveAction
                     Dim pRemark As String = Split(e.Parameters, "|")(8)
                     pUser = Session("user") & ""
                     clsFTAResultDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, "1", pRemark, pUser)
-                    For Each item In hf
-                        Dim i As String = item.Key
-                        Dim value As Boolean
-                        Dim pResult As String = ""
-                        Dim FTAID As String = ""
-                        If i.StartsWith("OK") Then
-                            value = item.Value
-                            If value = True Then
-                                pResult = "1"
-                            End If
-                        ElseIf i.StartsWith("NG") Then
-                            value = item.Value
-                            If value = True Then
-                                pResult = "2"
-                            End If
-                        ElseIf i.StartsWith("No") Then
-                            value = item.Value
-                            If value = True Then
-                                pResult = "0"
-                            End If
-                        ElseIf i.StartsWith("FTAID") Then
-                            FTAID = item.Value
-                        End If
-                        If pResult <> "" Then
-                            Dim pDetSeqNo As Integer = 0
-                            Dim pAction As String = ""
 
-                            'clsFTAResultDetailDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pRemark, FTAID, pDetSeqNo, pAction, pResult, pUser)
+                    For Each item In hfID
+                        Dim i As String = item.Key
+                        Dim FTAID As String = item.Value
+                        Dim pDetSeqNo As Integer = i + 1
+                        Dim pResult As String
+                        Dim pAction As String = ""
+
+                        Dim valueOK = hfOK.Item(i)
+                        Dim valueNG = hfNG.Item(i)
+
+                        If valueOK = True Then
+                            pResult = "1"
+                        ElseIf valueNG = True Then
+                            pResult = "2"
+                        Else
+                            pResult = "0"
                         End If
-                    Next item
-                    hf.Clear()
+                        clsFTAResultDetailDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pRemark, FTAID, pDetSeqNo, pAction, pResult, pUser)
+                    Next
+
+
+                    'For Each item In hfOK
+                    '    Dim i As String = item.Key
+                    '    Dim value As Boolean
+                    '    Dim pResult As String = ""
+                    '    Dim pIndex As Integer = CInt(Mid(item.Key, 3, 2).Trim)
+
+                    '    Dim FTAID As String = hfID.Item("FTAID" + pIndex)
+
+                    '    If i.StartsWith("OK") Then
+                    '        value = item.Value
+                    '        If value = True Then
+                    '            pResult = "1"
+                    '        End If
+                    '    ElseIf i.StartsWith("NG") Then
+                    '        value = item.Value
+                    '        If value = True Then
+                    '            pResult = "2"
+                    '        End If
+                    '    ElseIf i.StartsWith("No") Then
+                    '        value = item.Value
+                    '        If value = True Then
+                    '            pResult = "0"
+                    '        End If
+                    '    End If
+                    '    If pResult <> "" Then
+                    '        Dim pAction As String = ""
+                    '        Dim pDetSeqNo As Integer = pIndex + 1
+                    '        clsFTAResultDetailDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pRemark, FTAID, pDetSeqNo, pAction, pResult, pUser)
+                    '    End If
+                    'Next item
+                    hfID.Clear()
+                    hfOK.Clear()
+                    hfNG.Clear()
+                    hfNo.Clear()
                     show_error(MsgTypeEnum.Success, "Update data successful!", 1)
                 ElseIf pFunction = "mkverify" Or pFunction = "qcverify" Then
-                    Dim i As Integer = clsFTAResultDB.Verify(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pUser)
                     Dim JobPos As String
+                    If pFunction = "mkverify" Then
+                        JobPos = "MK"
+                    Else
+                        JobPos = "QC"
+                    End If
+                    Dim i As Integer = clsFTAResultDB.Verify(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pUser, JobPos)
                     If i = 0 Then
                         show_error(MsgTypeEnum.Warning, "You do not have privilege to verify!", 1)
                     Else
-                        If pFunction = "mkverify" Then
-                            JobPos = "MK"
-                        Else
-                            JobPos = "QC"
-                        End If
                         show_error(MsgTypeEnum.Success, JobPos & " Verification successful!", 1)
                     End If
                 End If
@@ -820,10 +845,10 @@ Public Class FTACorrectiveAction
                 "function(s, e) { " +
                 "chkNG" + i + ".SetChecked(false); " +
                 "chkNo" + i + ".SetChecked(false); " +
-                "hf.Set('OK" + i + "', s.GetChecked()); " +
-                "hf.Set('NG" + i + "', false); " +
-                "hf.Set('No" + i + "', false); " +
-                "hf.Set('FTAID" + i + "', '" + FTAID + "'); " +
+                "hfOK.Set('" + i + "', s.GetChecked()); " +
+                "hfNG.Set('" + i + "', false); " +
+                "hfNo.Set('" + i + "', false); " +
+                "hfID.Set('" + i + "', '" + FTAID + "'); " +
                 "}"
         End If
     End Sub
@@ -840,11 +865,10 @@ Public Class FTACorrectiveAction
                 "function(s, e) { " +
                 "chkOK" + i + ".SetChecked(false); " +
                 "chkNo" + i + ".SetChecked(false); " +
-                "hf.Set('NG" + i + "', s.GetChecked()); " +
-                "hf.Set('OK" + i + "', false); " +
-                "hf.Set('No" + i + "', false); " +
-                "SelectNoCheck(" + i + "); " +
-                "hf.Set('FTAID" + i + "', '" + FTAID + "'); " +
+                "hfNG.Set('" + i + "', s.GetChecked()); " +
+                "hfOK.Set('" + i + "', false); " +
+                "hfNo.Set('" + i + "', false); " +
+                "hfID.Set('" + i + "', '" + FTAID + "'); " +
                 "}"
         End If
     End Sub
@@ -861,10 +885,10 @@ Public Class FTACorrectiveAction
                 "function(s, e) { " +
                 "chkOK" + i + ".SetChecked(false); " +
                 "chkNG" + i + ".SetChecked(false); " +
-                "hf.Set('No" + i + "', s.GetChecked()); " +
-                "hf.Set('OK" + i + "', false); " +
-                "hf.Set('NG" + i + "', false); " +
-                "hf.Set('FTAID" + i + "', '" + FTAID + "'); " +
+                "hfNo.Set('" + i + "', s.GetChecked()); " +
+                "hfOK.Set('" + i + "', false); " +
+                "hfNG.Set('" + i + "', false); " +
+                "hfID.Set('" + i + "', '" + FTAID + "'); " +
                 "}"
         End If
     End Sub
