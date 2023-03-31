@@ -103,7 +103,7 @@
                 toastr.warning("Please, Choose Type !", 'Warning', { timeOut: 3000, closeButton: true });
             } else if (parseDate(dtFromDate.GetText()) > parseDate(dtToDate.GetText())) {
                 toastr.warning("To Date can not less then From Date !", 'Warning', { timeOut: 3000, closeButton: true });
-            } else if (nMonth > 12) {
+            } else if (nMonth > 11) {
                 toastr.warning("Periode can not more than 12 period !", 'Warning', { timeOut: 3000, closeButton: true });
             } else {
                 tableLineGroup(User, FactoryCode, ProcessGroup, LineGroup, ProcessCode, LineCode, ItemType, ProdDate_From, ProdDate_To);
@@ -192,7 +192,7 @@
                             Object.values(result.d.Contents).forEach(LineDetailContent);
                         }
                     } else {
-                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                        toastr.warning(result.d.Message, 'Warning', { timeOut: 3000, closeButton: true });
                     }
                 },
                 error: function (ex) {
@@ -338,7 +338,7 @@
 
                         }
                     } else {
-                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                        toastr.warning(result.d.Message, 'Warning', { timeOut: 3000, closeButton: true });
                     }
                 },
                 error: function (ex) {
