@@ -302,13 +302,40 @@ Partial Public Class FTACorrectiveAction
     Protected WithEvents btnSubmit As Global.DevExpress.Web.ASPxButton
 
     '''<summary>
-    '''hf control.
+    '''hfID control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents hf As Global.DevExpress.Web.ASPxHiddenField
+    Protected WithEvents hfID As Global.DevExpress.Web.ASPxHiddenField
+
+    '''<summary>
+    '''hfOK control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hfOK As Global.DevExpress.Web.ASPxHiddenField
+
+    '''<summary>
+    '''hfNG control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hfNG As Global.DevExpress.Web.ASPxHiddenField
+
+    '''<summary>
+    '''hfNo control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hfNo As Global.DevExpress.Web.ASPxHiddenField
 
     '''<summary>
     '''pcFTA control.

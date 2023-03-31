@@ -370,9 +370,9 @@
 
         }
 
-        function SelectNoCheck(startRow) {
+        function SelectNoCheck(startRow, checked) {
             for(var i = startRow + 1; i < grid.GetVisibleRowsOnPage(); i++) {
-                grid.batchEditApi.SetCellValue(i, "NoCheck", true);
+                grid.batchEditApi.SetCellValue(i, "NoCheck", checked);
             }
         }
 
@@ -936,9 +936,13 @@
                 
             </td>
             <td style="padding-left:10px; vertical-align:top">
-
-                
-                <dx:ASPxHiddenField ID="hf" runat="server" ClientInstanceName="hf">
+                <dx:ASPxHiddenField ID="hfID" runat="server" ClientInstanceName="hfID">
+                </dx:ASPxHiddenField>                
+                <dx:ASPxHiddenField ID="hfOK" runat="server" ClientInstanceName="hfOK">
+                </dx:ASPxHiddenField>
+                <dx:ASPxHiddenField ID="hfNG" runat="server" ClientInstanceName="hfNG">
+                </dx:ASPxHiddenField>
+                <dx:ASPxHiddenField ID="hfNo" runat="server" ClientInstanceName="hfNo">
                 </dx:ASPxHiddenField>
 
                 
