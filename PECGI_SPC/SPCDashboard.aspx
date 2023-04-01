@@ -124,7 +124,15 @@
                                     </center>
                                 </th>
                             </tr>
+                            <%--<tr height="1px">
+                                <td style="background-color: transparent"></td>
+                            </tr>
+                            <tr>
+                                <th colspan="10">SPC Verification</th>
+                            </tr>--%>
                         </table>
+
+                        
 
                     </div>
 
@@ -135,11 +143,14 @@
                                 <td style="background-color: transparent"></td>
                             </tr>
                             <tr>
-                            
                                 <asp:Repeater runat="server" ID="rptNGInput" OnItemDataBound="rptNGInput_OnItemDataBound">
                                     <HeaderTemplate>
                                         <table width="100%" class="table table-bordered table-responsive" style=" font-size: 13px;">
                                             <thead>
+                                                <tr>
+                                                    <th colspan="17"><center>SPC Verification</center></th>
+                                                    <th colspan="5"><center>FTA Verification</center></th>
+                                                </tr>
                                                 <tr>
                                                     <th width="5%">Type</th>
                                                     <th width="10%">Machine Process</th>
@@ -156,6 +167,11 @@
                                                     <th>Average</th>
                                                     <th>R</th>
                                                     <th>Operator</th>
+                                                    <th>MK</th>
+                                                    <th>QC</th>
+                                                    <th>Current Condition</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
                                                     <th>MK</th>
                                                     <th>QC</th>
                                                 </tr>
@@ -214,6 +230,21 @@
                                                     </td>
                                                     <td >
                                                         <asp:Label ID="lblQC" runat="server" Text='<%# Eval("QC") %>' />
+                                                    </td>
+                                                    <td >
+                                                        <asp:Label ID="lblCurrentConditionFTA" runat="server" Text='<%# Eval("LineName") %>' />
+                                                    </td>
+                                                    <td >
+                                                        <asp:Label ID="lblStatusFTA" runat="server" Text='<%# Eval("StatusFTA") %>' />
+                                                    </td>
+                                                    <td >
+                                                        <asp:Label ID="lblActionFTA" runat="server" Text='<%# Eval("ActionFTA") %>' />
+                                                    </td>
+                                                    <td >
+                                                        <asp:Label ID="lblMKFTA" runat="server" Text='<%# Eval("MKFTA") %>' />
+                                                    </td>
+                                                    <td >
+                                                        <asp:Label ID="lblQCFTA" runat="server" Text='<%# Eval("QCFTA") %>' />
                                                     </td>
                                                 </tr>
                                         </ItemTemplate>
