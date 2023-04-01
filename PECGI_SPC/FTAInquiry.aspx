@@ -152,12 +152,23 @@
             }            
         }
 
+        var rowIndex;
+        function OnBatchEditStartEditing(s, e) {
+            
+        }
+
         var SPCResultID = '';
         function OnSelectionChanged(s, e) {
             var i = s.GetSelectedRowCount();
             btnSample.SetEnabled(i > 0);
             btnFTA.SetEnabled(i > 0);
-            s.GetSelectedFieldValues("SPCResultID", GetSelectedFieldValuesCallback);
+            if (e.isSelected) {                
+                if (i > 1 && rowIndex != null) {
+                    s.UnselectRowsByKey(rowIndex);
+                }                
+                rowIndex = s.GetRowKey(e.visibleIndex);                
+                s.GetSelectedFieldValues("SPCResultID", GetSelectedFieldValuesCallback);                
+            }
         }
 
         function GetSelectedFieldValuesCallback(values) {
@@ -564,7 +575,7 @@
             Width="100%" 
             Font-Names="Segoe UI" Font-Size="9pt" CssClass="auto-style2">
             <ClientSideEvents 
-                EndCallback="OnEndCallback" SelectionChanged="OnSelectionChanged"
+                EndCallback="OnEndCallback" SelectionChanged="OnSelectionChanged" BatchEditStartEditing="OnBatchEditStartEditing"
              />
             <SettingsResizing ColumnResizeMode="Control" />
             <SettingsDataSecurity AllowDelete="False" />
@@ -580,25 +591,43 @@
             <dx:GridViewDataTextColumn FieldName="ProdDate" VisibleIndex="1" Width="90px">
                 <PropertiesTextEdit DisplayFormatString="dd MMM yyyy">
                 </PropertiesTextEdit>
+                <CellStyle Wrap="False">
+                </CellStyle>
             </dx:GridViewDataTextColumn>
 
             <dx:GridViewDataTextColumn FieldName="ShiftCode" VisibleIndex="2" Width="50px" Caption="Shift">
+                <CellStyle Wrap="False">
+                </CellStyle>
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn FieldName="SequenceNo" VisibleIndex="3" Width="40px" Caption="Seq">
+                <CellStyle Wrap="False">
+                </CellStyle>
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn FieldName="ItemCheck" VisibleIndex="4" Width="200px">
+                <CellStyle Wrap="False">
+                </CellStyle>
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn FieldName="Status" VisibleIndex="5" Width="40px">
+                <CellStyle Wrap="False">
+                </CellStyle>
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn FieldName="CheckItem" VisibleIndex="6" Width="160px">
+                <CellStyle Wrap="False">
+                </CellStyle>
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn FieldName="ActionName" VisibleIndex="7" Caption="Action" Width="120px">
+                <CellStyle Wrap="False">
+                </CellStyle>
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn FieldName="Remark" VisibleIndex="12">
+                <CellStyle Wrap="False">
+                </CellStyle>
             </dx:GridViewDataTextColumn>
             <dx:GridViewBandColumn Caption="MK Verification" VisibleIndex="8">
                 <Columns>
                     <dx:GridViewDataTextColumn Caption="PIC" FieldName="MKVerificationUser" VisibleIndex="0" Width="90px">
+                        <CellStyle Wrap="False">
+                        </CellStyle>
                     </dx:GridViewDataTextColumn>
                     <dx:GridViewDataTextColumn Caption="Date" FieldName="MKVerificationDate" VisibleIndex="1" Width="90px">
                         <PropertiesTextEdit DisplayFormatString="dd MMM yyyy">
@@ -609,6 +638,8 @@
             <dx:GridViewBandColumn Caption="QC Verification" VisibleIndex="9">
                 <Columns>
                     <dx:GridViewDataTextColumn Caption="PIC" FieldName="QCVerificationUser" VisibleIndex="0" Width="90px">
+                        <CellStyle Wrap="False">
+                        </CellStyle>
                     </dx:GridViewDataTextColumn>
                     <dx:GridViewDataTextColumn Caption="Date" FieldName="QCVerificationDate" VisibleIndex="1" Width="90px">
                         <PropertiesTextEdit DisplayFormatString="dd MMM yyyy">
@@ -618,6 +649,8 @@
             </dx:GridViewBandColumn>
 
             <dx:GridViewDataTextColumn FieldName="SPCResultID" Visible="False" VisibleIndex="13">
+                <CellStyle Wrap="False">
+                </CellStyle>
             </dx:GridViewDataTextColumn>
 
         </Columns>        
@@ -642,6 +675,8 @@
             <EditFormColumnCaption Font-Names="Segoe UI" Font-Size="9pt">
                 <Paddings PaddingBottom="5px" PaddingLeft="15px" PaddingRight="15px" PaddingTop="5px" />
             </EditFormColumnCaption>
+            <Cell Wrap="False">
+            </Cell>
             <CommandColumnItem ForeColor="SteelBlue">
             </CommandColumnItem>
             <BatchEditModifiedCell BackColor="#FFFF99" ForeColor="Black">
