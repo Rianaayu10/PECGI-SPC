@@ -347,6 +347,15 @@ Partial Public Class FTACorrectiveAction
     Protected WithEvents hfAct As Global.DevExpress.Web.ASPxHiddenField
 
     '''<summary>
+    '''cbkValid control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cbkValid As Global.DevExpress.Web.ASPxCallback
+
+    '''<summary>
     '''pcFTA control.
     '''</summary>
     '''<remarks>

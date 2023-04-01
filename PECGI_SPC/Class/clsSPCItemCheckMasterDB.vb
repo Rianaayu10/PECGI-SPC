@@ -102,6 +102,17 @@ Public Class ClsSPCItemCheckMasterDB
         End Using
     End Function
 
+    Public Shared Function GetDigit(ItemCheckCode As String) As Integer
+        Using cn As New SqlConnection(Sconn.Stringkoneksi)
+            cn.Open()
+            Dim q As String = "select top 1 isnull(DecimalDigit, 3) DecimalDigit from spc_ItemCheckMaster where ItemCheckCode = @ItemCheckCode"
+            Dim cmd As New SqlCommand(q, cn)
+            cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
+            Dim Digit As Integer = cmd.ExecuteScalar
+            Return Digit
+        End Using
+    End Function
+
     Public Shared Function GetData(ItemCheckCode As String) As ClsSPCItemCheckMaster
         Using cn As New SqlConnection(Sconn.Stringkoneksi)
             Dim sql As String
@@ -123,6 +134,7 @@ Public Class ClsSPCItemCheckMasterDB
                     .ItemCheck = Trim(dt.Rows(i)("ItemCheck")),
                     .UnitMeasurement = Trim(dt.Rows(i)("UnitMeasurement")),
                     .Description = Trim(dt.Rows(i)("Description") & ""),
+                    .DecimalDigit = dt.Rows(i)("DecimalDigit"),
                     .ActiveStatus = Trim(dt.Rows(i)("ActiveStatus")),
                     .UpdateUser = Trim(dt.Rows(i)("UpdateUser")),
                     .UpdateDate = Trim(dt.Rows(i)("UpdateDate"))

@@ -91,14 +91,16 @@ Public Class clsFTAResultDB
         End Using
     End Function
 
-    Public Shared Function GetFTAMaster(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String) As DataTable
+    Public Shared Function GetFTAMaster(FactoryCode As String, ItemTypeCode As String, ItemCheckCode As String) As DataTable
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
-            Dim q As String = "select FTAID, Factor1, Factor2, Factor3, Factor4, CounterMeasure, CheckItem, 'View' Action, 'View' IK from spc_MS_FTA where ActiveStatus = 1 order by CheckOrder"
+            Dim q As String = "select FTAID, Factor1, Factor2, Factor3, Factor4, CounterMeasure, CheckItem, 'View' Action, 'View' IK " +
+                "from spc_MS_FTA where ActiveStatus = 1 " +
+                "and FactoryCode = @FactoryCode and ItemTypeCode = @ItemTypeCode and ItemCheckCode = @ItemCheckCode " +
+                "order by CheckOrder"
             Dim cmd As New SqlCommand(q, Cn)
             cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
             cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
-            cmd.Parameters.AddWithValue("Line", Line)
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
 
             Dim da As New SqlDataAdapter(cmd)

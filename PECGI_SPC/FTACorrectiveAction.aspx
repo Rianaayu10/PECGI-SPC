@@ -161,10 +161,30 @@
                 }            
                 GridLoad();
         }
+
+        function ValidateSave() {
+            cbkValid.PerformCallback('validate');
+        }
+
+        function cbkValidEndCallback(s, e) {
+            if(s.cpErrMsg != '') {
+                toastr.warning(s.cpErrMsg, 'Warning');
+                toastr.options.closeButton = false;
+                toastr.options.debug = false;
+                toastr.options.newestOnTop = false;
+                toastr.options.progressBar = false;
+                toastr.options.preventDuplicates = true;
+                toastr.options.onclick = null;
+            } else {
+                SaveData();
+            }
+        }
         
         function gridEditOnEndCallback(s, e) {
-            gridEdit.CancelEdit();            
-            GridLoad();
+            gridEdit.CancelEdit();    
+            if(s.cpUpdate != '') {
+                SaveData();
+            }
         }
 
         function OnEndCallback(s, e) {        
@@ -250,8 +270,22 @@
             var DetSeqNo = hfDetail.Get('DetSeqNo');         
             var pAction = txtOther.GetText();
             var idx = hfDetail.Get('Index');
-            hfAct.Set(idx, pAction);   
-            if(isChecked == true) {
+            if(isChecked & pAction.trim() == '') {
+                txtOther.Focus();
+                toastr.warning('Please input Action!', 'Warning');
+                toastr.options.closeButton = false;
+                toastr.options.debug = false;
+                toastr.options.newestOnTop = false;
+                toastr.options.progressBar = false;
+                toastr.options.preventDuplicates = true;
+                toastr.options.onclick = null;    
+                e.processOnServer = false;
+                return;
+            } 
+
+            hfAct.Set(idx, pAction);
+            if(isChecked) {
+                
                 gridEdit.PerformCallback('save|' + FTAID + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + txtRemark.GetText() + '|' + pAction + '|2|' + DetSeqNo );
             } else {
                 gridEdit.UpdateEdit();
@@ -280,7 +314,7 @@
 
         function ShowPopUpEdit(FTAID, DetSeqNo, Index) {
             pcEdit.Show();
-            gridEdit.PerformCallback('load|' + FTAID);            
+            gridEdit.PerformCallback('load|' + FTAID);
             hfDetail.Set('FTAID', FTAID);
             hfDetail.Set('DetSeqNo', DetSeqNo);      
             hfDetail.Set('Index', Index);
@@ -786,7 +820,7 @@
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataCheckColumn FieldName="NoCheck" ShowInCustomizationForm="True" VisibleIndex="3" Width="50px">
                         <DataItemTemplate>
-                            <dx:ASPxCheckBox ID="chkNo" runat="server" OnInit="chkNo_Init" Value='<%# Eval("NoCheck")%>'/>
+                            <dx:ASPxCheckBox ID="chkNo" runat="server" OnInit="chkNo_Init" Value='<%# Eval("NoCheck")%>' />
                         </DataItemTemplate>
             </dx:GridViewDataCheckColumn>
             <dx:GridViewDataTextColumn FieldName="Action" ShowInCustomizationForm="True" VisibleIndex="6" Width="260px">
@@ -939,7 +973,7 @@
                     Width="90px" TabIndex="10" ClientEnabled="false">                    
                     <Paddings Padding="2px" PaddingLeft="5px" />
 
-                    <ClientSideEvents Click="SaveData"/>
+                    <ClientSideEvents Click="ValidateSave"/>
                 </dx:ASPxButton>
 
                 
@@ -955,6 +989,11 @@
                 </dx:ASPxHiddenField>
                 <dx:ASPxHiddenField ID="hfAct" runat="server" ClientInstanceName="hfAct">
                 </dx:ASPxHiddenField>
+
+                <dx:ASPxCallback ID="cbkValid" runat="server" ClientInstanceName="cbkValid">
+                    <ClientSideEvents EndCallback="cbkValidEndCallback" />
+                </dx:ASPxCallback>
+
             </td>
         </tr>
     </table>

@@ -331,9 +331,9 @@ Public Class FTACorrectiveAction
         Return SetupFound
     End Function
 
-    Private Sub GridLoadFTA(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String)
+    Private Sub GridLoadFTA(FactoryCode As String, ItemTypeCode As String, ItemCheckCode As String)
         Dim ErrMsg As String = ""
-        Dim dt As DataTable = clsFTAResultDB.GetFTAMaster(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
+        Dim dt As DataTable = clsFTAResultDB.GetFTAMaster(FactoryCode, ItemTypeCode, ItemCheckCode)
         gridFTA.DataSource = dt
         gridFTA.DataBind()
     End Sub
@@ -840,7 +840,7 @@ Public Class FTACorrectiveAction
         Dim pItemType As String = Split(e.Parameters, "|")(2)
         Dim pLine As String = Split(e.Parameters, "|")(3)
         Dim pItemCheck As String = Split(e.Parameters, "|")(4)
-        GridLoadFTA(pFactory, pItemType, pLine, pItemCheck)
+        GridLoadFTA(pFactory, pItemType, pItemCheck)
     End Sub
 
     Private Sub cbkPanel_Callback(sender As Object, e As CallbackEventArgsBase) Handles cbkPanel.Callback
@@ -856,16 +856,17 @@ Public Class FTACorrectiveAction
         If FTAID <> "" Then
             Dim i As String = container.VisibleIndex
             chkOK.ClientInstanceName = String.Format("chkOK{0}", i)
-            chkOK.ClientSideEvents.CheckedChanged =
-                "function(s, e) { " +
+            Dim q As String = "function(s, e) { " +
                 "chkNG" + i + ".SetChecked(false); " +
-                "chkNo" + i + ".SetChecked(false); " +
+                "if(!chkOK" + i + ".GetChecked() & !chkNG" + i + ".GetChecked()) {chkNo" + i + ".SetChecked(true);} else {chkNo" + i + ".SetChecked(false); } " +
                 "hfOK.Set('" + i + "', s.GetChecked()); " +
                 "hfNG.Set('" + i + "', false); " +
                 "hfNo.Set('" + i + "', false); " +
                 "hfID.Set('" + i + "', '" + FTAID + "'); " +
-                "hfAct.Set('" + i + "', ''); " +
-                "}"
+                "hfAct.Set('" + i + "', ''); "
+
+            q = q + "}"
+            chkOK.ClientSideEvents.CheckedChanged = q
         End If
     End Sub
 
@@ -880,7 +881,7 @@ Public Class FTACorrectiveAction
             chkNG.ClientSideEvents.CheckedChanged =
                 "function(s, e) { " +
                 "chkOK" + i + ".SetChecked(false); " +
-                "chkNo" + i + ".SetChecked(false); " +
+                "if(!chkOK" + i + ".GetChecked() & !chkNG" + i + ".GetChecked()) {chkNo" + i + ".SetChecked(true);} else {chkNo" + i + ".SetChecked(false); } " +
                 "hfNG.Set('" + i + "', s.GetChecked()); " +
                 "hfOK.Set('" + i + "', false); " +
                 "hfNo.Set('" + i + "', false); " +
@@ -927,11 +928,31 @@ Public Class FTACorrectiveAction
         GridLoadAction(FTAID)
     End Sub
 
+    Private Sub ValidateSave()
+        cbkValid.JSProperties("cpErrMsg") = ""
+        Dim n As Integer = hfID.Count
+        For Each item In hfID
+            Dim i As String = item.Key
+            Dim FTAID As String = item.Value
+            Dim pDetSeqNo As Integer = i + 1
+            Dim pAction As String = hfAct.Item(i) + ""
+
+            Dim valueOK = hfOK.Item(i)
+            Dim valueNG = hfNG.Item(i)
+
+            If valueNG And pAction = "" Then
+                cbkValid.JSProperties("cpErrMsg") = "Please input action for Sequence " + pDetSeqNo.ToString
+                Exit For
+            End If
+        Next
+    End Sub
+
     Private Sub gridEdit_CustomCallback(sender As Object, e As ASPxGridViewCustomCallbackEventArgs) Handles gridEdit.CustomCallback
         Dim pFunction As String = Split(e.Parameters, "|")(0)
         Dim FTAID As String = Split(e.Parameters, "|")(1)
         If pFunction = "load" Then
             GridLoadEdit(FTAID)
+            gridEdit.JSProperties("cpUpdate") = ""
         ElseIf pFunction = "save" Then
             Dim pFactory As String = Split(e.Parameters, "|")(2)
             Dim pItemType As String = Split(e.Parameters, "|")(3)
@@ -948,6 +969,7 @@ Public Class FTACorrectiveAction
 
             clsFTAResultDetailDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pRemark, FTAID, pDetSeqNo, pAction, pResult, pUser)
             GridEditShowMsg(MsgTypeEnum.Success, "Update data successful!", 1)
+            gridEdit.JSProperties("cpUpdate") = "1"
         End If
     End Sub
 
@@ -989,11 +1011,17 @@ Public Class FTACorrectiveAction
         Dim pDetSeqNo As Integer = hfDetail.Get("DetSeqNo")
         Dim pFTAID As String = hfDetail.Get("FTAID")
         Dim pRemark As String = txtRemark.Value
+        Dim n As Integer = e.UpdateValues.Count
         For i = 0 To e.UpdateValues.Count - 1
             Dim pResult As String = "2"
             Dim pAction As String = e.UpdateValues(i).NewValues("ActionName")
+            hfID.Set(pDetSeqNo - 1, pFTAID)
+            hfOK.Set(pDetSeqNo - 1, False)
+            hfNG.Set(pDetSeqNo - 1, True)
+            hfAct.Set(pDetSeqNo - 1, pAction)
             clsFTAResultDetailDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pRemark, pFTAID, pDetSeqNo, pAction, pResult, pUser)
         Next
+        gridEdit.JSProperties("cpUpdate") = "1"
         e.Handled = True
     End Sub
 
@@ -1003,5 +1031,9 @@ Public Class FTACorrectiveAction
 
     Private Sub gridEdit_DataBound(sender As Object, e As EventArgs) Handles gridEdit.DataBound
         gridEdit.Columns("FTAID").Visible = False
+    End Sub
+
+    Private Sub cbkValid_Callback(source As Object, e As CallbackEventArgs) Handles cbkValid.Callback
+        ValidateSave()
     End Sub
 End Class
