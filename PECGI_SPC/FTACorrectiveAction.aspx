@@ -237,9 +237,7 @@
                 btnSubmit.SetEnabled(false);
                 btnMK.SetEnabled(false);
                 btnQC.SetEnabled(false);
-            } else {
-                txtRemark.SetEnabled(true);
-                btnSubmit.SetEnabled(true);
+            } else {                
                 if(s.cpMKVerificationStatus == '1' | s.cpJobPosition != 'MK') {
                     btnMK.SetEnabled(false);
                 } else {    
@@ -249,6 +247,13 @@
                     btnQC.SetEnabled(false);
                 } else {
                     btnQC.SetEnabled(true);
+                }
+                if(s.cpMKVerificationStatus == '1' | s.cpQCVerificationStatus == '1') {
+                    txtRemark.SetEnabled(false);
+                    btnSubmit.SetEnabled(false);
+                } else {
+                    txtRemark.SetEnabled(true);
+                    btnSubmit.SetEnabled(true);
                 }
             }
             txtRemark.SetText(s.cpRemark);

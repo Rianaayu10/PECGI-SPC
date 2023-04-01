@@ -352,6 +352,9 @@ Public Class FTACorrectiveAction
         gridEdit.DataBind()
     End Sub
 
+    Dim MKVerified As Boolean = False
+    Dim QCVerified As Boolean = False
+
     Private Sub GridLoad(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer)
         Dim ErrMsg As String = ""
         'Dim dt As DataTable = clsFTAResultDB.GetTable(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence)
@@ -362,9 +365,9 @@ Public Class FTACorrectiveAction
             grid.JSProperties("cpJobPosition") = ""
         End If
         Dim FTAList As List(Of clsFTAResult) = clsFTAResultDB.GetList(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence)
-        grid.DataSource = FTAList
-        grid.DataBind()
         If FTAList.Count = 0 Then
+            MKVerified = False
+            QCVerified = False
             grid.JSProperties("cpCount") = ""
             grid.JSProperties("cpRemark") = ""
             grid.JSProperties("cpMKVerificationStatus") = ""
@@ -381,21 +384,18 @@ Public Class FTACorrectiveAction
             Dim FTA As clsFTAResult = FTAList.Item(0)
             grid.JSProperties("cpCount") = FTAList.Count
             grid.JSProperties("cpRemark") = FTA.Remark
+            MKVerified = FTA.MKVerificationStatus = "1"
+            QCVerified = FTA.QCVerificationStatus = "1"
             grid.JSProperties("cpMKVerificationStatus") = FTA.MKVerificationStatus
             grid.JSProperties("cpMKVerificationDate") = FTA.MKVerificationDate
             grid.JSProperties("cpMKVerificationUser") = FTA.MKVerificationUser
             grid.JSProperties("cpQCVerificationStatus") = FTA.QCVerificationStatus
             grid.JSProperties("cpQCVerificationDate") = FTA.QCVerificationDate
             grid.JSProperties("cpQCVerificationUser") = FTA.QCVerificationUser
-            If FTA.MKVerificationStatus = "1" Then
-                btnMK.ClientEnabled = False
-            End If
-            If FTA.QCVerificationStatus = "1" Then
-                btnQC.ClientEnabled = False
-            End If
             txtRemark.Text = FTA.Remark
-            btnSubmit.ClientEnabled = True
         End If
+        grid.DataSource = FTAList
+        grid.DataBind()
         Dim UserID As String = Session("user")
         Session("C01USer") = UserID
         Session("C01ProdDate") = ProdDate
@@ -782,6 +782,11 @@ Public Class FTACorrectiveAction
             Dim i As String = container.VisibleIndex
             link.ClientInstanceName = String.Format("linkEdit{0}", i)
             link.ClientSideEvents.Click = "function (s,e) {ShowPopUpEdit('" + FTAID + "', '" + No + "', " + i + ");}"
+            If MKVerified Or QCVerified Then
+                link.ClientVisible = False
+            Else
+                link.ClientVisible = True
+            End If
         End If
     End Sub
 
@@ -856,6 +861,7 @@ Public Class FTACorrectiveAction
         If FTAID <> "" Then
             Dim i As String = container.VisibleIndex
             chkOK.ClientInstanceName = String.Format("chkOK{0}", i)
+            chkOK.ClientEnabled = Not MKVerified And Not QCVerified
             Dim q As String = "function(s, e) { " +
                 "chkNG" + i + ".SetChecked(false); " +
                 "if(!chkOK" + i + ".GetChecked() & !chkNG" + i + ".GetChecked()) {chkNo" + i + ".SetChecked(true);} else {chkNo" + i + ".SetChecked(false); } " +
@@ -878,6 +884,7 @@ Public Class FTACorrectiveAction
         If FTAID <> "" Then
             Dim i As String = container.VisibleIndex
             chkNG.ClientInstanceName = String.Format("chkNG{0}", i)
+            chkNG.ClientEnabled = Not MKVerified And Not QCVerified
             chkNG.ClientSideEvents.CheckedChanged =
                 "function(s, e) { " +
                 "chkOK" + i + ".SetChecked(false); " +
@@ -899,6 +906,7 @@ Public Class FTACorrectiveAction
         If FTAID <> "" Then
             Dim i As String = container.VisibleIndex
             chkNo.ClientInstanceName = String.Format("chkNo{0}", i)
+            chkNo.ClientEnabled = Not MKVerified And Not QCVerified
             chkNo.ClientSideEvents.CheckedChanged =
                 "function(s, e) { " +
                 "chkOK" + i + ".SetChecked(false); " +
