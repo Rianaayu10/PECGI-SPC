@@ -270,18 +270,6 @@
             var DetSeqNo = hfDetail.Get('DetSeqNo');         
             var pAction = txtOther.GetText();
             var idx = hfDetail.Get('Index');
-            if(isChecked & pAction.trim() == '') {
-                txtOther.Focus();
-                toastr.warning('Please input Action!', 'Warning');
-                toastr.options.closeButton = false;
-                toastr.options.debug = false;
-                toastr.options.newestOnTop = false;
-                toastr.options.progressBar = false;
-                toastr.options.preventDuplicates = true;
-                toastr.options.onclick = null;    
-                e.processOnServer = false;
-                return;
-            } 
 
             hfAct.Set(idx, pAction);
             if(isChecked) {
@@ -900,6 +888,8 @@
             <EditFormColumnCaption Font-Names="Segoe UI" Font-Size="9pt">
                 <Paddings PaddingBottom="5px" PaddingLeft="15px" PaddingRight="15px" PaddingTop="5px" />
             </EditFormColumnCaption>
+            <Cell Wrap="False">
+            </Cell>
             <CommandColumnItem ForeColor="SteelBlue">
             </CommandColumnItem>
             <BatchEditModifiedCell BackColor="#FFFF99" ForeColor="Black">

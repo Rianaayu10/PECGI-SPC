@@ -931,6 +931,7 @@ Public Class FTACorrectiveAction
     Private Sub ValidateSave()
         cbkValid.JSProperties("cpErrMsg") = ""
         Dim n As Integer = hfID.Count
+        Dim NGCount As Integer = 0
         For Each item In hfID
             Dim i As String = item.Key
             Dim FTAID As String = item.Value
@@ -940,9 +941,12 @@ Public Class FTACorrectiveAction
             Dim valueOK = hfOK.Item(i)
             Dim valueNG = hfNG.Item(i)
 
-            If valueNG And pAction = "" Then
-                cbkValid.JSProperties("cpErrMsg") = "Please input action for Sequence " + pDetSeqNo.ToString
-                Exit For
+            If valueNG Then
+                If pAction = "" Then
+                    cbkValid.JSProperties("cpErrMsg") = "Please input action for Sequence " + pDetSeqNo.ToString
+                    Exit For
+                End If
+                NGCount = NGCount + 1
             End If
         Next
     End Sub
