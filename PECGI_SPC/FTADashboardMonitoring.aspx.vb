@@ -53,7 +53,7 @@ Public Class FTADashboardMonitoring
             content.Contents = det
 
         Catch ex As Exception
-            content.Message = "Error"
+            content.Message = "Error : " & ex.Message
             content.Contents = ex.Message
         End Try
         Return content

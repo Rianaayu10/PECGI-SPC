@@ -1,29 +1,29 @@
 ﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="FTADashboardMonitoring.aspx.vb" Inherits="PECGI_SPC.FTADashboardMonitoring" %>
 
 <%@ Register Assembly="DevExpress.Web.v20.2, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>FTA Dashboard Dashboard</title>
     <link href="Styles/images/favicon_pecgi.ico" rel="SHORTCUT ICON" type="image/icon" />
 
-    <meta charset="utf-8">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="css/global-circuit-store.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-production-plugins.min.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-production.min.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-skins.min.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-rtl.min.css">
-
-    <script src="Scripts/toastr.js"></script>
-    <link rel="Stylesheet" type="text/css" href="content/toastr.css">
-    <link rel="Stylesheet" href="content/toastr.min.css">
+    <meta charset="utf-8" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/global-circuit-store.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-production-plugins.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-production.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-skins.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-rtl.min.css" />
+    <script src="Scripts/toastr.js" type="text/javascript"></script>
+    <link rel="Stylesheet" type="text/css" href="content/toastr.css" />
+    <link href="css/fixedColumns.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link rel="Stylesheet" href="content/toastr.min.css" />
 
     <style>
         .position {
@@ -243,7 +243,7 @@
 
         $(document).ready(function () {
             UserID = HideValue.Get("UserID");
-            loadDashboard(UserID);
+            loaddashboard(userid);
         })
 
         window.onload = function () {
@@ -406,6 +406,47 @@
         }
 
     </script>
+      <script type="text/javascript">
+          if (!window.jQuery) {
+              document.write('<script src="js/libs/jquery-2.1.1.min.js"><\/script>');
+          }
+      </script>
+    <script type="text/javascript">
+        if (!window.jQuery.ui) {
+            document.write('<script src="js/libs/jquery-ui-1.10.3.min.js"><\/script>');
+        }
+    </script>
+    <script src="js/app.config.js" type="text/javascript"></script>
+    <script src="js/plugin/jquery-touch/jquery.ui.touch-punch.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/notification/SmartNotification.min.js" type="text/javascript"></script>
+    <script src="js/smartwidgets/jarvis.widget.min.js" type="text/javascript"></script>
+    <script src="js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js" type="text/javascript"></script>
+    <script src="js/plugin/sparkline/jquery.sparkline.min.js" type="text/javascript"></script>
+    <script src="js/plugin/jquery-validate/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="js/plugin/masked-input/jquery.maskedinput.min.js" type="text/javascript"></script>
+    <script src="js/plugin/select2/select2.min.js" type="text/javascript"></script>
+    <script src="js/plugin/bootstrap-slider/bootstrap-slider.min.js" type="text/javascript"></script>
+    <script src="js/plugin/msie-fix/jquery.mb.browser.min.js" type="text/javascript"></script>
+    <script src="js/plugin/fastclick/fastclick.min.js" type="text/javascript"></script>
+    <script src="js/app.min.js" type="text/javascript"></script>
+    <script src="js/speech/voicecommand.min.js" type="text/javascript"></script>
+    <script src="js/smart-chat-ui/smart.chat.ui.min.js" type="text/javascript"></script>
+    <script src="js/smart-chat-ui/smart.chat.manager.min.js" type="text/javascript"></script>
+    <script src="js/plugin/vectormap/jquery-jvectormap-1.2.2.min.js" type="text/javascript"></script>
+    <script src="js/plugin/vectormap/jquery-jvectormap-world-mill-en.js" type="text/javascript"></script>
+    <script src="js/plugin/moment/moment.min.js" type="text/javascript"></script>
+    <script src="js/plugin/fullcalendar/jquery.fullcalendar.min.js" type="text/javascript"></script>
+    <script src="Scripts/toastr.js" type="text/javascript"></script>
+    <script src="Scripts/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="Scripts/dataTables.fixedColumns.min.js" type="text/javascript"></script>
+    <script src="Scripts/datatables.responsive.min.js" type="text/javascript"></script>
+    <script src="Scripts/bootstrap-waitingfor/bootstrap-waitingfor.min.js" type="text/javascript"></script>
+    <script src="Scripts/chartjs/chart.min.js" type="text/javascript"></script>
+    <script src="Scripts/flot/jquery.flot.min.js" type="text/javascript"></script>
+    <script src="Scripts/flot/jquery.flot.tooltip.min.js" type="text/javascript"></script>
+    <script src="Scripts/flot/jquery.flot.axislabels.js" type="text/javascript"></script>
+    <script src="Scripts/flot/jquery.flot.dashes.js" type="text/javascript"></script>
 
 </body>
 </html>
