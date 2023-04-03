@@ -12,7 +12,6 @@ Public Class ClsFTAMasterDB
             With cmd.Parameters
                 .AddWithValue("FactoryCode", pFTAMaster.FactoryCode)
                 .AddWithValue("ItemTypeCode", pFTAMaster.ItemTypeCode)
-                .AddWithValue("LineCode", pFTAMaster.LineCode)
                 .AddWithValue("ItemCheckCode", pFTAMaster.ItemCheck)
                 .AddWithValue("FTAID", pFTAMaster.FTAID)
                 .AddWithValue("Factor1", pFTAMaster.Factor1)
@@ -33,7 +32,7 @@ Public Class ClsFTAMasterDB
         End Using
     End Function
 
-    Public Shared Function Delete(pFactoryCode As String, pItemTypeCode As String, pLineCode As String, pItemCheck As String, pFTAID As String) As Integer
+    Public Shared Function Delete(pFactoryCode As String, pItemTypeCode As String, pItemCheck As String, pFTAID As String) As Integer
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String = "sp_SPC_FTAMaster"
@@ -41,7 +40,6 @@ Public Class ClsFTAMasterDB
             cmd.CommandType = CommandType.StoredProcedure
             cmd.Parameters.AddWithValue("FactoryCode", pFactoryCode)
             cmd.Parameters.AddWithValue("ItemTypeCode", pItemTypeCode)
-            cmd.Parameters.AddWithValue("LineCode", pLineCode)
             cmd.Parameters.AddWithValue("ItemCheckCode", pItemCheck)
             cmd.Parameters.AddWithValue("FTAID", pFTAID)
             cmd.Parameters.AddWithValue("TypeProcess", 8)
@@ -65,7 +63,6 @@ Public Class ClsFTAMasterDB
             With cmd.Parameters
                 .AddWithValue("FactoryCode", pFTAMaster.FactoryCode)
                 .AddWithValue("ItemTypeCode", pFTAMaster.ItemTypeCode)
-                .AddWithValue("LineCode", pFTAMaster.LineCode)
                 .AddWithValue("ItemCheckCode", pFTAMaster.ItemCheck)
                 .AddWithValue("FTAID", pFTAMaster.FTAID)
                 .AddWithValue("Factor1", pFTAMaster.Factor1)
@@ -120,7 +117,6 @@ Public Class ClsFTAMasterDB
             Dim da As New SqlDataAdapter(cmd)
             cmd.Parameters.AddWithValue("FactoryCode", pFTAMaster.FactoryCode)
             cmd.Parameters.AddWithValue("ItemTypeCode", pFTAMaster.ItemTypeCode)
-            cmd.Parameters.AddWithValue("LineCode", pFTAMaster.LineCode)
             cmd.Parameters.AddWithValue("ItemCheckCode", pFTAMaster.ItemCheck)
             cmd.Parameters.AddWithValue("FTAID", pFTAMaster.FTAID)
             cmd.Parameters.AddWithValue("TypeProcess", 1)
@@ -185,7 +181,6 @@ Public Class ClsFTAMasterDB
             With cmd.Parameters
                 .AddWithValue("FactoryCode", pUploadIK.FactoryCode)
                 .AddWithValue("ItemTypeCode", pUploadIK.ItemTypeCode)
-                .AddWithValue("LineCode", pUploadIK.LineCode)
                 .AddWithValue("ItemCheckCode", pUploadIK.ItemCheck)
                 .AddWithValue("FTAID", pUploadIK.FTAID)
                 .AddWithValue("IK", pUploadIK.Image)
@@ -274,7 +269,7 @@ Public Class ClsFTAMasterDB
             Return i
         End Using
     End Function
-    Public Shared Function GetListForExcel(FactoryCode As String, ItemCheckCode As String, LineCode As String, ItemTypeCode As String, Optional ByRef pErr As String = "") As DataSet
+    Public Shared Function GetListForExcel(FactoryCode As String, ItemCheckCode As String, ItemTypeCode As String, Optional ByRef pErr As String = "") As DataSet
         Try
             Using conn As New SqlConnection(Sconn.Stringkoneksi)
                 conn.Open()
@@ -286,7 +281,6 @@ Public Class ClsFTAMasterDB
                 With cmd.Parameters
                     .AddWithValue("FactoryCode", FactoryCode)
                     .AddWithValue("ItemCheckCode", ItemCheckCode)
-                    .AddWithValue("LineCode", LineCode)
                     .AddWithValue("ItemTypeCode", ItemTypeCode)
                 End With
                 Dim da As New SqlDataAdapter(cmd)

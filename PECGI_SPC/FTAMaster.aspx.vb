@@ -194,7 +194,7 @@ Public Class FTAMaster
                 Return
             End If
 
-            Dim CountDel As Integer = ClsFTAMasterDB.Delete(FactoryCode, ItemTypeCode, LineCode, ItemCheck, FTAID)
+            Dim CountDel As Integer = ClsFTAMasterDB.Delete(FactoryCode, ItemTypeCode, ItemCheck, FTAID)
             Grid.CancelEdit()
             up_GridLoad(cboFactory.Value, cboType.Value, cboLine.Text)
 
@@ -702,7 +702,7 @@ Public Class FTAMaster
             If cboItemCheck.Value IsNot Nothing Then
                 ItemCheck = cboItemCheck.Value.Substring(0, cboItemCheck.Value.IndexOf(" -"))
             End If
-            Dim ds As DataSet = ClsFTAMasterDB.GetListForExcel(cboFactory.Value, ItemCheck, cboLine.Value, cboType.Value)
+            Dim ds As DataSet = ClsFTAMasterDB.GetListForExcel(cboFactory.Value, ItemCheck, cboType.Value)
 
             Dim dtFTA As DataTable = ds.Tables(0)
 
