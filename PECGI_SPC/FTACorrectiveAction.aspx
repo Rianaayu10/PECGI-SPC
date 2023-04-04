@@ -243,7 +243,7 @@
                 } else {    
                     btnMK.SetEnabled(true);
                 }
-                if(s.cpQCVerificationStatus == '1' | s.cpJobPosition != 'QC') {
+                if(s.cpMKVerificationStatus == '1' & s.cpQCVerificationStatus != '1' & s.cpJobPosition != 'QC') {
                     btnQC.SetEnabled(false);
                 } else {
                     btnQC.SetEnabled(true);

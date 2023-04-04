@@ -83,6 +83,7 @@ Public Class ProdSampleInput
             Col1.Width = 90
             Col1.FixedStyle = GridViewColumnFixedStyle.Left
             Col1.CellStyle.HorizontalAlign = HorizontalAlign.Center
+            Col1.CellStyle.Wrap = DefaultBoolean.False
             Band2.Columns.Add(Col1)
 
             Dim PrevDate As String = clsSPCResultDB.GetPrevDate(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate)
@@ -130,6 +131,7 @@ Public Class ProdSampleInput
                 colTime.FieldName = dtDay.Rows(iDay)("ColName")
                 colTime.Width = 80
                 colTime.CellStyle.HorizontalAlign = HorizontalAlign.Center
+                colTime.CellStyle.Wrap = DefaultBoolean.False
                 BandShift.Columns.Add(colTime)
 
                 PrevDay = dDay
@@ -459,6 +461,8 @@ Public Class ProdSampleInput
         Return SetupFound
     End Function
 
+    Dim Digit As Integer
+
     Private Sub GridLoad(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer, VerifiedOnly As Integer)
         Dim ErrMsg As String = ""
         Dim ds As DataSet = clsSPCResultDetailDB.GetDataSet(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence, VerifiedOnly)
@@ -467,6 +471,7 @@ Public Class ProdSampleInput
         grid.DataSource = dt
         grid.DataBind()
 
+        Digit = ClsSPCItemCheckMasterDB.GetDigit(ItemCheckCode)
         Dim Result As clsSPCResult = clsSPCResultDB.GetData(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence)
 
         Dim Item As clsItemCheck = clsItemCheckDB.GetData(ItemCheckCode)
@@ -477,6 +482,8 @@ Public Class ProdSampleInput
             grid.Columns.Item("Value1").Visible = True
             grid.Columns.Item("Value2").Visible = True
         End If
+        Dim col As GridViewDataTextColumn = grid.Columns("Value")
+        col.PropertiesEdit.DisplayFormatString = "0." + Strings.StrDup(Digit, "0")
 
         Dim setupfound As Boolean = ValidateChartSetup(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate)
 
@@ -605,7 +612,8 @@ Public Class ProdSampleInput
         If v Is Nothing OrElse IsDBNull(v) Then
             Return ""
         Else
-            Return Format(v, "0.0000")
+            Dim Zeros As String = Strings.StrDup(Digit, "0")
+            Return Format(v, "0." + Zeros)
         End If
     End Function
 
@@ -1557,8 +1565,10 @@ Public Class ProdSampleInput
     End Sub
 
     Private Sub grid_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles grid.HtmlDataCellPrepared
-        If e.DataColumn.FieldName <> "Value" And e.DataColumn.FieldName <> "Remark" And e.DataColumn.FieldName <> "DeleteStatus" Then
-            e.Cell.Attributes.Add("onclick", "event.cancelBubble = true")
+        e.Cell.Attributes.Add("onclick", "event.cancelBubble = true")
+        If e.DataColumn.FieldName.StartsWith("Value") Then
+            Dim f As String = "0." + StrDup(Digit, "0")
+            e.Cell.Text = Format(e.CellValue, f)
         End If
     End Sub
 

@@ -168,10 +168,11 @@ Public Class FTACorrectiveAction
                         End If
                         GridLoad(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, dtDate.Value, cboShift.Value, cboSeq.Value)
                         ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "GridLoad();", True)
+                    Else
+                        btnMK.ClientEnabled = False
+                        btnQC.ClientEnabled = False
                     End If
                 End If
-                btnMK.ClientEnabled = False
-                btnQC.ClientEnabled = False
             End If
         End If
     End Sub
