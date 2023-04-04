@@ -250,7 +250,7 @@ Public Class ClsFTAMasterDB
             Return i
         End Using
     End Function
-    Public Shared Function InsertAction(pFTAID As String, pActionName As String, pActionID As String, pRemark As String) As Integer
+    Public Shared Function InsertAction(pFTAID As String, pActionName As String, pRemark As String) As Integer
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
             Dim q As String
@@ -260,7 +260,6 @@ Public Class ClsFTAMasterDB
             Dim des As New clsDESEncryption("TOS")
             With cmd.Parameters
                 .AddWithValue("ActionName", pActionName)
-                .AddWithValue("ActionID", pActionID)
                 .AddWithValue("Remark", pRemark)
                 .AddWithValue("FTAID", pFTAID)
                 .AddWithValue("TypeProcess", 7)
@@ -417,6 +416,24 @@ Public Class ClsFTAMasterDB
             Dim cmd As New SqlCommand(sql, cn)
             cmd.CommandType = CommandType.StoredProcedure
             cmd.Parameters.AddWithValue("TypeProcess", 5)
+
+            Dim da As New SqlDataAdapter(cmd)
+            Dim dt As New DataTable
+
+            da.Fill(dt)
+            Return dt
+        End Using
+    End Function
+    Public Shared Function GetActionIDForFTAAction(pFTAID As String, pActionName As String) As DataTable
+        Using cn As New SqlConnection(Sconn.Stringkoneksi)
+            cn.Open()
+            Dim sql As String
+            sql = "sp_SPC_FTAMaster"
+            Dim cmd As New SqlCommand(sql, cn)
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.AddWithValue("ActionName", pActionName)
+            cmd.Parameters.AddWithValue("FTAID", pFTAID)
+            cmd.Parameters.AddWithValue("TypeProcess", 11)
 
             Dim da As New SqlDataAdapter(cmd)
             Dim dt As New DataTable

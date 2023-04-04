@@ -1070,23 +1070,8 @@
                                                 <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
                                             </dx:GridViewDataTextColumn>
 
-                                            <dx:GridViewDataTextColumn Caption="Action Order" FieldName="ActionID"
-                                                VisibleIndex="2" Width="50px" Settings-AutoFilterCondition="Contains">
-                                                <PropertiesTextEdit MaxLength="35" Width="50px">
-                                                    <Style HorizontalAlign="Center"></Style>
-                                                </PropertiesTextEdit>
-                                                <Settings AutoFilterCondition="Contains"></Settings>
-                                                <FilterCellStyle Paddings-PaddingRight="4px">
-                                                <Paddings PaddingRight="4px"></Paddings>
-                                                </FilterCellStyle>
-                                                <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
-                                                <Paddings PaddingLeft="5px"></Paddings>
-                                                </HeaderStyle>
-                                                <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"></CellStyle>
-                                            </dx:GridViewDataTextColumn>
-                                            
                                             <dx:GridViewDataTextColumn Caption="Remark" FieldName="RemarkAction"
-                                                VisibleIndex="3" Width="300px" Settings-AutoFilterCondition="Contains">
+                                                VisibleIndex="2" Width="300px" Settings-AutoFilterCondition="Contains">
                                                 <PropertiesTextEdit MaxLength="35" Width="300px" ClientInstanceName="RemarkAction">
                                                     <Style HorizontalAlign="Left"></Style>
                                                 </PropertiesTextEdit>
@@ -1101,7 +1086,7 @@
                                             </dx:GridViewDataTextColumn>
 
                                             <dx:GridViewDataTextColumn Caption="" FieldName="FTAIDAction"
-                                                VisibleIndex="4" Width="0px" Settings-AutoFilterCondition="Contains">
+                                                VisibleIndex="3" Width="0px" Settings-AutoFilterCondition="Contains">
                                                 <PropertiesTextEdit MaxLength="35" Width="100px" ClientInstanceName="FTAIDAction">
                                                     <Style HorizontalAlign="Left"></Style>
                                                 </PropertiesTextEdit>
@@ -1114,6 +1099,23 @@
                                                 </HeaderStyle>
                                                 <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
                                             </dx:GridViewDataTextColumn>
+
+                                             <dx:GridViewDataTextColumn Caption="" FieldName="ActionID"
+                                                VisibleIndex="4" Width="0px" Settings-AutoFilterCondition="Contains">
+                                                <PropertiesTextEdit MaxLength="35" Width="100px" ClientInstanceName="ActionID">
+                                                    <Style HorizontalAlign="Left"></Style>
+                                                </PropertiesTextEdit>
+                                                <Settings AutoFilterCondition="Contains"></Settings>
+                                                <FilterCellStyle Paddings-PaddingRight="4px">
+                                                <Paddings PaddingRight="4px"></Paddings>
+                                                </FilterCellStyle>
+                                                <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                                                <Paddings PaddingLeft="5px"></Paddings>
+                                                </HeaderStyle>
+                                                <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
+                                            </dx:GridViewDataTextColumn>
+
+
                                                                             
                                         </Columns>
 
@@ -1166,21 +1168,20 @@
                                                             </tr>
                                                             <tr style="height:30px">
                                                                 <td>
-                                                                    <dx:ASPxLabel ID="ASPxLabel5" runat="server" Font-Names="Segoe UI" Font-Size="8pt" Text="Action Order" Width="90px"></dx:ASPxLabel>
-                                                                </td>                                
-                                                                <td>
-                                                                    <dx:ASPxGridViewTemplateReplacement ID="editActionID" ReplacementType="EditFormCellEditor"
-                                                                        runat="server" ColumnID="ActionID">
-                                                                    </dx:ASPxGridViewTemplateReplacement>                                    
-                                                                </td>
-                                                            </tr>
-                                                            <tr style="height:30px">
-                                                                <td>
                                                                     <dx:ASPxLabel ID="ASPxLabel10" runat="server" Font-Names="Segoe UI" Font-Size="8pt" Text="Remark" Width="90px"></dx:ASPxLabel>
                                                                 </td>                                
                                                                 <td>
                                                                     <dx:ASPxGridViewTemplateReplacement ID="editRemarkAction" ReplacementType="EditFormCellEditor"
                                                                         runat="server" ColumnID="RemarkAction">
+                                                                    </dx:ASPxGridViewTemplateReplacement>   
+                                                                </td>
+                                                            </tr>
+                                                            <tr style="height:30px">
+                                                                <td>
+                                                                </td>                                
+                                                                <td>
+                                                                    <dx:ASPxGridViewTemplateReplacement ID="editActionID" ReplacementType="EditFormCellEditor"
+                                                                        runat="server" ColumnID="ActionID">
                                                                     </dx:ASPxGridViewTemplateReplacement>   
                                                                 </td>
                                                             </tr>
