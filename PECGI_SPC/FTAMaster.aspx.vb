@@ -400,7 +400,7 @@ Public Class FTAMaster
         FTAID = templatecontainer.Grid.GetRowValues(templatecontainer.VisibleIndex, "FTAID") & ""
         If FTAID <> "" Then
             link.ClientSideEvents.Click = "function (s,e) {ShowPopUpUploadIK('" + FTAID + "');}"
-            FTAIDforUploadIK = FTAID
+            'Session("FTA_ID") = FTAID
         End If
     End Sub
     Protected Sub IKLink_Init(ByVal sender As Object, ByVal e As EventArgs)
@@ -433,7 +433,7 @@ Public Class FTAMaster
         Dim s As String = e.Parameter
         lblMsgUpload.Text = ""
         lblMsgUpload.ForeColor = Color.Black
-        'FTAIDforUploadIK = s
+        Session("FTA_ID") = s
     End Sub
     Protected Sub btnUploadIK_Click(sender As Object, e As EventArgs) Handles btnUploadIK.Click
         Try
@@ -453,7 +453,7 @@ Public Class FTAMaster
             UploadIK.FactoryCode = cboFactory.Value
             UploadIK.ItemTypeCode = cboType.Value
             UploadIK.LineCode = cboLine.Value
-            UploadIK.FTAID = FTAIDforUploadIK
+            UploadIK.FTAID = Session("FTA_ID")
             UploadIK.ItemCheck = ItemCheck.Substring(0, ItemCheck.IndexOf(" -"))
             If Bytes.Length > 0 Then
                 UploadIK.Image = Bytes
@@ -498,10 +498,9 @@ Public Class FTAMaster
         Try
             Dim FTAIDAction = e.NewValues("FTAIDAction")
             Dim ActionName = e.NewValues("ActionName")
-            Dim ActionID = e.NewValues("ActionID")
             Dim RemarkAction = e.NewValues("RemarkAction")
 
-            ClsFTAMasterDB.InsertAction(FTAIDAction, ActionName, ActionID, RemarkAction)
+            ClsFTAMasterDB.InsertAction(FTAIDAction, ActionName, RemarkAction)
             gvFTAAction.CancelEdit()
             BindGridAction(FTAIDAction)
             show_error(MsgTypeEnum.Success, "Save data action successfully!", 1)
@@ -514,10 +513,10 @@ Public Class FTAMaster
         Try
             Dim FTAIDAction = e.Values("FTAIDAction")
             Dim ActionName = e.Values("ActionName")
-            Dim ActionID = e.Values("ActionID")
             Dim RemarkAction = e.Values("RemarkAction")
+            Dim ActionID = e.Values("ActionID")
 
-            ClsFTAMasterDB.DeleteAction(FTAIDAction, ActionID)
+            ClsFTAMasterDB.DeleteAction(FTAIDAction, actionID)
             gvFTAAction.CancelEdit()
             BindGridAction(FTAIDAction)
             show_error(MsgTypeEnum.Success, "Delete data action successfully!", 1)
@@ -530,8 +529,9 @@ Public Class FTAMaster
         Try
             Dim FTAIDAction = e.NewValues("FTAIDAction")
             Dim ActionName = e.NewValues("ActionName")
-            Dim ActionID = e.NewValues("ActionID")
             Dim RemarkAction = e.NewValues("RemarkAction")
+            Dim ActionID = Session("ActionID")
+
 
             Dim UpdateAction = ClsFTAMasterDB.UpdateFTAAction(FTAIDAction, ActionName, ActionID, RemarkAction)
             gvFTAAction.CancelEdit()
@@ -539,6 +539,7 @@ Public Class FTAMaster
 
             If UpdateAction >= 1 Then
                 show_error(MsgTypeEnum.Success, "Update data action successfully!", 1)
+                Session("ActionID") = ""
             End If
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
@@ -553,6 +554,10 @@ Public Class FTAMaster
                 e.Editor.ReadOnly = True
                 e.Editor.ForeColor = Color.Silver
                 e.Editor.Visible = True
+            ElseIf e.Column.FieldName = "ActionID" Then
+                e.Editor.ReadOnly = True
+                e.Editor.ForeColor = Color.Silver
+                e.Editor.Visible = False
             Else
                 e.Editor.ReadOnly = False
             End If
@@ -568,7 +573,8 @@ Public Class FTAMaster
             ElseIf e.Column.FieldName = "ActionID" Then
                 e.Editor.ReadOnly = True
                 e.Editor.ForeColor = Color.Silver
-                e.Editor.Visible = True
+                e.Editor.Visible = False
+                Session("ActionID") = gvFTAAction.GetRowValues(e.VisibleIndex, "ActionID")
             End If
 
         End If
