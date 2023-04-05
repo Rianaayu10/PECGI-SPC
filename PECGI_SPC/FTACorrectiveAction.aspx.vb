@@ -779,11 +779,14 @@ Public Class FTACorrectiveAction
 
         Dim FTAID As String = container.Grid.GetRowValues(container.VisibleIndex, "FTAID") & ""
         Dim No As String = container.Grid.GetRowValues(container.VisibleIndex, "No") & ""
+        Dim NG As Boolean = container.Grid.GetRowValues(container.VisibleIndex, "NG")
         If FTAID <> "" Then
             Dim i As String = container.VisibleIndex
             link.ClientInstanceName = String.Format("linkEdit{0}", i)
-            link.ClientSideEvents.Click = "function (s,e) {ShowPopUpEdit('" + FTAID + "', '" + No + "', " + i + ");}"
-            If MKVerified Or QCVerified Then
+            link.ClientSideEvents.Click = "function (s,e) {" +
+                "if(!chkNG" + i + ".GetChecked()) { return; } " +
+                "ShowPopUpEdit('" + FTAID + "', '" + No + "', " + i + ");}"
+            If MKVerified Or QCVerified Or Not NG Then
                 link.ClientVisible = False
             Else
                 link.ClientVisible = True
@@ -865,7 +868,10 @@ Public Class FTACorrectiveAction
             chkOK.ClientEnabled = Not MKVerified And Not QCVerified
             Dim q As String = "function(s, e) { " +
                 "chkNG" + i + ".SetChecked(false); " +
-                "if(!chkOK" + i + ".GetChecked() & !chkNG" + i + ".GetChecked()) {chkNo" + i + ".SetChecked(true);} else {chkNo" + i + ".SetChecked(false); } " +
+                "if(!chkOK" + i + ".GetChecked() & !chkNG" + i + ".GetChecked()) {" +
+                "chkNo" + i + ".SetChecked(true);} else {" +
+                "chkNo" + i + ".SetChecked(false); } " +
+                "if(chkNG" + i + ".GetChecked()) {linkEdit" + i + ".SetVisible(true);} else {linkEdit" + i + ".SetVisible(false); } " +
                 "hfOK.Set('" + i + "', s.GetChecked()); " +
                 "hfNG.Set('" + i + "', false); " +
                 "hfNo.Set('" + i + "', false); " +
@@ -883,6 +889,7 @@ Public Class FTACorrectiveAction
         Dim FTAID As String = ""
         FTAID = container.Grid.GetRowValues(container.VisibleIndex, "FTAID") & ""
         If FTAID <> "" Then
+            Dim Action As String = container.Grid.GetRowValues(container.VisibleIndex, "Action") & ""
             Dim i As String = container.VisibleIndex
             chkNG.ClientInstanceName = String.Format("chkNG{0}", i)
             chkNG.ClientEnabled = Not MKVerified And Not QCVerified
@@ -890,11 +897,12 @@ Public Class FTACorrectiveAction
                 "function(s, e) { " +
                 "chkOK" + i + ".SetChecked(false); " +
                 "if(!chkOK" + i + ".GetChecked() & !chkNG" + i + ".GetChecked()) {chkNo" + i + ".SetChecked(true);} else {chkNo" + i + ".SetChecked(false); } " +
+                "if(chkNG" + i + ".GetChecked()) {linkEdit" + i + ".SetVisible(true);} else {linkEdit" + i + ".SetVisible(false); } " +
                 "hfNG.Set('" + i + "', s.GetChecked()); " +
                 "hfOK.Set('" + i + "', false); " +
                 "hfNo.Set('" + i + "', false); " +
                 "hfID.Set('" + i + "', '" + FTAID + "'); " +
-                "hfAct.Set('" + i + "', ''); " +
+                "hfAct.Set('" + i + "', '" + Action + "'); " +
                 "}"
         End If
     End Sub
@@ -912,6 +920,7 @@ Public Class FTACorrectiveAction
                 "function(s, e) { " +
                 "chkOK" + i + ".SetChecked(false); " +
                 "chkNG" + i + ".SetChecked(false); " +
+                "if(chkNG" + i + ".GetChecked()) {linkEdit" + i + ".SetVisible(true);} else {linkEdit" + i + ".SetVisible(false); } " +
                 "hfNo.Set('" + i + "', s.GetChecked()); " +
                 "hfOK.Set('" + i + "', false); " +
                 "hfNG.Set('" + i + "', false); " +
