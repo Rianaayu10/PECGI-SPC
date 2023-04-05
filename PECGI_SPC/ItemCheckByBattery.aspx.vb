@@ -119,7 +119,7 @@ Public Class ItemCheckByBattery
             End If
             Dim CheckDataBattery As ClsSPCItemCheckByType = ClsSPCItemCheckByTypeDB.GetData(BatteryType.FactoryCode, BatteryType.ItemTypeCode, BatteryType.LineCode, BatteryType.ItemCheck)
             If CheckDataBattery IsNot Nothing Then
-                show_error(MsgTypeEnum.ErrorMsg, "Can't insert data, Battery type '" + CheckDataBattery.ItemTypeName + "' for item check '" + BatteryType.ItemCheck + "' on machine process '" + BatteryType.LineCode + "' in factory '" + BatteryType.FactoryName + "' is already registered", 1)
+                show_error(MsgTypeEnum.Warning, "Can't insert data, Battery type '" + CheckDataBattery.ItemTypeName + "' for item check '" + BatteryType.ItemCheck + "' on machine process '" + BatteryType.LineCode + "' in factory '" + BatteryType.FactoryName + "' is already registered", 1)
                 Return
             End If
             ClsSPCItemCheckByTypeDB.Insert(BatteryType)
@@ -188,7 +188,7 @@ Public Class ItemCheckByBattery
 
             Dim ValidationDelete As ClsSPCItemCheckByType = ClsSPCItemCheckByTypeDB.ValidationDelete(FactoryCode, ItemTypeCode, LineCode, ItemCheck)
             If ValidationDelete IsNot Nothing Then
-                show_error(MsgTypeEnum.ErrorMsg, "Can't Delete, item check '" + ItemCheck + "' On machine '" + LineCode + "' has been used in Production Sample Input", 1)
+                show_error(MsgTypeEnum.Warning, "Can't Delete, item check '" + ItemCheck + "' On machine '" + LineCode + "' has been used in Production Sample Input", 1)
                 Return
             End If
             ClsSPCItemCheckByTypeDB.Delete(FactoryCode, ItemTypeCode, LineCode, ItemCheck)
@@ -244,63 +244,63 @@ Public Class ItemCheckByBattery
         GridColumn = Grid.DataColumns("FactoryCode")
         If IsNothing(e.NewValues("FactoryCode")) OrElse e.NewValues("FactoryCode").ToString.Trim = "" Then
             e.Errors(GridColumn) = "Factory Name Must Be Filled !"
-            show_error(MsgTypeEnum.ErrorMsg, "Factory Name Must Be Filled !", 1)
+            show_error(MsgTypeEnum.Warning, "Factory Name Must Be Filled !", 1)
             Return
         End If
 
         GridColumn = Grid.DataColumns("ItemTypeCode")
         If IsNothing(e.NewValues("ItemTypeCode")) OrElse e.NewValues("ItemTypeCode").ToString.Trim = "" Then
             e.Errors(GridColumn) = "Type Name Must Be Filled !"
-            show_error(MsgTypeEnum.ErrorMsg, "Type Name Must Be Filled !", 1)
+            show_error(MsgTypeEnum.Warning, "Type Name Must Be Filled !", 1)
             Return
         End If
 
         GridColumn = Grid.DataColumns("LineName")
         If IsNothing(e.NewValues("LineName")) OrElse e.NewValues("LineName").ToString.Trim = "" Then
             e.Errors(GridColumn) = "Machine Proccess Must Be Filled !"
-            show_error(MsgTypeEnum.ErrorMsg, "Machine Proccess Must Be Filled !", 1)
+            show_error(MsgTypeEnum.Warning, "Machine Proccess Must Be Filled !", 1)
             Return
         End If
 
         GridColumn = Grid.DataColumns("ItemCheck")
         If IsNothing(e.NewValues("ItemCheck")) OrElse e.NewValues("ItemCheck").ToString.Trim = "" Then
             e.Errors(GridColumn) = "Item Check Must Be Filled !"
-            show_error(MsgTypeEnum.ErrorMsg, "Item Check Must Be Filled !", 1)
+            show_error(MsgTypeEnum.Warning, "Item Check Must Be Filled !", 1)
             Return
         End If
 
         GridColumn = Grid.DataColumns("FrequencyCode")
         If IsNothing(e.NewValues("FrequencyCode")) OrElse e.NewValues("FrequencyCode").ToString.Trim = "" Then
             e.Errors(GridColumn) = "Frequency Must Be Filled !"
-            show_error(MsgTypeEnum.ErrorMsg, "Frequency Must Be Filled !", 1)
+            show_error(MsgTypeEnum.Warning, "Frequency Must Be Filled !", 1)
             Return
         End If
 
         GridColumn = Grid.DataColumns("RegistrationNo")
         If IsNothing(e.NewValues("RegistrationNo")) OrElse e.NewValues("RegistrationNo").ToString.Trim = "" Then
             e.Errors(GridColumn) = "Registration Number Must Be Filled !"
-            show_error(MsgTypeEnum.ErrorMsg, "Registration Number Must Be Filled !", 1)
+            show_error(MsgTypeEnum.Warning, "Registration Number Must Be Filled !", 1)
             Return
         End If
 
         GridColumn = Grid.DataColumns("SampleSize")
         If IsNothing(e.NewValues("SampleSize")) OrElse e.NewValues("SampleSize").ToString.Trim = "" Then
             e.Errors(GridColumn) = "Sample Size Must Be Filled !"
-            show_error(MsgTypeEnum.ErrorMsg, "Sample Size Must Be Filled !", 1)
+            show_error(MsgTypeEnum.Warning, "Sample Size Must Be Filled !", 1)
             Return
         End If
 
         GridColumn = Grid.DataColumns("CharacteristicStatus")
         If IsNothing(e.NewValues("CharacteristicStatus")) OrElse e.NewValues("CharacteristicStatus").ToString.Trim = "" Then
             e.Errors(GridColumn) = "Characteristic Status Must Be Filled !"
-            show_error(MsgTypeEnum.ErrorMsg, "Characteristic Status Must Be Filled !", 1)
+            show_error(MsgTypeEnum.Warning, "Characteristic Status Must Be Filled !", 1)
             Return
         End If
 
         GridColumn = Grid.DataColumns("ProcessTableLineCode")
         If IsNothing(e.NewValues("ProcessTableLineCode")) OrElse e.NewValues("ProcessTableLineCode").ToString.Trim = "" Then
             e.Errors(GridColumn) = "Process Table Line Code  Must Be Filled !"
-            show_error(MsgTypeEnum.ErrorMsg, "Process Table Line Code Must Be Filled !", 1)
+            show_error(MsgTypeEnum.Warning, "Process Table Line Code Must Be Filled !", 1)
             Return
         End If
 

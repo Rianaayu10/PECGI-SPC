@@ -143,6 +143,10 @@
             cboFactory.SetValue('');
             cboLine.SetValue('');
             cboType.SetValue('');
+            cboProcessGroup.SetValue('');
+            cboLineGroup.SetValue('');
+            cboMachine.SetValue('');
+            cboItemCheck.SetValue('');
         }
     </script>
 </asp:Content>

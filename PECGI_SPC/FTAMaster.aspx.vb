@@ -214,68 +214,33 @@ Public Class FTAMaster
     Protected Sub Grid_RowValidating(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataValidationEventArgs) Handles Grid.RowValidating
         Dim GridColumn As New GridViewDataColumn
 
-        'GridColumn = Grid.DataColumns("FactoryCode")
-        'If IsNothing(e.NewValues("FactoryCode")) OrElse e.NewValues("FactoryCode").ToString.Trim = "" Then
-        '    e.Errors(GridColumn) = "Factory Name Must Be Filled !"
-        '    show_error(MsgTypeEnum.ErrorMsg, "Factory Name Must Be Filled !", 1)
-        '    Return
-        'End If
+        GridColumn = Grid.DataColumns("FTAID")
+        If IsNothing(e.NewValues("FTAID")) OrElse e.NewValues("FTAID").ToString.Trim = "" Then
+            e.Errors(GridColumn) = "FTA ID Must Be Filled !"
+            show_error(MsgTypeEnum.Warning, "FTA ID Must Be Filled !", 1)
+            Return
+        End If
 
-        'GridColumn = Grid.DataColumns("ItemTypeCode")
-        'If IsNothing(e.NewValues("ItemTypeCode")) OrElse e.NewValues("ItemTypeCode").ToString.Trim = "" Then
-        '    e.Errors(GridColumn) = "Type Name Must Be Filled !"
-        '    show_error(MsgTypeEnum.ErrorMsg, "Type Name Must Be Filled !", 1)
-        '    Return
-        'End If
+        GridColumn = Grid.DataColumns("CounterMeasure")
+        If IsNothing(e.NewValues("CounterMeasure")) OrElse e.NewValues("CounterMeasure").ToString.Trim = "" Then
+            e.Errors(GridColumn) = "Counter Measure Must Be Filled !"
+            show_error(MsgTypeEnum.Warning, "Counter Measure Must Be Filled !", 1)
+            Return
+        End If
 
-        'GridColumn = Grid.DataColumns("LineName")
-        'If IsNothing(e.NewValues("LineName")) OrElse e.NewValues("LineName").ToString.Trim = "" Then
-        '    e.Errors(GridColumn) = "Machine Proccess Must Be Filled !"
-        '    show_error(MsgTypeEnum.ErrorMsg, "Machine Proccess Must Be Filled !", 1)
-        '    Return
-        'End If
+        GridColumn = Grid.DataColumns("CheckItem")
+        If IsNothing(e.NewValues("CheckItem")) OrElse e.NewValues("CheckItem").ToString.Trim = "" Then
+            e.Errors(GridColumn) = "Check Item Must Be Filled !"
+            show_error(MsgTypeEnum.Warning, "Check Item Must Be Filled !", 1)
+            Return
+        End If
 
-        'GridColumn = Grid.DataColumns("ItemCheck")
-        'If IsNothing(e.NewValues("ItemCheck")) OrElse e.NewValues("ItemCheck").ToString.Trim = "" Then
-        '    e.Errors(GridColumn) = "Item Check Must Be Filled !"
-        '    show_error(MsgTypeEnum.ErrorMsg, "Item Check Must Be Filled !", 1)
-        '    Return
-        'End If
-
-        'GridColumn = Grid.DataColumns("FrequencyCode")
-        'If IsNothing(e.NewValues("FrequencyCode")) OrElse e.NewValues("FrequencyCode").ToString.Trim = "" Then
-        '    e.Errors(GridColumn) = "Frequency Must Be Filled !"
-        '    show_error(MsgTypeEnum.ErrorMsg, "Frequency Must Be Filled !", 1)
-        '    Return
-        'End If
-
-        'GridColumn = Grid.DataColumns("RegistrationNo")
-        'If IsNothing(e.NewValues("RegistrationNo")) OrElse e.NewValues("RegistrationNo").ToString.Trim = "" Then
-        '    e.Errors(GridColumn) = "Registration Number Must Be Filled !"
-        '    show_error(MsgTypeEnum.ErrorMsg, "Registration Number Must Be Filled !", 1)
-        '    Return
-        'End If
-
-        'GridColumn = Grid.DataColumns("SampleSize")
-        'If IsNothing(e.NewValues("SampleSize")) OrElse e.NewValues("SampleSize").ToString.Trim = "" Then
-        '    e.Errors(GridColumn) = "Sample Size Must Be Filled !"
-        '    show_error(MsgTypeEnum.ErrorMsg, "Sample Size Must Be Filled !", 1)
-        '    Return
-        'End If
-
-        'GridColumn = Grid.DataColumns("CharacteristicStatus")
-        'If IsNothing(e.NewValues("CharacteristicStatus")) OrElse e.NewValues("CharacteristicStatus").ToString.Trim = "" Then
-        '    e.Errors(GridColumn) = "Characteristic Status Must Be Filled !"
-        '    show_error(MsgTypeEnum.ErrorMsg, "Characteristic Status Must Be Filled !", 1)
-        '    Return
-        'End If
-
-        'GridColumn = Grid.DataColumns("ProcessTableLineCode")
-        'If IsNothing(e.NewValues("ProcessTableLineCode")) OrElse e.NewValues("ProcessTableLineCode").ToString.Trim = "" Then
-        '    e.Errors(GridColumn) = "Process Table Line Code  Must Be Filled !"
-        '    show_error(MsgTypeEnum.ErrorMsg, "Process Table Line Code Must Be Filled !", 1)
-        '    Return
-        'End If
+        GridColumn = Grid.DataColumns("CheckOrder")
+        If IsNothing(e.NewValues("CheckOrder")) OrElse e.NewValues("CheckOrder").ToString.Trim = "" Then
+            e.Errors(GridColumn) = "Check Order Must Be Filled !"
+            show_error(MsgTypeEnum.Warning, "Check Order Must Be Filled !", 1)
+            Return
+        End If
 
     End Sub
 
@@ -593,6 +558,19 @@ Public Class FTAMaster
 
         End If
 
+        If Grid.IsNewRowEditing Then
+
+            If e.Column.FieldName = "FTAID" Then
+
+                If cboItemCheck.Value <> "" OrElse Not IsNothing(cboItemCheck.Value) Then
+                    Dim ItemCheck = cboItemCheck.Value
+                    e.Editor.Value = ItemCheck.Substring(0, ItemCheck.IndexOf(" -")) + "-"
+                End If
+
+            End If
+
+        End If
+
 
     End Sub
     Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
@@ -725,6 +703,20 @@ Public Class FTAMaster
             .Cells(iRow, 10).Value = "Active Status"
             .Cells(iRow, 11).Value = "Last User"
             .Cells(iRow, 12).Value = "Last Update"
+
+
+            .Column(1).Width = 50
+            .Column(2).Width = 50
+            .Column(3).Width = 50
+            .Column(4).Width = 50
+            .Column(5).Width = 50
+            .Column(6).Width = 50
+            .Column(7).Width = 50
+            .Column(8).Width = 10
+            .Column(9).Width = 50
+            .Column(10).Width = 10
+            .Column(11).Width = 50
+            .Column(12).Width = 50
 
             For excelFTA = 0 To dtFTA.Rows.Count - 1
 
