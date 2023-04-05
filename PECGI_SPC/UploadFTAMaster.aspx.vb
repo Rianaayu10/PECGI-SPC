@@ -185,6 +185,10 @@ Public Class UploadFTAMaster
     End Sub
     Private Function UploadFile(ByVal uploadedFile As UploadedFile, ByVal pSenderName As String) As String
         Try
+            Dim DirFolderDownload = Server.MapPath("~/Upload")
+            If Not Directory.Exists(DirFolderDownload) Then
+                Directory.CreateDirectory(DirFolderDownload)
+            End If
             Dim dateNow As String = Format(CDate(Date.Now), "ddMMyyyy-hhmmss")
             Dim spltFileName() As String = Split(uploadedFile.FileName, ".")
             FileName = spltFileName(0) & "_" & dateNow & "." & spltFileName(1)
@@ -265,6 +269,20 @@ Public Class UploadFTAMaster
 
                             If y = 1 Then
                                 CellValue = Trim(oSheet.Cells(i, y).Value)
+
+                                Dim dtItemType = ClsUploadFTAMasterDB.GetItemTypeCode(CellValue)
+
+                                If dtItemType.Rows.Count > 0 Then
+
+                                    For ItemType = 0 To dtItemType.Rows.Count
+
+                                        CellValue = dtItemType.Rows(ItemType)("ItemTypeCode").ToString()
+                                        oSheet.Cells(i, y).Value = dtItemType.Rows(ItemType)("ItemTypeCode").ToString()
+                                        Exit For
+
+                                    Next
+
+                                End If
 
                                 If CellValue = "" Then
                                     errList.Add("Row " & errListRow & ". Cell " & oSheet.Cells(i, y).Address & " Field 'Type' can't be empty!")
@@ -371,10 +389,10 @@ Public Class UploadFTAMaster
                             If y = 11 Then
                                 CellValue = Trim(oSheet.Cells(i, y).Value)
 
-                                If CellValue = "" Then
-                                    errList.Add(errListRow & ". Cell " & oSheet.Cells(i, y).Address & " Field 'Remark' can't be empty!")
-                                    errListRow += 1
-                                End If
+                                'If CellValue = "" Then
+                                '    errList.Add(errListRow & ". Cell " & oSheet.Cells(i, y).Address & " Field 'Remark' can't be empty!")
+                                '    errListRow += 1
+                                'End If
 
                             End If
                             If y = 12 Then
@@ -519,10 +537,10 @@ Public Class UploadFTAMaster
                             If y = 4 Then
                                 CellValue = Trim(oSheet.Cells(i, y).Value)
 
-                                If CellValue = "" Then
-                                    errList.Add(errListRow & ". Cell " & oSheet.Cells(i, y).Address & " Field 'Remark' can't be empty!")
-                                    errListRow += 1
-                                End If
+                                'If CellValue = "" Then
+                                '    errList.Add(errListRow & ". Cell " & oSheet.Cells(i, y).Address & " Field 'Remark' can't be empty!")
+                                '    errListRow += 1
+                                'End If
 
                             End If
 

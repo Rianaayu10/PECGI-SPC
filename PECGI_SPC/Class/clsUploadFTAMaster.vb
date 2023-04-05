@@ -24,7 +24,7 @@ Public Class ClsUploadFTAMasterDB
                 con.Open()
                 Dim cmd As SqlCommand = con.CreateCommand
                 Dim trans As SqlTransaction = con.BeginTransaction
-                Dim strCmd As String = Nothing
+                Dim strCmd As String = ""
                 cmd.Transaction = trans
                 Try
                     For Each Rows As DataRow In dtbFileUpload.Rows
@@ -142,6 +142,30 @@ Public Class ClsUploadFTAMasterDB
                     .AddWithValue("FTAID", FTAID)
                     .AddWithValue("ActionID", ActionID)
                     .AddWithValue("Type", 4)
+                End With
+                Dim da As New SqlDataAdapter(cmd)
+                Dim dt As New DataTable
+                da.Fill(dt)
+
+                Return dt
+            End Using
+        Catch ex As Exception
+            pErr = ex.Message
+            Return Nothing
+        End Try
+    End Function
+    Public Shared Function GetItemTypeCode(ItemTypeName As String, Optional ByRef pErr As String = "") As DataTable
+        Try
+            Using conn As New SqlConnection(Sconn.Stringkoneksi)
+                conn.Open()
+                Dim sql As String = ""
+                sql = "sp_SPC_UploadFTAMaster"
+
+                Dim cmd As New SqlCommand(sql, conn)
+                cmd.CommandType = CommandType.StoredProcedure
+                With cmd.Parameters
+                    .AddWithValue("ItemTypeName", ItemTypeName)
+                    .AddWithValue("Type", 5)
                 End With
                 Dim da As New SqlDataAdapter(cmd)
                 Dim dt As New DataTable
