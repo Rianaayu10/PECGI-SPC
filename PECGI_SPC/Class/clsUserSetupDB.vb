@@ -54,21 +54,23 @@ Public Class clsUserSetupDB
             Using Cn As New SqlConnection(Sconn.Stringkoneksi)
                 Cn.Open()
                 Dim q As String
-                q = "UPDATE dbo.spc_UserInfo SET " &
-                    "Description=@Description, " &
-                    "AdminStatus = @AdminStatus, " &
-                    "JobPosition = @JobPosition, " &
-                    "EmployeeID = @EmployeeID, " &
-                    "Email = @Email, " &
-                    "NGResultEmailStatus = @NGResultEmailStatus, " &
-                    "DelayInputEmailStatus = @DelayInputEmailStatus, " &
-                    "DelayVerificationEmailStatus = @DelayVerificationEmailStatus, " &
-                    "ChartSetupEmailStatus = @ChartSetupEmailStatus, " &
-                    "LockStatus = @LockStatus, " & vbCrLf &
-                    "FailedLogin = 0, UpdateDate = GETDATE(), UpdateUser = @UpdateUser " &
-                    "WHERE UserID = @UserID and AppID = @AppID "
+                q = "sp_spc_usersetup_upd"
+                'q = "UPDATE dbo.spc_UserInfo SET " &
+                '    "Description=@Description, " &
+                '    "AdminStatus = @AdminStatus, " &
+                '    "JobPosition = @JobPosition, " &
+                '    "EmployeeID = @EmployeeID, " &
+                '    "Email = @Email, " &
+                '    "NGResultEmailStatus = @NGResultEmailStatus, " &
+                '    "DelayInputEmailStatus = @DelayInputEmailStatus, " &
+                '    "DelayVerificationEmailStatus = @DelayVerificationEmailStatus, " &
+                '    "ChartSetupEmailStatus = @ChartSetupEmailStatus, " &
+                '    "LockStatus = @LockStatus, " & vbCrLf &
+                '    "FailedLogin = 0, UpdateDate = GETDATE(), UpdateUser = @UpdateUser " &
+                '    "WHERE UserID = @UserID and AppID = @AppID "
                 Dim des As New clsDESEncryption("TOS")
                 Dim cmd As New SqlCommand(q, Cn)
+                cmd.CommandType = CommandType.StoredProcedure
                 With cmd.Parameters
                     .AddWithValue("AppID", "SPC")
                     .AddWithValue("UserID", pUser.UserID)
@@ -159,8 +161,10 @@ Public Class clsUserSetupDB
         Using cn As New SqlConnection(Sconn.Stringkoneksi)
             Dim sql As String
             Dim clsDESEncryption As New clsDESEncryption("TOS")
-            sql = " SELECT * FROM dbo.spc_UserSetup " & vbCrLf
+            sql = "sp_spc_usersetup_sel"
+            'sql = " SELECT * FROM dbo.spc_UserSetup " & vbCrLf
             Dim cmd As New SqlCommand(sql, cn)
+            cmd.CommandType = CommandType.StoredProcedure
             Dim da As New SqlDataAdapter(cmd)
             Dim dt As New DataTable
             da.Fill(dt)
@@ -171,19 +175,19 @@ Public Class clsUserSetupDB
                     .UserID = Trim(dt.Rows(i)("UserID")),
                     .FullName = Trim(dt.Rows(i)("FullName")),
                     .Password = clsDESEncryption.Decrypt(dt.Rows(i)("Password"), dt.Rows(i)("UserID").ToString.ToUpper.Trim),
-                    .AdminStatus = If(dt.Rows(i)("AdminStatus") = "1", "Yes", "No"),
-                    .Description = Trim(dt.Rows(i)("Description") & ""),
+                    .AdminStatus = dt.Rows(i)("AdminStatus"),
+                    .Description = dt.Rows(i)("Description"),
                     .LockStatus = dt.Rows(i)("LockStatus"),
-                    .FactoryCode = dt.Rows(i)("FactoryCode") & "",
-                    .JobPosition = dt.Rows(i)("JobPosition") & "",
-                    .EmployeeID = dt.Rows(i)("EmployeeID").ToString.Trim & "",
+                    .FactoryCode = dt.Rows(i)("FactoryCode"),
+                    .JobPosition = dt.Rows(i)("JobPosition"),
+                    .EmployeeID = dt.Rows(i)("EmployeeID"),
                     .Email = dt.Rows(i)("Email") & "",
-                    .NGResultEmailStatus = dt.Rows(i)("NGResultEmailStatus") & "",
-                    .DelayInputEmailStatus = dt.Rows(i)("DelayInputEmailStatus") & "",
-                    .DelayVerificationEmailStatus = dt.Rows(i)("DelayVerificationEmailStatus") & "",
-                    .ChartSetupEmailStatus = dt.Rows(i)("ChartSetupEmailStatus") & "",
-                    .LastUpdate = Date.Parse(dt.Rows(i)("UpdateDate").ToString()).ToString("yyyy MMM dd HH:mm:ss"),
-                    .LastUser = dt.Rows(i)("UpdateUser") & ""
+                    .NGResultEmailStatus = dt.Rows(i)("NGResultEmailStatus"),
+                    .DelayInputEmailStatus = dt.Rows(i)("DelayInputEmailStatus"),
+                    .DelayVerificationEmailStatus = dt.Rows(i)("DelayVerificationEmailStatus"),
+                    .ChartSetupEmailStatus = dt.Rows(i)("ChartSetupEmailStatus"),
+                    .LastUpdate = dt.Rows(i)("UpdateDate"),
+                    .LastUser = dt.Rows(i)("UpdateUser")
                 }
                 Users.Add(User)
             Next
