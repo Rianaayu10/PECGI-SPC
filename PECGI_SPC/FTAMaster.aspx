@@ -31,10 +31,10 @@
             cboLine.SetEnabled(false);
             cboLine.PerformCallback(cboFactory.GetValue());
         }
-        //function cboLineChanged(s, e) {
-        //    cboType.SetEnabled(false);
-        //    cboType.PerformCallback(cboFactory.GetValue());
-        //}
+        function cboLineChanged(s, e) {
+            cboItemCheck.SetEnabled(false);
+            cboItemCheck.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue());
+        }
         //function cboTypeChanged(s, e) {
 
         //}

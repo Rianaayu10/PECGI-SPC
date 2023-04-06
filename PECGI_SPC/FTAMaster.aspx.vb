@@ -212,35 +212,52 @@ Public Class FTAMaster
         End If
     End Sub
     Protected Sub Grid_RowValidating(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataValidationEventArgs) Handles Grid.RowValidating
-        Dim GridColumn As New GridViewDataColumn
+        Dim dataCol As New GridViewDataColumn
+        Dim AdaError As Boolean = False
 
-        GridColumn = Grid.DataColumns("FTAID")
-        If IsNothing(e.NewValues("FTAID")) OrElse e.NewValues("FTAID").ToString.Trim = "" Then
-            e.Errors(GridColumn) = "FTA ID Must Be Filled !"
-            show_error(MsgTypeEnum.Warning, "FTA ID Must Be Filled !", 1)
-            Return
-        End If
+        For Each column As GridViewColumn In Grid.Columns
+            Dim dataColumn As GridViewDataColumn = TryCast(column, GridViewDataColumn)
+            If dataColumn Is Nothing Then
+                Continue For
+            End If
 
-        GridColumn = Grid.DataColumns("CounterMeasure")
-        If IsNothing(e.NewValues("CounterMeasure")) OrElse e.NewValues("CounterMeasure").ToString.Trim = "" Then
-            e.Errors(GridColumn) = "Counter Measure Must Be Filled !"
-            show_error(MsgTypeEnum.Warning, "Counter Measure Must Be Filled !", 1)
-            Return
-        End If
+            If dataColumn.FieldName = "FTAID" Then
+                If IsNothing(e.NewValues("FTAID")) OrElse e.NewValues("FTAID").ToString.Trim = "" Then
+                    e.Errors(dataColumn) = "Please Input FTAID!"
+                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                    AdaError = True
+                End If
+            End If
 
-        GridColumn = Grid.DataColumns("CheckItem")
-        If IsNothing(e.NewValues("CheckItem")) OrElse e.NewValues("CheckItem").ToString.Trim = "" Then
-            e.Errors(GridColumn) = "Check Item Must Be Filled !"
-            show_error(MsgTypeEnum.Warning, "Check Item Must Be Filled !", 1)
-            Return
-        End If
+            If dataColumn.FieldName = "CounterMeasure" Then
+                If IsNothing(e.NewValues("CounterMeasure")) OrElse e.NewValues("CounterMeasure").ToString.Trim = "" Then
+                    e.Errors(dataColumn) = "Please Input CounterMeasure!"
+                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                    AdaError = True
+                End If
+            End If
 
-        GridColumn = Grid.DataColumns("CheckOrder")
-        If IsNothing(e.NewValues("CheckOrder")) OrElse e.NewValues("CheckOrder").ToString.Trim = "" Then
-            e.Errors(GridColumn) = "Check Order Must Be Filled !"
-            show_error(MsgTypeEnum.Warning, "Check Order Must Be Filled !", 1)
-            Return
-        End If
+            If dataColumn.FieldName = "CheckItem" Then
+                If IsNothing(e.NewValues("CheckItem")) OrElse e.NewValues("CheckItem").ToString.Trim = "" Then
+                    e.Errors(dataColumn) = "Please Input Check Item!"
+                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                    AdaError = True
+                End If
+            End If
+
+            If dataColumn.FieldName = "CheckOrder" Then
+                If IsNothing(e.NewValues("CheckOrder")) OrElse e.NewValues("CheckOrder").ToString.Trim = "" Then
+                    e.Errors(dataColumn) = "Please Input Check Order!"
+                    show_error(MsgTypeEnum.Warning, "Please fill in all required fields!", 1)
+                    AdaError = True
+                End If
+            End If
+
+            'If dataColumn.FieldName = "LastUser" Then
+            '    dataCol = dataColumn
+            'End If
+        Next column
+
 
     End Sub
 
@@ -624,33 +641,26 @@ Public Class FTAMaster
                 .Cells(1, 1, 1, 13).Style.Font.Size = 16
                 .Cells(1, 1, 1, 13).Style.Font.Name = "Segoe UI"
 
-                .Cells(3, 1, 3, 2).Value = "Factory"
-                .Cells(3, 1, 3, 2).Merge = True
-                .Cells(3, 3).Value = ": " & cls.FactoryName
+                .Cells(3, 1, 3, 1).Value = "Factory"
+                .Cells(3, 2).Value = ": " & cls.FactoryName
 
-                .Cells(4, 1, 4, 2).Value = "Process Group"
-                .Cells(4, 1, 4, 2).Merge = True
-                .Cells(4, 3).Value = ": " & cls.ProcessGroup
+                .Cells(4, 1, 4, 1).Value = "Process Group"
+                .Cells(4, 2).Value = ": " & cls.ProcessGroup
 
-                .Cells(5, 1, 5, 2).Value = "Line Group"
-                .Cells(5, 1, 5, 2).Merge = True
-                .Cells(5, 3).Value = ": " & cls.LineGroup
+                .Cells(5, 1, 5, 1).Value = "Line Group"
+                .Cells(5, 2).Value = ": " & cls.LineGroup
 
-                .Cells(6, 1, 6, 2).Value = "Machine"
-                .Cells(6, 1, 6, 2).Merge = True
-                .Cells(6, 3).Value = ": " & cls.Machine
+                .Cells(6, 1, 6, 1).Value = "Machine"
+                .Cells(6, 2).Value = ": " & cls.Machine
 
-                .Cells(7, 1, 7, 2).Value = "Machine Process"
-                .Cells(7, 1, 7, 2).Merge = True
-                .Cells(7, 3).Value = ": " & cls.LineName
+                .Cells(7, 1, 7, 1).Value = "Machine Process"
+                .Cells(7, 2).Value = ": " & cls.LineName
 
-                .Cells(8, 1, 8, 2).Value = "Type"
-                .Cells(8, 1, 8, 2).Merge = True
-                .Cells(8, 3).Value = ": " & cls.ItemTypeName
+                .Cells(8, 1, 8, 1).Value = "Type"
+                .Cells(8, 2).Value = ": " & cls.ItemTypeName
 
-                .Cells(9, 1, 9, 2).Value = "Item Check"
-                .Cells(9, 1, 9, 2).Merge = True
-                .Cells(9, 3).Value = ": " & cls.ItemCheck
+                .Cells(9, 1, 9, 1).Value = "Item Check"
+                .Cells(9, 2).Value = ": " & cls.ItemCheck
 
                 Dim rgHdr As ExcelRange = .Cells(3, 3, 9, 4)
                 rgHdr.Style.HorizontalAlignment = HorzAlignment.Near
@@ -705,18 +715,18 @@ Public Class FTAMaster
             .Cells(iRow, 12).Value = "Last Update"
 
 
-            .Column(1).Width = 50
-            .Column(2).Width = 50
-            .Column(3).Width = 50
-            .Column(4).Width = 50
-            .Column(5).Width = 50
-            .Column(6).Width = 50
-            .Column(7).Width = 50
+            .Column(1).Width = 20
+            .Column(2).Width = 40
+            .Column(3).Width = 40
+            .Column(4).Width = 40
+            .Column(5).Width = 40
+            .Column(6).Width = 40
+            .Column(7).Width = 40
             .Column(8).Width = 10
-            .Column(9).Width = 50
+            .Column(9).Width = 40
             .Column(10).Width = 10
-            .Column(11).Width = 50
-            .Column(12).Width = 50
+            .Column(11).Width = 20
+            .Column(12).Width = 20
 
             For excelFTA = 0 To dtFTA.Rows.Count - 1
 
@@ -769,6 +779,13 @@ Public Class FTAMaster
             Range.Style.Font.Size = FontSize
             Range.Style.Font.Name = "Segoe UI"
         End With
+    End Sub
+    Private Sub cboItemCheck_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboItemCheck.Callback
+        Dim FactoryCode As String = Split(e.Parameter, "|")(0)
+        Dim ItemTypeCode As String = Split(e.Parameter, "|")(1)
+        Dim LineCode As String = Split(e.Parameter, "|")(2)
+        cboItemCheck.DataSource = clsItemCheckDB.GetList(FactoryCode, ItemTypeCode, LineCode)
+        cboItemCheck.DataBind()
     End Sub
 #End Region
 
