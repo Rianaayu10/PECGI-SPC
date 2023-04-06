@@ -106,8 +106,20 @@
             } else if (nMonth > 11) {
                 toastr.warning("Periode can not more than 12 period !", 'Warning', { timeOut: 3000, closeButton: true });
             } else {
-                $("#chart").css("display", "block");
-                $("#chartdetail").css("display", "block");
+                /*Clear Content*/
+                /*===================================*/
+                $('#tableLineGroup tr th').remove();
+                $('#tableLineGroup tr td').remove();
+                $('#tableLineDetail tr td').remove();
+
+                $("#lblTitleChart").html("");
+                $("#lblSubTitleChart").html("");
+                $("#chart").css("display", "none");
+
+                $("#lblTitleChartDetail").html("");
+                $("#lblSubTitleChartDetail").html("");
+                $("#chartdetail").css("display", "none");
+            /*===================================*/
                 tableLineGroup(User, FactoryCode, ProcessGroup, LineGroup, ProcessCode, LineCode, ItemType, ProdDate_From, ProdDate_To);
             }
         }
@@ -152,8 +164,7 @@
                 dataType: "json",
                 success: function (result) {
                     if (result.d.Message == "Success") {
-                        $('#tableLineGroup tr th').remove();
-                        $('#tableLineGroup tr td').remove();
+                        $("#chart").css("display", "block");
                         LoadHeader();
                         chartLineGroup(User, FactoryCode, ProcessGroup, LineGroup, ProcessCode, LineCode, ItemType, ProdDate_From, ProdDate_To);
                         Object.values(result.d.Contents).forEach(LineGroupContent);
@@ -190,6 +201,7 @@
                 success: function (result) {
                     if (result.d.Message == "Success") {
                         if (result.d.Contents != "") {
+                            $("#chartdetail").css("display", "block");
                               btnExcel.SetEnabled(true);
                             Object.values(result.d.Contents).forEach(LineDetailContent);
                         }
@@ -809,7 +821,7 @@
                             <div class="widget-body no-padding">
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <table style="width: 100%; min-height: 250px" border="1">
+                                        <table style="width: 100%; min-height: 55vh" border="1">
                                             <tr>
                                                 <td align="center">
                                                     <div>
@@ -856,7 +868,7 @@
                             <div class="widget-body no-padding">
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <table style="width: 100%; min-height: 250px;" border="1">
+                                        <table style="width: 100%; min-height: 55vh;" border="1">
                                             <tr>
                                                 <td align="center">
                                                     <div>

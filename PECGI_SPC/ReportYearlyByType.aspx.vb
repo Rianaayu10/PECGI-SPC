@@ -607,11 +607,6 @@ Public Class ReportYearlyByType
 
 
     Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
-        System.Threading.Thread.Sleep(5000)
-        'Dim sFileName = HideValue.Get("FileName")
-        ''Dim DetFileName = HideValue.Get("DetFileName")
-        'Dim FileName = "chart_240320231679643943938"
-        'Dim DetFileName = "chart_240320231679643943938"
         ExcelContent()
     End Sub
 End Class

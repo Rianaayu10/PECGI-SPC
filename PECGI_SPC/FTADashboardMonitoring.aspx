@@ -212,7 +212,7 @@
                             </div>
                         </div>
                         <div style="display: flex; justify-content: center;">
-                            <div style="border-style: solid; min-width: 10vw; min-height: 20vh; text-align: center; align-items: center; display: flex; justify-content: center;">
+                            <div  id="btnDelay" style="border-style: solid; min-width: 10vw; min-height: 20vh; text-align: center; align-items: center; display: flex; justify-content: center;">
                                 <span id="DelayInput">--- </span>
                             </div>
                         </div>
@@ -224,7 +224,7 @@
                             </div>
                         </div>
                         <div style="display: flex; justify-content: center;">
-                            <div style="border-style: solid; min-width: 10vw; min-height: 20vh; text-align: center; align-items: center; display: flex; justify-content: center;">
+                            <div id="btnNG" style="border-style: solid; min-width: 10vw; min-height: 20vh; text-align: center; align-items: center; display: flex; justify-content: center;">
                                 <span id="DelayNG">--- </span>
                             </div>
                         </div>
@@ -258,6 +258,17 @@
             }, 5000, (1));
 
         }
+
+        $("#btnNG").click(function () {
+           /* window.open('AlertNGResult.aspx', '_blank');*/
+            window.open('AlertNGResult.aspx?ProdDate=1', '_blank');
+        })
+
+        $("#btnDelay").click(function () {
+        /*    window.open('AlertDelayInput.aspx', '_blank');*/
+            window.open('AlertDelayInput.aspx?ProdDate=1', '_blank');
+        })
+
 
         function loadDashboard(UserID) {
             $.ajax({
