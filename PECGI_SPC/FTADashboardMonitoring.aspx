@@ -4,8 +4,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>FTA Dashboard Dashboard</title>
     <link href="Styles/images/favicon_pecgi.ico" rel="SHORTCUT ICON" type="image/icon" />
 
@@ -63,6 +63,62 @@
         .delay_font {
             font-size: 13vh;
             font-weight: 600;
+        }
+    </style>
+
+
+    <style type="text/css">
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: 305px;
+            padding: 10px 10px 10px 10px;
+        }
+
+            .card:hover {
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            }
+
+        .loader {
+            border: 10px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 10px solid #3498db;
+            width: 60px;
+            height: 60px;
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+            animation: spin 2s linear infinite;
+        }
+
+        .overlay {
+            display: none;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            right: 0;
+            position: absolute;
+            z-index: 999;
+            background: rgba(0, 0, 0, 0.65);
+        }
+
+        /* Safari */
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 
@@ -212,9 +268,12 @@
                             </div>
                         </div>
                         <div style="display: flex; justify-content: center;">
-                            <div  id="btnDelay" style="border-style: solid; min-width: 10vw; min-height: 20vh; text-align: center; align-items: center; display: flex; justify-content: center;">
-                                <span id="DelayInput">--- </span>
-                            </div>
+                            <button id="btnDelay" style="border-style: none">
+                                <div style="border-style: solid; min-width: 10vw; min-height: 20vh; text-align: center; align-items: center; display: flex; justify-content: center;">
+                                    <span id="DelayInput">--- </span>
+                                </div>
+                            </button>
+
                         </div>
                     </div>
                     <div style="border-style: solid; min-height: 30vh; min-width: 15vw;">
@@ -224,12 +283,15 @@
                             </div>
                         </div>
                         <div style="display: flex; justify-content: center;">
-                            <div id="btnNG" style="border-style: solid; min-width: 10vw; min-height: 20vh; text-align: center; align-items: center; display: flex; justify-content: center;">
-                                <span id="DelayNG">--- </span>
-                            </div>
+                            <button id="btnNG" style="border-style: none">
+                                <div style="border-style: solid; min-width: 10vw; min-height: 20vh; text-align: center; align-items: center; display: flex; justify-content: center;">
+                                    <span id="DelayNG">--- </span>
+                                </div>
+                            </button>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
         <dx:ASPxHiddenField ID="HideValue" runat="server" ClientInstanceName="HideValue"></dx:ASPxHiddenField>
@@ -260,12 +322,12 @@
         }
 
         $("#btnNG").click(function () {
-           /* window.open('AlertNGResult.aspx', '_blank');*/
+            /* window.open('AlertNGResult.aspx', '_blank');*/
             window.open('AlertNGResult.aspx?ProdDate=1', '_blank');
         })
 
         $("#btnDelay").click(function () {
-        /*    window.open('AlertDelayInput.aspx', '_blank');*/
+            /*    window.open('AlertDelayInput.aspx', '_blank');*/
             window.open('AlertDelayInput.aspx?ProdDate=1', '_blank');
         })
 
@@ -417,11 +479,11 @@
         }
 
     </script>
-      <script type="text/javascript">
-          if (!window.jQuery) {
-              document.write('<script src="js/libs/jquery-2.1.1.min.js"><\/script>');
-          }
-      </script>
+    <script type="text/javascript">
+        if (!window.jQuery) {
+            document.write('<script src="js/libs/jquery-2.1.1.min.js"><\/script>');
+        }
+    </script>
     <script type="text/javascript">
         if (!window.jQuery.ui) {
             document.write('<script src="js/libs/jquery-ui-1.10.3.min.js"><\/script>');
