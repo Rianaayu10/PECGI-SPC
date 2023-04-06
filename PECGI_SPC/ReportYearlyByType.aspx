@@ -106,6 +106,8 @@
             } else if (nMonth > 11) {
                 toastr.warning("Periode can not more than 12 period !", 'Warning', { timeOut: 3000, closeButton: true });
             } else {
+                $("#chart").css("display", "block");
+                $("#chartdetail").css("display", "block");
                 tableLineGroup(User, FactoryCode, ProcessGroup, LineGroup, ProcessCode, LineCode, ItemType, ProdDate_From, ProdDate_To);
             }
         }
@@ -188,7 +190,7 @@
                 success: function (result) {
                     if (result.d.Message == "Success") {
                         if (result.d.Contents != "") {
-                            /*  btnExcel.SetEnabled(true);*/
+                              btnExcel.SetEnabled(true);
                             Object.values(result.d.Contents).forEach(LineDetailContent);
                         }
                     } else {
@@ -410,8 +412,32 @@
         }
 
         function Clear() {
+            var today = new Date();
+            cboProcessGroup.SetValue("ALL");
+            cboProcessCode.SetValue("ALL");
+            cboLineCode.SetValue("ALL");
+            cboLineGroup.SetValue("ALL");
+            cboItemType.SetValue(" ");
+            dtFromDate.SetDate(today);
+            dtToDate.SetDate(today);
+
+            /*Clear Content*/
+            /*===================================*/
             $('#tableLineGroup tr th').remove();
             $('#tableLineGroup tr td').remove();
+            $('#tableLineDetail tr td').remove();
+
+            $("#lblTitleChart").html("");
+            $("#lblSubTitleChart").html("");
+            $("#chart").css("display", "none");
+            var tr = document.getElementById('tableLineGroup').tHead.children[0];
+            tr.insertCell(0).outerHTML = '<th style="text-align: center; background-color: gray; color: white; font-weight: 100; width:2vw;"> No </th>';
+            tr.insertCell(1).outerHTML = '<th style="text-align: center; background-color: gray; color: white; font-weight: 100;"> MachineProcess </th>';
+
+            $("#lblTitleChartDetail").html("");
+            $("#lblSubTitleChartDetail").html("");
+            $("#chartdetail").css("display", "none");
+            /*===================================*/
 
         }
 
@@ -472,6 +498,8 @@
             //HideValue.Set("FileName", filename);
             //HideValue.Set("DetFileName", detfilename);
         }
+
+
 
         function MessageError(s, e) {
             if (s.cp_message != "" && s.cp_val == 1) {
@@ -743,7 +771,7 @@
                 <td>
                     <dx:ASPxButton ID="btnClear" runat="server" AutoPostBack="False" ClientInstanceName="btnClear" Height="25px"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="Clear" Theme="Office2010Silver" Width="80px">
-                        <%-- <ClientSideEvents Click="Clear" />--%>
+                         <ClientSideEvents Click="Clear" />
                     </dx:ASPxButton>
                 </td>
             </tr>
@@ -752,7 +780,7 @@
     <div style="margin-top: 10px">
         <dx:ASPxButton ID="btnExcel" runat="server" AutoPostBack="False" ClientInstanceName="btnExcel" Height="30px"
             Font-Names="Segoe UI" Font-Size="9pt" Text="Excel" Theme="Office2010Silver" Width="100px">
-            <ClientSideEvents Click="ExcelClick" />
+           <%-- <ClientSideEvents Click="ExcelClick" />--%>
         </dx:ASPxButton>
     </div>
     <dx:ASPxCallback ID="cb" runat="server" ClientInstanceName="cb">
@@ -786,7 +814,7 @@
                                                 <td align="center">
                                                     <div>
                                                         <h3 id="lblTitleChart"></h3>
-                                                        <p p style="margin-top: -10px" id="lblSubTitleChart"></p>
+                                                        <p style="margin-top: -10px" id="lblSubTitleChart"></p>
                                                     </div>
                                                     <div id="chart" class="float"></div>
                                                 </td>

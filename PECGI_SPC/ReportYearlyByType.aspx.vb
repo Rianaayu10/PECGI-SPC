@@ -405,7 +405,7 @@ Public Class ReportYearlyByType
         Return chart
     End Function
 
-    Private Sub ExcelContent(filename As String, DetFileName As String)
+    Private Sub ExcelContent()
         Try
 
             Using excel As New ExcelPackage
@@ -582,8 +582,8 @@ Public Class ReportYearlyByType
                     'Dim fi As New FileInfo(Path & "\" & filename)
                     'Dim ImgWeb = System.IO.Directory.GetFiles("Downloads", filename & ".PNG")
 
-                    Dim PathWeb = "E:"
-                    Dim ImgWeb = System.IO.Directory.GetFiles(PathWeb & "\", "*" & filename & "*.PNG")
+                    'Dim PathWeb = "E:"
+                    'Dim ImgWeb = System.IO.Directory.GetFiles(PathWeb & "\", "*" & filename & "*.PNG")
 
 
 
@@ -602,17 +602,16 @@ Public Class ReportYearlyByType
                 End Using
             End Using
         Catch ex As Exception
-            Throw New Exception(ex.Message)
         End Try
     End Sub
 
 
-    'Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
-    '    System.Threading.Thread.Sleep(5000)
-    '    Dim sFileName = HideValue.Get("FileName")
-    '    'Dim DetFileName = HideValue.Get("DetFileName")
-    '    Dim FileName = "chart_240320231679643943938"
-    '    Dim DetFileName = "chart_240320231679643943938"
-    '    ExcelContent(FileName, DetFileName)
-    'End Sub
+    Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
+        System.Threading.Thread.Sleep(5000)
+        'Dim sFileName = HideValue.Get("FileName")
+        ''Dim DetFileName = HideValue.Get("DetFileName")
+        'Dim FileName = "chart_240320231679643943938"
+        'Dim DetFileName = "chart_240320231679643943938"
+        ExcelContent()
+    End Sub
 End Class
