@@ -15,6 +15,18 @@ End Class
 
 
 Public Class ClsLineDB
+    Public Shared Function GetServer() As String
+        Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+            Return Cn.DataSource
+        End Using
+    End Function
+
+    Public Shared Function GetDatabase() As String
+        Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+            Return Cn.Database
+        End Using
+    End Function
+
     Public Shared Function GetData(FactoryCode As String, LineCode As String) As ClsLine
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
