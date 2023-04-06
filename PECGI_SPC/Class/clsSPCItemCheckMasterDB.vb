@@ -18,6 +18,7 @@ Public Class ClsSPCItemCheckMasterDB
                 .AddWithValue("ItemCheckCode", pItemCheckMaster.ItemCheckCode)
                 .AddWithValue("ItemCheck", pItemCheckMaster.ItemCheck)
                 .AddWithValue("UnitMeasurement", pItemCheckMaster.UnitMeasurement)
+                .AddWithValue("DecimalDigit", pItemCheckMaster.DecimalDigit)
                 .AddWithValue("Description", pItemCheckMaster.Description)
                 .AddWithValue("Measure2Cls", Val(pItemCheckMaster.Measure2Cls & ""))
                 .AddWithValue("ActiveStatus", Val(pItemCheckMaster.ActiveStatus & ""))
@@ -60,6 +61,7 @@ Public Class ClsSPCItemCheckMasterDB
             With cmd.Parameters
                 .AddWithValue("ItemCheck", pItemCheckMaster.ItemCheck)
                 .AddWithValue("UnitMeasurement", pItemCheckMaster.UnitMeasurement)
+                .AddWithValue("DecimalDigit", pItemCheckMaster.DecimalDigit)
                 .AddWithValue("Description", pItemCheckMaster.Description)
                 .AddWithValue("Measure2Cls", Val(pItemCheckMaster.Measure2Cls & ""))
                 .AddWithValue("ActiveStatus", Val(pItemCheckMaster.ActiveStatus & ""))
@@ -90,6 +92,7 @@ Public Class ClsSPCItemCheckMasterDB
                     .ItemCheckCode = dt.Rows(i)("ItemCheckCode"),
                     .ItemCheck = Trim(dt.Rows(i)("ItemCheck")),
                     .UnitMeasurement = Trim(dt.Rows(i)("UnitMeasurement")),
+                    .DecimalDigit = Trim(dt.Rows(i)("DecimalDigit")),
                     .Description = Trim(dt.Rows(i)("Description") & ""),
                     .Measure2Cls = Trim(dt.Rows(i)("Measure2Cls")),
                     .ActiveStatus = Trim(dt.Rows(i)("ActiveStatus")),

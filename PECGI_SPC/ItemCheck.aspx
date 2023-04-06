@@ -165,7 +165,22 @@
                     <CellStyle HorizontalAlign="center" VerticalAlign="Middle"></CellStyle>
                 </dx:GridViewDataTextColumn>
 
-                <dx:GridViewDataTextColumn Caption="Description" FieldName="Description" VisibleIndex="4"
+                <dx:GridViewDataTextColumn Caption="Decimal Digit" FieldName="DecimalDigit"
+                    VisibleIndex="4" Width="75px" Settings-AutoFilterCondition="Contains">
+                    <PropertiesTextEdit MaxLength="15" Width="55px">
+                        <Style HorizontalAlign="Left"></Style>
+                    </PropertiesTextEdit>
+                    <Settings AutoFilterCondition="Contains"></Settings>
+                    <FilterCellStyle Paddings-PaddingRight="4px">
+                    <Paddings PaddingRight="4px"></Paddings>
+                    </FilterCellStyle>
+                    <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                    <Paddings PaddingLeft="5px"></Paddings>
+                    </HeaderStyle>
+                    <CellStyle HorizontalAlign="center" VerticalAlign="Middle"></CellStyle>
+                </dx:GridViewDataTextColumn>
+
+                <dx:GridViewDataTextColumn Caption="Description" FieldName="Description" VisibleIndex="5"
                     Width="200px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="50" Width="200px">
                         <Style HorizontalAlign="Left"></Style>
@@ -181,14 +196,6 @@
                 </dx:GridViewDataTextColumn>
 
                 <dx:GridViewDataCheckColumn Caption="Second Measurement" FieldName="Measure2Cls" 
-                    VisibleIndex="5" Width="60px">
-                    <PropertiesCheckEdit ValueChecked="1" ValueType="System.Char" 
-                        ValueUnchecked="0">
-                    </PropertiesCheckEdit>
-                    <Settings AllowSort="False" />
-                </dx:GridViewDataCheckColumn>
-
-                <dx:GridViewDataCheckColumn Caption="Active Status" FieldName="ActiveStatus" 
                     VisibleIndex="6" Width="60px">
                     <PropertiesCheckEdit ValueChecked="1" ValueType="System.Char" 
                         ValueUnchecked="0">
@@ -196,7 +203,15 @@
                     <Settings AllowSort="False" />
                 </dx:GridViewDataCheckColumn>
 
-                <dx:GridViewDataTextColumn Caption="Last User" FieldName="UpdateUser" VisibleIndex="7"
+                <dx:GridViewDataCheckColumn Caption="Active Status" FieldName="ActiveStatus" 
+                    VisibleIndex="7" Width="60px">
+                    <PropertiesCheckEdit ValueChecked="1" ValueType="System.Char" 
+                        ValueUnchecked="0">
+                    </PropertiesCheckEdit>
+                    <Settings AllowSort="False" />
+                </dx:GridViewDataCheckColumn>
+
+                <dx:GridViewDataTextColumn Caption="Last User" FieldName="UpdateUser" VisibleIndex="8"
                     Width="100px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="15" Width="100px">
                         <Style HorizontalAlign="Left"></Style>
@@ -211,7 +226,7 @@
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
                 </dx:GridViewDataTextColumn>
 
-                <dx:GridViewDataTextColumn Caption="Last Update" FieldName="UpdateDate" VisibleIndex="8"
+                <dx:GridViewDataTextColumn Caption="Last Update" FieldName="UpdateDate" VisibleIndex="9"
                     Width="125px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="15" Width="125px">
                         <Style HorizontalAlign="Left"></Style>
@@ -278,6 +293,14 @@
                                     <td>
                                         <dx:ASPxGridViewTemplateReplacement ID="editUnitMeasurement" ReplacementType="EditFormCellEditor"
                                             runat="server" ColumnID="UnitMeasurement">
+                                        </dx:ASPxGridViewTemplateReplacement>                                    
+                                    </td>
+                                </tr>
+                                <tr style="height:30px">
+                                    <td>Decimal Digit</td>                                
+                                    <td>
+                                        <dx:ASPxGridViewTemplateReplacement ID="editDecimalDigit" ReplacementType="EditFormCellEditor"
+                                            runat="server" ColumnID="DecimalDigit">
                                         </dx:ASPxGridViewTemplateReplacement>                                    
                                     </td>
                                 </tr>
