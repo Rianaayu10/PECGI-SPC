@@ -433,9 +433,16 @@ Public Class ReportYearlyByType
                     Dim irow = 1
 
                     .Cells(irow, 1).Value = "FTA Report Yearly By Type"
-                    .Cells(irow, 1).Style.Font.Size = 16
+                    .Cells(irow, 1).Style.Font.Size = 14
                     .Cells(irow, 1).Style.Font.Name = "Segoe UI"
+                    .Cells(irow, 1).Style.Font.Bold = True
                     irow = irow + 2
+
+                    .Cells(irow, 1).Value = "Table Resume FTA SPC"
+                    .Cells(irow, 1).Style.Font.Size = 12
+                    .Cells(irow, 1).Style.Font.Name = "Segoe UI"
+                    .Cells(irow, 1).Style.Font.Bold = True
+                    irow = irow + 1
 
                     Dim irowStart = irow
                     .Cells(irow, 1).Value = "No"
@@ -460,19 +467,22 @@ Public Class ReportYearlyByType
                     irow = irow + 1
                     irowStart = irow
 
-                    For i = 1 To dt.Rows.Count - 1
+                    For i = 0 To dt.Rows.Count - 1
                         Try
                             Dim n = 1
                             For Each dc As DataColumn In dt.Columns
                                 Try
                                     If n = 1 Then
                                         .Cells(irow, n).Value = dt.Rows(i)(dc.ToString())
+                                        .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center
                                         .Column(1).Width = 5
                                     ElseIf n = 2 Then
                                         .Cells(irow, n).Value = dt.Rows(i)(dc.ToString())
+                                        .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left
                                         .Column(2).Width = 20
                                     Else
                                         .Cells(irow, n).Value = dt.Rows(i)(dc.ToString()).ToString.Split("|")(4)
+                                        .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
                                         .Column(n).Width = 10
                                     End If
 
@@ -488,7 +498,6 @@ Public Class ReportYearlyByType
                     Next
 
                     Dim Dtl As ExcelRange = .Cells(irowStart, 1, irow - 1, nCol - 1)
-                    Dtl.Style.VerticalAlignment = VertAlignment.Center
                     Dtl.Style.Font.Size = 10
                     Dtl.Style.Font.Name = "Segoe UI"
                     Dtl.Style.WrapText = True
@@ -516,6 +525,12 @@ Public Class ReportYearlyByType
 
                         dtDet = clsReportYearlyByType.LoadDetail(det)
 
+                        .Cells(irow, 1).Value = "Table Summary FTA SPC " & det.Periode
+                        .Cells(irow, 1).Style.Font.Size = 12
+                        .Cells(irow, 1).Style.Font.Name = "Segoe UI"
+                        .Cells(irow, 1).Style.Font.Bold = True
+                        irow = irow + 1
+
                         irowStart = irow
                         .Cells(irow, 1).Value = "No"
                         .Cells(irow, 2).Value = "Item FTA by Line"
@@ -539,15 +554,23 @@ Public Class ReportYearlyByType
                                 Dim n = 1
                                 For Each dc As DataColumn In dtDet.Columns
                                     Try
-                                        .Cells(irow, n).Value = dtDet.Rows(i)(dc.ToString())
+
                                         If n = 1 Then
                                             .Column(1).Width = 5
+                                            .Cells(irow, n).Value = dtDet.Rows(i)(dc.ToString())
+                                            .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center
                                         ElseIf n = 2 Then
                                             .Column(2).Width = 20
-                                        Else
+                                            .Cells(irow, n).Value = dtDet.Rows(i)(dc.ToString())
+                                            .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left
+                                        ElseIf n = 3 Then
+                                            .Cells(irow, n).Value = dtDet.Rows(i)(dc.ToString())
+                                            .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
+                                        ElseIf n = 4 Then
                                             .Column(n).Width = 15
+                                            .Cells(irow, n).Value = dtDet.Rows(i)(dc.ToString()) & "%"
+                                            .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
                                         End If
-
                                         n = n + 1
                                     Catch ex As Exception
                                         Throw New Exception(ex.Message)
@@ -584,7 +607,6 @@ Public Class ReportYearlyByType
 
                     'Dim PathWeb = "E:"
                     'Dim ImgWeb = System.IO.Directory.GetFiles(PathWeb & "\", "*" & filename & "*.PNG")
-
 
 
                 End With
