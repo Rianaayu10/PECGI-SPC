@@ -788,6 +788,15 @@ Partial Public Class ProdSampleInput
     Protected WithEvents cbkRefresh As Global.DevExpress.Web.ASPxCallback
 
     '''<summary>
+    '''hfDB control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hfDB As Global.DevExpress.Web.ASPxHiddenField
+
+    '''<summary>
     '''Master property.
     '''</summary>
     '''<remarks>

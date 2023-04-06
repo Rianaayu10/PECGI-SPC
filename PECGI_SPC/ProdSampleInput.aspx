@@ -149,8 +149,10 @@
             var shiftCode = cboShift.GetValue();
             var seqNo = cboSeq.GetValue();
             var prodDate = dtDate.GetText();
+            var pServer = hfDB.Get('Server');
+            var pDatabase = hfDB.Get('Database');
 
-            var cmdLine = url + "," + userID  + "," + factoryCode  + "," + processGroup  + "," + lineGroup  + "," + processCode  + "," + lineCode + "," + itemType + "," + itemCheck + "," + shiftCode + "," + seqNo + "," + prodDate;
+            var cmdLine = url + "," + userID  + "," + factoryCode  + "," + processGroup  + "," + lineGroup  + "," + processCode  + "," + lineCode + "," + itemType + "," + itemCheck + "," + shiftCode + "," + seqNo + "," + prodDate + "," + pServer + "," + pDatabase;
             window.open(cmdLine);self.focus();
         }
 
@@ -1562,6 +1564,9 @@
             />
 
         </dx:ASPxCallback>
+
+        <dx:ASPxHiddenField ID="hfDB" runat="server" ClientInstanceName="hfDB">
+        </dx:ASPxHiddenField>
 
     </div>
 </div>

@@ -192,6 +192,8 @@ Public Class ProdSampleInput
         Dim ProdDate As String = ""
         Dim Shift As String = ""
         Dim Sequence As String = ""
+        hfDB.Set("Server", ClsLineDB.GetServer)
+        hfDB.Set("Database", ClsLineDB.GetDatabase)
         If Not IsPostBack And Not IsCallback Then
             up_FillCombo()
             If GlobalPrm <> "" Then
