@@ -125,6 +125,16 @@
                 btnCorrectiveAction.SetEnabled(false);
             }
 
+            /*Validasi button FTA (aktif hanya ketika FTA Statusnya = 1)*/
+
+            if (s.cp_ValButtonFTA != "1") {
+                btnCorrectiveAction.SetEnabled(false);
+            } else {
+                btnCorrectiveAction.SetEnabled(true);
+            }
+
+            /*----------------------------------------------------------*/
+
             if (s.cp_message != "" && s.cp_val == 1) {
                 if (s.cp_type == "Success" && s.cp_val == 1) {
                     toastr.success(s.cp_message, 'Success');
@@ -263,6 +273,8 @@
             var MIN = s.cpMIN, MAX = s.cpMAX; AVG = s.cpAVG, R = s.cpR, C = s.cpC, NG = s.cpNG, XBarUCL = s.cpXBarUCL, XBarLCL = s.cpXBarLCL;
             var MINClr = s.cpMINClr, MAXClr = s.cpMAXClr, AVClr = s.cpAVGClr, RClr = s.cpRClr, C_Clr = s.cpC_Clr, NG_Clr = s.cpNG_Clr;
 
+            console.log(UCL);
+
             if (ChartSetupCount > 0) {
                 lblUSL.SetText(USL);
                 lblLSL.SetText(LSL);
@@ -350,6 +362,15 @@
                 btnIOTTraceability.SetEnabled(false);
                 btnCorrectiveAction.SetEnabled(false);
             }
+            /*Validasi button FTA (aktif hanya ketika FTA Statusnya = 1)*/
+
+            if (s.cp_ValButtonFTA != "1") {
+                btnCorrectiveAction.SetEnabled(false);
+            } else {
+                btnCorrectiveAction.SetEnabled(true);
+            }
+
+            /*----------------------------------------------------------*/
 
             if (s.cp_message != "" && s.cp_val == 1) {
                 if (s.cp_type == "Success" && s.cp_val == 1) {

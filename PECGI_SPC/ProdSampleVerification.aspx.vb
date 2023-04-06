@@ -58,11 +58,13 @@ Public Class ProdSampleVerification
     'GET VALIDATION
     Dim GetVerifyPrivilege As String = "1"
     Dim GetVerifyChartSetup As String = "2"
+    Dim GetValButtonFTA As String = "3"
 
     'SPECIFICATION CHART
     Dim VerifyStatus As String = "0"
     Dim VerifyDesc As String = ""
     Dim DescIndex As String = ""
+    Dim ValFTA As String = "0"
 
     'EXCEL PARAMETER
     Dim row_GridTitle = 0
@@ -341,6 +343,7 @@ Public Class ProdSampleVerification
                 Up_GridLoad(cls)
                 Up_GridChartSetup(cls)
                 Validation_Verify(cls)
+                ValButtonFTA(cls)
                 GetURL(cls)
 
             ElseIf pAction = "Verify" Then
@@ -1103,19 +1106,19 @@ Public Class ProdSampleVerification
         Dim dtChartSetup As DataTable = ds.Tables(0)
         GridX.JSProperties("cpChartSetupCount") = dtChartSetup.Rows.Count()
         If dtChartSetup.Rows.Count > 0 Then
-            GridX.JSProperties("cpUSL") = AFormat(dtChartSetup.Rows(0)("USL"))
-            GridX.JSProperties("cpLSL") = AFormat(dtChartSetup.Rows(0)("LSL"))
-            GridX.JSProperties("cpUCL") = AFormat(dtChartSetup.Rows(0)("UCL"))
-            GridX.JSProperties("cpLCL") = AFormat(dtChartSetup.Rows(0)("LCL"))
-            GridX.JSProperties("cpCL") = AFormat(dtChartSetup.Rows(0)("CL"))
-            GridX.JSProperties("cpXBarUCL") = AFormat(dtChartSetup.Rows(0)("XBarUCL"))
-            GridX.JSProperties("cpXBarLCL") = AFormat(dtChartSetup.Rows(0)("XBarLCL"))
-            GridX.JSProperties("cpRUCL") = AFormat(dtChartSetup.Rows(0)("RUCL"))
-            GridX.JSProperties("cpRLCL") = AFormat(dtChartSetup.Rows(0)("RLCL"))
-            GridX.JSProperties("cpMIN") = AFormat(dtChartSetup.Rows(0)("nMIN"))
-            GridX.JSProperties("cpMAX") = AFormat(dtChartSetup.Rows(0)("nMAX"))
-            GridX.JSProperties("cpAVG") = AFormat(dtChartSetup.Rows(0)("nAVG"))
-            GridX.JSProperties("cpR") = AFormat(dtChartSetup.Rows(0)("nR"))
+            GridX.JSProperties("cpUSL") = dtChartSetup.Rows(0)("USL")
+            GridX.JSProperties("cpLSL") = dtChartSetup.Rows(0)("LSL")
+            GridX.JSProperties("cpUCL") = dtChartSetup.Rows(0)("UCL")
+            GridX.JSProperties("cpLCL") = dtChartSetup.Rows(0)("LCL")
+            GridX.JSProperties("cpCL") = dtChartSetup.Rows(0)("CL")
+            GridX.JSProperties("cpXBarUCL") = dtChartSetup.Rows(0)("XBarUCL")
+            GridX.JSProperties("cpXBarLCL") = dtChartSetup.Rows(0)("XBarLCL")
+            GridX.JSProperties("cpRUCL") = dtChartSetup.Rows(0)("RUCL")
+            GridX.JSProperties("cpRLCL") = dtChartSetup.Rows(0)("RLCL")
+            GridX.JSProperties("cpMIN") = dtChartSetup.Rows(0)("nMIN")
+            GridX.JSProperties("cpMAX") = dtChartSetup.Rows(0)("nMAX")
+            GridX.JSProperties("cpAVG") = dtChartSetup.Rows(0)("nAVG")
+            GridX.JSProperties("cpR") = dtChartSetup.Rows(0)("nR")
             GridX.JSProperties("cpC") = dtChartSetup.Rows(0)("C")
             GridX.JSProperties("cpNG") = dtChartSetup.Rows(0)("NG")
             GridX.JSProperties("cpCS") = dtChartSetup.Rows(0)("CS")
@@ -1360,6 +1363,7 @@ Public Class ProdSampleVerification
         UpFillCombo()
         Validation_Verify(cls)
         GetURL(cls)
+        ValButtonFTA(cls)
         Up_GridLoad(cls)
         Up_GridLoadActivities(cls)
         Up_GridChartSetup(cls)
@@ -1443,6 +1447,12 @@ Public Class ProdSampleVerification
         If VerifyStatus = "0" Then
             show_errorGrid(MsgTypeEnum.Warning, VerifyDesc, 1)
         End If
+    End Sub
+
+    Public Sub ValButtonFTA(cls As clsProdSampleVerification)
+        Dim dt = clsProdSampleVerificationDB.Validation(GetValButtonFTA, cls)
+        ValFTA = dt.Rows(0)(0).ToString
+        GridX.JSProperties("cp_ValButtonFTA") = ValFTA
     End Sub
     Private Sub GetURL(cls As clsProdSampleVerification)
         Dim ProcessGroup = ""
