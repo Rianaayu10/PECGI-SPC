@@ -426,6 +426,9 @@ Public Class ProdSampleInput
         up_ClearJS()
     End Sub
     Protected Sub grid_AfterPerformCallback(sender As Object, e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles grid.AfterPerformCallback
+        If Digit = 0 Then
+            Digit = ClsSPCItemCheckMasterDB.GetDigit(cboItemCheck.Value)
+        End If
         If e.CallbackName = "CANCELEDIT" Then
             Dim Item As clsItemCheck = clsItemCheckDB.GetData(cboItemCheck.Value)
             If Item Is Nothing OrElse Item.Measure2Cls <> "1" Then
@@ -1669,10 +1672,11 @@ Public Class ProdSampleInput
                 diagram.AxisY.WholeRange.MaxValue = MaxValue
                 diagram.AxisY.VisualRange.MaxValue = MaxValue
                 If MaxValue > 0 Then
-                    Dim GridAlignment As Double = Math.Round(MaxValue / 20, 4)
+                    Dim GridAlignment As Double = Math.Round(MaxValue / 10, 4)
                     diagram.AxisY.NumericScaleOptions.CustomGridAlignment = GridAlignment
                 End If
-                Dim EndSideMargin As Single = Math.Round(MaxValue / 10, 3)
+                Dim EndSideMargin As Single = Math.Round(MaxValue / 5, 3)
+                diagram.AxisY.VisualRange.EndSideMargin = EndSideMargin
                 diagram.AxisY.WholeRange.EndSideMargin = EndSideMargin
             End If
             .DataBind()
@@ -1728,15 +1732,21 @@ Public Class ProdSampleInput
                 diagram.AxisY.ConstantLines.Add(CL)
                 CL.AxisValue = Setup.CPCL
 
+                Dim Spasi As String
+                If Setup.SpecLSL = Setup.CPLCL Or Setup.SpecUSL = Setup.CPUCL Then
+                    Spasi = "      "
+                Else
+                    Spasi = ""
+                End If
                 If ChartType = "1" Or ChartType = "2" Then
-                    Dim XBarLCL As New ConstantLine("      XBarLCL")
+                    Dim XBarLCL As New ConstantLine(Spasi + "XBarLCL")
                     XBarLCL.Color = System.Drawing.Color.Orange
                     XBarLCL.LineStyle.Thickness = 1
                     XBarLCL.LineStyle.DashStyle = DashStyle.Dash
                     diagram.AxisY.ConstantLines.Add(XBarLCL)
                     XBarLCL.AxisValue = Setup.XBarLCL
 
-                    Dim XBarUCL As New ConstantLine("      XBarUCL")
+                    Dim XBarUCL As New ConstantLine(Spasi + "XBarUCL")
                     XBarUCL.Color = System.Drawing.Color.Orange
                     XBarUCL.LineStyle.Thickness = 1
                     XBarUCL.LineStyle.DashStyle = DashStyle.Dash
@@ -1744,14 +1754,15 @@ Public Class ProdSampleInput
                     XBarUCL.AxisValue = Setup.XBarUCL
                 End If
 
-                Dim LSL As New ConstantLine("      LSL")
+
+                Dim LSL As New ConstantLine(Spasi + "LSL")
                 LSL.Color = System.Drawing.Color.Red
                 LSL.LineStyle.Thickness = 1
                 LSL.LineStyle.DashStyle = DashStyle.Solid
                 diagram.AxisY.ConstantLines.Add(LSL)
                 LSL.AxisValue = Setup.SpecLSL
 
-                Dim USL As New ConstantLine("      USL")
+                Dim USL As New ConstantLine(Spasi + "USL")
                 USL.Color = System.Drawing.Color.Red
                 USL.LineStyle.Thickness = 1
                 USL.LineStyle.DashStyle = DashStyle.Solid

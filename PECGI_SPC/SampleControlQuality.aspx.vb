@@ -1015,15 +1015,23 @@ Public Class SampleControlQuality
                 diagram.AxisY.ConstantLines.Add(CL)
                 CL.AxisValue = Setup.CPCL
 
+
+                Dim Spasi As String
+                If Setup.SpecLSL = Setup.CPLCL Or Setup.SpecUSL = Setup.CPUCL Then
+                    Spasi = "      "
+                Else
+                    Spasi = ""
+                End If
+
                 If ChartType = "1" Or ChartType = "2" Then
-                    Dim XBarLCL As New ConstantLine("      XbarLCL")
+                    Dim XBarLCL As New ConstantLine(Spasi + "XbarLCL")
                     XBarLCL.Color = System.Drawing.Color.Orange
                     XBarLCL.LineStyle.Thickness = 1
                     XBarLCL.LineStyle.DashStyle = DashStyle.Dash
                     diagram.AxisY.ConstantLines.Add(XBarLCL)
                     XBarLCL.AxisValue = Setup.XBarLCL
 
-                    Dim XBarUCL As New ConstantLine("      XbarUCL")
+                    Dim XBarUCL As New ConstantLine(Spasi + "XbarUCL")
                     XBarUCL.Color = System.Drawing.Color.Orange
                     XBarUCL.LineStyle.Thickness = 1
                     XBarUCL.LineStyle.DashStyle = DashStyle.Dash
@@ -1031,14 +1039,14 @@ Public Class SampleControlQuality
                     XBarUCL.AxisValue = Setup.XBarUCL
                 End If
 
-                Dim LSL As New ConstantLine("      LSL")
+                Dim LSL As New ConstantLine(Spasi + "LSL")
                 LSL.Color = System.Drawing.Color.Red
                 LSL.LineStyle.Thickness = 1
                 LSL.LineStyle.DashStyle = DashStyle.Solid
                 diagram.AxisY.ConstantLines.Add(LSL)
                 LSL.AxisValue = Setup.SpecLSL
 
-                Dim USL As New ConstantLine("      USL")
+                Dim USL As New ConstantLine(Spasi + "USL")
                 USL.Color = System.Drawing.Color.Red
                 USL.LineStyle.Thickness = 1
                 USL.LineStyle.DashStyle = DashStyle.Solid
@@ -1158,7 +1166,8 @@ Public Class SampleControlQuality
                 CType(.Series("RuleYellow").View, XYDiagramSeriesViewBase).AxisY = myAxisY
                 CType(.Series("RuleRed").View, XYDiagramSeriesViewBase).AxisY = myAxisY
 
-                Dim EndSideMargin As Single = Math.Round(MaxValue / 10, 3)
+                Dim EndSideMargin As Single = Math.Round(MaxValue / 5, 3)
+                diagram.AxisY.VisualRange.EndSideMargin = EndSideMargin
                 diagram.AxisY.WholeRange.EndSideMargin = EndSideMargin
                 If MaxValue > 0 Then
                     Dim GridAlignment As Double = Math.Round(MaxValue / 20, 4)

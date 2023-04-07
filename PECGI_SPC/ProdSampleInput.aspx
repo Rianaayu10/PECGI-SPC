@@ -945,10 +945,10 @@
                                 </dx:ASPxButton>                            
                         </td>
                         <td class="auto-style21" style="padding-left:20px">
-                            <dx:ASPxLabel ID="ASPxLabel31" runat="server" Text="Auto Refresh: " ClientInstanceName="label31" Font-Names="Segoe UI" Font-Size="9pt" ClientVisible="True"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="ASPxLabel31" runat="server" Text="Auto Refresh: " ClientInstanceName="label31" Font-Names="Segoe UI" Font-Size="9pt" ClientVisible="False"></dx:ASPxLabel>
                         </td>
                         <td>
-                            <dx:ASPxLabel ID="lblAuto" runat="server" Text="ON" ClientInstanceName="lblAuto" Font-Names="Segoe UI" Font-Size="9pt" ClientVisible="True"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="lblAuto" runat="server" Text="ON" ClientInstanceName="lblAuto" Font-Names="Segoe UI" Font-Size="9pt" ClientVisible="False"></dx:ASPxLabel>
                         </td>
                     </tr>
                 </table>
@@ -1013,11 +1013,6 @@
                 <CellStyle HorizontalAlign="Center">
                 </CellStyle>
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn Caption="Remarks" VisibleIndex="10" FieldName="Remark">
-                <PropertiesTextEdit Width="120px">
-                </PropertiesTextEdit>
-                <EditFormSettings Visible="True" />
-            </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn Caption="Last User" VisibleIndex="11" FieldName="RegisterUser" Width="160px">
                 <EditFormSettings Visible="False" />
             </dx:GridViewDataTextColumn>
@@ -1048,6 +1043,16 @@
                 <PropertiesTextEdit DisplayFormatString="0.0000">
                 </PropertiesTextEdit>
             </dx:GridViewDataTextColumn>
+
+            <dx:GridViewDataComboBoxColumn Caption="Remarks" FieldName="Remark" VisibleIndex="10">
+                <PropertiesComboBox DropDownStyle="DropDown" Width="120px" DataSourceID="dsRemark" TextField="Remark" ValueField="Remark">
+                    <Columns>
+                        <dx:ListBoxColumn Caption="Remarks" FieldName="Remark">
+                        </dx:ListBoxColumn>
+                    </Columns>
+                </PropertiesComboBox>
+                <EditFormSettings Visible="True" />
+            </dx:GridViewDataComboBoxColumn>
 
         </Columns>        
         <SettingsBehavior ColumnResizeMode="Control" ConfirmDelete="True" AllowDragDrop="False" AllowSort="False" />
@@ -1567,6 +1572,14 @@
 
         <dx:ASPxHiddenField ID="hfDB" runat="server" ClientInstanceName="hfDB">
         </dx:ASPxHiddenField>
+
+        <asp:SqlDataSource ID="dsRemark" runat="server"
+            ConnectionString="<%$ ConnectionStrings:ApplicationServices %>"
+            SelectCommand="select * from spc_Remark where RemarkType = 0"></asp:SqlDataSource>
+
+<asp:SqlDataSource ID="dsRemark2" runat="server"
+            ConnectionString="<%$ ConnectionStrings:ApplicationServices %>"
+            SelectCommand="select * from spc_Remark where RemarkType = 1"></asp:SqlDataSource>
 
     </div>
 </div>

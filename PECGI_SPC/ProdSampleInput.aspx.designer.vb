@@ -797,6 +797,24 @@ Partial Public Class ProdSampleInput
     Protected WithEvents hfDB As Global.DevExpress.Web.ASPxHiddenField
 
     '''<summary>
+    '''dsRemark control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dsRemark As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''dsRemark2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dsRemark2 As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
     '''Master property.
     '''</summary>
     '''<remarks>
