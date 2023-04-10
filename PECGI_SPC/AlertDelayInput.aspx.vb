@@ -63,6 +63,13 @@ Public Class AlertDashboardInput
         If Not IsPostBack And Not IsCallback Then
             dtDate.Value = DateTime.Now
             rbAuto.Checked = True
+
+            Dim ProdDate = Request.QueryString("ProdDate") & ""
+
+            If ProdDate <> "" Then
+                rbAuto.Checked = True
+                up_GridLoad(cboFactory.Value)
+            End If
         End If
     End Sub
     Protected Sub Grid_AfterPerformCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles Grid.AfterPerformCallback
