@@ -31,16 +31,43 @@ Public Class ClsUploadFTAMasterDB
 
                         If pType = 1 Then
 
-                            strCmd = "INSERT INTO [dbo].[spc_MS_FTA] VALUES " & vbCrLf &
-                                     "('" & Rows("FactoryCode") & "', '" & Rows("ItemTypeCode") & "', '" & Rows("ItemCheckCode") & "', " & vbCrLf &
-                                     "'" & Rows("FTAID") & "', '" & Rows("Factor1") & "', '" & Rows("Factor2") & "', '" & Rows("Factor3") & "' ," & vbCrLf &
-                                     "'" & Rows("Factor4") & "', '" & Rows("CounterMeasure") & "', '" & Rows("CheckItem") & "', '" & Rows("CheckOrder") & "', '' , '" & Rows("Remark") & "'," & vbCrLf &
-                                     "'" & Rows("ActiveStatus") & "', '" & pUserUpdate & "', GETDATE(), '', '' )" & vbCrLf
+                            'strCmd = "INSERT INTO [dbo].[spc_MS_FTA] VALUES " & vbCrLf &
+                            '         "('" & Rows("FactoryCode") & "', '" & Rows("ItemTypeCode") & "', '" & Rows("ItemCheckCode") & "', " & vbCrLf &
+                            '         "'" & Rows("FTAID") & "', '" & Rows("Factor1") & "', '" & Rows("Factor2") & "', '" & Rows("Factor3") & "' ," & vbCrLf &
+                            '         "'" & Rows("Factor4") & "', '" & Rows("CounterMeasure") & "', '" & Rows("CheckItem") & "', '" & Rows("CheckOrder") & "', '' , '" & Rows("Remark") & "'," & vbCrLf &
+                            '         "'" & Rows("ActiveStatus") & "', '" & pUserUpdate & "', GETDATE(), '', '' )" & vbCrLf
 
+                            strCmd = "sp_SPC_UploadFTAMaster"
+                            cmd.CommandType = CommandType.StoredProcedure
+                            With cmd.Parameters
+                                .AddWithValue("FactoryCode", Rows("FactoryCode"))
+                                .AddWithValue("ItemTypeCode", Rows("ItemTypeCode"))
+                                .AddWithValue("ItemCheckCode", Rows("ItemCheckCode"))
+                                .AddWithValue("FTAID", Rows("FTAID"))
+                                .AddWithValue("Factor1", Rows("Factor1"))
+                                .AddWithValue("Factor2", Rows("Factor2"))
+                                .AddWithValue("Factor3", Rows("Factor3"))
+                                .AddWithValue("Factor4", Rows("Factor4"))
+                                .AddWithValue("CounterMeasure", Rows("CounterMeasure"))
+                                .AddWithValue("CheckItem", Rows("CheckItem"))
+                                .AddWithValue("CheckOrder", Rows("CheckOrder"))
+                                .AddWithValue("Remark", Rows("Remark"))
+                                .AddWithValue("ActiveStatus", Rows("ActiveStatus"))
+                                .AddWithValue("pUser", pUserUpdate)
+                                .AddWithValue("Type", 7)
+                            End With
                         ElseIf pType = 2 Then
 
-                            strCmd = "INSERT INTO [dbo].[spc_MS_FTAAction] VALUES " & vbCrLf &
-                                     "('" & Rows("FTAID") & "', '" & Rows("ActionID") & "', '" & Rows("ActionName") & "', '" & Rows("Remark") & "' )" & vbCrLf
+                            'strCmd = "INSERT INTO [dbo].[spc_MS_FTAAction] VALUES " & vbCrLf &
+                            '         "('" & Rows("FTAID") & "', '" & Rows("ActionID") & "', '" & Rows("ActionName") & "', '" & Rows("Remark") & "' )" & vbCrLf
+                            strCmd = "sp_SPC_UploadFTAMaster"
+                            cmd.CommandType = CommandType.StoredProcedure
+                            With cmd.Parameters
+                                .AddWithValue("FTAID", Rows("FTAID"))
+                                .AddWithValue("ActionName", Rows("ActionName"))
+                                .AddWithValue("Remark", Rows("Remark"))
+                                .AddWithValue("Type", 6)
+                            End With
                         End If
 
                         cmd.CommandText = strCmd

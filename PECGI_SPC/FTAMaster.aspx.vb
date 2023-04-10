@@ -29,7 +29,7 @@ Public Class FTAMaster
     Private Sub Page_Init(ByVal sender As Object, ByVale As System.EventArgs) Handles Me.Init
         If Not Page.IsPostBack Then
             GetFactoryCode()
-            GetItemCheck()
+            'GetItemCheck()
         End If
     End Sub
 

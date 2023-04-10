@@ -31,7 +31,7 @@
             cboLine.SetEnabled(false);
             cboLine.PerformCallback(cboFactory.GetValue());
         }
-        function cboLineChanged(s, e) {
+        function cboTypeChanged(s, e) {
             cboItemCheck.SetEnabled(false);
             cboItemCheck.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue());
         }
@@ -228,6 +228,7 @@
                 <td style="width:130px; padding:5px 0px 0px 0px">
                     <dx:ASPxComboBox ID="cboItemCheck" runat="server" Theme="Office2010Black" TextField="ItemCheck" ClientInstanceName="cboItemCheck" ValueField="ItemCheck" Font-Names="Segoe UI" 
                         Font-Size="9pt" Height="25px" Width="190px" TabIndex="4" NullValueItemDisplayText="{1}">
+                        <ClientSideEvents EndCallback="function(s, e) {cboItemCheck.SetEnabled(true);}"/>
                         <%--<ClientSideEvents SelectedIndexChanged="cboMachineChanged" EndCallback="function(s, e) {cboItemCheck.SetEnabled(true);}"/>--%>
                         <ItemStyle Height="10px" Paddings-Padding="4px">
                             <Paddings Padding="4px"></Paddings>
@@ -317,7 +318,8 @@
                     </dx:ASPxComboBox>--%>
                     <dx:ASPxComboBox ID="cboType" runat="server" Theme="Office2010Black" TextField="Description" ClientInstanceName="cboType" ValueField="ItemTypeCode" Font-Names="Segoe UI" 
                         Font-Size="9pt" Height="25px" Width="100px" TabIndex="6" EnableCallbackMode="True">                    
-                        <ClientSideEvents  EndCallback="function(s, e) {cboType.SetEnabled(true);}"/>
+                        <%--<ClientSideEvents  EndCallback="function(s, e) {cboType.SetEnabled(true);}"/>--%>
+                        <ClientSideEvents SelectedIndexChanged="cboTypeChanged" EndCallback="function(s, e) {cboType.SetEnabled(true);}"/>
                         <ItemStyle Height="10px" Paddings-Padding="4px" >
                             <Paddings Padding="4px"></Paddings>
                         </ItemStyle>

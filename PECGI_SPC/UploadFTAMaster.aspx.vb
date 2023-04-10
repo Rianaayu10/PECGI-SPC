@@ -314,9 +314,9 @@ Public Class UploadFTAMaster
                                 If CellValue = "" Then
                                     errList.Add("Row " & errListRow & ". Cell " & oSheet.Cells(i, y).Address & " Field 'FTA ID' can't be empty!")
                                     errListRow += 1
-                                ElseIf ClsUploadFTAMasterDB.GetFTAID(CellValue).Rows.Count > 0 Then
-                                    errList.Add("Row " & errListRow & ". Cell " & oSheet.Cells(i, y).Address & " Field 'FTA ID', FTA ID can't be duplicate !")
-                                    errListRow += 1
+                                    'ElseIf ClsUploadFTAMasterDB.GetFTAID(CellValue).Rows.Count > 0 Then
+                                    '    errList.Add("Row " & errListRow & ". Cell " & oSheet.Cells(i, y).Address & " Field 'FTA ID', FTA ID can't be duplicate !")
+                                    '    errListRow += 1
                                 End If
 
                             End If
@@ -490,7 +490,7 @@ Public Class UploadFTAMaster
                     Dim lstContent As New List(Of String)
 
                     dt.Columns.Add("FTAID")
-                    dt.Columns.Add("ActionID")
+                    'dt.Columns.Add("ActionID")
                     dt.Columns.Add("ActionName")
                     dt.Columns.Add("Remark")
 
@@ -513,19 +513,19 @@ Public Class UploadFTAMaster
                                 TempFTAID = CellValue
 
                             End If
+                            'If y = 2 Then
+                            '    CellValue = Trim(oSheet.Cells(i, y).Value)
+
+                            '    If CellValue = "" Then
+                            '        errList.Add(errListRow & ". Cell " & oSheet.Cells(i, y).Address & " Field 'Action ID' can't be empty!")
+                            '        errListRow += 1
+                            '    ElseIf ClsUploadFTAMasterDB.GetActionID(TempFTAID, CellValue).Rows.Count > 0 Then
+                            '        errList.Add("Row " & errListRow & ". Cell " & oSheet.Cells(i, y).Address & " Field 'FTA ID', FTA ID can't be duplicate !")
+                            '        errListRow += 1
+                            '    End If
+
+                            'End If
                             If y = 2 Then
-                                CellValue = Trim(oSheet.Cells(i, y).Value)
-
-                                If CellValue = "" Then
-                                    errList.Add(errListRow & ". Cell " & oSheet.Cells(i, y).Address & " Field 'Action ID' can't be empty!")
-                                    errListRow += 1
-                                ElseIf ClsUploadFTAMasterDB.GetActionID(TempFTAID, CellValue).Rows.Count > 0 Then
-                                    errList.Add("Row " & errListRow & ". Cell " & oSheet.Cells(i, y).Address & " Field 'FTA ID', FTA ID can't be duplicate !")
-                                    errListRow += 1
-                                End If
-
-                            End If
-                            If y = 3 Then
                                 CellValue = Trim(oSheet.Cells(i, y).Value)
 
                                 If CellValue = "" Then
@@ -534,7 +534,7 @@ Public Class UploadFTAMaster
                                 End If
 
                             End If
-                            If y = 4 Then
+                            If y = 3 Then
                                 CellValue = Trim(oSheet.Cells(i, y).Value)
 
                                 'If CellValue = "" Then
