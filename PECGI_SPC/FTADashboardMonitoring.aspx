@@ -49,8 +49,18 @@
         .position3 {
             position: absolute;
             z-index: 2;
-            min-height: 3.2vh;
-            min-width: 3.5vw;
+            min-height: 4vh;
+            min-width: 3vw;
+            text-align: center;
+            border-color: black;
+            border-style: solid;
+        }
+
+        .position4 {
+            position: absolute;
+            z-index: 2;
+            min-height: 2vh;
+            min-width: 2.5vw;
             text-align: center;
             border-color: black;
             border-style: solid;
@@ -164,73 +174,73 @@
                     </tbody>
                 </table>
             </div>
-            <div style="margin-left: 2Vh">
+            <div style="margin-left: 2vh">
                 <div style="height: 60vh">
                     <div style="position: absolute; display: flex;">
-                        <img src="img/DashboardFTA.png" style="width: 80vw; height: 60vh" />
+                        <img src="img/FTADashboard3.png" style="width: 80vw; height: 60vh" />
                     </div>
 
-                    <div id="Station1" class="position bk_color" style="margin-top: 14vh; margin-left: 4.9vw">
+                    <div id="Station1" class="position bk_color" style="margin-top: 16vh; margin-left: 6.5vw">
                         <span style="font-size: 1.5vh; font-weight: 600;">1</span>
                     </div>
 
-                    <div id="Station2" class="position bk_color" style="margin-top: 28.7vh; margin-left: 1.3vw">
+                    <div id="Station2" class="position bk_color" style="margin-top: 30vh; margin-left: 3vw">
                         <span style="font-size: 1.5vh; font-weight: 600;">2</span>
                     </div>
 
-                    <div id="Station3" class="position bk_color" style="margin-top: 46vh; margin-left: 21vw">
+                    <div id="Station3" class="position4 bk_color" style="margin-top: 46.8vh; margin-left: 21.8vw">
                         <span style="font-size: 1.5vh; font-weight: 600;">3</span>
                     </div>
 
-                    <div id="Station4" class="position bk_color" style="margin-top: 5.3vh; margin-left: 20.3vw">
+                    <div id="Station4" class="position bk_color" style="margin-top: 8vh; margin-left: 21.5vw">
                         <span style="font-size: 1.5vh; font-weight: 600;">4</span>
                     </div>
 
-                    <div id="Station5" class="position bk_color" style="margin-top: 5.3vh; margin-left: 23.7vw">
+                    <div id="Station5" class="position bk_color" style="margin-top: 7vh; margin-left: 24.5vw">
                         <span style="font-size: 1.5vh; font-weight: 600;">5</span>
                     </div>
 
-                    <div id="Station6" class="position bk_color" style="margin-top: 14.3vh; margin-left: 34.8vw">
+                    <div id="Station6" class="position bk_color" style="margin-top: 16vh; margin-left: 35.5vw">
                         <span style="font-size: 1.5vh; font-weight: 600;">6</span>
                     </div>
 
-                    <div id="Station7" class="position bk_color" style="margin-top: 33.7vh; margin-left: 40.5vw">
+                    <div id="Station7" class="position bk_color" style="margin-top: 34.5vh; margin-left: 40.5vw">
                         <span style="font-size: 1.5vh; font-weight: 600;">7</span>
                     </div>
 
-                    <div id="Station8" class="position bk_color" style="margin-top: 45.2vh; margin-left: 44.3vw">
+                    <div id="Station8" class="position bk_color" style="margin-top: 45.5vh; margin-left: 44.5vw">
                         <span style="font-size: 1.5vh; font-weight: 600;">8</span>
                     </div>
 
-                    <div id="Station9" class="position bk_color" style="margin-top: 35.7vh; margin-left: 45.1vw">
+                    <div id="Station9" class="position bk_color" style="margin-top: 36.5vh; margin-left: 45.5vw">
                         <span style="font-size: 1.5vh; font-weight: 600;">9</span>
                     </div>
 
-                    <div id="Station10" class="position2 bk_color" style="margin-top: 34.1vh; margin-left: 49.4vw">
+                    <div id="Station10" class="position bk_color" style="margin-top: 34.5vh; margin-left: 49vw">
                         <span style="font-size: 1.5vh; font-weight: 600;">10</span>
                     </div>
 
-                    <div id="Station11" class="position2 bk_color" style="margin-top: 48vh; margin-left: 52.6vw">
+                    <div id="Station11" class="position bk_color" style="margin-top: 48vh; margin-left: 52.8vw">
                         <span style="font-size: 1.5vh; font-weight: 600;">11</span>
                     </div>
 
-                    <div id="Station12" class="position2 bk_color" style="margin-top: 34.5vh; margin-left: 57.4vw">
+                    <div id="Station12" class="position bk_color" style="margin-top: 35vh; margin-left: 57.4vw">
                         <span style="font-size: 1.5vh; font-weight: 600;">12</span>
                     </div>
 
-                    <div id="Station13" class="position2 bk_color" style="margin-top: 50.3vh; margin-left: 59.3vw">
+                    <div id="Station13" class="position2 bk_color" style="margin-top: 50.3vh; margin-left: 59vw">
                         <span style="font-size: 1.5vh; font-weight: 600;">13</span>
                     </div>
 
-                    <div id="Station14" class="position2 bk_color" style="margin-top: 11.3vh; margin-left: 43.1vw">
+                    <div id="Station14" class="position2 bk_color" style="margin-top: 7.5vh; margin-left: 42vw">
                         <span style="font-size: 1.5vh; font-weight: 600;">14</span>
                     </div>
 
-                    <div id="Station15" class="position3 bk_color" style="margin-top: 14.1vh; margin-left: 68.5vw">
+                    <div id="Station15" class="position3 bk_color" style="margin-top: 16.2vh; margin-left: 68vw">
                         <span style="font-size: 1.5vh; font-weight: 600;">15</span>
                     </div>
 
-                    <div id="Station16" class="position2 bk_color" style="margin-top: 14vh; margin-left: 75.6vw">
+                    <div id="Station16" class="position bk_color" style="margin-top: 16vh; margin-left: 75.6vw">
                         <span style="font-size: 1.5vh; font-weight: 600;">16</span>
                     </div>
                 </div>
@@ -299,12 +309,14 @@
 
 
     <script type="text/javascript" src="js/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="Scripts/bootstrap-waitingfor/bootstrap-waitingfor.min.js"></script>
     <script type="text/javascript">
         var UserID = ""
         var ChangeValue = ""
 
         $(document).ready(function () {
             UserID = HideValue.Get("UserID");
+            waitingDialog.show("Please wait retrieving data...");
             loaddashboard(userid);
         })
 
@@ -388,12 +400,14 @@
                                 DashboarContent(station1, station2, station3, station4, station5, station6, station7, station8, station9, station10, station11, station12, station13, station14, station15, station16, DelayNG, DelayInput);
                             }
                         }
-
+                        waitingDialog.hide();
                     } else {
+                       waitingDialog.hide();
                         toastr.warning(result.d.Message, 'Warning', { timeOut: 3000, closeButton: true });
                     }
                 },
                 error: function (ex) {
+                    waitingDialog.hide();
                     toastr.error(ex.Message, 'Failed', { timeOut: 3000, "closeButton": true });
                 }
             });
