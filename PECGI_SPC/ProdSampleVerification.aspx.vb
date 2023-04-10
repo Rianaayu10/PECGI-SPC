@@ -1171,7 +1171,7 @@ Public Class ProdSampleVerification
                 'diagram.AxisY.ConstantLines.Add(RCL)
                 'RCL.AxisValue = Setup.RCL
 
-                Dim RUCL As New ConstantLine("UCL R")
+                Dim RUCL As New ConstantLine("R UCL")
                 RUCL.Color = System.Drawing.Color.Orange
                 RUCL.LineStyle.Thickness = 1
                 RUCL.LineStyle.DashStyle = DashStyle.Dash
