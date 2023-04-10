@@ -498,7 +498,44 @@
                     </Columns>
                 </dx:GridViewBandColumn>
 
+                <%--Just for View--%>
                 <dx:GridViewBandColumn Caption="Control Plan Limit" VisibleIndex="8">
+                    <HeaderStyle HorizontalAlign="Center" />
+                    <Columns>
+                        <dx:GridViewDataTextColumn Caption="CL" FieldName="view_CPCL"
+                            Width="50px" Settings-AutoFilterCondition="Contains">
+                            <Settings AutoFilterCondition="Contains"></Settings>
+                            <FilterCellStyle Paddings-PaddingRight="4px">
+                                <Paddings PaddingRight="4px"></Paddings>
+                            </FilterCellStyle>
+                            <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
+                            <CellStyle HorizontalAlign="Right" VerticalAlign="Middle" />
+                        </dx:GridViewDataTextColumn>
+
+                        <dx:GridViewDataTextColumn Caption="UCL" FieldName="view_CPUCL"
+                            Width="50px" Settings-AutoFilterCondition="Contains">
+                            <Settings AutoFilterCondition="Contains"></Settings>
+                            <FilterCellStyle Paddings-PaddingRight="4px">
+                                <Paddings PaddingRight="4px"></Paddings>
+                            </FilterCellStyle>
+                            <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
+                            <CellStyle HorizontalAlign="Right" VerticalAlign="Middle" />
+                        </dx:GridViewDataTextColumn>
+
+                        <dx:GridViewDataTextColumn Caption="LCL" FieldName="view_CPLCL"
+                            Width="50px" Settings-AutoFilterCondition="Contains">
+                            <Settings AutoFilterCondition="Contains"></Settings>
+                            <FilterCellStyle Paddings-PaddingRight="4px">
+                                <Paddings PaddingRight="4px"></Paddings>
+                            </FilterCellStyle>
+                            <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
+                            <CellStyle HorizontalAlign="Right" VerticalAlign="Middle" />
+                        </dx:GridViewDataTextColumn>
+                    </Columns>
+                </dx:GridViewBandColumn>
+                <%--Just for View--%>
+
+                <dx:GridViewBandColumn Caption="Control Plan Limit" VisibleIndex="8" Visible="false">
                     <HeaderStyle HorizontalAlign="Center" />
                     <Columns>
                         <dx:GridViewDataSpinEditColumn Caption="CL" FieldName="CPCL"
@@ -536,7 +573,34 @@
                     </Columns>
                 </dx:GridViewBandColumn>
 
+                <%--Just for View--%>
                 <dx:GridViewBandColumn Caption="X Bar Control" VisibleIndex="9">
+                    <HeaderStyle HorizontalAlign="Center" />
+                    <Columns>
+                        <dx:GridViewDataTextColumn Caption="UCL" FieldName="view_XUCL"
+                            Width="50px" Settings-AutoFilterCondition="Contains">
+                            <Settings AutoFilterCondition="Contains"></Settings>
+                            <FilterCellStyle Paddings-PaddingRight="4px">
+                                <Paddings PaddingRight="4px"></Paddings>
+                            </FilterCellStyle>
+                            <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
+                            <CellStyle HorizontalAlign="Right" VerticalAlign="Middle" />
+                        </dx:GridViewDataTextColumn>
+
+                        <dx:GridViewDataTextColumn Caption="LCL" FieldName="view_XLCL"
+                            Width="50px" Settings-AutoFilterCondition="Contains">
+                            <Settings AutoFilterCondition="Contains"></Settings>
+                            <FilterCellStyle Paddings-PaddingRight="4px">
+                                <Paddings PaddingRight="4px"></Paddings>
+                            </FilterCellStyle>
+                            <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
+                            <CellStyle HorizontalAlign="Right" VerticalAlign="Middle" />
+                        </dx:GridViewDataTextColumn>
+                    </Columns>
+                </dx:GridViewBandColumn>
+                <%--Just for View--%>
+
+                <dx:GridViewBandColumn Caption="X Bar Control" VisibleIndex="9" Visible="false">
                     <HeaderStyle HorizontalAlign="Center" />
                     <Columns>
                         <%--<dx:GridViewDataSpinEditColumn Caption="CL" FieldName="XCL"
@@ -574,7 +638,24 @@
                     </Columns>
                 </dx:GridViewBandColumn>
 
+                <%--Just for View--%>
                 <dx:GridViewBandColumn Caption="R Control" VisibleIndex="10">
+                    <HeaderStyle HorizontalAlign="Center" />
+                    <Columns>
+                        <dx:GridViewDataTextColumn Caption="UCL" FieldName="view_RUCL"
+                            Width="70px" Settings-AutoFilterCondition="Contains">
+                            <Settings AutoFilterCondition="Contains"></Settings>
+                            <FilterCellStyle Paddings-PaddingRight="4px">
+                                <Paddings PaddingRight="4px"></Paddings>
+                            </FilterCellStyle>
+                            <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
+                            <CellStyle HorizontalAlign="Right" VerticalAlign="Middle" />
+                        </dx:GridViewDataTextColumn>
+                    </Columns>
+                </dx:GridViewBandColumn>
+                <%--Just for View--%>
+
+                <dx:GridViewBandColumn Caption="R Control" VisibleIndex="10" Visible="false">
                     <HeaderStyle HorizontalAlign="Center" />
                     <Columns>
                         <dx:GridViewDataSpinEditColumn Caption="CL" FieldName="RCL" Visible="false"
