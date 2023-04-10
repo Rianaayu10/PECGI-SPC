@@ -1139,7 +1139,7 @@ Public Class SampleControlQuality
             Dim Setup As clsChartSetup = clsChartSetupDB.GetData(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate)
             diagram.AxisY.ConstantLines.Clear()
             If Setup IsNot Nothing Then
-                Dim RUCL As New ConstantLine("UCL R")
+                Dim RUCL As New ConstantLine("R UCL")
                 RUCL.Color = System.Drawing.Color.Orange
                 RUCL.LineStyle.Thickness = 1
                 RUCL.LineStyle.DashStyle = DashStyle.Dash
