@@ -249,7 +249,7 @@
 
         function ValidateSave(s, e) {
             lblAuto.SetText('OFF');
-            grid.PerformCallback('save' + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + cboShow.GetValue() + '|' + txtSubLotNo.GetText() + '|' + txtRemarks.GetText() + '|' + chkNoProd.GetChecked() );
+            grid.PerformCallback('save' + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + cboShow.GetValue() + '|' + txtSubLotNo.GetText() + '|' + cboRemark.GetText() + '|' + chkNoProd.GetChecked() );
         }
 
         function ClearGrid(s, e) {
@@ -443,7 +443,7 @@
             lblAve.SetText(s.cpAve);
             lblR.SetText(s.cpR);
             lblC.SetText(s.cpC);            
-            txtRemarks.SetText(s.cpRemarks);
+            cboRemark.SetText(s.cpRemarks);
             txtSubLotNo.SetText(s.cpSubLotNo);
             if(s.cpNoProd == '1')
             {
@@ -816,6 +816,9 @@
                     <ClientSideEvents SelectedIndexChanged="cboShiftChanged" 
                         EndCallback="cboShiftEndCallback"
                         />
+                    <ItemStyle Height="10px">
+                    <Paddings Padding="4px" />
+                    </ItemStyle>
                     <ButtonStyle Paddings-Padding="4px" Width="5px">
 <Paddings Padding="4px"></Paddings>
                     </ButtonStyle>
@@ -1050,6 +1053,9 @@
                         <dx:ListBoxColumn Caption="Remarks" FieldName="Remark">
                         </dx:ListBoxColumn>
                     </Columns>
+                    <ItemStyle Height="10px">
+                    <Paddings Padding="4px" />
+                    </ItemStyle>
                 </PropertiesComboBox>
                 <EditFormSettings Visible="True" />
             </dx:GridViewDataComboBoxColumn>
@@ -1138,13 +1144,25 @@
                         </dx:ASPxTextBox>
                     </td>
                 </tr>
-                <tr style="height:26px">
+                <tr style="height:28px">
                     <td>
                         <dx:ASPxLabel ID="ASPxLabel21" runat="server" Text="Remarks" Font-Names="Segoe UI" Font-Size="9pt"></dx:ASPxLabel>
                     </td>
                     <td>
-                        <dx:ASPxTextBox ID="txtRemarks" runat="server" Width="160px" ClientInstanceName="txtRemarks">
-                        </dx:ASPxTextBox>
+
+                <dx:ASPxComboBox ID="cboRemark" runat="server" Theme="Office2010Black" TextField="Remark"
+                    ClientInstanceName="cboRemark" ValueField="Remark" Font-Names="Segoe UI" 
+                    Font-Size="9pt" Height="25px" 
+                    Width="160px" TabIndex="4" DataSourceID="dsRemark2" DropDownStyle="DropDown">
+                    <Columns>
+                        <dx:ListBoxColumn Caption="Remarks" FieldName="Remark" Width="160px">
+                        </dx:ListBoxColumn>
+                    </Columns>
+                    <ItemStyle Height="10px" Paddings-Padding="4px"><Paddings Padding="4px"></Paddings>
+                    </ItemStyle>
+                    <ButtonStyle Paddings-Padding="4px" Width="5px"><Paddings Padding="4px"></Paddings>
+                    </ButtonStyle>
+                </dx:ASPxComboBox>
                     </td>
                 </tr>
                 <tr style="height:26px">

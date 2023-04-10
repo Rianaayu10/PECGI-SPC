@@ -329,13 +329,13 @@ Partial Public Class ProdSampleInput
     Protected WithEvents ASPxLabel21 As Global.DevExpress.Web.ASPxLabel
 
     '''<summary>
-    '''txtRemarks control.
+    '''cboRemark control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtRemarks As Global.DevExpress.Web.ASPxTextBox
+    Protected WithEvents cboRemark As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
     '''chkNoProd control.

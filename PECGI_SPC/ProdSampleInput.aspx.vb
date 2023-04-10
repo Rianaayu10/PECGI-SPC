@@ -367,7 +367,7 @@ Public Class ProdSampleInput
         Result.ShiftCode = cboShift.Value
         Result.SequenceNo = cboSeq.Value
         Result.SubLotNo = txtSubLotNo.Text
-        Result.Remark = txtRemarks.Text
+        Result.Remark = cboRemark.Text
         Result.RegisterUser = Session("user") & ""
 
         Dim SetupFound As Boolean = ValidateChartSetup(Result.FactoryCode, Result.ItemTypeCode, Result.LineCode, Result.ItemCheckCode, Format(Result.ProdDate, "yyyy-MM-dd"))
@@ -667,7 +667,7 @@ Public Class ProdSampleInput
         Result.ShiftCode = cboShift.Value
         Result.SequenceNo = cboSeq.Value
         Result.SubLotNo = txtSubLotNo.Text
-        Result.Remark = txtRemarks.Text
+        Result.Remark = cboRemark.Text
         Result.RegisterUser = Session("user") & ""
 
         Dim SetupFound As Boolean = ValidateChartSetup(Result.FactoryCode, Result.ItemTypeCode, Result.LineCode, Result.ItemCheckCode, Format(Result.ProdDate, "yyyy-MM-dd"))
