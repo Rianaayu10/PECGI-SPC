@@ -197,15 +197,27 @@ namespace SPCMeasurement
                     cData.SQL_CmdTO = fDec.Decrypt(cfgdata["SPC"]["CMDTO"]);
                 }
 
-                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = cData.SQL_Host;
-                builder.InitialCatalog = cData.SQL_Database;
+                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();                
+                if(Program.pServer != "")
+                {
+                    builder.DataSource = Program.pServer;
+                } else
+                {
+                    builder.DataSource = cData.SQL_Host;
+                }
+                if (Program.pDatabase != "")
+                {
+                    builder.InitialCatalog = Program.pDatabase;
+                }
+                else
+                {
+                    builder.InitialCatalog = cData.SQL_Database;
+                }
                 builder.IntegratedSecurity = cData.SQL_AuthType == "1";
                 builder.UserID = cData.SQL_UserID;
                 builder.Password = cData.SQL_Password;
                 cData.ConnectionString = builder.ConnectionString;
-                return cData;
-
+                return cData;                
             }
             catch (Exception e)
             {

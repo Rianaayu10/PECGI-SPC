@@ -8,6 +8,10 @@ namespace SPCMeasurement
 {
     static class Program
     {
+
+        public static string pServer = "";
+        public static string pDatabase = "";
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -35,6 +39,11 @@ namespace SPCMeasurement
                 string ShiftCode = arrayparam[9];
                 string SeqNo = arrayparam[10];
                 string ProdDate = arrayparam[11];
+                if(arrayparam.Length > 9)
+                {
+                    pServer = arrayparam[12];
+                    pDatabase = arrayparam[13];
+                }                
                 ProdDate = ProdDate.Replace("%20", "");
                 Application.Run(new frmMeasurement(userID, null, FactoryCode, ProcessGroup, LineGroup, ProcessCode, LineCode, ItemType, ItemCheck, ShiftCode, SeqNo, ProdDate));
             }

@@ -1053,7 +1053,7 @@ namespace SPCMeasurement
 
         private SerialPort ComPort = new SerialPort();
 
-        public frmMeasurement(string userID, frmLogin parentForm, string factoryCode, string processGroup = "", string lineGroup = "", string processCode = "", string lineCode = "", string itemType = "", string itemCheck = "", string shiftCode = "", string seqNo = "", string prodDate = "")
+        public frmMeasurement(string userID, frmLogin parentForm, string factoryCode, string processGroup = "", string lineGroup = "", string processCode = "", string lineCode = "", string itemType = "", string itemCheck = "", string shiftCode = "", string seqNo = "", string prodDate = "", string server = "", string database = "")
         {
             UserID = userID;
             pFactoryCode = factoryCode;
@@ -1837,10 +1837,20 @@ namespace SPCMeasurement
                 {
                     ls_COM_Stable = "3";
                 }
-
-                ls_SQLHost = cfgData.SQL_Host.Trim();
+                if(Program.pServer != "")
+                {
+                    ls_SQLHost = Program.pServer;
+                } else {
+                    ls_SQLHost = cfgData.SQL_Host.Trim();
+                }                
                 ls_SQLPort = cfgData.SQL_Port.ToString();
-                ls_SQLDatabase = cfgData.SQL_Database.Trim();
+                if(Program.pDatabase != "")
+                {
+                    ls_SQLDatabase = Program.pDatabase;
+                } else
+                {
+                    ls_SQLDatabase = cfgData.SQL_Database.Trim();
+                }                
                 ls_SQLConnTO = cfgData.SQL_DBTO.Trim();
                 ls_SQLCmdTO = cfgData.SQL_CmdTO.Trim();
 
