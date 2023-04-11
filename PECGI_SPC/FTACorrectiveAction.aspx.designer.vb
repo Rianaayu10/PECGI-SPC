@@ -365,6 +365,42 @@ Partial Public Class FTACorrectiveAction
     Protected WithEvents pcFTA As Global.DevExpress.Web.ASPxPopupControl
 
     '''<summary>
+    '''diagramFTA control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents diagramFTA As Global.DevExpress.Web.ASPxDiagram.ASPxDiagram
+
+    '''<summary>
+    '''dsNode control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dsNode As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''dsEdge control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dsEdge As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''dsTree control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dsTree As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
     '''gridFTA control.
     '''</summary>
     '''<remarks>

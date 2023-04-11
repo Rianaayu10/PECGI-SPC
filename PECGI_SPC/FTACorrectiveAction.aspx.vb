@@ -10,6 +10,8 @@ Imports OfficeOpenXml
 Imports System.IO
 Imports DevExpress.Utils
 Imports OfficeOpenXml.Style
+Imports DevExpress.Web.ASPxDiagram
+Imports DevExpress.Web.ASPxTreeList
 
 Public Class FTACorrectiveAction
     Inherits System.Web.UI.Page
@@ -331,6 +333,10 @@ Public Class FTACorrectiveAction
         End If
         Return SetupFound
     End Function
+
+    Private Sub LoadDiagram()
+
+    End Sub
 
     Private Sub GridLoadFTA(FactoryCode As String, ItemTypeCode As String, ItemCheckCode As String)
         Dim ErrMsg As String = ""
@@ -1057,5 +1063,10 @@ Public Class FTACorrectiveAction
 
     Private Sub cbkValid_Callback(source As Object, e As CallbackEventArgs) Handles cbkValid.Callback
         ValidateSave()
+    End Sub
+
+    Protected Sub diagramFTA_NodeDataBound(sender As Object, e As DiagramNodeEventArgs)
+        e.Node.Style = "border-width:thin"
+        e.Node.TextStyle = "font-size: 8"
     End Sub
 End Class

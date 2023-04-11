@@ -22,6 +22,34 @@ Public Class clsFTAResult
     Public Property QCVerificationDate As String
 End Class
 
+Public Class clsFTADiagram
+    Public Property ID As String
+    Public Property ParentID As String
+    Public Property Text As String
+
+End Class
+
+Public Class clsFTADiagramDB
+    Public Shared Function GetNode(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer) As List(Of clsFTADiagram)
+        Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+            Cn.Open()
+            Dim q As String = "select Factor1 ID, cast('0' as varchar(50)) ParentID, Factor1 [Text] from spc_MS_FTA where Factor1 is not null group by Factor1"
+            Dim cmd As New SqlCommand(q, Cn)
+            Dim rd As SqlDataReader = cmd.ExecuteReader
+            Dim DiagramList As New List(Of clsFTADiagram)
+            Do While rd.Read
+                Dim Diagram As New clsFTADiagram
+                Diagram.ID = rd("ID")
+                Diagram.ParentID = "null"
+                Diagram.Text = rd("Text")
+                DiagramList.Add(Diagram)
+            Loop
+            rd.Close()
+            Return DiagramList
+        End Using
+    End Function
+End Class
+
 Public Class clsFTAResultDB
     Public Shared Function GetTable(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer) As DataTable
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
@@ -97,7 +125,7 @@ Public Class clsFTAResultDB
             Dim q As String = "select FTAID, Factor1, Factor2, Factor3, Factor4, CounterMeasure, CheckItem, 'View' Action, 'View' IK " +
                 "from spc_MS_FTA where ActiveStatus = 1 " +
                 "and FactoryCode = @FactoryCode and ItemTypeCode = @ItemTypeCode and ItemCheckCode = @ItemCheckCode " +
-                "order by CheckOrder"
+                "order by Factor1, Factor2, Factor3, Factor4, CounterMeasure"
             Dim cmd As New SqlCommand(q, Cn)
             cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
             cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)

@@ -1,5 +1,9 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="FTACorrectiveAction.aspx.vb" Inherits="PECGI_SPC.FTACorrectiveAction" %>
 
+<%@ Register Assembly="DevExpress.Web.ASPxTreeList.v20.2, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web.ASPxTreeList" TagPrefix="dx" %>
+
+<%@ Register Assembly="DevExpress.Web.ASPxDiagram.v20.2, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web.ASPxDiagram" TagPrefix="dx" %>
+
 <%@ Register Assembly="DevExpress.XtraCharts.v20.2.Web, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.XtraCharts.Web" TagPrefix="dx" %>
 <%@ Register assembly="DevExpress.XtraCharts.v20.2, Version=20.2.11.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.XtraCharts" tagprefix="cc1" %>
 <%@ MasterType VirtualPath="~/Site.Master" %>
@@ -57,6 +61,10 @@
         .auto-style20 {
             width: 100%;
             height: 477px;
+        }
+        .auto-style21 {
+            left: -1px;
+            top: -1px;
         }
         </style>
     <script type="text/javascript" >
@@ -999,8 +1007,39 @@
                         CloseAction="CloseButton" CloseOnEscape="true" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False">
                         <ContentCollection>
 <dx:PopupControlContentControl runat="server">
+    
+    <table style="width:100%">
+        <tr style="display:none">
+            <td>
+                <dx:ASPxDiagram runat="server" ClientInstanceName="diagramFTA" 
+                    NodeDataSourceID="dsNode" EdgeDataSourceID="dsEdge"
+                    OnNodeDataBound="diagramFTA_NodeDataBound"
+                    CssClass="auto-style21" ReadOnly="True" SimpleView="True" ID="diagramFTA" Visible="False">
 
-    <dx:ASPxGridView ID="gridFTA" runat="server" AutoGenerateColumns="False" ClientInstanceName="gridFTA" CssClass="auto-style2" EnableTheming="True" Font-Names="Segoe UI" Font-Size="9pt" KeyFieldName="FTAID" Theme="Office2010Black" Width="100%">
+                    <Mappings>
+                        <Node Key="ID" Text="Item" Style="width: 100px" />
+                        <Edge ToKey="ToID" FromKey="FromID" />
+                    </Mappings>
+
+                    <SettingsAutoLayout Type="Tree" Orientation="Horizontal" />
+                    <SettingsGrid Visible="False" />
+                    <SettingsContextToolbox Enabled="False">
+                    </SettingsContextToolbox>
+                </dx:ASPxDiagram>                
+                <asp:SqlDataSource ID="dsNode" runat="server" ConnectionString="<%$ ConnectionStrings:ApplicationServices %>" 
+                    SelectCommand="sp_SPC_FTADiagram">
+                </asp:SqlDataSource>
+                <asp:SqlDataSource ID="dsEdge" runat="server" ConnectionString="<%$ ConnectionStrings:ApplicationServices %>" 
+                    SelectCommand="sp_SPC_FTADiagramEdge">
+                </asp:SqlDataSource>
+                <asp:SqlDataSource ID="dsTree" runat="server" ConnectionString="<%$ ConnectionStrings:ApplicationServices %>" 
+                    SelectCommand="sp_SPC_FTADiagramTree">
+                </asp:SqlDataSource>
+            </td>
+        </tr>
+        <tr>
+            <td>
+<dx:ASPxGridView ID="gridFTA" runat="server" AutoGenerateColumns="False" ClientInstanceName="gridFTA" CssClass="auto-style2" EnableTheming="True" Font-Names="Segoe UI" Font-Size="9pt" KeyFieldName="FTAID" Theme="Office2010Black" Width="100%">
         <SettingsPager AlwaysShowPager="True" Mode="ShowAllRecords" PageSize="30">
         </SettingsPager>
         <SettingsEditing EditFormColumnCount="1" Mode="Batch">
@@ -1018,12 +1057,16 @@
         </SettingsPopup>
         <Columns>
             <dx:GridViewDataTextColumn FieldName="Factor1" ShowInCustomizationForm="True" VisibleIndex="0" Width="160px">
+                <Settings AllowCellMerge="True" />
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn FieldName="Factor2" ShowInCustomizationForm="True" VisibleIndex="1" Width="160px">
+                <Settings AllowCellMerge="True" />
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn FieldName="Factor3" ShowInCustomizationForm="True" VisibleIndex="2">
+                <Settings AllowCellMerge="True" />
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn FieldName="IK" ShowInCustomizationForm="True" VisibleIndex="7" Width="50px">
+                <Settings AllowCellMerge="False" />
                 <DataItemTemplate>
                     <dx:ASPxHyperLink ID="linkIK0" runat="server" Font-Names="Segoe UI" Font-Size="9pt" OnInit="IKLink2_Init" Text="View">
                     </dx:ASPxHyperLink>
@@ -1031,19 +1074,24 @@
                 <CellStyle HorizontalAlign="Center">
                 </CellStyle>
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn FieldName="Factor3" ShowInCustomizationForm="True" VisibleIndex="3">
+            <dx:GridViewDataTextColumn FieldName="Factor4" ShowInCustomizationForm="True" VisibleIndex="3">
+                <Settings AllowCellMerge="True" />
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn FieldName="CounterMeasure" ShowInCustomizationForm="True" VisibleIndex="4" Width="180px">
+                <Settings AllowCellMerge="False" />
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn FieldName="CheckItem" ShowInCustomizationForm="True" VisibleIndex="5" Width="180px">
+                <Settings AllowCellMerge="False" />
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn FieldName="Action" ShowInCustomizationForm="True" VisibleIndex="6" Width="50px">
+                <Settings AllowCellMerge="False" />
                 <DataItemTemplate>
                     <dx:ASPxHyperLink ID="linkAction" runat="server" Font-Names="Segoe UI" Font-Size="9pt" OnInit="ActionLink_Init" Text="View">
                     </dx:ASPxHyperLink>
                 </DataItemTemplate>
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn FieldName="FTAID" ShowInCustomizationForm="True" VisibleIndex="8" Width="0px">
+                <Settings AllowCellMerge="False" />
             </dx:GridViewDataTextColumn>
         </Columns>
         <Styles>
@@ -1054,6 +1102,8 @@
             </DetailCell>
             <SelectedRow BackColor="White" ForeColor="Black">
             </SelectedRow>
+            <Cell VerticalAlign="Top">
+            </Cell>
             <CommandColumnItem ForeColor="SteelBlue">
             </CommandColumnItem>
             <EditFormColumnCaption Font-Names="Segoe UI" Font-Size="9pt">
@@ -1063,6 +1113,10 @@
             </BatchEditModifiedCell>
         </Styles>
     </dx:ASPxGridView>
+            </td>
+        </tr>
+    </table>
+    
 
     <table style="width:100%">
         <tr style="width:100px">
