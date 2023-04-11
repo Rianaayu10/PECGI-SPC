@@ -575,7 +575,7 @@
                         <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataTextColumn>
 
-                    <dx:GridViewDataTextColumn Caption="R" FieldName="RValue"
+                    <dx:GridViewDataTextColumn Caption="R" FieldName="RValueSPCDashboard"
                             VisibleIndex="13" Width="60px" Settings-AutoFilterCondition="Contains">
                             <PropertiesTextEdit MaxLength="25" Width="100px">
                                 <Style HorizontalAlign="Left"></Style>

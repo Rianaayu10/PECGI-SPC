@@ -148,9 +148,11 @@ Public Class SPCDashboard
         If e.Item.ItemType = ListItemType.Item OrElse e.Item.ItemType = ListItemType.AlternatingItem Then
             'Reference the Repeater Item.
             Dim item As RepeaterItem = e.Item
+            Dim FormatDigit As String = ""
 
             'Declare Label Repeater
             'Dim lblType As Label = TryCast(item.FindControl("lblType"), Label)
+            Dim ItemCheck As Label = TryCast(item.FindControl("lblItemCheck"), Label)
             Dim lblMin As Label = TryCast(item.FindControl("lblMin"), Label)
             Dim lblMax As Label = TryCast(item.FindControl("lblMax"), Label)
             Dim lblAve As Label = TryCast(item.FindControl("lblAve"), Label)
@@ -158,9 +160,26 @@ Public Class SPCDashboard
             Dim lblLSL As Label = TryCast(item.FindControl("lblLSL"), Label)
             Dim lblUCL As Label = TryCast(item.FindControl("lblUCL"), Label)
             Dim lblLCL As Label = TryCast(item.FindControl("lblLCL"), Label)
-
-
             Dim lblTypeNGInput As Label = TryCast(item.FindControl("lblTypeNGInput"), Label)
+
+            Dim ItemCheckCode As String = ItemCheck.Text
+            ItemCheckCode = ItemCheckCode.Substring(0, ItemCheckCode.IndexOf(" -"))
+
+            Dim Digit As Integer = ClsSPCItemCheckMasterDB.GetDigit(ItemCheckCode)
+
+            If Digit = 3 Then
+                FormatDigit = "0.000"
+            ElseIf Digit = 4 Then
+                FormatDigit = "0.0000"
+            End If
+
+            lblMin.Text = Format(Val(lblMin.Text), FormatDigit)
+            lblMax.Text = Format(Val(lblMax.Text), FormatDigit)
+            lblAve.Text = Format(Val(lblAve.Text), FormatDigit)
+            lblUSL.Text = Format(Val(lblUSL.Text), FormatDigit)
+            lblLSL.Text = Format(Val(lblLSL.Text), FormatDigit)
+            lblUCL.Text = Format(Val(lblUCL.Text), FormatDigit)
+            lblLCL.Text = Format(Val(lblLCL.Text), FormatDigit)
 
             pCharacteristicStatus = Split(lblTypeNGInput.Text, "||")(1)
 
@@ -304,9 +323,11 @@ Public Class SPCDashboard
         If e.Item.ItemType = ListItemType.Item OrElse e.Item.ItemType = ListItemType.AlternatingItem Then
 
             Dim item As RepeaterItem = e.Item
+            Dim FormatDigit As String = ""
 
             'Declare Label Repeater
             'Dim lblType As Label = TryCast(item.FindControl("lblType"), Label)
+            Dim ItemCheck As Label = TryCast(item.FindControl("lblItemCheck"), Label)
             Dim lblMin As Label = TryCast(item.FindControl("lblMin"), Label)
             Dim lblMax As Label = TryCast(item.FindControl("lblMax"), Label)
             Dim lblAve As Label = TryCast(item.FindControl("lblAve"), Label)
@@ -318,6 +339,25 @@ Public Class SPCDashboard
             Dim TimeSpanDV = TimeSpan.FromMinutes(lblDelayVerif.Text)
 
             Dim lblTypeDelayVerification As Label = TryCast(item.FindControl("lblTypeDelayVerification"), Label)
+
+            Dim ItemCheckCode As String = ItemCheck.Text
+            ItemCheckCode = ItemCheckCode.Substring(0, ItemCheckCode.IndexOf(" -"))
+
+            Dim Digit As Integer = ClsSPCItemCheckMasterDB.GetDigit(ItemCheckCode)
+
+            If Digit = 3 Then
+                FormatDigit = "0.000"
+            ElseIf Digit = 4 Then
+                FormatDigit = "0.0000"
+            End If
+
+            lblMin.Text = Format(Val(lblMin.Text), FormatDigit)
+            lblMax.Text = Format(Val(lblMax.Text), FormatDigit)
+            lblAve.Text = Format(Val(lblAve.Text), FormatDigit)
+            lblUSL.Text = Format(Val(lblUSL.Text), FormatDigit)
+            lblLSL.Text = Format(Val(lblLSL.Text), FormatDigit)
+            lblUCL.Text = Format(Val(lblUCL.Text), FormatDigit)
+            lblLCL.Text = Format(Val(lblLCL.Text), FormatDigit)
 
 
             Dim SplitType = Split(lblTypeDelayVerification.Text, "||")(0)

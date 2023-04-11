@@ -381,9 +381,10 @@ Public Class AlertDelayVerification
             End If
         End If
 
-        If e.DataColumn.FieldName = "RValue" Then
+        If e.DataColumn.FieldName = "RValueSPCDashboard" Then
 
-            e.Cell.BackColor = Color
+            'e.Cell.BackColor = Color
+            e.Cell.Text = Split(e.CellValue, "||")(1)
 
         End If
     End Sub

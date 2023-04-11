@@ -64,6 +64,13 @@ Public Class AlertDashboard
         If Not IsPostBack And Not IsCallback Then
             dtDate.Value = DateTime.Now
             rbAuto.Checked = True
+
+            Dim ProdDate = Request.QueryString("ProdDate") & ""
+
+            If ProdDate <> "" Then
+                rbAuto.Checked = True
+                up_GridLoad(cboFactory.Value)
+            End If
         End If
     End Sub
     Private Sub GetComboBoxData()
@@ -199,9 +206,9 @@ Public Class AlertDashboard
         End If
 
 
-        If e.DataColumn.FieldName = "RValue" Then
-
-            e.Cell.BackColor = Color
+        If e.DataColumn.FieldName = "RValueSPCDashboard" Then
+            'e.Cell.BackColor = Color
+            e.Cell.Text = Split(e.CellValue, "||")(1)
 
         End If
 
