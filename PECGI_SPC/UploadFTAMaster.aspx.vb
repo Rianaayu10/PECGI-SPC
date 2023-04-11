@@ -418,7 +418,7 @@ Public Class UploadFTAMaster
                         For row = 4 To totalRows - 1
                             Try
                                 For col = 1 To 12
-                                    lstContent.Add(IIf(Trim(oSheet.Cells(row, col).Value) = "", "-", Trim(oSheet.Cells(row, col).Value)))
+                                    lstContent.Add(IIf(Trim(oSheet.Cells(row, col).Value) = "", "", Trim(oSheet.Cells(row, col).Value)))
                                 Next
                                 dr = dt.Rows.Add()
                                 dr(0) = Session("cboFactoryValue")
@@ -553,7 +553,7 @@ Public Class UploadFTAMaster
                         For row = 4 To totalRows - 1
                             Try
                                 For col = 1 To 4
-                                    lstContent.Add(IIf(Trim(oSheet.Cells(row, col).Value) = "", "NULL", Trim(oSheet.Cells(row, col).Value)))
+                                    lstContent.Add(IIf(Trim(oSheet.Cells(row, col).Value) = "", "", Trim(oSheet.Cells(row, col).Value)))
                                 Next
                                 dr = dt.Rows.Add()
                                 dr(0) = lstContent(0)
