@@ -470,7 +470,7 @@
                 </dx:GridViewDataComboBoxColumn>
                 
                 <dx:GridViewDataTextColumn Caption="FTA ID" FieldName="FTAID"
-                    VisibleIndex="1" Width="150px" Settings-AutoFilterCondition="Contains">
+                    VisibleIndex="1" Width="100px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="35" Width="70px">
                         <Style HorizontalAlign="Left"></Style>
                     </PropertiesTextEdit>
@@ -478,7 +478,7 @@
                     <FilterCellStyle Paddings-PaddingRight="4px">
                     <Paddings PaddingRight="4px"></Paddings>
                     </FilterCellStyle>
-                    <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                    <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Top">
                     <Paddings PaddingLeft="5px"></Paddings>
                     </HeaderStyle>
                     <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"></CellStyle>
@@ -496,7 +496,7 @@
                             <Paddings Padding="2px"></Paddings>
                         </ButtonStyle>
                     </PropertiesComboBox>
-                    <Settings AutoFilterCondition="Contains"></Settings>
+                    <Settings AutoFilterCondition="Contains" AllowCellMerge="True" ></Settings>
                     <FilterCellStyle Paddings-PaddingRight="4px">
                         <Paddings PaddingRight="4px"></Paddings>
                     </FilterCellStyle>
@@ -518,7 +518,7 @@
                             <Paddings Padding="2px"></Paddings>
                         </ButtonStyle>
                     </PropertiesComboBox>
-                    <Settings AutoFilterCondition="Contains"></Settings>
+                    <Settings AutoFilterCondition="Contains" AllowCellMerge="True" ></Settings>
                     <FilterCellStyle Paddings-PaddingRight="4px">
                         <Paddings PaddingRight="4px"></Paddings>
                     </FilterCellStyle>
@@ -540,7 +540,7 @@
                             <Paddings Padding="2px"></Paddings>
                         </ButtonStyle>
                     </PropertiesComboBox>
-                    <Settings AutoFilterCondition="Contains"></Settings>
+                    <Settings AutoFilterCondition="Contains" AllowCellMerge="True" ></Settings>
                     <FilterCellStyle Paddings-PaddingRight="4px">
                         <Paddings PaddingRight="4px"></Paddings>
                     </FilterCellStyle>
@@ -562,7 +562,7 @@
                             <Paddings Padding="2px"></Paddings>
                         </ButtonStyle>
                     </PropertiesComboBox>
-                    <Settings AutoFilterCondition="Contains"></Settings>
+                    <Settings AutoFilterCondition="Contains" AllowCellMerge="True" ></Settings>
                     <FilterCellStyle Paddings-PaddingRight="4px">
                         <Paddings PaddingRight="4px"></Paddings>
                     </FilterCellStyle>
@@ -577,7 +577,7 @@
                     <PropertiesTextEdit MaxLength="35" Width="195px">
                         <Style HorizontalAlign="Left"></Style>
                     </PropertiesTextEdit>
-                    <Settings AutoFilterCondition="Contains"></Settings>
+                    <Settings AutoFilterCondition="Contains" AllowCellMerge="True" ></Settings>
                     <FilterCellStyle Paddings-PaddingRight="4px">
                     <Paddings PaddingRight="4px"></Paddings>
                     </FilterCellStyle>
@@ -774,12 +774,17 @@
             <SettingsText ConfirmDelete="Are you sure want to delete ?"></SettingsText>
             <SettingsPopup>
                 <EditForm Modal="false" HorizontalAlign="WindowCenter" VerticalAlign="WindowCenter" Width="200" />
+
+<FilterControl AutoUpdatePosition="False"></FilterControl>
             </SettingsPopup>
 
             <Styles EditFormColumnCaption-Paddings-PaddingLeft="10px" EditFormColumnCaption-Paddings-PaddingRight="10px">
                 <Header Wrap="True">
                     <Paddings Padding="2px"></Paddings>
                 </Header>
+
+                <Cell VerticalAlign="Top">
+                </Cell>
 
                 <EditFormColumnCaption Font-Size="9pt" Font-Names="Segoe UI">
                     <Paddings PaddingLeft="5px" PaddingTop="5px" PaddingBottom="5px"></Paddings>
@@ -1135,6 +1140,8 @@
                                         <SettingsText ConfirmDelete="Are you sure want to delete ?"></SettingsText>
                                         <SettingsPopup>
                                             <EditForm Modal="false" HorizontalAlign="WindowCenter" VerticalAlign="WindowCenter" Width="200" />
+
+<FilterControl AutoUpdatePosition="False"></FilterControl>
                                         </SettingsPopup>
 
                                         <Styles EditFormColumnCaption-Paddings-PaddingLeft="10px" EditFormColumnCaption-Paddings-PaddingRight="10px">
