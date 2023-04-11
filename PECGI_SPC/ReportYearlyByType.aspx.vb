@@ -8,6 +8,8 @@ Imports System.Drawing
 Imports System.Web.Services
 Imports OfficeOpenXml
 Imports OfficeOpenXml.Style
+Imports OfficeOpenXml.Drawing
+
 Public Class ReportYearlyByType
     Inherits System.Web.UI.Page
     Dim Factory_ComboType = "1"
@@ -405,7 +407,7 @@ Public Class ReportYearlyByType
         Return chart
     End Function
 
-    Private Sub ExcelContent()
+    Private Sub ExcelContent(ChartGroup As String, ChartDetail As String)
         Try
 
             Using excel As New ExcelPackage
@@ -443,6 +445,18 @@ Public Class ReportYearlyByType
                     .Cells(irow, 1).Style.Font.Name = "Segoe UI"
                     .Cells(irow, 1).Style.Font.Bold = True
                     irow = irow + 1
+
+                    Dim bytesGroup() As Byte
+                    bytesGroup = System.Convert.FromBase64String(ChartGroup)
+                    Dim msGroup As New MemoryStream(bytesGroup)
+                    Dim imageGroup As Image
+                    imageGroup = Image.FromStream(msGroup)
+                    Dim excelpictureGroup As ExcelPicture
+                    excelpictureGroup = ws.Drawings.AddPicture("SymbolGroup", imageGroup)
+                    excelpictureGroup.SetSize(700, 400)
+                    'excelpictureGroup.SetPosition(380, 0)
+                    excelpictureGroup.SetPosition(irow, 0, 0, 0)
+                    irow = irow + 23
 
                     Dim irowStart = irow
                     .Cells(irow, 1).Value = "No"
@@ -514,6 +528,8 @@ Public Class ReportYearlyByType
                     irow = irow + 4
                     If HideValue.Get("sProcessCode") IsNot Nothing Then
 
+
+
                         Dim dtDet As New DataTable
                         Dim det As New clsReportYearlyByType
                         det.UserID = Session("user")
@@ -524,12 +540,22 @@ Public Class ReportYearlyByType
                         det.QtyFTA = HideValue.Get("sQty")
 
                         dtDet = clsReportYearlyByType.LoadDetail(det)
-
                         .Cells(irow, 1).Value = "Table Summary FTA SPC " & det.Periode
                         .Cells(irow, 1).Style.Font.Size = 12
                         .Cells(irow, 1).Style.Font.Name = "Segoe UI"
                         .Cells(irow, 1).Style.Font.Bold = True
                         irow = irow + 1
+
+                        Dim bytesDetail() As Byte
+                        bytesDetail = System.Convert.FromBase64String(ChartDetail)
+                        Dim msDetail As New MemoryStream(bytesDetail)
+                        Dim imageDetail As Image
+                        imageDetail = Image.FromStream(msDetail)
+                        Dim excelpictureDetail As ExcelPicture
+                        excelpictureDetail = ws.Drawings.AddPicture("SymbolDetail", imageDetail)
+                        excelpictureDetail.SetSize(700, 400)
+                        excelpictureDetail.SetPosition(irow, 0, 0, 0)
+                        irow = irow + 23
 
                         irowStart = irow
                         .Cells(irow, 1).Value = "No"
@@ -582,15 +608,12 @@ Public Class ReportYearlyByType
                             End Try
                         Next
 
-
-
                         Dtl = .Cells(irowStart, 1, irow - 1, 4)
                         Dtl.Style.VerticalAlignment = VertAlignment.Center
                         Dtl.Style.Font.Size = 10
                         Dtl.Style.Font.Name = "Segoe UI"
                         Dtl.Style.WrapText = True
                         Dtl.Style.VerticalAlignment = ExcelVerticalAlignment.Center
-
 
                         Border = .Cells(irowStart, 1, irow - 1, 4)
                         Border.Style.Border.Top.Style = ExcelBorderStyle.Thin
@@ -599,16 +622,6 @@ Public Class ReportYearlyByType
                         Border.Style.Border.Left.Style = ExcelBorderStyle.Thin
 
                     End If
-
-                    'Dim Path As String = Server.MapPath("")
-                    'Dim streamImg As New MemoryStream
-                    'Dim fi As New FileInfo(Path & "\" & filename)
-                    'Dim ImgWeb = System.IO.Directory.GetFiles("Downloads", filename & ".PNG")
-
-                    'Dim PathWeb = "E:"
-                    'Dim ImgWeb = System.IO.Directory.GetFiles(PathWeb & "\", "*" & filename & "*.PNG")
-
-
                 End With
 
                 Response.Clear()
@@ -627,8 +640,9 @@ Public Class ReportYearlyByType
         End Try
     End Sub
 
-
     Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
-        ExcelContent()
+        Dim ChartGroup = HideValue.Get("ChartGroup")
+        Dim ChartDetail = HideValue.Get("ChartDetail")
+        ExcelContent(ChartGroup, ChartDetail)
     End Sub
 End Class

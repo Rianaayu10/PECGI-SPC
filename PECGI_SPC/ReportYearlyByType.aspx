@@ -7,8 +7,8 @@
     <script type="text/javascript" src="js/jquery-3.5.1.min.js"></script>
     <link rel="stylesheet" href="css/dx.light.css" />
     <script type="text/javascript" src="js/dx.all.js"></script>
+    <script type="text/javascript" src="js/html2canvas.js"></script>
     <script type="text/javascript">
-
         var MMM = {
             Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
             Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
@@ -19,8 +19,7 @@
         $(document).ready(function () {
             var today = new Date();
             dtFromDate.SetDate(today);
-            dtToDate.SetDate(today);
-            /*     TmPeriod_From.SetDate(today);*/
+            dtToDate.SetDate(today); 
             btnExcel.SetEnabled(false);
         })
 
@@ -81,12 +80,6 @@
             var ptoDate = dtToDate.GetText().split(' ');
             var ProdDate_To = ptoDate[1] + "-" + MMM[ptoDate[0]] + "-" + '01'
 
-            //var pfromDate = dtFromDate.GetText().split(' ');
-            //var ProdDate_From = pfromDate[2] + "-" + MMM[pfromDate[1]] + "-" + pfromDate[0]
-
-            //var ptoDate = dtToDate.GetText().split(' ');
-            //var ProdDate_To = ptoDate[2] + "-" + MMM[ptoDate[1]] + "-" + ptoDate[0]
-
             var nMonth = monthDiff(parseDate(dtFromDate.GetText()), parseDate(dtToDate.GetText()));
 
             if (FactoryCode == null) {
@@ -106,6 +99,7 @@
             } else if (nMonth > 11) {
                 toastr.warning("Periode can not more than 12 period !", 'Warning', { timeOut: 3000, closeButton: true });
             } else {
+
                 /*Clear Content*/
                 /*===================================*/
                 $('#tableLineGroup tr th').remove();
@@ -119,7 +113,8 @@
                 $("#lblTitleChartDetail").html("");
                 $("#lblSubTitleChartDetail").html("");
                 $("#chartdetail").css("display", "none");
-            /*===================================*/
+                /*===================================*/
+
                 tableLineGroup(User, FactoryCode, ProcessGroup, LineGroup, ProcessCode, LineCode, ItemType, ProdDate_From, ProdDate_To);
             }
         }
@@ -202,7 +197,6 @@
                     if (result.d.Message == "Success") {
                         if (result.d.Contents != "") {
                             $("#chartdetail").css("display", "block");
-                              btnExcel.SetEnabled(true);
                             Object.values(result.d.Contents).forEach(LineDetailContent);
                         }
                     } else {
@@ -282,6 +276,7 @@
                                 periode = startPeriod
                             }
 
+                            /* Generate Data */
                             var display1 = [];
                             var n = 0;
                             $.each(DS, function (dt) {
@@ -303,6 +298,8 @@
                                 n = n + 1;
                             });
 
+
+                            /* Generate Label */
                             var d1 = [];
                             let length = DS[0].length;
                             var t = 0;
@@ -350,6 +347,19 @@
                                 },
                             });
 
+                            setTimer1 = setInterval(function () {
+
+                                html2canvas(document.querySelector("#chartcapture")).then(canvas => {
+                                    const dataURL = canvas.toDataURL();
+                                    const getBase64StringFromDataURL = (dataURL) =>
+                                        dataURL.replace('data:', '').replace(/^.+,/, '');
+
+                                    const base64 = getBase64StringFromDataURL(dataURL);
+                                    HideValue.Set('ChartGroup', base64);
+                                });
+
+                            }, 1000, (1));
+
                         }
                     } else {
                         toastr.warning(result.d.Message, 'Warning', { timeOut: 3000, closeButton: true });
@@ -375,14 +385,6 @@
                 success: function (data, textStatus, jQxhr) {
                     document.getElementById('lblTitleChartDetail').innerHTML = 'Summary FTA SPC ' + Periode;
                     document.getElementById('lblSubTitleChartDetail').innerHTML = '(' + LineGroupName + ')' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n = ' + data.d.Max;
-                    //}
-                    //if (Factory == "" && Type == "" && Line == "") {
-                    //    document.getElementById('lblDescsChartLineDetail').innerHTML = 'Period : ' + ' - ' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n = ' + data.d.Max;
-                    //}
-                    //else {
-                    //    document.getElementById('lblDescsChartLineDetail').innerHTML = 'Period : ' + dtFromDate.GetText() + ' - ' + dtToDate.GetText() + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n = ' + data.d.Max;
-                    //}
-
 
                     var options = {
                         xaxis: {
@@ -415,7 +417,24 @@
                             backgroundColor: '#FFF',
                         }
                     };
-                    $.plot($('#chartdetail'), eval(data.d.data), options);
+                    $.plot($("#chartdetail"), eval(data.d.data), options);
+
+                    setTimer1 = setInterval(function () {
+
+                        html2canvas(document.querySelector("#chartdetailcapture")).then(canvas => {
+                            const dataURL = canvas.toDataURL();
+                            const getBase64StringFromDataURL = (dataURL) =>
+                                dataURL.replace('data:', '').replace(/^.+,/, '');
+                            const base64 = getBase64StringFromDataURL(dataURL);
+                            HideValue.Set('ChartDetail', base64);
+
+                            //For enabled button excel
+                            btnExcel.SetEnabled(true); 
+                        });
+
+                    }, 1000, (1));
+
+
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
                     console.log(errorThrown);
@@ -473,45 +492,6 @@
             months += dateTo.getMonth();
             return months <= 0 ? 0 : months;
         }
-
-        function ExcelClick(s, e) {
-
-            //var dt = new Date();
-            //var year = dt.getFullYear();
-            //var month = (dt.getMonth() + 1).toString().padStart(2, "0");
-            //var day = dt.getDate().toString().padStart(2, "0");
-            //var hours = dt.getTime();
-            //var sDate = day + month + year + hours;
-            //console.log(sDate);
-            //var filename = 'chart_' + sDate;
-            //var chart = $("#chart").dxChart("instance");
-            //chart.exportTo(filename, 'PNG');
-
-
-
-            //var detfilename = 'chartdetail_' + sDate;
-            //var chart = $("#chartdetail").dxChart("instance");
-
-
-            var chart = $("#chart").dxChart("instance");
-            chart.exportTo(detfilename, 'PNG').thenthen(function (imgData) {
-                Image.SetImageUrl(imgData);
-                /* Grid.PerformCallback('Excel' + '|' + ASPxImage1.GetImageUrl());*/
-                Image.SetVisible(false);
-                HideValue.Set("FileName", Image.GetImageUrl());
-            });
-            //chart.exporting.getImage("jpg").then(function (imgData) {
-            //   Image.SetImageUrl(imgData);
-            //   /* Grid.PerformCallback('Excel' + '|' + ASPxImage1.GetImageUrl());*/
-            //    Image.SetVisible(false);
-            //    HideValue.Set("FileName", Image.GetImageUrl());
-            //});
-
-            //HideValue.Set("FileName", filename);
-            //HideValue.Set("DetFileName", detfilename);
-        }
-
-
 
         function MessageError(s, e) {
             if (s.cp_message != "" && s.cp_val == 1) {
@@ -609,6 +589,16 @@
     </style>
 
     <style type="text/css">
+        .wrapper {
+            width: 60%;
+            display: block;
+            overflow: hidden;
+            margin: 0 auto;
+            padding: 60px 50px;
+            background: #fff;
+            border-radius: 4px;
+        }
+
         .flot {
             left: 0px;
             top: 0px;
@@ -783,7 +773,7 @@
                 <td>
                     <dx:ASPxButton ID="btnClear" runat="server" AutoPostBack="False" ClientInstanceName="btnClear" Height="25px"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="Clear" Theme="Office2010Silver" Width="80px">
-                         <ClientSideEvents Click="Clear" />
+                        <ClientSideEvents Click="Clear" />
                     </dx:ASPxButton>
                 </td>
             </tr>
@@ -792,20 +782,17 @@
     <div style="margin-top: 10px">
         <dx:ASPxButton ID="btnExcel" runat="server" AutoPostBack="False" ClientInstanceName="btnExcel" Height="30px"
             Font-Names="Segoe UI" Font-Size="9pt" Text="Excel" Theme="Office2010Silver" Width="100px">
-           <%-- <ClientSideEvents Click="ExcelClick" />--%>
         </dx:ASPxButton>
     </div>
     <dx:ASPxCallback ID="cb" runat="server" ClientInstanceName="cb">
         <ClientSideEvents CallbackComplete="MessageError" />
     </dx:ASPxCallback>
     <dx:ASPxHiddenField ID="HideValue" runat="server" ClientInstanceName="HideValue"></dx:ASPxHiddenField>
-    <dx:ASPxImage ID="Image" ClientInstanceName="Image" runat="server" ShowLoadingImage="true">
-    </dx:ASPxImage>
 </asp:Content>
 
 
 <asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div style="padding: 0px 5px 5px 5px; padding-bottom: 10px;" class="widget-body">
+    <div style="padding: 10px 5px 5px 5px; padding-bottom: 10px;" class="widget-body">
         <section id="widget-grid" class="">
             <div class="row">
                 <article class="col-sm-6 col-md-6 col-lg-6">
@@ -823,12 +810,12 @@
                                     <div class="col-xs-12">
                                         <table style="width: 100%; min-height: 55vh" border="1">
                                             <tr>
-                                                <td align="center">
+                                                <td align="center" id="chartcapture">
                                                     <div>
                                                         <h3 id="lblTitleChart"></h3>
                                                         <p style="margin-top: -10px" id="lblSubTitleChart"></p>
                                                     </div>
-                                                    <div id="chart" class="float"></div>
+                                                    <div id="chart"></div>
                                                 </td>
                                             </tr>
                                         </table>
@@ -870,13 +857,12 @@
                                     <div class="col-xs-12">
                                         <table style="width: 100%; min-height: 55vh;" border="1">
                                             <tr>
-                                                <td align="center">
+                                                <td align="center" id="chartdetailcapture">
                                                     <div>
                                                         <h3 id="lblTitleChartDetail"></h3>
                                                         <p style="margin-top: -10px" id="lblSubTitleChartDetail"></p>
                                                     </div>
                                                     <div id="chartdetail" class="flot"></div>
-                                                    <%-- <div id="chartdetail" ></div>--%>
                                                 </td>
                                             </tr>
                                         </table>

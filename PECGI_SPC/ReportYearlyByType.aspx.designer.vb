@@ -203,15 +203,6 @@ Partial Public Class ReportYearlyByType
     Protected WithEvents HideValue As Global.DevExpress.Web.ASPxHiddenField
 
     '''<summary>
-    '''Image control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents Image As Global.DevExpress.Web.ASPxImage
-
-    '''<summary>
     '''Master property.
     '''</summary>
     '''<remarks>
