@@ -503,7 +503,7 @@
                     <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
                         <Paddings PaddingLeft="5px"></Paddings>
                     </HeaderStyle>
-                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
+                    <CellStyle HorizontalAlign="Left"/>
                 </dx:GridViewDataComboBoxColumn>
 
                 <dx:GridViewDataComboBoxColumn Caption="Factor 2" FieldName="Factor2" VisibleIndex="3"
@@ -525,7 +525,7 @@
                     <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
                         <Paddings PaddingLeft="5px"></Paddings>
                     </HeaderStyle>
-                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
+                    <CellStyle HorizontalAlign="Left"/>
                 </dx:GridViewDataComboBoxColumn>
 
                 <dx:GridViewDataComboBoxColumn Caption="Factor 3" FieldName="Factor3" VisibleIndex="4"
@@ -547,7 +547,7 @@
                     <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
                         <Paddings PaddingLeft="5px"></Paddings>
                     </HeaderStyle>
-                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
+                    <CellStyle HorizontalAlign="Left"/>
                 </dx:GridViewDataComboBoxColumn>
 
                 <dx:GridViewDataComboBoxColumn Caption="Factor 4" FieldName="Factor4" VisibleIndex="5"
@@ -569,7 +569,7 @@
                     <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
                         <Paddings PaddingLeft="5px"></Paddings>
                     </HeaderStyle>
-                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
+                    <CellStyle HorizontalAlign="Left"/>
                 </dx:GridViewDataComboBoxColumn>
 
                 <dx:GridViewDataTextColumn Caption="Counter Measure" FieldName="CounterMeasure"
@@ -584,7 +584,7 @@
                     <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
                     <Paddings PaddingLeft="5px"></Paddings>
                     </HeaderStyle>
-                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
+                    <CellStyle HorizontalAlign="Left"></CellStyle>
                 </dx:GridViewDataTextColumn>
 
                 <dx:GridViewDataTextColumn Caption="Check Item" FieldName="CheckItem"
