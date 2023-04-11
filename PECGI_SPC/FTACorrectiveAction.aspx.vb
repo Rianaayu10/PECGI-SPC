@@ -1064,9 +1064,4 @@ Public Class FTACorrectiveAction
     Private Sub cbkValid_Callback(source As Object, e As CallbackEventArgs) Handles cbkValid.Callback
         ValidateSave()
     End Sub
-
-    Protected Sub diagramFTA_NodeDataBound(sender As Object, e As DiagramNodeEventArgs)
-        e.Node.Style = "border-width:thin"
-        e.Node.TextStyle = "font-size: 8"
-    End Sub
 End Class
