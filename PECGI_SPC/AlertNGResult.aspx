@@ -470,9 +470,9 @@
                         <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"/>
                     </dx:GridViewDataComboBoxColumn>
 
-                    <dx:GridViewDataTextColumn Caption="USL" FieldName="USL"
-                        VisibleIndex="7" Width="100px" Settings-AutoFilterCondition="Contains">
-                        <PropertiesTextEdit MaxLength="25" Width="100px">
+                    <dx:GridViewDataTextColumn Caption="Station ID" FieldName="StationID"
+                        VisibleIndex="7" Width="105px" Settings-AutoFilterCondition="Contains">
+                        <PropertiesTextEdit MaxLength="25" Width="105px">
                             <Style HorizontalAlign="Left"></Style>
                         </PropertiesTextEdit>
                         <Settings AutoFilterCondition="Contains"></Settings>
@@ -482,10 +482,11 @@
                         <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
                         <Paddings PaddingLeft="5px"></Paddings>
                         </HeaderStyle>
-                        <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"></CellStyle>
+                        <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataTextColumn>
 
-                    <dx:GridViewDataTextColumn Caption="LSL" FieldName="LSL"
+
+                    <dx:GridViewDataTextColumn Caption="USL" FieldName="USL"
                         VisibleIndex="8" Width="100px" Settings-AutoFilterCondition="Contains">
                         <PropertiesTextEdit MaxLength="25" Width="100px">
                             <Style HorizontalAlign="Left"></Style>
@@ -500,37 +501,22 @@
                         <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataTextColumn>
 
+                    <dx:GridViewDataTextColumn Caption="LSL" FieldName="LSL"
+                        VisibleIndex="9" Width="100px" Settings-AutoFilterCondition="Contains">
+                        <PropertiesTextEdit MaxLength="25" Width="100px">
+                            <Style HorizontalAlign="Left"></Style>
+                        </PropertiesTextEdit>
+                        <Settings AutoFilterCondition="Contains"></Settings>
+                        <FilterCellStyle Paddings-PaddingRight="4px">
+                        <Paddings PaddingRight="4px"></Paddings>
+                        </FilterCellStyle>
+                        <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                        <Paddings PaddingLeft="5px"></Paddings>
+                        </HeaderStyle>
+                        <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"></CellStyle>
+                    </dx:GridViewDataTextColumn>
+
                     <dx:GridViewDataTextColumn Caption="UCL" FieldName="UCL"
-                        VisibleIndex="8" Width="60px" Settings-AutoFilterCondition="Contains">
-                        <PropertiesTextEdit MaxLength="25" Width="100px">
-                            <Style HorizontalAlign="Left"></Style>
-                        </PropertiesTextEdit>
-                        <Settings AutoFilterCondition="Contains"></Settings>
-                        <FilterCellStyle Paddings-PaddingRight="4px">
-                        <Paddings PaddingRight="4px"></Paddings>
-                        </FilterCellStyle>
-                        <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
-                        <Paddings PaddingLeft="5px"></Paddings>
-                        </HeaderStyle>
-                        <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"></CellStyle>
-                    </dx:GridViewDataTextColumn>
-
-                    <dx:GridViewDataTextColumn Caption="LCL" FieldName="LCL"
-                        VisibleIndex="9" Width="60px" Settings-AutoFilterCondition="Contains">
-                        <PropertiesTextEdit MaxLength="25" Width="100px">
-                            <Style HorizontalAlign="Left"></Style>
-                        </PropertiesTextEdit>
-                        <Settings AutoFilterCondition="Contains"></Settings>
-                        <FilterCellStyle Paddings-PaddingRight="4px">
-                        <Paddings PaddingRight="4px"></Paddings>
-                        </FilterCellStyle>
-                        <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
-                        <Paddings PaddingLeft="5px"></Paddings>
-                        </HeaderStyle>
-                        <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"></CellStyle>
-                    </dx:GridViewDataTextColumn>
-
-                    <dx:GridViewDataTextColumn Caption="Min" FieldName="MinValue"
                         VisibleIndex="10" Width="60px" Settings-AutoFilterCondition="Contains">
                         <PropertiesTextEdit MaxLength="25" Width="100px">
                             <Style HorizontalAlign="Left"></Style>
@@ -545,7 +531,7 @@
                         <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataTextColumn>
 
-                    <dx:GridViewDataTextColumn Caption="Max" FieldName="MaxValue"
+                    <dx:GridViewDataTextColumn Caption="LCL" FieldName="LCL"
                         VisibleIndex="11" Width="60px" Settings-AutoFilterCondition="Contains">
                         <PropertiesTextEdit MaxLength="25" Width="100px">
                             <Style HorizontalAlign="Left"></Style>
@@ -560,7 +546,7 @@
                         <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataTextColumn>
 
-                    <dx:GridViewDataTextColumn Caption="Ave" FieldName="Average"
+                    <dx:GridViewDataTextColumn Caption="Min" FieldName="MinValue"
                         VisibleIndex="12" Width="60px" Settings-AutoFilterCondition="Contains">
                         <PropertiesTextEdit MaxLength="25" Width="100px">
                             <Style HorizontalAlign="Left"></Style>
@@ -575,8 +561,38 @@
                         <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataTextColumn>
 
+                    <dx:GridViewDataTextColumn Caption="Max" FieldName="MaxValue"
+                        VisibleIndex="13" Width="60px" Settings-AutoFilterCondition="Contains">
+                        <PropertiesTextEdit MaxLength="25" Width="100px">
+                            <Style HorizontalAlign="Left"></Style>
+                        </PropertiesTextEdit>
+                        <Settings AutoFilterCondition="Contains"></Settings>
+                        <FilterCellStyle Paddings-PaddingRight="4px">
+                        <Paddings PaddingRight="4px"></Paddings>
+                        </FilterCellStyle>
+                        <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                        <Paddings PaddingLeft="5px"></Paddings>
+                        </HeaderStyle>
+                        <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"></CellStyle>
+                    </dx:GridViewDataTextColumn>
+
+                    <dx:GridViewDataTextColumn Caption="Ave" FieldName="Average"
+                        VisibleIndex="14" Width="60px" Settings-AutoFilterCondition="Contains">
+                        <PropertiesTextEdit MaxLength="25" Width="100px">
+                            <Style HorizontalAlign="Left"></Style>
+                        </PropertiesTextEdit>
+                        <Settings AutoFilterCondition="Contains"></Settings>
+                        <FilterCellStyle Paddings-PaddingRight="4px">
+                        <Paddings PaddingRight="4px"></Paddings>
+                        </FilterCellStyle>
+                        <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                        <Paddings PaddingLeft="5px"></Paddings>
+                        </HeaderStyle>
+                        <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"></CellStyle>
+                    </dx:GridViewDataTextColumn>
+
                     <dx:GridViewDataTextColumn Caption="R" FieldName="RValueSPCDashboard"
-                            VisibleIndex="13" Width="60px" Settings-AutoFilterCondition="Contains">
+                            VisibleIndex="15" Width="60px" Settings-AutoFilterCondition="Contains">
                             <PropertiesTextEdit MaxLength="25" Width="100px">
                                 <Style HorizontalAlign="Left"></Style>
                             </PropertiesTextEdit>
@@ -591,36 +607,6 @@
                         </dx:GridViewDataTextColumn>
 
                     <dx:GridViewDataTextColumn Caption="Operator" FieldName="Operator"
-                        VisibleIndex="14" Width="70px" Settings-AutoFilterCondition="Contains">
-                        <PropertiesTextEdit MaxLength="25" Width="70px">
-                            <Style HorizontalAlign="Left"></Style>
-                        </PropertiesTextEdit>
-                        <Settings AutoFilterCondition="Contains"></Settings>
-                        <FilterCellStyle Paddings-PaddingRight="4px">
-                        <Paddings PaddingRight="4px"></Paddings>
-                        </FilterCellStyle>
-                        <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
-                        <Paddings PaddingLeft="5px"></Paddings>
-                        </HeaderStyle>
-                        <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
-                    </dx:GridViewDataTextColumn>
-
-                    <dx:GridViewDataTextColumn Caption="MK" FieldName="MK"
-                        VisibleIndex="15" Width="70px" Settings-AutoFilterCondition="Contains">
-                        <PropertiesTextEdit MaxLength="25" Width="70px">
-                            <Style HorizontalAlign="Left"></Style>
-                        </PropertiesTextEdit>
-                        <Settings AutoFilterCondition="Contains"></Settings>
-                        <FilterCellStyle Paddings-PaddingRight="4px">
-                        <Paddings PaddingRight="4px"></Paddings>
-                        </FilterCellStyle>
-                        <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
-                        <Paddings PaddingLeft="5px"></Paddings>
-                        </HeaderStyle>
-                        <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
-                    </dx:GridViewDataTextColumn>
-
-                    <dx:GridViewDataTextColumn Caption="QC" FieldName="QC"
                         VisibleIndex="16" Width="70px" Settings-AutoFilterCondition="Contains">
                         <PropertiesTextEdit MaxLength="25" Width="70px">
                             <Style HorizontalAlign="Left"></Style>
@@ -635,8 +621,38 @@
                         <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataTextColumn>
 
+                    <dx:GridViewDataTextColumn Caption="MK" FieldName="MK"
+                        VisibleIndex="17" Width="70px" Settings-AutoFilterCondition="Contains">
+                        <PropertiesTextEdit MaxLength="25" Width="70px">
+                            <Style HorizontalAlign="Left"></Style>
+                        </PropertiesTextEdit>
+                        <Settings AutoFilterCondition="Contains"></Settings>
+                        <FilterCellStyle Paddings-PaddingRight="4px">
+                        <Paddings PaddingRight="4px"></Paddings>
+                        </FilterCellStyle>
+                        <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                        <Paddings PaddingLeft="5px"></Paddings>
+                        </HeaderStyle>
+                        <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
+                    </dx:GridViewDataTextColumn>
+
+                    <dx:GridViewDataTextColumn Caption="QC" FieldName="QC"
+                        VisibleIndex="18" Width="70px" Settings-AutoFilterCondition="Contains">
+                        <PropertiesTextEdit MaxLength="25" Width="70px">
+                            <Style HorizontalAlign="Left"></Style>
+                        </PropertiesTextEdit>
+                        <Settings AutoFilterCondition="Contains"></Settings>
+                        <FilterCellStyle Paddings-PaddingRight="4px">
+                        <Paddings PaddingRight="4px"></Paddings>
+                        </FilterCellStyle>
+                        <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                        <Paddings PaddingLeft="5px"></Paddings>
+                        </HeaderStyle>
+                        <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
+                    </dx:GridViewDataTextColumn>
+
                     <dx:GridViewCommandColumn 
-                            VisibleIndex="17" ShowClearFilterButton="true" Width="80px">
+                            VisibleIndex="19" ShowClearFilterButton="true" Width="80px">
                             <HeaderStyle Paddings-PaddingLeft="3px" HorizontalAlign="Center" 
                                 VerticalAlign="Middle" >
                                 <Paddings PaddingLeft="3px"></Paddings>
@@ -649,7 +665,7 @@
                         </dx:GridViewCommandColumn>
 
                     <dx:GridViewDataTextColumn Caption="LinkDate" FieldName="LinkDate"
-                            VisibleIndex="18" Width="100px" Settings-AutoFilterCondition="Contains" Visible="false">
+                            VisibleIndex="20" Width="100px" Settings-AutoFilterCondition="Contains" Visible="false">
                             <PropertiesTextEdit MaxLength="25" Width="0px">
                                 <Style HorizontalAlign="Left"></Style>
                             </PropertiesTextEdit>

@@ -40,6 +40,7 @@ Public Class ClsUploadFTAMasterDB
                             strCmd = "sp_SPC_UploadFTAMaster"
                             cmd.CommandType = CommandType.StoredProcedure
                             With cmd.Parameters
+                                .Clear()
                                 .AddWithValue("FactoryCode", Rows("FactoryCode"))
                                 .AddWithValue("ItemTypeCode", Rows("ItemTypeCode"))
                                 .AddWithValue("ItemCheckCode", Rows("ItemCheckCode"))
@@ -63,6 +64,7 @@ Public Class ClsUploadFTAMasterDB
                             strCmd = "sp_SPC_UploadFTAMaster"
                             cmd.CommandType = CommandType.StoredProcedure
                             With cmd.Parameters
+                                .Clear()
                                 .AddWithValue("FTAID", Rows("FTAID"))
                                 .AddWithValue("ActionName", Rows("ActionName"))
                                 .AddWithValue("Remark", Rows("Remark"))

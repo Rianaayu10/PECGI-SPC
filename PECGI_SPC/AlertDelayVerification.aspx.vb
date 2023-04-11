@@ -26,6 +26,7 @@ Public Class AlertDelayVerification
     Dim Average As String = ""
     Dim CharacteristicStatus As Integer
     Dim RColorBefore As Integer = 0
+    Dim DigitDecimal As Integer = 0
     Dim Color As Color
 #End Region
 
@@ -265,6 +266,14 @@ Public Class AlertDelayVerification
             End If
         End If
 
+        If e.DataColumn.FieldName = "ItemCheck" Then
+            Dim ItemCheckCode As String = e.CellValue
+            ItemCheckCode = ItemCheckCode.Substring(0, ItemCheckCode.IndexOf(" -"))
+
+            DigitDecimal = ClsSPCItemCheckMasterDB.GetDigit(ItemCheckCode)
+
+        End If
+
         If e.DataColumn.FieldName = "RColor" Then
 
             If e.CellValue > 0 Then
@@ -323,13 +332,29 @@ Public Class AlertDelayVerification
             'e.Cell.Text = Convert.ToString(Hours & ":" & Test.Minutes & ":00")
         End If
         If e.DataColumn.FieldName = "LSL" Then
+
             LSL = (e.CellValue)
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(e.CellValue, f)
+
         ElseIf e.DataColumn.FieldName = "USL" Then
+
             USL = (e.CellValue)
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(e.CellValue, f)
+
         ElseIf e.DataColumn.FieldName = "UCL" Then
+
             UCL = (e.CellValue)
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(e.CellValue, f)
+
         ElseIf e.DataColumn.FieldName = "LCL" Then
+
             LCL = (e.CellValue)
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(e.CellValue, f)
+
         ElseIf e.DataColumn.FieldName = "MinValue" Then
             MinValue = (e.CellValue)
             If MinValue < LSL Then
@@ -343,6 +368,9 @@ Public Class AlertDelayVerification
                 End If
 
             End If
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(e.CellValue, f)
+
         ElseIf e.DataColumn.FieldName = "MaxValue" Then
             MaxValue = (e.CellValue)
             If MaxValue > USL Then
@@ -356,6 +384,9 @@ Public Class AlertDelayVerification
                 End If
 
             End If
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(e.CellValue, f)
+
         ElseIf e.DataColumn.FieldName = "Average" Then
             Average = (e.CellValue)
             If Average > USL Then
@@ -379,12 +410,16 @@ Public Class AlertDelayVerification
                 End If
 
             End If
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(e.CellValue, f)
         End If
 
         If e.DataColumn.FieldName = "RValueSPCDashboard" Then
 
             'e.Cell.BackColor = Color
-            e.Cell.Text = Split(e.CellValue, "||")(1)
+            'e.Cell.Text = Split(e.CellValue, "||")(1)
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(Split(e.CellValue, "||")(1), f)
 
         End If
     End Sub

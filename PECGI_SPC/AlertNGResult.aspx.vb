@@ -26,6 +26,7 @@ Public Class AlertDashboard
     Dim Average As String = ""
     Dim CharacterStatus As Integer
     Dim RColorBefore As Integer = 0
+    Dim DigitDecimal As Integer = 0
     Dim Color As Color
 #End Region
 
@@ -109,6 +110,7 @@ Public Class AlertDashboard
             dtLoadNGData = clsSPCAlertDashboardDB.GetNGDataList(pUser, FactoryCode, pProdDateType, pProdDate)
             GridNG.DataSource = dtLoadNGData
             GridNG.DataBind()
+
         Catch ex As Exception
             show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
         End Try
@@ -208,22 +210,46 @@ Public Class AlertDashboard
 
         If e.DataColumn.FieldName = "RValueSPCDashboard" Then
             'e.Cell.BackColor = Color
-            e.Cell.Text = Split(e.CellValue, "||")(1)
+            'e.Cell.Text = Split(e.CellValue, "||")(1)
 
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(Split(e.CellValue, "||")(1), f)
         End If
 
         If e.DataColumn.FieldName = "ItemTypeName" Then
             e.Cell.Text = Split(e.CellValue, "||")(0)
             CharacterStatus = Split(e.CellValue, "||")(1)
         End If
+
+        If e.DataColumn.FieldName = "ItemCheck" Then
+            Dim ItemCheckCode As String = e.CellValue
+            ItemCheckCode = ItemCheckCode.Substring(0, ItemCheckCode.IndexOf(" -"))
+
+            DigitDecimal = ClsSPCItemCheckMasterDB.GetDigit(ItemCheckCode)
+
+            'Dim Zeros As String = Strings.StrDup(DigitDecimal, "0")
+            'Return Format(v, "0." + Zeros)
+
+        End If
+
         If e.DataColumn.FieldName = "LSL" Then
             LSL = (e.CellValue)
+
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(e.CellValue, f)
+
         ElseIf e.DataColumn.FieldName = "USL" Then
             USL = (e.CellValue)
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(e.CellValue, f)
         ElseIf e.DataColumn.FieldName = "UCL" Then
             UCL = (e.CellValue)
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(e.CellValue, f)
         ElseIf e.DataColumn.FieldName = "LCL" Then
             LCL = (e.CellValue)
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(e.CellValue, f)
         ElseIf e.DataColumn.FieldName = "MinValue" Then
             MinValue = (e.CellValue)
             If MinValue < LSL Then
@@ -238,6 +264,9 @@ Public Class AlertDashboard
                 End If
 
             End If
+
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(e.CellValue, f)
         ElseIf e.DataColumn.FieldName = "MaxValue" Then
             MaxValue = (e.CellValue)
             If MaxValue > USL Then
@@ -252,6 +281,9 @@ Public Class AlertDashboard
                 End If
 
             End If
+
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(e.CellValue, f)
         ElseIf e.DataColumn.FieldName = "Average" Then
             Average = (e.CellValue)
             If Average > USL Then
@@ -277,6 +309,9 @@ Public Class AlertDashboard
                 End If
 
             End If
+
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(e.CellValue, f)
         End If
 
     End Sub

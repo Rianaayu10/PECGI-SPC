@@ -439,7 +439,7 @@
                         <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"/>
                     </dx:GridViewDataComboBoxColumn>
 
-                    <dx:GridViewDataTextColumn Caption="Schedule Start" FieldName="StartTime"
+                    <dx:GridViewDataTextColumn Caption="Station ID" FieldName="StationID"
                         VisibleIndex="7" Width="105px" Settings-AutoFilterCondition="Contains">
                         <PropertiesTextEdit MaxLength="25" Width="105px">
                             <Style HorizontalAlign="Left"></Style>
@@ -454,8 +454,23 @@
                         <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"></CellStyle>
                     </dx:GridViewDataTextColumn>
 
+                    <dx:GridViewDataTextColumn Caption="Schedule Start" FieldName="StartTime"
+                        VisibleIndex="8" Width="105px" Settings-AutoFilterCondition="Contains">
+                        <PropertiesTextEdit MaxLength="25" Width="105px">
+                            <Style HorizontalAlign="Left"></Style>
+                        </PropertiesTextEdit>
+                        <Settings AutoFilterCondition="Contains"></Settings>
+                        <FilterCellStyle Paddings-PaddingRight="4px">
+                        <Paddings PaddingRight="4px"></Paddings>
+                        </FilterCellStyle>
+                        <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                        <Paddings PaddingLeft="5px"></Paddings>
+                        </HeaderStyle>
+                        <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"></CellStyle>
+                    </dx:GridViewDataTextColumn>
+
                     <dx:GridViewDataTextColumn Caption="Schedule End" FieldName="EndTime"
-                        VisibleIndex="8" Width="100px" Settings-AutoFilterCondition="Contains">
+                        VisibleIndex="9" Width="100px" Settings-AutoFilterCondition="Contains">
                         <PropertiesTextEdit MaxLength="25" Width="100px">
                             <Style HorizontalAlign="Left"></Style>
                         </PropertiesTextEdit>
@@ -470,7 +485,7 @@
                     </dx:GridViewDataTextColumn>
 
                     <dx:GridViewDataTextColumn Caption="Delay" FieldName="Delay"
-                        VisibleIndex="8" Width="170px" Settings-AutoFilterCondition="Contains">
+                        VisibleIndex="10" Width="170px" Settings-AutoFilterCondition="Contains">
                         <PropertiesTextEdit MaxLength="25" Width="170px">
                             <Style HorizontalAlign="Left"></Style>
                         </PropertiesTextEdit>
@@ -485,7 +500,7 @@
                     </dx:GridViewDataTextColumn>
 
                     <dx:GridViewCommandColumn 
-                            VisibleIndex="9" ShowClearFilterButton="true" Width="80px">
+                            VisibleIndex="11" ShowClearFilterButton="true" Width="80px">
                             <HeaderStyle Paddings-PaddingLeft="3px" HorizontalAlign="Center" 
                                 VerticalAlign="Middle" >
                                 <Paddings PaddingLeft="3px"></Paddings>
@@ -498,7 +513,7 @@
                         </dx:GridViewCommandColumn>
 
                     <dx:GridViewDataTextColumn Caption="LinkDate" FieldName="LinkDate"
-                            VisibleIndex="10" Width="100px" Settings-AutoFilterCondition="Contains" Visible="false">
+                            VisibleIndex="12" Width="100px" Settings-AutoFilterCondition="Contains" Visible="false">
                             <PropertiesTextEdit MaxLength="25" Width="100px">
                                 <Style HorizontalAlign="Left"></Style>
                             </PropertiesTextEdit>

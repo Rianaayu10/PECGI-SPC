@@ -15,6 +15,7 @@ Public Class ControlChartSetup
     Public AuthAccess As Boolean = False
     Public AuthUpdate As Boolean = False
     Public AuthDelete As Boolean = False
+    Dim DigitDecimal As Integer = 0
     Private dt As DataTable
 #End Region
 
@@ -745,6 +746,36 @@ Public Class ControlChartSetup
         End With
 
     End Sub
+
+    Private Sub Grid_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles Grid.HtmlDataCellPrepared
+
+
+        If e.DataColumn.FieldName = "ItemCheck" Then
+            Dim ItemCheckCode As String = e.CellValue
+            ItemCheckCode = ItemCheckCode.Substring(0, ItemCheckCode.IndexOf(" -"))
+
+            DigitDecimal = ClsSPCItemCheckMasterDB.GetDigit(ItemCheckCode)
+
+
+        End If
+
+        If e.DataColumn.FieldName = "SpecLSL" Then
+
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(e.CellValue, f)
+
+        ElseIf e.DataColumn.FieldName = "SpecUSL" Then
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(e.CellValue, f)
+        ElseIf e.DataColumn.FieldName = "XUCL" Then
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(e.CellValue, f)
+        ElseIf e.DataColumn.FieldName = "XUCL" Then
+            Dim f As String = "0." + StrDup(DigitDecimal, "0")
+            e.Cell.Text = Format(e.CellValue, f)
+        End If
+
+    End Sub
 #End Region
-    
+
 End Class
