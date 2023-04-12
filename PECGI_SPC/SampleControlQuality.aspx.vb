@@ -1225,6 +1225,9 @@ Public Class SampleControlQuality
         Dim pUser As String = Session("user")
         cboType.DataSource = clsItemTypeDB.GetList(FactoryCode, LineCode, pUser)
         cboType.DataBind()
+        If cboType.Items.Count = 1 Then
+            cboType.SelectedIndex = 0
+        End If
     End Sub
 
     Private Sub cboLine_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboLine.Callback
@@ -1285,6 +1288,9 @@ Public Class SampleControlQuality
         Dim UserID As String = Session("user") & ""
         cboLineGroup.DataSource = clsLineGroupDB.GetList(UserID, FactoryCode, ProcessGroup)
         cboLineGroup.DataBind()
+        If cboLineGroup.Items.Count = 1 Then
+            cboLineGroup.SelectedIndex = 0
+        End If
     End Sub
 
     Private Sub cboProcess_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboProcess.Callback

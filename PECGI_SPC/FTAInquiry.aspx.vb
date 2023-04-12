@@ -48,8 +48,9 @@ Public Class FTAInquiry
         Public Property ItemCheckName As String
 
         Public Property ProdDate As String
-        Public Property ShiftCode As String
-        Public Property Shiftname As String
+        Public Property ProdDate2 As String
+        Public Property MKVerification As String
+        Public Property QCVerification As String
         Public Property Seq As Integer
         Public Property VerifiedOnly As String
     End Class
@@ -161,7 +162,7 @@ Public Class FTAInquiry
         cboType.DataBind()
         cboType.Value = ItemTypeCode
 
-        cboItemCheck.DataSource = clsItemCheckDB.GetList(FactoryCode, ItemTypeCode, Line)
+        cboItemCheck.DataSource = clsItemCheckDB.GetList(FactoryCode, ItemTypeCode, Line, True)
         cboItemCheck.DataBind()
         cboItemCheck.Value = ItemCheckCode
 
@@ -208,11 +209,13 @@ Public Class FTAInquiry
                     cboType.SelectedIndex = 0
                     ItemTypeCode = cboType.Value
 
-                    cboItemCheck.DataSource = clsItemCheckDB.GetList(FactoryCode, ItemTypeCode, Line)
+                    cboItemCheck.DataSource = clsItemCheckDB.GetList(FactoryCode, ItemTypeCode, Line, True)
                     cboItemCheck.DataBind()
                     If cboItemCheck.Items.Count = 1 Then
                         cboItemCheck.SelectedIndex = 0
                         ItemCheckCode = cboItemCheck.Value
+                    Else
+                        cboItemCheck.SelectedIndex = 0
                     End If
                 End If
             End If
@@ -318,6 +321,9 @@ Public Class FTAInquiry
         Dim UserID As String = Session("user")
         cboType.DataSource = clsItemTypeDB.GetList(FactoryCode, LineCode, UserID)
         cboType.DataBind()
+        If cboType.Items.Count = 1 Then
+            cboType.SelectedIndex = 0
+        End If
     End Sub
 
     Private Sub cboLine_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboLine.Callback
@@ -326,18 +332,21 @@ Public Class FTAInquiry
         Dim UserID As String = Session("user") & ""
         cboLine.DataSource = ClsLineDB.GetListByProcess(UserID, FactoryCode, ProcessCode)
         cboLine.DataBind()
+        If cboLine.Items.Count = 1 Then
+            cboLine.SelectedIndex = 0
+        End If
     End Sub
 
     Private Sub GridTitle(ByVal pExl As ExcelWorksheet, cls As clsHeader)
         With pExl
             Try
-                .Cells(1, 1).Value = "Production Sample Input"
+                .Cells(1, 1).Value = "FTA Inquiry"
                 .Cells(1, 1, 1, 13).Merge = True
                 .Cells(1, 1, 1, 13).Style.HorizontalAlignment = HorzAlignment.Near
                 .Cells(1, 1, 1, 13).Style.VerticalAlignment = VertAlignment.Center
                 .Cells(1, 1, 1, 13).Style.Font.Bold = True
                 .Cells(1, 1, 1, 13).Style.Font.Size = 16
-                .Cells(1, 1, 1, 13).Style.Font.Name = "Segoe UI"
+                .Cells(1, 1, 5, 13).Style.Font.Name = "Segoe UI"
 
                 .Cells(3, 1, 3, 2).Value = "Factory"
                 .Cells(3, 1, 3, 2).Merge = True
@@ -351,38 +360,35 @@ Public Class FTAInquiry
                 .Cells(5, 1, 5, 2).Merge = True
                 .Cells(5, 3).Value = ": " & cls.LineGroup
 
-                .Cells(3, 6, 3, 6).Value = "Machine"
-                .Cells(3, 6, 3, 7).Merge = True
-                .Cells(3, 8).Value = ": " & cls.ProcessCode
+                .Cells(3, 5).Value = "Machine"
+                .Cells(3, 6).Value = ": " & cls.ProcessCode
 
-                .Cells(4, 6, 4, 6).Value = "Machine Process"
-                .Cells(4, 6, 4, 7).Merge = True
-                .Cells(4, 8).Value = ": " & cls.LineName
+                .Cells(4, 5).Value = "Machine Process"
+                .Cells(4, 6).Value = ": " & cls.LineName
 
-                .Cells(5, 6, 5, 6).Value = "Type"
-                .Cells(5, 6, 5, 7).Merge = True
-                .Cells(5, 8).Value = ": " & cls.ItemTypeName
+                .Cells(5, 5).Value = "Type"
+                .Cells(5, 6).Value = ": " & cls.ItemTypeName
 
-                .Cells(3, 12, 3, 12).Value = "Item Check"
-                .Cells(3, 12, 3, 13).Merge = True
-                .Cells(3, 14).Value = ": " & cls.ItemCheckName
+                .Cells(3, 9, 3, 10).Value = "Item Check"
+                .Cells(3, 9, 3, 10).Merge = True
+                .Cells(3, 11).Value = ": " & cls.ItemCheckName
 
-                .Cells(4, 12, 4, 12).Value = "Prod Date"
-                .Cells(4, 12, 4, 13).Merge = True
-                .Cells(4, 14).Value = ": " & cls.ProdDate
+                .Cells(4, 9, 4, 10).Value = "Prod Date"
+                .Cells(4, 9, 4, 10).Merge = True
+                .Cells(4, 11).Value = ": " & cls.ProdDate & " to " & cls.ProdDate2
 
-                .Cells(5, 12, 5, 12).Value = "Shift"
-                .Cells(5, 12, 5, 13).Merge = True
-                .Cells(5, 14).Value = ": " & cls.ShiftCode
+                .Cells(5, 9, 5, 10).Value = "MK Verification"
+                .Cells(5, 9, 5, 10).Merge = True
+                .Cells(5, 11).Value = ": " & cls.MKVerification
 
-                .Cells(6, 12, 6, 12).Value = "Sequence"
-                .Cells(6, 12, 6, 13).Merge = True
-                .Cells(6, 14).Value = ": " & cls.Seq
+                .Cells(6, 9, 6, 10).Value = "QC Verification"
+                .Cells(6, 9, 6, 10).Merge = True
+                .Cells(6, 11).Value = ": " & cls.QCVerification
 
-                Dim rgHdr As ExcelRange = .Cells(3, 3, 9, 4)
+                Dim rgHdr As ExcelRange = .Cells(3, 1, 6, 12)
                 rgHdr.Style.HorizontalAlignment = HorzAlignment.Near
                 rgHdr.Style.VerticalAlignment = VertAlignment.Center
-                rgHdr.Style.Font.Size = 10
+                rgHdr.Style.Font.Size = 8
                 rgHdr.Style.Font.Name = "Segoe UI"
             Catch ex As Exception
                 Throw New Exception(ex.Message)
@@ -394,8 +400,9 @@ Public Class FTAInquiry
         Dim FactoryCode As String = Split(e.Parameter, "|")(0)
         Dim ItemTypeCode As String = Split(e.Parameter, "|")(1)
         Dim LineCode As String = Split(e.Parameter, "|")(2)
-        cboItemCheck.DataSource = clsItemCheckDB.GetList(FactoryCode, ItemTypeCode, LineCode)
+        cboItemCheck.DataSource = clsItemCheckDB.GetList(FactoryCode, ItemTypeCode, LineCode, True)
         cboItemCheck.DataBind()
+        cboItemCheck.SelectedIndex = 0
     End Sub
 
     Protected Sub grid_BatchUpdate(sender As Object, e As ASPxDataBatchUpdateEventArgs)
@@ -425,17 +432,16 @@ Public Class FTAInquiry
                 .Cells(1, 8, 1, 9).Merge = True
                 .Cells(2, 8).Value = "PIC"
                 .Cells(2, 9).Value = "Date"
-                .Cells(1, 10, 2, 10).Value = "Remark"
+                .Cells(1, 10, 2, 12).Value = "Remark"
                 .Column(1).Width = 12
                 .Column(4).Width = 35
-                .Column(5).Width = 20
+                .Column(5).Width = 27
                 .Column(7).Width = 12
                 .Column(9).Width = 12
-                For iCol = 1 To 10
-                    If iCol < 6 Or iCol > 9 Then
-                        .Cells(1, iCol, 2, iCol).Merge = True
-                    End If
+                For iCol = 1 To 5
+                    .Cells(1, iCol, 2, iCol).Merge = True
                 Next
+                .Cells(1, 10, 2, 12).Merge = True
                 .Cells(3, 1, nRow + 2, 1).Style.Numberformat.Format = "dd MMM yyyy"
                 .Cells(3, 7, nRow + 2, 7).Style.Numberformat.Format = "dd MMM yyyy"
                 .Cells(3, 9, nRow + 2, 9).Style.Numberformat.Format = "dd MMM yyyy"
@@ -457,12 +463,33 @@ Public Class FTAInquiry
                     .Cells(j, 8).Value = dt.Rows(iRow)("QCVerificationUser")
                     .Cells(j, 9).Value = dt.Rows(iRow)("QCVerificationDate")
                     .Cells(j, 10).Value = dt.Rows(iRow)("Remark")
+                    .Cells(j, 10, j, 12).Merge = True
                 Next
+                ExcelHeader(ws, 1, 1, 2, 12)
+                ExcelBorder(ws, 1, 1, nRow + 2, 12)
+                ExcelFont(ws, 1, 1, nRow + 2, 12, 8)
+
+                .InsertRow(1, 6)
+
+                Dim Hdr As New clsHeader
+                Hdr.FactoryCode = cboFactory.Value
+                Hdr.FactoryName = cboFactory.Text
+                Hdr.ItemTypeCode = cboType.Value
+                Hdr.ItemTypeName = cboType.Text
+                Hdr.LineCode = cboLine.Value
+                Hdr.LineName = cboLine.Text
+                Hdr.ItemCheckCode = cboItemCheck.Value
+                Hdr.ItemCheckName = cboItemCheck.Text
+                Hdr.ProdDate = Convert.ToDateTime(dtDate.Value).ToString("dd MMM yyyy")
+                Hdr.ProdDate2 = Convert.ToDateTime(dtTo.Value).ToString("dd MMM yyyy")
+                Hdr.MKVerification = cboMK.Text
+                Hdr.QCVerification = cboQC.Text
+                Hdr.ProcessGroup = cboProcessGroup.Text
+                Hdr.LineGroup = cboLineGroup.Text
+                Hdr.ProcessCode = cboProcess.Text
+                GridTitle(ws, Hdr)
             End With
 
-            ExcelHeader(ws, 1, 1, 2, 10)
-            ExcelBorder(ws, 1, 1, nRow + 2, 10)
-            ExcelFont(ws, 1, 1, nRow + 2, 10, 8)
             Dim stream As MemoryStream = New MemoryStream(Pck.GetAsByteArray())
             Response.AppendHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
             Response.AppendHeader("Content-Disposition", "attachment; filename=FTAInquiry_" & Format(Date.Now, "yyyy-MM-dd") & ".xlsx")
@@ -588,6 +615,9 @@ Public Class FTAInquiry
         Dim UserID As String = Session("user") & ""
         cboLineGroup.DataSource = clsLineGroupDB.GetList(UserID, FactoryCode, ProcessGroup)
         cboLineGroup.DataBind()
+        If cboLineGroup.Items.Count = 1 Then
+            cboLineGroup.SelectedIndex = 0
+        End If
     End Sub
 
     Private Sub cboProcess_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboProcess.Callback
@@ -597,6 +627,9 @@ Public Class FTAInquiry
         Dim UserID As String = Session("user") & ""
         cboProcess.DataSource = clsProcessDB.GetList(UserID, FactoryCode, ProcessGroup, LineGroup)
         cboProcess.DataBind()
+        If cboProcess.Items.Count = 1 Then
+            cboProcess.SelectedIndex = 0
+        End If
     End Sub
 
     Protected Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click

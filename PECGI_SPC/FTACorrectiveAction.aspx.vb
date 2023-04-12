@@ -562,6 +562,9 @@ Public Class FTACorrectiveAction
         Dim UserID As String = Session("user")
         cboType.DataSource = clsItemTypeDB.GetList(FactoryCode, LineCode, UserID)
         cboType.DataBind()
+        If cboType.Items.Count = 1 Then
+            cboType.SelectedIndex = 0
+        End If
     End Sub
 
     Private Sub cboLine_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboLine.Callback
@@ -570,6 +573,9 @@ Public Class FTACorrectiveAction
         Dim UserID As String = Session("user") & ""
         cboLine.DataSource = ClsLineDB.GetListByProcess(UserID, FactoryCode, ProcessCode)
         cboLine.DataBind()
+        If cboLine.Items.Count = 1 Then
+            cboLine.SelectedIndex = 0
+        End If
     End Sub
 
     Private Sub GridTitle(ByVal pExl As ExcelWorksheet, cls As clsHeader)
@@ -640,6 +646,9 @@ Public Class FTACorrectiveAction
         Dim LineCode As String = Split(e.Parameter, "|")(2)
         cboItemCheck.DataSource = clsItemCheckDB.GetList(FactoryCode, ItemTypeCode, LineCode)
         cboItemCheck.DataBind()
+        If cboItemCheck.Items.Count = 1 Then
+            cboItemCheck.SelectedIndex = 0
+        End If
     End Sub
 
     Private Sub DownloadExcel()
@@ -830,6 +839,9 @@ Public Class FTACorrectiveAction
         Dim UserID As String = Session("user") & ""
         cboProcessGroup.DataSource = clsProcessGroupDB.GetList(UserID, FactoryCode)
         cboProcessGroup.DataBind()
+        If cboProcessGroup.Items.Count = 1 Then
+            cboProcessGroup.SelectedIndex = 0
+        End If
     End Sub
 
     Private Sub cboLineGroup_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboLineGroup.Callback
@@ -838,6 +850,9 @@ Public Class FTACorrectiveAction
         Dim UserID As String = Session("user") & ""
         cboLineGroup.DataSource = clsLineGroupDB.GetList(UserID, FactoryCode, ProcessGroup)
         cboLineGroup.DataBind()
+        If cboLineGroup.Items.Count = 1 Then
+            cboLineGroup.SelectedIndex = 0
+        End If
     End Sub
 
     Private Sub cboProcess_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboProcess.Callback
@@ -847,6 +862,9 @@ Public Class FTACorrectiveAction
         Dim UserID As String = Session("user") & ""
         cboProcess.DataSource = clsProcessDB.GetList(UserID, FactoryCode, ProcessGroup, LineGroup)
         cboProcess.DataBind()
+        If cboProcess.Items.Count = 1 Then
+            cboProcess.SelectedIndex = 0
+        End If
     End Sub
 
     Private Sub gridFTA_CustomCallback(sender As Object, e As ASPxGridViewCustomCallbackEventArgs) Handles gridFTA.CustomCallback
