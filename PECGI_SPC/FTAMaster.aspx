@@ -602,7 +602,7 @@
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
                 </dx:GridViewDataTextColumn>
 
-                <dx:GridViewDataTextColumn Caption="Action" ShowInCustomizationForm="True" VisibleIndex="8" Width="200px">
+                <dx:GridViewDataTextColumn Caption="Action" ShowInCustomizationForm="True" VisibleIndex="8" Width="50px">
                         <DataItemTemplate>
                             <table>
                                 <tr>
@@ -621,7 +621,7 @@
                 </CellStyle>
             </dx:GridViewDataTextColumn>
                 
-                <dx:GridViewDataTextColumn Caption="Instruksi Kerja (IK)" FieldName="IK" ShowInCustomizationForm="True" VisibleIndex="9" Width="200px">
+                <dx:GridViewDataTextColumn Caption="Instruksi Kerja (IK)" FieldName="IK" ShowInCustomizationForm="True" VisibleIndex="9" Width="100px">
                         <DataItemTemplate>
                             <table>
                                 <tr>
@@ -644,12 +644,12 @@
                 </HeaderStyle>
                 <CellStyle HorizontalAlign="Center">
                 </CellStyle>
-                <Settings AutoFilterCondition="Contains" AllowHeaderFilter="False" ></Settings>
+                <%--<Settings AutoFilterCondition="Contains" AllowHeaderFilter="False" ></Settings>--%>
             </dx:GridViewDataTextColumn>
                 
                 <dx:GridViewDataTextColumn Caption="Check Order" FieldName="CheckOrder"
-                    VisibleIndex="10" Width="200px" Settings-AutoFilterCondition="Contains">
-                    <PropertiesTextEdit MaxLength="35" Width="195px">
+                    VisibleIndex="10" Width="50px" Settings-AutoFilterCondition="Contains">
+                    <PropertiesTextEdit MaxLength="45" Width="35px">
                         <Style HorizontalAlign="Left"></Style>
                     </PropertiesTextEdit>
                     <Settings AutoFilterCondition="Contains"></Settings>
@@ -659,7 +659,7 @@
                     <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
                     <Paddings PaddingLeft="5px"></Paddings>
                     </HeaderStyle>
-                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
+                    <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"></CellStyle>
                 </dx:GridViewDataTextColumn>
                 
                 <dx:GridViewDataTextColumn Caption="Remark" FieldName="Remark"
