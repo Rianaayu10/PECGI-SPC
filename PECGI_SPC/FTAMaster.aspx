@@ -31,6 +31,10 @@
             cboLine.SetEnabled(false);
             cboLine.PerformCallback(cboFactory.GetValue());
         }
+        function cboLineChanged(s, e) {
+            cboItemCheck.SetEnabled(false);
+            cboItemCheck.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue());
+        }
         function cboTypeChanged(s, e) {
             cboItemCheck.SetEnabled(false);
             cboItemCheck.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue());
@@ -264,7 +268,7 @@
                 <td style="width:130px; padding:5px 0px 0px 0px">
                     <dx:ASPxComboBox ID="cboLine" runat="server" Theme="Office2010Black" TextField="LineName" ClientInstanceName="cboLine" ValueField="LineCode" Font-Names="Segoe UI" 
                         Font-Size="9pt" Height="25px" Width="190px" TabIndex="4" NullValueItemDisplayText="{1}">
-                        <ClientSideEvents EndCallback="function(s, e) {cboLine.SetEnabled(true);}"/>
+                        <ClientSideEvents SelectedIndexChanged="cboLineChanged" EndCallback="function(s, e) {cboLine.SetEnabled(true);}"/>
                         <ItemStyle Height="10px" Paddings-Padding="4px">
                             <Paddings Padding="4px"></Paddings>
                         </ItemStyle>
