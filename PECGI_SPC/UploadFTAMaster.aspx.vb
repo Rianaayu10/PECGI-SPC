@@ -552,14 +552,13 @@ Public Class UploadFTAMaster
                     If errList.Count = 0 Then
                         For row = 4 To totalRows - 1
                             Try
-                                For col = 1 To 4
+                                For col = 1 To 3
                                     lstContent.Add(IIf(Trim(oSheet.Cells(row, col).Value) = "", "", Trim(oSheet.Cells(row, col).Value)))
                                 Next
                                 dr = dt.Rows.Add()
                                 dr(0) = lstContent(0)
                                 dr(1) = lstContent(1)
                                 dr(2) = lstContent(2)
-                                dr(3) = lstContent(3)
                                 lstContent.Clear()
                             Catch ex As Exception
                             End Try
