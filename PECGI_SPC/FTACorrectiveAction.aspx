@@ -321,6 +321,10 @@
             pcIK.Show();
         }
 
+        function OpenIOT() {
+            window.open('http://192.168.200.102:8083/', '_blank');
+        }
+
         function SPCSample() {
             var errmsg = '';
             if(cboFactory.GetText() == '') {
@@ -752,6 +756,7 @@
                                     Height="25px" Text="IOT Traceability" Theme="Office2010Silver" UseSubmitBehavior="False" 
                                     Width="120px" TabIndex="10">
                                     <Paddings Padding="2px" />
+                                <ClientSideEvents Click="OpenIOT" />
                                 </dx:ASPxButton>
                         </td>
                         <td style="padding-right:5px">

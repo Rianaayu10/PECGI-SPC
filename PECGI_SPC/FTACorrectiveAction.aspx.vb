@@ -10,8 +10,6 @@ Imports OfficeOpenXml
 Imports System.IO
 Imports DevExpress.Utils
 Imports OfficeOpenXml.Style
-Imports DevExpress.Web.ASPxDiagram
-Imports DevExpress.Web.ASPxTreeList
 
 Public Class FTACorrectiveAction
     Inherits System.Web.UI.Page
@@ -400,6 +398,7 @@ Public Class FTACorrectiveAction
             grid.JSProperties("cpQCVerificationDate") = FTA.QCVerificationDate
             grid.JSProperties("cpQCVerificationUser") = FTA.QCVerificationUser
             txtRemark.Text = FTA.Remark
+            btnSubmit.ClientEnabled = Not MKVerified And Not QCVerified
         End If
         grid.DataSource = FTAList
         grid.DataBind()
