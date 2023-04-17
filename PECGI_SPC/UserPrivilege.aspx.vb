@@ -26,11 +26,13 @@ Public Class UserPrivilege
 #Region "Procedure"
     Private Sub up_GridLoad(ByVal pUserID As String)
         'PENGECEKAN VALIDASI TOKEN
-        If Session("Action") = "SSO" Then
-            Dim token = Session("token")
-            Dim SSOHost As String = ConfigurationManager.AppSettings("SSOUrl").ToString()
-            If sGlobal.VerifyToken(token, SSOHost) = False Then
-                Response.Redirect(SSOHost + "/account/login?logout=1")
+        If Session("Action") IsNot Nothing Then
+            If Session("Action").ToString = "SSO" Then
+                Dim token = Session("token")
+                Dim SSOHost As String = ConfigurationManager.AppSettings("SSOUrl").ToString()
+                If sGlobal.VerifyToken(token, SSOHost) = False Then
+                    Response.Redirect(SSOHost + "/account/login?logout=1")
+                End If
             End If
         End If
 

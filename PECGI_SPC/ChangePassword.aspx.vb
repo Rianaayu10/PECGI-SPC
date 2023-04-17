@@ -50,6 +50,22 @@ Public Class ChangePassword
 
 #Region "FORM EVENTS"
     Private Sub Page_Init(ByVal sender As Object, ByVale As System.EventArgs) Handles Me.Init
+        'PENGECEKAN VALIDASI TOKEN
+        If Session("Action") IsNot Nothing Then
+            If Session("Action").ToString = "SSO" Then
+                Dim token = Session("token")
+                Dim SSOHost As String = ConfigurationManager.AppSettings("SSOUrl").ToString()
+                If sGlobal.VerifyToken(token, SSOHost) = False Then
+                    Response.Redirect(SSOHost + "/account/login?logout=1")
+                End If
+            End If
+        End If
+
+        'PENGECEKAN SESSION USER
+        If Session("user") Is Nothing Then
+            Response.Redirect("Default.aspx")
+        End If
+
         MenuID = "Z040"
         sGlobal.getMenu(MenuID)
         Master.SiteTitle = MenuID & " - " & sGlobal.menuName
