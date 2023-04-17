@@ -4,6 +4,9 @@ Imports System.Data.SqlClient
 Imports System.Configuration
 Imports System.Math
 Imports System.Text
+Imports System.Net
+Imports System.IO
+Imports Newtonsoft.Json.Linq
 
 Public Module sGlobal
 #Region "DECLARATION"
@@ -17,63 +20,33 @@ Public Module sGlobal
         Warning = 2 ' kuning
         ErrorMsg = 3 ' merah
     End Enum
+#End Region
 
+#Region "VERIFY"
+    Public Function VerifyToken(Token, SSOHost) As Boolean
+        Dim URL As String = SSOHost & "/api/sso/verifytoken?token=" & Token
+        Dim web = CType(WebRequest.Create(URL), HttpWebRequest)
+        Dim validToken As Boolean = False
+        Using response = web.GetResponse()
+            Using responseStream = response.GetResponseStream()
+                If responseStream IsNot Nothing Then
+                    Using streamReader = New StreamReader(responseStream)
+                        Dim rawResponse As String = streamReader.ReadToEnd()
+                        Dim startChar As Char() = {"("c}
+                        Dim json As JObject = JObject.Parse(rawResponse)
+
+                        If json("Status").ToString() = "200" Then
+                            validToken = True
+                        End If
+                    End Using
+                End If
+            End Using
+        End Using
+        Return validToken
+    End Function
 #End Region
 
 #Region "LOGIN"
-    'Public Sub spScr_UserLogin(ByVal _pShortLess As pShortless)
-    '    Try
-    '        Using _sConn As New SqlConnection(Sconn.Stringkoneksi)
-    '            Dim param As SqlCommand = New SqlCommand("spSc_Usersetup", _sConn)
-
-    '            With param
-    '                .CommandTimeout = 0
-    '                .CommandType = CommandType.StoredProcedure
-    '                .Parameters.AddWithValue("@User_ID_Login", _pShortLess.pDesc1)
-    '                .Parameters.AddWithValue("@Password", "")
-    '            End With
-
-    '            _sConn.Open()
-    '            param.ExecuteNonQuery()
-    '            _sConn.Close()
-    '        End Using
-    '    Catch ex As Exception
-    '        Throw
-    '    End Try
-    'End Sub
-
-    'Public Function spScr_UserValidation(ByVal pDesc1 As String, _
-    '                                            ByVal pDesc2 As String) As pShortless
-    '    Dim _pShortLess As pShortless = Nothing
-
-    '    Try
-    '        Using _sConn As New SqlConnection(Sconn.Stringkoneksi)
-    '            Dim param As SqlCommand = New SqlCommand("spScr_UserValidation", _sConn)
-    '            With param
-    '                .CommandTimeout = 0
-    '                .CommandType = CommandType.StoredProcedure
-    '                .Parameters.AddWithValue("@UserID", pDesc1)
-    '                .Parameters.AddWithValue("@Password", pDesc2)
-    '            End With
-    '            _sConn.Open()
-    '            Using myReader As SqlDataReader = param.ExecuteReader(CommandBehavior.CloseConnection)
-    '                If myReader.Read() Then
-    '                    _pShortLess = New pShortless(myReader.GetValue(myReader.GetOrdinal("UserID")))
-    '                    If myReader.IsDBNull(myReader.GetOrdinal("Name")) = False Then _
-    '                            _pShortLess.pDesc2 = myReader.GetValue(myReader.GetOrdinal("Name"))
-    '                    If myReader.IsDBNull(myReader.GetOrdinal("StatusAdminCls")) = False Then _
-    '                           _pShortLess.pDesc3 = myReader.GetValue(myReader.GetOrdinal("StatusAdminCls"))
-    '                End If
-    '                myReader.Close()
-    '            End Using
-    '            _sConn.Close()
-    '        End Using
-    '    Catch ex As Exception
-    '        'MsgBox(Err.Description)
-    '    End Try
-    '    Return _pShortLess
-    'End Function
-
     Public Function Auth_UserInsert(ByVal pUserID As String, ByVal pMenuID As String) As Boolean
         Dim retVal As Boolean = False
 
@@ -104,26 +77,6 @@ Public Module sGlobal
         Dim retVal As Boolean = False
         Using sqlConn As New SqlConnection(Sconn.Stringkoneksi)
             sqlConn.Open()
-
-            'If pMenuID = "Z020" Or pMenuID = "Z030" Then
-            '    Dim q As String = "select AllowUpdate from dbo.spc_UserSetup A" & vbCrLf &
-            '                  "Inner Join dbo.spc_UserPrivilege B ON A.AppID = B.AppID AND A.UserID = B.UserID AND B.MenuID ='" & pMenuID & "'" & vbCrLf &
-            '                  "where A.UserID = '" & pUserID & "' and A.AdminStatus = 1"
-            '    Dim cmd As New SqlCommand(q, sqlConn)
-            '    Dim rd As SqlDataReader = cmd.ExecuteReader()
-            '    If rd.Read() Then
-            '        If rd("AllowUpdate") = "1" Then
-            '            retVal = True
-            '        ElseIf rd("AllowUpdate") = "0" Then
-            '            retVal = False
-            '        End If
-            '        rd.Close()
-            '        Return retVal
-            '    End If
-            '    rd.Close()
-            'End If
-
-
             Dim ls_SQL As String = "SELECT AllowUpdate FROM dbo.spc_UserPrivilege WHERE AppID = 'SPC' AND UserID = '" & Trim(pUserID) & "' AND MenuID = '" & Trim(pMenuID) & "'"
             Dim sqlCmd As New SqlCommand(ls_SQL, sqlConn)
             Dim sqlRdr As SqlDataReader = sqlCmd.ExecuteReader()
@@ -146,35 +99,6 @@ Public Module sGlobal
         Dim retVal As Boolean = False
         Using sqlConn As New SqlConnection(Sconn.Stringkoneksi)
             sqlConn.Open()
-
-            'GET ADMIN STATUS
-            'Dim sql As String = "SELECT AdminStatus FROM dbo.spc_Usersetup WHERE UserID = '" & pUserID & "' AND AppID = 'SPC'"
-            'Dim sql_cmd As New SqlCommand(sql, sqlConn)
-            'Dim sql_rd As SqlDataReader = sql_cmd.ExecuteReader()
-            'Dim AdminStatus As String = ""
-            'If sql_rd.Read() Then
-            '    AdminStatus = sql_rd("AdminStatus")
-            'End If
-            'sql_rd.Close()
-
-            'If AdminStatus = "1" Then
-            '    Dim q As String = "Select AllowAccess from dbo.spc_UserSetup A" & vbCrLf &
-            '                  "Inner Join dbo.spc_UserPrivilege B On A.AppID = B.AppID And A.UserID = B.UserID And B.MenuID ='" & pMenuID & "'" & vbCrLf &
-            '                  "where A.UserID = '" & pUserID & "' and A.AdminStatus = 1"
-            '    Dim cmd As New SqlCommand(q, sqlConn)
-            '    Dim rd As SqlDataReader = cmd.ExecuteReader()
-            '    If rd.Read() Then
-            '        If rd("AllowAccess") = "1" Then
-            '            retVal = True
-            '        ElseIf rd("AllowAccess") = "0" Then
-            '            retVal = False
-            '        End If
-            '        rd.Close()
-            '        Return retVal
-            '    End If
-            '    rd.Close()
-            'End If
-
 
             Dim ls_SQL As String = "SELECT AllowAccess FROM dbo.spc_UserPrivilege WHERE AppID = 'SPC' AND UserID = '" & Trim(pUserID) & "' AND MenuID = '" & Trim(pMenuID) & "'"
             Dim sqlCmd As New SqlCommand(ls_SQL, sqlConn)

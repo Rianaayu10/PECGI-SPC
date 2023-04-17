@@ -9,6 +9,7 @@ Imports DevExpress.Web
 Imports DevExpress.Web.Data
 Public Class UserPrivilege
     Inherits System.Web.UI.Page
+    Dim pUser = ""
 
 #Region "Declaration"
     Dim RegisterUser As String = ""
@@ -24,6 +25,26 @@ Public Class UserPrivilege
 
 #Region "Procedure"
     Private Sub up_GridLoad(ByVal pUserID As String)
+        'PENGECEKAN VALIDASI TOKEN
+        If Session("Action") = "SSO" Then
+            Dim token = Session("token")
+            Dim SSOHost As String = ConfigurationManager.AppSettings("SSOUrl").ToString()
+            If sGlobal.VerifyToken(token, SSOHost) = False Then
+                Response.Redirect(SSOHost + "/account/login?logout=1")
+            End If
+        End If
+
+        'PENGECEKAN SESSION USER
+        If Session("user") Is Nothing Then
+            Response.Redirect("Default.aspx")
+        End If
+
+        pUser = Session("user")
+        AuthAccess = sGlobal.Auth_UserAccess(pUser, MenuID)
+        If AuthAccess = False Then
+            Response.Redirect("~/Main.aspx")
+        End If
+
         Dim pErr As String = ""
         Dim dsMenu As List(Of Cls_ss_UserMenu)
         dsMenu = clsUserSetupDB.GetListMenu(pUserID, pErr)

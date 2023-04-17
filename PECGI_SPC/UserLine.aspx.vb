@@ -67,7 +67,21 @@ Public Class UserLine
 #End Region
 
 #Region "Initialization"
-    Private Sub Page_Init(sender As Object, e As System.EventArgs) Handles Me.Init
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        'PENGECEKAN VALIDASI TOKEN
+        If Session("Action") = "SSO" Then
+            Dim token = Session("token")
+            Dim SSOHost As String = ConfigurationManager.AppSettings("SSOUrl").ToString()
+            If sGlobal.VerifyToken(token, SSOHost) = False Then
+                Response.Redirect(SSOHost + "/account/login?logout=1")
+            End If
+        End If
+
+        'PENGECEKAN SESSION USER
+        If Session("user") Is Nothing Then
+            Response.Redirect("Default.aspx")
+        End If
+
         MenuID = "Z030"
         sGlobal.getMenu(MenuID)
         Master.SiteTitle = MenuID & " - " & sGlobal.menuName
@@ -84,8 +98,6 @@ Public Class UserLine
             btnSave.Enabled = False
         End If
 
-    End Sub
-    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
             If Request.QueryString("prm") Is Nothing Then
                 UserID = RegisterUser

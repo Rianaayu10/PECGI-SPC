@@ -22,33 +22,21 @@ Public Class UserSetup
     Public AuthAccess As Boolean = False
 #End Region
 
-#Region "Procedure"
-    Private Sub up_GridLoad()
-        Dim Users As List(Of clsUserSetup)
-        Try
-            Users = clsUserSetupDB.GetList()
-            Grid.DataSource = Users
-            Grid.DataBind()
-        Catch ex As Exception
-            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
-        End Try
-    End Sub
-
-    Private Sub show_error(ByVal msgType As MsgTypeEnum, ByVal ErrMsg As String, ByVal pVal As Integer)
-        Grid.JSProperties("cp_message") = ErrMsg
-        Grid.JSProperties("cp_type") = msgType
-        Grid.JSProperties("cp_val") = pVal
-    End Sub
-#End Region
-
 #Region "Initialization"
-    Private Sub Page_Init(ByVal sender As Object, ByVale As System.EventArgs) Handles Me.Init
-        If Not Page.IsPostBack Then
-            up_GridLoad()
-        End If
-    End Sub
-
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+        If Session("Action") = "SSO" Then
+            Dim token = Session("token")
+            Dim SSOHost As String = ConfigurationManager.AppSettings("SSOUrl").ToString()
+            If sGlobal.VerifyToken(token, SSOHost) = False Then
+                Response.Redirect(SSOHost + "/account/login?logout=1")
+            End If
+        End If
+
+        If Session("user") Is Nothing Then
+            Response.Redirect("Default.aspx")
+        End If
+
         MenuID = "Z010"
         MenuID_UserPrivilege = "Z020"
         MenuID_UserLine = "Z030"
@@ -64,7 +52,6 @@ Public Class UserSetup
         End If
 
         Dim commandColumn = TryCast(Grid.Columns(0), GridViewCommandColumn)
-
         AuthUpdate = sGlobal.Auth_UserUpdate(pUser, MenuID)
         If AuthUpdate = False Then
             commandColumn.ShowEditButton = False
@@ -91,6 +78,29 @@ Public Class UserSetup
             Dim LinkLine = TryCast(Grid.Columns(2), GridViewDataTextColumn)
             LinkLine.Visible = False
         End If
+
+        If Not Page.IsPostBack Then
+            up_GridLoad()
+        End If
+    End Sub
+#End Region
+
+#Region "Procedure"
+    Private Sub up_GridLoad()
+        Dim Users As List(Of clsUserSetup)
+        Try
+            Users = clsUserSetupDB.GetList()
+            Grid.DataSource = Users
+            Grid.DataBind()
+        Catch ex As Exception
+            show_error(MsgTypeEnum.ErrorMsg, ex.Message, 1)
+        End Try
+    End Sub
+
+    Private Sub show_error(ByVal msgType As MsgTypeEnum, ByVal ErrMsg As String, ByVal pVal As Integer)
+        Grid.JSProperties("cp_message") = ErrMsg
+        Grid.JSProperties("cp_type") = msgType
+        Grid.JSProperties("cp_val") = pVal
     End Sub
 #End Region
 

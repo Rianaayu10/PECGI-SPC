@@ -1,4 +1,8 @@
-﻿Public Class _Default
+﻿Imports System.IO
+Imports System.Net
+Imports Newtonsoft.Json.Linq
+
+Public Class _Default
     Inherits System.Web.UI.Page
     Dim clsDESEncryption As New clsDESEncryption("TOS")
 
@@ -8,25 +12,15 @@
 #End Region
 
 #Region "Control Events"
-    Protected Sub btnLogin_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnLogin.Click
-        Try
-            If validation(txtusername.Text, txtpassword.Text) Then
-                Session("user") = txtusername.Text
-
-                Dim B02User As String = Session("B02User") & ""
-                If B02User.Trim.ToUpper <> txtusername.Text.Trim.ToUpper Then
-                    Session("B02ProcessGroup") = ""
-                End If
-                Response.Redirect("Main.aspx")
-            End If
-        Catch ex As Exception
-            lblInfo.Text = ex.Message
-        End Try
-    End Sub
     Private Sub _Default_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
+        Dim SSOHost As String = ConfigurationManager.AppSettings("SSOUrl").ToString()
+
         If Request.QueryString("LogOut") IsNot Nothing Then
-            Session.Clear()
+            If Session("Token") IsNot Nothing Then
+                Session.Clear()
+                Response.Redirect(SSOHost + "/account/login?logout=1")
+            End If
         End If
 
         If Request.QueryString("Link") IsNot Nothing Then
@@ -46,15 +40,69 @@
 
             If validation(User, Password) Then
                 Session("user") = User
-                If ActionForm = "SPCNotification" Then
-                    Response.Redirect(ActionLink)
-                ElseIf ActionForm = "SPCSSO" Then
-                    Response.Redirect("Main.aspx")
-                End If
+                Session("Action") = ActionForm
+                Response.Redirect(ActionLink)
             End If
         End If
+
+        If Request.QueryString("Token") IsNot Nothing Then
+            Dim token = Request.QueryString("Token").ToString()
+            Dim URL As String = SSOHost & "/api/sso/verifytoken?token=" & token
+            Dim web = CType(WebRequest.Create(URL), HttpWebRequest)
+
+            Dim validToken As Boolean = False
+
+            Using response = web.GetResponse()
+                Using responseStream = response.GetResponseStream()
+                    If responseStream IsNot Nothing Then
+                        Using streamReader = New StreamReader(responseStream)
+                            Dim rawResponse As String = streamReader.ReadToEnd()
+                            Dim startChar As Char() = {"("c}
+                            Dim json As JObject = JObject.Parse(rawResponse)
+
+                            If json("Status").ToString() = "200" Then
+                                Session("Token") = token
+                                Dim userLogin As clsUser = json("Data").ToObject(Of clsUser)()
+                                Session("user") = userLogin.UserID
+                                Session("LogUserName") = userLogin.FullName
+                                Session("AdminStatus") = userLogin.StatusAdmin
+                                Session("FullName") = userLogin.FullName
+                                Session("FactoryCode") = "F1"
+                                validToken = True
+                            End If
+                        End Using
+                    End If
+                End Using
+            End Using
+
+            If validToken = True Then
+                Session("Action") = "SSO"
+                Response.Redirect("Main.aspx")
+            Else
+                Response.Redirect(SSOHost + "/account/login?logout=1")
+            End If
+        End If
+
         btnVersion.Visible = False
         btnVersion.Text = "Version: " & System.Reflection.Assembly.GetExecutingAssembly.GetName.Version.ToString()
+    End Sub
+
+    Protected Sub btnLogin_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnLogin.Click
+        Try
+            If validation(txtusername.Text, txtpassword.Text) Then
+                Session("user") = txtusername.Text
+
+                Dim B02User As String = Session("B02User") & ""
+                If B02User.Trim.ToUpper <> txtusername.Text.Trim.ToUpper Then
+                    Session("B02ProcessGroup") = ""
+                End If
+
+                Response.Redirect("Main.aspx")
+                Session("Action") = "SPC"
+            End If
+        Catch ex As Exception
+            lblInfo.Text = ex.Message
+        End Try
     End Sub
 #End Region
 
