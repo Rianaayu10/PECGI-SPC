@@ -40,7 +40,7 @@ Public Class _Default
 
             If validation(User, Password) Then
                 Session("user") = User
-                Session("Action") = ActionForm
+                Session("Action") = "Notification"
                 Response.Redirect(ActionLink)
             End If
         End If

@@ -29,6 +29,7 @@
             HideValue.Set('IOT_ItemCode', s.cp_ItemCode);
             HideValue.Set('IOT_InstructionNo', s.cp_InstructionNo);
             HideValue.Set('IOT_LotNo', s.cp_LotNo);
+            HideValue.Set('Token', s.cp_Token);
 
             var USL = s.cpUSL, LSL = s.cpLSL, UCL = s.cpUCL, LCL = s.cpLCL; CL = s.cpCL; CSCode = s.cpCSCode; RUCL = s.cpRUCL; ChartSetupCount = s.cpChartSetupCount;
             var MIN = s.cpMIN, MAX = s.cpMAX; AVG = s.cpAVG, R = s.cpR, C = s.cpC, NG = s.cpNG, XBarUCL = s.cpXBarUCL, XBarLCL = s.cpXBarLCL;
@@ -114,9 +115,11 @@
             if (s.cp_GridTot > 1) {
                 btnExcel.SetEnabled(true);
                 btnSPCSample.SetEnabled(true);
-                btnIOTProcess.SetEnabled(true);
-                btnIOTTraceability.SetEnabled(true);
                 btnCorrectiveAction.SetEnabled(true);
+                if (s.cp_Action == "SSO") {
+                    btnIOTProcess.SetEnabled(true);
+                    btnIOTTraceability.SetEnabled(true);
+                } 
             } else {
                 btnExcel.SetEnabled(false);
                 btnSPCSample.SetEnabled(false);
@@ -268,6 +271,7 @@
             HideValue.Set('IOT_ItemCode', s.cp_ItemCode);
             HideValue.Set('IOT_InstructionNo', s.cp_InstructionNo);
             HideValue.Set('IOT_LotNo', s.cp_LotNo);
+            HideValue.Set('Token', s.cp_Token);
 
             var USL = s.cpUSL, LSL = s.cpLSL, UCL = s.cpUCL, LCL = s.cpLCL; CL = s.cpCL; CSCode = s.cpCSCode; RUCL = s.cpRUCL; ChartSetupCount = s.cpChartSetupCount;
             var MIN = s.cpMIN, MAX = s.cpMAX; AVG = s.cpAVG, R = s.cpR, C = s.cpC, NG = s.cpNG, XBarUCL = s.cpXBarUCL, XBarLCL = s.cpXBarLCL;
@@ -352,9 +356,11 @@
             if (s.cp_GridTot > 1) {
                 btnExcel.SetEnabled(true);
                 btnSPCSample.SetEnabled(true);
-                btnIOTProcess.SetEnabled(true);
-                btnIOTTraceability.SetEnabled(true);
                 btnCorrectiveAction.SetEnabled(true);
+                if (s.cp_Action == "SSO") {
+                    btnIOTProcess.SetEnabled(true);
+                    btnIOTTraceability.SetEnabled(true);
+                }
             } else {
                 btnExcel.SetEnabled(false);
                 btnSPCSample.SetEnabled(false);
@@ -585,6 +591,8 @@
             var Shift = HideValue.Get('ShiftCode')
             var Item = HideValue.Get('IOT_ItemCode')
             var InstructionNo = HideValue.Get('IOT_InstructionNo')
+            var Token = HideValue.Get('Token')
+
             var months = {
                 Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
                 Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
@@ -592,7 +600,7 @@
             var p = HideValue.Get('ProdDate').split(' ');
             var Date = p[2] + "-" + months[p[1]] + "-" + p[0];
 
-            var IOT_URL = URL + 'AssyReport/Index?ReportType=018&Factory=' + FactoryCode + '&ProcessGroup=' + ProcessGroup + '&LineGroup=' + LineGroup + '&Process=' + Process + '&Line=' + Line + '&Date=' + Date + '&InstructionNo=' + InstructionNo + '&Shift=' + Shift + '&Item=' + Item + '&UserID=SPC';
+            var IOT_URL = URL + 'AssyReport/Index?ReportType=018&Factory=' + FactoryCode + '&ProcessGroup=' + ProcessGroup + '&LineGroup=' + LineGroup + '&Process=' + Process + '&Line=' + Line + '&Date=' + Date + '&InstructionNo=' + InstructionNo + '&Shift=' + Shift + '&Item=' + Item + '&UserID=SPC' + '&Token=' + Token;
             window.open(IOT_URL, '_blank');
         }
 
@@ -601,8 +609,9 @@
             var URL = HideValue.Get('IOT_URL')
             var Item = HideValue.Get('IOT_ItemCode')
             var LotNo = HideValue.Get('IOT_LotNo')
+            var Token = HideValue.Get('Token')
 
-            var IOT_URL = URL + 'TraceabilityReport/Index?ItemCls=02&Item=' + Item + '&LotNo=' + LotNo + '&isExplosion=1&UserID=SPC';
+            var IOT_URL = URL + 'TraceabilityReport/Index?ItemCls=02&Item=' + Item + '&LotNo=' + LotNo + '&isExplosion=1&UserID=SPC' + '&Token=' + Token;
             window.open(IOT_URL, '_blank');
         }
 

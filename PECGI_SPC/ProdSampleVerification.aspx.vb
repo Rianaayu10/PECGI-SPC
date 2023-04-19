@@ -1116,6 +1116,12 @@ Public Class ProdSampleVerification
                 .Styles.CommandColumn.ForeColor = Color.Black
             End If
             GridX.JSProperties("cp_GridTot") = dtGrid.Rows.Count
+            If Session("Action") IsNot Nothing Then
+                GridX.JSProperties("cp_Action") = Session("Action").ToString()
+            Else
+                GridX.JSProperties("cp_Action") = ""
+            End If
+
         End With
     End Sub
     Private Sub Up_GridChartSetup(cls As clsProdSampleVerification)
@@ -1505,6 +1511,12 @@ Public Class ProdSampleVerification
         GridX.JSProperties("cp_ItemCode") = If(ItemCode = "", "-", ItemCode)
         GridX.JSProperties("cp_InstructionNo") = If(InstructionNo = "", "-", InstructionNo)
         GridX.JSProperties("cp_LotNo") = If(LotNo = "", "-", LotNo)
+
+        If Session("Token") IsNot Nothing Then
+            GridX.JSProperties("cp_Token") = Session("Token").ToString
+        Else
+            GridX.JSProperties("cp_Token") = ""
+        End If
 
     End Sub
 #End Region
