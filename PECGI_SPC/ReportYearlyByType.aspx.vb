@@ -25,7 +25,7 @@ Public Class ReportYearlyByType
                 Response.Redirect("~/Default.aspx")
             End If
             UpFillCombo()
-            Master.SiteTitle = "C040 - FTA Report Yearly By Type"
+            Master.SiteTitle = "C040 - Corrective Action Report Yearly By Type"
             'Dim dfrom As Date
             'dfrom = Format(Now, "yyyy-MM-01")
             'TmPeriod_From.Value = dfrom

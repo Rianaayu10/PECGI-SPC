@@ -128,7 +128,7 @@
 
             // Insert column 1 dan 2 
             tr.insertCell(0).outerHTML = '<th style="text-align: center; background-color: gray; color: white; font-weight: 100;"> No </th>';
-            tr.insertCell(1).outerHTML = '<th style="text-align: center; background-color: gray; color: white; font-weight: 100;"> MachineProcess </th>';
+            tr.insertCell(1).outerHTML = '<th style="text-align: center; background-color: gray; color: white; font-weight: 100;"> Process </th>';
 
             var now = parseDate(prodDate_From);
             var year = now.getFullYear();
@@ -314,8 +314,8 @@
                                 t = t + 1;
                             }
 
-                            document.getElementById('lblTitleChart').innerHTML = 'Resume FTA SPC ' + periode;
-                            document.getElementById('lblSubTitleChart').innerHTML = '( ' + ItemTypeName + ' )';
+                            document.getElementById('lblTitleChart').innerHTML = 'SPC Corrective Action Number ' + ItemTypeName ;
+                            document.getElementById('lblSubTitleChart').innerHTML = '( ' + periode + ' )';
 
                             $('#chart').dxChart({
                                 palette: 'Pastel',
@@ -383,7 +383,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data, textStatus, jQxhr) {
-                    document.getElementById('lblTitleChartDetail').innerHTML = 'Summary FTA SPC ' + Periode;
+                    document.getElementById('lblTitleChartDetail').innerHTML = 'SPC Corrective Action Number ' + Periode;
                     document.getElementById('lblSubTitleChartDetail').innerHTML = '(' + LineGroupName + ')' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n = ' + data.d.Max;
 
                     var options = {
@@ -799,7 +799,7 @@
                     <div class="jarviswidget" id="wid1" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
                         <header>
                             <div style="text-align: left; background-color: gray; padding-left: 10px;">
-                                <h2 style="color: white">FTA SPC Result by Item Group (Yearly)</h2>
+                                <h2 style="color: white">SPC Corrective Action Result by Model (Yearly)</h2>
                             </div>
                         </header>
                         <div>
@@ -830,7 +830,7 @@
                                             <thead>
                                                 <tr role="row">
                                                     <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="5%">No</th>
-                                                    <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="70%">Machine Process</th>
+                                                    <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="70%">Process</th>
                                                 </tr>
                                             </thead>
                                             <tbody></tbody>
@@ -846,7 +846,7 @@
                     <div class="jarviswidget" id="wid2" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
                         <header>
                             <div style="text-align: left; background-color: gray; padding-left: 10px;">
-                                <h2 style="color: white">FTA SPC RESULT by Line (Monthly)</h2>
+                                <h2 style="color: white">SPC Corrective Action Result by Line (Monthly)</h2>
                             </div>
                         </header>
                         <div>
@@ -878,7 +878,7 @@
                                                 <tr role="row">
                                                     <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="5%">No
                                                     </th>
-                                                    <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="30%">Item FTA by Line
+                                                    <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="30%">Item
                                                     </th>
                                                     <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="25%">Qty Total
                                                     </th>
