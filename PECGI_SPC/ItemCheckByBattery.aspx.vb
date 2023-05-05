@@ -91,6 +91,7 @@ Public Class ItemCheckByBattery
         ItemCheck = e.NewValues("ItemCheck")
         SpecialChar = e.NewValues("CharacteristicStatus")
         Dim ProcessTableLineCode = e.NewValues("ProcessTableLineCode")
+        Dim PrevItemCheck = e.NewValues("PrevItemCheck")
         Dim BatteryType As New ClsSPCItemCheckByType With {
             .FactoryCode = e.NewValues("FactoryCode"),
             .FactoryName = cboFactory.Text,
@@ -106,6 +107,8 @@ Public Class ItemCheckByBattery
             .ProcessTableLineCode = ProcessTableLineCode.Substring(0, ProcessTableLineCode.IndexOf(" -")),
             .FTARatio = e.NewValues("FTARatio"),
             .StationID = e.NewValues("StationID"),
+            .PrevItemCheck = PrevItemCheck.Substring(0, PrevItemCheck.IndexOf(" -")),
+            .PrevValue = e.NewValues("PrevValue"),
             .ActiveStatus = e.NewValues("ActiveStatus"),
             .UpdateUser = pUser,
             .CreateUser = pUser
@@ -141,6 +144,7 @@ Public Class ItemCheckByBattery
         ItemCheck = e.NewValues("ItemCheck")
         SpecialChar = e.NewValues("CharacteristicStatus")
         Dim ProcessTableLineCode = e.NewValues("ProcessTableLineCode")
+        Dim PrevItemCheck = e.NewValues("PrevItemCheck")
         Dim BatteryType As New ClsSPCItemCheckByType With {
             .FactoryCode = e.NewValues("FactoryCode"),
             .ItemTypeCode = e.NewValues("ItemTypeCode"),
@@ -155,6 +159,8 @@ Public Class ItemCheckByBattery
             .ProcessTableLineCode = ProcessTableLineCode.Substring(0, ProcessTableLineCode.IndexOf(" -")),
             .FTARatio = e.NewValues("FTARatio"),
             .StationID = e.NewValues("StationID"),
+            .PrevItemCheck = PrevItemCheck.Substring(0, PrevItemCheck.IndexOf(" -")),
+            .PrevValue = e.NewValues("PrevValue"),
             .ActiveStatus = e.NewValues("ActiveStatus"),
             .UpdateUser = pUser,
             .CreateUser = pUser

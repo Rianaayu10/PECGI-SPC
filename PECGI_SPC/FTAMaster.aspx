@@ -475,7 +475,7 @@
                 
                 <dx:GridViewDataTextColumn Caption="FTA ID" FieldName="FTAID"
                     VisibleIndex="1" Width="100px" Settings-AutoFilterCondition="Contains">
-                    <PropertiesTextEdit MaxLength="35" Width="70px">
+                    <PropertiesTextEdit Width="70px">
                         <Style HorizontalAlign="Left"></Style>
                     </PropertiesTextEdit>
                     <Settings AutoFilterCondition="Contains"></Settings>
@@ -578,7 +578,7 @@
 
                 <dx:GridViewDataTextColumn Caption="Counter Measure" FieldName="CounterMeasure"
                     VisibleIndex="6" Width="200px" Settings-AutoFilterCondition="Contains">
-                    <PropertiesTextEdit MaxLength="35" Width="195px">
+                    <PropertiesTextEdit  Width="195px">
                         <Style HorizontalAlign="Left"></Style>
                     </PropertiesTextEdit>
                     <Settings AutoFilterCondition="Contains" AllowCellMerge="True" ></Settings>
@@ -593,7 +593,7 @@
 
                 <dx:GridViewDataTextColumn Caption="Check Item" FieldName="CheckItem"
                     VisibleIndex="7" Width="200px" Settings-AutoFilterCondition="Contains">
-                    <PropertiesTextEdit MaxLength="35" Width="195px">
+                    <PropertiesTextEdit Width="195px">
                         <Style HorizontalAlign="Left"></Style>
                     </PropertiesTextEdit>
                     <Settings AutoFilterCondition="Contains"></Settings>
@@ -653,7 +653,7 @@
                 
                 <dx:GridViewDataTextColumn Caption="Check Order" FieldName="CheckOrder"
                     VisibleIndex="10" Width="50px" Settings-AutoFilterCondition="Contains">
-                    <PropertiesTextEdit MaxLength="45" Width="35px">
+                    <PropertiesTextEdit Width="35px">
                         <Style HorizontalAlign="Left"></Style>
                     </PropertiesTextEdit>
                     <Settings AutoFilterCondition="Contains"></Settings>
@@ -668,7 +668,7 @@
                 
                 <dx:GridViewDataTextColumn Caption="Remark" FieldName="Remark"
                     VisibleIndex="11" Width="150px" Settings-AutoFilterCondition="Contains">
-                    <PropertiesTextEdit MaxLength="35" Width="195px">
+                    <PropertiesTextEdit Width="195px">
                         <Style HorizontalAlign="Left"></Style>
                     </PropertiesTextEdit>
                     <Settings AutoFilterCondition="Contains"></Settings>
@@ -691,7 +691,7 @@
 
                 <dx:GridViewDataTextColumn Caption="Last User" FieldName="UpdateUser"
                     VisibleIndex="13" Width="70px" Settings-AutoFilterCondition="Contains">
-                    <PropertiesTextEdit MaxLength="50" Width="70px">
+                    <PropertiesTextEdit Width="70px">
                         <Style HorizontalAlign="Left"></Style>
                     </PropertiesTextEdit>
                     <Settings AutoFilterCondition="Contains"></Settings>
@@ -706,7 +706,7 @@
 
                 <dx:GridViewDataTextColumn Caption="Last Update" FieldName="UpdateDate"
                     VisibleIndex="14" Width="150px" Settings-AutoFilterCondition="Contains">
-                    <PropertiesTextEdit MaxLength="50" Width="200px">
+                    <PropertiesTextEdit Width="200px">
                         <Style HorizontalAlign="Left"></Style>
                     </PropertiesTextEdit>
                     <Settings AutoFilterCondition="Contains"></Settings>
@@ -1072,7 +1072,7 @@
 
                                             <dx:GridViewDataTextColumn Caption="Action" FieldName="ActionName"
                                                 VisibleIndex="1" Width="300px" Settings-AutoFilterCondition="Contains">
-                                                <PropertiesTextEdit MaxLength="35" Width="300px">
+                                                <PropertiesTextEdit Width="300px">
                                                     <Style HorizontalAlign="Left"></Style>
                                                 </PropertiesTextEdit>
                                                 <Settings AutoFilterCondition="Contains"></Settings>
@@ -1087,7 +1087,7 @@
 
                                             <dx:GridViewDataTextColumn Caption="Remark" FieldName="RemarkAction"
                                                 VisibleIndex="2" Width="300px" Settings-AutoFilterCondition="Contains">
-                                                <PropertiesTextEdit MaxLength="35" Width="300px" ClientInstanceName="RemarkAction">
+                                                <PropertiesTextEdit Width="300px" ClientInstanceName="RemarkAction">
                                                     <Style HorizontalAlign="Left"></Style>
                                                 </PropertiesTextEdit>
                                                 <Settings AutoFilterCondition="Contains"></Settings>
@@ -1102,7 +1102,7 @@
 
                                             <dx:GridViewDataTextColumn Caption="" FieldName="FTAIDAction"
                                                 VisibleIndex="3" Width="0px" Settings-AutoFilterCondition="Contains">
-                                                <PropertiesTextEdit MaxLength="35" Width="100px" ClientInstanceName="FTAIDAction">
+                                                <PropertiesTextEdit Width="100px" ClientInstanceName="FTAIDAction">
                                                     <Style HorizontalAlign="Left"></Style>
                                                 </PropertiesTextEdit>
                                                 <Settings AutoFilterCondition="Contains"></Settings>
@@ -1117,7 +1117,7 @@
 
                                              <dx:GridViewDataTextColumn Caption="" FieldName="ActionID"
                                                 VisibleIndex="4" Width="0px" Settings-AutoFilterCondition="Contains">
-                                                <PropertiesTextEdit MaxLength="35" Width="100px" ClientInstanceName="ActionID">
+                                                <PropertiesTextEdit Width="100px" ClientInstanceName="ActionID">
                                                     <Style HorizontalAlign="Left"></Style>
                                                 </PropertiesTextEdit>
                                                 <Settings AutoFilterCondition="Contains"></Settings>
