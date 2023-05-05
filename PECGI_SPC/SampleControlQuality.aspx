@@ -880,34 +880,36 @@
 <dx:WebChartControl ID="chartR" runat="server" ClientInstanceName="chartR"
         Height="230px" Width="1080px" CrosshairEnabled="True">
         <SeriesSerializable>
-            <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue">
+            <cc1:Series ArgumentDataMember="Seq" Name="R" ValueDataMembersSerializable="RValue" CrosshairLabelPattern="{A}: {V:0.0000}">
                 <ViewSerializable>
-                    <cc1:LineSeriesView>
+                    <cc1:LineSeriesView Color="Blue">
                         <LineStyle Thickness="1" />
-                        <LineMarkerOptions Size="3" Color="Blue" Kind="Diamond">
-                    </LineMarkerOptions>
+                    <LineMarkerOptions Size="7" Color="Blue" Kind="Diamond"></LineMarkerOptions>
                     </cc1:LineSeriesView>
                 </ViewSerializable>
             </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="RuleYellow" ShowInLegend="False" ValueDataMembersSerializable="RuleYellow">
+            <cc1:Series Name="RuleYellow" ArgumentDataMember="Seq" ShowInLegend="False" ToolTipEnabled="False" ValueDataMembersSerializable="RuleYellow" CrosshairEnabled="False">
                 <ViewSerializable>
-                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="Yellow" Transparency="130">
+                    <cc1:FullStackedBarSeriesView BarWidth="1" Color="255, 255, 0" Transparency="100" AxisYName="Secondary AxisY 1">
+                        <Border Visibility="False" />
                         <FillStyle FillMode="Solid">
                         </FillStyle>
                     </cc1:FullStackedBarSeriesView>
                 </ViewSerializable>
             </cc1:Series>
-            <cc1:Series ArgumentDataMember="Seq" Name="RuleRed" ShowInLegend="False" ValueDataMembersSerializable="RuleRed">
+            <cc1:Series ArgumentDataMember="Seq" Name="RuleRed" ShowInLegend="False" ValueDataMembersSerializable="RuleRed" CrosshairEnabled="False" ToolTipEnabled="False">
                 <ViewSerializable>
                     <cc1:FullStackedBarSeriesView BarWidth="1" Color="Pink" Transparency="100">
+                        <FillStyle FillMode="Solid">
+                        </FillStyle>
                     </cc1:FullStackedBarSeriesView>
                 </ViewSerializable>
             </cc1:Series>
         </SeriesSerializable>
-        <seriestemplate ValueDataMembersSerializable="Value">            
+        <seriestemplate ValueDataMembersSerializable="Value">
             <viewserializable>
                 <cc1:LineSeriesView>
-                    <LineMarkerOptions BorderColor="White" Size="4">
+                    <LineMarkerOptions BorderColor="White" Size="3">
                     </LineMarkerOptions>
                 </cc1:LineSeriesView>
             </viewserializable>
@@ -915,9 +917,11 @@
         <DiagramSerializable>
             <cc1:XYDiagram>
                 <AxisX VisibleInPanesSerializable="-1" MinorCount="1" Visibility="False">
+                    <Tickmarks Visible="False" />
                     <WholeRange AutoSideMargins="False" EndSideMargin="0.5" StartSideMargin="0.5" />
                     <GridLines MinorVisible="True">
                     </GridLines>
+                    <NumericScaleOptions AutoGrid="False" ScaleMode="Manual" />
                 </AxisX>
                 <AxisY VisibleInPanesSerializable="-1" MinorCount="1">
                     <Tickmarks MinorLength="1" MinorVisible="False" />
@@ -931,6 +935,11 @@
                     </GridLines>
                     <NumericScaleOptions AutoGrid="False" CustomGridAlignment="0.001" GridAlignment="Custom" GridOffset="1" />
                 </AxisY>
+                <SecondaryAxesY>
+                    <cc1:SecondaryAxisY AxisID="0" Name="Secondary AxisY 1" Visibility="False" VisibleInPanesSerializable="-1">
+                        <Tickmarks MinorVisible="False" Visible="False" />
+                    </cc1:SecondaryAxisY>
+                </SecondaryAxesY>
             </cc1:XYDiagram>
         </DiagramSerializable>
         <titles>

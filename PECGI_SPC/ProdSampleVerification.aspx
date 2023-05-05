@@ -911,7 +911,7 @@
                         <tr>
                             <td colspan="3">
                                 <dx:ASPxButton ID="btnCorrectiveAction" runat="server" AutoPostBack="False" ClientInstanceName="btnCorrectiveAction" Height="40px"
-                                    Font-Names="Segoe UI" Font-Size="9pt" Text="Corrective Action SPC" Theme="Office2010Silver" Width="100px">
+                                    Font-Names="Segoe UI" Font-Size="9pt" Text="Corrective Action" Theme="Office2010Silver" Width="100px">
                                     <ClientSideEvents Click="CorrectiveAction" />
                                 </dx:ASPxButton>
                             </td>

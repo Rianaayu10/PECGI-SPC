@@ -86,6 +86,7 @@ Public Class ProdSampleInput
             Col1.CellStyle.Wrap = DefaultBoolean.False
             Band2.Columns.Add(Col1)
 
+            Digit = ClsSPCItemCheckMasterDB.GetDigit(Hdr.ItemCheckCode)
             Dim PrevDate As String = clsSPCResultDB.GetPrevDate(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate)
             If PrevDate = "" Then
                 PrevDate = Hdr.ProdDate
@@ -470,13 +471,13 @@ Public Class ProdSampleInput
 
     Private Sub GridLoad(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, Shift As String, Sequence As Integer, VerifiedOnly As Integer)
         Dim ErrMsg As String = ""
+        Digit = ClsSPCItemCheckMasterDB.GetDigit(ItemCheckCode)
         Dim ds As DataSet = clsSPCResultDetailDB.GetDataSet(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence, VerifiedOnly)
         Dim dt As DataTable = ds.Tables(0)
         Dim dtNG As DataTable = ds.Tables(1)
         grid.DataSource = dt
         grid.DataBind()
 
-        Digit = ClsSPCItemCheckMasterDB.GetDigit(ItemCheckCode)
         Dim Result As clsSPCResult = clsSPCResultDB.GetData(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence)
 
         Dim Item As clsItemCheck = clsItemCheckDB.GetData(ItemCheckCode)
@@ -617,8 +618,7 @@ Public Class ProdSampleInput
         If v Is Nothing OrElse IsDBNull(v) Then
             Return ""
         Else
-            Dim Zeros As String = Strings.StrDup(Digit, "0")
-            Return Format(v, "0." + Zeros)
+            Return Format(v, FormatDigit(Digit))
         End If
     End Function
 
@@ -942,6 +942,7 @@ Public Class ProdSampleInput
         Dim cs As New clsSPCColor
 
         With pExl
+            Digit = ClsSPCItemCheckMasterDB.GetDigit(Hdr.ItemCheckCode)
             PrevDate = clsSPCResultDB.GetPrevDate(Hdr.FactoryCode, Hdr.ItemTypeCode, Hdr.LineCode, Hdr.ItemCheckCode, Hdr.ProdDate)
             If PrevDate = "" Then
                 PrevDate = Hdr.ProdDate
@@ -1028,7 +1029,7 @@ Public Class ProdSampleInput
                                 .Cells(iRow, 1).Style.Fill.BackgroundColor.SetColor(cs.Color(.Cells(iRow, 1).Value))
                         End Select
                     ElseIf k > colDes Then
-                        .Cells(iRow, iCol).Style.Numberformat.Format = "0.0000"
+                        .Cells(iRow, iCol).Style.Numberformat.Format = FormatDigit(Digit)
                         LSL = dtLSL.Rows(0)(iCol)
                         USL = dtUSL.Rows(0)(iCol)
                         LCL = dtLCL.Rows(0)(iCol)
@@ -1177,7 +1178,7 @@ Public Class ProdSampleInput
                 iRow = iRow + 1
                 .Cells(iRow, colNo).Value = dt.Rows(i)("SeqNo")
 
-                .Cells(iRow, colValue1, iRow, colValue).Style.Numberformat.Format = "0.0000"
+                .Cells(iRow, colValue1, iRow, colValue).Style.Numberformat.Format = FormatDigit(Digit)
                 .Cells(iRow, colValue1).Value = dt.Rows(i)("Value1")
                 .Cells(iRow, colValue2).Value = dt.Rows(i)("Value2")
                 .Cells(iRow, colValue).Value = dt.Rows(i)("Value")
@@ -1278,7 +1279,7 @@ Public Class ProdSampleInput
             .Cells(iRow + 2, 9 + AddCol).Value = ADbl(vAvg)
             .Cells(iRow + 1, 10 + AddCol).Value = "R"
             .Cells(iRow + 2, 10 + AddCol).Value = ADbl(vR)
-            .Cells(iRow + 2, 2, iRow + 2, 10 + AddCol).Style.Numberformat.Format = "0.0000"
+            .Cells(iRow + 2, 2, iRow + 2, 10 + AddCol).Style.Numberformat.Format = FormatDigit(Digit)
 
             Dim Col As Integer = 7 + AddCol
             If vMin <> "" Then
@@ -1369,7 +1370,7 @@ Public Class ProdSampleInput
             .Cells(iRow + 1, 12 + AddCol, iRow + 2, 12 + AddCol).Merge = True
             .Cells(iRow + 1, 11 + AddCol, iRow + 2, 12 + AddCol).Style.VerticalAlignment = ExcelVerticalAlignment.Center
 
-            .Cells(iRow + 2, 2, iRow + 2, 10 + AddCol).Style.Numberformat.Format = "0.0000"
+            .Cells(iRow + 2, 2, iRow + 2, 10 + AddCol).Style.Numberformat.Format = FormatDigit(Digit)
 
             ExcelHeader(pExl, iRow, 2, iRow + 1, 10 + AddCol)
             ExcelHeader(pExl, iRow, 11 + AddCol, iRow, 12 + AddCol)
@@ -1454,7 +1455,7 @@ Public Class ProdSampleInput
             '                    Case "1", "2", "3", "4", "5", "6", "Min", "Max", "Avg", "R"
             '                        Value = ADbl(objValue)
             '                        .Cells(iRow, iCol).Value = Value
-            '                        .Cells(iRow, iCol).Style.Numberformat.Format = "0.000"
+            '                        .Cells(iRow, iCol).Style.Numberformat.Format = FormatDigit(Digit)
             '                    Case Else
             '                        .Cells(iRow, iCol).Value = objValue & ""
             '                End Select
@@ -1578,8 +1579,7 @@ Public Class ProdSampleInput
     Private Sub grid_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles grid.HtmlDataCellPrepared
         e.Cell.Attributes.Add("onclick", "event.cancelBubble = true")
         If e.DataColumn.FieldName.StartsWith("Value") Then
-            Dim f As String = "0." + StrDup(Digit, "0")
-            e.Cell.Text = Format(e.CellValue, f)
+            e.Cell.Text = Format(e.CellValue, FormatDigit(Digit))
         End If
     End Sub
 
@@ -1632,6 +1632,7 @@ Public Class ProdSampleInput
 
     Private Sub LoadChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, VerifiedOnly As String, SeqNo As Integer)
         Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, "", VerifiedOnly, SeqNo)
+        Digit = ClsSPCItemCheckMasterDB.GetDigit(ItemCheckCode)
         If xr.Count = 0 Then
             chartR.JSProperties("cpShow") = "0"
         Else
@@ -1684,6 +1685,7 @@ Public Class ProdSampleInput
                 Dim EndSideMargin As Single = Math.Round(MaxValue / 5, 3)
                 diagram.AxisY.VisualRange.EndSideMargin = EndSideMargin
                 diagram.AxisY.WholeRange.EndSideMargin = EndSideMargin
+                .SeriesTemplate.CrosshairLabelPattern = "{S}: {V:" + FormatDigit(Digit) + "}"
             End If
             .DataBind()
         End With
@@ -1691,8 +1693,13 @@ Public Class ProdSampleInput
 
     Dim ChartType As String
 
+    Private Function FormatDigit(d As Integer) As String
+        Return "0." + StrDup(d, "0")
+    End Function
+
     Private Sub LoadChartX(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, VerifiedOnly As String, SeqNo As String)
         ChartType = clsXRChartDB.GetChartType(FactoryCode, ItemTypeCode, Line, ItemCheckCode)
+        Digit = ClsSPCItemCheckMasterDB.GetDigit(ItemCheckCode)
         Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartXR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, VerifiedOnly, SeqNo)
         With chartX
             .DataSource = xr
@@ -1810,6 +1817,8 @@ Public Class ProdSampleInput
                 CType(.Diagram, XYDiagram).SecondaryAxesY.Add(myAxisY)
                 CType(.Series("Rule").View, XYDiagramSeriesViewBase).AxisY = myAxisY
                 CType(.Series("RuleYellow").View, XYDiagramSeriesViewBase).AxisY = myAxisY
+
+                .SeriesTemplate.CrosshairLabelPattern = "{S}: {V:" + FormatDigit(Digit) + "}"
             End If
             .DataBind()
             'If xr.Count > 5 Then
@@ -1863,6 +1872,9 @@ Public Class ProdSampleInput
             Next
             Del = dtDel.Rows(Seq)(ColName)
             Dim Value As Double = clsSPCResultDB.ADecimal(e.CellValue)
+            If e.GetValue("Seq") = "5" Then 'untuk XBar
+                e.Cell.Text = Format(Value, FormatDigit(Digit))
+            End If
             If Del = "1" Then
                 e.Cell.BackColor = Color.Silver
             ElseIf Value < LSL Or Value > USL Then

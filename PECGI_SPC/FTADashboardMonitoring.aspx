@@ -144,7 +144,7 @@
                                 <img src="img/logo-panasonic.svg" alt="" width="100" height="50" class="d-inline-block align-text-top"></a></td>
                             <td width="80%" align="center">
                                 <font style="color: black; font-size: 4.5vh; font-weight: bold; font-family: Segoe UI"><u>
-                                    <label style="color: white"><b>FTA Dashboard Monitoring</b></label>
+                                    <label style="color: white"><b>Corrective Action Dashboard Monitoring</b></label>
                                 </u></font>
                             </td>
 

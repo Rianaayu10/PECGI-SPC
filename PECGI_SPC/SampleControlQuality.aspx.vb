@@ -20,6 +20,7 @@ Public Class SampleControlQuality
     Public ValueType As String
     Dim GlobalPrm As String = ""
     Dim LastRow As Integer
+    Dim Digit As Integer
 
     Private Class clsHeader
         Public Property FactoryCode As String
@@ -90,6 +91,7 @@ Public Class SampleControlQuality
     End Sub
 
     Private Sub DownloadExcel()
+        Digit = ClsSPCItemCheckMasterDB.GetDigit(cboItemCheck.Value)
         Dim ps As New PrintingSystem()
         LoadChartX(cboFactory.Value, cboType.Value, cboLine.Value, cboItemCheck.Value, Format(dtDate.Value, "yyyy-MM-dd"), Format(dtTo.Value, "yyyy-MM-dd"), cboShow.Value)
         Dim linkX As New PrintableComponentLink(ps)
@@ -255,7 +257,7 @@ Public Class SampleControlQuality
                 .Cells(Row + 12, Col).Value = dtCP.Rows(0)("Max")
                 .Cells(Row + 13, Col).Value = dtCP.Rows(0)("Xbarbar")
                 .Cells(Row + 14, Col).Value = dtCP.Rows(0)("Rbar")
-                .Cells(Row + 6, Col, Row + 14, Col).Style.Numberformat.Format = "0.0000"
+                .Cells(Row + 6, Col, Row + 14, Col).Style.Numberformat.Format = FormatDigit(Digit)
 
                 If ChartType = "1" Then
                     If Not IsDBNull(dtCP.Rows(0)("Xbarbar")) And (dtCP.Rows(0)("Xbarbar") < dtCP.Rows(0)("XbarLCL") Or dtCP.Rows(0)("Xbarbar") > dtCP.Rows(0)("XbarUCL")) Then
@@ -277,7 +279,7 @@ Public Class SampleControlQuality
                 .Cells(Row + 12, Col).Value = dtCP.Rows(0)("CPK1")
                 .Cells(Row + 13, Col).Value = dtCP.Rows(0)("CPK2")
                 .Cells(Row + 14, Col).Value = dtCP.Rows(0)("CPKMin")
-                .Cells(Row + 6, Col, Row + 13, Col).Style.Numberformat.Format = "0.0000"
+                .Cells(Row + 6, Col, Row + 13, Col).Style.Numberformat.Format = FormatDigit(Digit)
             End If
 
             Dim rg As ExcelRange = .Cells(Row, 10, Row + 14, 16)
@@ -385,7 +387,7 @@ Public Class SampleControlQuality
                                 .Cells(iRow, 1).Style.Fill.BackgroundColor.SetColor(cs.Color(.Cells(iRow, 1).Value))
                         End Select
                     ElseIf k > colDes Then
-                        .Cells(iRow, iCol).Style.Numberformat.Format = "0.0000"
+                        .Cells(iRow, iCol).Style.Numberformat.Format = FormatDigit(Digit)
                         LSL = dtLSL.Rows(0)(iCol)
                         USL = dtUSL.Rows(0)(iCol)
                         LCL = dtLCL.Rows(0)(iCol)
@@ -595,7 +597,7 @@ Public Class SampleControlQuality
         If v Is Nothing OrElse IsDBNull(v) Then
             Return ""
         Else
-            Return Format(v, "0.0000")
+            Return Format(v, FormatDigit(Digit))
         End If
     End Function
 
@@ -630,6 +632,7 @@ Public Class SampleControlQuality
             Col1.CellStyle.HorizontalAlign = HorizontalAlign.Center
             Band2.Columns.Add(Col1)
 
+            Digit = ClsSPCItemCheckMasterDB.GetDigit(ItemCheckCode)
             Dim ds As DataSet = clsSPCResultDetailDB.GetSampleByPeriod(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, ProdDate, ProdDate2, VerifiedOnly, True, True)
             Dim dtDay As DataTable = ds.Tables(0)
 
@@ -767,6 +770,10 @@ Public Class SampleControlQuality
     Dim ChartType As String
     Dim PrevYellow As Integer = 0
 
+    Private Function FormatDigit(d As Integer) As String
+        Return "0." + StrDup(d, "0")
+    End Function
+
     Private Sub gridX_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles gridX.HtmlDataCellPrepared
         Dim LCL As Double
         Dim UCL As Double
@@ -794,6 +801,9 @@ Public Class SampleControlQuality
             Next
             Del = dtDel.Rows(Seq)(ColName)
             Dim Value As Double = clsSPCResultDB.ADecimal(e.CellValue)
+            If e.GetValue("Seq") = "5" Then 'untuk XBar
+                e.Cell.Text = Format(Value, FormatDigit(Digit))
+            End If
             If Del = "1" Then
                 e.Cell.BackColor = Color.Silver
             ElseIf Value < LSL Or Value > USL Then
@@ -968,6 +978,7 @@ Public Class SampleControlQuality
     End Sub
 
     Private Sub LoadChartX(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, ProdDate As String, ProdDate2 As String, VerifiedOnly As String)
+        Digit = ClsSPCItemCheckMasterDB.GetDigit(ItemCheckCode)
         Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartXRMonthly(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, ProdDate2, VerifiedOnly)
         Dim MinValue As Double, MaxValue As Double, CountSeq As Integer
         With chartX
@@ -1090,6 +1101,7 @@ Public Class SampleControlQuality
                 CType(.Diagram, XYDiagram).SecondaryAxesY.Add(myAxisY)
                 CType(.Series("Rule").View, XYDiagramSeriesViewBase).AxisY = myAxisY
                 CType(.Series("RuleYellow").View, XYDiagramSeriesViewBase).AxisY = myAxisY
+                .SeriesTemplate.CrosshairLabelPattern = "{S}: {V:" + FormatDigit(Digit) + "}"
             End If
             .DataBind()
             Dim ChartWidth As Integer = CountSeq * 80
@@ -1117,7 +1129,8 @@ Public Class SampleControlQuality
         LoadChartR(FactoryCode, ItemTypeCode, LineCode, ItemCheckCode, PrevDate, ProdDate, VerifiedOnly)
     End Sub
 
-    Private Sub LoadChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, PrevDate As String, ProdDate As String, VerifiedOnly As String)
+    Private Sub LoadChartR1(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, PrevDate As String, ProdDate As String, VerifiedOnly As String)
+        Digit = ClsSPCItemCheckMasterDB.GetDigit(ItemCheckCode)
         Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, PrevDate, VerifiedOnly,, True)
         If xr.Count = 0 Then
             chartR.JSProperties("cpShow") = "0"
@@ -1173,6 +1186,7 @@ Public Class SampleControlQuality
                     Dim GridAlignment As Double = Math.Round(MaxValue / 20, 4)
                     diagram.AxisY.NumericScaleOptions.CustomGridAlignment = GridAlignment
                 End If
+                .SeriesTemplate.CrosshairLabelPattern = "{S}: {V:" + FormatDigit(Digit) + "}"
             End If
             .DataBind()
             Dim ChartWidth As Integer = CountSeq * 80
@@ -1182,6 +1196,67 @@ Public Class SampleControlQuality
                 ChartWidth = 1080
             End If
             '.Width = ChartWidth
+        End With
+    End Sub
+
+    Private Sub LoadChartR(FactoryCode As String, ItemTypeCode As String, Line As String, ItemCheckCode As String, PrevDate As String, ProdDate As String, VerifiedOnly As String)
+        Dim xr As List(Of clsXRChart) = clsXRChartDB.GetChartR(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, PrevDate, VerifiedOnly,, True)
+        Digit = ClsSPCItemCheckMasterDB.GetDigit(ItemCheckCode)
+        If xr.Count = 0 Then
+            chartR.JSProperties("cpShow") = "0"
+        Else
+            chartR.JSProperties("cpShow") = "1"
+        End If
+        With chartR
+            .DataSource = xr
+            Dim diagram As XYDiagram = CType(.Diagram, XYDiagram)
+            diagram.AxisX.WholeRange.MinValue = 0
+            diagram.AxisX.WholeRange.MaxValue = 12
+
+            diagram.AxisX.GridLines.LineStyle.DashStyle = DashStyle.Solid
+            diagram.AxisX.GridLines.MinorVisible = True
+            diagram.AxisX.MinorCount = 1
+            diagram.AxisX.GridLines.Visible = False
+
+            Dim Setup As clsChartSetup = clsChartSetupDB.GetData(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate)
+            diagram.AxisY.ConstantLines.Clear()
+            If Setup IsNot Nothing Then
+                Dim RUCL As New ConstantLine("R UCL")
+                RUCL.Color = System.Drawing.Color.Orange
+                RUCL.LineStyle.Thickness = 1
+                RUCL.LineStyle.DashStyle = DashStyle.Dash
+                diagram.AxisY.ConstantLines.Add(RUCL)
+                RUCL.AxisValue = Setup.RUCL
+
+                CType(.Diagram, XYDiagram).SecondaryAxesY.Clear()
+                Dim myAxisY As New SecondaryAxisY("my Y-Axis")
+                myAxisY.Visibility = DevExpress.Utils.DefaultBoolean.False
+                myAxisY.WholeRange.EndSideMargin = 0
+                myAxisY.WholeRange.StartSideMargin = 0
+                CType(.Diagram, XYDiagram).SecondaryAxesY.Add(myAxisY)
+                CType(.Series("RuleYellow").View, XYDiagramSeriesViewBase).AxisY = myAxisY
+                CType(.Series("RuleRed").View, XYDiagramSeriesViewBase).AxisY = myAxisY
+
+                Dim MaxValue As Double
+                If xr.Count > 0 Then
+                    If xr(0).MaxValue > Setup.RUCL Then
+                        MaxValue = xr(0).MaxValue
+                    Else
+                        MaxValue = Setup.RUCL
+                    End If
+                End If
+                diagram.AxisY.WholeRange.MaxValue = MaxValue
+                diagram.AxisY.VisualRange.MaxValue = MaxValue
+                If MaxValue > 0 Then
+                    Dim GridAlignment As Double = Math.Round(MaxValue / 10, 4)
+                    diagram.AxisY.NumericScaleOptions.CustomGridAlignment = GridAlignment
+                End If
+                Dim EndSideMargin As Single = Math.Round(MaxValue / 5, 3)
+                diagram.AxisY.VisualRange.EndSideMargin = EndSideMargin
+                diagram.AxisY.WholeRange.EndSideMargin = EndSideMargin
+                .SeriesTemplate.CrosshairLabelPattern = "{S}: {V:" + FormatDigit(Digit) + "}"
+            End If
+            .DataBind()
         End With
     End Sub
 
