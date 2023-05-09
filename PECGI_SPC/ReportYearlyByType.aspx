@@ -127,8 +127,8 @@
             var tr = document.getElementById('tableLineGroup').tHead.children[0];
 
             // Insert column 1 dan 2 
-            tr.insertCell(0).outerHTML = '<th style="text-align: center; background-color: gray; color: white; font-weight: 100;"> No </th>';
-            tr.insertCell(1).outerHTML = '<th style="text-align: center; background-color: gray; color: white; font-weight: 100;"> Process </th>';
+            tr.insertCell(0).outerHTML = '<th style="text-align: center; vertical-align : middle; background-color: gray; color: white; font-weight: 100;"> No </th>';
+            tr.insertCell(1).outerHTML = '<th style="text-align: center; vertical-align : middle; background-color: gray; color: white; font-weight: 100;"> Process </th>';
 
             var now = parseDate(prodDate_From);
             var year = now.getFullYear();
@@ -315,7 +315,7 @@
                             }
 
                             document.getElementById('lblTitleChart').innerHTML = 'SPC Corrective Action Number ' + ItemTypeName ;
-                            document.getElementById('lblSubTitleChart').innerHTML = '( ' + periode + ' )';
+                            document.getElementById('lblSubTitleChart').innerHTML = '( FY' + periode + ' )';
 
                             $('#chart').dxChart({
                                 palette: 'Pastel',
