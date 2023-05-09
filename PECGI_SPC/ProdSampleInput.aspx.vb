@@ -1648,6 +1648,7 @@ Public Class ProdSampleInput
             diagram.AxisX.GridLines.MinorVisible = True
             diagram.AxisX.MinorCount = 1
             diagram.AxisX.GridLines.Visible = False
+            diagram.AxisY.Label.TextPattern = "{V:" + FormatDigit(Digit) + "}"
 
             Dim Setup As clsChartSetup = clsChartSetupDB.GetData(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate)
             diagram.AxisY.ConstantLines.Clear()
@@ -1711,6 +1712,7 @@ Public Class ProdSampleInput
             diagram.AxisX.GridLines.MinorVisible = True
             diagram.AxisX.MinorCount = 1
             diagram.AxisX.GridLines.Visible = False
+            diagram.AxisY.Label.TextPattern = "{V:" + FormatDigit(Digit) + "}"
 
             diagram.AxisY.NumericScaleOptions.CustomGridAlignment = 0.005
             diagram.AxisY.GridLines.MinorVisible = False

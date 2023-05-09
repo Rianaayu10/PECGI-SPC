@@ -603,7 +603,7 @@
                 <CellStyle Wrap="False">
                 </CellStyle>
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn FieldName="ItemCheck" VisibleIndex="4" Width="200px">
+            <dx:GridViewDataTextColumn FieldName="ItemCheck" VisibleIndex="4" Width="200px" Caption="Item">
                 <CellStyle Wrap="False">
                 </CellStyle>
             </dx:GridViewDataTextColumn>

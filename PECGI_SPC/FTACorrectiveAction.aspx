@@ -744,7 +744,7 @@
                         <td style="padding-right:5px; padding-left:5px">
                                 <dx:ASPxButton ID="btnView" runat="server" AutoPostBack="False" 
                                     ClientInstanceName="btnView" Font-Names="Segoe UI" Font-Size="9pt" 
-                                    Height="25px" Text="View FTA Diagram" Theme="Office2010Silver" UseSubmitBehavior="False" 
+                                    Height="25px" Text="View Corrective Action Diagram" Theme="Office2010Silver" UseSubmitBehavior="False" 
                                     Width="120px" TabIndex="10">
                                     <ClientSideEvents Click="ShowPopUpFTA"/>
                                     <Paddings Padding="2px" />                                    
@@ -817,7 +817,7 @@
 
             <dx:GridViewDataTextColumn FieldName="No" ShowInCustomizationForm="True" VisibleIndex="0" Width="40px">
             </dx:GridViewDataTextColumn>
-            <dx:GridViewDataTextColumn FieldName="Description" ShowInCustomizationForm="True" VisibleIndex="1" Width="300px">
+            <dx:GridViewDataTextColumn FieldName="Description" ShowInCustomizationForm="True" VisibleIndex="1" Width="300px" Caption="Check Item">
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataCheckColumn FieldName="NoCheck" ShowInCustomizationForm="True" VisibleIndex="3" Width="50px">
                         <DataItemTemplate>
@@ -1143,7 +1143,7 @@
 </div>
 
 <div>
-<dx:ASPxPopupControl ID="pcAction" runat="server" ClientInstanceName="pcAction" Height="350px" Width="586px" HeaderText="FTA Action" Modal="True"
+<dx:ASPxPopupControl ID="pcAction" runat="server" ClientInstanceName="pcAction" Height="350px" Width="586px" HeaderText="Corrective Action" Modal="True"
                         CloseAction="CloseButton" CloseOnEscape="true" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False">
                         <ContentCollection>
 <dx:PopupControlContentControl runat="server">
@@ -1206,7 +1206,7 @@
 
 
 <div>
-<dx:ASPxPopupControl ID="pcEdit" runat="server" ClientInstanceName="pcEdit" Height="350px" Width="600px" HeaderText="FTA Action" Modal="True"
+<dx:ASPxPopupControl ID="pcEdit" runat="server" ClientInstanceName="pcEdit" Height="350px" Width="600px" HeaderText="Corrective Action" Modal="True"
                         CloseAction="CloseButton" CloseOnEscape="true" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False">
                         <ContentCollection>
 <dx:PopupControlContentControl runat="server">

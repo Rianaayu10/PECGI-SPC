@@ -279,7 +279,7 @@ Public Class SampleControlQuality
                 .Cells(Row + 12, Col).Value = dtCP.Rows(0)("CPK1")
                 .Cells(Row + 13, Col).Value = dtCP.Rows(0)("CPK2")
                 .Cells(Row + 14, Col).Value = dtCP.Rows(0)("CPKMin")
-                .Cells(Row + 6, Col, Row + 13, Col).Style.Numberformat.Format = FormatDigit(Digit)
+                .Cells(Row + 6, Col, Row + 14, Col).Style.Numberformat.Format = FormatDigit(Digit)
             End If
 
             Dim rg As ExcelRange = .Cells(Row, 10, Row + 14, 16)
@@ -691,6 +691,7 @@ Public Class SampleControlQuality
                 dtRLCL = ds.Tables(8)
                 dtDel = ds.Tables(9)
 
+                Dim f As String = FormatDigit(Digit)
                 If dtCP.Rows.Count > 0 Then
                     .JSProperties("cpFactory") = dtCP.Rows(0)("FactoryName") & ""
                     .JSProperties("cpType") = dtCP.Rows(0)("ItemTypeName") & ""
@@ -714,13 +715,13 @@ Public Class SampleControlQuality
                     .JSProperties("cpMin") = AFormat(dtCP.Rows(0)("Min"))
                     .JSProperties("cpMax") = AFormat(dtCP.Rows(0)("Max"))
                     .JSProperties("cpAvg") = AFormat(dtCP.Rows(0)("Avg"))
-                    .JSProperties("cpSTD") = dtCP.Rows(0)("STD") & ""
-                    .JSProperties("cpCP") = dtCP.Rows(0)("CP") & ""
-                    .JSProperties("cpCPK1") = dtCP.Rows(0)("CPK1") & ""
-                    .JSProperties("cpCPK2") = dtCP.Rows(0)("CPK2") & ""
-                    .JSProperties("cpXBarBar") = dtCP.Rows(0)("Xbarbar") & ""
-                    .JSProperties("cpRBar") = dtCP.Rows(0)("Rbar") & ""
-                    .JSProperties("cpCPKMin") = dtCP.Rows(0)("CPKMin") & ""
+                    .JSProperties("cpSTD") = AFormat(dtCP.Rows(0)("STD"))
+                    .JSProperties("cpCP") = AFormat(dtCP.Rows(0)("CP"))
+                    .JSProperties("cpCPK1") = AFormat(dtCP.Rows(0)("CPK1"))
+                    .JSProperties("cpCPK2") = AFormat(dtCP.Rows(0)("CPK2"))
+                    .JSProperties("cpXBarBar") = AFormat(dtCP.Rows(0)("Xbarbar"))
+                    .JSProperties("cpRBar") = AFormat(dtCP.Rows(0)("Rbar"))
+                    .JSProperties("cpCPKMin") = AFormat(dtCP.Rows(0)("CPKMin"))
                     If ChartType = "1" Or ChartType = "2" Then
                         .JSProperties("cpChartType") = "1"
                         If Not IsDBNull(dtCP.Rows(0)("Xbarbar")) AndAlso Not IsDBNull(dtCP.Rows(0)("LCL")) AndAlso Not IsDBNull(dtCP.Rows(0)("UCL")) Then
@@ -991,6 +992,7 @@ Public Class SampleControlQuality
             diagram.AxisX.GridLines.MinorVisible = True
             diagram.AxisX.MinorCount = 1
             diagram.AxisX.GridLines.Visible = False
+            diagram.AxisY.Label.TextPattern = "{V:" + FormatDigit(Digit) + "}"
 
             diagram.AxisY.NumericScaleOptions.CustomGridAlignment = 0.005
             diagram.AxisY.GridLines.MinorVisible = False
@@ -1217,6 +1219,7 @@ Public Class SampleControlQuality
             diagram.AxisX.GridLines.MinorVisible = True
             diagram.AxisX.MinorCount = 1
             diagram.AxisX.GridLines.Visible = False
+            diagram.AxisY.Label.TextPattern = "{V:" + FormatDigit(Digit) + "}"
 
             Dim Setup As clsChartSetup = clsChartSetupDB.GetData(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate)
             diagram.AxisY.ConstantLines.Clear()
