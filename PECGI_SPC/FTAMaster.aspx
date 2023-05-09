@@ -473,7 +473,7 @@
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
                 </dx:GridViewDataComboBoxColumn>
                 
-                <dx:GridViewDataTextColumn Caption="FTA ID" FieldName="FTAID"
+                <dx:GridViewDataTextColumn Caption="Corrective Action ID" FieldName="FTAID"
                     VisibleIndex="1" Width="100px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit Width="70px">
                         <Style HorizontalAlign="Left"></Style>
@@ -576,7 +576,7 @@
                     <CellStyle HorizontalAlign="Left"/>
                 </dx:GridViewDataComboBoxColumn>
 
-                <dx:GridViewDataTextColumn Caption="Counter Measure" FieldName="CounterMeasure"
+                <dx:GridViewDataTextColumn Caption="Countermeasure" FieldName="CounterMeasure"
                     VisibleIndex="6" Width="200px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit  Width="195px">
                         <Style HorizontalAlign="Left"></Style>
@@ -837,7 +837,7 @@
                                     </td>
                                 </tr>--%>
                                 <tr style="height:30px">
-                                    <td>FTA ID</td>                                
+                                    <td>Corrective Action ID</td>                                
                                     <td>
                                         <dx:ASPxGridViewTemplateReplacement ID="editFTAID" ReplacementType="EditFormCellEditor"
                                             runat="server" ColumnID="FTAID">
@@ -877,7 +877,7 @@
                                     </td>
                                 </tr>
                                 <tr style="height:30px">
-                                    <td>Counter Measure</td>                                
+                                    <td>Countermeasure</td>                                
                                     <td>
                                         <dx:ASPxGridViewTemplateReplacement ID="editCounterMeasure" ReplacementType="EditFormCellEditor"
                                             runat="server" ColumnID="CounterMeasure">
@@ -1039,7 +1039,7 @@
 
     
     <div>
-        <dx:ASPxPopupControl ID="pcAction" runat="server" ClientInstanceName="pcAction" Height="300px" Width="770px" HeaderText="A050 - FTA MASTER" Modal="True" 
+        <dx:ASPxPopupControl ID="pcAction" runat="server" ClientInstanceName="pcAction" Height="300px" Width="770px" HeaderText="A050 - Corrective Action Master" Modal="True" 
             CloseAction="CloseButton" CloseOnEscape="true" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="True">
             
             <ContentCollection>
@@ -1165,7 +1165,7 @@
                                                         <table align="center">
                                                             <tr style="height:30px">
                                                                 <td>
-                                                                    <dx:ASPxLabel ID="ASPxLabel11" runat="server" Font-Names="Segoe UI" Font-Size="8pt" Text="FTA ID" Width="90px"></dx:ASPxLabel>
+                                                                    <dx:ASPxLabel ID="ASPxLabel11" runat="server" Font-Names="Segoe UI" Font-Size="8pt" Text="Corrective Action ID" Width="90px"></dx:ASPxLabel>
                                                                 </td>                                
                                                                 <td>
                                                                     <dx:ASPxGridViewTemplateReplacement ID="editFTAIDAction" ReplacementType="EditFormCellEditor"

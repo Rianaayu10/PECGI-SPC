@@ -219,7 +219,7 @@
                 </td>
             </tr>
             <tr style="height: 30px">
-                <td style="width:130px; padding:5px 0px 0px 0px">
+                <td style="width:60px; padding:5px 0px 0px 0px">
                     &nbsp;<dx:ASPxLabel ID="ASPxLabel2" runat="server" Font-Names="Segoe UI" 
                         Font-Size="9pt" Text="Type">
                     </dx:ASPxLabel>
@@ -239,25 +239,23 @@
                 </td>
             </tr>
             <tr style="height: 30px">
-                <td style="width:260px; padding:5px 0px 0px 0px" colspan="2">
-                    <dx:ASPxRadioButtonList ID="rdlThemeID1" Width="260px" ItemSpacing="10px" Font-Names="Segoe UI" Font-Size="8pt" Theme="Office2010Black" runat="server" RepeatDirection="Horizontal" ClientInstanceName="rdlThemeID1" >                    
+                <td style="width:60px; padding:5px 0px 0px 0px" rowspan="2">
+                    <dx:ASPxRadioButtonList ID="rdlThemeID1" Width="260px" ItemSpacing="10px" Font-Names="Segoe UI" Font-Size="8pt" Theme="Office2010Black" runat="server" ClientInstanceName="rdlThemeID1" Paddings-PaddingLeft="0" >                    
                         <Items>
-                            <dx:ListEditItem Text=" Upload FTA Master" Value="FTAMaster"/>
-                            <dx:ListEditItem Text=" Upload FTA Action" Value="FTAAction" />
+                            <dx:ListEditItem Text=" Upload Corrective Action Master" Value="FTAMaster"/>
+                            <dx:ListEditItem Text=" Upload Corrective Action" Value="FTAAction" />
                         </Items>
                         <ClientSideEvents SelectedIndexChanged="EnableDisableUpload" />
                         <Border BorderStyle="None" />
                     </dx:ASPxRadioButtonList>
                 </td>
-            </tr>
-            <tr style="height: 30px">
-                <td style=" width:130px; padding:5px 0px 0px 0px">
-                    <%--<asp:FileUpload ID="ufFTAMaster" runat="server" Font-Names="Segoe UI" Font-Size="9pt" Width="250px" Height="20px" />--%>
+                 <td style="width:260px;padding:5px 0px 0px 0px" class="auto-style1">
+
                     <dx:ASPxUploadControl ID="uplFTAMaster" runat="server"  
-                        Width="80%" Font-Names="Verdana" Font-Size="8pt"
+                        Width="100%" Font-Names="Verdana" Font-Size="8pt"
                         ClientInstanceName="uplFTAMaster"
                         ShowClearFileSelectionButton="False"
-                        NullText="FTA Master browse"
+                        NullText="Corrective Action Master browse"
                         OnFileUploadComplete="uplImage_FileUploadComplete">
                         <ClientSideEvents FileUploadComplete="OnEndCallback"></ClientSideEvents>
                         <ValidationSettings AllowedFileExtensions=".xls,.xlsx" MaxFileSize="4000000" />
@@ -266,14 +264,20 @@
                         <BrowseButtonStyle Paddings-Padding="3px" >
                         </BrowseButtonStyle>
                     </dx:ASPxUploadControl>
+
                 </td>
-                <td style=" width:130px; padding:5px 0px 0px 0px">
+            </tr>
+            <tr style="height: 30px">
+                <td style="width:60px; padding:5px 0px 0px 0px" colspan="2">
+                    <%--<asp:FileUpload ID="ufFTAMaster" runat="server" Font-Names="Segoe UI" Font-Size="9pt" Width="250px" Height="20px" />--%>
                     <%--<asp:FileUpload ID="ufFTAAction" runat="server" Font-Names="Segoe UI" Font-Size="9pt" Width="250px" Height="20px" />--%>
+
+
                     <dx:ASPxUploadControl ID="Uploader" runat="server"  
-                        Width="80%" Font-Names="Verdana" Font-Size="8pt"
+                        Width="100%" Font-Names="Verdana" Font-Size="8pt"
                         ClientInstanceName="Uploader"
                         ShowClearFileSelectionButton="False"
-                        NullText="FTA Action browse"
+                        NullText="Corrective Action browse"
                         OnFileUploadComplete="uplImage_FileUploadComplete">
                         <ClientSideEvents FileUploadComplete="OnEndCallback"></ClientSideEvents>
                         <ValidationSettings AllowedFileExtensions=".xls,.xlsx" MaxFileSize="4000000" />
@@ -282,7 +286,14 @@
                         <BrowseButtonStyle Paddings-Padding="3px" >
                         </BrowseButtonStyle>
                     </dx:ASPxUploadControl>
+
+
                 </td>
+                 <td style="width:260px; padding:5px 0px 0px 0px">
+
+
+                     &nbsp;</td>
+
             </tr>
         </table>
     </div>

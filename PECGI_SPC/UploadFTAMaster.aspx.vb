@@ -160,9 +160,9 @@ Public Class UploadFTAMaster
             Dim FileName As String = ""
 
             If rdlThemeID1.Value = "FTAMaster" Then
-                FileName = "Template FTA Master.xlsx"
+                FileName = "Template Corrective Action Master.xlsx"
             ElseIf rdlThemeID1.Value = "FTAAction" Then
-                FileName = "Template FTA Action.xlsx"
+                FileName = "Template Corrective Action.xlsx"
             End If
 
             Dim fi As New FileInfo(Server.MapPath("~\Template\" + FileName))
@@ -236,7 +236,7 @@ Public Class UploadFTAMaster
             Dim fileName() As String = Split(pFileName, "_")
             If pSenderName = "uplFTAMaster" Then
 
-                If oSheet.Name = "FTAMaster" Then
+                If oSheet.Name = "Corrective Action Master" Then
                     Dim errList As New List(Of String)
                     Dim errListRow As Integer = 1
                     Dim totalRows As Integer '= oSheet.Dimension.[End].Row
@@ -312,7 +312,7 @@ Public Class UploadFTAMaster
                                 CellValue = Trim(oSheet.Cells(i, y).Value)
 
                                 If CellValue = "" Then
-                                    errList.Add("Row " & errListRow & ". Cell " & oSheet.Cells(i, y).Address & " Field 'FTA ID' can't be empty!")
+                                    errList.Add("Row " & errListRow & ". Cell " & oSheet.Cells(i, y).Address & " Field 'Corrective Action ID' can't be empty!")
                                     errListRow += 1
                                     'ElseIf ClsUploadFTAMasterDB.GetFTAID(CellValue).Rows.Count > 0 Then
                                     '    errList.Add("Row " & errListRow & ". Cell " & oSheet.Cells(i, y).Address & " Field 'FTA ID', FTA ID can't be duplicate !")
@@ -479,7 +479,7 @@ Public Class UploadFTAMaster
 
             ElseIf pSenderName = "Uploader" Then
 
-                If oSheet.Name = "FTAAction" Then
+                If oSheet.Name = "Corrective Action" Then
 
                     Dim errList As New List(Of String)
                     Dim errListRow As Integer = 1
@@ -506,7 +506,7 @@ Public Class UploadFTAMaster
                                 CellValue = Trim(oSheet.Cells(i, y).Value)
 
                                 If CellValue = "" Then
-                                    errList.Add(errListRow & ". Cell " & oSheet.Cells(i, y).Address & " Field 'FTA ID' can't be empty!")
+                                    errList.Add(errListRow & ". Cell " & oSheet.Cells(i, y).Address & " Field 'Corrective Action ID' can't be empty!")
                                     errListRow += 1
                                 End If
 

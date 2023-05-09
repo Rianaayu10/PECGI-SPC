@@ -149,7 +149,7 @@
                                             <thead>
                                                 <tr>
                                                     <th colspan="17"><center>SPC Verification</center></th>
-                                                    <th colspan="5"><center>FTA Verification</center></th>
+                                                    <th colspan="5"><center>Corrective Action Verification</center></th>
                                                 </tr>
                                                 <tr>
                                                     <th width="5%">Type</th>

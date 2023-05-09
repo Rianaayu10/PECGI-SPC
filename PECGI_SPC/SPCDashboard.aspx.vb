@@ -185,7 +185,7 @@ Public Class SPCDashboard
 
             Dim SplitType = Split(lblTypeNGInput.Text, "||")(0)
             'lblTypeNGInput.Text = "<a href='" + Split(lblTypeNGInput.Text, "||")(2) + "' target='_blank'>" + Split(lblTypeNGInput.Text, "||")(0) + "</a>"
-            lblTypeNGInput.Text = "<a href='" + Split(lblTypeNGInput.Text, "||")(2) + "' target='_blank'>SPC</a> | <a href='" + Split(lblTypeNGInput.Text, "||")(3) + "' target='_blank'>FTA</a>"
+            lblTypeNGInput.Text = "<a href='" + Split(lblTypeNGInput.Text, "||")(2) + "' target='_blank'>SPC</a> | <a href='" + Split(lblTypeNGInput.Text, "||")(3) + "' target='_blank'>Corrective Action</a>"
 
 
             'Dim lblType As LinkButton = TryCast(item.FindControl("linkType"), LinkButton)

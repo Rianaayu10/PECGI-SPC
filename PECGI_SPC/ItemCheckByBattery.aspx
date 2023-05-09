@@ -589,8 +589,8 @@
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
                 </dx:GridViewDataComboBoxColumn>
 
-                <dx:GridViewDataSpinEditColumn Caption="FTA Ratio %" FieldName="FTARatio"
-                    width="70px" Settings-AutoFilterCondition="Contains" VisibleIndex="10">
+                <dx:GridViewDataSpinEditColumn Caption="Corrective Action Criteria of Out of Control Sample Quantity" FieldName="FTARatio"
+                    width="200px" Settings-AutoFilterCondition="Contains" VisibleIndex="10">
                     <PropertiesSpinEdit MaxValue="10000" MinValue="0" DecimalPlaces="2" Increment="1" Style-VerticalAlign="Middle" Style-HorizontalAlign="Right" Width="195px">
                         <ButtonStyle Width="5px" Paddings-Padding="2px">
                             <Paddings Padding="2px" />
@@ -612,7 +612,7 @@
                     <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
                     <Paddings PaddingLeft="5px"></Paddings>
                     </HeaderStyle>
-                    <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"></CellStyle>
+                    <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"></CellStyle>
                 </dx:GridViewDataTextColumn>
                 
                 <dx:GridViewDataComboBoxColumn Caption="Prev Item Check" FieldName="PrevItemCheck" VisibleIndex="12"
@@ -843,7 +843,7 @@
                                     </td>
                                 </tr>
                                 <tr style="height:30px">
-                                    <td>FTA Ratio</td>                                
+                                    <td>Corrective Action Criteria of Out of Control Sample Quantity</td>                                
                                     <td>
                                         <dx:ASPxGridViewTemplateReplacement ID="editFTARatio" ReplacementType="EditFormCellEditor"
                                             runat="server" ColumnID="FTARatio">
