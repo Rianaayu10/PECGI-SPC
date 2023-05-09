@@ -738,7 +738,7 @@
 
             <Templates>
                 <EditForm>
-                    <div style="padding: 15px 15px 15px 15px; width: 300px">
+                    <div style="padding: 15px 15px 15px 15px; width: 500px">
                         <dx:ContentControl ID="ContentControl1" runat="server">
                             <table align="center">
                                 <tr style="height:30px">
@@ -847,6 +847,7 @@
                                     <td>
                                         <dx:ASPxGridViewTemplateReplacement ID="editFTARatio" ReplacementType="EditFormCellEditor"
                                             runat="server" ColumnID="FTARatio">
+
                                         </dx:ASPxGridViewTemplateReplacement>   
                                     </td>
                                 </tr>

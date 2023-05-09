@@ -240,7 +240,7 @@
             </tr>
             <tr style="height: 30px">
                 <td style="width:60px; padding:5px 0px 0px 0px" rowspan="2">
-                    <dx:ASPxRadioButtonList ID="rdlThemeID1" Width="260px" ItemSpacing="10px" Font-Names="Segoe UI" Font-Size="8pt" Theme="Office2010Black" runat="server" ClientInstanceName="rdlThemeID1" Paddings-PaddingLeft="0" >                    
+                    <dx:ASPxRadioButtonList ID="rdlThemeID1" Width="200px" ItemSpacing="10px" Font-Names="Segoe UI" Font-Size="8pt" Theme="Office2010Black" runat="server" ClientInstanceName="rdlThemeID1" Paddings-PaddingLeft="0" >                    
                         <Items>
                             <dx:ListEditItem Text=" Upload Corrective Action Master" Value="FTAMaster"/>
                             <dx:ListEditItem Text=" Upload Corrective Action" Value="FTAAction" />
@@ -299,12 +299,10 @@
     </div>
 
 
-    <div style="padding: 20px 5px 5px 5px">
+    <div style="padding: 0; margin: 0">
 
-        <hr style="border-color:darkgray; " class="auto-style1"/>
-        <div>
-            <br />
-            <table style="width: 100%;">
+        <div style="padding: 0; margin: 0">
+            <table style="width: 100%;padding: 0; margin: 0">
                 <tr>
                     <td>
                         <table>

@@ -152,9 +152,9 @@
                                                     <th colspan="5"><center>Corrective Action Verification</center></th>
                                                 </tr>
                                                 <tr>
-                                                    <th width="5%">Type</th>
+                                                    <th width="10%">Type</th>
                                                     <th width="10%">Machine Process</th>
-                                                    <th width="15%">Item Check</th>
+                                                    <th width="10%">Item Check</th>
                                                     <th width="5%">Date</th>
                                                     <th width="5%">Shift</th>
                                                     <th width="5%">Seq</th>
@@ -169,7 +169,7 @@
                                                     <th>Operator</th>
                                                     <th>MK</th>
                                                     <th>QC</th>
-                                                    <th>Current Condition</th>
+                                                    <th width="5%">Current Condition</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                     <th>MK</th>
@@ -180,13 +180,13 @@
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                                 <tr>
-                                                    <td width="5%">
+                                                    <td width="10%">
                                                         <asp:Label ID="lblTypeNGInput" runat="server" Text='<%# Eval("ItemTypeName") %>' />
                                                     </td>
                                                     <td width="10%">
                                                         <asp:Label ID="lblMachineProcess" runat="server" Text='<%# Eval("LineName") %>' />
                                                     </td>
-                                                    <td width="15%">
+                                                    <td width="10%">
                                                         <asp:Label ID="lblItemCheck" runat="server" Text='<%# Eval("ItemCheck") %>' />
                                                     </td>
                                                     <td width="5%">
@@ -231,7 +231,7 @@
                                                     <td >
                                                         <asp:Label ID="lblQC" runat="server" Text='<%# Eval("QC") %>' />
                                                     </td>
-                                                    <td >
+                                                    <td width="5%">
                                                         <asp:Label ID="lblCurrentConditionFTA" runat="server" Text='<%# Eval("LineName") %>' />
                                                     </td>
                                                     <td >

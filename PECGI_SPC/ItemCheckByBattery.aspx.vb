@@ -334,6 +334,19 @@ Public Class ItemCheckByBattery
             Return
         End If
 
+        GridColumn = Grid.DataColumns("PrevItemCheck")
+        If IsNothing(e.NewValues("PrevItemCheck")) OrElse e.NewValues("PrevItemCheck").ToString.Trim = "N/A" Then
+
+        Else
+            GridColumn = Grid.DataColumns("PrevValue")
+            If IsNothing(e.NewValues("PrevValue")) OrElse e.NewValues("PrevValue").ToString.Trim = "" Then
+                e.Errors(GridColumn) = "Prev Value Must Be Filled !"
+                show_error(MsgTypeEnum.Warning, "Prev Value Must Be Filled !", 1)
+                Return
+            End If
+        End If
+
+
     End Sub
 
     Protected Sub Grid_StartRowEditing(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxStartRowEditingEventArgs) Handles Grid.StartRowEditing
