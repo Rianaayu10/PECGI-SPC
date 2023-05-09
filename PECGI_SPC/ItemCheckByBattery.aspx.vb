@@ -92,11 +92,16 @@ Public Class ItemCheckByBattery
         SpecialChar = e.NewValues("CharacteristicStatus")
         Dim ProcessTableLineCode = e.NewValues("ProcessTableLineCode")
         Dim PrevItemCheck = e.NewValues("PrevItemCheck")
+        Dim PrevValue = e.NewValues("PrevValue")
 
-        If PrevItemCheck IsNot Nothing Then
+        If PrevItemCheck = "N/A" Then
+            PrevItemCheck = Nothing
+            PrevValue = Nothing
+        ElseIf PrevItemCheck IsNot Nothing Then
             PrevItemCheck = PrevItemCheck.Substring(0, PrevItemCheck.IndexOf(" -"))
         Else
-            PrevItemCheck = ""
+            PrevItemCheck = Nothing
+            PrevValue = Nothing
         End If
 
         Dim BatteryType As New ClsSPCItemCheckByType With {
@@ -115,7 +120,7 @@ Public Class ItemCheckByBattery
             .FTARatio = e.NewValues("FTARatio"),
             .StationID = e.NewValues("StationID"),
             .PrevItemCheck = PrevItemCheck,
-            .PrevValue = e.NewValues("PrevValue"),
+            .PrevValue = PrevValue,
             .ActiveStatus = e.NewValues("ActiveStatus"),
             .UpdateUser = pUser,
             .CreateUser = pUser
@@ -152,12 +157,18 @@ Public Class ItemCheckByBattery
         SpecialChar = e.NewValues("CharacteristicStatus")
         Dim ProcessTableLineCode = e.NewValues("ProcessTableLineCode")
         Dim PrevItemCheck = e.NewValues("PrevItemCheck")
+        Dim PrevValue = e.NewValues("PrevValue")
 
-        If PrevItemCheck IsNot Nothing Then
+        If PrevItemCheck = "N/A" Then
+            PrevItemCheck = Nothing
+            PrevValue = Nothing
+        ElseIf PrevItemCheck IsNot Nothing Then
             PrevItemCheck = PrevItemCheck.Substring(0, PrevItemCheck.IndexOf(" -"))
         Else
-            PrevItemCheck = ""
+            PrevItemCheck = Nothing
+            PrevValue = Nothing
         End If
+
         Dim BatteryType As New ClsSPCItemCheckByType With {
             .FactoryCode = e.NewValues("FactoryCode"),
             .ItemTypeCode = e.NewValues("ItemTypeCode"),
@@ -173,7 +184,7 @@ Public Class ItemCheckByBattery
             .FTARatio = e.NewValues("FTARatio"),
             .StationID = e.NewValues("StationID"),
             .PrevItemCheck = PrevItemCheck,
-            .PrevValue = e.NewValues("PrevValue"),
+            .PrevValue = PrevValue,
             .ActiveStatus = e.NewValues("ActiveStatus"),
             .UpdateUser = pUser,
             .CreateUser = pUser

@@ -332,6 +332,10 @@
             ConnectionString="<%$ ConnectionStrings:ApplicationServices %>"
             SelectCommand="Exec sp_SPC_ItemCheckByBattery_FillCombo '9' "></asp:SqlDataSource>
 
+        <asp:SqlDataSource ID="dsPrevItemCheck" runat="server"
+            ConnectionString="<%$ ConnectionStrings:ApplicationServices %>"
+            SelectCommand="Exec sp_SPC_ItemCheckByBattery_FillCombo '10' "></asp:SqlDataSource>
+
 
     <div style="padding: 20px 5px 5px 5px">
 
@@ -613,7 +617,7 @@
                 
                 <dx:GridViewDataComboBoxColumn Caption="Prev Item Check" FieldName="PrevItemCheck" VisibleIndex="12"
                     Width="200px" Settings-AutoFilterCondition="Contains">
-                    <PropertiesComboBox DataSourceID="dsItemCheck" DropDownStyle="DropDownList" TextFormatString="{0}"
+                    <PropertiesComboBox DataSourceID="dsPrevItemCheck" DropDownStyle="DropDownList" TextFormatString="{0}"
                         IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="195px"
                         TextField="ItemCheck" ValueField="ItemCheck" ClientInstanceName="PrevItemCheck">
                         <ItemStyle Height="10px" Paddings-Padding="4px">
