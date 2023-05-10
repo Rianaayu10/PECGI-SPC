@@ -347,9 +347,9 @@ Public Class ItemCheckByBattery
 
         Else
             GridColumn = Grid.DataColumns("PrevValue")
-            If IsNothing(e.NewValues("PrevValue")) OrElse e.NewValues("PrevValue").ToString.Trim = "" OrElse e.NewValues("PrevValue").ToString.Trim = "0" Then
-                e.Errors(GridColumn) = "Prev Value Must Be Filled Or Cant Be 0!"
-                show_error(MsgTypeEnum.Warning, "Prev Value Must Be Filled Or Cant Be 0!", 1)
+            If IsNothing(e.NewValues("PrevValue")) OrElse e.NewValues("PrevValue").ToString.Trim = "" Then
+                e.Errors(GridColumn) = "Prev Value Must Be Filled!"
+                show_error(MsgTypeEnum.Warning, "Prev Value Must Be Filled!", 1)
                 Return
             End If
         End If
