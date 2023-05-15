@@ -13,6 +13,8 @@
     Public Property Evaluation As String
     Public Property CharacteristicItem As String
     Public Property ProcessTableLineCode As String
+    Public Property PrevItemCheck As String
+    Public Property PrevValue As String
     Public Property ActiveStatus As String
     Public Property UpdateDate As String
     Public Property UpdateUser As String

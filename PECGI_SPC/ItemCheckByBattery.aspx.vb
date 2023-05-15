@@ -91,6 +91,19 @@ Public Class ItemCheckByBattery
         ItemCheck = e.NewValues("ItemCheck")
         SpecialChar = e.NewValues("CharacteristicStatus")
         Dim ProcessTableLineCode = e.NewValues("ProcessTableLineCode")
+        Dim PrevItemCheck = e.NewValues("PrevItemCheck")
+        Dim PrevValue = e.NewValues("PrevValue")
+
+        If PrevItemCheck = "N/A" Then
+            PrevItemCheck = Nothing
+            PrevValue = Nothing
+        ElseIf PrevItemCheck IsNot Nothing Then
+            PrevItemCheck = PrevItemCheck.Substring(0, PrevItemCheck.IndexOf(" -"))
+        Else
+            PrevItemCheck = Nothing
+            PrevValue = Nothing
+        End If
+
         Dim BatteryType As New ClsSPCItemCheckByType With {
             .FactoryCode = e.NewValues("FactoryCode"),
             .FactoryName = cboFactory.Text,
@@ -104,6 +117,8 @@ Public Class ItemCheckByBattery
             .Evaluation = e.NewValues("Evaluation"),
             .CharacteristicItem = SpecialChar.Substring(0, SpecialChar.IndexOf(" -")),
             .ProcessTableLineCode = ProcessTableLineCode.Substring(0, ProcessTableLineCode.IndexOf(" -")),
+            .PrevItemCheck = PrevItemCheck,
+            .PrevValue = PrevValue,
             .ActiveStatus = e.NewValues("ActiveStatus"),
             .UpdateUser = pUser,
             .CreateUser = pUser
@@ -139,6 +154,19 @@ Public Class ItemCheckByBattery
         ItemCheck = e.NewValues("ItemCheck")
         SpecialChar = e.NewValues("CharacteristicStatus")
         Dim ProcessTableLineCode = e.NewValues("ProcessTableLineCode")
+        Dim PrevItemCheck = e.NewValues("PrevItemCheck")
+        Dim PrevValue = e.NewValues("PrevValue")
+
+        If PrevItemCheck = "N/A" Then
+            PrevItemCheck = Nothing
+            PrevValue = Nothing
+        ElseIf PrevItemCheck IsNot Nothing Then
+            PrevItemCheck = PrevItemCheck.Substring(0, PrevItemCheck.IndexOf(" -"))
+        Else
+            PrevItemCheck = Nothing
+            PrevValue = Nothing
+        End If
+
         Dim BatteryType As New ClsSPCItemCheckByType With {
             .FactoryCode = e.NewValues("FactoryCode"),
             .ItemTypeCode = e.NewValues("ItemTypeCode"),
@@ -151,6 +179,8 @@ Public Class ItemCheckByBattery
             .Evaluation = e.NewValues("Evaluation"),
             .CharacteristicItem = SpecialChar.Substring(0, SpecialChar.IndexOf(" -")),
             .ProcessTableLineCode = ProcessTableLineCode.Substring(0, ProcessTableLineCode.IndexOf(" -")),
+            .PrevItemCheck = PrevItemCheck,
+            .PrevValue = PrevValue,
             .ActiveStatus = e.NewValues("ActiveStatus"),
             .UpdateUser = pUser,
             .CreateUser = pUser
@@ -298,6 +328,18 @@ Public Class ItemCheckByBattery
             e.Errors(GridColumn) = "Process Table Line Code  Must Be Filled !"
             show_error(MsgTypeEnum.ErrorMsg, "Process Table Line Code Must Be Filled !", 1)
             Return
+        End If
+
+        GridColumn = Grid.DataColumns("PrevItemCheck")
+        If IsNothing(e.NewValues("PrevItemCheck")) OrElse e.NewValues("PrevItemCheck").ToString.Trim = "N/A" Then
+
+        Else
+            GridColumn = Grid.DataColumns("PrevValue")
+            If IsNothing(e.NewValues("PrevValue")) OrElse e.NewValues("PrevValue").ToString.Trim = "" Then
+                e.Errors(GridColumn) = "Prev Value Must Be Filled!"
+                show_error(MsgTypeEnum.Warning, "Prev Value Must Be Filled!", 1)
+                Return
+            End If
         End If
 
     End Sub
