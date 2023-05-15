@@ -82,6 +82,7 @@ namespace SPCMeasurement
             this.btnStart = new System.Windows.Forms.Button();
             this.lblComplete = new System.Windows.Forms.Label();
             this.btnClearValue2 = new System.Windows.Forms.Button();
+            this.lblPrevItem = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.cboProcess)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboLineGroup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboProcessGroup)).BeginInit();
@@ -561,7 +562,7 @@ namespace SPCMeasurement
             // 
             this.stMsg.BackColor = System.Drawing.Color.White;
             this.stMsg.Name = "stMsg";
-            this.stMsg.Size = new System.Drawing.Size(1000, 20);
+            this.stMsg.Size = new System.Drawing.Size(880, 20);
             this.stMsg.Spring = true;
             this.stMsg.Text = "Message";
             // 
@@ -573,7 +574,7 @@ namespace SPCMeasurement
             this.stServer.Image = global::SPCMeasurement.Properties.Resources.server_connect;
             this.stServer.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.stServer.Name = "stServer";
-            this.stServer.Size = new System.Drawing.Size(200, 20);
+            this.stServer.Size = new System.Drawing.Size(320, 20);
             this.stServer.Text = "Server";
             this.stServer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -706,13 +707,12 @@ namespace SPCMeasurement
             // 
             // lblArg
             // 
-            this.lblArg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblArg.AutoSize = true;
+            this.lblArg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblArg.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblArg.ForeColor = System.Drawing.Color.Gray;
-            this.lblArg.Location = new System.Drawing.Point(942, 581);
+            this.lblArg.Location = new System.Drawing.Point(923, 568);
             this.lblArg.Name = "lblArg";
-            this.lblArg.Size = new System.Drawing.Size(75, 17);
+            this.lblArg.Size = new System.Drawing.Size(358, 46);
             this.lblArg.TabIndex = 109;
             this.lblArg.Text = "Arguments";
             this.lblArg.Visible = false;
@@ -723,9 +723,9 @@ namespace SPCMeasurement
             this.pnlValue.Controls.Add(this.btnGetValue);
             this.pnlValue.Controls.Add(this.opt2);
             this.pnlValue.Controls.Add(this.opt1);
-            this.pnlValue.Location = new System.Drawing.Point(500, 141);
+            this.pnlValue.Location = new System.Drawing.Point(521, 141);
             this.pnlValue.Name = "pnlValue";
-            this.pnlValue.Size = new System.Drawing.Size(411, 52);
+            this.pnlValue.Size = new System.Drawing.Size(390, 52);
             this.pnlValue.TabIndex = 110;
             this.pnlValue.Visible = false;
             this.pnlValue.VisibleChanged += new System.EventHandler(this.pnlValue_VisibleChanged);
@@ -738,7 +738,7 @@ namespace SPCMeasurement
             this.btnGetValue.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnGetValue.Location = new System.Drawing.Point(261, 3);
             this.btnGetValue.Name = "btnGetValue";
-            this.btnGetValue.Size = new System.Drawing.Size(145, 45);
+            this.btnGetValue.Size = new System.Drawing.Size(123, 45);
             this.btnGetValue.TabIndex = 112;
             this.btnGetValue.Text = "Get Value";
             this.btnGetValue.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -847,7 +847,7 @@ namespace SPCMeasurement
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(82, 30);
             this.btnSave.TabIndex = 8;
-            this.btnSave.Text = "Test";
+            this.btnSave.Text = "Input";
             this.btnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Visible = false;
@@ -925,12 +925,24 @@ namespace SPCMeasurement
             this.btnClearValue2.Visible = false;
             this.btnClearValue2.Click += new System.EventHandler(this.btnClearValue2_Click);
             // 
+            // lblPrevItem
+            // 
+            this.lblPrevItem.AutoSize = true;
+            this.lblPrevItem.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPrevItem.ForeColor = System.Drawing.Color.SlateGray;
+            this.lblPrevItem.Location = new System.Drawing.Point(917, 159);
+            this.lblPrevItem.Name = "lblPrevItem";
+            this.lblPrevItem.Size = new System.Drawing.Size(68, 17);
+            this.lblPrevItem.TabIndex = 113;
+            this.lblPrevItem.Text = "Prev Item";
+            // 
             // frmMeasurement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(183)))), ((int)(((byte)(227)))), ((int)(((byte)(242)))));
             this.ClientSize = new System.Drawing.Size(1335, 650);
+            this.Controls.Add(this.lblPrevItem);
             this.Controls.Add(this.lblComplete);
             this.Controls.Add(this.btnRead);
             this.Controls.Add(this.pnlValue);
@@ -1035,6 +1047,7 @@ namespace SPCMeasurement
         private System.Windows.Forms.Button btnGetValue;
         private System.Windows.Forms.Label lblComplete;
         private System.Windows.Forms.Button btnClearValue2;
+        private System.Windows.Forms.Label lblPrevItem;
     }
 }
 

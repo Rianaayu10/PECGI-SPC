@@ -29,20 +29,18 @@ Partial Class frmLauncher
         '
         'lblCommand
         '
-        Me.lblCommand.AutoSize = True
-        Me.lblCommand.Location = New System.Drawing.Point(14, 59)
+        Me.lblCommand.Location = New System.Drawing.Point(12, 44)
         Me.lblCommand.Name = "lblCommand"
-        Me.lblCommand.Size = New System.Drawing.Size(27, 13)
+        Me.lblCommand.Size = New System.Drawing.Size(390, 28)
         Me.lblCommand.TabIndex = 0
         Me.lblCommand.Text = "args"
-        Me.lblCommand.Visible = False
         '
         'lblErr
         '
         Me.lblErr.ForeColor = System.Drawing.Color.Red
         Me.lblErr.Location = New System.Drawing.Point(12, 9)
         Me.lblErr.Name = "lblErr"
-        Me.lblErr.Size = New System.Drawing.Size(390, 50)
+        Me.lblErr.Size = New System.Drawing.Size(390, 35)
         Me.lblErr.TabIndex = 0
         Me.lblErr.Text = "Error"
         '
@@ -58,7 +56,6 @@ Partial Class frmLauncher
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "SPC Launcher"
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
 

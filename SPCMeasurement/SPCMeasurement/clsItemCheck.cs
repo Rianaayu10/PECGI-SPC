@@ -13,6 +13,8 @@ namespace SPCMeasurement
     {
         public string ItemCheckCode { get; set; }
         public string ItemCheck { get; set; }
+        public string PrevItemCheck { get; set; }
+        public string PrevValue { get; set; }
     }
 
     class clsItemCheckDB
@@ -29,7 +31,12 @@ namespace SPCMeasurement
             {
                 cn.Open();
                 string q;
-                q = "select I.ItemCheckCode, I.ItemCheckCode + ' - ' + I.ItemCheck ItemCheck, isnull(Measure2Cls, '0') Measure2Cls " +
+                q = "select I.ItemCheckCode, I.ItemCheckCode + ' - ' + I.ItemCheck ItemCheck, " +
+                    "isnull(Measure2Cls, '0') Measure2Cls, " +
+                    "isnull(T.PrevItemCheck, '') PrevItemCheck, " + 
+                    "case when isnull(T.PrevItemCheck, '') = '' then 0 " +
+                    "when isnull(T.PrevValue, '') = '1' then 1 " +
+                    "else 2 end PrevValue " +
                     "from spc_ItemCheckMaster I inner join spc_ItemCheckByType T on I.ItemCheckCode = T.ItemCheckCode " +
                     "where T.ItemCheckCode is not Null ";
                 if (FactoryCode != "") {
@@ -59,6 +66,8 @@ namespace SPCMeasurement
                 cbo.MaxDropDownItems = 10;
                 cbo.Splits[0].DisplayColumns[0].Visible = false;
                 cbo.Splits[0].DisplayColumns[2].Visible = false;
+                cbo.Splits[0].DisplayColumns[3].Visible = false;
+                cbo.Splits[0].DisplayColumns[4].Visible = false;
                 cbo.ExtendRightColumn = true;                
                 cbo.DropdownPosition = C1.Win.C1List.DropdownPositionEnum.LeftDown;
                 cbo.ValueMember = "ItemCheckCode";
@@ -92,6 +101,31 @@ namespace SPCMeasurement
                 }
                 rd.Close();
                 return result;
+            }
+        }
+
+        public static clsItemCheck GetItemChek(string ItemCheckCode)
+        {
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                con.Open();
+                string q = "select T.*, I.ItemCheck from spc_ItemCheckByType T inner join spc_ItemCheckMaster I on T.ItemCheckCode = I.ItemCheckCode where T.ItemCheckCode = @ItemCheckCode";
+                SqlCommand cmd = new SqlCommand(q, con);
+                cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                if(dt.Rows.Count > 0)
+                {
+                    clsItemCheck item = new clsItemCheck();
+                    item.ItemCheckCode = dt.Rows[0]["ItemCheckCode"].ToString();
+                    item.PrevItemCheck = dt.Rows[0]["PrevItemCheck"] + "";
+                    item.PrevValue = dt.Rows[0]["PrevValue"] + "";
+                    return item;
+                } else
+                {
+                    return null;
+                }
             }
         }
     }

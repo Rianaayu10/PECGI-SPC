@@ -39,7 +39,7 @@ namespace SPCMeasurement
                 string ShiftCode = arrayparam[9];
                 string SeqNo = arrayparam[10];
                 string ProdDate = arrayparam[11];
-                if(arrayparam.Length > 9)
+                if(arrayparam.Length > 12)
                 {
                     pServer = arrayparam[12];
                     pDatabase = arrayparam[13];

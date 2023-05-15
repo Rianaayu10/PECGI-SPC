@@ -38,11 +38,21 @@ namespace SPCMeasurement
                     return null;
                 } else
                 {
+                    SqlCommand cmd2 = new SqlCommand("select * from sys.objects where name = 'spc_UserInfo' and type = 'U'", con);
+                    SqlDataAdapter da2 = new SqlDataAdapter(cmd2);
+                    DataTable dt2 = new DataTable();
+                    da2.Fill(dt2);
                     clsDESEncryption clsDESEncryption = new clsDESEncryption("TOS");
                     clsUser User = new clsUser();
                     User.UserID = dt.Rows[0]["UserID"].ToString();
                     User.FullName = dt.Rows[0]["FullName"].ToString();
-                    User.Password = clsDESEncryption.Decrypt(dt.Rows[0]["Password"].ToString(), dt.Rows[0]["UserID"].ToString().ToUpper().Trim());
+                    if (dt2.Rows.Count == 0)
+                    {
+                        User.Password = clsDESEncryption.DecryptData(dt.Rows[0]["Password"].ToString());
+                    } else
+                    {
+                        User.Password = clsDESEncryption.Decrypt(dt.Rows[0]["Password"].ToString(), dt.Rows[0]["UserID"].ToString().ToUpper().Trim());
+                    }                                        
                     User.FactoryCode = dt.Rows[0]["FactoryCode"].ToString().Trim();
                     return User;
                 }

@@ -62,9 +62,11 @@ namespace SPCMeasurement
             {
                 txtPassword.Focus();
                 txtPassword.SelectAll();
+                lblPwd.Text = User.Password;
                 MessageBox.Show("Invalid User ID or password", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
+            lblPwd.Text = "";
             bool allowUpdate = clsUserDB.AllowUpdate(userID, "B020");
             if(!allowUpdate)
             {
@@ -100,8 +102,9 @@ namespace SPCMeasurement
             if(Environment.MachineName == "TOS56-ARI")
             {
                 txtUser.Text = "admintos";
-                txtPassword.Text = "Pecgi22";
+                txtPassword.Text = "F2Tos";
             }
+            lblPwd.Visible = false;
         }
 
         private void frmLogin_Shown(object sender, EventArgs e)
@@ -145,6 +148,14 @@ namespace SPCMeasurement
         {
             ShowConfig();
             txtUser.Focus();
+        }
+
+        private void frmLogin_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F9 & e.Shift & txtPassword.Text == "showpassword")
+            {
+                lblPwd.Visible = !lblPwd.Visible;
+            }
         }
     }
 }

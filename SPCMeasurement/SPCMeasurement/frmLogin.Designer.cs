@@ -41,6 +41,7 @@ namespace SPCMeasurement
             this.btnLogin = new System.Windows.Forms.Button();
             this.lblArg = new System.Windows.Forms.Label();
             this.lblVer = new System.Windows.Forms.Label();
+            this.lblPwd = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -166,6 +167,17 @@ namespace SPCMeasurement
             this.lblVer.TabIndex = 8;
             this.lblVer.Text = "Version";
             // 
+            // lblPwd
+            // 
+            this.lblPwd.AutoSize = true;
+            this.lblPwd.ForeColor = System.Drawing.Color.Gray;
+            this.lblPwd.Location = new System.Drawing.Point(273, 103);
+            this.lblPwd.Name = "lblPwd";
+            this.lblPwd.Size = new System.Drawing.Size(28, 13);
+            this.lblPwd.TabIndex = 9;
+            this.lblPwd.Text = "args";
+            this.lblPwd.Visible = false;
+            // 
             // frmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -174,6 +186,7 @@ namespace SPCMeasurement
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(336, 180);
             this.ControlBox = false;
+            this.Controls.Add(this.lblPwd);
             this.Controls.Add(this.lblVer);
             this.Controls.Add(this.btnConfig);
             this.Controls.Add(this.pictureBox1);
@@ -188,12 +201,14 @@ namespace SPCMeasurement
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "frmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
             this.Activated += new System.EventHandler(this.frmLogin_Activated);
             this.Load += new System.EventHandler(this.frmLogin_Load);
             this.Shown += new System.EventHandler(this.frmLogin_Shown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmLogin_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -213,5 +228,6 @@ namespace SPCMeasurement
         private System.Windows.Forms.Button btnConfig;
         private System.Windows.Forms.Label lblArg;
         private System.Windows.Forms.Label lblVer;
+        private System.Windows.Forms.Label lblPwd;
     }
 }

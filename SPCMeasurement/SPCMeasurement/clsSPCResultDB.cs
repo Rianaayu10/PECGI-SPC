@@ -44,7 +44,7 @@ namespace SPCMeasurement
             }
         }
 
-        public static int InsertPrevValue(clsSPCResult Result, string ItemCheckCodeFrom)
+        public static int InsertPrevValue(clsSPCResult Result, string ItemCheckCodeFrom, string PrevValue)
         {
             using (SqlConnection con = new SqlConnection(constr))
             {
@@ -61,6 +61,12 @@ namespace SPCMeasurement
                 cmd.Parameters.AddWithValue("SequenceNo", Result.SequenceNo);
                 cmd.Parameters.AddWithValue("RegisterUser", Result.RegisterUser);
                 cmd.Parameters.AddWithValue("RegisterNo", Result.RegisterNo);
+                if(PrevValue == "")
+                {
+                    PrevValue = "0";
+                }
+                int iPrevValue = Convert.ToInt16(PrevValue);
+                cmd.Parameters.AddWithValue("PrevValue", iPrevValue);
 
                 cmd.Parameters.Add("SPCResultID", SqlDbType.Int);
                 cmd.Parameters["SPCResultID"].Direction = ParameterDirection.Output;

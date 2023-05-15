@@ -28,6 +28,8 @@ namespace SPCMeasurement
         public string pShiftCode;
         public string pSeqNo;
         public string pProdDate;
+        public string pServer;
+        public string pDatabase;
 
         public frmLogin frmLogin;
         public bool IsInit = true;
@@ -37,7 +39,7 @@ namespace SPCMeasurement
         string ls_MEAS_Connection = "";
         string ls_COM_Port = "", ls_COM_BaudRate = "", ls_COM_DataBits = "", ls_COM_Parity = "", ls_COM_StopBits = "", ls_COM_RTSEnable = "", ls_COM_GetResultData = "", ls_Command = "";
         string ls_COM_Stable = "", ls_COM_FlowControl = "", ls_COM_DTREnable = "";
-        string Measure2nd = "0";
+        string Measure2nd = "0";        
         int getResultData = 0;
 
         string ls_SavedBarcodeNo = "", ls_SavedWeight = "";
@@ -55,6 +57,8 @@ namespace SPCMeasurement
         double valScale, prevValScale;
 
         private const string USBPort = "USB";
+        string PrevItemCheck = "";
+        string PrevValue = "";
 
         private void btnStop_Click(object sender, EventArgs e)
         {
@@ -434,11 +438,25 @@ namespace SPCMeasurement
         private void cboItemCheck_TextChanged(object sender, EventArgs e)
         {
             Measure2nd = cboItemCheck.GetItemText(cboItemCheck.Row, 2).Trim();
+            PrevItemCheck = cboItemCheck.GetItemText(cboItemCheck.Row, 3).Trim();
+            PrevValue = cboItemCheck.GetItemText(cboItemCheck.Row, 4).Trim();
             pnlValue.Visible = Measure2nd == "1";
             if(Measure2nd == "1")
             {
-                opt1.Checked = true;                
-            }
+                opt1.Checked = true;
+                btnGetValue.Enabled = PrevItemCheck != "";
+                if(PrevItemCheck == "")
+                {
+                    lblPrevItem.Text = "";
+                } else
+                {
+                    lblPrevItem.Text = "Previous Item Check: " + PrevItemCheck + ", Value " + PrevValue;
+                }
+                
+            } else
+            {
+                lblPrevItem.Text = "";
+            }            
             ShowValue2(Measure2nd == "1");
             FillCboShift();
             RefreshData();
@@ -716,7 +734,7 @@ namespace SPCMeasurement
         }
 
         private void ReadCache()
-        {
+        {            
             string CacheUserID = "";
             string FactoryCode= "";  
             string ProcessGroup = "";  
@@ -729,55 +747,61 @@ namespace SPCMeasurement
             string SeqNo = "";
             string RegNo = "";
 
-            Microsoft.Win32.RegistryKey key;
-            key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SPCMeasurement");
-            if(key != null)
+            try
             {
-                CacheUserID = key.GetValue("UserID").ToString();
-                FactoryCode = key.GetValue("FactoryCode").ToString();
-                ProcessGroup = key.GetValue("ProcessGroup").ToString();
-                LineGroup = key.GetValue("LineGroup").ToString();
-                ProcessCode = key.GetValue("ProcessCode").ToString();
-                LineCode = key.GetValue("LineCode").ToString();
-                ItemType = key.GetValue("ItemType").ToString();
-                ItemCheck = key.GetValue("ItemCheck").ToString();
-                ShiftCode = key.GetValue("ShiftCode").ToString();
-                SeqNo = key.GetValue("SeqNo").ToString();
-                RegNo = key.GetValue("RegNo").ToString();
-            }            
-            key.Close();
+                Microsoft.Win32.RegistryKey key;
+                key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SPCMeasurement");
+                if (key != null)
+                {
+                    CacheUserID = key.GetValue("UserID").ToString();
+                    FactoryCode = key.GetValue("FactoryCode").ToString();
+                    ProcessGroup = key.GetValue("ProcessGroup").ToString();
+                    LineGroup = key.GetValue("LineGroup").ToString();
+                    ProcessCode = key.GetValue("ProcessCode").ToString();
+                    LineCode = key.GetValue("LineCode").ToString();
+                    ItemType = key.GetValue("ItemType").ToString();
+                    ItemCheck = key.GetValue("ItemCheck").ToString();
+                    ShiftCode = key.GetValue("ShiftCode").ToString();
+                    SeqNo = key.GetValue("SeqNo").ToString();
+                    RegNo = key.GetValue("RegNo").ToString();
+                }
+                key.Close();
 
-            if (ProcessGroup != "")
+                if (ProcessGroup != "")
+                {
+                    cboProcessGroup.SelectedValue = ProcessGroup;
+                }
+                if (LineGroup != "")
+                {
+                    cboLineGroup.SelectedValue = LineGroup;
+                }
+                if (ProcessCode != "")
+                {
+                    cboProcess.SelectedValue = ProcessCode;
+                }
+                if (LineCode != "")
+                {
+                    cboLine.SelectedValue = LineCode;
+                }
+                if (ItemType != "")
+                {
+                    cboType.SelectedValue = ItemType;
+                }
+                if (ItemCheck != "")
+                {
+                    cboItemCheck.SelectedValue = ItemCheck;
+                }
+                if (ShiftCode != "")
+                {
+                    cboShift.SelectedValue = ShiftCode;
+                }
+                if (SeqNo != "")
+                {
+                    cboSeq.SelectedValue = SeqNo;
+                }
+            } catch (Exception ex )
             {
-                cboProcessGroup.SelectedValue = ProcessGroup;
-            }
-            if (LineGroup != "")
-            {
-                cboLineGroup.SelectedValue = LineGroup;
-            }
-            if (ProcessCode != "")
-            {
-                cboProcess.SelectedValue = ProcessCode;
-            }
-            if (LineCode != "")
-            {
-                cboLine.SelectedValue = LineCode;
-            }
-            if (ItemType != "")
-            {
-                cboType.SelectedValue = ItemType;
-            }
-            if (ItemCheck != "")
-            {
-                cboItemCheck.SelectedValue = ItemCheck;
-            }
-            if (ShiftCode != "")
-            {
-                cboShift.SelectedValue = ShiftCode;
-            }
-            if (SeqNo != "")
-            {
-                cboSeq.SelectedValue = SeqNo;
+
             }
         }
 
@@ -1066,9 +1090,11 @@ namespace SPCMeasurement
             pShiftCode = shiftCode;
             pSeqNo = seqNo;
             pProdDate = prodDate;
+            pServer = server;
+            pDatabase = database;
             frmLogin = parentForm;
             InitializeComponent();
-            lblArg.Text = UserID + "," + pFactoryCode + "," + pProcessGroup + "," + pLineGroup + "," + pLineCode + "," + pItemType + "," + pItemCheck + "," + pShiftCode + "," + pSeqNo + "," + pProdDate;
+            lblArg.Text = UserID + "," + pFactoryCode + "," + pProcessGroup + "," + pLineGroup + "," + pLineCode + "," + pItemType + "," + pItemCheck + "," + pShiftCode + "," + pSeqNo + "," + pProdDate + "," + pServer + "," + pDatabase;
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -1165,6 +1191,34 @@ namespace SPCMeasurement
             }
         }
 
+
+        private void GetValueAuto()
+        {
+            clsItemCheck ic = clsItemCheckDB.GetItemChek(cboItemCheck.SelectedValue.ToString());
+            if(ic == null)
+            {
+                ShowMsg("Item Check Code is not set", true);
+                return;
+            }
+            string ItemCheckCodeFrom = ic.PrevItemCheck;
+            PrevValue = ic.PrevValue;
+            if(ItemCheckCodeFrom == "")
+            {
+                ShowMsg("Previous Item Check is not set", true);
+                return;
+            }
+            int i = InsertPrevData(ItemCheckCodeFrom, PrevValue);
+            if(i == 0)
+            {
+                ShowMsg("Data is not found", true);
+            }
+            else
+            {
+                RefreshData();
+                opt2.Checked = true;
+            }
+        }
+
         private void btnGetValue_Click(object sender, EventArgs e)
         {
             ShowMsg("");
@@ -1174,29 +1228,31 @@ namespace SPCMeasurement
             }
             if(SPCDetailExists())
             {
-                string msg = "Values already exist!\n" + "Are you sure you want to get values again?";
+                string msg = "Values already exist!\n" + "Do you want to overwrite values?";
                 DialogResult result = MessageBox.Show(msg, "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
                 if(result != DialogResult.OK)
                 {
                     return;
                 }
             }
-            frmGetValue frm = new frmGetValue();
-            frm.FactoryCode = cboFactory.SelectedValue.ToString();
-            frm.ItemType = cboType.SelectedValue.ToString();
-            frm.Line = cboLine.SelectedValue.ToString();
-            frm.Shift = cboShift.SelectedValue.ToString();
-            frm.ItemCheckCode = cboItemCheck.SelectedValue.ToString();
-            frm.Sequence  = Convert.ToInt16(cboSeq.SelectedValue);
-            frm.UserID = UserID;
-            frm.ProdDate = dtProd.Value.ToString("yyyy-MM-dd");
-            if(frm.ShowDialog() == DialogResult.OK)
-            {
-                string ItemCheckCodeFrom = frm.ItemCheckCodeFrom;
-                int i = InsertPrevData(ItemCheckCodeFrom);
-                RefreshData();
-                opt2.Checked = true;
-            }
+            GetValueAuto();
+
+            //frmGetValue frm = new frmGetValue();
+            //frm.FactoryCode = cboFactory.SelectedValue.ToString();
+            //frm.ItemType = cboType.SelectedValue.ToString();
+            //frm.Line = cboLine.SelectedValue.ToString();
+            //frm.Shift = cboShift.SelectedValue.ToString();
+            //frm.ItemCheckCode = cboItemCheck.SelectedValue.ToString();
+            //frm.Sequence  = Convert.ToInt16(cboSeq.SelectedValue);
+            //frm.UserID = UserID;
+            //frm.ProdDate = dtProd.Value.ToString("yyyy-MM-dd");
+            //if(frm.ShowDialog() == DialogResult.OK)
+            //{
+            //    string ItemCheckCodeFrom = frm.ItemCheckCodeFrom;
+            //    int i = InsertPrevData(ItemCheckCodeFrom);
+            //    RefreshData();
+            //    opt2.Checked = true;
+            //}
         }
 
         private void frmMeasurement_KeyPress(object sender, KeyPressEventArgs e)
@@ -1258,7 +1314,7 @@ namespace SPCMeasurement
                 {
                     btnClearValue2.Visible = false;
                 }
-                
+                lblArg.Visible = !lblArg.Visible;
                 grid.Cols["SPCResultID"].Visible = !grid.Cols["SPCResultID"].Visible;
             } 
             else if(e.KeyCode == Keys.F1)
@@ -1478,7 +1534,7 @@ namespace SPCMeasurement
             }));
         }
 
-        private int InsertPrevData(string ItemCheckCodeFrom)
+        private int InsertPrevData(string ItemCheckCodeFrom, string PrevValue)
         {
             clsSPCResult result = new clsSPCResult();
             result.FactoryCode = cboFactory.SelectedValue.ToString();
@@ -1490,7 +1546,7 @@ namespace SPCMeasurement
             result.SequenceNo = Convert.ToInt32(cboSeq.SelectedValue.ToString());
             result.RegisterUser = UserID;
             result.RegisterNo = cboReg.SelectedValue.ToString();
-            int i = clsSPCResultDB.InsertPrevValue(result, ItemCheckCodeFrom);
+            int i = clsSPCResultDB.InsertPrevValue(result, ItemCheckCodeFrom, PrevValue);
             return i;
         }
 
@@ -1797,6 +1853,7 @@ namespace SPCMeasurement
         {
             IsInit = true;
             lblComplete.Text = "";
+            lblPrevItem.Text = "";
             this.Text = "SPC Measurement ver " + Application.ProductVersion;
             ShowMsg("");
             txtScale.ReadOnly = true;
