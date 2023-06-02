@@ -744,7 +744,7 @@
                         <td style="padding-right:5px; padding-left:5px">
                                 <dx:ASPxButton ID="btnView" runat="server" AutoPostBack="False" 
                                     ClientInstanceName="btnView" Font-Names="Segoe UI" Font-Size="9pt" 
-                                    Height="25px" Text="View Corrective Action Diagram" Theme="Office2010Silver" UseSubmitBehavior="False" 
+                                    Height="25px" Text="View FTA Diagram" Theme="Office2010Silver" UseSubmitBehavior="False" 
                                     Width="120px" TabIndex="10">
                                     <ClientSideEvents Click="ShowPopUpFTA"/>
                                     <Paddings Padding="2px" />                                    

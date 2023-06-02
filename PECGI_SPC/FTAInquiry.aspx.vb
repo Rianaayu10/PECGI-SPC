@@ -340,7 +340,7 @@ Public Class FTAInquiry
     Private Sub GridTitle(ByVal pExl As ExcelWorksheet, cls As clsHeader)
         With pExl
             Try
-                .Cells(1, 1).Value = "FTA Inquiry"
+                .Cells(1, 1).Value = "Corrective Action Inquiry"
                 .Cells(1, 1, 1, 13).Merge = True
                 .Cells(1, 1, 1, 13).Style.HorizontalAlignment = HorzAlignment.Near
                 .Cells(1, 1, 1, 13).Style.VerticalAlignment = VertAlignment.Center
@@ -422,7 +422,7 @@ Public Class FTAInquiry
                 .Cells(1, 1, 2, 1).Value = "Prod Date"
                 .Cells(1, 2, 2, 2).Value = "Shift"
                 .Cells(1, 3, 2, 3).Value = "Sequence"
-                .Cells(1, 4, 2, 4).Value = "Item Check"
+                .Cells(1, 4, 2, 4).Value = "Item"
                 .Cells(1, 5, 2, 5).Value = "Action"
                 .Cells(1, 6, 1, 7).Value = "MK Verification"
                 .Cells(1, 6, 1, 7).Merge = True
