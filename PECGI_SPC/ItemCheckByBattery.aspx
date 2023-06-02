@@ -591,7 +591,7 @@
 
                 <dx:GridViewDataSpinEditColumn Caption="Corrective Action Criteria of Out of Control Sample Quantity" FieldName="FTARatio"
                     width="200px" Settings-AutoFilterCondition="Contains" VisibleIndex="10">
-                    <PropertiesSpinEdit MaxValue="10000" MinValue="0" DecimalPlaces="2" Increment="1" Style-VerticalAlign="Middle" Style-HorizontalAlign="Right" Width="195px">
+                    <PropertiesSpinEdit MaxValue="10000" MinValue="1" DecimalPlaces="2" Increment="1" Style-VerticalAlign="Middle" Style-HorizontalAlign="Right" Width="195px">
                         <ButtonStyle Width="5px" Paddings-Padding="2px">
                             <Paddings Padding="2px" />
                         </ButtonStyle>
