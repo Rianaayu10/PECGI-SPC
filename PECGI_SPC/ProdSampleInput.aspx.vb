@@ -1856,7 +1856,7 @@ Public Class ProdSampleInput
         Dim RLCL As Double
         Dim Del As String
         Dim LightYellow As Color = Color.FromArgb(255, 255, 153)
-
+        Dim iSeq As String = e.GetValue("Seq") & ""
         Dim ColName As String = e.DataColumn.FieldName
         If Not IsDBNull(e.CellValue) AndAlso ColName <> "Seq" AndAlso ColName <> "Sequence" AndAlso ColName <> "Des" AndAlso (e.GetValue("Seq") = "1" Or e.GetValue("Seq") = "3" Or e.GetValue("Seq") = "4" Or e.GetValue("Seq") = "5") Then
             LSL = dtLSL.Rows(0)(ColName)
@@ -1877,7 +1877,7 @@ Public Class ProdSampleInput
             If e.GetValue("Seq") = "5" Then 'untuk XBar
                 e.Cell.Text = Format(Value, FormatDigit(Digit))
             End If
-            If Del = "1" Then
+            If Del = "1" And iSeq = "1" Then
                 e.Cell.BackColor = Color.Silver
             ElseIf Value < LSL Or Value > USL Then
                 e.Cell.BackColor = Color.Red
