@@ -126,7 +126,8 @@ Public Class ClsFTAMasterDB
             If dt.Rows.Count > 0 Then
                 Dim i As Integer = 0
                 Dim FTAMaster As New ClsFTAMaster With {
-                    .FTAID = dt.Rows(i)("FTAID")
+                    .FTAID = dt.Rows(i)("FTAID"),
+                    .ItemCheck = dt.Rows(i)("ItemCheckCode")
                     }
                 Return FTAMaster
             Else

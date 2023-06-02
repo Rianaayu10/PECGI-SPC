@@ -116,7 +116,7 @@ Public Class FTAMaster
 
             Dim CheckFTAID As ClsFTAMaster = ClsFTAMasterDB.ValidateData(FTAMaster)
             If CheckFTAID IsNot Nothing Then
-                show_error(MsgTypeEnum.ErrorMsg, "Can't insert data, FTA ID '" + CheckFTAID.FTAID + "' is already exist", 1)
+                show_error(MsgTypeEnum.ErrorMsg, "Can't insert data, FTA ID '" + CheckFTAID.FTAID + "' is already exist in Item Check '" + CheckFTAID.ItemCheck + "' ", 1)
                 Return
             End If
             ClsFTAMasterDB.Insert(FTAMaster)
