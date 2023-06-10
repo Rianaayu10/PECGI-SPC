@@ -9,17 +9,18 @@
     <script type="text/javascript" src="js/dx.all.js"></script>
     <script type="text/javascript" src="js/html2canvas.js"></script>
     <script type="text/javascript">
+        /* Declaration */
+        var nRow = 1
+
         var MMM = {
             Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
             Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
         };
 
-        var nRow = 1
-
         $(document).ready(function () {
             var today = new Date();
             dtFromDate.SetDate(today);
-            dtToDate.SetDate(today); 
+            dtToDate.SetDate(today);
             btnExcel.SetEnabled(false);
         })
 
@@ -47,7 +48,7 @@
         function ChangeProcessCode() {
             var FactoryCode = cboFactory.GetValue();
             var ProcessCode = cboProcessCode.GetValue();
-            HideValue.Set('ProcessCode', ProcessCode);
+            HideValue.Set('ProcessCode', ProcessCode); z
             cboLineCode.PerformCallback(FactoryCode + '|' + ProcessCode);
         };
 
@@ -65,7 +66,6 @@
         }
 
         function Browse() {
-
             var User = HideValue.Get("UserID");
             var FactoryCode = HideValue.Get("FactoryCode");
             var ProcessGroup = HideValue.Get("ProcessGroup");
@@ -99,42 +99,82 @@
             } else if (nMonth > 11) {
                 toastr.warning("Periode can not more than 12 period !", 'Warning', { timeOut: 3000, closeButton: true });
             } else {
-
-                /*Clear Content*/
-                /*===================================*/
-                $('#tableLineGroup tr th').remove();
-                $('#tableLineGroup tr td').remove();
-                $('#tableLineDetail tr td').remove();
-
-                $("#lblTitleChart").html("");
-                $("#lblSubTitleChart").html("");
-                $("#chart").css("display", "none");
-
-                $("#lblTitleChartDetail").html("");
-                $("#lblSubTitleChartDetail").html("");
-                $("#chartdetail").css("display", "none");
-                /*===================================*/
-
-                tableLineGroup(User, FactoryCode, ProcessGroup, LineGroup, ProcessCode, LineCode, ItemType, ProdDate_From, ProdDate_To);
+                /*Get Data FTA By ItemType*/
+                var ActionFTAByType = '0'; /*note : FTAByType = 0, FTAByLine = 1, FTAByItemCheck = 2*/
+                loadData(ActionFTAByType, User, FactoryCode, ProcessCode, LineCode, "", ItemType, "", ProdDate_From, ProdDate_To, "", "");
             }
         }
 
-        function LoadHeader() {
+        function loadData(Action, User, FactoryCode, ProcessCode, LineCode, LineName, ItemType, ItemTypeName, ProdDate_From, ProdDate_To, Periode, Qty) {           
+            $.ajax({
+                url: 'ReportYearlyByType.aspx/LoadData',
+                type: 'POST',
+                data: '{ Action : "' + Action + '" , User : "' + User + '", FactoryCode : "' + FactoryCode + '", ProcessCode :"' + ProcessCode + '", LineCode : "' + LineCode + '", ItemType : "' + ItemType + '", ProdDate_From : "' + ProdDate_From + '", ProdDate_To : "' + ProdDate_To + '", Periode : "' + Periode + '", Qty : "' + Qty + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.d.Message == "Success") {
+                        /*note : FTAByType = 0, FTAByLine = 1, FTAByItemCheck = 2*/
+                        if (Action == "0") {
+                            LoadFTA_ByItemType(result.d.Contents, Action, User, FactoryCode, ProcessCode, LineCode, ItemType, ProdDate_From, ProdDate_To, Periode, Qty)
+                        }
+                        else if (Action == "1") {
+                            LoadFTA_ByLine(result.d.Contents, Action, User, FactoryCode, ProcessCode, LineCode, ItemType, ItemTypeName, ProdDate_From, ProdDate_To, Periode, Qty)
+                        }
+                        else if (Action == "2") {
+                            LoadFTA_ByItemCheck(result.d.Contents, Action, User, FactoryCode, ProcessCode, LineCode, LineName, ItemType, ItemTypeName, ProdDate_From, ProdDate_To, Periode, Qty)
+                        }
+                    } else {
+                        toastr.warning(result.d.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                    }
+                },
+                error: function (ex) {
+                    toastr.error(ex.Message, 'Failed', { timeOut: 3000, "closeButton": true });
+                }
+            });
+        }
+
+        function OnclikFTAByLine(User, ItemType, ItemTypeName, Periode, Qty) {
+            console.log(Periode);
+            var ActionFTAByLine = "1"; /*note : FTAByType = 0, FTAByLine = 1, FTAByItemCheck = 2*/
+            var FactoryCode = HideValue.Get("FactoryCode");
+            var ProcessCode = HideValue.Get("ProcessCode");
+            var LineCode = HideValue.Get("LineCode");
+
+            loadData(ActionFTAByLine, User, FactoryCode, ProcessCode, LineCode, "", ItemType, ItemTypeName, "", "", Periode, Qty);
+        }
+
+        function OnclikFTAByItemCheck(User, LineCode, LineName, ItemType,Periode, Qty) {
+            var ActionFTAByItemCheck = "2"; /*note : FTAByType = 0, FTAByLine = 1, FTAByItemCheck = 2*/
+            var FactoryCode = HideValue.Get("FactoryCode");
+            var ProcessCode = HideValue.Get("ProcessCode");
+            loadData(ActionFTAByItemCheck, User, FactoryCode, ProcessCode, LineCode, LineName,ItemType, "", "" , "", Periode, Qty);
+        }
+
+        function LoadFTA_ByItemType(data, Action, User, FactoryCode, ProcessCode, LineCode, ItemType, ProdDate_From, ProdDate_To, Periode, Qty) {
+            nRow = 1;
+            ClearContent(); //Clear content
+            $("#chartByItemType").css("display", "block");
+            $("#chartByLine").css("display", "none");
+            $("#chartByItemCheck").css("display", "none");
+
+            /*===============================================================================*/
+            /* Insert Table Header */
+            /*===============================================================================*/
+            
+            var tr = document.getElementById('tblFTAByItemType').tHead.children[0]; // Insert column 1 dan 2 
+            tr.insertCell(0).outerHTML = '<th style="text-align: center; vertical-align : middle; background-color: gray; color: white; font-weight: 100;"> No </th>';
+            tr.insertCell(1).outerHTML = '<th style="text-align: center; vertical-align : middle; background-color: gray; color: white; font-weight: 100;"> Type </th>';
+
             var prodDate_From = dtFromDate.GetText();
             var prodDate_To = dtToDate.GetText();
-
             var nMonth = monthDiff(parseDate(prodDate_From), parseDate(prodDate_To)); //Hitung period month
-            var tr = document.getElementById('tableLineGroup').tHead.children[0];
-
-            // Insert column 1 dan 2 
-            tr.insertCell(0).outerHTML = '<th style="text-align: center; vertical-align : middle; background-color: gray; color: white; font-weight: 100;"> No </th>';
-            tr.insertCell(1).outerHTML = '<th style="text-align: center; vertical-align : middle; background-color: gray; color: white; font-weight: 100;"> Process </th>';
-
             var now = parseDate(prodDate_From);
             var year = now.getFullYear();
             var month = now.getMonth();
 
-            for (let i = 0; i <= nMonth; i++) {
+            var i = 0
+            for (i; i <= nMonth; i++) {
                 var current = now;
                 var current = new Date(year, month, 1);
 
@@ -147,129 +187,84 @@
                 now = new Date(current);
                 tr.insertCell(i + 2).outerHTML = '<th style="text-align: center; background-color: gray; color: white; font-weight: 100;">' + formatDate(current) + '</th>'
             }
-        }
+            tr.insertCell(i + 2).outerHTML = '<th style="text-align: center; background-color: gray; color: white; font-weight: 100;"> Qty Total </th>'
+            tr.insertCell(i + 3).outerHTML = '<th style="text-align: center; background-color: gray; color: white; font-weight: 100;"> Percentage (%) </th>'
 
-        function tableLineGroup(User, FactoryCode, ProcessGroup, LineGroup, ProcessCode, LineCode, ItemType, ProdDate_From, ProdDate_To) {
-            nRow = 1;
-            $.ajax({
-                url: 'ReportYearlyByType.aspx/LoadData',
-                type: 'POST',
-                data: '{ User : "' + User + '", FactoryCode : "' + FactoryCode + '", ProcessGroup : "' + ProcessGroup + '", LineGroup :"' + LineGroup + '", ProcessCode :"' + ProcessCode + '", LineCode : "' + LineCode + '", ItemType : "' + ItemType + '", ProdDate_From : "' + ProdDate_From + '", ProdDate_To : "' + ProdDate_To + '" }',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    if (result.d.Message == "Success") {
-                        $("#chart").css("display", "block");
-                        LoadHeader();
-                        chartLineGroup(User, FactoryCode, ProcessGroup, LineGroup, ProcessCode, LineCode, ItemType, ProdDate_From, ProdDate_To);
-                        Object.values(result.d.Contents).forEach(LineGroupContent);
-                    } else {
-                        toastr.warning(result.d.Message, 'Warning', { timeOut: 3000, closeButton: true });
-                    }
-                },
-                error: function (ex) {
-                    toastr.error(ex.Message, 'Failed', { timeOut: 3000, "closeButton": true });
-                }
-            });
-        }
+            /*===============================================================================*/
 
-        function tableLineDetail(User, LineGroup, LineGroupName, Periode, Qty) {
-            var ProcessCode = HideValue.Get("ProcessCode");
-            var LineCode = HideValue.Get("LineCode");
 
-            /*Save data to hide value for using generate excel data*/
-            HideValue.Set("sUser", User);
-            HideValue.Set("sLineGroup", LineGroup);
-            HideValue.Set("sProcessCode", ProcessCode);
-            HideValue.Set("sLineCode", LineCode);
-            HideValue.Set("sPeriode", Periode);
-            HideValue.Set("sQty", Qty);
 
-            nRow = 1;
-            $('#tableLineDetail tr td').remove();
-            $.ajax({
-                url: 'ReportYearlyByType.aspx/LoadDetail',
-                type: 'POST',
-                data: '{ User : "' + User + '", ProcessCode :"' + ProcessCode + '", LineCode :"' + LineCode + '", LineGroup : "' + LineGroup + '",  Periode : "' + Periode + '", Qty : "' + Qty + '" }',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    if (result.d.Message == "Success") {
-                        if (result.d.Contents != "") {
-                            $("#chartdetail").css("display", "block");
-                            Object.values(result.d.Contents).forEach(LineDetailContent);
+            /*===============================================================================*/
+            /* Insert Table Data */
+            /*===============================================================================*/
+            Object.values(data).forEach(dt => {
+                var table = document.getElementById("tblFTAByItemType");
+                var row = table.insertRow(nRow);
+                let length = dt.length;
+
+               
+                for (let i = 0; i <= length - 1; i++) {
+                    console.log(nRow);
+                    console.log(data.length);
+                    if (nRow == data.length) {
+                        if (i == 0) {
+                            row.insertCell(0).outerHTML = '<td colspan="2" style="text-align: center; background-color: white; font-weight: 100;"> Total </td>'
                         }
+                        else if (i == length - 2) {
+                            row.insertCell(i-1).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i] + '</td>'
+                        }
+                        else if (i == length - 1) {
+                            row.insertCell(i-1).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i] + '% </td>'
+                        }
+                        else if (i >= 2) {
+                            row.insertCell(i - 1).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i].split('|')[3] + '</td>'
+                        }
+
                     } else {
-                        toastr.warning(result.d.Message, 'Warning', { timeOut: 3000, closeButton: true });
-                    }
-                },
-                error: function (ex) {
-                    toastr.error(ex.Message, 'Failed', { timeOut: 3000, "closeButton": true });
+                        if (i == 0) {
+                            row.insertCell(i).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i] + '</td>'
+                        }
+                        else if (i == 1) {
+                            row.insertCell(i).outerHTML = '<td style="text-align: left; background-color: white; font-weight: 100;">' + dt[i] + '</td>'
+                        }
+                        else if (i == length - 2) {
+                            row.insertCell(i).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i] + '</td>'
+                        }
+                        else if (i == length - 1) {
+                            row.insertCell(i).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i] + '% </td>'
+                        }
+                        else {
+                            if (dt[i].split('|')[3] == "0") {
+                                row.insertCell(i).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i].split('|')[3] + '</td>'
+                            } else {
+                                row.insertCell(i).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + '<a href="javascript:void(0)" onclick="return OnclikFTAByLine(\'' + User + '\', \'' + dt[i].split("|")[0] + '\',\'' + dt[i].split("|")[1] + '\', \'' + dt[i].split("|")[2] + '\',\'' + dt[i].split("|")[3] + '\')" >' + '<div>' + dt[i].split('|')[3] + '</div>' + '</a>' + '</td>'
+                            }
+                        }
+                    }                   
                 }
-            });
-
-            chartLineDetail(User, LineGroup, LineGroupName, Periode, Qty)
-        }
-
-
-        function LineGroupContent(dt) {
-            var table = document.getElementById("tableLineGroup");
-            var row = table.insertRow(nRow);
-
-            let length = dt.length;
-            for (let i = 0; i <= length - 1; i++) {
-                if (i == 0) {
-                    row.insertCell(i).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i] + '</td>'
-                }
-                else if (i == 1) {
-                    row.insertCell(i).outerHTML = '<td style="text-align: left; background-color: white; font-weight: 100;">' + dt[i] + '</td>'
-                } else {
-                    if (dt[i].split('|')[4] == "0") {
-                        row.insertCell(i).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i].split('|')[4] + '</td>'
-                    } else {
-                        row.insertCell(i).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + '<a href="javascript:void(0)" onclick="return tableLineDetail(\'' + dt[i].split("|")[0] + '\', \'' + dt[i].split("|")[1] + '\', \'' + dt[i].split("|")[2] + '\',\'' + dt[i].split("|")[3] + '\',\'' + dt[i].split("|")[4] + '\')" >' + '<div>' + dt[i].split('|')[4] + '</div>' + '</a>' + '</td>'
-                    }
-                }
-            }
-            nRow = nRow + 1
-        }
-
-        function LineDetailContent(dt) {
-            var table = document.getElementById("tableLineDetail");
-            var row = table.insertRow(nRow);
-
-            let length = dt.length;
-            for (let i = 0; i <= length - 1; i++) {
-
-                if (i == 1) {
-                    row.insertCell(i).outerHTML = '<td style="text-align: left; background-color: white; font-weight: 100;">' + dt[i] + '</td>'
-                } else if (i == 3) {
-                    row.insertCell(i).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i] + '%' + '</td>'
-                } else {
-                    row.insertCell(i).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i] + '</td>'
-                }
-            }
-            nRow = nRow + 1
-        }
+                nRow = nRow + 1
+            })
+            /*===============================================================================*/
 
 
-        function chartLineGroup(User, FactoryCode, ProcessGroup, LineGroup, ProcessCode, LineCode, ItemType, ProdDate_From, ProdDate_To) {
+            /*===============================================================================*/
+            /* Insert to Chart */
+            /*===============================================================================*/
             $.ajax({
-                url: 'ReportYearlyByType.aspx/ChartLineGroup',
+                url: 'ReportYearlyByType.aspx/LoadChart',
                 type: 'POST',
-                data: '{ User : "' + User + '", FactoryCode : "' + FactoryCode + '", ProcessGroup : "' + ProcessGroup + '", LineGroup :"' + LineGroup + '", ProcessCode :"' + ProcessCode + '", LineCode : "' + LineCode + '", ItemType : "' + ItemType + '", ProdDate_From : "' + ProdDate_From + '", ProdDate_To : "' + ProdDate_To + '" }',
+                data: '{ Action : "' + Action + '", User : "' + User + '", FactoryCode : "' + FactoryCode + '", ProcessCode :"' + ProcessCode + '", LineCode : "' + LineCode + '", ItemType : "' + ItemType + '", ProdDate_From : "' + ProdDate_From + '", ProdDate_To : "' + ProdDate_To + '", Periode : "' + Periode + '", Qty : "' + Qty + '"  }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (result) {
                     if (result.d.Message == "Success") {
                         if (result.d.Contents != "") {
 
+                            /*console.log(result.d.Contents);*/
                             const DS = result.d.Contents
-                            var periode = ''
                             var startPeriod = ProdDate_To.split("-")[0];
                             var endPeriod = ProdDate_From.split("-")[0];
-                            var ItemTypeName = cboItemType.GetText();
-
+                            var periode = '';
                             if ((parseInt(startPeriod, 10) - parseInt(endPeriod, 10)) > 0) {
                                 periode = endPeriod + "/" + startPeriod
                             } else {
@@ -297,6 +292,7 @@
                                 }
                                 n = n + 1;
                             });
+                           /* console.log(display1);*/
 
 
                             /* Generate Label */
@@ -314,10 +310,11 @@
                                 t = t + 1;
                             }
 
-                            document.getElementById('lblTitleChart').innerHTML = 'SPC Corrective Action Number ' + ItemTypeName ;
-                            document.getElementById('lblSubTitleChart').innerHTML = '( FY' + periode + ' )';
+                            /*console.log(d1);*/
 
-                            $('#chart').dxChart({
+                            document.getElementById('lblchartByItemType').innerHTML = 'Resume Corrective Action by Type - All Type (Monthly)';
+
+                            $('#chartByItemType').dxChart({
                                 palette: 'Pastel',
                                 dataSource: display1,
                                 commonSeriesSettings: {
@@ -347,18 +344,18 @@
                                 },
                             });
 
-                            setTimer1 = setInterval(function () {
+                            //setTimer1 = setInterval(function () {
 
-                                html2canvas(document.querySelector("#chartcapture")).then(canvas => {
-                                    const dataURL = canvas.toDataURL();
-                                    const getBase64StringFromDataURL = (dataURL) =>
-                                        dataURL.replace('data:', '').replace(/^.+,/, '');
+                            //    html2canvas(document.querySelector("#div-chartByItemType")).then(canvas => {
+                            //        const dataURL = canvas.toDataURL();
+                            //        const getBase64StringFromDataURL = (dataURL) =>
+                            //            dataURL.replace('data:', '').replace(/^.+,/, '');
 
-                                    const base64 = getBase64StringFromDataURL(dataURL);
-                                    HideValue.Set('ChartGroup', base64);
-                                });
+                            //        const base64 = getBase64StringFromDataURL(dataURL);
+                            //        HideValue.Set('capture-chartByItemType', base64);
+                            //    });
 
-                            }, 1000, (1));
+                            //}, 1000, (1));
 
                         }
                     } else {
@@ -369,23 +366,70 @@
                     toastr.error(ex.Message, 'Failed', { timeOut: 3000, "closeButton": true });
                 }
             });
+            /*===============================================================================*/
 
         }
 
+        function LoadFTA_ByLine(data, Action, User, FactoryCode, ProcessCode, LineCode, ItemType, ItemTypeName, ProdDate_From, ProdDate_To, Periode, Qty) {
+            nRow = 1;
+            /*Clear Content*/
+            $('#tblFTAByLine tr td').remove();
+            $('#tblFTAByItemCheck tr td').remove();
+            $("#lblchartByLine").html("");
+            $("#lblchartByItemCheck").html("");
+            $("#chartByLine").css("display", "block");
+            $("#chartByItemCheck").css("display", "none");
 
-        function chartLineDetail(User, LineGroup, LineGroupName, Periode, Qty) {
-            var ProcessCode = HideValue.Get("ProcessCode");
-            var LineCode = HideValue.Get("LineCode");
+            /*===============================================================================*/
+            /* Insert to Table FTA By Line */
+            /*===============================================================================*/
+            Object.values(data).forEach(dt => {
+                    var table = document.getElementById("tblFTAByLine");
+                    var row = table.insertRow(nRow);
+                let length = dt.length;
+
+                for (let i = 0; i <= length - 1; i++) {
+                        if (nRow == data.length) {
+                            if (i == 0) {
+                                row.insertCell(0).outerHTML = '<td colspan ="2" style="text-align: center; background-color: white; font-weight: 100;"> Total </td>'
+                            }
+                            else if (i == 3) {
+                                row.insertCell(1).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i] + '</td>'
+                            } else if (i == 4) {
+                                row.insertCell(2).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i] + '%' + '</td>'
+                            }
+                        } else {
+                            if (i == 0) {
+                                row.insertCell(0).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[0] + '</td>'
+                            }
+                            else if (i == 2) {
+                                row.insertCell(1).outerHTML = '<td style="text-align: left; background-color: white; font-weight: 100;">' + dt[2] + '</td>'
+                            }
+                            else if (i == 3) {
+                                row.insertCell(2).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + '<a href="javascript:void(0)" onclick="return OnclikFTAByItemCheck(\'' + User + '\', \'' + dt[1] + '\' ,\'' + dt[2] + '\', \'' + ItemType + '\',\'' + Periode + '\', \'' + dt[3] + '\')" >' + '<div>' + dt[3] + '</div>' + '</a>' + '</td>'
+                            } else if (i == 4) {
+                                row.insertCell(3).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[4] + '%' + '</td>'
+                            }
+                        }
+                       
+                    }
+                    nRow = nRow + 1
+                })
+            /*===============================================================================*/
+
+
+            /*===============================================================================*/
+            /* Insert to Chart FTA By Line */
+            /*===============================================================================*/
             $.ajax({
-                url: 'ReportYearlyByType.aspx/ChartLineDetail',
+                url: 'ReportYearlyByType.aspx/LoadChart',
                 type: 'POST',
-                data: '{ User : "' + User + '", ProcessCode :"' + ProcessCode + '", LineCode :"' + LineCode + '", LineGroup : "' + LineGroup + '",  Periode : "' + Periode + '", Qty : "' + Qty + '" }',
+                data: '{Action : "' + Action + '", User : "' + User + '", FactoryCode : "' + FactoryCode + '", ProcessCode :"' + ProcessCode + '", LineCode : "' + LineCode + '", ItemType : "' + ItemType + '", ProdDate_From : "' + ProdDate_From + '", ProdDate_To : "' + ProdDate_To + '", Periode : "' + Periode + '", Qty : "' + Qty + '" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function (data, textStatus, jQxhr) {
-                    document.getElementById('lblTitleChartDetail').innerHTML = 'SPC Corrective Action Number ' + Periode;
-                    document.getElementById('lblSubTitleChartDetail').innerHTML = '(' + LineGroupName + ')' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n = ' + data.d.Max;
-
+                success: function (result) {
+                    document.getElementById('lblchartByLine').innerHTML = 'Summary Corrective Action ' + ItemTypeName + " - " + Periode;
+  
                     var options = {
                         xaxis: {
                             axisLabelUseCanvas: true,
@@ -394,19 +438,17 @@
                             axisLabelFontSizePixels: 12,
                             axisLabelFontFamily: 'arial,sans-serif',
                             axisLabelPadding: 500,
-                            ticks: eval(data.d.xaxisTicks)
+                            ticks: eval(result.d.Contents.xaxisTicks),
                         },
 
                         yaxes: [{
                             position: 'left',
-                            max: data.d.Max,
+                            max: result.d.Contents.Max,
                             min: 0,
-                            axisLabel: 'FTA Result',
                         }, {
                             position: 'right',
                             max: 100,
                             min: 0,
-                            axisLabel: 'Percentage',
                         }
                         ],
 
@@ -417,22 +459,19 @@
                             backgroundColor: '#FFF',
                         }
                     };
-                    $.plot($("#chartdetail"), eval(data.d.data), options);
+                    $.plot($("#chartByLine"), eval(result.d.Contents.data), options);
 
-                    setTimer1 = setInterval(function () {
+                    //setTimer1 = setInterval(function () {
 
-                        html2canvas(document.querySelector("#chartdetailcapture")).then(canvas => {
-                            const dataURL = canvas.toDataURL();
-                            const getBase64StringFromDataURL = (dataURL) =>
-                                dataURL.replace('data:', '').replace(/^.+,/, '');
-                            const base64 = getBase64StringFromDataURL(dataURL);
-                            HideValue.Set('ChartDetail', base64);
+                    //    html2canvas(document.querySelector("#div-chartByLine")).then(canvas => {
+                    //        const dataURL = canvas.toDataURL();
+                    //        const getBase64StringFromDataURL = (dataURL) =>
+                    //            dataURL.replace('data:', '').replace(/^.+,/, '');
+                    //        const base64 = getBase64StringFromDataURL(dataURL);
+                    //        HideValue.Set('capture-chartByLine', base64);
+                    //    });
 
-                            //For enabled button excel
-                            btnExcel.SetEnabled(true); 
-                        });
-
-                    }, 1000, (1));
+                    //}, 1000, (1));
 
 
                 },
@@ -440,36 +479,164 @@
                     console.log(errorThrown);
                 }
             });
+
+            /*===============================================================================*/
+
         }
 
-        function Clear() {
+        function LoadFTA_ByItemCheck(data, Action, User, FactoryCode, ProcessCode, LineCode, LineName, ItemType, ItemTypeName, ProdDate_From, ProdDate_To, Periode, Qty) {
+            nRow = 1;
+            /*Clear Content*/
+            $('#tblFTAByItemCheck tr td').remove();
+            $("#lblchartByItemCheck").html("");
+            $("#chartByItemCheck").css("display", "block");
+
+            /*===============================================================================*/
+            /* Insert to Table FTA By Line */
+            /*===============================================================================*/
+            Object.values(data).forEach(dt => {
+                var table = document.getElementById("tblFTAByItemCheck");
+                var row = table.insertRow(nRow);
+
+                let length = dt.length;
+                for (let i = 0; i <= length - 1; i++) {
+
+                    if (nRow == data.length) {
+                        if (i == 0) {
+                            row.insertCell(0).outerHTML = '<td colspan ="2" style="text-align: center; background-color: white; font-weight: 100;"> Total </td>'
+                        }
+                        else if (i == 3) {
+                            row.insertCell(1).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i] + '</td>'
+                        } else if (i == 4) {
+                            row.insertCell(2).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i] + '%' + '</td>'
+                        }
+                    } else {
+                        if (i == 0) {
+                            row.insertCell(0).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[0] + '</td>'
+                        }
+                        else if (i == 2) {
+                            row.insertCell(1).outerHTML = '<td style="text-align: left; background-color: white; font-weight: 100;">' + dt[2] + '</td>'
+                        }
+                        else if (i == 3) {
+                            row.insertCell(2).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + '<a href="javascript:void(0)" onclick="return OnclikFTAByItemCheck(\'' + User + '\', \'' + dt[1] + '\' ,\'' + dt[2] + '\', \'' + ItemType + '\',\'' + Periode + '\', \'' + dt[3] + '\')" >' + '<div>' + dt[3] + '</div>' + '</a>' + '</td>'
+                        } else if (i == 4) {
+                            row.insertCell(3).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[4] + '%' + '</td>'
+                        }
+                    }
+
+                    //if (i == 0) {
+                    //    row.insertCell(0).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[0] + '</td>'
+                    //}
+                    //else if (i == 2) {
+                    //    row.insertCell(1).outerHTML = '<td style="text-align: left; background-color: white; font-weight: 100;">' + dt[2] + '</td>'
+                    //}
+                    //else if (i == 3) {
+                    //    row.insertCell(2).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[3] + '</td>'
+                    //} else if (i == 4) {
+                    //    row.insertCell(3).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[4] + '%' + '</td>'
+                    //}
+                }
+                nRow = nRow + 1
+            })
+            /*===============================================================================*/
+
+
+            /*===============================================================================*/
+            /* Insert to Chart FTA By Line */
+            /*===============================================================================*/
+            $.ajax({
+                url: 'ReportYearlyByType.aspx/LoadChart',
+                type: 'POST',
+                data: '{Action : "' + Action + '", User : "' + User + '", FactoryCode : "' + FactoryCode + '", ProcessCode :"' + ProcessCode + '", LineCode : "' + LineCode + '", ItemType : "' + ItemType + '", ProdDate_From : "' + ProdDate_From + '", ProdDate_To : "' + ProdDate_To + '", Periode : "' + Periode + '", Qty : "' + Qty + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    document.getElementById('lblchartByItemCheck').innerHTML = 'Summary Corrective Action' + ItemTypeName + " - " + Periode + " By Item Check";
+
+                    var options = {
+                        xaxis: {
+                            axisLabelUseCanvas: true,
+                            show: true,
+                            tickLength: 0,
+                            axisLabelFontSizePixels: 12,
+                            axisLabelFontFamily: 'arial,sans-serif',
+                            axisLabelPadding: 500,
+                            ticks: eval(result.d.Contents.xaxisTicks)
+                        },
+
+                        yaxes: [{
+                            position: 'left',
+                            max: result.d.Contents.Max,
+                            min: 0
+                        }, {
+                            position: 'right',
+                            max: 100,
+                            min: 0
+                        }
+                        ],
+
+                        grid: {
+                            hoverable: true,
+                            clickable: true,
+                            borderWidth: 1,
+                            backgroundColor: '#FFF',
+                        }
+                    };
+                    $.plot($("#chartByItemCheck"), eval(result.d.Contents.data), options);
+
+                    //setTimer1 = setInterval(function () {
+
+                    //    html2canvas(document.querySelector("#div-chartByItemCheck")).then(canvas => {
+                    //        const dataURL = canvas.toDataURL();
+                    //        const getBase64StringFromDataURL = (dataURL) =>
+                    //            dataURL.replace('data:', '').replace(/^.+,/, '');
+                    //        const base64 = getBase64StringFromDataURL(dataURL);
+                    //        HideValue.Set('capture-chartByItemCheck', base64);
+                    //    });
+
+                    //}, 1000, (1));
+
+
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+
+            });
+
+            //For enabled button excel
+            btnExcel.SetEnabled(true);
+        }
+
+        function ClearFilter() {
+            ClearContent();
             var today = new Date();
             cboProcessGroup.SetValue("ALL");
             cboProcessCode.SetValue("ALL");
             cboLineCode.SetValue("ALL");
             cboLineGroup.SetValue("ALL");
-            cboItemType.SetValue(" ");
+            cboItemType.SetValue("ALL");
             dtFromDate.SetDate(today);
             dtToDate.SetDate(today);
 
-            /*Clear Content*/
-            /*===================================*/
-            $('#tableLineGroup tr th').remove();
-            $('#tableLineGroup tr td').remove();
-            $('#tableLineDetail tr td').remove();
+            $("#chartByItemType").css("display", "none");
+            $("#chartByLine").css("display", "none");
+            $("#chartByItemCheck").css("display", "none");
 
-            $("#lblTitleChart").html("");
-            $("#lblSubTitleChart").html("");
-            $("#chart").css("display", "none");
-            var tr = document.getElementById('tableLineGroup').tHead.children[0];
+            var tr = document.getElementById('tblFTAByItemType').tHead.children[0];
             tr.insertCell(0).outerHTML = '<th style="text-align: center; background-color: gray; color: white; font-weight: 100; width:2vw;"> No </th>';
-            tr.insertCell(1).outerHTML = '<th style="text-align: center; background-color: gray; color: white; font-weight: 100;"> MachineProcess </th>';
+            tr.insertCell(1).outerHTML = '<th style="text-align: center; background-color: gray; color: white; font-weight: 100;"> Type </th>';
+        }
 
-            $("#lblTitleChartDetail").html("");
-            $("#lblSubTitleChartDetail").html("");
-            $("#chartdetail").css("display", "none");
-            /*===================================*/
+        function ClearContent() {
+            $('#tblFTAByItemType tr th').remove();
+            $('#tblFTAByItemType tr td').remove();
+            $('#tblFTAByLine tr td').remove();
+            $('#tblFTAByItemCheck tr td').remove();
 
+            $("#lblchartByItemType").html("");
+            $("#lblchartByLine").html("");
+            $("#lblchartByItemCheck").html("");
         }
 
         function formatDate(dateString) {
@@ -539,15 +706,9 @@
                 }
             }
         }
-
     </script>
 
     <style type="text/css">
-        #chart {
-            width: 40vw;
-            height: 50vh;
-        }
-
         .txtAlignLeft {
             text-align: left;
         }
@@ -586,9 +747,7 @@
                 line-height: 1.5;
                 width: 30px;
             }
-    </style>
 
-    <style type="text/css">
         .wrapper {
             width: 60%;
             display: block;
@@ -614,7 +773,6 @@
             z-index: 100;
             color: #fff;
             opacity: .80;
-            filter: alpha(opacity=85);
         }
 
         #marking {
@@ -625,10 +783,9 @@
             display: none;
         }
     </style>
-
 </asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
+<asp:Content ID="Content3" ContentPlaceHolderID="Content" runat="server">
     <div style="padding: 0px 5px 5px 5px; padding-bottom: 15px; border-bottom: groove 2px">
         <table>
             <tr style="height: 40px">
@@ -773,7 +930,7 @@
                 <td>
                     <dx:ASPxButton ID="btnClear" runat="server" AutoPostBack="False" ClientInstanceName="btnClear" Height="25px"
                         Font-Names="Segoe UI" Font-Size="9pt" Text="Clear" Theme="Office2010Silver" Width="80px">
-                        <ClientSideEvents Click="Clear" />
+                        <ClientSideEvents Click="ClearFilter" />
                     </dx:ASPxButton>
                 </td>
             </tr>
@@ -790,32 +947,23 @@
     <dx:ASPxHiddenField ID="HideValue" runat="server" ClientInstanceName="HideValue"></dx:ASPxHiddenField>
 </asp:Content>
 
-
 <asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div style="padding: 10px 5px 5px 5px; padding-bottom: 10px;" class="widget-body">
-        <section id="widget-grid" class="">
+    <div style="padding: 20px 5px 5px 5px; padding-bottom: 10px;" class="widget-body">
+        <section>
             <div class="row">
-                <article class="col-sm-6 col-md-6 col-lg-6">
-                    <div class="jarviswidget" id="wid1" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
-                        <header>
-                            <div style="text-align: left; background-color: gray; padding-left: 10px;">
-                                <h2 style="color: white">SPC Corrective Action Result by Model (Yearly)</h2>
-                            </div>
-                        </header>
+                <article class="col-lg-12">
+                    <div class="jarviswidget" id="wid3" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
                         <div>
-                            <div class="jarviswidget-editbox">
-                            </div>
                             <div class="widget-body no-padding">
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <table style="width: 100%; min-height: 55vh" border="1">
+                                        <table style="width: 100%; min-height: 40vh" border="1">
                                             <tr>
-                                                <td align="center" id="chartcapture">
-                                                    <div>
-                                                        <h3 id="lblTitleChart"></h3>
-                                                        <p style="margin-top: -10px" id="lblSubTitleChart"></p>
+                                                <td align="center" id="div-chartByItemType">
+                                                    <div style="margin-bottom:10px; margin-top:20px;">
+                                                        <h4 id="lblchartByItemType"></h4>
                                                     </div>
-                                                    <div id="chart"></div>
+                                                    <div id="chartByItemType"></div>
                                                 </td>
                                             </tr>
                                         </table>
@@ -826,11 +974,67 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-12" style="min-height: 200px;">
-                                        <table id="tableLineGroup" class="table table-striped table-bordered table-hover row-border" style="font-family: 'Trebuchet MS'">
+                                        <table id="tblFTAByItemType" class="table table-striped table-bordered table-hover row-border" style="font-family: 'Trebuchet MS'">
                                             <thead>
                                                 <tr role="row">
                                                     <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="5%">No</th>
-                                                    <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="70%">Process</th>
+                                                    <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="70%">Type</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</asp:Content>
+
+<asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
+    <div style="padding: 10px 5px 5px 5px; padding-bottom: 10px;" class="widget-body">
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-sm-6 col-md-6 col-lg-6">
+                    <div class="jarviswidget" id="wid1" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                        <header>
+                            <div style="text-align: left; background-color: gray; padding-left: 10px;">
+                                <h2 style="color: white">Corrective Action (By Machine Process)</h2>
+                            </div>
+                        </header>
+                        <div>
+                            <div class="jarviswidget-editbox">
+                            </div>
+                            <div class="widget-body no-padding">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <table style="width: 100%; min-height: 40vh" border="1">
+                                            <tr>
+                                                <td align="center" id="div-chartByLine">
+                                                    <div  style="margin-bottom:10px; margin-top:20px;">
+                                                        <h4 id="lblchartByLine"></h4>
+                                                    </div>
+                                                    <div id="chartByLine" class="flot"></div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    &nbsp
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12" style="min-height: 200px;">
+                                        <table id="tblFTAByLine" class="table table-striped table-bordered table-hover row-border" style="font-family: 'Trebuchet MS'">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="5%">No</th>
+                                                    <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="30%">Machine Process</th>
+                                                    <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="25%">Qty Total</th>
+                                                    <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="30%">Percentage</th>
                                                 </tr>
                                             </thead>
                                             <tbody></tbody>
@@ -846,7 +1050,7 @@
                     <div class="jarviswidget" id="wid2" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
                         <header>
                             <div style="text-align: left; background-color: gray; padding-left: 10px;">
-                                <h2 style="color: white">SPC Corrective Action Result by Line (Monthly)</h2>
+                                <h2 style="color: white">Corrective Action (By Item Check)</h2>
                             </div>
                         </header>
                         <div>
@@ -855,14 +1059,13 @@
                             <div class="widget-body no-padding">
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <table style="width: 100%; min-height: 55vh;" border="1">
+                                        <table style="width: 100%; min-height: 40vh;" border="1">
                                             <tr>
-                                                <td align="center" id="chartdetailcapture">
-                                                    <div>
-                                                        <h3 id="lblTitleChartDetail"></h3>
-                                                        <p style="margin-top: -10px" id="lblSubTitleChartDetail"></p>
+                                                <td align="center" id="div-chartByItemCheck">
+                                                    <div  style="margin-bottom:10px; margin-top:20px;">
+                                                        <h4 id="lblchartByItemCheck"></h4>
                                                     </div>
-                                                    <div id="chartdetail" class="flot"></div>
+                                                    <div id="chartByItemCheck" class="flot"></div>
                                                 </td>
                                             </tr>
                                         </table>
@@ -873,17 +1076,13 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-12" style="min-height: 200px;">
-                                        <table id="tableLineDetail" class="table table-striped table-bordered table-hover row-border" style="font-family: 'Trebuchet MS'">
+                                        <table id="tblFTAByItemCheck" class="table table-striped table-bordered table-hover row-border" style="font-family: 'Trebuchet MS'">
                                             <thead>
                                                 <tr role="row">
-                                                    <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="5%">No
-                                                    </th>
-                                                    <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="30%">Item
-                                                    </th>
-                                                    <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="25%">Qty Total
-                                                    </th>
-                                                    <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="30%">Percentage (%)
-                                                    </th>
+                                                    <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="5%">No</th>
+                                                    <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="30%">Item</th>
+                                                    <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="25%">Qty Total</th>
+                                                    <th style="text-align: center; background-color: gray; color: white; font-weight: 100;" width="30%">Percentage (%)</th>
                                                 </tr>
                                             </thead>
                                             <tbody></tbody>

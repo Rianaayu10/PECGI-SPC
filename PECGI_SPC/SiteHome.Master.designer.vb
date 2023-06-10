@@ -68,6 +68,24 @@ Partial Public Class SiteHome
     Protected WithEvents rptMenu As Global.System.Web.UI.WebControls.Repeater
 
     '''<summary>
+    '''Label1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Form1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents Form1 As Global.System.Web.UI.HtmlControls.HtmlForm
+
+    '''<summary>
     '''Content control.
     '''</summary>
     '''<remarks>
@@ -75,4 +93,22 @@ Partial Public Class SiteHome
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents Content As Global.System.Web.UI.WebControls.ContentPlaceHolder
+
+    '''<summary>
+    '''ContentPlaceHolder1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ContentPlaceHolder1 As Global.System.Web.UI.WebControls.ContentPlaceHolder
+
+    '''<summary>
+    '''ContentPlaceHolder2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ContentPlaceHolder2 As Global.System.Web.UI.WebControls.ContentPlaceHolder
 End Class

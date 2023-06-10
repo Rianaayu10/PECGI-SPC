@@ -17,6 +17,7 @@ Public Class clsReportYearlyByType
     Public Property QtyFTA_Detail As String
     Public Property QtyFTA_DetailPercentage As String
     Public Property val As Object
+    Public Property Action As String
 
     Public Shared Function FillCombo(ComboType As String, data As clsFillCombo) As DataTable
         Try
@@ -48,15 +49,17 @@ Public Class clsReportYearlyByType
                 Dim sql As String = "sp_spc_FTA_ReportYearlyByType_LoadData"
                 Dim Cmd As New SqlCommand(sql, cn)
                 Cmd.CommandType = CommandType.StoredProcedure
-                Cmd.Parameters.AddWithValue("User", If(data.UserID, ""))
-                Cmd.Parameters.AddWithValue("FactoryCode", If(data.FactoryCode, ""))
-                Cmd.Parameters.AddWithValue("ProcessGroup", If(data.ProcessGroup, ""))
-                Cmd.Parameters.AddWithValue("LineGroup", If(data.LineGroup, ""))
-                Cmd.Parameters.AddWithValue("ProcessCode", If(data.ProcessCode, ""))
-                Cmd.Parameters.AddWithValue("LineCode", If(data.LineCode, ""))
-                Cmd.Parameters.AddWithValue("ItemTypeCode", If(data.ItemType, ""))
-                Cmd.Parameters.AddWithValue("ProdDate_From", If(data.ProdDateFrom, ""))
-                Cmd.Parameters.AddWithValue("ProdDate_To", If(data.ProdDateTo, ""))
+                Cmd.Parameters.AddWithValue("Action", data.Action)
+                Cmd.Parameters.AddWithValue("User", data.UserID)
+                Cmd.Parameters.AddWithValue("FactoryCode", data.FactoryCode)
+                Cmd.Parameters.AddWithValue("ProcessCode", data.ProcessCode)
+                Cmd.Parameters.AddWithValue("LineCode", data.LineCode)
+                Cmd.Parameters.AddWithValue("ItemTypeCode", data.ItemType)
+                Cmd.Parameters.AddWithValue("ProdDate_From", data.ProdDateFrom)
+                Cmd.Parameters.AddWithValue("ProdDate_To", data.ProdDateTo)
+                Cmd.Parameters.AddWithValue("QtyFTADetail", data.QtyFTA)
+                Cmd.Parameters.AddWithValue("Periode", data.Periode)
+
                 Dim da As New SqlDataAdapter(Cmd)
                 Dim dt As New DataTable
                 da.Fill(dt)
@@ -67,43 +70,22 @@ Public Class clsReportYearlyByType
         End Try
     End Function
 
-    Public Shared Function LoadDetail(data As clsReportYearlyByType) As DataTable
-        Try
-            Using cn As New SqlConnection(Sconn.Stringkoneksi)
-                Dim sql As String = "sp_spc_FTA_ReportYearlyByType_LoadDetail"
-                Dim Cmd As New SqlCommand(sql, cn)
-                Cmd.CommandType = CommandType.StoredProcedure
-                Cmd.Parameters.AddWithValue("User", If(data.UserID, ""))
-                Cmd.Parameters.AddWithValue("LineGroup", If(data.LineGroup, ""))
-                Cmd.Parameters.AddWithValue("ProcessCode", If(data.ProcessCode, ""))
-                Cmd.Parameters.AddWithValue("LineCode", If(data.LineCode, ""))
-                Cmd.Parameters.AddWithValue("Periode", If(data.Periode, ""))
-                Cmd.Parameters.AddWithValue("QtyFTA", If(data.QtyFTA, ""))
-                Dim da As New SqlDataAdapter(Cmd)
-                Dim dt As New DataTable
-                da.Fill(dt)
-                Return dt
-            End Using
-        Catch ex As Exception
-            Throw New Exception("Query Error !" & ex.Message)
-        End Try
-    End Function
-
-    Public Shared Function ChartLineGroup(data As clsReportYearlyByType) As DataTable
+    Public Shared Function LoadChart(data As clsReportYearlyByType) As DataTable
         Try
             Using cn As New SqlConnection(Sconn.Stringkoneksi)
                 Dim sql As String = "sp_spc_FTA_ReportYearlyByType_ChartLineGroup"
                 Dim Cmd As New SqlCommand(sql, cn)
                 Cmd.CommandType = CommandType.StoredProcedure
-                Cmd.Parameters.AddWithValue("User", If(data.UserID, ""))
-                Cmd.Parameters.AddWithValue("FactoryCode", If(data.FactoryCode, ""))
-                Cmd.Parameters.AddWithValue("ProcessGroup", If(data.ProcessGroup, ""))
-                Cmd.Parameters.AddWithValue("LineGroup", If(data.LineGroup, ""))
-                Cmd.Parameters.AddWithValue("ProcessCode", If(data.ProcessCode, ""))
-                Cmd.Parameters.AddWithValue("LineCode", If(data.LineCode, ""))
-                Cmd.Parameters.AddWithValue("ItemTypeCode", If(data.ItemType, ""))
-                Cmd.Parameters.AddWithValue("ProdDate_From", If(data.ProdDateFrom, ""))
-                Cmd.Parameters.AddWithValue("ProdDate_To", If(data.ProdDateTo, ""))
+                Cmd.Parameters.AddWithValue("Action", data.Action)
+                Cmd.Parameters.AddWithValue("User", data.UserID)
+                Cmd.Parameters.AddWithValue("FactoryCode", data.FactoryCode)
+                Cmd.Parameters.AddWithValue("ProcessCode", data.ProcessCode)
+                Cmd.Parameters.AddWithValue("LineCode", data.LineCode)
+                Cmd.Parameters.AddWithValue("ItemTypeCode", data.ItemType)
+                Cmd.Parameters.AddWithValue("ProdDate_From", data.ProdDateFrom)
+                Cmd.Parameters.AddWithValue("ProdDate_To", data.ProdDateTo)
+                Cmd.Parameters.AddWithValue("QtyFTADetail", data.QtyFTA)
+                Cmd.Parameters.AddWithValue("Periode", data.Periode)
                 Dim da As New SqlDataAdapter(Cmd)
                 Dim dt As New DataTable
                 da.Fill(dt)

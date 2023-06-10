@@ -26,9 +26,6 @@ Public Class ReportYearlyByType
             End If
             UpFillCombo()
             Master.SiteTitle = "C040 - Corrective Action Report Yearly By Type"
-            'Dim dfrom As Date
-            'dfrom = Format(Now, "yyyy-MM-01")
-            'TmPeriod_From.Value = dfrom
         End If
     End Sub
 
@@ -203,37 +200,36 @@ Public Class ReportYearlyByType
             With cboItemType
                 .DataSource = dt
                 .DataBind()
+                .SelectedIndex = 0
             End With
-
+            HD = cboItemType.SelectedItem.GetFieldValue("Code")
+            HideValue.Set("ItemType", HD)
 
         Catch ex As Exception
             show_error(MsgTypeEnum.Info, "", 0)
         End Try
     End Sub
 
-    'Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
-
-    'End Sub
-
     <System.Web.Script.Services.ScriptMethod()>
     <WebMethod()>
-    Public Shared Function LoadData(User As String, FactoryCode As String, ProcessGroup As String, LineGroup As String, ProcessCode As String, LineCode As String, ItemType As String, ProdDate_From As String, ProdDate_To As String) As clsContent
+    Public Shared Function LoadData(Action As String, User As String, FactoryCode As String, ProcessCode As String, LineCode As String, ItemType As String, ProdDate_From As String, ProdDate_To As String, Periode As String, Qty As String) As clsContent
         Dim content As New clsContent
         Try
-            Dim dt As New DataTable
-            Dim resp As New List(Of clsReportYearlyByType)
-            Dim myTable As List(Of String()) = New List(Of String())()
             Dim data As New clsReportYearlyByType
+            data.Action = Action
             data.UserID = User
             data.FactoryCode = FactoryCode
-            data.ProcessGroup = ProcessGroup
-            data.LineGroup = LineGroup
             data.ProcessCode = ProcessCode
             data.LineCode = LineCode
             data.ItemType = ItemType
             data.ProdDateFrom = ProdDate_From
             data.ProdDateTo = ProdDate_To
+            data.Periode = Periode
+            data.QtyFTA = Qty
 
+            Dim dt As New DataTable
+            Dim resp As New List(Of clsReportYearlyByType)
+            Dim myTable As List(Of String()) = New List(Of String())()
             dt = clsReportYearlyByType.LoadData(data)
 
             If dt.Rows(0)(0).ToString <> "" Then
@@ -264,147 +260,176 @@ Public Class ReportYearlyByType
 
     <System.Web.Script.Services.ScriptMethod()>
     <WebMethod()>
-    Public Shared Function LoadDetail(User As String, ProcessCode As String, LineCode As String, LineGroup As String, Periode As String, Qty As String) As clsContent
+    Public Shared Function LoadChart(Action As String, User As String, FactoryCode As String, ProcessCode As String, LineCode As String, ItemType As String, ProdDate_From As String, ProdDate_To As String, Periode As String, Qty As String) As clsContent
         Dim content As New clsContent
         Try
-            Dim dt As New DataTable
-            Dim myTable As List(Of String()) = New List(Of String())()
             Dim data As New clsReportYearlyByType
-            data.UserID = User
-            data.ProcessCode = ProcessCode
-            data.LineCode = LineCode
-            data.LineGroup = LineGroup
-            data.Periode = Periode
-            data.QtyFTA = Qty
-
-            dt = clsReportYearlyByType.LoadDetail(data)
-
-            For n = 0 To dt.Rows.Count - 1
-                Dim columnCount As Integer = 0
-                Dim myTableRow As String() = New String(dt.Columns.Count - 1) {}
-
-                For Each dc As DataColumn In dt.Columns
-                    myTableRow(columnCount) = dt.Rows(n)(dc.ToString())
-                    columnCount += 1
-                Next
-                myTable.Add(myTableRow)
-            Next
-
-            Dim table2DArray = myTable.ToArray()
-
-            content.Message = "Success"
-            content.Contents = table2DArray
-        Catch ex As Exception
-            content.Message = "Error"
-            content.Contents = ex.Message
-        End Try
-        Return content
-    End Function
-
-    <System.Web.Script.Services.ScriptMethod()>
-    <WebMethod()>
-    Public Shared Function ChartLineGroup(User As String, FactoryCode As String, ProcessGroup As String, LineGroup As String, ProcessCode As String, LineCode As String, ItemType As String, ProdDate_From As String, ProdDate_To As String) As clsContent
-        Dim content As New clsContent
-        Try
-            Dim dt As New DataTable
-            Dim resp As New List(Of clsReportYearlyByType)
-            Dim myTable As List(Of String()) = New List(Of String())()
-            Dim data As New clsReportYearlyByType
+            data.Action = Action
             data.UserID = User
             data.FactoryCode = FactoryCode
-            data.ProcessGroup = ProcessGroup
-            data.LineGroup = LineGroup
             data.ProcessCode = ProcessCode
             data.LineCode = LineCode
             data.ItemType = ItemType
             data.ProdDateFrom = ProdDate_From
             data.ProdDateTo = ProdDate_To
+            data.Periode = Periode
+            data.QtyFTA = Qty
 
-            dt = clsReportYearlyByType.ChartLineGroup(data)
-            For n = 0 To dt.Rows.Count
-                Dim columnCount As Integer = 0
-                Dim myTableRow As String() = New String(dt.Columns.Count - 1) {}
+            Dim dt As New DataTable
+            Dim resp As New List(Of clsReportYearlyByType)
+            Dim myTable As List(Of String()) = New List(Of String())()
 
-                If n = 0 Then
-                    For Each dc As DataColumn In dt.Columns
-                        myTableRow(columnCount) = dc.ToString()
-                        columnCount += 1
+            dt = clsReportYearlyByType.LoadChart(data)
+            If dt.Rows.Count > 0 Then
+                If Action = "0" Then
+                    For n = 0 To dt.Rows.Count
+                        Dim columnCount As Integer = 0
+                        Dim myTableRow As String() = New String(dt.Columns.Count - 1) {}
+
+                        If n = 0 Then
+                            For Each dc As DataColumn In dt.Columns
+                                myTableRow(columnCount) = dc.ToString()
+                                columnCount += 1
+                            Next
+                        Else
+                            For Each dc As DataColumn In dt.Columns
+                                myTableRow(columnCount) = dt.Rows(n - 1)(dc.ToString())
+                                columnCount += 1
+                            Next
+                        End If
+
+                        myTable.Add(myTableRow)
                     Next
-                Else
-                    For Each dc As DataColumn In dt.Columns
-                        myTableRow(columnCount) = dt.Rows(n - 1)(dc.ToString())
-                        columnCount += 1
+                    Dim table2DArray = myTable.ToArray()
+
+                    content.Message = "Success"
+                    content.Contents = table2DArray
+
+                ElseIf Action = "1" Then
+                    Dim ChartLine As New List(Of clsReportYearlyByType_ChartLineDetail)()
+                    For i As Integer = 0 To dt.Rows.Count - 1
+                        ChartLine.Add(
+                        New clsReportYearlyByType_ChartLineDetail() With {
+                        .LABELNAME = dt.Rows(i)("LABELNAME"),
+                        .DATAVAL = dt.Rows(i)("QtyFTA_Detail"),
+                        .DATAVAL2 = dt.Rows(i)("Percentage"),
+                        .AXISVAL = Trim(dt.Rows(i)("No")),
+                        .AXISVAL2 = Trim(dt.Rows(i)("NoofLine")),
+                        .AXISNAME = Trim(dt.Rows(i)("LineName"))
+                        })
                     Next
+
+                    Dim labels As Object() = ChartLine.Select(Function(t) t.LABELNAME).Distinct.ToArray()
+                    Dim message As String = "["
+                    Dim axis As String = "["
+                    Dim max As Integer
+
+                    For i As Integer = 0 To ChartLine.Count - 1
+                        max = max + ChartLine(i).DATAVAL
+                    Next
+
+                    For i As Integer = 0 To labels.Length - 1
+                        message += "{'color':'#525454','data':["
+                        Dim d = ChartLine.Where(Function(x) x.LABELNAME = labels(i).ToString()).Select(Function(x) New With {Key .axisValue = x.AXISVAL, Key .dataValue = x.DATAVAL, Key .axisName = x.AXISNAME})
+
+                        For Each item In d
+                            message += "[" & item.axisValue & "," + item.dataValue & "],"
+
+                            If i = 0 Then
+                                axis += "[" & item.axisValue & ",'" + item.axisValue & "'],"
+                            End If
+                        Next
+
+                        message = message.Substring(0, message.Length - 1) & "], 'bars': {'show': true,  'clickable': true, 'align': 'center', 'barWidth' : 1, 'fillColor': '#fdbff9' , 'lineWidth':1 }}, { 'color':'#525454','data': [[0.5,0],"
+                        Dim e = ChartLine.Where(Function(x) x.LABELNAME = labels(i).ToString()).Select(Function(x) New With {Key .axisValue = x.AXISVAL2, Key .dataValue = x.DATAVAL2, Key .axisName = x.AXISNAME})
+
+                        For Each item In e
+                            message += "[" & item.axisValue & "," + item.dataValue & "],"
+                        Next
+
+                        message = message.Substring(0, message.Length - 1) & "],  'yaxis': 2,  'points': { 'symbol': 'circle', 'fillColor': '#5fa9f5','radius' : 1, 'show': true }, 'lines': {'show':true,'lineWidth':0.5}},"
+
+                    Next
+
+                    message = message.Substring(0, message.Length - 1)
+                    message += "]"
+                    axis = axis.Substring(0, axis.Length - 1)
+                    axis += "]"
+
+                    Dim chart As clsReportYearlyByType_ChartLineSetting = New clsReportYearlyByType_ChartLineSetting()
+                    chart.data = message
+                    chart.xaxisTicks = axis
+                    chart.Max = max.ToString
+
+                    content.Message = "Success"
+                    content.Contents = chart
+
+                ElseIf Action = "2" Then
+                    Dim ChartLine As New List(Of clsReportYearlyByType_ChartLineDetail)()
+                    For i As Integer = 0 To dt.Rows.Count - 1
+                        ChartLine.Add(
+                        New clsReportYearlyByType_ChartLineDetail() With {
+                        .LABELNAME = dt.Rows(i)("LABELNAME"),
+                        .DATAVAL = dt.Rows(i)("QtyFTA_Detail"),
+                        .DATAVAL2 = dt.Rows(i)("Percentage"),
+                        .AXISVAL = Trim(dt.Rows(i)("No")),
+                        .AXISVAL2 = Trim(dt.Rows(i)("NoofLine")),
+                        .AXISNAME = Trim(dt.Rows(i)("ItemCheckName"))
+                        })
+                    Next
+
+                    Dim labels As Object() = ChartLine.Select(Function(t) t.LABELNAME).Distinct.ToArray()
+                    Dim message As String = "["
+                    Dim axis As String = "["
+                    Dim max As Integer
+
+                    For i As Integer = 0 To ChartLine.Count - 1
+                        max = max + ChartLine(i).DATAVAL
+                    Next
+
+                    For i As Integer = 0 To labels.Length - 1
+                        message += "{'color':'#525454','data':["
+                        Dim d = ChartLine.Where(Function(x) x.LABELNAME = labels(i).ToString()).Select(Function(x) New With {Key .axisValue = x.AXISVAL, Key .dataValue = x.DATAVAL, Key .axisName = x.AXISNAME})
+
+                        For Each item In d
+                            message += "[" & item.axisValue & "," + item.dataValue & "],"
+
+                            If i = 0 Then
+                                axis += "[" & item.axisValue & ",'" + item.axisValue & "'],"
+                            End If
+                        Next
+
+                        message = message.Substring(0, message.Length - 1) & "], 'bars': {'show': true,  'clickable': true, 'align': 'center', 'barWidth' : 1, 'fillColor': '#fdbff9' , 'lineWidth':1 }}, { 'color':'#525454','data': [[0.5,0],"
+                        Dim e = ChartLine.Where(Function(x) x.LABELNAME = labels(i).ToString()).Select(Function(x) New With {Key .axisValue = x.AXISVAL2, Key .dataValue = x.DATAVAL2, Key .axisName = x.AXISNAME})
+
+                        For Each item In e
+                            message += "[" & item.axisValue & "," + item.dataValue & "],"
+                        Next
+
+                        message = message.Substring(0, message.Length - 1) & "],  'yaxis': 2,  'points': { 'symbol': 'circle', 'fillColor': '#5fa9f5','radius' : 1, 'show': true }, 'lines': {'show':true,'lineWidth':0.5}},"
+
+                    Next
+
+                    message = message.Substring(0, message.Length - 1)
+                    message += "]"
+                    axis = axis.Substring(0, axis.Length - 1)
+                    axis += "]"
+
+                    Dim chart As clsReportYearlyByType_ChartLineSetting = New clsReportYearlyByType_ChartLineSetting()
+                    chart.data = message
+                    chart.xaxisTicks = axis
+                    chart.Max = max.ToString
+
+                    content.Message = "Success"
+                    content.Contents = chart
                 End If
 
-                myTable.Add(myTableRow)
-            Next
-            Dim table2DArray = myTable.ToArray()
-
-            content.Message = "Success"
-            content.Contents = table2DArray
-
+            End If
         Catch ex As Exception
             content.Message = "Error"
             content.Contents = ex.Message
         End Try
         Return content
-    End Function
-
-    <WebMethod()>
-    Public Shared Function ChartLineDetail(User As String, ProcessCode As String, LineCode As String, LineGroup As String, Periode As String, Qty As String) As clsReportYearlyByType_ChartLineSetting
-        Dim data As New clsReportYearlyByType
-        data.UserID = User
-        data.ProcessCode = ProcessCode
-        data.LineCode = LineCode
-        data.LineGroup = LineGroup
-        data.Periode = Periode
-        data.QtyFTA = Qty
-        Dim dt As List(Of clsReportYearlyByType_ChartLineDetail) = clsReportYearlyByType.ChartLineDetail(data)
-        Dim labels As Object() = dt.Select(Function(t) t.LABELNAME).Distinct.ToArray()
-        Dim message As String = "["
-        Dim axis As String = "["
-        Dim max As Integer
-
-        For i As Integer = 0 To dt.Count - 1
-            max = max + dt(i).DATAVAL
-        Next
-
-        For i As Integer = 0 To labels.Length - 1
-            message += "{'color':'#525454','data':["
-            Dim d = dt.Where(Function(x) x.LABELNAME = labels(i).ToString()).Select(Function(x) New With {Key .axisValue = x.AXISVAL, Key .dataValue = x.DATAVAL, Key .axisName = x.AXISNAME})
-
-            For Each item In d
-                message += "[" & item.axisValue & "," + item.dataValue & "],"
-
-                If i = 0 Then
-                    axis += "[" & item.axisValue & ",'" + item.axisValue & "'],"
-                End If
-            Next
-
-            message = message.Substring(0, message.Length - 1) & "], 'bars': {'show': true,  'clickable': true, 'align': 'center', 'barWidth' : 1, 'fillColor': '#fdbff9' , 'lineWidth':1 }}, { 'color':'#525454','data': [[0.5,0],"
-            Dim e = dt.Where(Function(x) x.LABELNAME = labels(i).ToString()).Select(Function(x) New With {Key .axisValue = x.AXISVAL2, Key .dataValue = x.DATAVAL2, Key .axisName = x.AXISNAME})
-
-            For Each item In e
-                message += "[" & item.axisValue & "," + item.dataValue & "],"
-            Next
-
-            message = message.Substring(0, message.Length - 1) & "],  'yaxis': 2,  'points': { 'symbol': 'circle', 'fillColor': '#5fa9f5','radius' : 1, 'show': true }, 'lines': {'show':true,'lineWidth':0.5}},"
-
-        Next
-
-        message = message.Substring(0, message.Length - 1)
-        message += "]"
-        axis = axis.Substring(0, axis.Length - 1)
-        axis += "]"
-
-
-        Dim chart As clsReportYearlyByType_ChartLineSetting = New clsReportYearlyByType_ChartLineSetting()
-        chart.data = message
-        chart.xaxisTicks = axis
-        chart.Max = max.ToString
-
-        Return chart
     End Function
 
     Private Sub ExcelContent(ChartGroup As String, ChartDetail As String)
@@ -539,7 +564,7 @@ Public Class ReportYearlyByType
                         det.Periode = HideValue.Get("sPeriode")
                         det.QtyFTA = HideValue.Get("sQty")
 
-                        dtDet = clsReportYearlyByType.LoadDetail(det)
+                        dtDet = clsReportYearlyByType.LoadData(det)
                         .Cells(irow, 1).Value = "Table Summary FTA SPC " & det.Periode
                         .Cells(irow, 1).Style.Font.Size = 12
                         .Cells(irow, 1).Style.Font.Name = "Segoe UI"

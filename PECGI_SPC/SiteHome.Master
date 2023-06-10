@@ -135,10 +135,19 @@
             <section id="widget-grid" class="">
                 <div class="row">
                     <article class="col-sm-12 col-md-12 col-lg-12">
-                        <div>
+                        <div class="jarviswidget" id="wid-id-0" data-widget-deletebutton="false" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                            <header>
+                                <span class="widget-icon"><i class="fa fa-edit"></i></span>
+                                <h2><strong>
+                                    <asp:Label ID="Label1" runat="server" Text=""></asp:Label></strong></h2>
+                            </header>
                             <div>
-                                <div>
-                                    <asp:ContentPlaceHolder ID="Content" runat="server" />
+                                <div class="widget-body">
+                                    <form class="smart-form" id="Form1" runat="server">
+                                        <asp:ContentPlaceHolder ID="Content" runat="server" />
+                                    </form>
+                                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" />
+                                    <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server" />
                                 </div>
                             </div>
                         </div>
