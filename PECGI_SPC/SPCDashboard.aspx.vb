@@ -30,6 +30,26 @@ Public Class SPCDashboard
     Dim RColorBeforeNG As Integer
     Dim RColorBeforeDV As Integer
     Dim Color As Color
+
+    'Param For Merge Data SPC Verification
+    Dim mSPCResultID As String = ""
+    Dim mType As String = ""
+    Dim mMachineProcess As String = ""
+    Dim mItemCheck As String = ""
+    Dim mDate As String = ""
+    Dim mShift As String = ""
+    Dim mSeq As String = ""
+    Dim mUSL As String = ""
+    Dim mLSL As String = ""
+    Dim mUCL As String = ""
+    Dim mLCL As String = ""
+    Dim mMin As String = ""
+    Dim mMax As String = ""
+    Dim mAverage As String = ""
+    Dim mR As String = ""
+    Dim mOperator As String = ""
+    Dim mMachineKeeper As String = ""
+    Dim mQC As String = ""
 #End Region
 
 #Region "Events"
@@ -77,7 +97,7 @@ Public Class SPCDashboard
             Dim Test As Integer
             Dim Test2 As String = ""
             Dim dtLoadGridDelay As DataTable
-            dtLoadGridDelay = clsSPCAlertDashboardDB.GetList(pUser, "F001", "1", VarDateTime)
+            dtLoadGridDelay = clsSPCAlertDashboardDB.GetListForDashboard(pUser, "F001", "1", VarDateTime)
 
             If dtLoadGridDelay.Rows.Count > 0 Then
                 lblCountDelayInput.Text = dtLoadGridDelay.Rows.Count
@@ -104,7 +124,7 @@ Public Class SPCDashboard
     Private Sub LoadGridNG(VarDateTime As String)
         Try
             Dim dtLoadGridNG As DataTable
-            dtLoadGridNG = clsSPCAlertDashboardDB.GetNGDataList(pUser, "F001", "1", VarDateTime)
+            dtLoadGridNG = clsSPCAlertDashboardDB.GetNGDataListForDashboard(pUser, "F001", "1", VarDateTime)
 
             If dtLoadGridNG.Rows.Count > 0 Then
                 lblCountNGresult.Text = dtLoadGridNG.Rows.Count
@@ -122,7 +142,7 @@ Public Class SPCDashboard
     Private Sub LoadGridDelayVerif(VarDateTime As String)
         Try
             Dim dtLoadGridDelayVerif As DataTable
-            dtLoadGridDelayVerif = clsSPCAlertDashboardDB.GetDelayVerificationGrid(pUser, "F001", "1", VarDateTime, "B010")
+            dtLoadGridDelayVerif = clsSPCAlertDashboardDB.GetDelayVerificationGridForDashboard(pUser, "F001", "1", VarDateTime, "B010")
 
             If dtLoadGridDelayVerif.Rows.Count > 0 Then
                 lblCountDelayVerif.Text = dtLoadGridDelayVerif.Rows.Count
@@ -150,16 +170,26 @@ Public Class SPCDashboard
             Dim item As RepeaterItem = e.Item
             Dim FormatDigit As String = ""
 
+
+
             'Declare Label Repeater
             'Dim lblType As Label = TryCast(item.FindControl("lblType"), Label)
+            Dim lblMachineProcess As Label = TryCast(item.FindControl("lblMachineProcess"), Label)
             Dim ItemCheck As Label = TryCast(item.FindControl("lblItemCheck"), Label)
-            Dim lblMin As Label = TryCast(item.FindControl("lblMin"), Label)
-            Dim lblMax As Label = TryCast(item.FindControl("lblMax"), Label)
+            Dim lblDate As Label = TryCast(item.FindControl("lblDate"), Label)
+            Dim lblShift As Label = TryCast(item.FindControl("lblShift"), Label)
+            Dim lblSeq As Label = TryCast(item.FindControl("lblSeq"), Label)
             Dim lblAve As Label = TryCast(item.FindControl("lblAve"), Label)
             Dim lblUSL As Label = TryCast(item.FindControl("lblUSL"), Label)
             Dim lblLSL As Label = TryCast(item.FindControl("lblLSL"), Label)
             Dim lblUCL As Label = TryCast(item.FindControl("lblUCL"), Label)
             Dim lblLCL As Label = TryCast(item.FindControl("lblLCL"), Label)
+            Dim lblMin As Label = TryCast(item.FindControl("lblMin"), Label)
+            Dim lblMax As Label = TryCast(item.FindControl("lblMax"), Label)
+            Dim lblRValue As Label = TryCast(item.FindControl("lblRValue"), Label)
+            Dim lblOperator As Label = TryCast(item.FindControl("lblOperator"), Label)
+            Dim lblMK As Label = TryCast(item.FindControl("lblMK"), Label)
+            Dim lblQC As Label = TryCast(item.FindControl("lblQC"), Label)
             Dim lblTypeNGInput As Label = TryCast(item.FindControl("lblTypeNGInput"), Label)
 
             Dim ItemCheckCode As String = ItemCheck.Text
@@ -173,148 +203,188 @@ Public Class SPCDashboard
                 FormatDigit = "0.0000"
             End If
 
-            lblMin.Text = Format(Val(lblMin.Text), FormatDigit)
-            lblMax.Text = Format(Val(lblMax.Text), FormatDigit)
-            lblAve.Text = Format(Val(lblAve.Text), FormatDigit)
-            lblUSL.Text = Format(Val(lblUSL.Text), FormatDigit)
-            lblLSL.Text = Format(Val(lblLSL.Text), FormatDigit)
-            lblUCL.Text = Format(Val(lblUCL.Text), FormatDigit)
-            lblLCL.Text = Format(Val(lblLCL.Text), FormatDigit)
-
-            pCharacteristicStatus = Split(lblTypeNGInput.Text, "||")(1)
-
-            Dim SplitType = Split(lblTypeNGInput.Text, "||")(0)
-            'lblTypeNGInput.Text = "<a href='" + Split(lblTypeNGInput.Text, "||")(2) + "' target='_blank'>" + Split(lblTypeNGInput.Text, "||")(0) + "</a>"
-            lblTypeNGInput.Text = "<a href='" + Split(lblTypeNGInput.Text, "||")(2) + "' target='_blank'>SPC</a> | <a href='" + Split(lblTypeNGInput.Text, "||")(3) + "' target='_blank'>Corrective Action</a>"
-
-
-            'Dim lblType As LinkButton = TryCast(item.FindControl("linkType"), LinkButton)
-            'lblType.Text = Split(lblType.Text, "||")(0)
-
-            'LinkDelayType = Split(lblType.Text, "||")(1)
-
-
-
-            'Check If MinValue Is Out Of Spec Or Out Of Control
-            If lblMin.Text < lblLSL.Text Then
-                Dim CellMin As HtmlTableCell = TryCast(item.FindControl("MinValueNG"), HtmlTableCell)
-
-                CellMin.BgColor = "Red"
-                lblMin.ForeColor = Color.White
-            ElseIf lblMin.Text > lblUSL.Text Then
-                Dim CellMin As HtmlTableCell = TryCast(item.FindControl("MinValueNG"), HtmlTableCell)
-
-                CellMin.BgColor = "Red"
-                lblMin.ForeColor = Color.White
-            ElseIf lblMin.Text > lblUCL.Text Then
-                Dim CellMin As HtmlTableCell = TryCast(item.FindControl("MinValueNG"), HtmlTableCell)
-
-                If pCharacteristicStatus = 0 Then
-                    CellMin.BgColor = "Pink"
-                ElseIf pCharacteristicStatus = 1 Then
-                    CellMin.BgColor = "#ffff99"
-                End If
-                lblMin.ForeColor = Color.Black
-            ElseIf lblMin.Text < lblLCL.Text Then
-                Dim CellMin As HtmlTableCell = TryCast(item.FindControl("MinValueNG"), HtmlTableCell)
-
-                If pCharacteristicStatus = 0 Then
-                    CellMin.BgColor = "Pink"
-                ElseIf pCharacteristicStatus = 1 Then
-                    CellMin.BgColor = "#ffff99"
-                End If
-                lblMin.ForeColor = Color.Black
-            End If
-
-            'Check If MaxValue Is Out Of Spec Or Out Of Control
-            If lblMax.Text < lblLSL.Text Then
-                Dim CellMin As HtmlTableCell = TryCast(item.FindControl("MaxValueNG"), HtmlTableCell)
-
-                CellMin.BgColor = "Red"
-                lblMax.ForeColor = Color.White
-            ElseIf lblMax.Text > lblUSL.Text Then
-                Dim CellMin As HtmlTableCell = TryCast(item.FindControl("MaxValueNG"), HtmlTableCell)
-
-                CellMin.BgColor = "Red"
-                lblMax.ForeColor = Color.White
-            ElseIf lblMax.Text > lblUCL.Text Then
-                Dim CellMin As HtmlTableCell = TryCast(item.FindControl("MaxValueNG"), HtmlTableCell)
-
-                If pCharacteristicStatus = 0 Then
-                    CellMin.BgColor = "Pink"
-                ElseIf pCharacteristicStatus = 1 Then
-                    CellMin.BgColor = "#ffff99"
-                End If
-                lblMax.ForeColor = Color.Black
-            ElseIf lblMax.Text < lblLCL.Text Then
-                Dim CellMin As HtmlTableCell = TryCast(item.FindControl("MaxValueNG"), HtmlTableCell)
-
-                If pCharacteristicStatus = 0 Then
-                    CellMin.BgColor = "Pink"
-                ElseIf pCharacteristicStatus = 1 Then
-                    CellMin.BgColor = "#ffff99"
-                End If
-                lblMax.ForeColor = Color.Black
-            End If
-
-            'Check If Average Value Is Out Of Spec Or Out Of Control
-            If lblAve.Text < lblLSL.Text Then
-                Dim CellMin As HtmlTableCell = TryCast(item.FindControl("AveValueNG"), HtmlTableCell)
-
-                CellMin.BgColor = "Red"
-                lblAve.ForeColor = Color.White
-            ElseIf lblAve.Text > lblUSL.Text Then
-                Dim CellMin As HtmlTableCell = TryCast(item.FindControl("AveValueNG"), HtmlTableCell)
-
-                CellMin.BgColor = "Red"
-                lblAve.ForeColor = Color.White
-            ElseIf lblAve.Text > lblUCL.Text Then
-                Dim CellMin As HtmlTableCell = TryCast(item.FindControl("AveValueNG"), HtmlTableCell)
-
-                If pCharacteristicStatus = 0 Then
-                    CellMin.BgColor = "Pink"
-                ElseIf pCharacteristicStatus = 1 Then
-                    CellMin.BgColor = "#ffff99"
-                End If
-                lblAve.ForeColor = Color.Black
-            ElseIf lblAve.Text < lblLCL.Text Then
-                Dim CellMin As HtmlTableCell = TryCast(item.FindControl("AveValueNG"), HtmlTableCell)
-
-                If pCharacteristicStatus = 0 Then
-                    CellMin.BgColor = "Pink"
-                ElseIf pCharacteristicStatus = 1 Then
-                    CellMin.BgColor = "#ffff99"
-                End If
-                lblAve.ForeColor = Color.Black
-            End If
-
-            Dim lblRValue As Label = TryCast(item.FindControl("lblRValue"), Label)
-            Dim RCellValue = Split(lblRValue.Text, "||")(1)
-
-            If RCellValue > 0 Then
-
-                If RCellValue >= RColorBeforeNG AndAlso RColorBeforeNG <> 0 Then
-                    'Color = System.Drawing.Color.Pink
-                    Dim CellMin As HtmlTableCell = TryCast(item.FindControl("RValue"), HtmlTableCell)
-
-                    CellMin.BgColor = "Pink"
-                Else
-                    'Color = System.Drawing.Color.Yellow
-                    Dim CellMin As HtmlTableCell = TryCast(item.FindControl("RValue"), HtmlTableCell)
-
-                    CellMin.BgColor = "Yellow"
-                End If
-
+            If lblTypeNGInput.Text = mType AndAlso lblMachineProcess.Text = mMachineProcess AndAlso ItemCheck.Text = mItemCheck AndAlso lblDate.Text = mDate AndAlso lblShift.Text = mShift AndAlso lblSeq.Text = mSeq AndAlso lblUSL.Text = mUSL AndAlso lblLSL.Text = mLSL AndAlso lblUCL.Text = mUCL AndAlso lblLCL.Text = mLCL AndAlso lblMin.Text = mMin AndAlso lblMax.Text = mMax AndAlso lblAve.Text = mAverage AndAlso lblRValue.Text = mR AndAlso lblOperator.Text = mOperator AndAlso lblMK.Text = mMachineKeeper AndAlso lblQC.Text = mQC Then
+                lblMachineProcess.Text = ""
+                ItemCheck.Text = ""
+                lblDate.Text = ""
+                lblShift.Text = ""
+                lblSeq.Text = ""
+                lblAve.Text = ""
+                lblUSL.Text = ""
+                lblLSL.Text = ""
+                lblUCL.Text = ""
+                lblLCL.Text = ""
+                lblMin.Text = ""
+                lblMax.Text = ""
+                lblRValue.Text = ""
+                lblOperator.Text = ""
+                lblMK.Text = ""
+                lblQC.Text = ""
+                lblTypeNGInput.Text = ""
             Else
+                mMachineProcess = lblMachineProcess.Text
+                mItemCheck = ItemCheck.Text
+                mDate = lblDate.Text
+                mShift = lblShift.Text
+                mSeq = lblSeq.Text
+                mAverage = lblAve.Text
+                mUSL = lblUSL.Text
+                mLSL = lblLSL.Text
+                mUCL = lblUCL.Text
+                mLCL = lblLCL.Text
+                mMin = lblMin.Text
+                mMax = lblMax.Text
+                mR = lblRValue.Text
+                mOperator = lblOperator.Text
+                mMachineKeeper = lblMK.Text
+                mQC = lblQC.Text
+                mType = lblTypeNGInput.Text
 
-                'Dim CellMin As HtmlTableCell = TryCast(item.FindControl("RValue"), HtmlTableCell)
+                lblMin.Text = Format(Val(lblMin.Text), FormatDigit)
+                lblMax.Text = Format(Val(lblMax.Text), FormatDigit)
+                lblAve.Text = Format(Val(lblAve.Text), FormatDigit)
+                lblUSL.Text = Format(Val(lblUSL.Text), FormatDigit)
+                lblLSL.Text = Format(Val(lblLSL.Text), FormatDigit)
+                lblUCL.Text = Format(Val(lblUCL.Text), FormatDigit)
+                lblLCL.Text = Format(Val(lblLCL.Text), FormatDigit)
 
-                'CellMin.BgColor = "White"
+                pCharacteristicStatus = Split(lblTypeNGInput.Text, "||")(1)
+
+                Dim SplitType = Split(lblTypeNGInput.Text, "||")(0)
+                'lblTypeNGInput.Text = "<a href='" + Split(lblTypeNGInput.Text, "||")(2) + "' target='_blank'>" + Split(lblTypeNGInput.Text, "||")(0) + "</a>"
+                lblTypeNGInput.Text = "<a href='" + Split(lblTypeNGInput.Text, "||")(2) + "' target='_blank'>SPC</a> | <a href='" + Split(lblTypeNGInput.Text, "||")(3) + "' target='_blank'>Corrective Action</a>"
+
+
+                'Dim lblType As LinkButton = TryCast(item.FindControl("linkType"), LinkButton)
+                'lblType.Text = Split(lblType.Text, "||")(0)
+
+                'LinkDelayType = Split(lblType.Text, "||")(1)
+
+
+
+                'Check If MinValue Is Out Of Spec Or Out Of Control
+                If lblMin.Text < lblLSL.Text Then
+                    Dim CellMin As HtmlTableCell = TryCast(item.FindControl("MinValueNG"), HtmlTableCell)
+
+                    CellMin.BgColor = "Red"
+                    lblMin.ForeColor = Color.White
+                ElseIf lblMin.Text > lblUSL.Text Then
+                    Dim CellMin As HtmlTableCell = TryCast(item.FindControl("MinValueNG"), HtmlTableCell)
+
+                    CellMin.BgColor = "Red"
+                    lblMin.ForeColor = Color.White
+                ElseIf lblMin.Text > lblUCL.Text Then
+                    Dim CellMin As HtmlTableCell = TryCast(item.FindControl("MinValueNG"), HtmlTableCell)
+
+                    If pCharacteristicStatus = 0 Then
+                        CellMin.BgColor = "Pink"
+                    ElseIf pCharacteristicStatus = 1 Then
+                        CellMin.BgColor = "#ffff99"
+                    End If
+                    lblMin.ForeColor = Color.Black
+                ElseIf lblMin.Text < lblLCL.Text Then
+                    Dim CellMin As HtmlTableCell = TryCast(item.FindControl("MinValueNG"), HtmlTableCell)
+
+                    If pCharacteristicStatus = 0 Then
+                        CellMin.BgColor = "Pink"
+                    ElseIf pCharacteristicStatus = 1 Then
+                        CellMin.BgColor = "#ffff99"
+                    End If
+                    lblMin.ForeColor = Color.Black
+                End If
+
+                'Check If MaxValue Is Out Of Spec Or Out Of Control
+                If lblMax.Text < lblLSL.Text Then
+                    Dim CellMin As HtmlTableCell = TryCast(item.FindControl("MaxValueNG"), HtmlTableCell)
+
+                    CellMin.BgColor = "Red"
+                    lblMax.ForeColor = Color.White
+                ElseIf lblMax.Text > lblUSL.Text Then
+                    Dim CellMin As HtmlTableCell = TryCast(item.FindControl("MaxValueNG"), HtmlTableCell)
+
+                    CellMin.BgColor = "Red"
+                    lblMax.ForeColor = Color.White
+                ElseIf lblMax.Text > lblUCL.Text Then
+                    Dim CellMin As HtmlTableCell = TryCast(item.FindControl("MaxValueNG"), HtmlTableCell)
+
+                    If pCharacteristicStatus = 0 Then
+                        CellMin.BgColor = "Pink"
+                    ElseIf pCharacteristicStatus = 1 Then
+                        CellMin.BgColor = "#ffff99"
+                    End If
+                    lblMax.ForeColor = Color.Black
+                ElseIf lblMax.Text < lblLCL.Text Then
+                    Dim CellMin As HtmlTableCell = TryCast(item.FindControl("MaxValueNG"), HtmlTableCell)
+
+                    If pCharacteristicStatus = 0 Then
+                        CellMin.BgColor = "Pink"
+                    ElseIf pCharacteristicStatus = 1 Then
+                        CellMin.BgColor = "#ffff99"
+                    End If
+                    lblMax.ForeColor = Color.Black
+                End If
+
+                'Check If Average Value Is Out Of Spec Or Out Of Control
+                If lblAve.Text < lblLSL.Text Then
+                    Dim CellMin As HtmlTableCell = TryCast(item.FindControl("AveValueNG"), HtmlTableCell)
+
+                    CellMin.BgColor = "Red"
+                    lblAve.ForeColor = Color.White
+                ElseIf lblAve.Text > lblUSL.Text Then
+                    Dim CellMin As HtmlTableCell = TryCast(item.FindControl("AveValueNG"), HtmlTableCell)
+
+                    CellMin.BgColor = "Red"
+                    lblAve.ForeColor = Color.White
+                ElseIf lblAve.Text > lblUCL.Text Then
+                    Dim CellMin As HtmlTableCell = TryCast(item.FindControl("AveValueNG"), HtmlTableCell)
+
+                    If pCharacteristicStatus = 0 Then
+                        CellMin.BgColor = "Pink"
+                    ElseIf pCharacteristicStatus = 1 Then
+                        CellMin.BgColor = "#ffff99"
+                    End If
+                    lblAve.ForeColor = Color.Black
+                ElseIf lblAve.Text < lblLCL.Text Then
+                    Dim CellMin As HtmlTableCell = TryCast(item.FindControl("AveValueNG"), HtmlTableCell)
+
+                    If pCharacteristicStatus = 0 Then
+                        CellMin.BgColor = "Pink"
+                    ElseIf pCharacteristicStatus = 1 Then
+                        CellMin.BgColor = "#ffff99"
+                    End If
+                    lblAve.ForeColor = Color.Black
+                End If
+
+                'Dim lblRValue As Label = TryCast(item.FindControl("lblRValue"), Label)
+                Dim RCellValue = Split(lblRValue.Text, "||")(1)
+
+                If RCellValue > 0 Then
+
+                    If RCellValue >= RColorBeforeNG AndAlso RColorBeforeNG <> 0 Then
+                        'Color = System.Drawing.Color.Pink
+                        Dim CellMin As HtmlTableCell = TryCast(item.FindControl("RValue"), HtmlTableCell)
+
+                        CellMin.BgColor = "Pink"
+                    Else
+                        'Color = System.Drawing.Color.Yellow
+                        Dim CellMin As HtmlTableCell = TryCast(item.FindControl("RValue"), HtmlTableCell)
+
+                        CellMin.BgColor = "Yellow"
+                    End If
+
+                Else
+
+                    'Dim CellMin As HtmlTableCell = TryCast(item.FindControl("RValue"), HtmlTableCell)
+
+                    'CellMin.BgColor = "White"
+
+                End If
+
+                RColorBeforeNG = RCellValue
+                lblRValue.Text = Split(lblRValue.Text, "||")(0)
 
             End If
 
-            RColorBeforeNG = RCellValue
-            lblRValue.Text = Split(lblRValue.Text, "||")(0)
 
         End If
     End Sub

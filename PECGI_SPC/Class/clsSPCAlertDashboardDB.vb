@@ -15,7 +15,89 @@ Public Class clsSPCAlertDashboardDB
             Return i
         End Using
     End Function
+    ' Function Separate For SPC Dashboard B01
+    Public Shared Function GetListForDashboard(User As String, FactoryCode As String, pProdDateType As Integer, pProdDate As DateTime, Optional ByRef pErr As String = "") As DataTable
+        Try
+            Using conn As New SqlConnection(Sconn.Stringkoneksi)
+                conn.Open()
+                Dim sql As String = ""
+                sql = "sp_SPC_GetDelayInputForDashboard"
 
+                Dim cmd As New SqlCommand(sql, conn)
+                cmd.CommandType = CommandType.StoredProcedure
+                With cmd.Parameters
+                    .AddWithValue("User", User)
+                    .AddWithValue("FactoryCode", FactoryCode)
+                    .AddWithValue("ProdDateType", pProdDateType)
+                    .AddWithValue("ProdDate", pProdDate)
+                End With
+                Dim da As New SqlDataAdapter(cmd)
+                Dim dt As New DataTable
+                da.Fill(dt)
+
+                Return dt
+            End Using
+        Catch ex As Exception
+            pErr = ex.Message
+            Return Nothing
+        End Try
+    End Function
+    Public Shared Function GetDelayVerificationGridForDashboard(User As String, FactoryCode As String, pProdDateType As Integer, pProdDate As DateTime, pMenuID As String, Optional FilterDate As String = "", Optional ByRef pErr As String = "") As DataTable
+        Try
+            Using conn As New SqlConnection(Sconn.Stringkoneksi)
+                conn.Open()
+                Dim sql As String = ""
+                sql = "sp_SPC_GetDelayVerificationForDashboard"
+
+                Dim cmd As New SqlCommand(sql, conn)
+                cmd.CommandType = CommandType.StoredProcedure
+                With cmd.Parameters
+                    .AddWithValue("User", User)
+                    .AddWithValue("FactoryCode", FactoryCode)
+                    .AddWithValue("ProdDateType", pProdDateType)
+                    .AddWithValue("ProdDate", pProdDate)
+                    .AddWithValue("TypeForm", "2")
+                    .AddWithValue("MenuID", pMenuID)
+                    .AddWithValue("FilterDate", FilterDate)
+                End With
+                Dim da As New SqlDataAdapter(cmd)
+                Dim dt As New DataTable
+                da.Fill(dt)
+
+                Return dt
+            End Using
+        Catch ex As Exception
+            pErr = ex.Message
+            Return Nothing
+        End Try
+    End Function
+    Public Shared Function GetNGDataListForDashboard(User As String, FactoryCode As String, pProdDateType As Integer, pProdDate As DateTime, Optional ByRef pErr As String = "") As DataTable
+        Try
+            Using conn As New SqlConnection(Sconn.Stringkoneksi)
+                conn.Open()
+                Dim sql As String = ""
+                sql = "sp_SPC_GetNGInputForDashboard"
+
+                Dim cmd As New SqlCommand(sql, conn)
+                cmd.CommandType = CommandType.StoredProcedure
+                With cmd.Parameters
+                    .AddWithValue("User", User)
+                    .AddWithValue("FactoryCode", FactoryCode)
+                    .AddWithValue("ProdDateType", pProdDateType)
+                    .AddWithValue("ProdDate", pProdDate)
+                End With
+                Dim da As New SqlDataAdapter(cmd)
+                Dim dt As New DataTable
+                da.Fill(dt)
+
+                Return dt
+            End Using
+        Catch ex As Exception
+            pErr = ex.Message
+            Return Nothing
+        End Try
+    End Function
+    'End Function For SPC Dashboard B010
     Public Shared Function GetList(User As String, FactoryCode As String, pProdDateType As Integer, pProdDate As DateTime, Optional ByRef pErr As String = "") As DataTable
         Try
             Using conn As New SqlConnection(Sconn.Stringkoneksi)
