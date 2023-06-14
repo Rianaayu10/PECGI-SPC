@@ -50,6 +50,7 @@ Public Class SPCDashboard
     Dim mOperator As String = ""
     Dim mMachineKeeper As String = ""
     Dim mQC As String = ""
+    Dim CountDataNG As Integer = 0
 #End Region
 
 #Region "Events"
@@ -127,7 +128,7 @@ Public Class SPCDashboard
             dtLoadGridNG = clsSPCAlertDashboardDB.GetNGDataListForDashboard(pUser, "F001", "1", VarDateTime)
 
             If dtLoadGridNG.Rows.Count > 0 Then
-                lblCountNGresult.Text = dtLoadGridNG.Rows.Count
+                'lblCountNGresult.Text = dtLoadGridNG.Rows.Count
                 rptNGInput.DataSource = dtLoadGridNG
                 rptNGInput.DataBind()
             Else
@@ -383,6 +384,8 @@ Public Class SPCDashboard
                 RColorBeforeNG = RCellValue
                 lblRValue.Text = Split(lblRValue.Text, "||")(0)
 
+                CountDataNG = CountDataNG + 1
+                lblCountNGresult.Text = CountDataNG
             End If
 
 
