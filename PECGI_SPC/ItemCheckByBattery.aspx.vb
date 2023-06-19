@@ -447,7 +447,7 @@ Public Class ItemCheckByBattery
         cboLineGroup.DataBind()
     End Sub
     Private Sub cboMachine_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboMachine.Callback
-        cboMachine.DataSource = clsProcessDB.GetList(pUser, cboFactory.Value, cboProcessGroup.Value, cboLineGroup.Value)
+        cboMachine.DataSource = clsProcessDB.GetListForItemCheckByType(pUser, cboFactory.Value, cboProcessGroup.Value, cboLineGroup.Value)
         cboMachine.DataBind()
     End Sub
 #End Region
