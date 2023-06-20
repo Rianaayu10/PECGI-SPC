@@ -1,6 +1,10 @@
 ﻿Public Class ClsSPCItemCheckByType
     Public Property FactoryCode As String
     Public Property FactoryName As String
+    Public Property ProcessGroup As String
+    Public Property ProcessGroupName As String
+    Public Property LineGroup As String
+    Public Property LineGroupName As String
     Public Property ItemTypeCode As String
     Public Property ItemTypeName As String
     Public Property LineCode As String

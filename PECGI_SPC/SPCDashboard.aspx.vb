@@ -51,6 +51,7 @@ Public Class SPCDashboard
     Dim mMachineKeeper As String = ""
     Dim mQC As String = ""
     Dim CountDataNG As Integer = 0
+    Dim RowSpanMergeNG As Integer = 0
 #End Region
 
 #Region "Events"
@@ -170,6 +171,7 @@ Public Class SPCDashboard
             'Reference the Repeater Item.
             Dim item As RepeaterItem = e.Item
             Dim FormatDigit As String = ""
+            Dim IDCell As String = ""
 
 
 
@@ -192,6 +194,25 @@ Public Class SPCDashboard
             Dim lblMK As Label = TryCast(item.FindControl("lblMK"), Label)
             Dim lblQC As Label = TryCast(item.FindControl("lblQC"), Label)
             Dim lblTypeNGInput As Label = TryCast(item.FindControl("lblTypeNGInput"), Label)
+
+            'MergeCell
+            Dim cellMachineProcess As HtmlTableCell = TryCast(item.FindControl("cellMachineProcess"), HtmlTableCell)
+            Dim cellItemCheck As HtmlTableCell = TryCast(item.FindControl("cellItemCheck"), HtmlTableCell)
+            Dim cellDate As HtmlTableCell = TryCast(item.FindControl("cellDate"), HtmlTableCell)
+            Dim cellShift As HtmlTableCell = TryCast(item.FindControl("cellShift"), HtmlTableCell)
+            Dim cellSeq As HtmlTableCell = TryCast(item.FindControl("cellSeq"), HtmlTableCell)
+            Dim cellUSL As HtmlTableCell = TryCast(item.FindControl("cellUSL"), HtmlTableCell)
+            Dim cellLSL As HtmlTableCell = TryCast(item.FindControl("cellLSL"), HtmlTableCell)
+            Dim cellUCL As HtmlTableCell = TryCast(item.FindControl("cellUCL"), HtmlTableCell)
+            Dim cellLCL As HtmlTableCell = TryCast(item.FindControl("cellLCL"), HtmlTableCell)
+            Dim MinValueNG As HtmlTableCell = TryCast(item.FindControl("MinValueNG"), HtmlTableCell)
+            Dim MaxValueNG As HtmlTableCell = TryCast(item.FindControl("MaxValueNG"), HtmlTableCell)
+            Dim AveValueNG As HtmlTableCell = TryCast(item.FindControl("AveValueNG"), HtmlTableCell)
+            Dim RValue As HtmlTableCell = TryCast(item.FindControl("RValue"), HtmlTableCell)
+            Dim cellOperator As HtmlTableCell = TryCast(item.FindControl("cellOperator"), HtmlTableCell)
+            Dim cellMK As HtmlTableCell = TryCast(item.FindControl("cellMK"), HtmlTableCell)
+            Dim cellQC As HtmlTableCell = TryCast(item.FindControl("cellQC"), HtmlTableCell)
+            Dim cellTypeNG As HtmlTableCell = TryCast(item.FindControl("cellTypeNG"), HtmlTableCell)
 
             Dim ItemCheckCode As String = ItemCheck.Text
             ItemCheckCode = ItemCheckCode.Substring(0, ItemCheckCode.IndexOf(" -"))
@@ -222,7 +243,36 @@ Public Class SPCDashboard
                 lblMK.Text = ""
                 lblQC.Text = ""
                 lblTypeNGInput.Text = ""
+
+                cellMachineProcess.Visible = False
+                cellItemCheck.Visible = False
+                cellDate.Visible = False
+                cellShift.Visible = False
+                cellSeq.Visible = False
+                cellUSL.Visible = False
+                cellLSL.Visible = False
+                cellUCL.Visible = False
+                cellLCL.Visible = False
+                MinValueNG.Visible = False
+                MaxValueNG.Visible = False
+                AveValueNG.Visible = False
+                RValue.Visible = False
+                cellOperator.Visible = False
+                cellMK.Visible = False
+                cellQC.Visible = False
+                'cellTypeNG.RowSpan = Split(lblTypeNGInput.Text, "||")(4)
+                cellTypeNG.ColSpan = 17
+
+                'Dim test = cellTypeNG.ID
+
+                'If RowSpanMergeNG > 0 Then
+                cellTypeNG.Visible = False
+                'End If
+
+                RowSpanMergeNG = RowSpanMergeNG + 1
+
             Else
+
                 mMachineProcess = lblMachineProcess.Text
                 mItemCheck = ItemCheck.Text
                 mDate = lblDate.Text
@@ -240,6 +290,24 @@ Public Class SPCDashboard
                 mMachineKeeper = lblMK.Text
                 mQC = lblQC.Text
                 mType = lblTypeNGInput.Text
+
+                cellMachineProcess.RowSpan = Split(lblTypeNGInput.Text, "||")(4)
+                cellItemCheck.RowSpan = Split(lblTypeNGInput.Text, "||")(4)
+                cellDate.RowSpan = Split(lblTypeNGInput.Text, "||")(4)
+                cellShift.RowSpan = Split(lblTypeNGInput.Text, "||")(4)
+                cellSeq.RowSpan = Split(lblTypeNGInput.Text, "||")(4)
+                cellUSL.RowSpan = Split(lblTypeNGInput.Text, "||")(4)
+                cellLSL.RowSpan = Split(lblTypeNGInput.Text, "||")(4)
+                cellUCL.RowSpan = Split(lblTypeNGInput.Text, "||")(4)
+                cellLCL.RowSpan = Split(lblTypeNGInput.Text, "||")(4)
+                MinValueNG.RowSpan = Split(lblTypeNGInput.Text, "||")(4)
+                MaxValueNG.RowSpan = Split(lblTypeNGInput.Text, "||")(4)
+                AveValueNG.RowSpan = Split(lblTypeNGInput.Text, "||")(4)
+                RValue.RowSpan = Split(lblTypeNGInput.Text, "||")(4)
+                cellOperator.RowSpan = Split(lblTypeNGInput.Text, "||")(4)
+                cellMK.RowSpan = Split(lblTypeNGInput.Text, "||")(4)
+                cellQC.RowSpan = Split(lblTypeNGInput.Text, "||")(4)
+                cellTypeNG.RowSpan = Split(lblTypeNGInput.Text, "||")(4)
 
                 lblMin.Text = Format(Val(lblMin.Text), FormatDigit)
                 lblMax.Text = Format(Val(lblMax.Text), FormatDigit)
@@ -386,6 +454,26 @@ Public Class SPCDashboard
 
                 CountDataNG = CountDataNG + 1
                 lblCountNGresult.Text = CountDataNG
+                cellMachineProcess.Visible = True
+                cellItemCheck.Visible = True
+                cellDate.Visible = True
+                cellShift.Visible = True
+                cellSeq.Visible = True
+                cellUSL.Visible = True
+                cellLSL.Visible = True
+                cellUCL.Visible = True
+                cellLCL.Visible = True
+                MinValueNG.Visible = True
+                MaxValueNG.Visible = True
+                AveValueNG.Visible = True
+                RValue.Visible = True
+                cellOperator.Visible = True
+                cellMK.Visible = True
+                cellQC.Visible = True
+                cellTypeNG.Visible = True
+
+                
+                RowSpanMergeNG = 0
             End If
 
 

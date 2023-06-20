@@ -69,7 +69,8 @@
             /*.margin-div2 {height: 25vh; margin-top: 15vh}
             .margin-div3 {height:20vh; margin-top: 5vh}*/
         .tableFixHead          { overflow: auto; height: 25%; }
-        .tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
+        /*.tableFixHead thead th { position: sticky; top: 0; z-index: 1; }*/
+        th { position: sticky;  top: 0; z-index: 1; }
         }
     </style>
 
@@ -116,13 +117,20 @@
                     
                     <div>
                     
-                        <table width="100%">
+                        <table width="100%" class="table-bordered table-responsive">
                             <tr>
-                                <th>
+                                <th colspan="2">
                                     <center>
                                         <b><small><p class="paragraphNavTitle" style="margin-top: 5px">NG RESULT ( <asp:Label runat="server" ID="lblCountNGresult" Text="0" /> )</p></small></b>
                                     </center>
                                 </th>
+                            </tr>
+                            <tr height="1px">
+                                <td colspan="2" style="background-color : white"></td>
+                            </tr>
+                            <tr>
+                                <th style="width: 82.5%"><center>SPC Verification</center></th>
+                                <th><center>Corrective Action Verification</center></th>
                             </tr>
                             <%--<tr height="1px">
                                 <td style="background-color: transparent"></td>
@@ -147,10 +155,10 @@
                                     <HeaderTemplate>
                                         <table width="100%" class="table table-bordered table-responsive" style=" font-size: 13px;">
                                             <thead>
-                                                <tr>
+                                                <%--<tr>
                                                     <th colspan="17"><center>SPC Verification</center></th>
                                                     <th colspan="5"><center>Corrective Action Verification</center></th>
-                                                </tr>
+                                                </tr>--%>
                                                 <tr>
                                                     <th width="10%">Type</th>
                                                     <th width="10%">Machine Process</th>
@@ -180,34 +188,34 @@
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                                 <tr>
-                                                    <td width="10%">
+                                                    <td width="10%" runat="server" id="cellTypeNG">
                                                         <asp:Label ID="lblTypeNGInput" runat="server" Text='<%# Eval("ItemTypeName") %>' />
                                                     </td>
-                                                    <td width="10%">
+                                                    <td width="10%" runat="server" id="cellMachineProcess">
                                                         <asp:Label ID="lblMachineProcess" runat="server" Text='<%# Eval("LineName") %>' />
                                                     </td>
-                                                    <td width="10%">
+                                                    <td width="10%" runat="server" id="cellItemCheck">
                                                         <asp:Label ID="lblItemCheck" runat="server" Text='<%# Eval("ItemCheck") %>' />
                                                     </td>
-                                                    <td width="5%">
+                                                    <td width="5%" runat="server" id="cellDate">
                                                         <asp:Label ID="lblDate" runat="server" Text='<%# Eval("Date") %>' />
                                                     </td>
-                                                    <td width="5%">
+                                                    <td width="5%" runat="server" id="cellShift">
                                                         <asp:Label ID="lblShift" runat="server" Text='<%# Eval("ShiftCode") %>' />
                                                     </td>
-                                                    <td width="5%">
+                                                    <td width="5%" runat="server" id="cellSeq">
                                                         <asp:Label ID="lblSeq" runat="server" Text='<%# Eval("SequenceNo") %>' />
                                                     </td>
-                                                    <td>
+                                                    <td runat="server" id="cellUSL">
                                                         <asp:Label ID="lblUSL" runat="server" Text='<%# Eval("USL") %>' />
                                                     </td>
-                                                    <td>
+                                                    <td runat="server" id="cellLSL">
                                                         <asp:Label ID="lblLSL" runat="server" Text='<%# Eval("LSL") %>' />
                                                     </td>
-                                                    <td>
+                                                    <td runat="server" id="cellUCL">
                                                         <asp:Label ID="lblUCL" runat="server" Text='<%# Eval("UCL") %>' />
                                                     </td>
-                                                    <td>
+                                                    <td runat="server" id="cellLCL">
                                                         <asp:Label ID="lblLCL" runat="server" Text='<%# Eval("LCL") %>' />
                                                     </td>
                                                     <td runat="server" id="MinValueNG">
@@ -222,13 +230,13 @@
                                                     <td runat="server" id="RValue">
                                                         <asp:Label ID="lblRValue" runat="server" Text='<%# Eval("RValueSPCDashboard") %>' />
                                                     </td>
-                                                    <td>
+                                                    <td runat="server" id="cellOperator">
                                                         <asp:Label ID="lblOperator" runat="server" Text='<%# Eval("Operator") %>' />
                                                     </td>
-                                                    <td>
+                                                    <td runat="server" id="cellMK">
                                                         <asp:Label ID="lblMK" runat="server" Text='<%# Eval("MK") %>' />
                                                     </td>
-                                                    <td >
+                                                    <td runat="server" id="cellQC">
                                                         <asp:Label ID="lblQC" runat="server" Text='<%# Eval("QC") %>' />
                                                     </td>
                                                     <td width="5%">

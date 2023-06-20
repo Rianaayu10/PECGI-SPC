@@ -332,4 +332,71 @@ Public Class ClsSPCItemCheckByTypeDB
             Return dt
         End Using
     End Function
+    Public Shared Function GetProccessGroup(FactoryCode As String, Optional ByRef pErr As String = "") As List(Of ClsSPCItemCheckByType)
+        Try
+            Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+                Cn.Open()
+                'Dim q As String = "select distinct Number = 2, L.FactoryCode, L.ProcessCode, L.LineCode, L.LineCode + ' - ' + L.LineName as LineName from MS_Line L " & vbCrLf
+                'If FactoryCode <> "" Then
+                '    q = q & "where L.FactoryCode = @FactoryCode AND L.ProcessCode = @Machine "
+                'End If
+                'q = q & "order by Number ASC, LineCode"
+                Dim Sql As String = "sp_SPC_ItemCheckByTypeMaster"
+                Dim cmd As New SqlCommand(Sql, Cn)
+                cmd.CommandType = CommandType.StoredProcedure
+                Dim da As New SqlDataAdapter(cmd)
+                'cmd.Parameters.AddWithValue("UserID", UserID)
+                cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
+                cmd.Parameters.AddWithValue("TypeProcess", 9)
+                'cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
+                Dim rd As SqlDataReader = cmd.ExecuteReader
+                Dim ProccessGroupList As New List(Of ClsSPCItemCheckByType)
+                Do While rd.Read
+                    Dim ProccessGroup As New ClsSPCItemCheckByType
+                    ProccessGroup.ProcessGroup = rd("ProcessGroup")
+                    ProccessGroup.ProcessGroupName = rd("ProcessGroupName")
+                    ProccessGroupList.Add(ProccessGroup)
+                Loop
+                rd.Close()
+                Return ProccessGroupList
+            End Using
+        Catch ex As Exception
+            pErr = ex.Message
+            Return Nothing
+        End Try
+    End Function
+    Public Shared Function GetLineGroup(FactoryCode As String, ProcessGroup As String, Optional ByRef pErr As String = "") As List(Of ClsSPCItemCheckByType)
+        Try
+            Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+                Cn.Open()
+                'Dim q As String = "select distinct Number = 2, L.FactoryCode, L.ProcessCode, L.LineCode, L.LineCode + ' - ' + L.LineName as LineName from MS_Line L " & vbCrLf
+                'If FactoryCode <> "" Then
+                '    q = q & "where L.FactoryCode = @FactoryCode AND L.ProcessCode = @Machine "
+                'End If
+                'q = q & "order by Number ASC, LineCode"
+                Dim Sql As String = "sp_SPC_ItemCheckByTypeMaster"
+                Dim cmd As New SqlCommand(Sql, Cn)
+                cmd.CommandType = CommandType.StoredProcedure
+                Dim da As New SqlDataAdapter(cmd)
+                'cmd.Parameters.AddWithValue("UserID", UserID)
+                cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
+                cmd.Parameters.AddWithValue("ProcessGroup", ProcessGroup)
+                cmd.Parameters.AddWithValue("TypeProcess", 10)
+                'cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
+                Dim rd As SqlDataReader = cmd.ExecuteReader
+                Dim LineGroupList As New List(Of ClsSPCItemCheckByType)
+                Do While rd.Read
+                    Dim LineGroup As New ClsSPCItemCheckByType
+                    LineGroup.LineGroup = rd("LineGroup")
+                    LineGroup.LineGroupName = rd("LineGroupName")
+                    LineGroupList.Add(LineGroup)
+                Loop
+                rd.Close()
+                Return LineGroupList
+            End Using
+        Catch ex As Exception
+            pErr = ex.Message
+            Return Nothing
+        End Try
+    End Function
 End Class
