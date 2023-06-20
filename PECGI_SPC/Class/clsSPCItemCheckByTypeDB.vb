@@ -328,4 +328,73 @@ Public Class ClsSPCItemCheckByTypeDB
             Return dt
         End Using
     End Function
+    Public Shared Function GetProccessGroup(FactoryCode As String, Optional ByRef pErr As String = "") As List(Of ClsSPCItemCheckByType)
+        Try
+            Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+                Cn.Open()
+                'Dim q As String = "select distinct Number = 2, L.FactoryCode, L.ProcessCode, L.LineCode, L.LineCode + ' - ' + L.LineName as LineName from MS_Line L " & vbCrLf
+                'If FactoryCode <> "" Then
+                '    q = q & "where L.FactoryCode = @FactoryCode AND L.ProcessCode = @Machine "
+                'End If
+                'q = q & "order by Number ASC, LineCode"
+                Dim Sql As String = "sp_SPC_ItemCheckByTypeMaster"
+                Dim cmd As New SqlCommand(Sql, Cn)
+                cmd.CommandType = CommandType.StoredProcedure
+                Dim da As New SqlDataAdapter(cmd)
+                'cmd.Parameters.AddWithValue("UserID", UserID)
+                cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
+                cmd.Parameters.AddWithValue("TypeProcess", 9)
+                'cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
+                Dim rd As SqlDataReader = cmd.ExecuteReader
+                Dim FactoryList As New List(Of ClsSPCItemCheckByType)
+                Do While rd.Read
+                    Dim Factory As New ClsSPCItemCheckByType
+                    Factory.FactoryCode = rd("FactoryCode")
+                    Factory.ProccessGroupCode = rd("ProcessGroup")
+                    Factory.ProccessGroupName = rd("ProcessGroupName")
+                    FactoryList.Add(Factory)
+                Loop
+                rd.Close()
+                Return FactoryList
+            End Using
+        Catch ex As Exception
+            pErr = ex.Message
+            Return Nothing
+        End Try
+    End Function
+    Public Shared Function GetLineGroup(FactoryCode As String, ProccessGroupCode As String, Optional ByRef pErr As String = "") As List(Of ClsSPCItemCheckByType)
+        Try
+            Using Cn As New SqlConnection(Sconn.Stringkoneksi)
+                Cn.Open()
+                'Dim q As String = "select distinct Number = 2, L.FactoryCode, L.ProcessCode, L.LineCode, L.LineCode + ' - ' + L.LineName as LineName from MS_Line L " & vbCrLf
+                'If FactoryCode <> "" Then
+                '    q = q & "where L.FactoryCode = @FactoryCode AND L.ProcessCode = @Machine "
+                'End If
+                'q = q & "order by Number ASC, LineCode"
+                Dim Sql As String = "sp_SPC_ItemCheckByTypeMaster"
+                Dim cmd As New SqlCommand(Sql, Cn)
+                cmd.CommandType = CommandType.StoredProcedure
+                Dim da As New SqlDataAdapter(cmd)
+                'cmd.Parameters.AddWithValue("UserID", UserID)
+                cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
+                cmd.Parameters.AddWithValue("ProccessGroupCode", ProccessGroupCode)
+                cmd.Parameters.AddWithValue("TypeProcess", 10)
+                'cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
+                Dim rd As SqlDataReader = cmd.ExecuteReader
+                Dim FactoryList As New List(Of ClsSPCItemCheckByType)
+                Do While rd.Read
+                    Dim Factory As New ClsSPCItemCheckByType
+                    Factory.FactoryCode = rd("FactoryCode")
+                    Factory.LineGroupCode = rd("LineGroupCode")
+                    Factory.LineGroupName = rd("LineGroupName")
+                    FactoryList.Add(Factory)
+                Loop
+                rd.Close()
+                Return FactoryList
+            End Using
+        Catch ex As Exception
+            pErr = ex.Message
+            Return Nothing
+        End Try
+    End Function
 End Class
