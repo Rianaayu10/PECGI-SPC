@@ -346,23 +346,22 @@ Public Class ClsSPCItemCheckByTypeDB
                 cmd.Parameters.AddWithValue("TypeProcess", 9)
                 'cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
                 Dim rd As SqlDataReader = cmd.ExecuteReader
-                Dim FactoryList As New List(Of ClsSPCItemCheckByType)
+                Dim ProccessGroupList As New List(Of ClsSPCItemCheckByType)
                 Do While rd.Read
-                    Dim Factory As New ClsSPCItemCheckByType
-                    Factory.FactoryCode = rd("FactoryCode")
-                    Factory.ProccessGroupCode = rd("ProcessGroup")
-                    Factory.ProccessGroupName = rd("ProcessGroupName")
-                    FactoryList.Add(Factory)
+                    Dim ProccessGroup As New ClsSPCItemCheckByType
+                    ProccessGroup.ProcessGroup = rd("ProcessGroup")
+                    ProccessGroup.ProcessGroupName = rd("ProcessGroupName")
+                    ProccessGroupList.Add(ProccessGroup)
                 Loop
                 rd.Close()
-                Return FactoryList
+                Return ProccessGroupList
             End Using
         Catch ex As Exception
             pErr = ex.Message
             Return Nothing
         End Try
     End Function
-    Public Shared Function GetLineGroup(FactoryCode As String, ProccessGroupCode As String, Optional ByRef pErr As String = "") As List(Of ClsSPCItemCheckByType)
+    Public Shared Function GetLineGroup(FactoryCode As String, ProcessGroup As String, Optional ByRef pErr As String = "") As List(Of ClsSPCItemCheckByType)
         Try
             Using Cn As New SqlConnection(Sconn.Stringkoneksi)
                 Cn.Open()
@@ -377,20 +376,19 @@ Public Class ClsSPCItemCheckByTypeDB
                 Dim da As New SqlDataAdapter(cmd)
                 'cmd.Parameters.AddWithValue("UserID", UserID)
                 cmd.Parameters.AddWithValue("FactoryCode", FactoryCode)
-                cmd.Parameters.AddWithValue("ProccessGroupCode", ProccessGroupCode)
+                cmd.Parameters.AddWithValue("ProcessGroup", ProcessGroup)
                 cmd.Parameters.AddWithValue("TypeProcess", 10)
                 'cmd.Parameters.AddWithValue("ItemTypeCode", ItemTypeCode)
                 Dim rd As SqlDataReader = cmd.ExecuteReader
-                Dim FactoryList As New List(Of ClsSPCItemCheckByType)
+                Dim LineGroupList As New List(Of ClsSPCItemCheckByType)
                 Do While rd.Read
-                    Dim Factory As New ClsSPCItemCheckByType
-                    Factory.FactoryCode = rd("FactoryCode")
-                    Factory.LineGroupCode = rd("LineGroupCode")
-                    Factory.LineGroupName = rd("LineGroupName")
-                    FactoryList.Add(Factory)
+                    Dim LineGroup As New ClsSPCItemCheckByType
+                    LineGroup.LineGroup = rd("LineGroup")
+                    LineGroup.LineGroupName = rd("LineGroupName")
+                    LineGroupList.Add(LineGroup)
                 Loop
                 rd.Close()
-                Return FactoryList
+                Return LineGroupList
             End Using
         Catch ex As Exception
             pErr = ex.Message
