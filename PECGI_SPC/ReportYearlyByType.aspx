@@ -73,6 +73,8 @@
             var ProcessCode = HideValue.Get("ProcessCode");
             var LineCode = HideValue.Get("LineCode");
             var ItemType = HideValue.Get("ItemType");
+            /*  var ItemTypeName = HideValue.Get("ItemTypeName");*/
+            var ItemTypeName = cboItemType.GetText();
 
             var pfromDate = dtFromDate.GetText().split(' ');
             var ProdDate_From = pfromDate[1] + "-" + MMM[pfromDate[0]] + "-" + '01'
@@ -101,7 +103,7 @@
             } else {
                 /*Get Data FTA By ItemType*/
                 var ActionFTAByType = '0'; /*note : FTAByType = 0, FTAByLine = 1, FTAByItemCheck = 2*/
-                loadData(ActionFTAByType, User, FactoryCode, ProcessCode, LineCode, "", ItemType, "", ProdDate_From, ProdDate_To, "", "");
+                loadData(ActionFTAByType, User, FactoryCode, ProcessCode, LineCode, "", ItemType, ItemTypeName, ProdDate_From, ProdDate_To, "", "");
             }
         }
 
@@ -116,7 +118,7 @@
                     if (result.d.Message == "Success") {
                         /*note : FTAByType = 0, FTAByLine = 1, FTAByItemCheck = 2*/
                         if (Action == "0") {
-                            LoadFTA_ByItemType(result.d.Contents, Action, User, FactoryCode, ProcessCode, LineCode, ItemType, ProdDate_From, ProdDate_To, Periode, Qty)
+                            LoadFTA_ByItemType(result.d.Contents, Action, User, FactoryCode, ProcessCode, LineCode, ItemType, ItemTypeName, ProdDate_From, ProdDate_To, Periode, Qty)
                         }
                         else if (Action == "1") {
                             LoadFTA_ByLine(result.d.Contents, Action, User, FactoryCode, ProcessCode, LineCode, ItemType, ItemTypeName, ProdDate_From, ProdDate_To, Periode, Qty)
@@ -141,6 +143,13 @@
             var ProcessCode = HideValue.Get("ProcessCode");
             var LineCode = HideValue.Get("LineCode");
 
+            HideValue.Set('sFactoryCode', FactoryCode);
+            HideValue.Set('sProcessCode', ProcessCode);
+            HideValue.Set('sLineCode', LineCode);
+            HideValue.Set('sItemType', ItemType);
+            HideValue.Set('sPeriode', Periode);
+            HideValue.Set('sQty', Qty);
+
             loadData(ActionFTAByLine, User, FactoryCode, ProcessCode, LineCode, "", ItemType, ItemTypeName, "", "", Periode, Qty);
         }
 
@@ -148,10 +157,18 @@
             var ActionFTAByItemCheck = "2"; /*note : FTAByType = 0, FTAByLine = 1, FTAByItemCheck = 2*/
             var FactoryCode = HideValue.Get("FactoryCode");
             var ProcessCode = HideValue.Get("ProcessCode");
+
+            HideValue.Set('sFactoryCode', FactoryCode);
+            HideValue.Set('sProcessCode', ProcessCode);
+            HideValue.Set('sLineCode', LineCode);
+            HideValue.Set('sItemType', ItemType);
+            HideValue.Set('sPeriode', Periode);
+            HideValue.Set('sQty', Qty);
+
             loadData(ActionFTAByItemCheck, User, FactoryCode, ProcessCode, LineCode, LineName,ItemType, "", "" , "", Periode, Qty);
         }
 
-        function LoadFTA_ByItemType(data, Action, User, FactoryCode, ProcessCode, LineCode, ItemType, ProdDate_From, ProdDate_To, Periode, Qty) {
+        function LoadFTA_ByItemType(data, Action, User, FactoryCode, ProcessCode, LineCode, ItemType, ItemTypeName, ProdDate_From, ProdDate_To, Periode, Qty) {
             nRow = 1;
             ClearContent(); //Clear content
             $("#chartByItemType").css("display", "block");
@@ -312,7 +329,8 @@
 
                             /*console.log(d1);*/
 
-                            document.getElementById('lblchartByItemType').innerHTML = 'Resume Corrective Action by Type - All Type (Monthly)';
+                      /*      document.getElementById('lblchartByItemType').innerHTML = 'Resume Corrective Action by Type - All Type (Monthly)';*/
+                            document.getElementById('lblchartByItemType').innerHTML = 'Resume Corrective Action by Type - ' + ItemTypeName +' (Monthly)';
 
                             $('#chartByItemType').dxChart({
                                 palette: 'Pastel',
@@ -344,18 +362,18 @@
                                 },
                             });
 
-                            //setTimer1 = setInterval(function () {
+                            setTimer1 = setInterval(function () {
 
-                            //    html2canvas(document.querySelector("#div-chartByItemType")).then(canvas => {
-                            //        const dataURL = canvas.toDataURL();
-                            //        const getBase64StringFromDataURL = (dataURL) =>
-                            //            dataURL.replace('data:', '').replace(/^.+,/, '');
+                                html2canvas(document.querySelector("#div-chartByItemType")).then(canvas => {
+                                    const dataURL = canvas.toDataURL();
+                                    const getBase64StringFromDataURL = (dataURL) =>
+                                        dataURL.replace('data:', '').replace(/^.+,/, '');
 
-                            //        const base64 = getBase64StringFromDataURL(dataURL);
-                            //        HideValue.Set('capture-chartByItemType', base64);
-                            //    });
+                                    const base64 = getBase64StringFromDataURL(dataURL);
+                                    HideValue.Set('capture-chartByItemType', base64);
+                                });
 
-                            //}, 1000, (1));
+                            }, 1000, (1));
 
                         }
                     } else {
@@ -461,17 +479,17 @@
                     };
                     $.plot($("#chartByLine"), eval(result.d.Contents.data), options);
 
-                    //setTimer1 = setInterval(function () {
+                    setTimer1 = setInterval(function () {
 
-                    //    html2canvas(document.querySelector("#div-chartByLine")).then(canvas => {
-                    //        const dataURL = canvas.toDataURL();
-                    //        const getBase64StringFromDataURL = (dataURL) =>
-                    //            dataURL.replace('data:', '').replace(/^.+,/, '');
-                    //        const base64 = getBase64StringFromDataURL(dataURL);
-                    //        HideValue.Set('capture-chartByLine', base64);
-                    //    });
+                        html2canvas(document.querySelector("#div-chartByLine")).then(canvas => {
+                            const dataURL = canvas.toDataURL();
+                            const getBase64StringFromDataURL = (dataURL) =>
+                                dataURL.replace('data:', '').replace(/^.+,/, '');
+                            const base64 = getBase64StringFromDataURL(dataURL);
+                            HideValue.Set('capture-chartByLine', base64);
+                        });
 
-                    //}, 1000, (1));
+                    }, 1000, (1));
 
 
                 },
@@ -584,17 +602,17 @@
                     };
                     $.plot($("#chartByItemCheck"), eval(result.d.Contents.data), options);
 
-                    //setTimer1 = setInterval(function () {
+                    setTimer1 = setInterval(function () {
 
-                    //    html2canvas(document.querySelector("#div-chartByItemCheck")).then(canvas => {
-                    //        const dataURL = canvas.toDataURL();
-                    //        const getBase64StringFromDataURL = (dataURL) =>
-                    //            dataURL.replace('data:', '').replace(/^.+,/, '');
-                    //        const base64 = getBase64StringFromDataURL(dataURL);
-                    //        HideValue.Set('capture-chartByItemCheck', base64);
-                    //    });
+                        html2canvas(document.querySelector("#div-chartByItemCheck")).then(canvas => {
+                            const dataURL = canvas.toDataURL();
+                            const getBase64StringFromDataURL = (dataURL) =>
+                                dataURL.replace('data:', '').replace(/^.+,/, '');
+                            const base64 = getBase64StringFromDataURL(dataURL);
+                            HideValue.Set('capture-chartByItemCheck', base64);
+                        });
 
-                    //}, 1000, (1));
+                    }, 1000, (1));
 
 
                 },

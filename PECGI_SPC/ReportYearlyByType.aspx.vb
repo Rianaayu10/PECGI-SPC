@@ -203,7 +203,9 @@ Public Class ReportYearlyByType
                 .SelectedIndex = 0
             End With
             HD = cboItemType.SelectedItem.GetFieldValue("Code")
+            'Dim ItemTypeName = cboItemType.SelectedItem.GetFieldValue("CODENAME")
             HideValue.Set("ItemType", HD)
+            'HideValue.Set("ItemTypeName", ItemTypeName)
 
         Catch ex As Exception
             show_error(MsgTypeEnum.Info, "", 0)
@@ -432,47 +434,43 @@ Public Class ReportYearlyByType
         Return content
     End Function
 
-    Private Sub ExcelContent(ChartGroup As String, ChartDetail As String)
+    Private Sub ExcelContent(ChartByItemType As String, ChartByLine As String, ChartByItemCheck As String)
         Try
 
             Using excel As New ExcelPackage
-
+                Dim dt As New DataTable
                 Dim ws As ExcelWorksheet
-                ws = excel.Workbook.Worksheets.Add("C040 - FTA Report Yearly By Type")
+                ws = excel.Workbook.Worksheets.Add("C040 - Corrective Action Report Yearly By Type")
 
                 Dim data As New clsReportYearlyByType
+                data.Action = "0"
                 data.UserID = Session("user")
                 data.FactoryCode = cboFactory.Value
-                data.ProcessGroup = cboProcessGroup.Value
-                data.LineGroup = cboLineGroup.Value
                 data.ProcessCode = cboProcessCode.Value
                 data.LineCode = cboLineCode.Value
                 data.ItemType = cboItemType.Value
                 data.ProdDateFrom = Date.Parse(dtFromDate.Text).ToString("yyyy-MM-dd")
                 data.ProdDateTo = Date.Parse(dtToDate.Text).ToString("yyyy-MM-dd")
+                dt = clsReportYearlyByType.LoadData(data) 'Get FTA By Item Type
 
                 Dim period = DateDiff(DateInterval.Month, Date.Parse(dtFromDate.Text), Date.Parse(dtToDate.Text))
-
-                Dim dt As New DataTable
-                dt = clsReportYearlyByType.LoadData(data)
-
                 With ws
                     Dim irow = 1
 
-                    .Cells(irow, 1).Value = "FTA Report Yearly By Type"
+                    .Cells(irow, 1).Value = "Corrective Action Report Yearly By Type"
                     .Cells(irow, 1).Style.Font.Size = 14
                     .Cells(irow, 1).Style.Font.Name = "Segoe UI"
                     .Cells(irow, 1).Style.Font.Bold = True
                     irow = irow + 2
 
-                    .Cells(irow, 1).Value = "Table Resume FTA SPC"
+                    .Cells(irow, 1).Value = "Table Corrective Action By Item Type"
                     .Cells(irow, 1).Style.Font.Size = 12
                     .Cells(irow, 1).Style.Font.Name = "Segoe UI"
                     .Cells(irow, 1).Style.Font.Bold = True
                     irow = irow + 1
 
                     Dim bytesGroup() As Byte
-                    bytesGroup = System.Convert.FromBase64String(ChartGroup)
+                    bytesGroup = System.Convert.FromBase64String(ChartByItemType)
                     Dim msGroup As New MemoryStream(bytesGroup)
                     Dim imageGroup As Image
                     imageGroup = Image.FromStream(msGroup)
@@ -485,7 +483,7 @@ Public Class ReportYearlyByType
 
                     Dim irowStart = irow
                     .Cells(irow, 1).Value = "No"
-                    .Cells(irow, 2).Value = "Item FTA by Line Group"
+                    .Cells(irow, 2).Value = "Type"
 
                     Dim nCol = 3
                     For i = 0 To period
@@ -494,7 +492,12 @@ Public Class ReportYearlyByType
                         nCol = nCol + 1
                     Next
 
-                    Dim Hdr As ExcelRange = .Cells(irowStart, 1, irowStart, nCol - 1)
+                    .Cells(irow, nCol).Value = "Qty Total"
+
+                    nCol = nCol + 1
+                    .Cells(irow, nCol).Value = "Percentage(%)"
+
+                    Dim Hdr As ExcelRange = .Cells(irowStart, 1, irowStart, nCol)
                     Hdr.Style.HorizontalAlignment = HorzAlignment.Far
                     Hdr.Style.VerticalAlignment = VertAlignment.Center
                     Hdr.Style.Font.Size = 10
@@ -508,42 +511,77 @@ Public Class ReportYearlyByType
 
                     For i = 0 To dt.Rows.Count - 1
                         Try
-                            Dim n = 1
-                            For Each dc As DataColumn In dt.Columns
-                                Try
-                                    If n = 1 Then
-                                        .Cells(irow, n).Value = dt.Rows(i)(dc.ToString())
-                                        .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center
-                                        .Column(1).Width = 5
-                                    ElseIf n = 2 Then
-                                        .Cells(irow, n).Value = dt.Rows(i)(dc.ToString())
-                                        .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left
-                                        .Column(2).Width = 20
-                                    Else
-                                        .Cells(irow, n).Value = dt.Rows(i)(dc.ToString()).ToString.Split("|")(4)
-                                        .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
-                                        .Column(n).Width = 10
-                                    End If
+                            If i < dt.Rows.Count - 1 Then
+                                Dim n = 1
+                                For Each dc As DataColumn In dt.Columns
+                                    Try
+                                        If n = 1 Then
+                                            .Cells(irow, n).Value = dt.Rows(i)(dc.ToString())
+                                            .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center
+                                            .Column(1).Width = 5
+                                        ElseIf n = 2 Then
+                                            .Cells(irow, n).Value = dt.Rows(i)(dc.ToString())
+                                            .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left
+                                            .Column(n).Width = 50
+                                        ElseIf n = dt.Columns.Count - 1 Then
+                                            .Cells(irow, n).Value = dt.Rows(i)(dc.ToString())
+                                            .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left
+                                            .Column(n).Width = 15
+                                        ElseIf n = dt.Columns.Count Then
+                                            .Cells(irow, n).Value = dt.Rows(i)(dc.ToString()) & "%"
+                                            .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left
+                                            .Column(n).Width = 15
+                                        Else
+                                            .Cells(irow, n).Value = dt.Rows(i)(dc.ToString()).ToString.Split("|")(3)
+                                            .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
+                                            .Column(n).Width = 15
+                                        End If
 
-                                    n = n + 1
-                                Catch ex As Exception
-                                    Throw New Exception(ex.Message)
-                                End Try
-                            Next
+                                        n = n + 1
+                                    Catch ex As Exception
+                                        Throw New Exception(ex.Message)
+                                    End Try
+                                Next
+                            Else
+                                Dim n = 1
+                                For Each dc As DataColumn In dt.Columns
+                                    Try
+                                        If n = 1 Then
+                                            .Cells(irow, 1, irow, 2).Value = "Total"
+                                            .Cells(irow, 1, irow, 2).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center
+                                            .Cells(irow, 1, irow, 2).Merge = True
+                                        ElseIf n = dt.Columns.Count - 1 Then
+                                            .Cells(irow, n).Value = dt.Rows(i)(dc.ToString())
+                                            .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left
+                                        ElseIf n = dt.Columns.Count Then
+                                            .Cells(irow, n).Value = dt.Rows(i)(dc.ToString()) & "%"
+                                            .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left
+                                        ElseIf n > 2 And n < dt.Columns.Count - 1 Then
+                                            .Cells(irow, n).Value = dt.Rows(i)(dc.ToString()).ToString.Split("|")(3)
+                                            .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
+                                        End If
+
+                                        n = n + 1
+                                    Catch ex As Exception
+                                        Throw New Exception(ex.Message)
+                                    End Try
+                                Next
+                            End If
+
                             irow = irow + 1
                         Catch ex As Exception
                             Throw New Exception(ex.Message)
                         End Try
                     Next
 
-                    Dim Dtl As ExcelRange = .Cells(irowStart, 1, irow - 1, nCol - 1)
+                    Dim Dtl As ExcelRange = .Cells(irowStart, 1, irow - 1, nCol)
                     Dtl.Style.Font.Size = 10
                     Dtl.Style.Font.Name = "Segoe UI"
                     Dtl.Style.WrapText = True
                     Dtl.Style.VerticalAlignment = ExcelVerticalAlignment.Center
 
 
-                    Dim Border As ExcelRange = .Cells(irowStart, 1, irow - 1, nCol - 1)
+                    Dim Border As ExcelRange = .Cells(irowStart, 1, irow - 1, nCol)
                     Border.Style.Border.Top.Style = ExcelBorderStyle.Thin
                     Border.Style.Border.Bottom.Style = ExcelBorderStyle.Thin
                     Border.Style.Border.Right.Style = ExcelBorderStyle.Thin
@@ -552,27 +590,26 @@ Public Class ReportYearlyByType
 
                     irow = irow + 4
                     If HideValue.Get("sProcessCode") IsNot Nothing Then
-
-
-
                         Dim dtDet As New DataTable
                         Dim det As New clsReportYearlyByType
                         det.UserID = Session("user")
+                        det.ProcessCode = HideValue.Get("sFactoryCode")
                         det.ProcessCode = HideValue.Get("sProcessCode")
                         det.LineCode = HideValue.Get("sLineCode")
-                        det.LineGroup = HideValue.Get("sLineGroup")
+                        det.ItemType = HideValue.Get("sItemType")
                         det.Periode = HideValue.Get("sPeriode")
                         det.QtyFTA = HideValue.Get("sQty")
+                        det.Action = "1"
 
-                        dtDet = clsReportYearlyByType.LoadData(det)
-                        .Cells(irow, 1).Value = "Table Summary FTA SPC " & det.Periode
+                        dtDet = clsReportYearlyByType.LoadData(det) 'GET data By Line
+                        .Cells(irow, 1).Value = "Table Corrective Action By Machine Process " & det.Periode
                         .Cells(irow, 1).Style.Font.Size = 12
                         .Cells(irow, 1).Style.Font.Name = "Segoe UI"
                         .Cells(irow, 1).Style.Font.Bold = True
                         irow = irow + 1
 
                         Dim bytesDetail() As Byte
-                        bytesDetail = System.Convert.FromBase64String(ChartDetail)
+                        bytesDetail = System.Convert.FromBase64String(ChartByLine)
                         Dim msDetail As New MemoryStream(bytesDetail)
                         Dim imageDetail As Image
                         imageDetail = Image.FromStream(msDetail)
@@ -584,9 +621,9 @@ Public Class ReportYearlyByType
 
                         irowStart = irow
                         .Cells(irow, 1).Value = "No"
-                        .Cells(irow, 2).Value = "Item FTA by Line"
-                        .Cells(irow, 3).Value = "QtyTotal"
-                        .Cells(irow, 4).Value = "Percentage"
+                        .Cells(irow, 2).Value = "Machine Process"
+                        .Cells(irow, 3).Value = "Qty Total"
+                        .Cells(irow, 4).Value = "Percentage(%)"
 
                         Hdr = .Cells(irowStart, 1, irowStart, 4)
                         Hdr.Style.HorizontalAlignment = HorzAlignment.Far
@@ -602,36 +639,169 @@ Public Class ReportYearlyByType
 
                         For i = 0 To dtDet.Rows.Count - 1
                             Try
-                                Dim n = 1
-                                For Each dc As DataColumn In dtDet.Columns
-                                    Try
+                                If i < dtDet.Rows.Count - 1 Then
+                                    Dim n = 1
+                                    For Each dc As DataColumn In dtDet.Columns
+                                        Try
 
-                                        If n = 1 Then
-                                            .Column(1).Width = 5
-                                            .Cells(irow, n).Value = dtDet.Rows(i)(dc.ToString())
-                                            .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center
-                                        ElseIf n = 2 Then
-                                            .Column(2).Width = 20
-                                            .Cells(irow, n).Value = dtDet.Rows(i)(dc.ToString())
-                                            .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left
-                                        ElseIf n = 3 Then
-                                            .Cells(irow, n).Value = dtDet.Rows(i)(dc.ToString())
-                                            .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
-                                        ElseIf n = 4 Then
-                                            .Column(n).Width = 15
-                                            .Cells(irow, n).Value = dtDet.Rows(i)(dc.ToString()) & "%"
-                                            .Cells(irow, n).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
-                                        End If
-                                        n = n + 1
-                                    Catch ex As Exception
-                                        Throw New Exception(ex.Message)
-                                    End Try
-                                Next
+                                            If n = 1 Then
+                                                .Column(1).Width = 5
+                                                .Cells(irow, 1).Value = dtDet.Rows(i)(dc.ToString())
+                                                .Cells(irow, 1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center
+                                            ElseIf n = 3 Then
+                                                .Column(2).Width = 50
+                                                .Cells(irow, 2).Value = dtDet.Rows(i)(dc.ToString())
+                                                .Cells(irow, 2).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left
+                                            ElseIf n = 4 Then
+                                                .Column(3).Width = 15
+                                                .Cells(irow, 3).Value = dtDet.Rows(i)(dc.ToString())
+                                                .Cells(irow, 3).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
+                                            ElseIf n = 5 Then
+                                                .Column(4).Width = 15
+                                                .Cells(irow, 4).Value = dtDet.Rows(i)(dc.ToString()) & "%"
+                                                .Cells(irow, 4).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
+                                            End If
+                                            n = n + 1
+                                        Catch ex As Exception
+                                            Throw New Exception(ex.Message)
+                                        End Try
+                                    Next
+                                Else
+                                    Dim n = 1
+                                    For Each dc As DataColumn In dtDet.Columns
+                                        Try
+                                            If n = 1 Then
+                                                .Cells(irow, 1, irow, 2).Value = "Total"
+                                                .Cells(irow, 1, irow, 2).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center
+                                                .Cells(irow, 1, irow, 2).Merge = True
+                                            ElseIf n = 4 Then
+                                                .Cells(irow, 3).Value = dtDet.Rows(i)(dc.ToString())
+                                                .Cells(irow, 3).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
+                                            ElseIf n = 5 Then
+                                                .Cells(irow, 4).Value = dtDet.Rows(i)(dc.ToString()) & "%"
+                                                .Cells(irow, 4).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
+                                            End If
+
+                                            n = n + 1
+                                        Catch ex As Exception
+                                            Throw New Exception(ex.Message)
+                                        End Try
+                                    Next
+                                End If
                                 irow = irow + 1
                             Catch ex As Exception
                                 Throw New Exception(ex.Message)
                             End Try
                         Next
+
+                        '=====================================================================================
+                        'GET FTA BY ITEM CHECK
+                        '=====================================================================================
+
+                        Dim dtByItemCheck As New DataTable
+                        Dim detByItemCheck As New clsReportYearlyByType
+                        detByItemCheck.UserID = Session("user")
+                        detByItemCheck.ProcessCode = HideValue.Get("sFactoryCode")
+                        detByItemCheck.ProcessCode = HideValue.Get("sProcessCode")
+                        detByItemCheck.LineCode = HideValue.Get("sLineCode")
+                        detByItemCheck.ItemType = HideValue.Get("sItemType")
+                        detByItemCheck.Periode = HideValue.Get("sPeriode")
+                        detByItemCheck.QtyFTA = HideValue.Get("sQty")
+                        detByItemCheck.Action = "2"
+                        dtByItemCheck = clsReportYearlyByType.LoadData(detByItemCheck) 'GET data By Line
+                        .Cells(irow, 1).Value = "Table Corrective Action By Machine Process " & det.Periode
+                        .Cells(irow, 1).Style.Font.Size = 12
+                        .Cells(irow, 1).Style.Font.Name = "Segoe UI"
+                        .Cells(irow, 1).Style.Font.Bold = True
+                        irow = irow + 1
+
+                        Dim bytesByItemCheck() As Byte
+                        bytesByItemCheck = System.Convert.FromBase64String(ChartByLine)
+                        Dim msByItemCheck As New MemoryStream(bytesByItemCheck)
+                        Dim imageByItemCheck As Image
+                        imageByItemCheck = Image.FromStream(msByItemCheck)
+                        Dim excelByItemCheck As ExcelPicture
+                        excelByItemCheck = ws.Drawings.AddPicture("SymbolItemCheck", imageByItemCheck)
+                        excelByItemCheck.SetSize(700, 400)
+                        excelByItemCheck.SetPosition(irow, 0, 0, 0)
+                        irow = irow + 23
+
+                        irowStart = irow
+                        .Cells(irow, 1).Value = "No"
+                        .Cells(irow, 2).Value = "Item Check SPC"
+                        .Cells(irow, 3).Value = "Qty Total"
+                        .Cells(irow, 4).Value = "Percentage(%)"
+
+                        Hdr = .Cells(irowStart, 1, irowStart, 4)
+                        Hdr.Style.HorizontalAlignment = HorzAlignment.Far
+                        Hdr.Style.VerticalAlignment = VertAlignment.Center
+                        Hdr.Style.Font.Size = 10
+                        Hdr.Style.Font.Name = "Segoe UI"
+                        Hdr.Style.Font.Color.SetColor(Color.White)
+                        Hdr.Style.Fill.PatternType = ExcelFillStyle.Solid
+                        Hdr.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.DimGray)
+
+                        irow = irow + 1
+                        irowStart = irow
+
+                        For i = 0 To dtDet.Rows.Count - 1
+                            Try
+                                If i < dtDet.Rows.Count - 1 Then
+                                    Dim n = 1
+                                    For Each dc As DataColumn In dtDet.Columns
+                                        Try
+
+                                            If n = 1 Then
+                                                .Column(1).Width = 5
+                                                .Cells(irow, 1).Value = dtDet.Rows(i)(dc.ToString())
+                                                .Cells(irow, 1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center
+                                            ElseIf n = 3 Then
+                                                .Column(2).Width = 50
+                                                .Cells(irow, 2).Value = dtDet.Rows(i)(dc.ToString())
+                                                .Cells(irow, 2).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left
+                                            ElseIf n = 4 Then
+                                                .Column(3).Width = 15
+                                                .Cells(irow, 3).Value = dtDet.Rows(i)(dc.ToString())
+                                                .Cells(irow, 3).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
+                                            ElseIf n = 5 Then
+                                                .Column(4).Width = 15
+                                                .Cells(irow, 4).Value = dtDet.Rows(i)(dc.ToString()) & "%"
+                                                .Cells(irow, 4).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
+                                            End If
+                                            n = n + 1
+                                        Catch ex As Exception
+                                            Throw New Exception(ex.Message)
+                                        End Try
+                                    Next
+                                Else
+                                    Dim n = 1
+                                    For Each dc As DataColumn In dtDet.Columns
+                                        Try
+                                            If n = 1 Then
+                                                .Cells(irow, 1, irow, 2).Value = "Total"
+                                                .Cells(irow, 1, irow, 2).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center
+                                                .Cells(irow, 1, irow, 2).Merge = True
+                                            ElseIf n = 4 Then
+                                                .Cells(irow, 3).Value = dtDet.Rows(i)(dc.ToString())
+                                                .Cells(irow, 3).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
+                                            ElseIf n = 5 Then
+                                                .Cells(irow, 4).Value = dtDet.Rows(i)(dc.ToString()) & "%"
+                                                .Cells(irow, 4).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right
+                                            End If
+                                            n = n + 1
+                                        Catch ex As Exception
+                                            Throw New Exception(ex.Message)
+                                        End Try
+                                    Next
+                                End If
+                                irow = irow + 1
+                            Catch ex As Exception
+                                Throw New Exception(ex.Message)
+                            End Try
+                        Next
+
+                        '=====================================================================================
+
 
                         Dtl = .Cells(irowStart, 1, irow - 1, 4)
                         Dtl.Style.VerticalAlignment = VertAlignment.Center
@@ -666,8 +836,9 @@ Public Class ReportYearlyByType
     End Sub
 
     Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
-        Dim ChartGroup = HideValue.Get("ChartGroup")
-        Dim ChartDetail = HideValue.Get("ChartDetail")
-        ExcelContent(ChartGroup, ChartDetail)
+        Dim ChartByItemType = HideValue.Get("capture-chartByItemType")
+        Dim ChartByLine = HideValue.Get("capture-chartByLine")
+        Dim ChartByItemCheck = HideValue.Get("capture-chartByItemCheck")
+        ExcelContent(ChartByItemType, ChartByLine, ChartByItemCheck)
     End Sub
 End Class
