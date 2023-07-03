@@ -440,7 +440,7 @@ Public Class FTACorrectiveAction
         Select Case pFunction
             Case "clear"
                 up_ClearGrid()
-            Case "load", "save", "mkverify", "qcverify"
+            Case "load", "save", "mkverify", "qcverify", "deleteaction"
                 Dim pFactory As String = Split(e.Parameters, "|")(1)
                 Dim pItemType As String = Split(e.Parameters, "|")(2)
                 Dim pLine As String = Split(e.Parameters, "|")(3)
@@ -525,6 +525,13 @@ Public Class FTACorrectiveAction
                     Else
                         show_error(MsgTypeEnum.Success, JobPos & " Verification successful!", 1)
                     End If
+                ElseIf pFunction = "deleteaction" Then
+                    Dim pFTAResultID As String = Split(e.Parameters, "|")(8)
+                    Dim pDetSeqNo As String = Split(e.Parameters, "|")(9)
+                    Dim i As Integer = clsFTAResultDetailDB.Delete(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pDetSeqNo, pUser)
+                    show_error(MsgTypeEnum.Success, "Delete Action successful!", 1)
+
+                    GridLoad(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq)
                 End If
                 GridLoad(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq)
         End Select
@@ -808,6 +815,34 @@ Public Class FTACorrectiveAction
         End If
     End Sub
 
+    Protected Sub DeleteLink_Init(ByVal sender As Object, ByVal e As EventArgs)
+        Dim link As DevExpress.Web.ASPxHyperLink = CType(sender, DevExpress.Web.ASPxHyperLink)
+        Dim container As GridViewDataItemTemplateContainer = CType(link.NamingContainer, GridViewDataItemTemplateContainer)
+        link.NavigateUrl = "javascript:void(0)"
+        link.ForeColor = Color.SteelBlue
+
+        Dim FTAID As String = container.Grid.GetRowValues(container.VisibleIndex, "FTAID") & ""
+        Dim No As String = container.Grid.GetRowValues(container.VisibleIndex, "No") & ""
+        Dim NG As Boolean = container.Grid.GetRowValues(container.VisibleIndex, "NG")
+        If FTAID <> "" Then
+            Dim i As String = container.VisibleIndex
+            link.ClientInstanceName = String.Format("linkDelete{0}", i)
+            link.ClientSideEvents.Click = "function (s,e) {" +
+                "if(!chkNG" + i + ".GetChecked()) { return; } " +
+                "DeleteAction('" + FTAID + "', '" + No + "'); " +
+                "hfOK.Set('" + i + "', false); " +
+                "hfNG.Set('" + i + "', false); " +
+                "hfNo.Set('" + i + "', true); " +
+                "hfID.Set('" + i + "', '" + FTAID + "'); " +
+                "hfAct.Set('" + i + "', '');} "
+            If MKVerified Or QCVerified Or Not NG Then
+                link.ClientVisible = False
+            Else
+                link.ClientVisible = True
+            End If
+        End If
+    End Sub
+
     Private Sub grid_HtmlDataCellPrepared(sender As Object, e As ASPxGridViewTableDataCellEventArgs) Handles grid.HtmlDataCellPrepared
         e.Cell.Attributes.Add("onclick", "event.cancelBubble = true")
     End Sub
@@ -1057,9 +1092,13 @@ Public Class FTACorrectiveAction
         Dim pFTAID As String = hfDetail.Get("FTAID")
         Dim pRemark As String = txtRemark.Value
         Dim n As Integer = e.UpdateValues.Count
+        Dim pAction As String = ""
         For i = 0 To e.UpdateValues.Count - 1
             Dim pResult As String = "2"
-            Dim pAction As String = e.UpdateValues(i).NewValues("ActionName")
+            pAction = pAction & e.UpdateValues(i).NewValues("ActionName")
+            If i < n - 1 Then
+                pAction = pAction & ", "
+            End If
             hfID.Set(pDetSeqNo - 1, pFTAID)
             hfOK.Set(pDetSeqNo - 1, False)
             hfNG.Set(pDetSeqNo - 1, True)

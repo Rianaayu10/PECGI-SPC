@@ -417,6 +417,8 @@ Public Class ProdSampleInput
         grid.JSProperties("cpQCDate") = " "
         grid.JSProperties("cpSubLotNo") = ""
         grid.JSProperties("cpRemarks") = ""
+        grid.JSProperties("cpRemarkComplete") = ""
+        grid.JSProperties("cpCompleteStatus") = ""
         grid.JSProperties("cpNoProd") = ""
         grid.JSProperties("cpRefresh") = ""
     End Sub
@@ -560,6 +562,8 @@ Public Class ProdSampleInput
         End If
         If Result IsNot Nothing Then
             grid.JSProperties("cpSubLotNo") = Result.SubLotNo
+            grid.JSProperties("cpRemarkComplete") = Result.RemarkComplete
+            grid.JSProperties("cpCompleteStatus") = Result.CompleteStatus
             grid.JSProperties("cpRemarks") = Result.Remark
             grid.JSProperties("cpNoProd") = Result.NoProductionStatus
         End If
@@ -628,7 +632,7 @@ Public Class ProdSampleInput
         Select Case pFunction
             Case "clear"
                 up_ClearGrid()
-            Case "load", "save", "approve"
+            Case "load", "save", "approve", "complete"
                 Dim pFactory As String = Split(e.Parameters, "|")(1)
                 Dim pItemType As String = Split(e.Parameters, "|")(2)
                 Dim pLine As String = Split(e.Parameters, "|")(3)
@@ -650,6 +654,15 @@ Public Class ProdSampleInput
                     pUser = Session("user") & ""
                     clsSPCResultDB.Update(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pSubLotNo, pRemark, pNoProd, pUser)
                     show_error(MsgTypeEnum.Success, "Update data successfull!", 1)
+                ElseIf pFunction = "complete" Then
+                    Dim pRemark As String = Split(e.Parameters, "|")(9)
+                    pUser = Session("user") & ""
+                    Dim iUpd As Integer = clsSPCResultDB.Complete(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pRemark, 1, pUser)
+                    If iUpd > 0 Then
+                        show_error(MsgTypeEnum.Success, "Complete data successfull!", 0)
+                    Else
+                        show_error(MsgTypeEnum.Warning, "No data to update!", 1)
+                    End If
                 End If
                 GridLoad(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pVerified)
         End Select

@@ -278,10 +278,14 @@
             var DetSeqNo = hfDetail.Get('DetSeqNo');         
             var pAction = txtOther.GetText();
             var idx = hfDetail.Get('Index');
-
-            hfAct.Set(idx, pAction);
-            if(isChecked) {
-                
+            
+            if(isChecked) {                
+                if(txtOther.GetText() == '') {
+                    txtOther.Focus();
+                    toastr.warning('Please input other action!', 'Warning');                    
+                    e.processOnServer = false;
+                    return;   
+                }
                 gridEdit.PerformCallback('save|' + FTAID + '|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + txtRemark.GetText() + '|' + pAction + '|2|' + DetSeqNo );
             } else {
                 gridEdit.UpdateEdit();
@@ -314,6 +318,11 @@
             hfDetail.Set('FTAID', FTAID);
             hfDetail.Set('DetSeqNo', DetSeqNo);      
             hfDetail.Set('Index', Index);
+        }
+
+        function DeleteAction(FTAID, DetSeqNo) {
+            grid.PerformCallback('deleteaction|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + FTAID + '|' + DetSeqNo);
+ 
         }
 
         function ShowPopUpIK(s) {
@@ -399,12 +408,6 @@
                 chkOther.SetChecked(false);
                 txtOther.SetEnabled(false);
             }
-            for(var i = 0; i < gridEdit.GetVisibleRowsOnPage(); i++) {
-                if(i != rowIndex) {
-                    gridEdit.batchEditApi.SetCellValue(i, "Select", 0);
-                }
-            }
-
         }
 
         function SelectNoCheck(startRow, checked) {
@@ -824,13 +827,16 @@
                             <dx:ASPxCheckBox ID="chkNo" runat="server" OnInit="chkNo_Init" Value='<%# Eval("NoCheck")%>' />
                         </DataItemTemplate>
             </dx:GridViewDataCheckColumn>
-            <dx:GridViewDataTextColumn FieldName="Action" ShowInCustomizationForm="True" VisibleIndex="6" Width="260px">
+            <dx:GridViewDataTextColumn FieldName="Action" ShowInCustomizationForm="True" VisibleIndex="6" Width="400px" AllowTextTruncationInAdaptiveMode="True">
                         <DataItemTemplate>
                             <table style="width:100%">
                                 <tr>
-                                    <td style="width:36px; text-align:left">
+                                    <td style="width:72px; text-align:left">
                                         <dx:ASPxHyperLink ID="linkEdit" Font-Names="Segoe UI" Font-Size="9pt"
                                             runat="server" Text="Edit" OnInit="EditLink_Init">
+                                        </dx:ASPxHyperLink>
+                                        <dx:ASPxHyperLink ID="linkDelete" Font-Names="Segoe UI" Font-Size="9pt"
+                                            runat="server" Text="Delete" OnInit="DeleteLink_Init">
                                         </dx:ASPxHyperLink>
                                     </td>
                                     <td>
@@ -841,6 +847,8 @@
                             
                             
                         </DataItemTemplate>
+                        <CellStyle Wrap="True">
+                        </CellStyle>
             </dx:GridViewDataTextColumn>
             <dx:GridViewDataTextColumn FieldName="LastUser" ShowInCustomizationForm="True" VisibleIndex="7">
             </dx:GridViewDataTextColumn>
@@ -1269,7 +1277,7 @@
             </td>
             <td>
 
-                <dx:ASPxTextBox ID="txtOther" runat="server" Width="450px" ClientInstanceName="txtOther" ClientEnabled="False" MaxLength="50">
+                <dx:ASPxTextBox ID="txtOther" runat="server" Width="450px" ClientInstanceName="txtOther" ClientEnabled="False" MaxLength="200">
                     <ReadOnlyStyle BackColor="Silver">
                     </ReadOnlyStyle>
                     <DisabledStyle BackColor="Silver">

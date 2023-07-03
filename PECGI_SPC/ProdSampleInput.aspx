@@ -226,6 +226,7 @@
             btnNew.SetEnabled(false);
             btnRead.SetEnabled(false);
             btnSave.SetEnabled(false);
+            btnComplete.SetEnabled(false);
         }
 
         function isNumeric(n) {
@@ -373,8 +374,8 @@
                 });  
             }
                         
-            if (s.cp_message != "" && s.cp_val == 1) {
-                if (s.cp_type == "Success" && s.cp_val == 1) {
+            if (s.cp_message != "") {
+                if (s.cp_type == "Success") {
                     toastr.success(s.cp_message, 'Success');
                     toastr.options.closeButton = false;
                     toastr.options.debug = false;
@@ -385,7 +386,10 @@
                     s.cp_val = 0;
                     s.cp_message = "";
                     lblAuto.SetText('OFF');                    
-                    grid.AddNewRow();
+                    if(s.cp_val == 1) 
+                    {
+                        grid.AddNewRow();
+                    }                    
                 }
                 else if (s.cp_type == "Warning" && s.cp_val == 1) {
 
@@ -444,6 +448,8 @@
             lblR.SetText(s.cpR);
             lblC.SetText(s.cpC);            
             cboRemark.SetText(s.cpRemarks);
+            txtRemark.SetText(s.cpRemarkComplete);
+            lblComplete.SetText(s.cpRemarkComplete);
             txtSubLotNo.SetText(s.cpSubLotNo);
             if(s.cpNoProd == '1')
             {
@@ -540,10 +546,12 @@
                 btnNew.SetEnabled(false);
                 btnRead.SetEnabled(false);
             }
-            if (s.cpAllowUpdate == '1') {
+            if (s.cpAllowUpdate == '1' & s.cpCompleteStatus == '0') {
                 btnSave.SetEnabled(true);
+                btnComplete.SetEnabled(true);
             } else {
                 btnSave.SetEnabled(false);
+                btnComplete.SetEnabled(false);
             }
             if (s.cpRefresh == '1') {
                 gridX.PerformCallback(cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShow.GetValue() + '|' + cboSeq.GetValue() + '|' + cboShift.GetValue());
@@ -564,6 +572,25 @@
             e.processOnServer = false;
         }
 
+
+        function SaveComplete(s, e) {            
+            if(txtRemark.GetText() == '') {
+                toastr.warning('Please input Remarks!', 'Warning');  
+                e.processOnServer = false;
+                return;
+            }
+            grid.PerformCallback('complete|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + cboShow.GetValue() + '|' + txtRemark.GetText() + '|1');
+            pcComplete.Hide();
+            lblAuto.SetText('ON'); 
+            e.processOnServer = false;
+        }
+
+        function ClosePopupComplete(s, e) {
+            pcComplete.Hide();
+            lblAuto.SetText('ON'); 
+            e.processOnServer = false;
+        }
+
         function ShowPopUpRule1(s, e) {
             lblAuto.SetText('OFF');
             pcRule1.Show();
@@ -572,6 +599,12 @@
         function ShowPopUpRule2(s, e) {
             lblAuto.SetText('OFF');
             pcRule2.Show();
+        }
+
+        function ShowPopUpComplete(s, e) {
+            lblAuto.SetText('OFF');
+            pcComplete.Show();
+            txtRemark.Focus();
         }
     </script>
 </asp:Content>
@@ -939,7 +972,7 @@
                                 </dx:ASPxButton>                             
                         </td>
                         <td style="padding-right:5px">
-                                <dx:ASPxButton ID="btnExcel" runat="server" AutoPostBack="False" 
+                            <dx:ASPxButton ID="btnExcel" runat="server" AutoPostBack="False" 
                                     ClientInstanceName="btnExcel" Font-Names="Segoe UI" Font-Size="9pt" 
                                     Height="25px" Text="Excel" Theme="Office2010Silver" UseSubmitBehavior="False" 
                                     Width="90px" TabIndex="10">
@@ -947,18 +980,31 @@
                                     <Paddings Padding="2px" />
                                 </dx:ASPxButton>                            
                         </td>
-                        <td class="auto-style21" style="padding-left:20px">
-                            <dx:ASPxLabel ID="ASPxLabel31" runat="server" Text="Auto Refresh: " ClientInstanceName="label31" Font-Names="Segoe UI" Font-Size="9pt" ClientVisible="False"></dx:ASPxLabel>
+                        <td style="padding-right:5px">
+                            <dx:ASPxButton ID="btnComplete" runat="server" AutoPostBack="False" 
+                                    ClientInstanceName="btnComplete" Font-Names="Segoe UI" Font-Size="9pt" 
+                                    Height="25px" Text="Complete" Theme="Office2010Silver" UseSubmitBehavior="False" 
+                                    Width="90px" TabIndex="10">
+                                    <Paddings Padding="2px" />
+                                <ClientSideEvents Click="ShowPopUpComplete"/>
+                                </dx:ASPxButton>                                
+                        </td>
+                        <td style="padding-left:10px">
+        
+                        <dx:ASPxLabel ID="lblComplete" runat="server" Font-Names="Segoe UI" Font-Size="9pt" ClientInstanceName="lblComplete"></dx:ASPxLabel>
                         </td>
                         <td>
-                            <dx:ASPxLabel ID="lblAuto" runat="server" Text="ON" ClientInstanceName="lblAuto" Font-Names="Segoe UI" Font-Size="9pt" ClientVisible="False"></dx:ASPxLabel>
-                        </td>
+                            &nbsp;</td>
                     </tr>
                 </table>
             </td>
-            <td style="width:300px">            
+            <td>            
         
-                <asp:Label ID="Label2" runat="server" BackColor="#FFFF99" Visible="False" ForeColor="#333333"></asp:Label>
+                        &nbsp;</td>
+            <td style="width:100px">            
+        
+                            <dx:ASPxLabel ID="ASPxLabel31" runat="server" Text="Auto Refresh: " ClientInstanceName="label31" Font-Names="Segoe UI" Font-Size="9pt" ClientVisible="False"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="lblAuto" runat="server" Text="ON" ClientInstanceName="lblAuto" Font-Names="Segoe UI" Font-Size="9pt" ClientVisible="False"></dx:ASPxLabel>
         
             </td>
         </tr>
@@ -1570,6 +1616,66 @@
         <ClientSideEvents EndCallback="ChartREndCallBack" Init="OnInit" />
     </dx:WebChartControl>
 </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+<dx:ASPxPopupControl ID="pcComplete" runat="server" ClientInstanceName="pcComplete" Height="130px" Width="300px" HeaderText="Complete Measurement" Modal="True"
+                        CloseAction="CloseButton" CloseOnEscape="true" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False">
+                        <ContentCollection>
+<dx:PopupControlContentControl runat="server">
+    <div style="text-align: center; padding-top: 30px;">
+        <table style="width:100%">
+            <tr>
+                <td style="padding-left:5px; width:90px">
+
+                    <dx:ASPxLabel ID="ASPxLabel32" runat="server" Font-Names="Segoe UI" Font-Size="9pt" Text="Remarks" Width="60px">
+                    </dx:ASPxLabel>
+
+                </td>
+                <td>
+
+                    <dx:ASPxTextBox ID="txtRemark" runat="server" ClientInstanceName="txtRemark" Width="160px">
+                    </dx:ASPxTextBox>
+
+                </td>
+            </tr>
+             <tr style="height:60px; vertical-align:bottom">
+                 <td colspan="2">
+                     <table style="width:100%">
+                         <tr>
+            <td style="text-align:right; padding-top: 10px; padding-right:5px; width:50%">
+                <dx:ASPxButton ID="btnSaveComplete" runat="server" AutoPostBack="False" 
+                    ClientInstanceName="btnSaveComplete" Font-Names="Segoe UI" Font-Size="9pt" 
+                    Height="25px" Text="Save" Theme="Office2010Silver" UseSubmitBehavior="False" 
+                    Width="90px" TabIndex="10">                    
+                    <Paddings Padding="2px" />
+                    <ClientSideEvents Click="SaveComplete"/>
+                </dx:ASPxButton>
+            </td>
+                 <td style="text-align:left; padding-top: 10px; padding-left:5px">
+                <dx:ASPxButton ID="btnHide3" runat="server" AutoPostBack="False" 
+                    ClientInstanceName="btnHide3" Font-Names="Segoe UI" Font-Size="9pt" 
+                    Height="25px" Text="Cancel" Theme="Office2010Silver" UseSubmitBehavior="False" 
+                    Width="90px" TabIndex="10">                    
+                    <Paddings Padding="2px" />
+                    <ClientSideEvents Click="ClosePopupComplete"/>
+                </dx:ASPxButton>
+                     </td>
+                         </tr>
+                     </table>
+                 </td>
+
+        </tr>
+        </table>
+    </div>
+   
+                            </dx:PopupControlContentControl>
+</ContentCollection>
+                    </dx:ASPxPopupControl>
+
+
             </td>
         </tr>
 
