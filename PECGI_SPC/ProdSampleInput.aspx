@@ -546,7 +546,7 @@
                 btnNew.SetEnabled(false);
                 btnRead.SetEnabled(false);
             }
-            if (s.cpAllowUpdate == '1' & s.cpCompleteStatus == '0') {
+            if (s.cpAllowUpdate == '1' & s.cpCompleteStatus != '1') {
                 btnSave.SetEnabled(true);
                 btnComplete.SetEnabled(true);
             } else {

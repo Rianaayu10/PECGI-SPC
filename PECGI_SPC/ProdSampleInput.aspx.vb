@@ -566,6 +566,12 @@ Public Class ProdSampleInput
             grid.JSProperties("cpCompleteStatus") = Result.CompleteStatus
             grid.JSProperties("cpRemarks") = Result.Remark
             grid.JSProperties("cpNoProd") = Result.NoProductionStatus
+        Else
+            grid.JSProperties("cpSubLotNo") = ""
+            grid.JSProperties("cpRemarkComplete") = ""
+            grid.JSProperties("cpCompleteStatus") = "0"
+            grid.JSProperties("cpRemarks") = ""
+            grid.JSProperties("cpNoProd") = ""
         End If
         Dim dtVer As DataTable = clsSPCResultDB.GetLastVerification(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Sequence)
         Dim LastVerification As Integer = dtVer.Rows(0)(0)
