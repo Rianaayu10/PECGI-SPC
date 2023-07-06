@@ -186,7 +186,7 @@
         function gridEditOnEndCallback(s, e) {
             gridEdit.CancelEdit();    
             if(s.cpUpdate != '') {
-                SaveData();
+                SaveDataAfterAction();
             }
         }
 
@@ -390,7 +390,11 @@
         }
 
         function SaveData() {
-            grid.PerformCallback('save|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + txtRemark.GetText());
+            grid.PerformCallback('save|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + txtRemark.GetText() + '|0');
+        }
+
+        function SaveDataAfterAction() {
+            grid.PerformCallback('save|' + cboFactory.GetValue() + '|' + cboType.GetValue() + '|' + cboLine.GetValue() + '|' + cboItemCheck.GetValue() + '|' + dtDate.GetText() + '|' + cboShift.GetValue() + '|' + cboSeq.GetValue() + '|' + txtRemark.GetText() + '|1');
         }
 
         var checkBoxColumns = ['Select'];

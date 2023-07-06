@@ -451,6 +451,7 @@ Public Class FTACorrectiveAction
                 pSeq = Val(pSeq)
                 If pFunction = "save" Then
                     Dim pRemark As String = Split(e.Parameters, "|")(8)
+                    Dim pAfterAction As String = Split(e.Parameters, "|")(9)
                     pUser = Session("user") & ""
                     clsFTAResultDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, "1", pRemark, pUser)
 
@@ -506,11 +507,13 @@ Public Class FTACorrectiveAction
                     '        clsFTAResultDetailDB.Insert(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq, pRemark, FTAID, pDetSeqNo, pAction, pResult, pUser)
                     '    End If
                     'Next item
-                    hfID.Clear()
-                    hfOK.Clear()
-                    hfNG.Clear()
-                    hfNo.Clear()
-                    hfAct.Clear()
+                    If pAfterAction <> "1" Then
+                        hfID.Clear()
+                        hfOK.Clear()
+                        hfNG.Clear()
+                        hfNo.Clear()
+                        hfAct.Clear()
+                    End If
                     show_error(MsgTypeEnum.Success, "Update data successful!", 1)
                 ElseIf pFunction = "mkverify" Or pFunction = "qcverify" Then
                     Dim JobPos As String
@@ -828,7 +831,6 @@ Public Class FTACorrectiveAction
             Dim i As String = container.VisibleIndex
             link.ClientInstanceName = String.Format("linkDelete{0}", i)
             link.ClientSideEvents.Click = "function (s,e) {" +
-                "if(!chkNG" + i + ".GetChecked()) { return; } " +
                 "DeleteAction('" + FTAID + "', '" + No + "'); " +
                 "hfOK.Set('" + i + "', false); " +
                 "hfNG.Set('" + i + "', false); " +
