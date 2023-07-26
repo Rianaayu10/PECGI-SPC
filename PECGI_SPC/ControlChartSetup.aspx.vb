@@ -492,7 +492,8 @@ Public Class ControlChartSetup
     End Sub
 
     Private Sub cboMachineIOT_Callback(sender As Object, e As CallbackEventArgsBase) Handles cboMachineIOT.Callback
-        cboMachineIOT.DataSource = clsProcessDB.GetList(pUser, cboFactory.Value, IIf(cboProcess.Value = "ALL", "", cboProcess.Value), IIf(cboLine.Value = "ALL", "", cboLine.Value), True)
+        'cboMachineIOT.DataSource = clsProcessDB.GetList(pUser, cboFactory.Value, IIf(cboProcess.Value = "ALL", "", cboProcess.Value), IIf(cboLine.Value = "ALL", "", cboLine.Value), True)
+        cboMachineIOT.DataSource = clsProcessDB.GetListForItemCheckByType(pUser, cboFactory.Value, IIf(cboProcess.Value = "ALL", "", cboProcess.Value), IIf(cboLine.Value = "ALL", "", cboLine.Value))
         cboMachineIOT.DataBind()
         cboMachineIOT.SelectedIndex = 0
     End Sub
@@ -535,7 +536,8 @@ Public Class ControlChartSetup
             cboLine.DataBind()
             cboLine.SelectedIndex = 0
 
-            cboMachineIOT.DataSource = clsProcessDB.GetList(pUser, cboFactory.Value, cboProcess.Value, cboLine.Value, True)
+            'cboMachineIOT.DataSource = clsProcessDB.GetList(pUser, cboFactory.Value, cboProcess.Value, cboLine.Value, True)
+            cboMachineIOT.DataSource = clsProcessDB.GetListForItemCheckByType(pUser, cboFactory.Value, IIf(cboProcess.Value = "ALL", "", cboProcess.Value), IIf(cboLine.Value = "ALL", "", cboLine.Value))
             cboMachineIOT.DataBind()
             cboMachineIOT.SelectedIndex = 0
 
