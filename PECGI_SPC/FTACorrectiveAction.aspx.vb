@@ -1021,7 +1021,7 @@ Public Class FTACorrectiveAction
 
             If valueNG Then
                 If pAction = "" Then
-                    cbkValid.JSProperties("cpErrMsg") = "Please input action for Sequence " + pDetSeqNo.ToString
+                    'cbkValid.JSProperties("cpErrMsg") = "Please input action for Sequence " + pDetSeqNo.ToString
                     Exit For
                 End If
                 NGCount = NGCount + 1

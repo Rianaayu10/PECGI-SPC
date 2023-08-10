@@ -975,7 +975,7 @@
             </td>
             <td style="width:510px">
 
-                        <dx:ASPxMemo ID="txtRemark" runat="server" Height="45px" Width="500px" ClientInstanceName="txtRemark">
+                        <dx:ASPxMemo ID="txtRemark" runat="server" Height="45px" Width="500px" ClientInstanceName="txtRemark" MaxLength="500">
                         </dx:ASPxMemo>
 
             </td>
