@@ -32,15 +32,6 @@ Partial Public Class UserLine
     Protected WithEvents cboUserID As Global.DevExpress.Web.ASPxComboBox
 
     '''<summary>
-    '''dsUser control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents dsUser As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
     '''gridMenu control.
     '''</summary>
     '''<remarks>
@@ -66,15 +57,6 @@ Partial Public Class UserLine
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnSave As Global.DevExpress.Web.ASPxButton
-
-    '''<summary>
-    '''cbkValid control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents cbkValid As Global.DevExpress.Web.ASPxCallback
 
     '''<summary>
     '''HideValue control.

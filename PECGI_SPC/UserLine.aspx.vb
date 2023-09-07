@@ -133,8 +133,6 @@ Public Class UserLine
         gridMenu.EndUpdate()
     End Sub
 
-
-
     Private Sub gridMenu_CustomCallback(sender As Object, e As DevExpress.Web.ASPxGridViewCustomCallbackEventArgs) Handles gridMenu.CustomCallback
         Dim pAction As String = Split(e.Parameters, "|")(0)
         Dim pUserID As String = HideValue.Get("UserID")
@@ -142,15 +140,6 @@ Public Class UserLine
             show_error(MsgTypeEnum.Success, "Update data successful", 1)
         End If
         up_GridLoad(pUserID)
-    End Sub
-
-    Private Sub cbkValid_Callback(source As Object, e As DevExpress.Web.CallbackEventArgs) Handles cbkValid.Callback
-        'Dim pAction = Split(e.Parameter, "|")(0)
-        'Dim FromUserID = Split(e.Parameter, "|")(1)
-        'Dim TouserID = Split(e.Parameter, "|")(2)
-        'If FromUserID <> "null" Then
-        '    clsUserLineDB.Copy(FromUserID, TouserID, RegisterUser)
-        'End If
     End Sub
 
     Private Sub gridMenu_RowUpdating(sender As Object, e As ASPxDataUpdatingEventArgs) Handles gridMenu.RowUpdating

@@ -93,22 +93,11 @@
         }
 
         function SaveData(s, e) {
-         /*   cbkValid.PerformCallback('save|' + cboUserReplace.GetValue() + '|' + HideValue.Get('UserID'));*/
-            cbkValid.PerformCallback();
-        }
-
-        function SaveLine(s, e) {
             gridMenu.UpdateEdit();
             millisecondsToWait = 1000;
             setTimeout(function () {
                 gridMenu.PerformCallback('save|');
             }, millisecondsToWait);
-        }
-
-
-        function CallbackErr(s, e) {
-            e.Cancel = True
-            e.cancel = true;
         }
 
     </script>
@@ -125,7 +114,7 @@
                             </dx:ASPxLabel>
                             </td>
                             <td>
-                             <dx:ASPxComboBox ID="cboUserID" runat="server" Font-Names="Segoe UI"
+                                <dx:ASPxComboBox ID="cboUserID" runat="server" Font-Names="Segoe UI"
                                     Font-Size="9pt" Theme="Office2010Black" EnableTheming="True" TextField="UserID" TextFormatString="{0}"
                                     ValueField="UserID" ClientInstanceName="cboUserID">
                                     <ClientSideEvents SelectedIndexChanged="function(s, e) {
@@ -140,41 +129,18 @@
                                 </dx:ASPxComboBox>
                             </td>
                         </tr>
-                      <%--  <tr style="height: 30px">
-                            <td>&nbsp;<dx:ASPxLabel ID="ASPxLabel2" runat="server" Font-Names="Segoe UI"
-                                Font-Size="9pt" Text="Copy Lines From">
-                            </dx:ASPxLabel>
-                            </td>
-                            <td>
-                                <dx:ASPxComboBox ID="cboUserReplace" runat="server" Font-Names="Segoe UI"
-                                    Font-Size="9pt" Theme="Office2010Black" DataSourceID="dsUser"
-                                    EnableTheming="True" TextField="UserID" TextFormatString="{0}"
-                                    ValueField="UserID" ClientInstanceName="cboUserReplace">
-                                    <ClientSideEvents SelectedIndexChanged="function(s, e) {
-                                                var UserReplace = cboUserReplace.GetValue();
-                                                HideValue.Set('UserReplace', UserReplace);
-                                                HideValue.Set('Userload', UserReplace);
-	                                            gridMenu.PerformCallback('load|' + cboUserReplace.GetValue());
-                                            }" />
-                                    <Columns>
-                                        <dx:ListBoxColumn Caption="User ID" FieldName="UserID" Width="60px" />
-                                        <dx:ListBoxColumn Caption="Full Name" FieldName="FullName" Width="120px" />
-                                    </Columns>
-                                </dx:ASPxComboBox>
-                            </td>
-                        </tr>--%>
                     </table>
                 </div>
-                <div style="height: 10px">
-                    <asp:SqlDataSource ID="dsUser" runat="server" ConnectionString="<%$ ConnectionStrings:ApplicationServices %>"
-                        SelectCommand="select UserID, FullName from dbo.spc_UserSetup order by UserID"></asp:SqlDataSource>
-                </div>
                 <dx:ASPxGridView ID="gridMenu" runat="server" AutoGenerateColumns="False" ClientInstanceName="gridMenu"
-                    Font-Names="Segoe UI" Font-Size="9pt" KeyFieldName="LineID" Theme="Office2010Black" OnAfterPerformCallback="Grid_AfterPerformCallback"
+                    Font-Names="Segoe UI" Font-Size="9pt" KeyFieldName="LineID" Theme="Office2010Black"
                     Width="100%">
-                    <ClientSideEvents
-                        BatchEditStartEditing="OnBatchEditStartEditing"
-                        EndCallback="OnEndCallback" CallbackError= "CallbackErr"/>
+                    <ClientSideEvents BatchEditStartEditing="OnBatchEditStartEditing"
+                        EndCallback="function(s, e) { 
+	                                            gridMenu.CancelEdit();
+                                            }"
+                        CallbackError="function(s, e) {
+	                                        e.Cancel=True;
+                                        }" />
                     <Columns>
                         <dx:GridViewDataTextColumn Caption="Machine Process" FieldName="LineID"
                             VisibleIndex="1" Width="100px">
@@ -193,7 +159,10 @@
                                 ValueUnchecked="0" AllowGrayedByClick="false">
                             </PropertiesCheckEdit>
                             <HeaderCaptionTemplate>
-                                <dx:ASPxCheckBox ID="chkShow" runat="server" ClientInstanceName="chkShow" ClientSideEvents-CheckedChanged="OnShowCheckedChanged" ValueType="System.String" ValueChecked="1" ValueUnchecked="0" Text="Show" Font-Names="Segoe UI" Font-Size="9pt" ForeColor="White">
+                                <dx:ASPxCheckBox ID="chkShow" runat="server" ClientInstanceName="chkShow"
+                                    ClientSideEvents-CheckedChanged="OnShowCheckedChanged" ValueType="System.String"
+                                    ValueChecked="1" ValueUnchecked="0" Text="Show" Font-Names="Segoe UI"
+                                    Font-Size="9pt" ForeColor="White">
                                 </dx:ASPxCheckBox>
                             </HeaderCaptionTemplate>
                             <HeaderStyle HorizontalAlign="Center" />
@@ -205,7 +174,10 @@
                                 ValueUnchecked="0" AllowGrayedByClick="false">
                             </PropertiesCheckEdit>
                             <HeaderCaptionTemplate>
-                                <dx:ASPxCheckBox ID="chkUpdate" runat="server" ClientInstanceName="chkUpdate" ClientSideEvents-CheckedChanged="OnUpdateCheckedChanged" ValueType="System.String" ValueChecked="1" ValueUnchecked="0" Text="Update" Font-Names="Segoe UI" Font-Size="9pt" ForeColor="White">
+                                <dx:ASPxCheckBox ID="chkUpdate" runat="server" ClientInstanceName="chkUpdate"
+                                    ClientSideEvents-CheckedChanged="OnUpdateCheckedChanged" ValueType="System.String"
+                                    ValueChecked="1" ValueUnchecked="0" Text="Update" Font-Names="Segoe UI"
+                                    Font-Size="9pt" ForeColor="White">
                                 </dx:ASPxCheckBox>
                             </HeaderCaptionTemplate>
                             <HeaderStyle HorizontalAlign="Center" />
@@ -217,21 +189,23 @@
                                 ValueUnchecked="0" AllowGrayedByClick="false">
                             </PropertiesCheckEdit>
                             <HeaderCaptionTemplate>
-                                <dx:ASPxCheckBox ID="chkVerify" runat="server" ClientInstanceName="chkVerify" ClientSideEvents-CheckedChanged="OnVerifyCheckedChanged" ValueType="System.String" ValueChecked="1" ValueUnchecked="0" Text="Verify" Font-Names="Segoe UI" Font-Size="9pt" ForeColor="White">
+                                <dx:ASPxCheckBox ID="chkVerify" runat="server" ClientInstanceName="chkVerify"
+                                    ClientSideEvents-CheckedChanged="OnVerifyCheckedChanged" ValueType="System.String"
+                                    ValueChecked="1" ValueUnchecked="0" Text="Verify" Font-Names="Segoe UI"
+                                    Font-Size="9pt" ForeColor="White">
                                 </dx:ASPxCheckBox>
                             </HeaderCaptionTemplate>
                             <HeaderStyle HorizontalAlign="Center" />
                         </dx:GridViewDataCheckColumn>
                     </Columns>
                     <SettingsBehavior AllowFocusedRow="True" AllowSort="False" ColumnResizeMode="Control" EnableRowHotTrack="True" />
-                    <SettingsPager AlwaysShowPager="true" PageSize="20" PageSizeItemSettings-Visible="true" Mode="ShowPager" NumericButtonCount="10">
-                        <PageSizeItemSettings Visible="True"></PageSizeItemSettings>
+                    <SettingsPager Mode="ShowAllRecords" NumericButtonCount="10">
                     </SettingsPager>
                     <SettingsEditing Mode="Batch" NewItemRowPosition="Bottom">
                         <BatchEditSettings ShowConfirmOnLosingChanges="False" />
                     </SettingsEditing>
-                    <Settings HorizontalScrollBarMode="Auto"  ShowStatusBar="Hidden" ShowVerticalScrollBar="True"
-                        VerticalScrollBarMode="Auto" VerticalScrollableHeight="300" ShowFilterRow="true" />
+                    <Settings HorizontalScrollBarMode="Visible" ShowStatusBar="Hidden" ShowVerticalScrollBar="True"
+                        VerticalScrollableHeight="160" VerticalScrollBarMode="Visible" ShowFilterRow="true" />
                     <Styles>
                         <Header HorizontalAlign="Center">
                             <Paddings PaddingBottom="5px" PaddingTop="5px" />
@@ -249,7 +223,8 @@
                     <table>
                         <tr>
                             <td>
-                                <dx:ASPxButton ID="btnCancel" TabIndex="2" runat="server" AutoPostBack="False" ClientInstanceName="btnCancel"
+                                <dx:ASPxButton ID="btnCancel" TabIndex="2" runat="server" AutoPostBack="False"
+                                    ClientInstanceName="btnCancel"
                                     Font-Names="Segoe UI" Font-Size="9pt" Text="Back" Theme="Office2010Silver"
                                     Width="80px">
                                     <ClientSideEvents Click="function close() {window.open('UserSetup.aspx', '_self' );}" />
@@ -262,18 +237,11 @@
                                 </dx:ASPxButton>
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <dx:ASPxCallback ID="cbkValid" runat="server" ClientInstanceName="cbkValid">
-                                    <ClientSideEvents EndCallback="SaveLine" />
-                                </dx:ASPxCallback>
-                            </td>
-                        </tr>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-          <dx:ASPxHiddenField ID="HideValue" runat="server" ClientInstanceName="HideValue"></dx:ASPxHiddenField>
+    <dx:ASPxHiddenField ID="HideValue" runat="server" ClientInstanceName="HideValue"></dx:ASPxHiddenField>
 </asp:Content>
 
