@@ -97,6 +97,9 @@ Public Class UserLine
 
             Up_FillCombo(UserID)
             up_GridLoad(UserID)
+        Else
+            Dim a = HideValue.Get("UserID")
+            up_GridLoad(a)
         End If
     End Sub
 #End Region
@@ -137,7 +140,7 @@ Public Class UserLine
         Dim pAction As String = Split(e.Parameters, "|")(0)
         Dim pUserID As String = HideValue.Get("UserID")
         If pAction = "save" Then
-            show_error(MsgTypeEnum.Success, "Update data successful", 1)
+            show_error(MsgTypeEnum.Success, "Update data successfully!", 1)
         End If
         up_GridLoad(pUserID)
     End Sub
@@ -147,10 +150,7 @@ Public Class UserLine
     End Sub
 
     Protected Sub Grid_AfterPerformCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles gridMenu.AfterPerformCallback
-        If e.CallbackName <> "CANCELEDIT" Then
-            Dim a = HideValue.Get("UserID")
-            up_GridLoad(a)
-        End If
+
     End Sub
 
 #End Region

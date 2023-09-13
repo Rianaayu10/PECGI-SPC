@@ -57,6 +57,7 @@
             if (s.cp_Show == false) {
                 window.open('Main.aspx', '_self');
             }
+            gridMenu.CancelEdit();
         }
 
         function OnBatchEditStartEditing(s, e) {
@@ -118,8 +119,7 @@
         }
 
         function CallbackErr(s, e) {
-            e.Cancel = True
-            e.cancel = true;
+            e.Cancel = True;
         }
     </script>
 </asp:Content>

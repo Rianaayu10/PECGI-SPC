@@ -108,6 +108,9 @@ Public Class UserPrivilege
             End If
             Up_FillCombo(UserID)
             up_GridLoad(UserID)
+        Else
+            Dim a = HideValue.Get("Userload")
+            up_GridLoad(a)
         End If
     End Sub
 #End Region
@@ -180,10 +183,7 @@ Public Class UserPrivilege
     End Sub
 
     Protected Sub Grid_AfterPerformCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewAfterPerformCallbackEventArgs) Handles gridMenu.AfterPerformCallback
-        If e.CallbackName <> "CANCELEDIT" Then
-            Dim a = HideValue.Get("Userload")
-            up_GridLoad(a)
-        End If
+
     End Sub
 #End Region
 End Class

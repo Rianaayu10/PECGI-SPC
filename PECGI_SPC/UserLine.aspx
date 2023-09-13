@@ -52,6 +52,7 @@
                 }
 
             }
+            gridMenu.CancelEdit();
         }
 
         function OnBatchEditStartEditing(s, e) {
@@ -135,9 +136,7 @@
                     Font-Names="Segoe UI" Font-Size="9pt" KeyFieldName="LineID" Theme="Office2010Black"
                     Width="100%">
                     <ClientSideEvents BatchEditStartEditing="OnBatchEditStartEditing"
-                        EndCallback="function(s, e) { 
-	                                            gridMenu.CancelEdit();
-                                            }"
+                        EndCallback="OnEndCallback"
                         CallbackError="function(s, e) {
 	                                        e.Cancel=True;
                                         }" />
@@ -205,7 +204,7 @@
                         <BatchEditSettings ShowConfirmOnLosingChanges="False" />
                     </SettingsEditing>
                     <Settings HorizontalScrollBarMode="Visible" ShowStatusBar="Hidden" ShowVerticalScrollBar="True"
-                        VerticalScrollableHeight="160" VerticalScrollBarMode="Visible" ShowFilterRow="true" />
+                        VerticalScrollableHeight="300" VerticalScrollBarMode="Visible" ShowFilterRow="true" />
                     <Styles>
                         <Header HorizontalAlign="Center">
                             <Paddings PaddingBottom="5px" PaddingTop="5px" />
