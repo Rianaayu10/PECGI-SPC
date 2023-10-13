@@ -188,7 +188,7 @@
                     <Settings AllowSort="False" />
                 </dx:GridViewDataCheckColumn>
 
-                <dx:GridViewDataCheckColumn Caption="Active Status" FieldName="ActiveStatus" 
+                <dx:GridViewDataCheckColumn Caption="Allow Manual Input" FieldName="AllowInput" 
                     VisibleIndex="6" Width="60px">
                     <PropertiesCheckEdit ValueChecked="1" ValueType="System.Char" 
                         ValueUnchecked="0">
@@ -196,7 +196,15 @@
                     <Settings AllowSort="False" />
                 </dx:GridViewDataCheckColumn>
 
-                <dx:GridViewDataTextColumn Caption="Last User" FieldName="UpdateUser" VisibleIndex="7"
+                <dx:GridViewDataCheckColumn Caption="Active Status" FieldName="ActiveStatus" 
+                    VisibleIndex="7" Width="60px">
+                    <PropertiesCheckEdit ValueChecked="1" ValueType="System.Char" 
+                        ValueUnchecked="0">
+                    </PropertiesCheckEdit>
+                    <Settings AllowSort="False" />
+                </dx:GridViewDataCheckColumn>
+
+                <dx:GridViewDataTextColumn Caption="Last User" FieldName="UpdateUser" VisibleIndex="8"
                     Width="100px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="15" Width="100px">
                         <Style HorizontalAlign="Left"></Style>
@@ -211,7 +219,7 @@
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
                 </dx:GridViewDataTextColumn>
 
-                <dx:GridViewDataTextColumn Caption="Last Update" FieldName="UpdateDate" VisibleIndex="8"
+                <dx:GridViewDataTextColumn Caption="Last Update" FieldName="UpdateDate" VisibleIndex="9"
                     Width="125px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="15" Width="125px">
                         <Style HorizontalAlign="Left"></Style>
@@ -297,6 +305,18 @@
                                         <dx:LayoutItemNestedControlContainer>
                                             <dx:ASPxGridViewTemplateReplacement ID="editMeasure2Cls" ReplacementType="EditFormCellEditor"
                                                 runat="server" ColumnID="Measure2Cls">
+                                            </dx:ASPxGridViewTemplateReplacement>                                            
+                                        </dx:LayoutItemNestedControlContainer>                                    
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Allow Manual Input
+                                    </td>
+                                    <td>
+                                        <dx:LayoutItemNestedControlContainer>
+                                            <dx:ASPxGridViewTemplateReplacement ID="editAllowInput" ReplacementType="EditFormCellEditor"
+                                                runat="server" ColumnID="AllowInput">
                                             </dx:ASPxGridViewTemplateReplacement>                                            
                                         </dx:LayoutItemNestedControlContainer>                                    
                                     </td>

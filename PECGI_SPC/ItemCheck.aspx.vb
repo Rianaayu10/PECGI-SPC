@@ -71,6 +71,7 @@ Public Class ItemCheck
             .UnitMeasurement = e.NewValues("UnitMeasurement"),
             .Description = e.NewValues("Description"),
             .Measure2Cls = e.NewValues("Measure2Cls"),
+            .AllowInput = e.NewValues("AllowInput"),
             .ActiveStatus = e.NewValues("ActiveStatus"),
             .UpdateUser = pUser,
             .CreateUser = pUser
@@ -101,6 +102,7 @@ Public Class ItemCheck
             .UnitMeasurement = e.NewValues("UnitMeasurement"),
             .Description = e.NewValues("Description"),
             .Measure2Cls = e.NewValues("Measure2Cls"),
+            .AllowInput = e.NewValues("AllowInput"),
             .ActiveStatus = e.NewValues("ActiveStatus"),
             .UpdateUser = pUser
         }
