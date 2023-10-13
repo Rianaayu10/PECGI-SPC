@@ -535,6 +535,14 @@ Public Class FTACorrectiveAction
                     show_error(MsgTypeEnum.Success, "Delete Action successful!", 1)
 
                     GridLoad(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq)
+                ElseIf pFunction = "load" Then
+                    hfID.Clear()
+                    hfOK.Clear()
+                    hfNG.Clear()
+                    hfNo.Clear()
+                    hfAct.Clear()
+
+                    Dim n As Integer = hfID.Count
                 End If
                 GridLoad(pFactory, pItemType, pLine, pItemCheck, pDate, pShift, pSeq)
         End Select
@@ -1021,7 +1029,7 @@ Public Class FTACorrectiveAction
 
             If valueNG Then
                 If pAction = "" Then
-                    'cbkValid.JSProperties("cpErrMsg") = "Please input action for Sequence " + pDetSeqNo.ToString
+                    'cbkValid.JSProperties("cpErrMsg") = "Please input action for No. " + pDetSeqNo.ToString
                     Exit For
                 End If
                 NGCount = NGCount + 1

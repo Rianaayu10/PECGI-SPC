@@ -560,9 +560,11 @@ Public Class ProdSampleInput
                 End If
             End With
         End If
+        Dim CompleteStatus As String = ""
         If Result IsNot Nothing Then
             grid.JSProperties("cpSubLotNo") = Result.SubLotNo
             grid.JSProperties("cpRemarkComplete") = Result.RemarkComplete
+            CompleteStatus = Result.CompleteStatus
             grid.JSProperties("cpCompleteStatus") = Result.CompleteStatus
             grid.JSProperties("cpRemarks") = Result.Remark
             grid.JSProperties("cpNoProd") = Result.NoProductionStatus
@@ -578,8 +580,8 @@ Public Class ProdSampleInput
         If My.Computer.Name = "TOS56-ARI" Then
             LastVerification = 1
         End If
-        grid.SettingsDataSecurity.AllowInsert = LastVerification = 1 And Not Verified And AuthUpdate And AllowSkill
-        grid.SettingsDataSecurity.AllowEdit = LastVerification = 1 And Not Verified And AuthUpdate And AllowSkill
+        grid.SettingsDataSecurity.AllowInsert = LastVerification = 1 And Not Verified And AuthUpdate And AllowSkill And CompleteStatus <> "1"
+        grid.SettingsDataSecurity.AllowEdit = LastVerification = 1 And Not Verified And AuthUpdate And AllowSkill And CompleteStatus <> "1"
         If grid.SettingsDataSecurity.AllowInsert Then
             grid.JSProperties("cpAllowInsert") = "1"
         Else

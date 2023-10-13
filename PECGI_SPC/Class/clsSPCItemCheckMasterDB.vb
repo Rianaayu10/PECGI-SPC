@@ -106,6 +106,9 @@ Public Class ClsSPCItemCheckMasterDB
     End Function
 
     Public Shared Function GetDigit(ItemCheckCode As String) As Integer
+        If ItemCheckCode Is Nothing Then
+            Return 3
+        End If
         Using cn As New SqlConnection(Sconn.Stringkoneksi)
             cn.Open()
             Dim q As String = "select top 1 isnull(DecimalDigit, 3) DecimalDigit from spc_ItemCheckMaster where ItemCheckCode = @ItemCheckCode"
