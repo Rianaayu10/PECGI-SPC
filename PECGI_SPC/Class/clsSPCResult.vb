@@ -92,6 +92,14 @@ Public Class clsSPCResultDB
         End Using
     End Function
 
+    Public Shared Function GetProdDate() As Date
+        If Date.Now.Hour < 7 Then
+            Return Now.Date.AddDays(-1)
+        Else
+            Return Now.Date
+        End If
+    End Function
+
     Public Shared Function GetData(SPCResultID As Integer) As clsSPCResult
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()

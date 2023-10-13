@@ -72,6 +72,7 @@ Public Class ItemCheck
             .DecimalDigit = e.NewValues("DecimalDigit"),
             .Description = e.NewValues("Description"),
             .Measure2Cls = e.NewValues("Measure2Cls"),
+            .AllowInput = e.NewValues("AllowInput"),
             .ActiveStatus = e.NewValues("ActiveStatus"),
             .UpdateUser = pUser,
             .CreateUser = pUser
@@ -103,6 +104,7 @@ Public Class ItemCheck
             .DecimalDigit = e.NewValues("DecimalDigit"),
             .Description = e.NewValues("Description"),
             .Measure2Cls = e.NewValues("Measure2Cls"),
+            .AllowInput = e.NewValues("AllowInput"),
             .ActiveStatus = e.NewValues("ActiveStatus"),
             .UpdateUser = pUser
         }

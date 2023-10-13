@@ -4,13 +4,14 @@ Public Class clsItemCheck
     Public Property ItemCheckCode As String
     Public Property ItemCheck As String
     Public Property Measure2Cls As String
+    Public Property AllowInput As String
 End Class
 
 Public Class clsItemCheckDB
     Public Shared Function GetData(ItemCheckCode As String) As clsItemCheck
         Using Cn As New SqlConnection(Sconn.Stringkoneksi)
             Cn.Open()
-            Dim q As String = "Select * from spc_ItemCheckMaster where ItemCheckCode = @ItemCheckCode"
+            Dim q As String = "Select ItemCheckCode, ItemCheck, Measure2Cls, isnull(AllowInput, '0') AllowInput from spc_ItemCheckMaster where ItemCheckCode = @ItemCheckCode"
             Dim cmd As New SqlCommand(q, Cn)
             cmd.Parameters.AddWithValue("ItemCheckCode", ItemCheckCode)
             Dim da As New SqlDataAdapter(cmd)
@@ -23,6 +24,7 @@ Public Class clsItemCheckDB
                 Item.ItemCheckCode = dt.Rows(0)("ItemCheckCode") & ""
                 Item.ItemCheck = dt.Rows(0)("ItemCheck") & ""
                 Item.Measure2Cls = dt.Rows(0)("Measure2Cls") & ""
+                Item.AllowInput = dt.Rows(0)("AllowInput")
                 Return Item
             End If
         End Using

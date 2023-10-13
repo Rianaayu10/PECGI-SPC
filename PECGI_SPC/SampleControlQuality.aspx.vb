@@ -540,10 +540,9 @@ Public Class SampleControlQuality
                 InitCombo(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence, ProdDate2, ProcessGroup, LineGroup, ProcessCode)
                 ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "GridLoad();", True)
             Else
-                dtDate.Value = Now.Date
                 pUser = Session("user") & ""
-                dtDate.Value = Now.Date
-                dtTo.Value = Now.Date
+                dtDate.Value = clsSPCResultDB.GetProdDate
+                dtTo.Value = dtDate.Value
                 If pUser <> "" Then
                     Dim User As clsUserSetup = clsUserSetupDB.GetData(pUser)
                     If User IsNot Nothing Then

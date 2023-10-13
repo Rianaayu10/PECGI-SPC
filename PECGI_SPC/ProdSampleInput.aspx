@@ -540,7 +540,11 @@
                 document.getElementById('R').style.backgroundColor = 'White';
             }
             if (s.cpAllowInsert == '1') {
-                btnNew.SetEnabled(true);
+                if (s.cpAllowInputManual == '1') {
+                    btnNew.SetEnabled(true);
+                } else {
+                    btnNew.SetEnabled(false);
+                }
                 btnRead.SetEnabled(true);
             } else {
                 btnNew.SetEnabled(false);

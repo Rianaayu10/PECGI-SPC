@@ -21,6 +21,7 @@ Public Class ClsSPCItemCheckMasterDB
                 .AddWithValue("DecimalDigit", pItemCheckMaster.DecimalDigit)
                 .AddWithValue("Description", pItemCheckMaster.Description)
                 .AddWithValue("Measure2Cls", Val(pItemCheckMaster.Measure2Cls & ""))
+                .AddWithValue("AllowInput", Val(pItemCheckMaster.AllowInput & ""))
                 .AddWithValue("ActiveStatus", Val(pItemCheckMaster.ActiveStatus & ""))
                 .AddWithValue("UpdateUser", pItemCheckMaster.UpdateUser)
                 .AddWithValue("CreateUser", pItemCheckMaster.CreateUser)
@@ -64,6 +65,7 @@ Public Class ClsSPCItemCheckMasterDB
                 .AddWithValue("DecimalDigit", pItemCheckMaster.DecimalDigit)
                 .AddWithValue("Description", pItemCheckMaster.Description)
                 .AddWithValue("Measure2Cls", Val(pItemCheckMaster.Measure2Cls & ""))
+                .AddWithValue("AllowInput", Val(pItemCheckMaster.AllowInput & ""))
                 .AddWithValue("ActiveStatus", Val(pItemCheckMaster.ActiveStatus & ""))
                 .AddWithValue("UpdateUser", pItemCheckMaster.UpdateUser)
                 .AddWithValue("ItemCheckCode", pItemCheckMaster.ItemCheckCode)
@@ -95,6 +97,7 @@ Public Class ClsSPCItemCheckMasterDB
                     .DecimalDigit = Trim(dt.Rows(i)("DecimalDigit")),
                     .Description = Trim(dt.Rows(i)("Description") & ""),
                     .Measure2Cls = Trim(dt.Rows(i)("Measure2Cls")),
+                    .AllowInput = Trim(dt.Rows(i)("AllowInput")),
                     .ActiveStatus = Trim(dt.Rows(i)("ActiveStatus")),
                     .UpdateUser = Trim(dt.Rows(i)("UpdateUser")),
                     .UpdateDate = Trim(dt.Rows(i)("UpdateDate"))

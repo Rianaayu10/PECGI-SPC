@@ -484,6 +484,10 @@ Public Class ProdSampleInput
         Dim Result As clsSPCResult = clsSPCResultDB.GetData(FactoryCode, ItemTypeCode, Line, ItemCheckCode, ProdDate, Shift, Sequence)
 
         Dim Item As clsItemCheck = clsItemCheckDB.GetData(ItemCheckCode)
+        Dim AllowInputManual As String = ""
+        If Item IsNot Nothing Then
+            AllowInputManual = Item.AllowInput
+        End If
         If Item Is Nothing OrElse Item.Measure2Cls <> "1" Then
             grid.Columns.Item("Value1").Visible = False
             grid.Columns.Item("Value2").Visible = False
@@ -583,6 +587,7 @@ Public Class ProdSampleInput
         End If
         grid.SettingsDataSecurity.AllowInsert = LastVerification = 1 And Not Verified And AuthUpdate And AllowSkill And CompleteStatus <> "1"
         grid.SettingsDataSecurity.AllowEdit = LastVerification = 1 And Not Verified And AuthUpdate And AllowSkill And CompleteStatus <> "1"
+        grid.JSProperties("cpAllowInputManual") = AllowInputManual
         If grid.SettingsDataSecurity.AllowInsert Then
             grid.JSProperties("cpAllowInsert") = "1"
         Else
