@@ -232,7 +232,7 @@ Public Class ProdSampleInput
                         Exit Sub
                     End If
                 End If
-                dtDate.Value = Now.Date
+                dtDate.Value = clsSPCResultDB.GetProdDate
                 If pUser <> "" Then
                     Dim User As clsUserSetup = clsUserSetupDB.GetData(pUser)
                     If User IsNot Nothing Then
@@ -297,7 +297,8 @@ Public Class ProdSampleInput
     End Sub
 
     Private Sub DefaultCombo(FactoryCode As String)
-        Dim ProdDate As String = Format(Now.Date, "yyyy-MM-dd")
+        Dim CurrentProdDate As Date = clsSPCResultDB.GetProdDate
+        Dim ProdDate As String = Format(CurrentProdDate, "yyyy-MM-dd")
         Dim ProcessGroup As String
         Dim LineGroup As String
         Dim ProcessCode As String
@@ -307,7 +308,7 @@ Public Class ProdSampleInput
         Dim ShiftCode As String
 
         pUser = Session("user") & ""
-        dtDate.Value = Now.Date
+        dtDate.Value = CurrentProdDate
         cboFactory.Value = FactoryCode
 
         cboProcessGroup.DataSource = clsProcessGroupDB.GetList(pUser, FactoryCode)
