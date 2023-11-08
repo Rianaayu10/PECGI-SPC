@@ -161,6 +161,10 @@
         <asp:SqlDataSource ID="dsMS_Port" runat="server"
             ConnectionString="<%$ ConnectionStrings:ApplicationServices %>"
             SelectCommand="Exec sp_SPC_MSDevice_FillCombo '6'"></asp:SqlDataSource>
+        
+        <asp:SqlDataSource ID="dsMS_FlowControl" runat="server"
+            ConnectionString="<%$ ConnectionStrings:ApplicationServices %>"
+            SelectCommand="Exec sp_SPC_MSDevice_FillCombo '7'"></asp:SqlDataSource>
 
         <dx:ASPxGridView ID="Grid" runat="server" AutoGenerateColumns="False" ClientInstanceName="Grid"
             EnableTheming="True" KeyFieldName="RegNo" Theme="Office2010Black" Width="100%"
@@ -419,7 +423,35 @@
                     <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
                 </dx:GridViewDataCheckColumn>
 
-                <dx:GridViewDataTextColumn Caption="Last User" FieldName="LastUser" VisibleIndex="16"
+                <dx:GridViewDataCheckColumn Caption="Enable DTR" FieldName="EnableDTR" VisibleIndex="16" Width="75px">
+                    <PropertiesCheckEdit ValueChecked="1" ValueUnchecked="0" ValueType="System.Char"/>
+                    <Settings AllowSort="False" />
+                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
+                </dx:GridViewDataCheckColumn>
+
+                <dx:GridViewDataComboBoxColumn Caption="Flow Control" FieldName="FlowControl" VisibleIndex="17"
+                    Width="50px" Settings-AutoFilterCondition="Contains">
+                    <PropertiesComboBox DataSourceID="dsMS_FlowControl" DropDownStyle="DropDownList" TextFormatString="{0}"
+                        IncrementalFilteringMode="Contains" DisplayFormatInEditMode="true" Width="100%"
+                        TextField="Description" ValueField="Code" ClientInstanceName="FlowControl" Style-VerticalAlign="Middle" Style-HorizontalAlign="Right">
+                        <ItemStyle Height="10px" Paddings-Padding="4px">
+                            <Paddings Padding="4px"></Paddings>
+                        </ItemStyle>
+                        <ButtonStyle Width="5px" Paddings-Padding="2px">
+                            <Paddings Padding="2px"></Paddings>
+                        </ButtonStyle>
+                    </PropertiesComboBox>
+                    <Settings AutoFilterCondition="Contains"></Settings>
+                    <FilterCellStyle Paddings-PaddingRight="4px">
+                        <Paddings PaddingRight="4px"></Paddings>
+                    </FilterCellStyle>
+                    <HeaderStyle Paddings-PaddingLeft="5px" HorizontalAlign="Center" VerticalAlign="Middle">
+                        <Paddings PaddingLeft="5px"></Paddings>
+                    </HeaderStyle>
+                    <CellStyle HorizontalAlign="Right" VerticalAlign="Middle"/>
+                </dx:GridViewDataComboBoxColumn>
+
+                <dx:GridViewDataTextColumn Caption="Last User" FieldName="LastUser" VisibleIndex="17"
                     Width="75px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="15" Width="100px">
                         <Style HorizontalAlign="Left"></Style>
@@ -434,7 +466,7 @@
                     <CellStyle HorizontalAlign="Left" VerticalAlign="Middle"/>
                 </dx:GridViewDataTextColumn>
 
-                <dx:GridViewDataTextColumn Caption="Last Update" FieldName="LastUpdate" VisibleIndex="17"
+                <dx:GridViewDataTextColumn Caption="Last Update" FieldName="LastUpdate" VisibleIndex="18"
                     Width="135px" Settings-AutoFilterCondition="Contains">
                     <PropertiesTextEdit MaxLength="15" Width="100px">
                         <Style HorizontalAlign="Left"></Style>
@@ -612,6 +644,20 @@
                                     <td>
                                         <dx:ASPxGridViewTemplateReplacement ID="editEnableRTS" ReplacementType="EditFormCellEditor"
                                             runat="server" ColumnID="EnableRTS"></dx:ASPxGridViewTemplateReplacement>
+                                    </td>
+                                </tr>
+                                <tr style="height: 30px">
+                                    <td>Enable DTR</td>
+                                    <td>
+                                        <dx:ASPxGridViewTemplateReplacement ID="editEnableDTR" ReplacementType="EditFormCellEditor"
+                                            runat="server" ColumnID="EnableDTR"></dx:ASPxGridViewTemplateReplacement>
+                                    </td>
+                                </tr>
+                                <tr style="height: 30px">
+                                    <td>Flow Control</td>
+                                    <td>
+                                        <dx:ASPxGridViewTemplateReplacement ID="editFlowControl" ReplacementType="EditFormCellEditor"
+                                            runat="server" ColumnID="FlowControl"></dx:ASPxGridViewTemplateReplacement>
                                     </td>
                                 </tr>
                             </table>

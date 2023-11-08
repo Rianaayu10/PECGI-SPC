@@ -113,6 +113,15 @@ Partial Public Class MeasurementDevice
     Protected WithEvents dsMS_Port As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
+    '''dsMS_FlowControl control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dsMS_FlowControl As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
     '''Grid control.
     '''</summary>
     '''<remarks>

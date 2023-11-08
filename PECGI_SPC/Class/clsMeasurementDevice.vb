@@ -17,6 +17,8 @@ Public Class clsMeasurementDevice
     Public Property Command As String
     Public Property Active As String
     Public Property EnableRTS As String
+    Public Property EnableDTR As String
+    Public Property FlowControl As String
     Public Property User As String
 End Class
 
@@ -77,6 +79,8 @@ Public Class clsMeasurementDeviceDB
                 cmd.Parameters.AddWithValue("Command", cls.Command)
                 cmd.Parameters.AddWithValue("ActiveStatus", cls.Active)
                 cmd.Parameters.AddWithValue("EnableRTS", cls.EnableRTS)
+                cmd.Parameters.AddWithValue("EnableDTR", cls.EnableDTR)
+                cmd.Parameters.AddWithValue("FlowControl", cls.FlowControl)
                 cmd.Parameters.AddWithValue("User", cls.User)
 
                 cmd.ExecuteNonQuery()

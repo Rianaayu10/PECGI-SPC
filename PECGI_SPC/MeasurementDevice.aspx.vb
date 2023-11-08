@@ -78,23 +78,25 @@ Public Class MeasurementDevice
     Protected Sub Grid_RowInserting(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataInsertingEventArgs) Handles Grid.RowInserting
         e.Cancel = True
         Try
-            Call up_InsUpd("0", _
-                e.NewValues("FactoryCode"), _
-                e.NewValues("RegNo"), _
-                e.NewValues("Description"), _
-                e.NewValues("ToolName"), _
-                e.NewValues("ToolFunction"), _
-                e.NewValues("Port"), _
-                e.NewValues("BaudRate"), _
-                e.NewValues("DataBits"), _
-                e.NewValues("Parity"), _
-                e.NewValues("StopBits"), _
-                e.NewValues("Stable"), _
-                e.NewValues("Passive"), _
-                e.NewValues("GetResult"), _
-                e.NewValues("Command"), _
+            Call up_InsUpd("0",
+                e.NewValues("FactoryCode"),
+                e.NewValues("RegNo"),
+                e.NewValues("Description"),
+                e.NewValues("ToolName"),
+                e.NewValues("ToolFunction"),
+                e.NewValues("Port"),
+                e.NewValues("BaudRate"),
+                e.NewValues("DataBits"),
+                e.NewValues("Parity"),
+                e.NewValues("StopBits"),
+                e.NewValues("Stable"),
+                e.NewValues("Passive"),
+                e.NewValues("GetResult"),
+                e.NewValues("Command"),
                 IIf(e.NewValues("ActiveStatus") Is Nothing, "0", e.NewValues("ActiveStatus")),
                 IIf(e.NewValues("EnableRTS") Is Nothing, "0", e.NewValues("EnableRTS")),
+                IIf(e.NewValues("EnableDTR") Is Nothing, "0", e.NewValues("EnableDTR")),
+                IIf(e.NewValues("FlowControl") Is Nothing, "0", e.NewValues("FlowControl")),
                 pUser)
             Grid.CancelEdit()
             up_GridLoad()
@@ -106,23 +108,25 @@ Public Class MeasurementDevice
     Protected Sub Grid_RowUpdating(ByVal sender As Object, ByVal e As DevExpress.Web.Data.ASPxDataUpdatingEventArgs) Handles Grid.RowUpdating
         e.Cancel = True
         Try
-            Call up_InsUpd("1", _
-                 e.NewValues("FactoryCode"), _
-                 e.NewValues("RegNo"), _
-                 e.NewValues("Description"), _
-                 e.NewValues("ToolName"), _
-                 e.NewValues("ToolFunction"), _
-                 e.NewValues("Port"), _
-                 e.NewValues("BaudRate"), _
-                 e.NewValues("DataBits"), _
-                 e.NewValues("Parity"), _
-                 e.NewValues("StopBits"), _
-                 e.NewValues("Stable"), _
-                 e.NewValues("Passive"), _
-                 e.NewValues("GetResult"), _
-                 e.NewValues("Command"), _
+            Call up_InsUpd("1",
+                 e.NewValues("FactoryCode"),
+                 e.NewValues("RegNo"),
+                 e.NewValues("Description"),
+                 e.NewValues("ToolName"),
+                 e.NewValues("ToolFunction"),
+                 e.NewValues("Port"),
+                 e.NewValues("BaudRate"),
+                 e.NewValues("DataBits"),
+                 e.NewValues("Parity"),
+                 e.NewValues("StopBits"),
+                 e.NewValues("Stable"),
+                 e.NewValues("Passive"),
+                 e.NewValues("GetResult"),
+                 e.NewValues("Command"),
                  IIf(e.NewValues("ActiveStatus") Is Nothing, "0", e.NewValues("ActiveStatus")),
                  IIf(e.NewValues("EnableRTS") Is Nothing, "0", e.NewValues("EnableRTS")),
+                 IIf(e.NewValues("EnableDTR") Is Nothing, "0", e.NewValues("EnableDTR")),
+                 IIf(e.NewValues("FlowControl") Is Nothing, "0", e.NewValues("FlowControl")),
                  pUser)
             Grid.CancelEdit()
             up_GridLoad()
@@ -375,7 +379,7 @@ Public Class MeasurementDevice
         End Try
     End Sub
 
-    Private Function up_InsUpd(Type As String, Factory As String, regno As String, desc As String, toolname As String, toolfunc As String, port As String, baud As String, databit As String, parity As String, stopbit As String, stable As String, passive As String, getresult As String, command As String, active As String, RTS As String, User As String) As Boolean
+    Private Function up_InsUpd(Type As String, Factory As String, regno As String, desc As String, toolname As String, toolfunc As String, port As String, baud As String, databit As String, parity As String, stopbit As String, stable As String, passive As String, getresult As String, command As String, active As String, RTS As String, DTR As String, FlowControl As String, User As String) As Boolean
         Dim message As String = IIf(Type = "0", "Save data successfully!", "Update data successfully!") '0 Save | 1 Update
         Try
             Dim cls As New clsMeasurementDevice With
@@ -396,6 +400,8 @@ Public Class MeasurementDevice
                 .Command = command,
                 .Active = active,
                 .EnableRTS = RTS,
+                .EnableDTR = DTR,
+                .FlowControl = FlowControl,
                 .User = User
             }
             clsMeasurementDeviceDB.InsertUpdate(cls, Type)
