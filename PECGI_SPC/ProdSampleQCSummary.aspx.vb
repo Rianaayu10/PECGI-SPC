@@ -74,6 +74,7 @@ Public Class ProdSampleQCSummary
                 .Frequency = HF.Get("FrequencyCode")
                 .Sequence = cboSequence.Value
                 .Period = dTime.ToString("yyyy-MM-dd")
+                .UserID = pUser
             End With
             up_GridLoad(cls)
         End If
