@@ -17,6 +17,7 @@
             Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
         };
 
+        /*Load Page awal*/
         $(document).ready(function () {
             var today = new Date();
             dtFromDate.SetDate(today);
@@ -24,12 +25,14 @@
             btnExcel.SetEnabled(false);
         })
 
+        /*Change combo factory */
         function ChangeFactory() {
             var FactoryCode = cboFactory.GetValue();
             HideValue.Set('FactoryCode', FactoryCode);
             cboProcessGroup.PerformCallback(FactoryCode);
         };
 
+        /*Change combo machine group */
         function ChangeProcessGroup() {
             var FactoryCode = cboFactory.GetValue();
             var ProcessGroup = cboProcessGroup.GetValue();
@@ -37,6 +40,7 @@
             cboLineGroup.PerformCallback(FactoryCode + '|' + ProcessGroup);
         };
 
+        /*Change combo line group */
         function ChangeLineGroup() {
             var FactoryCode = cboFactory.GetValue();
             var ProcessGroup = cboProcessGroup.GetValue();
@@ -45,6 +49,7 @@
             cboProcessCode.PerformCallback(FactoryCode + '|' + ProcessGroup + '|' + LineGroup);
         };
 
+        /*Change combo process code*/
         function ChangeProcessCode() {
             var FactoryCode = cboFactory.GetValue();
             var ProcessCode = cboProcessCode.GetValue();
@@ -52,6 +57,7 @@
             cboLineCode.PerformCallback(FactoryCode + '|' + ProcessCode);
         };
 
+        /*Change combo line code*/
         function ChangeLineCode() {
             var FactoryCode = cboFactory.GetValue();
             var ProcessCode = cboProcessCode.GetValue();
@@ -60,11 +66,13 @@
             cboItemType.PerformCallback(FactoryCode + '|' + ProcessCode + '|' + LineCode);
         };
 
+        /*Change combo item code*/
         function ChangeItemType() {
             var ItemType = cboItemType.GetValue();
             HideValue.Set('ItemType', ItemType);
         }
 
+        /*Function click Browse*/
         function Browse() {
             var User = HideValue.Get("UserID");
             var FactoryCode = HideValue.Get("FactoryCode");
@@ -73,8 +81,8 @@
             var ProcessCode = HideValue.Get("ProcessCode");
             var LineCode = HideValue.Get("LineCode");
             var ItemType = HideValue.Get("ItemType");
-            /*  var ItemTypeName = HideValue.Get("ItemTypeName");*/
             var ItemTypeName = cboItemType.GetText();
+            /*  var ItemTypeName = HideValue.Get("ItemTypeName");*/
 
             var pfromDate = dtFromDate.GetText().split(' ');
             var ProdDate_From = pfromDate[1] + "-" + MMM[pfromDate[0]] + "-" + '01'
@@ -86,36 +94,89 @@
 
             if (FactoryCode == null) {
                 toastr.warning("Please, Choose Factory !", 'Warning', { timeOut: 3000, closeButton: true });
-            } else if (ProcessGroup == null) {
+            }
+
+            else if (ProcessGroup == null) {
                 toastr.warning("Please, Choose Process Group !", 'Warning', { timeOut: 3000, closeButton: true });
-            } else if (LineGroup == null) {
+            }
+
+            else if (LineGroup == null) {
                 toastr.warning("Please, Choose Line Group !", 'Warning', { timeOut: 3000, closeButton: true });
-            } else if (ProcessCode == null) {
+            }
+
+            else if (ProcessCode == null) {
                 toastr.warning("Please, Choose Machine !", 'Warning', { timeOut: 3000, closeButton: true });
-            } else if (LineCode == null) {
+            }
+
+            else if (LineCode == null) {
                 toastr.warning("Please, Choose Machine Process !", 'Warning', { timeOut: 3000, closeButton: true });
-            } else if (ItemType == null) {
+            }
+
+            else if (ItemType == null) {
                 toastr.warning("Please, Choose Type !", 'Warning', { timeOut: 3000, closeButton: true });
-            } else if (parseDate(dtFromDate.GetText()) > parseDate(dtToDate.GetText())) {
+            }
+
+            else if (parseDate(dtFromDate.GetText()) > parseDate(dtToDate.GetText())) {
                 toastr.warning("To Date can not less then From Date !", 'Warning', { timeOut: 3000, closeButton: true });
-            } else if (nMonth > 11) {
+            }
+
+            else if (nMonth > 11) {
                 toastr.warning("Periode can not more than 12 period !", 'Warning', { timeOut: 3000, closeButton: true });
-            } else {
+            }
+
+            else {
+
                 /*Get Data FTA By ItemType*/
                 var ActionFTAByType = '0'; /*note : FTAByType = 0, FTAByLine = 1, FTAByItemCheck = 2*/
-                loadData(ActionFTAByType, User, FactoryCode, ProcessCode, LineCode, "", ItemType, ItemTypeName, ProdDate_From, ProdDate_To, "", "");
+                loadData(ActionFTAByType, User, FactoryCode, ProcessGroup, LineGroup, ProcessCode, LineCode, "", ItemType, ItemTypeName, ProdDate_From, ProdDate_To, "", "");
             }
         }
 
-        function loadData(Action, User, FactoryCode, ProcessCode, LineCode, LineName, ItemType, ItemTypeName, ProdDate_From, ProdDate_To, Periode, Qty) {           
+        /*Function click FTA By Line*/
+        function OnclikFTAByLine(User, ItemType, ItemTypeName, Periode, Qty) {
+            console.log(Periode);
+            var ActionFTAByLine = "1"; /*note : FTAByType = 0, FTAByLine = 1, FTAByItemCheck = 2*/
+            var FactoryCode = HideValue.Get("FactoryCode");
+            var ProcessCode = HideValue.Get("ProcessCode");
+            var LineCode = HideValue.Get("LineCode");
+
+            HideValue.Set('sFactoryCode', FactoryCode);
+            HideValue.Set('sProcessCode', ProcessCode);
+            HideValue.Set('sLineCode', LineCode);
+            HideValue.Set('sItemType', ItemType);
+            HideValue.Set('sPeriode', Periode);
+            HideValue.Set('sQty', Qty);
+
+            loadData(ActionFTAByLine, User, FactoryCode, "" , "", ProcessCode, LineCode, "", ItemType, ItemTypeName, "", "", Periode, Qty);
+        }
+
+        /*Function click FTA By Item Check*/
+        function OnclikFTAByItemCheck(User, LineCode, LineName, ItemType, Periode, Qty) {
+            var ActionFTAByItemCheck = "2"; /*note : FTAByType = 0, FTAByLine = 1, FTAByItemCheck = 2*/
+            var FactoryCode = HideValue.Get("FactoryCode");
+            var ProcessCode = HideValue.Get("ProcessCode");
+
+            HideValue.Set('sFactoryCode', FactoryCode);
+            HideValue.Set('sProcessCode', ProcessCode);
+            HideValue.Set('sLineCode', LineCode);
+            HideValue.Set('sItemType', ItemType);
+            HideValue.Set('sPeriode', Periode);
+            HideValue.Set('sQty', Qty);
+
+            loadData(ActionFTAByItemCheck, User, FactoryCode, "", "", ProcessCode, LineCode, LineName, ItemType, "", "", "", Periode, Qty);
+        }
+
+        /*Function load data*/
+        function loadData(Action, User, FactoryCode, ProcessGroup, LineGroup, ProcessCode, LineCode, LineName, ItemType, ItemTypeName, ProdDate_From, ProdDate_To, Periode, Qty) {
             $.ajax({
                 url: 'ReportYearlyByType.aspx/LoadData',
                 type: 'POST',
-                data: '{ Action : "' + Action + '" , User : "' + User + '", FactoryCode : "' + FactoryCode + '", ProcessCode :"' + ProcessCode + '", LineCode : "' + LineCode + '", ItemType : "' + ItemType + '", ProdDate_From : "' + ProdDate_From + '", ProdDate_To : "' + ProdDate_To + '", Periode : "' + Periode + '", Qty : "' + Qty + '" }',
+                data: '{ Action : "' + Action + '" , User : "' + User + '", FactoryCode : "' + FactoryCode + '", ProcessGroup : "' + ProcessGroup +'", LineGroup : "' + LineGroup + '", ProcessCode :"' + ProcessCode + '", LineCode : "' + LineCode + '", ItemType : "' + ItemType + '", ProdDate_From : "' + ProdDate_From + '", ProdDate_To : "' + ProdDate_To + '", Periode : "' + Periode + '", Qty : "' + Qty + '" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (result) {
                     if (result.d.Message == "Success") {
+
                         /*note : FTAByType = 0, FTAByLine = 1, FTAByItemCheck = 2*/
                         if (Action == "0") {
                             LoadFTA_ByItemType(result.d.Contents, Action, User, FactoryCode, ProcessCode, LineCode, ItemType, ItemTypeName, ProdDate_From, ProdDate_To, Periode, Qty)
@@ -136,38 +197,7 @@
             });
         }
 
-        function OnclikFTAByLine(User, ItemType, ItemTypeName, Periode, Qty) {
-            console.log(Periode);
-            var ActionFTAByLine = "1"; /*note : FTAByType = 0, FTAByLine = 1, FTAByItemCheck = 2*/
-            var FactoryCode = HideValue.Get("FactoryCode");
-            var ProcessCode = HideValue.Get("ProcessCode");
-            var LineCode = HideValue.Get("LineCode");
-
-            HideValue.Set('sFactoryCode', FactoryCode);
-            HideValue.Set('sProcessCode', ProcessCode);
-            HideValue.Set('sLineCode', LineCode);
-            HideValue.Set('sItemType', ItemType);
-            HideValue.Set('sPeriode', Periode);
-            HideValue.Set('sQty', Qty);
-
-            loadData(ActionFTAByLine, User, FactoryCode, ProcessCode, LineCode, "", ItemType, ItemTypeName, "", "", Periode, Qty);
-        }
-
-        function OnclikFTAByItemCheck(User, LineCode, LineName, ItemType,Periode, Qty) {
-            var ActionFTAByItemCheck = "2"; /*note : FTAByType = 0, FTAByLine = 1, FTAByItemCheck = 2*/
-            var FactoryCode = HideValue.Get("FactoryCode");
-            var ProcessCode = HideValue.Get("ProcessCode");
-
-            HideValue.Set('sFactoryCode', FactoryCode);
-            HideValue.Set('sProcessCode', ProcessCode);
-            HideValue.Set('sLineCode', LineCode);
-            HideValue.Set('sItemType', ItemType);
-            HideValue.Set('sPeriode', Periode);
-            HideValue.Set('sQty', Qty);
-
-            loadData(ActionFTAByItemCheck, User, FactoryCode, ProcessCode, LineCode, LineName,ItemType, "", "" , "", Periode, Qty);
-        }
-
+        /*Function Load data By ItemType*/
         function LoadFTA_ByItemType(data, Action, User, FactoryCode, ProcessCode, LineCode, ItemType, ItemTypeName, ProdDate_From, ProdDate_To, Periode, Qty) {
             nRow = 1;
             ClearContent(); //Clear content
@@ -220,17 +250,17 @@
                 let length = dt.length;
 
                
-                for (let i = 0; i <= length - 1; i++) {
+                for (let i = 0; i <= length - 2; i++) {
                     console.log(nRow);
                     console.log(data.length);
                     if (nRow == data.length) {
                         if (i == 0) {
                             row.insertCell(0).outerHTML = '<td colspan="2" style="text-align: center; background-color: white; font-weight: 100;"> Total </td>'
                         }
-                        else if (i == length - 2) {
+                        else if (i == length - 3) {
                             row.insertCell(i-1).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i] + '</td>'
                         }
-                        else if (i == length - 1) {
+                        else if (i == length - 2) {
                             row.insertCell(i-1).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i] + '% </td>'
                         }
                         else if (i >= 2) {
@@ -244,10 +274,10 @@
                         else if (i == 1) {
                             row.insertCell(i).outerHTML = '<td style="text-align: left; background-color: white; font-weight: 100;">' + dt[i] + '</td>'
                         }
-                        else if (i == length - 2) {
+                        else if (i == length - 3) {
                             row.insertCell(i).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i] + '</td>'
                         }
-                        else if (i == length - 1) {
+                        else if (i == length - 2) {
                             row.insertCell(i).outerHTML = '<td style="text-align: center; background-color: white; font-weight: 100;">' + dt[i] + '% </td>'
                         }
                         else {
@@ -388,6 +418,7 @@
 
         }
 
+        /*Function Load data By Line*/
         function LoadFTA_ByLine(data, Action, User, FactoryCode, ProcessCode, LineCode, ItemType, ItemTypeName, ProdDate_From, ProdDate_To, Periode, Qty) {
             nRow = 1;
             /*Clear Content*/
@@ -502,6 +533,7 @@
 
         }
 
+        /*Function Load data By ItemCheck*/
         function LoadFTA_ByItemCheck(data, Action, User, FactoryCode, ProcessCode, LineCode, LineName, ItemType, ItemTypeName, ProdDate_From, ProdDate_To, Periode, Qty) {
             nRow = 1;
             /*Clear Content*/

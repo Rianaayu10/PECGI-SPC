@@ -214,13 +214,15 @@ Public Class ReportYearlyByType
 
     <System.Web.Script.Services.ScriptMethod()>
     <WebMethod()>
-    Public Shared Function LoadData(Action As String, User As String, FactoryCode As String, ProcessCode As String, LineCode As String, ItemType As String, ProdDate_From As String, ProdDate_To As String, Periode As String, Qty As String) As clsContent
+    Public Shared Function LoadData(Action As String, User As String, FactoryCode As String, ProcessGroup As String, LineGroup As String, ProcessCode As String, LineCode As String, ItemType As String, ProdDate_From As String, ProdDate_To As String, Periode As String, Qty As String) As clsContent
         Dim content As New clsContent
         Try
             Dim data As New clsReportYearlyByType
             data.Action = Action
             data.UserID = User
             data.FactoryCode = FactoryCode
+            data.ProcessGroup = ProcessGroup
+            data.LineGroup = LineGroup
             data.ProcessCode = ProcessCode
             data.LineCode = LineCode
             data.ItemType = ItemType

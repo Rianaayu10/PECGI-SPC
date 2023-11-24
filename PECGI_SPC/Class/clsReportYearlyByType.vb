@@ -52,6 +52,8 @@ Public Class clsReportYearlyByType
                 Cmd.Parameters.AddWithValue("Action", data.Action)
                 Cmd.Parameters.AddWithValue("User", data.UserID)
                 Cmd.Parameters.AddWithValue("FactoryCode", data.FactoryCode)
+                Cmd.Parameters.AddWithValue("ProcessGroup", data.ProcessGroup)
+                Cmd.Parameters.AddWithValue("LineGroup", data.LineGroup)
                 Cmd.Parameters.AddWithValue("ProcessCode", data.ProcessCode)
                 Cmd.Parameters.AddWithValue("LineCode", data.LineCode)
                 Cmd.Parameters.AddWithValue("ItemTypeCode", data.ItemType)
