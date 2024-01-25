@@ -97,12 +97,12 @@
 
             If DataUser.Password <> Password Then
                 lblInfo.Visible = True
-                clsUserSetupDB.AddFailedLogin(DataUser.UserID)
+                'clsUserSetupDB.AddFailedLogin(DataUser.UserID)
                 Dim passfailed As clsUserSetup = clsUserSetupDB.GetData(User)
                 If passfailed.LockStatus = "1" Then
                     lblInfo.Text = "User is locked after 3 failed login." & vbCrLf & "Please contact your administrator!"
                 Else
-                    lblInfo.Text = "Invalid Password (" & passfailed.FailedLogin & "X)" & vbCrLf & "User will be locked after 3 failed login"
+                    lblInfo.Text = "Invalid Password (" & passfailed.FailedLogin & "X)" & vbCrLf & ""
                 End If
                 txtusername.Focus()
                 Return False
