@@ -760,7 +760,7 @@ Public Class SPCDashboard
             ElseIf lblDelay.Text > 60 Then
 
                 Dim CellMin As HtmlTableCell = TryCast(item.FindControl("DelayInput"), HtmlTableCell)
-                CellMin.BgColor = "Red"
+                CellMin.BgColor = "Yellow"
                 lblDelay.ForeColor = Color.White
 
                 'Change Format Delay Time
